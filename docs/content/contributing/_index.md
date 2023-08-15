@@ -1,4 +1,5 @@
 ---
-title: Contribution Guides
-weight: 0
+title: Contributor Guides
+weight: 15
+geekdocCollapseSection: true
 ---

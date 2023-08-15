@@ -1,6 +1,6 @@
 ---
 title: Welcome
-weight: -20
+weight: 0
 ---
 
 {{< hint type=important >}}

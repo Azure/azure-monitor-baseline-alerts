@@ -1,5 +1,5 @@
 ---
 title: Resources
-weight: -15
+weight: 5
 geekdocCollapseSection: true
 ---

@@ -1,8 +1,6 @@
 ---
 title: Frequently Asked Questions (FAQs)
-geekdocNav: true
-geekdocAlign: left
-geekdocAnchor: true
+weight: 20
 ---
 
 {{< hint type=tip >}}

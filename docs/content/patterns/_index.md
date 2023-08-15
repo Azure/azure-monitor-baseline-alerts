@@ -1,5 +1,5 @@
 ---
 title: Patterns
-weight: -10
+weight: 10
 geekdocCollapseSection: true
 ---
