@@ -23,25 +23,7 @@
         "policyAssignmentParameters": {
             "type": "object",
             "defaultValue": {}
-        },
-        "currentDateTimeUtcNow": {
-            "type": "string",
-            "defaultValue": "[utcNow()]",
-            "metadata": {
-                "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
-            }
-        },
-        "telemetryOptOut": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
-            }
-        }        
+        }       
     },
     "variables": {
         "policyDefinitions": {
@@ -60,11 +42,7 @@
         "rbacContributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
         "roleAssignmentNames": {
             "deployAMBAConnectivity": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaConnectivity))]"
-        },
-        "deploymentNames": {
-            "pidCuaDeploymentName": "[take(concat('pid-', variables('cuaid'), '-' , uniqueString(deployment().location, parameters('topLevelManagementGroupPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
-        },        
-        "cuaid": "2d69aa07-8780-4697-a431-79882cb9f00e"
+        }
     },
     "resources": [
         {
@@ -102,21 +80,6 @@
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacContributor'))]",
                 "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaConnectivity), '2019-09-01', 'Full' ).identity.principalId)]"
-            }
-        },
-        {
-            "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-            "apiVersion": "2020-06-01",
-            "name": "[variables('deploymentNames').pidCuaDeploymentName]",
-            "location": "[deployment().location]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": []
-                }
             }
         }
     ],
