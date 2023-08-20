@@ -5,7 +5,7 @@ geekdocCollapseSection: true
 
 ## Introduction
 
-As described in [Introduction to deploying AMBA](./Introduction-to-deploying-AMBA), the policies and initiatives in this repo can be deployed in a default configuration, i.e. with default settings and are intended to be used as such. There may be however, scenarios where you would want to tweak the initiative assignment for individual policies to conform with your monitoring requirements, or potentially wish to deploy alerts in a more phased approach to a brownfield environment. This document lists some of the various scenarios as well as how you would go about making such changes to the assignments. 
+As described in [Introduction to deploying AMBA](./Introduction-to-deploying-AMBA), the policies and initiatives in this repo can be deployed in a default configuration, i.e. with default settings and are intended to be used as such. There may be however, scenarios where you would want to tweak the initiative assignment for individual policies to conform with your monitoring requirements, or potentially wish to deploy alerts in a more phased approach to a brownfield environment. This document lists some of the various scenarios as well as how you would go about making such changes to the assignments.
 
 ## Modify initiative assignment
 
@@ -72,7 +72,7 @@ The following parameters can be changed for metric alert policies, in the initia
 | threshold | Indicates a numerical threshold for when the alert would trigger. Not relevant to all alerts as some are configured with dynamic rather than fixed thresholds |
 | enabled | Whether the alert is enabled or not |
 
-### Activity log, Service health alert and action group policy parameters 
+### Activity log, Service health alert and action group policy parameters
 
 The following parameters can be changed for activity log, service health alert and action group policies.
 
@@ -92,7 +92,7 @@ These are the high-level steps that would need to take place:
 3. Deploy the policy assignments as described previously.
 4. After deploying and policy evaluation there will be a number of non-compliant policies depending on which alerts were to be disabled. These will then need to be remediated which can be done either through the portal, on a policy-by-policy basis or you can run the script found in .github/script/Start-ALZMonitorRemediation to remediate all ALZ-Monitor policies in scope as defined by management group pre-fix.
 > Note that the above approach will not delete the alerts objects in Azure, merely disable them. To delete the alerts you will have to do so manually.
-> Also note that while you can engage the parPolicyEffect to avoid deploying new alerts, you should not do so until you have successfully remediated the above. Otherwise the policy will be disabled, and you will not be able to turn alerts off via policy until that is changed back. 
+> Also note that while you can engage the parPolicyEffect to avoid deploying new alerts, you should not do so until you have successfully remediated the above. Otherwise the policy will be disabled, and you will not be able to turn alerts off via policy until that is changed back.
 
 # Next steps
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](./Deploy-AMBA-with-GitHub-Actions)

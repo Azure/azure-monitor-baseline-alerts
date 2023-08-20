@@ -15,7 +15,7 @@ With a **centralized** approach to alerting a central Action Group is used for a
 
 Metric alerts are deployed with resources (same resource group) and platform alerts like Service Health / Activity are created in a dedicated resource group, in a subscription typically located in the Management platform management group. A single Alert Action Group in a subscription in the Management platform management group is configured with a central alerting email address, and Alert Processing Rules enabling filters and connecting alerts to the Alert Action Group.
 
-As an example in the context of ALZ, a single centralized action group is deployed in the "AlzMonitoring-RG" resource group in a subscription in the Management platform management group. 
+As an example in the context of ALZ, a single centralized action group is deployed in the "AlzMonitoring-RG" resource group in a subscription in the Management platform management group.
 
 ### Decentralized
 
@@ -55,7 +55,7 @@ Resource Metric alerts are deployed in the same resource group as the created Az
 
 #### Log Alerts
 
-Log alerts are scoped at the subscription level. For the policies to remediate and deploy, the data which the alert queries for needs to exist in the Log Analytics table. For the virtual machine log alerts the VM insights solution needs to be enabled on the VMs that are targeted. Only the performance collection of the VM insights solution is required for the current alerts to deploy. To [enable VM Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Using the AMA agent [policy initiatives](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-policy) for deployment is recommended.  
+Log alerts are scoped at the subscription level. For the policies to remediate and deploy, the data which the alert queries for needs to exist in the Log Analytics table. For the virtual machine log alerts the VM insights solution needs to be enabled on the VMs that are targeted. Only the performance collection of the VM insights solution is required for the current alerts to deploy. To [enable VM Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Using the AMA agent [policy initiatives](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-policy) for deployment is recommended.
 
 #### Service and Resource Health
 
@@ -90,7 +90,7 @@ As an example, we could implement a filter on Severity (Critical, Error, Warning
 
 ## Monitoring Backup (Recovery Services Vaults)
 
-Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-rv_backuphealth_monitor.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in alerts. 
+Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-rv_backuphealth_monitor.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in alerts.
 
 ### Modifications
 

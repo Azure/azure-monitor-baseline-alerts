@@ -20,13 +20,13 @@ geekdocCollapseSection: true
 
 *The metric rules we've created are based on recommendations from Microsoft documentation and field experience. How you're using Azure resources may also be different so tailor the alerts to suit your needs. The main goal of this project is to help you have a way to do Azure Monitor alerts at scale, create new rules with your own thresholds. We'd love to hear about your new rules too so feel free to share back.*
 
-## Can I disable the alerts being deployed for a resource or subscription? 
+## Can I disable the alerts being deployed for a resource or subscription?
 
 *Yes, please refer to the disabling monitoring section in the [Introduction to deploying AMBA](./Introduction-to-deploying-AMBA#disabling-monitoring)*
 
 ## How much does it cost to run the ALZ Baseline solution?
 
-*This depends on numerous factors including how many of the alert rules you choose to deploy into your environment, this combined with how many subscriptions inherit the baseline policies and resources deployed within each subscription that match the policy rules triggering an alert rule and action group deployment influence the cost.* 
+*This depends on numerous factors including how many of the alert rules you choose to deploy into your environment, this combined with how many subscriptions inherit the baseline policies and resources deployed within each subscription that match the policy rules triggering an alert rule and action group deployment influence the cost.*
 
 *The solution is comprised of alert rules. Each alert rule costs ~0.1$/month<sup>1</sup>.*
 

@@ -23,7 +23,7 @@ To disable this tracking, we have included a parameter called `parTelemetryOptOu
 - ./src/resources/Microsoft.Authorization/policySetDefinitions/ALZ-MonitorLandingZone.json
 - ./src/resources/Microsoft.Authorization/policySetDefinitions/ALZ-MonitorServiceHealth.json
 
-If you are happy with leaving telemetry tracking enabled, no changes are required. 
+If you are happy with leaving telemetry tracking enabled, no changes are required.
 
 For example, in the deploy_dine_policies.bicep file, you will see the following:
 

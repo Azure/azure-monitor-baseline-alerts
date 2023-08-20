@@ -1,9 +1,9 @@
 <#
-This script is used to trigger remediation on a specific policy or policy set at management group scope. 
-It first calls the Azure REST API to get the policy assignments in the management group scope, then it iterates through the policy assignments, checking by name whether it's a policy set or an individual policy. 
+This script is used to trigger remediation on a specific policy or policy set at management group scope.
+It first calls the Azure REST API to get the policy assignments in the management group scope, then it iterates through the policy assignments, checking by name whether it's a policy set or an individual policy.
 Depending on the result the script will either enumerate the policy set and trigger remediation for each individual policy in the set or trigger remediation for the individual policy.
 
-Examples: 
+Examples:
   #Modify the following variables to match your environment
   $managementGroupID = "The pseudo root management group id parenting the identity, management and connectivity management groups"
   $identityManagementGroup = "The management group id for Identity"
@@ -117,9 +117,9 @@ function Enumerate-Policy {
     $polassignId = $policyAssignmentObject.id
     $name = $policyAssignmentObject.name
     $policyDefinitionId = $policyAssignmentObject.properties.policyDefinitionId
-    Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $name -polassignId $polassignId 
+    Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $name -polassignId $polassignId
 }
-    
+
 
 
 #Main script

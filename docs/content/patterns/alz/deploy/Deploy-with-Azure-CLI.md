@@ -22,7 +22,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones.
 
-#### If you are **unaligned to ALZ** 
+#### If you are **unaligned to ALZ**
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity. The same management group id may be repeated.
 - Change the value of _managementManagementGroup_ to the management group id for Management. The same management group id may be repeated.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity. The same management group id may be repeated.
@@ -41,7 +41,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 Note that the parameter file shown below has been truncated for brevity, compared to the samples included.
 
-```json 
+```json
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
@@ -96,11 +96,11 @@ Note that the parameter file shown below has been truncated for brevity, compare
 ```
 
 ## 3. Configuring variables for deployment
-The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group. 
+The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 Open your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 
-Run the following commands: 
+Run the following commands:
 
 ```bash
   location="Your Azure location of choice"
@@ -112,7 +112,7 @@ Run the following commands:
 > *IMPORTANT:* Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "enterpriseScaleCompanyPrefix" parameter, as set previously within the parameter files.
 
 ## 4. Deploying AMBA
-The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group. 
+The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 Using your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 

@@ -23,7 +23,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones.
 
-#### If you are **unaligned to ALZ** 
+#### If you are **unaligned to ALZ**
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity. The same management group id may be repeated.
 - Change the value of _managementManagementGroup_ to the management group id for Management. The same management group id may be repeated.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity. The same management group id may be repeated.
@@ -42,7 +42,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 Note that the parameter file shown below has been truncated for brevity, compared to the samples included.
 
-```json 
+```json
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
