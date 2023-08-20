@@ -1,5 +1,5 @@
 ---
-title: Initiatives
+title: Deploying the ALZ pattern
 geekdocCollapseSection: true
 ---
 
