@@ -12,7 +12,7 @@
 
     This script leverages the Azure Resource Graph to find object to delete. Note that the Resource Graph lags behind ARM by a couple minutes.
 .LINK
-    https://github.com/Azure/alz-monitor
+    https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
     ./Start-AMBACleanup.ps1 -ReportOnly
@@ -180,7 +180,7 @@ If (!$reportOnly.IsPresent) {
 
     # delete policy assignment role assignments
     Write-Host "Deleting role assignments..."
-    $roleAssignments | ForEach-Object { $_ | Remove-AzRoleAssignment -Force:$force -Confirm:(!$force) | Out-Null }
+    $roleAssignments | ForEach-Object { $_ | Remove-AzRoleAssignment -Confirm:(!$force) | Out-Null }
 
 }
 Else {
