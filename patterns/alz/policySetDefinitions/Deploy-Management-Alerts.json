@@ -17,17 +17,29 @@
     "parameters": {
       "ALZMonitorResourceGroupName": {
         "type": "String",
-        "defaultValue": "ALZ-Monitoring-RG"
+        "defaultValue": "ALZ-Monitoring-RG",
+        "metadata": {
+          "displayName": "ALZ Monitoring Resource Group Name",
+          "description": "Name of the resource group to deploy the ALZ monitoring resources to"
+        }
       },
       "ALZMonitorResourceGroupTags": {
         "type": "Object",
         "defaultValue": {
-          "_deployed_by_amba": true
+          "_deployed_by_alz_monitor": true
+        },
+        "metadata": {
+          "displayName": "ALZ Monitoring Resource Group Tags",
+          "description": "Tags to apply to the resource group"
         }
       },
       "ALZMonitorResourceGroupLocation": {
         "type": "String",
-        "defaultValue": "centralus"
+        "defaultValue": "centralus",
+        "metadata": {
+          "displayName": "ALZ Monitoring Resource Group Location",
+          "description": "Location of the resource group"
+        }
       },
       "AATotalJobAlertSeverity": {
         "type": "String",
@@ -38,7 +50,11 @@
           "2",
           "3",
           "4"
-        ]
+        ],
+        "metadata": {
+          "displayName": "AA Total Job Alert Severity",
+          "description": "Severity of the alert"
+        }
       },
       "AATotalJobAlertWindowSize": {
         "type": "string",
@@ -52,7 +68,11 @@
           "PT6H",
           "PT12H",
           "P1D"
-        ]
+        ],
+        "metadata": {
+          "displayName": "AA Total Job Alert Window Size",
+          "description": "Window size for the alert"
+        }
       },
       "AATotalJobAlertEvaluationFrequency": {
         "type": "string",
@@ -63,7 +83,11 @@
           "PT15M",
           "PT30M",
           "PT1H"
-        ]
+        ],
+        "metadata": {
+          "displayName": "AA Total Job Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
       },
       "AATotalJobAlertPolicyEffect": {
         "type": "string",
@@ -71,24 +95,40 @@
         "allowedValues": [
           "deployIfNotExists",
           "disabled"
-        ]
+        ],
+        "metadata": {
+          "displayName": "AA Total Job Alert Policy Effect",
+          "description": "Policy effect for the alert"
+        }
       },
       "AATotalJobAlertAlertState": {
         "type": "string",
-        "defaultValue": "true"
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AA Total Job Alert State",
+          "description": "Alert state for the alert"
+        }
       },
       "AATotalJobAlertThreshold": {
         "type": "string",
-        "defaultValue": "20"
+        "defaultValue": "20",
+        "metadata": {
+          "displayName": "AA Total Job Alert Threshold",
+          "description": "Threshold for the alert"
+        }
       },
-      "RVBackupHealthPolicyEffect": {
+      "RVBackupHealthMonitorPolicyEffect": {
         "type": "string",
         "defaultValue": "modify",
         "allowedValues": [
           "modify",
           "audit",
           "disabled"
-        ]
+        ],
+        "metadata": {
+          "displayName": "RV Backup Health Monitor Policy Effect",
+          "description": "Policy effect for the alert, modify will create the alert if it does not exist and enable it on your Recovery Vaults, audit will only audit if alerting is enabled on Recovery Vaults, disabled will not create the alert on Recovery Vaults"
+        }
       },
       "StorageAccountAvailabilityAlertSeverity": {
         "type": "String",
@@ -99,7 +139,11 @@
           "2",
           "3",
           "4"
-        ]
+        ],
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Severity",
+          "description": "Severity of the alert"
+        }
       },
       "StorageAccountAvailabilityWindowSize": {
         "type": "string",
@@ -113,7 +157,11 @@
           "PT6H",
           "PT12H",
           "P1D"
-        ]
+        ],
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Window Size",
+          "description": "Window size for the alert"
+        }
       },
       "StorageAccountAvailabilityFrequency": {
         "type": "string",
@@ -124,7 +172,11 @@
           "PT15M",
           "PT30M",
           "PT1H"
-        ]
+        ],
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
       },
       "StorageAccountAvailabilityPolicyEffect": {
         "type": "string",
@@ -132,23 +184,43 @@
         "allowedValues": [
           "deployIfNotExists",
           "disabled"
-        ]
+        ],
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
       },
       "StorageAccountAvailabilityAlertState": {
         "type": "string",
-        "defaultValue": "true"
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Storage Account Availability Alert State",
+          "description": "Alert state for the alert"
+        }
       },
       "StorageAccountAvailabilityThreshold": {
         "type": "string",
-        "defaultValue": "90"
+        "defaultValue": "90",
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Threshold",
+          "description": "Threshold for the alert"
+        }
       },
       "activityLAWDeleteAlertState": {
         "type": "string",
-        "defaultValue": "true"
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Activity Log Alert Delete Alert State",
+          "description": "Alert state for the alert"
+        }
       },
       "activityLAWKeyRegenAlertState": {
         "type": "string",
-        "defaultValue": "true"
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Activity Log Alert Key Regen Alert State",
+          "description": "Alert state for the alert"
+        }
       }
     },
     "policyDefinitions": [
