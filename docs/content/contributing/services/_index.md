@@ -1,6 +1,6 @@
 ---
-title: Patterns / Scenarios
-description: Contribution Guide for Patterns / Scenarios
+title: Services
+description: Contribution Guide for Services
 weight: 2
 ---
 
