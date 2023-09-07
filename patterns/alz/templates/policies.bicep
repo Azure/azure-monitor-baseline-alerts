@@ -163,12 +163,13 @@ var loadPolicyDefinitions = {
 
 // The following var contains lists of files containing Policy Set Definition (Initiative) resources to load, grouped by compatibility with Cloud.
 // To get a full list of Azure clouds, use the az cli command "az cloud list --output table"
-// We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
+// We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
+// Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
   All: [
-    loadTextContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json')
+    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
     loadTextContent('../policySetDefinitions/Deploy-Identity-Alerts.json')
-    loadTextContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json')
+    string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     loadTextContent('../policySetDefinitions/Deploy-Management-Alerts.json')
     loadTextContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json')
   ]
