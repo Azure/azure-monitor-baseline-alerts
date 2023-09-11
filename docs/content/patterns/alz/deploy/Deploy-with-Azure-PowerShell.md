@@ -64,7 +64,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
             "value": "contoso-connectivity"
         },
         "LandingZoneManagementGroup": {
-            "value": "contoso-landingzone"
+            "value": "contoso-landingzones"
         },
         "enableAMBAConnectivity": {
             "value": "Yes"
@@ -113,7 +113,7 @@ Run the following commands:
   $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
 ```
 
-> *IMPORTANT:* Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
+> IMPORTANT: Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
 
 ## 4. Deploy the policy definitions, initiatives and policy assignments with default settings
 
