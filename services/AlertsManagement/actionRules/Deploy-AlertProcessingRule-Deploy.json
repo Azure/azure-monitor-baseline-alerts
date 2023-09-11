@@ -142,28 +142,35 @@
                             "type": "string"
                           }
                         },
-                        "variables": {},
+                        "variables": {
+                            "ALZMonitorActionGroupEmail": "[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
+                        },
                         "resources": [
-                          {
-                            "type": "Microsoft.Insights/actionGroups",
-                            "apiVersion": "2022-04-01",
-                            "name": "AlzActionGrp",
-                            "location": "global",
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "groupShortName": "AlzActionGrp",
-                              "enabled": true,
-                              "emailReceivers": [
-                                {
-                                  "name": "AlzMail",
-                                  "emailAddress": "[[parameters('ALZMonitorActionGroupEmail')]",
-                                  "useCommonAlertSchema": true
+                            {
+                                "type": "Microsoft.Insights/actionGroups",
+                                "apiVersion": "2022-04-01",
+                                "name": "AlzActionGrp",
+                                "location": "Global",
+                                "tags": {
+                                    "_deployed_by_amba": true
+                                  },
+                                "properties": {
+                                    "groupShortName": "AlzActionGrp",
+                                    "enabled": true,
+                                    "copy": [
+                                        {
+                                            "name": "emailReceivers",
+                                            "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
+                                            "mode": "parallel",
+                                            "input": {
+                                                "name": "[concat('AlzMail', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                                "emailAddress": "[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                                "useCommonAlertSchema": true
+                                            }
+                                        }
+                                    ]
                                 }
-                              ]
-                            }
-                          },
+                            },
                           {
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",

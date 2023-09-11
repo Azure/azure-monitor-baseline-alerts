@@ -180,7 +180,7 @@
       "evaluationPeriods": {
         "type": "String",
         "metadata": {
-          "displayname": "Evaluation Periods",
+          "displayName": "Evaluation Periods",
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "1"
@@ -188,7 +188,7 @@
       "computersToInclude": {
         "type": "array",
         "metadata": {
-          "displayname": "Disks to be included to be monitored",
+          "displayName": "Computers to be included to be monitored",
           "description": "Array of Computer to be monitored"
         },
         "defaultValue": [
@@ -198,7 +198,7 @@
       "disksToInclude": {
         "type": "array",
         "metadata": {
-          "displayname": "Disks to be included to be monitored",
+          "displayName": "Disks to be included to be monitored",
           "description": "Array of disk to be monitored for disk both windows and linux"
         },
         "defaultValue": [
@@ -241,7 +241,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMLowdataDiskWriteLatencyAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMHighdataDiskWriteLatencyAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -351,10 +351,13 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMLowdataDiskWriteLatencyAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMHighdataDiskWriteLatencyAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMLowdataDiskWriteLatencyAlert')]",
+                              "displayName": "[[concat(subscription().displayName, '-VMHighdataDiskWriteLatencyAlert')]",
                               "description": "Log Alert for Virtual Machine dataDiskWriteLatency",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",

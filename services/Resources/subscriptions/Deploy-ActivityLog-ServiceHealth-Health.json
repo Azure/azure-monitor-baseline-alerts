@@ -195,7 +195,9 @@
                             "type": "string"
                           }
                         },
-                        "variables": {},
+                        "variables": {
+                            "ALZMonitorActionGroupEmail": "[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
+                        },
                         "resources": [
                           {
                             "type": "microsoft.insights/activityLogAlerts",
@@ -242,22 +244,27 @@
                           },
                           {
                             "type": "Microsoft.Insights/actionGroups",
-                            "apiVersion": "2022-04-01",
+                            "apiVersion": "22022-04-01",
                             "name": "AlzActionGrp",
-                            "location": "global",
+                            "location": "Global",
                             "tags": {
-                              "_deployed_by_amba": true
-                            },
+                                "_deployed_by_amba": true
+                              },
                             "properties": {
-                              "groupShortName": "AlzActionGrp",
-                              "enabled": true,
-                              "emailReceivers": [
-                                {
-                                  "name": "AlzMail",
-                                  "emailAddress": "[[parameters('ALZMonitorActionGroupEmail')]",
-                                  "useCommonAlertSchema": true
-                                }
-                              ]
+                                "groupShortName": "AlzActionGrp",
+                                "enabled": true,
+                                "copy": [
+                                    {
+                                        "name": "emailReceivers",
+                                        "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
+                                        "mode": "parallel",
+                                        "input": {
+                                            "name": "[concat('AlzMail', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                            "emailAddress": "[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                            "useCommonAlertSchema": true
+                                        }
+                                    }
+                                ]
                             }
                           }
                         ]
