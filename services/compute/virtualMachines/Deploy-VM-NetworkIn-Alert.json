@@ -309,7 +309,7 @@
                   "computersToInclude": {
                     "type": "array"
                   },
-                  "networkInterfaceToInclude": {
+                  "networkInterfacesToInclude": {
                     "type": "array"
                   }
                 },
@@ -369,7 +369,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| | extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
