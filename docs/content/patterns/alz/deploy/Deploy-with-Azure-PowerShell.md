@@ -6,7 +6,7 @@ title: Deploy with Azure PowerShell
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
-- [ambaArm.param.json](../blob/main/eslzArm/ambaArm.param.json)
+- [alzArm.param.json](../blob/main/patterns/alz/alzArm.param.json)
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
@@ -17,14 +17,14 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address where notifications of the alerts are sent to.
 - If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_, _enableAMBAServiceHealth_ to "No".
 
-#### If you are **aligned to ALZ**
+#### If you are aligned to ALZ
 
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity.
 - Change the value of _managementManagementGroup_ to the management group id for Management.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones.
 
-#### If you are **unaligned to ALZ**
+#### If you are unaligned to ALZ
 
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity. The same management group id may be repeated.
 - Change the value of _managementManagementGroup_ to the management group id for Management. The same management group id may be repeated.
@@ -33,7 +33,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 > For ease of deployment and maintenance we have kept the same variables. If, for example, you combined Identity, Management and Connectivity into one management group you should configure the variables _identityManagementGroup_, _managementManagementGroup_ and _connectivityManagementGroup_ with the same management group id.
 
-#### If you have a **single management group**
+#### If you have a single management group
 
 - Change the value of _IdentityManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _managementManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
@@ -124,7 +124,7 @@ Using a PowerShell prompt, if you closed your previous session, navigate again t
 > This should be tested in a safe environment. If you are subsequently looking to deploy to prod environments, consider leveraging the guidance found in [Customize Policy Assignment](./Customize-AMBA-Policy-Assignment), to deploy and enable alerts in a controlled manner.
 
 ```powershell
-  New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\ambaArm.param.json"
+  New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
 
 # Next steps
