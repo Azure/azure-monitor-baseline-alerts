@@ -124,7 +124,7 @@ Using a PowerShell prompt, if you closed your previous session, navigate again t
 > This should be tested in a safe environment. If you are subsequently looking to deploy to prod environments, consider leveraging the guidance found in [Customize Policy Assignment](./Customize-AMBA-Policy-Assignment), to deploy and enable alerts in a controlled manner.
 
 ```powershell
-  New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/Enterprise-Scale/main/eslzArm/ambaArm.json" -TemplateParameterFile ".\patterns\alz\ambaArm.param.json"
+  New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\ambaArm.param.json"
 ```
 
 # Next steps
