@@ -148,7 +148,7 @@
                         "resources": [
                             {
                                 "type": "Microsoft.Insights/actionGroups",
-                                "apiVersion": "2022-04-01",
+                                "apiVersion": "2022-06-01",
                                 "name": "AlzActionGrp",
                                 "location": "Global",
                                 "tags": {
@@ -163,7 +163,7 @@
                                             "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
                                             "mode": "parallel",
                                             "input": {
-                                                "name": "[concat('AlzMail', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                                "name": "[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
                                                 "emailAddress": "[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
                                                 "useCommonAlertSchema": true
                                             }
