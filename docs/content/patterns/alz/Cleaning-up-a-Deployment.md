@@ -1,6 +1,7 @@
 ---
 title: Cleaning up a Deployment
 geekdocCollapseSection: true
+weight: 70
 ---
 
 In some scenarios, it may be necessary to remove everything deployed by the AMBA solution. The instructions below detail execution of a PowerShell script to delete all resources deployed, including:
@@ -13,7 +14,7 @@ In some scenarios, it may be necessary to remove everything deployed by the AMBA
 - Policy Set Definitions
 - Policy Assignment remediation identity role assignments
 
-All resources deployed as part of the initial AMBA deployment and the resources created by dynamically by 'deploy if not exist' policies are either tagged, marked in metadata, or in description (depending on what the resource supports) with the value `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is used to execute the cleanup of deployed resources; _if it has been removed or modified the cleanup script will not include those resources_.
+All resources deployed as part of the initial AMBA deployment and the resources created by dynamically by 'deploy if not exist' policies are either tagged, marked in metadata, or in description (depending on what the resource supports) with the value `_deployed_by_amba` or `_deployed_by_amba=True`. This metadata is used to execute the cleanup of deployed resources; _if it has been removed or modified the cleanup script will not include those resources_.
 
 ## Cleanup Script Execution
 
@@ -21,8 +22,8 @@ All resources deployed as part of the initial AMBA deployment and the resources 
 
 Follow the instructions below to download the cleanup script file. Alternatively, clone the repo from GitHub and ensure you are working from the latest version of the file by fetching the latest `main` branch.
 
-1. Navigate AMBA [project in GitHub](https://github.com/Azure/Enterprise-Scale)
-1. In the folder structure, browse to the `src/scripts` directory
+1. Navigate AMBA [project in GitHub](https://github.com/Azure/azure-monitor-baseline-alerts)
+1. In the folder structure, browse to the `patterns/alz/scripts` directory
 1. Open the **Start-AMBACleanup.ps1** script file
 1. Click the **Raw** button
 1. Save the open file as **Start-AMBACleanup.ps1**

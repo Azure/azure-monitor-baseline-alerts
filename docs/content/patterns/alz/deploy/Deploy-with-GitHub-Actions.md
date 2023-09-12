@@ -1,12 +1,13 @@
 ---
 title: Deploy with GitHub Actions
+weight: 60
 ---
 
-## 1. Parameter configuration:
+## 1. Parameter configuration
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
-- [ambaArm.param.json](../blob/main/eslzArm/ambaArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json)
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
@@ -17,28 +18,31 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address where notifications of the alerts are sent to.
 - If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_, _enableAMBAServiceHealth_ to "No".
 
-#### If you are **aligned to ALZ**
+### If you are aligned to ALZ
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity.
 - Change the value of _managementManagementGroup_ to the management group id for Management.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones.
 
-#### If you are **unaligned to ALZ**
+### If you are unaligned to ALZ
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity. The same management group id may be repeated.
 - Change the value of _managementManagementGroup_ to the management group id for Management. The same management group id may be repeated.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity. The same management group id may be repeated.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones. The same management group id may be repeated
-> For ease of deployment and maintenance we have kept the same variables. If, for example, you combined Identity, Management and Connectivity into one management group you should configure the variables _identityManagementGroup_, _managementManagementGroup_ and _connectivityManagementGroup_ with the same management group id.
+{{< hint type=note >}}
+For ease of deployment and maintenance we have kept the same variables. If, for example, you combined Identity, Management and Connectivity into one management group you should configure the variables _identityManagementGroup_, _managementManagementGroup_ and _connectivityManagementGroup_ with the same management group id.
+{{< /hint >}}
 
-#### If you have a **single management group**
+### If you have a single management group
 - Change the value of _IdentityManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _managementManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _connectivityManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _LandingZoneManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
-> For ease of deployment and maintenance we have kept the same variables. Configure the variables _enterpriseScaleCompanyPrefix_, _identityManagementGroup_, _managementManagementGroup_, _connectivityManagementGroup_ and _LZManagementGroup_ with the pseudo root management group id.
+{{< hint type=note >}}
+For ease of deployment and maintenance we have kept the same variables. Configure the variables _enterpriseScaleCompanyPrefix_, _identityManagementGroup_, _managementManagementGroup_, _connectivityManagementGroup_ and _LZManagementGroup_ with the pseudo root management group id.
+{{< /hint >}}
 
-
-## 2. Example Parameter file:
+## 2. Example Parameter file
 
 Note that the parameter file shown below has been truncated for brevity, compared to the samples included.
 
@@ -60,7 +64,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
             "value": "contoso-connectivity"
         },
         "LandingZoneManagementGroup": {
-            "value": "contoso-landingzone"
+            "value": "contoso-landingzones"
         },
         "enableAMBAConnectivity": {
             "value": "Yes"
@@ -99,16 +103,18 @@ Note that the parameter file shown below has been truncated for brevity, compare
 ## 3. Configure and run the workflow
 First, configure your OpenID Connect as described [here](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#use-the-azure-login-action-with-openid-connect).
 
-To deploy through GitHub actions, please refer to the [amba-sample-workflow.yml](../../examples/amba/amba-sample-workflow.yml).
+To deploy through GitHub actions, please refer to the [sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml).
 
 ### Modify variables and run the workflow
 
-- Modify the following values in [amba-sample-workflow.yml](../../examples/amba/amba-sample-workflow.yml):
+- Modify the following values in [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml):
   - Change _Location: "norwayeast"_, to your preferred Azure region
   - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group id parenting the identity, management and connectivity management groups.
 - Go to GitHub actions and run the action *Deploy AMBA*
 
-> *IMPORTANT:* Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
+{{< hint type=important >}}
+Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
+{{< /hint >}}
 
 # Next steps
-- To remediate non-compliant policies, please proceed with [Policy remediation](./Remediate-AMBA-Policies)
+- To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)

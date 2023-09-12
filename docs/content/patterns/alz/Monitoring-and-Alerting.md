@@ -1,6 +1,7 @@
 ---
 title: Monitoring and Alerting
 geekdocCollapseSection: true
+weight: 20
 ---
 
 ## ALZ Monitor Alert Approach
@@ -25,7 +26,7 @@ Metric alerts are deployed with resources (in the same resource group) and platf
 
 As an example in the context of ALZ, see below for a graphic representation of the flow.
 
-![ALZ alerting](./media/amba-monitoringandalerting.2.png)
+![ALZ alerting](../media/AMBA-focused-rg-alz-monitor-alert-flow.png)
 
 
 ### ALZ Approach
@@ -43,11 +44,11 @@ ALZ Alerts, Action Groups and Alert Processing Rules are deployed using Azure Po
 
 The following policy definition categories will be enabled as part of ALZ deployments for the hubs and landing zones defined by Azure landing zone:
 
-- Resource Metrics; See [here](./AMBA-Alerts-Details#metric-alerts-settings) for details on which resource metrics are included.
-- Service and Resource Health; See [here](./AMBA-Alerts-Details#activity-log-alerts) for details on which alerts are included.
-- Activity Logs; See [here](./AMBA-Alerts-Details#activity-log-administrative) for details on which alerts are included.
-- VM Insights Log Alerts; See [here](./AMBA-Alerts-Details#vm-insights-log-alerts) for details on which alerts are included.
-- Recovery Vault Alerts; See [here](./AMBA-Alerts-Details#recovery-vault-alerts) for details on which alerts are included.
+- Resource Metrics; See [here](../Alerts-Details#metric-alerts-settings) for details on which resource metrics are included.
+- Service and Resource Health; See [here](../Alerts-Details#activity-log-alerts) for details on which alerts are included.
+- Activity Logs; See [here](../Alerts-Details#activity-log-administrative) for details on which alerts are included.
+- VM Insights Log Alerts; See [here](../Alerts-Details#vm-insights-log-alerts) for details on which alerts are included.
+- Recovery Vault Alerts; See [here](../Alerts-Details#recovery-vault-alerts) for details on which alerts are included.
 
 #### Resource Metrics
 
@@ -90,7 +91,7 @@ As an example, we could implement a filter on Severity (Critical, Error, Warning
 
 ## Monitoring Backup (Recovery Services Vaults)
 
-Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-rv_backuphealth_monitor.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in alerts.
+Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in alerts.
 
 ### Modifications
 
