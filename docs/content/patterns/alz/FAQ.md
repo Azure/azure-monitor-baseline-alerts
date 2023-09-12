@@ -1,6 +1,7 @@
 ---
 title: Frequently Asked Questions
 geekdocCollapseSection: true
+weight: 80
 ---
 
 ## Do I need to have Azure Landing zones deployed for this to work?
@@ -14,7 +15,7 @@ geekdocCollapseSection: true
 
 ## Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?
 
-*Setting a threshold of 100% can, on occasion, cause erroneous alerts that generate un-necessary noise. Lowering the threshold slightly below 100% addresses this issue while still providing an alert for a service's availability. If the default threshold isn't aggressive enough we encourage you to adjust it upwards and/or provide us feedback by filing an issue in our GitHub repo, guidance can be found on our [Support page](../../SUPPORT.md##support).*
+*Setting a threshold of 100% can, on occasion, cause erroneous alerts that generate un-necessary noise. Lowering the threshold slightly below 100% addresses this issue while still providing an alert for a service's availability. If the default threshold isn't aggressive enough we encourage you to adjust it upwards and/or provide us feedback by filing an issue in our GitHub repo [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues).*
 
 ## Do I need to use these metrics or can they be replaced with ones more suited to my environment?
 
@@ -22,7 +23,7 @@ geekdocCollapseSection: true
 
 ## Can I disable the alerts being deployed for a resource or subscription?
 
-*Yes, please refer to the disabling monitoring section in the [Introduction to deploying AMBA](./Introduction-to-deploying-AMBA#disabling-monitoring)*
+*Yes, please refer to the disabling monitoring documentation [Disabling Policies](../Disabling-Policies)*
 
 ## How much does it cost to run the ALZ Baseline solution?
 
@@ -38,10 +39,10 @@ geekdocCollapseSection: true
 
 ***Whilst it is not anticipated that the solution will incur significant costs, it is recommended that you assess costs as part of a deployment to a non-production environment to make sure you are clear on the costs incurred for your deployment***
 
-*For costings related to your deployment please visit https://azure.microsoft.com/en-us/pricing/details/monitor/ and work with your local Microsoft account team to define a rough order of magnitude (RoM) costings*
+*For costings related to your deployment please visit [Pricing - Azure Monitor](https://azure.microsoft.com/en-us/pricing/details/monitor/) and work with your local Microsoft account team to define a rough order of magnitude (RoM) costings*
 
 *<sup>1</sup> Depending on the region you deploy to their may be a small difference in the associated cost, the costs provided here are based on prices captured as of April 2023*
 
 ## Can I access the Visio diagrams displayed in the documentation?
 
-*Yes, the Visio diagrams are available in the [docs\media](../../docs/media) folder*
+*Yes, the Visio diagrams are available in the [media](https://github.com/Azure/azure-monitor-baseline-alerts/tree/main/docs/content/patterns/alz/media) folder*

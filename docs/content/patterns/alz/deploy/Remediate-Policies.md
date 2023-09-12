@@ -1,10 +1,14 @@
 ---
 title: Remediate Policies
+weight: 70
 ---
 
 The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you are deploying in a greenfield scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.
 If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you will need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the script found in .src/script/Start-AMBARemediation to remediate all AMBA policies in scope as defined by management group pre-fix.
-> Note: This script requires PowerShell 7.0 or higher and the Az.Resources PowerShell module.
+
+{{< hint type=Important >}}
+This script requires PowerShell 7.0 or higher and the Az.Resources PowerShell module.
+{{< /hint >}}
 
 To use the script do the following:
 - Log on to Azure PowerShell with an account with at least Resource Policy Contributor permissions at the pseudo-root management group level
@@ -15,16 +19,17 @@ To use the script do the following:
 For convenience, assuming that the management hierarchy is fully aligned to ALZ, below are the commands required to remediate all policies assigned through the guidance provided in this repo:
 
 ```powershell
-  #Modify the following variables to match your environment
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
-  $identityManagementGroup = "The management group id for Identity"
-  $managementManagementGroup = "The management group id for Management"
-  $connectivityManagementGroup = "The management group id for Connectivity"
-  $LZManagementGroup="The management group id for Landing Zones"
-  #Run the following commands to initiate remediation
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LandingZone
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+#Modify the following variables to match your environment
+$pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+$identityManagementGroup = "The management group id for Identity"
+$managementManagementGroup = "The management group id for Management"
+$connectivityManagementGroup = "The management group id for Connectivity"
+$LZManagementGroup="The management group id for Landing Zones"
+
+#Run the following commands to initiate remediation
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LandingZone
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
 ```
