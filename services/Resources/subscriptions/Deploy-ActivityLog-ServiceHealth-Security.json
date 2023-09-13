@@ -180,9 +180,6 @@
                     ],
                     "properties": {
                       "mode": "Incremental",
-                      "expressionEvaluationOptions": {
-                        "scope": "inner"
-                      },
                       "template": {
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                         "contentVersion": "1.0.0.0",
@@ -261,8 +258,8 @@
                                         "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
                                         "mode": "serial",
                                         "input": {
-                                            "name": "[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                            "emailAddress": "[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                            "name": "[[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                            "emailAddress": "[[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
                                             "useCommonAlertSchema": true
                                         }
                                     }
