@@ -1,6 +1,7 @@
 ---
 title: Versioning
 geekdocCollapseSection: true
+weight: 110
 ---
 
 The primary deliverable of this repo is a collection of Azure Policy initiatives and associated Azure Policy definitions, and as such is versioned in a manner consistent with the [Azure Policy versioning guidance](https://github.com/Azure/azure-policy/blob/master/built-in-policies/README.md#versioning).
