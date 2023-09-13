@@ -143,7 +143,7 @@
                           }
                         },
                         "variables": {
-                            "ALZMonitorActionGroupEmail": "[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
+                            "ALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
                         },
                         "resources": [
                             {
@@ -160,7 +160,7 @@
                                     "copy": [
                                         {
                                             "name": "emailReceivers",
-                                            "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
+                                            "count": "[[]length(variables('ALZMonitorActionGroupEmail'))]",
                                             "mode": "serial",
                                             "input": {
                                                 "name": "[[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
