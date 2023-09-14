@@ -92,7 +92,7 @@
             ]
           },
           "deployment": {
-            "location": "[[deployment().location]",
+            "location": "uksouth",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -160,11 +160,11 @@
                                     "copy": [
                                         {
                                             "name": "emailReceivers",
-                                            "count": "[[length(variables('ALZMonitorActionGroupEmail'))]",
+                                            "count": "[length(variables('ALZMonitorActionGroupEmail'))]",
                                             "mode": "serial",
                                             "input": {
-                                                "name": "[[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                                "emailAddress": "[[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                                "name": "[concat('AlzMail-', indexOf(variables('ALZMonitorActionGroupEmail'), variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                                "emailAddress": "[trim(variables('ALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
                                                 "useCommonAlertSchema": true
                                             }
                                         }
@@ -175,7 +175,7 @@
                                 "type": "Microsoft.AlertsManagement/actionRules",
                                 "apiVersion": "2021-08-08",
                                 "name": "Alz Alert Processing Rule",
-                                "location": "global",
+                                "location": "Global",
                                 "dependsOn": [
                                     "[[concat('Microsoft.Insights/actionGroups/', 'AlzActionGrp')]"
                                 ],
@@ -191,7 +191,7 @@
                                     "actions": [
                                         {
                                         "actiongroupIds": [
-                                            "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AlzActionGrp')]"
+                                            "[[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AlzActionGrp')]"
                                         ],
                                         "actionType": "AddActionGroups"
                                         }

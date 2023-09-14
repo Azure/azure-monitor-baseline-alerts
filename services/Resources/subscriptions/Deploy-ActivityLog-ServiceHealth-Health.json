@@ -138,7 +138,7 @@
             ]
           },
           "deployment": {
-            "location": "[[parameters('alertResourceGroupLocation')]",
+            "location": "uksouth",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -201,7 +201,7 @@
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "location": "[[parameters('alertResourceGroupLocation')]",
+                            "location": "Global",
                             "dependsOn": [
                               "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AlzActionGrp')]"
                             ],
@@ -245,7 +245,7 @@
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2022-06-01",
                             "name": "AlzActionGrp",
-                            "location": "[[parameters('alertResourceGroupLocation')]",
+                            "location": "Global",
                             "tags": {
                                 "_deployed_by_amba": true
                               },
@@ -277,10 +277,7 @@
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-                        },
-                        "alertResourceGroupLocation": {
-                            "value": "[[parameters('alertResourceGroupLocation')]"
-                          }
+                        }
                       }
                     }
                   }
@@ -296,11 +293,11 @@
                 "alertResourceGroupTags": {
                   "value": "[[parameters('alertResourceGroupTags')]"
                 },
-                "ALZMonitorActionGroupEmail": {
-                  "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-                },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "ALZMonitorActionGroupEmail": {
+                  "value": "[[parameters('ALZMonitorActionGroupEmail')]"
                 }
               }
             }
