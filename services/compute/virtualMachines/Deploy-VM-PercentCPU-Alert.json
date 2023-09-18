@@ -172,7 +172,7 @@
       "failingPeriods": {
         "type": "String",
         "metadata": {
-          "displayname": "Failing Periods",
+          "displayName": "Failing Periods",
           "description": "Number of failing periods before alert is fired"
         },
         "defaultValue": "1"
@@ -226,7 +226,7 @@
             ]
           },
           "deployment": {
-            "location": "[[deployment().location]",
+            "location": "northeurope",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -316,6 +316,9 @@
                             "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
                             "properties": {
                               "displayName": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
                               "description": "Log Alert for Virtual Machine CPU",

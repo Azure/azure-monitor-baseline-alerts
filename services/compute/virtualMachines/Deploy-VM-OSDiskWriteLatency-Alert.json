@@ -188,7 +188,7 @@
       "computersToInclude": {
         "type": "array",
         "metadata": {
-          "displayname": "Disks to be included to be monitored",
+          "displayName": "Disks to be included to be monitored",
           "description": "Array of Computer to be monitored"
         },
         "defaultValue": [
@@ -198,7 +198,7 @@
       "disksToInclude": {
         "type": "array",
         "metadata": {
-          "displayname": "Disks to be included to be monitored",
+          "displayName": "Disks to be included to be monitored",
           "description": "Array of disk to be monitored for disk both windows and linux"
         },
         "defaultValue": [
@@ -255,7 +255,7 @@
             ]
           },
           "deployment": {
-            "location": "[[deployment().location]",
+            "location": "northeurope",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -354,6 +354,9 @@
                             "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
                             "properties": {
                               "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
                               "description": "Log Alert for Virtual Machine OSDiskwriteLatency",

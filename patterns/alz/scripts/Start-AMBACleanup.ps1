@@ -100,9 +100,9 @@ If ($managementGroups.count -eq 0) {
 }
 
 # get alert resources to delete
-$alertResourceIds = Search-AzGraphRecursive -Query "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts') and tags['_deployed_by_amba'] =~ 'True' | project id" -ManagementGroupNames $managementGroups.Name |
+$alertResourceIds = Search-AzGraphRecursive -Query "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id" -ManagementGroupNames $managementGroups.Name |
 Select-Object -ExpandProperty Id
-Write-Host "Found '$($alertResourceIds.Count)' metric and activity log alerts to be deleted."
+Write-Host "Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted."
 
 # get resource group to delete
 $resourceGroupIds = Search-AzGraphRecursive -Query "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_amba'] =~ 'True' | project id" -ManagementGroupNames $managementGroups.Name |

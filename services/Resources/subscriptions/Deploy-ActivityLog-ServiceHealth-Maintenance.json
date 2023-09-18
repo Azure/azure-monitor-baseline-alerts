@@ -44,7 +44,6 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test",
           "_deployed_by_amba": true
         }
       },
@@ -139,7 +138,7 @@
             ]
           },
           "deployment": {
-            "location": "[[deployment().location]",
+            "location": "northeurope",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -162,7 +161,9 @@
                     "type": "string"
                   }
                 },
-                "variables": {},
+                "variables": {
+                    "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -242,22 +243,27 @@
                           },
                           {
                             "type": "Microsoft.Insights/actionGroups",
-                            "apiVersion": "2022-04-01",
+                            "apiVersion": "2022-06-01",
                             "name": "AlzActionGrp",
                             "location": "global",
                             "tags": {
-                              "_deployed_by_amba": true
-                            },
+                                "_deployed_by_amba": true
+                              },
                             "properties": {
-                              "groupShortName": "AlzActionGrp",
-                              "enabled": true,
-                              "emailReceivers": [
-                                {
-                                  "name": "AlzMail",
-                                  "emailAddress": "[[parameters('ALZMonitorActionGroupEmail')]",
-                                  "useCommonAlertSchema": true
-                                }
-                              ]
+                                "groupShortName": "AlzActionGrp",
+                                "enabled": true,
+                                "copy": [
+                                    {
+                                        "name": "emailReceivers",
+                                        "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                                        "mode": "serial",
+                                        "input": {
+                                            "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                            "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                            "useCommonSchema": true
+                                        }
+                                    }
+                                ]
                             }
                           }
                         ]

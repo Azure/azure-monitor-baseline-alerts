@@ -172,7 +172,7 @@
       "failingPeriods": {
         "type": "String",
         "metadata": {
-          "displayname": "Failing Periods",
+          "displayName": "Failing Periods",
           "description": "Number of failing periods before alert is fired"
         },
         "defaultValue": "1"
@@ -180,7 +180,7 @@
       "evaluationPeriods": {
         "type": "String",
         "metadata": {
-          "displayname": "Evaluation Periods",
+          "displayName": "Evaluation Periods",
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "1"
@@ -234,7 +234,7 @@
             ]
           },
           "deployment": {
-            "location": "[[deployment().location]",
+            "location": "northeurope",
             "properties": {
               "mode": "incremental",
               "template": {
@@ -327,6 +327,9 @@
                             "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-VMLowMemoryAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
                             "properties": {
                               "displayName": "[[concat(subscription().displayName, '-VMLowMemoryAlert')]",
                               "description": "Log Alert for Virtual Machine Memory",
