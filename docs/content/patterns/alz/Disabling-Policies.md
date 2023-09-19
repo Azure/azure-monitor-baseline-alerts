@@ -50,7 +50,7 @@ These are the high-level steps that would need to take place:
 
 1. Change the value for the AlertState parameter for the offending policies to false, either via command line or parameter file as described previously.
 1. Deploy the policies and assignments as described previously.
-1. After deploying and policy evaluation there will be a number of non-compliant policies depending on which alerts were to be disabled. These will then need to be remediated which can be done either through the portal, on a policy-by-policy basis or you can run the script found in .github/script/Start-ALZMonitorRemediation to remediate all ALZ-Monitor policies in scope as defined by management group pre-fix.
+1. After deploying and policy evaluation there will be a number of non-compliant policies depending on which alerts were to be disabled. These will then need to be remediated which can be done either through the portal, on a policy-by-policy basis or you can run the script found in [patterns/alz/scripts/Start-AMBARemediation](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBARemediation.ps1) to remediate all ALZ-Monitor policies in scope as defined by management group pre-fix.
 
 Note that the above approach will not delete the alerts objects in Azure, merely disable them. To delete the alerts you will have to do so manually. Also note that while you can engage the PolicyEffect to avoid deploying new alerts, you should not do so until you have successfully remediated the above. Otherwise the policy will be disabled, and you will not be able to turn alerts off via policy until that is changed back.
 
@@ -84,7 +84,7 @@ The PolicyEffect parameter is used for the configuration of the effect of the Po
 ```
 
 ## MonitorDisable parameter
-It´s also possible de exclude certain resources from being monitored. You may not want to monitor pre-production or dev environments. The MonitorDisable parameter contains the Tag name to determine whether a resource should be included. By default, creating the tag MonitorDisable with value "true" will prevent deployment of alert rules on those resources. This is easily adjusted to use existing tags, for example you could configure the parameter with the tag name "Environment" and tell it to deploy only if the tag value equals "prod", or when the tag isnt equal to "dev". Currently only the tag name is a parameter, other changes require minor changes in the code.
+It´s also possible to exclude certain resources from being monitored. You may not want to monitor pre-production or dev environments. The MonitorDisable parameter contains the Tag name to determine whether a resource should be included. By default, creating the tag MonitorDisable with value "true" will prevent deployment of alert rules on those resources. This is easily adjusted to use existing tags, for example you could configure the parameter with the tag name "Environment" and tell it to deploy only if the tag value equals "prod", or when the tag isnt equal to "dev". Currently only the tag name is a parameter, other changes require minor changes in the code.
 
 ### How it works
 The policyRule only continues if "allOff" is true. Meaning, the deployment will continue as long as the MonitorDisable tag doesn't exist or doesn't hold the value "true". When the tag holds "true", the "allOff" will return "false" as "notEquals": "true" is no longer satisfied, causing the deployment to stop
