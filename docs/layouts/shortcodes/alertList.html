@@ -1,0 +1,61 @@
+<!--
+Alert List
+
+Params:
+    url:        path or url of your alerts.json
+-->
+
+{{ with $.Get "data" }}
+  {{ $data := . }}
+  {{ $url := path.Join $.Page.File.Dir $data }}
+  {{ $name := . }}
+  {{ $data := getJSON $url }}
+  <div>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      {{ range $data.alerts }}
+        {{ $alert := . }}
+        <tr>
+          <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
+          <td>{{ .details.type }}</td>
+          <td>{{ .description }}</td>
+        </tr>
+      {{ end }}
+    </table>
+  </div>
+
+  <br>
+
+  {{ range $data.alerts }}
+    <br><br>
+    <div id="{{ anchorize .name }}">
+      <hr style="height: 4px;">
+      <h3>{{ .name }}</h3>
+      <p><i>{{ .description }}</i><p>
+      {{ if eq .details.type "Log" }}
+        <div>
+          <h4>Query:</h4>
+          <div>
+            {{ $code := replace .details.query "|" "\n|" }}
+            {{ transform.Highlight $code "sql" }}
+          </div>
+        </div>
+      {{ end }}
+      <h4>Deployment Templates:</h4>
+      <table>
+        {{ range .deployments }}
+          <tr>
+            <td>{{ .description }}</td>
+            {{ $url := path.Join $.Page.File.Dir .template }}
+            <td><a href="{{ relURL $url }}" download>Download</a></td>
+          </tr>
+        {{ end }}
+      </table>
+    </div>
+  {{ end }}
+{{ end }}
+
