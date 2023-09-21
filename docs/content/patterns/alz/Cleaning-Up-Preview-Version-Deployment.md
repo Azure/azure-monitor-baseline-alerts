@@ -1,5 +1,5 @@
 ---
-title: Cleaning up a Deployment
+title: Cleaning up preview version deployment
 geekdocCollapseSection: true
 weight: 70
 ---
