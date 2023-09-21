@@ -1,0 +1,49 @@
+{
+  "alerts": [
+    {
+      "name": "Activity Log Azure Firewall Delete",
+      "description": "Activity Log Alert for Azure Firewall Delete",
+      "details": {
+        "type": "ActivityLog",
+        "category": "Administrative",
+        "operationName": "Microsoft.Network/azureFirewalls/delete"
+      },
+      "deployments": [
+        {
+          "description": "Policy to Deploy Activity Log Azure Firewall Delete Alert",
+          "template": "Deploy-ActivityLog-AzureFirewall-Del.json"
+        }
+      ]
+    },
+    {
+      "name": "Firewall Health",
+      "description": "Metric Alert for AFW FirewallHealth",
+      "details": {
+        "type": "Metric",
+        "metricName": "FirewallHealth",
+        "metricNamespace": "Microsoft.Network/azureFirewalls"
+      },
+      "deployments": [
+        {
+          "description": "Policy to audit/deploy Azure Firewall FirewallHealth Alert",
+          "template": "Deploy-AFW-FirewallHealth-Alert.json"
+        }
+      ]
+    },
+    {
+      "name": "SNAT Port Utilization",
+      "description": "Metric Alert for AFW SNATPortUtilization",
+      "details": {
+        "type": "Metric",
+        "metricName": "SNATPortUtilization",
+        "metricNamespace": "Microsoft.Network/azureFirewalls"
+      },
+      "deployments": [
+        {
+          "description": "Policy to audit/deploy Azure Firewall SNATPortUtilization Alert",
+          "template": "Deploy-AFW-SNATPortUtilization-Alert.json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+---
+title: Automation
+geekdocCollapseSection: true
+---
+
