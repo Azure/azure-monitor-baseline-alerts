@@ -11,7 +11,12 @@ weight: 100
 *failed to resolve table or column expression named*
 
 #### Cause
-The underlying data is not present in the Log Analytics table. For VM Alerts please enable [VM Insights](Monitoring-and-Alerting#log-alerts)
+
+The underlying data is not present in the Log Analytics table. 
+
+#### Resolution
+
+For VM Alerts please enable [VM Insights](Monitoring-and-Alerting#log-alerts)
 
 ## Tagging on resources from preview version is not updated
 
