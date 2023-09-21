@@ -146,5 +146,7 @@ New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -L
 
 ## Next steps
 
-- For brownfield deployment, please proceed with [Brownfield post-deployment actions](../Post-Brownfield-Deployment.md)
-- To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)
+After a successful deploynent run the following steps in the given order:
+
+1. For brownfield deployment, please proceed with [Brownfield post-deployment actions](../Post-Brownfield-Deployment.md) **- [Skip if a greenfield deployment has been done]**
+2. To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)

@@ -11,7 +11,7 @@ weight: 100
 *failed to resolve table or column expression named*
 
 #### Cause
-The underlying data is not present in the Log Analytics table. For VM Alerts please enable [VM Insights](../Monitoring-and-Alerting#log-alerts)
+The underlying data is not present in the Log Analytics table. For VM Alerts please enable [VM Insights](Monitoring-and-Alerting#log-alerts)
 
 ## Tagging on resources from preview version is not updated
 
@@ -30,13 +30,20 @@ Some alerts created by the preview version were missing the tagging. After an up
 
 #### Workaround
 
-Proceed with manual tagging for the following resources by adding the tag with name *_deployed_by_amba* with value of *True*
+Proceed with manual tagging for the following resources by adding the tag with name *_deployed_by_amba* with value of *True*:
 
-## Failed to deploy because of roleassignemnt issue
+- 
 
-Deployment of AMBA fails when there are orphaned role assignements. 
+## Failed to deploy because of role assignemnt issue
+
+Deployment of AMBA fails when there are orphaned role assignements.
 
 #### Error includes
+
+*"error": { </br>
+&emsp;"code": "RoleAssignmentUpdateNotPermitted", </br>
+&emsp;"message": "Tenant ID, application ID, principal ID, and scope are not allowed to be updated." </br>
+&emsp;}*
 
 #### Cause
 
@@ -44,6 +51,7 @@ When a a previous installation is removed using the cleanup script, the previous
 
 #### Resolution
 
-1. Navigate to ***Management Groups*** and select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
-2. Select ***Access control (IAM)***
-3. Select each ***Identity not found*** entry and click ***Remove***
+1. Navigate to ***Management Groups***
+2. Select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
+3. Select ***Access control (IAM)***
+4. Under the ***Contributor*** role, select all records named ***Identity not found*** entry and click ***Remove***
