@@ -3,13 +3,17 @@ title: Deploy with Azure PowerShell
 weight: 40
 ---
 
+{{< hint type=Important >}}
+Updating from a preview version is not supported. If you deployed a preview version, please proceed with [Cleaning Up Preview Version Deployment](../Cleaning-Up-Preview-Version-Deployment) before continuing.
+{{< /hint >}}
+
 ## 1. Parameter configuration
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json)
 
-The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ, have a single management group, deploying on a clean environment (greenfield) or updating existing deployment (brownfiled).
+The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 - Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
@@ -115,7 +119,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
 
 ## 3. Configuring variables for deployment
 
-The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ, have a single management group, deploying on a clean environment (greenfield) or updating existing deployment (brownfiled
+The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 Open a PowerShell prompt, navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 
@@ -132,7 +136,7 @@ Above-mentioned "pseudoRootManagementGroup" variable value, being the so called 
 
 ## 4. Deploy the policy definitions, initiatives and policy assignments with default settings
 
-The following commands apply to all scenarios, whether you are aligned or unaligned with ALZ, have a single management group, deploying on a clean environment (greenfield) or updating existing deployment (brownfiled
+The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 Using a PowerShell prompt, if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 
@@ -146,7 +150,4 @@ New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -L
 
 ## Next steps
 
-After a successful deploynent run the following steps in the given order:
-
-1. For brownfield deployment, please proceed with [Brownfield post-deployment actions](../Post-Brownfield-Deployment.md) **- [Skip if a greenfield deployment has been done]**
-2. To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)
+To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)
