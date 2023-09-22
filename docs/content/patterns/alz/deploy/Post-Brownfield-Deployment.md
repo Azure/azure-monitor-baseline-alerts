@@ -8,7 +8,7 @@ weight: 40
 
 The term *brownfield* identifies an environment in which the preview version of Azure Monitor Baseline Alerts (AMBA) has been previously deployed. As opposite, the term *greenfield* indicates an environment wit no previous version of AMBA installed.
 
-New AMBA versions are built to allow for previous installations update, however some post-deployment actions are required to align brownfield to *greenfield* deployments.
+New AMBA versions are built to allow for update from preview version installation, however some post-deployment actions are required to align brownfield to *greenfield* deployments.
 
 ## 1. Delete unnecessary alerts
 
