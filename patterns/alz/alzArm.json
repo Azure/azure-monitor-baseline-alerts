@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "enterpriseScaleCompanyPrefix": {
@@ -153,24 +153,7 @@
         "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'))]",
         "policyAssignmentParametersManagement": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
         "policyAssignmentParametersServiceHealth": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'))]",
-        // Declaring the prescriptive management group structure that will be used in the scope construction
-        "mgmtGroups": {
-            "eslzRoot": "[parameters('enterpriseScaleCompanyPrefix')]",
-            "platform": "[parameters('platformManagementGroup')]",
-            "management": "[parameters('managementManagementGroup')]",
-            "connectivity": "[parameters('connectivityManagementGroup')]",
-            "identity": "[parameters('identityManagementGroup')]",
-            "lzs": "[parameters('LandingZoneManagementGroup')]"
-        },
-        // Declaring scopes that will be used for optional deployments, such as platform components (monitoring, networking, identity), policy assignments, subscription placement etc.
-        "scopes": {
-            "eslzRootManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').eslzRoot)]",
-            "platformManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').platform)]",
-            "managementManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').management)]",
-            "connectivityManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').connectivity)]",
-            "identityManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').identity)]",
-            "lzsManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').lzs)]"
-        },
+        
         // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
         "deploymentUris": {
             "policyDefinitionsAMBA": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies.json')]",
@@ -180,6 +163,7 @@
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]"
         },
+        
         // Declaring deterministic deployment names
         "deploymentSuffix": "[concat('-', deployment().location, '-', guid(parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow')))]",
         "deploymentNames": {
@@ -261,7 +245,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "policyCompletion"
@@ -288,7 +272,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('identityManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "policyCompletion"
@@ -315,7 +299,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBALandingZoneDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "policyCompletion"
@@ -342,7 +326,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAManagementDeploymentName]",
-            "scope": "[variables('scopes').managementManagementGroup]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('managementManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "policyCompletion"
@@ -369,7 +353,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAServiceHealthDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "policyCompletion"

@@ -30,13 +30,13 @@ Alerts, action groups and alert processing rules are created as follows:
     - Microsoft.AlertsManagement
     - Microsoft.Insights
 
-  Please see [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider) for details on how to register a resource provider should you need to do so.
+    Please see [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider) for details on how to register a resource provider should you need to do so.
 
 7. For leveraging the log alerts for Virtual Machines, ensure that VM Insights is enabled for the Virtual Machines to be monitored. For more details on VM Insights deployment see [here](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview) . Please note only the performance collection of the VM insights solution is required  for the current alerts to deploy.
 
-{{< hint type=note >}}
-While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. These policies and initiatives can be implemented in existing brownfield scenarios that don´t adhere to the ALZ Management Group hierarchy. For example, in hierarchies where there is a single management group, or where the structure does not align to ALZ. At least one management group is required. In case you haven't implemented management groups, we included guidance on how to get started.
-{{< /hint >}}
+    {{< hint type=note >}}
+    While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. These policies and initiatives can be implemented in existing brownfield scenarios that don´t adhere to the ALZ Management Group hierarchy. For example, in hierarchies where there is a single management group, or where the structure does not align to ALZ. At least one management group is required. In case you haven't implemented management groups, we included guidance on how to get started.
+    {{< /hint >}}
 
 ## Getting started
 
@@ -45,7 +45,7 @@ While it´s recommended to implement the alert policies and initiatives to an AL
 - Review your current configuration to determine what scenario applies to you. We have guidance that will help deploy these policies and initiatives whether you are aligned with Azure Landing Zones, or use other management group hierarchy, or you may not be using management groups at all. If you know your type of management group hierarchy, you can skip forward to your preferred deployment method:
   - [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
   - [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
-  - [Manual deployment with Azure CLI ](../Deploy-with-Azure-CLI)
+  - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
   - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
 ### Determining your management group hierarchy
@@ -54,11 +54,11 @@ Azure Landing Zones is a concept that provides a set of best practices, patterns
 
 The initiatives provided in this repository align with the management group hierarchy guidelines of Azure Landing Zones. Effectively creating the following assignment mapping between the initiative and the management group:
 
-* Identity Initiative is assigned to the Identity management group.
-* Management Initiative is assigned to the Management management group.
-* Connectivity Initiative is assigned to the Connectivity management group.
-* Landing Zone Initiative is assigned to the Landing Zone management group.
-* Service Health Initiative is assigned to the intermediate (ALZ) root management group.
+- Identity Initiative is assigned to the Identity management group.
+- Management Initiative is assigned to the Management management group.
+- Connectivity Initiative is assigned to the Connectivity management group.
+- Landing Zone Initiative is assigned to the Landing Zone management group.
+- Service Health Initiative is assigned to the intermediate (ALZ) root management group.
 
 The image below is an example of how a management group hierarchy looks like when you follow Azure Landing Zone guidance. Also illustrated in this image is the default recommended assignments of the initiatives.
 
@@ -73,6 +73,7 @@ The other monitoring initiatives are each assigned at specific platform landing 
 Click [here](../../media/AMBA-Diagramsv2.vsdx) if you'd like to download this Visio diagram.
 
 If you have this management group hierarchy, you can skip forward to your preferred deployment method:
+
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
@@ -82,14 +83,14 @@ It´s important to understand why we assign initiatives to certain management gr
 
 We recognize that Azure allows for flexibility and choice, and you may not be aligned with ALZ. For example, you may have:
 
-* A management group structure that is not aligned to ALZ. Where you may only have a Platform management group without the sub management groups like Identity/ Management/ Connectivity.
-* No management group structure.
+- A management group structure that is not aligned to ALZ. Where you may only have a Platform management group without the sub management groups like Identity/ Management/ Connectivity.
+- No management group structure.
 
 {{< hint type=note >}}
 If you are looking to align your Azure environment to Azure landing zone, please see [Transition existing Azure environments to the Azure landing zone conceptual architecture](http://aka.ms/alz/brownfield)
 {{< /hint >}}
 
-Suppose Identity/ Management/ Connectivity are combined in one Platform Management Group, the approach could be to assign the three corresponding initiatives to the Platform management group instead. Maybe you have a hierarchy where you organize by geography and/or business units instead of specific landing zones. Assignment mapping:
+Suppose Identity / Management / Connectivity are combined in one Platform Management Group, the approach could be to assign the three corresponding initiatives to the Platform management group instead. Maybe you have a hierarchy where you organize by geography and/or business units instead of specific landing zones. Assignment mapping:
 
 - Identity Initiative is assigned to the Platform management group.
 - Management Initiative is assigned to the Platform management group.
@@ -104,6 +105,7 @@ The image below is an example of how the assignments could look like when the ma
 We recommend that you review the [initiative definitions](https://github.com/Azure/azure-monitor-baseline-alerts/tree/main/patterns/alz/policySetDefinitions) to determine where best to apply the initiatives in your management group hierarchy.
 
 If you have this management group hierarchy, you can skip forward to your preferred deployment method:
+
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
@@ -114,10 +116,11 @@ If management groups were never configured in your environment, there are some a
 Please refer to our [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/create-management-group-portal) on how to create management groups.
 
 If you implemented the recommended management group design, you can skip forward to your preferred deployment method, following the ALZ aligned guidance.
-* [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
-* [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
-* [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
-* [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)
+
+- [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
+- [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
+- [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
+- [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
 If you implemented a single management group, we recommend to move your production subscriptions into that management group, consult the steps in the [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#add-an-existing-subscription-to-a-management-group-in-the-portal) for guidance to add the subscriptions.
 
@@ -155,7 +158,8 @@ If you wish to, also feel free to submit a pull request relating to the issue wh
 
 In some scenarios, it may be necessary to remove everything deployed by the ALZ Monitor solution. If you want to clean up all resources deployed, please refer to the instructions on running the [Cleaning up an AMBA Deployment](../../Cleaning-up-a-Deployment).
 
-# Next steps
+## Next steps
+
 - To customize policy assignments, please proceed with [Customize Policy Assignment](../Customize-Policy-Assignment)
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
