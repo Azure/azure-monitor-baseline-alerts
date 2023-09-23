@@ -3,6 +3,10 @@ title: Deploy with Azure Pipelines
 weight: 50
 ---
 
+{{< hint type=Important >}}
+Updating from a preview version is not supported. If you deployed a preview version, please proceed with [Cleaning Up Preview Version Deployment](../Cleaning-Up-Preview-Version-Deployment) before continuing.
+{{< /hint >}}
+
 ## 1. Parameter configuration
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
@@ -13,31 +17,41 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 - Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
+<!--
 - Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
+-->
 - Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
 - Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address where notifications of the alerts are sent to.
 - If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_, _enableAMBAServiceHealth_ to "No".
 
 ### If you are aligned to ALZ
+
+- Change the value of _platformManagementGroup_ to the management group id for Platform.
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity.
 - Change the value of _managementManagementGroup_ to the management group id for Management.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity.
 - Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones.
 
 ### If you are unaligned to ALZ
+
+- Change the value of _platformManagementGroup_ to the management group id for Platform. The same management group id may be repeated.
 - Change the value of _IdentityManagementGroup_ to the management group id for Identity. The same management group id may be repeated.
 - Change the value of _managementManagementGroup_ to the management group id for Management. The same management group id may be repeated.
 - Change the value of _connectivityManagementGroup_ to the management group id for Connectivity. The same management group id may be repeated.
-- Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones. The same management group id may be repeated
+- Change the value of _LandingZoneManagementGroup_ to the management group id for Landing Zones. The same management group id may be repeated.
+
 {{< hint type=note >}}
 For ease of deployment and maintenance we have kept the same variables. If, for example, you combined Identity, Management and Connectivity into one management group you should configure the variables _identityManagementGroup_, _managementManagementGroup_ and _connectivityManagementGroup_ with the same management group id.
 {{< /hint >}}
 
 ### If you have a single management group
+
+- Change the value of _platformManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _IdentityManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _managementManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _connectivityManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Change the value of _LandingZoneManagementGroup_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
+
 {{< hint type=note >}}
 For ease of deployment and maintenance we have kept the same variables. Configure the variables _enterpriseScaleCompanyPrefix_, _identityManagementGroup_, _managementManagementGroup_, _connectivityManagementGroup_ and _LZManagementGroup_ with the pseudo root management group id.
 {{< /hint >}}
@@ -53,6 +67,9 @@ Note that the parameter file shown below has been truncated for brevity, compare
     "parameters": {
         "enterpriseScaleCompanyPrefix": {
             "value": "contoso"
+        },
+        "platformManagementGroup": {
+            "value": "contoso-platform"
         },
         "IdentityManagementGroup": {
             "value": "contoso-identity"
@@ -101,6 +118,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
 ```
 
 ## 3. Configure and run the pipeline
+
 First configure your Azure DevOps project with a pipeline hosted in GitHub as described [here](https://learn.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#access-to-github-repositories). The pipeline should be configured to use the [sample-pipeline.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-pipeline.yml) file.
 
 Also in your Azure DevOps project, configure a service connection to your Azure subscription as described [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops&tabs=yaml). The service connection should target the intermediate root management group for ALZ aligned deployments or the management group where you wish to deploy the policies and the initiatives for ALZ unaligned deployments.
@@ -116,5 +134,5 @@ Also in your Azure DevOps project, configure a service connection to your Azure 
 Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
 {{< /hint >}}
 
-# Next steps
-- To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)
+## Next steps
+To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)
