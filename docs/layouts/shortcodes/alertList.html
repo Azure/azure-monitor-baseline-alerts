@@ -1,15 +1,16 @@
 <!--
 Alert List
-
-Params:
-    url:        path or url of your alerts.json
 -->
 
-{{ with $.Get "data" }}
-  {{ $data := . }}
-  {{ $url := path.Join $.Page.File.Dir $data }}
-  {{ $name := . }}
-  {{ $data := getJSON $url }}
+<!-- Get resouce type and category from page path -->
+{{ $pageDir := path.Dir $.Page.File.Path }}
+{{ $parentDir := path.Dir $pageDir }}
+{{ $category := path.BaseName $parentDir }}
+{{ $type := path.BaseName $pageDir }}
+
+
+{{ with (index (index $.Site.Data.Alerts $category) $type) }}
+  <!-- Create a table of all alerts under category/type -->
   <div>
     <table>
       <tr>
@@ -17,11 +18,11 @@ Params:
         <th>Type</th>
         <th>Description</th>
       </tr>
-      {{ range $data.alerts }}
-        {{ $alert := . }}
+      <!-- Loop through alerts under category/type -->
+      {{ range .alerts }}
         <tr>
           <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
-          <td>{{ .details.type }}</td>
+          <td>{{ .type }}</td>
           <td>{{ .description }}</td>
         </tr>
       {{ end }}
@@ -30,21 +31,54 @@ Params:
 
   <br>
 
-  {{ range $data.alerts }}
-    <br><br>
+  <!-- Create a detail entry for each alert under category/type -->
+  {{ range .alerts }}
+  <br><br>
     <div id="{{ anchorize .name }}">
       <hr style="height: 4px;">
-      <h3>{{ .name }}</h3>
-      <p><i>{{ .description }}</i><p>
-      {{ if eq .details.type "Log" }}
+      <h3>{{ .name }} - {{ .type }} Alert</h3>
+      <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
+      <h4>Recommended Properties:</h4>
+      {{ range $key, $value := .properties }}
+        <div style="text-indent: 1%;">
+          {{ if reflect.IsMap $value }}
+            {{ humanize $key  }}:
+              {{ range $key, $value := $value }}
+                <div style="text-indent: 2%;">
+                  {{ if reflect.IsMap $value }}
+                    {{ humanize $key  }}:
+                      {{ range $key, $value := $value }}
+                        <div style="text-indent: 3%;">
+                          {{ humanize $key  }}: {{ $value }}
+                        </div>
+                      {{ end }}
+                  {{ else }}
+                    {{ humanize $key  }}: {{ $value }}
+                  {{ end }}
+                </div>
+              {{ end }}
+          {{ else if ne $key "query"  }}
+            {{ humanize $key  }}: {{ $value }}
+          {{ end }}
+        </div>
+      {{ end }}
+      {{ if .properties.query }}
         <div>
           <h4>Query:</h4>
           <div>
-            {{ $code := replace .details.query "|" "\n|" }}
-            {{ transform.Highlight $code "sql" }}
+            {{ transform.Highlight .properties.query "plaintext" }}
           </div>
         </div>
       {{ end }}
+      <h4>References:</h4>
+      <table>
+        {{ range .references }}
+          <tr>
+            <td><a href="{{ .url }}" target="_blank">{{ .name }}</a></td>
+            {{ $url := path.Join $.Page.File.Dir .template }}
+          </tr>
+        {{ end }}
+      </table>
       <h4>Deployment Templates:</h4>
       <table>
         {{ range .deployments }}
@@ -60,4 +94,3 @@ Params:
     </div>
   {{ end }}
 {{ end }}
-

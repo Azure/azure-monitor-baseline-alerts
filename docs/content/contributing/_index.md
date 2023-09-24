@@ -13,6 +13,76 @@ Looking to contribute to the Azure Monitor Baseline Alerts (AMBA) repo, well you
 
 Follow the below instructions, especially the pre-requisites, to get started contributing to the library.
 
+## Quickstart Guide
+
+If you are looking to help contribute to the definition and guidence for Baseline Alerts, then this section will give you the shortcut way without having deal with the more advance components of this site.
+
+The example folder structure below highlights all of the key assets that define and/or support the content of this site:
+
+```
+├── patterns
+│   └── alz
+│
+└── services
+    ├── Compute
+    │   └── virtualMachines
+    │       ├── Deploy-VM-AvailableMemory-Alert.json
+    │       ├── Deploy-VM-DataDiskReadLatency-Alert.json
+    │       └── _index.md
+    ├── _index.md
+    └── Alerts.yaml
+```
+
+**patterns:** *This folder contains assets for pattern/scenario specfic guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
+
+**services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines).  You will need to added new category and type folders as you define new baseline alerts. These folder are case-sensitive and follow the pattern defined by the Azure resrouce reference documentation. [Azure Resource Reference](https://learn.microsoft.com/azure)*
+
+**_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource categories, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
+
+**Alerts.yaml:** *This YAML-based file contains the detailed configuration for the baseline alerts. Below is the general structure of the file.*
+
+```yaml
+<resourceCategory>:
+  <resourceType>:
+    alerts:
+    - name: <alert name>
+    - description: <alert description>
+    - type: <alert type>
+    - properties:
+      <list of properties that define the alert base on type>
+    - references:
+      <list of urls the contain additonal guidance for the alert>
+    - deployments:
+      <a list of example deployment templates for the alert>
+```
+
+Here is an example of an alert definition for an Azure Virtual Machine (Microsoft.Compute/virtualMachines).
+
+```yaml
+Compute:
+  virtualMachines:
+    alerts:
+    - name: Available Memory Bytes (MBytes)
+      description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
+      type: Metric
+      properties:
+        metricName: Available Memory Bytes
+        metricNamespace: Microsoft.Compute/virtualMachines
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1000
+        criterionType: StaticThresholdCriterion
+      references:
+      - name: Supported Metrics for Microsoft.Compute/virtualMachines
+        urls: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
+      deployments:
+      - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
+        template: Deploy-VM-AvailableMemory-Alert.json
+```
+
 ## Context/Background
 
 Before jumping into the pre-requisites and specific section contribution guidance, please familiarize yourself with this context/background on how this library is built to help you contribute going forward.

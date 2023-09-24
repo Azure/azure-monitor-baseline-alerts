@@ -1,0 +1,1588 @@
+Automation:
+  automationAccounts:
+    alerts:
+    - name: TotalJob
+      description: Metric Alert for Automation Account TotalJob Alert
+      type: Metric
+      properties:
+        metricName: TotalJob
+        metricNamespace: Microsoft.Automation/automationAccounts
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 0
+        criterionType: StaticThresholdCriterion
+        dimensions:
+        - Status:
+            operator: Exclude
+            values:
+            - Completed
+      deployments:
+      - description: Policy to audit/deploy Automation Account TotalJob Alert
+        template: Deploy-AA-TotalJob-Alert.json
+Compute:
+  virtualMachines:
+    alerts:
+    - name: Available Memory Bytes (MBytes)
+      description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
+      type: Metric
+      properties:
+        metricName: Available Memory Bytes
+        metricNamespace: Microsoft.Compute/virtualMachines
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1000
+        criterionType: StaticThresholdCriterion
+      references:
+      - name: Supported Metrics for Microsoft.Compute/virtualMachines
+        url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
+      deployments:
+      - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
+        template: Deploy-VM-AvailableMemory-Alert.json
+    - name: Data Disk Read Latency (ms)
+      description: Log Alert for Virtual Machine Data Disk Read Latency (ms)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 30
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | where Disk !in ('C:','/')
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM Data Disk Read Latency Alert
+        template: Deploy-VM-DataDiskReadLatency-Alert.json
+    - name: Data Disk Free Space Percentage
+      description: Log Alert for Virtual Machine Data Disk Free Space Percentage
+      type: Log
+      properties:
+        severity: 2
+        operator: LessThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk"and Name == "FreeSpacePercentage"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | where Disk !in ('C:','/')
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM Data Disk Free Space Percentage Alert
+        template: Deploy-VM-DataDiskSpace-Alert.json
+    - name: Data Disk Write Latency (ms)
+      description: Log Alert for Virtual Machine Data Disk Write Latency (ms)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 30
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | where Disk !in ('C:','/')
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM Data Disk Write Latency Alert
+        template: Deploy-VM-DataDiskWriteLatency-Alert.json
+    - name: Heartbeat
+      description: Log Alert for Virtual Machine Heartbeat
+      type: Log
+      properties:
+        severity: 1
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          Heartbeat
+          | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
+          | extend Duration = datetime_diff('minute',now(),TimeGenerated)
+          | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId
+      deployments:
+      - description: Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription
+        template: Deploy-VM-HeartBeat-Alert.json
+      - description: Policy to audit/deploy VM HeartBeat Alert for VMs in the resource
+          group
+        template: Deploy-VM-HeartBeatAlertRG.json
+    - name: Network Read (bytes/sec)
+      description: Log Alert for Virtual Machine Network Read (bytes/sec)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10000000
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          NetworkInterface:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "Network" and Name == "ReadBytesPerSecond"
+          | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+      deployments:
+      - description: Policy to audit/deploy VM Nework Read (bytes/sec) Alert
+        template: Deploy-VM-NetworkIn-Alert.json
+    - name: Network Write (bytes/sec)
+      description: Log Alert for Virtual Machine Network Write (bytes/sec)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10000000
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          NetworkInterface:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "Network" and Name == "WriteBytesPerSecond"
+          | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+      deployments:
+      - description: Policy to audit/deploy VM Nework Write (bytes/sec) Alert
+        template: Deploy-VM-NetworkOut-Alert.json
+    - name: OS Disk Read Latency (ms)
+      description: Log Alert for Virtual Machine Data OS Read Latency (ms)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 30
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM OS Disk Read Latency Alert
+        template: Deploy-VM-OSDiskReadLatency-Alert.json
+    - name: OS Disk Free Space Percentage
+      description: Log Alert for Virtual Machine OS Disk Free Space Percentage
+      type: Log
+      properties:
+        severity: 2
+        operator: LessThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM OS Disk Free Space Percentage Alert
+        template: Deploy-VM-OSDiskSpace-Alert.json
+    - name: OS Disk Write Latency (ms)
+      description: Log Alert for Virtual Machine OS Disk Write Latency (ms)
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 50
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+          Disk:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics| where Origin == "vm.azm.ms"
+          | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+          | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+      deployments:
+      - description: Policy to audit/deploy VM OS Disk Write Latency Alert
+        template: Deploy-VM-OSDiskWriteLatency-Alert.json
+    - name: Processor Utilization Percentage
+      description: Log Alert for Virtual Machine Processor Utilization Percentage
+      type: Log
+      properties:
+        severity: 2
+        operator: GreaterThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 85
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "Processor" and Name == "UtilizationPercentage"
+          | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId
+      deployments:
+      - description: Policy to audit/deploy VM Processor Utilization Percentage Alert
+        template: Deploy-VM-PercentCPU-Alert.json
+    - name: Available Memory Percentage
+      description: Log Alert for Virtual Machine Available Memory Percentage
+      type: Log
+      properties:
+        severity: 2
+        operator: LessThan
+        timeAggregation: Average
+        windowSize: PT15M
+        evaluationFrequency: PT5M
+        threshold: 10
+        metricMeasureColumn: AggregatedValue
+        resouceIdColumn: _ResourceId
+        dimensions:
+          Computer:
+            operator: Include
+            values: ['*']
+        failingPeriods:
+          numberOfEvaluationPeriods: 1
+          minFailingPeriodsToAlert: 1
+        query: |
+          InsightsMetrics
+          | where Origin == "vm.azm.ms"
+          | where Namespace == "Memory" and Name == "AvailableMB"
+          | extend TotalMemory = toreal(todynamic(Tags)["vm.azm.ms/memorySizeMB"])
+          | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0
+          | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId
+      deployments:
+      - description: Policy to audit/deploy VM Available Memory Percentage Alert
+        template: Deploy-VM-PercentMemory-Alert.json
+KeyVault:
+  vaults:
+    alerts:
+    - name: Activity Log Key Vault Delete
+      description: Activity Log Alert for Key Vault Delete
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.KeyVault/vaults/delete
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log Key Vault Delete Alert
+        template: Deploy-ActivityLog-KeyVault-Del.json
+    - name: Availability
+      description: Metric Alert for KeyVault Availability
+      type: Metric
+      properties:
+        metricName: Availability
+        metricNamespace: Microsoft.KeyVault/vaults
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy KeyVault Availability Alert
+        template: Deploy-KV-Availability-Alert.json
+    - name: Saturation Shoebox
+      description: Metric Alert for KeyVault Capacity
+      type: Metric
+      properties:
+        metricName: SaturationShoebox
+        metricNamespace: Microsoft.KeyVault/vaults
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 75
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy KeyVault Capacity Alert
+        template: Deploy-KV-Capacity-Alert.json
+    - name: Service API Latency
+      description: Metric Alert for KeyVault Latency
+      type: Metric
+      properties:
+        metricName: ServiceApiLatency
+        metricNamespace: Microsoft.KeyVault/vaults
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 1000
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy KeyVault Latency Alert
+        template: Deploy-KV-Latency-Alert.json
+    - name: Service API Result
+      description: Metric Alert for KeyVault Requests
+      type: Metric
+      properties:
+        metricName: ServiceApiResult
+        metricNamespace: Microsoft.KeyVault/vaults
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy KeyVault Requests Alert
+        template: Deploy-KV-Requests-Alert.json
+Network:
+  applicationGateways:
+    alerts:
+    - name: Application Gateway Total Time
+      description: Metric Alert for App Gateway ApplicationGatewayTotalTime
+      type: Metric
+      properties:
+        metricName: ApplicationGatewayTotalTime
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Total
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 2
+          minFailingPeriodsToAlert: 2
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway ApplicationGatewayTotalTime Alert
+        template: Deploy-AGW-ApplicationGatewayTotalTime-Alert.json
+    - name: Backend Last Byte Response Time
+      description: Metric Alert for App Gateway BackendLastByteResponseTime
+      type: Metric
+      properties:
+        metricName: BackendLastByteResponseTime
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Total
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 2
+          minFailingPeriodsToAlert: 2
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway BackendLastByteResponseTime Alert
+        template: Deploy-AGW-BackendLastByteResponseTime-Alert.json
+    - name: Capacity Units
+      description: Metric Alert for App Gateway Capacity
+      type: Metric
+      properties:
+        metricName: CapacityUnits
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 75
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway CapacityUnits Alert
+        template: Deploy-AGW-CapacityUnits-Alert.json
+    - name: Compute Units
+      description: Metric Alert for App Gateway Compute Units
+      type: Metric
+      properties:
+        metricName: ComputeUnits
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 75
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway CapacityUnits Alert
+        template: Deploy-AGW-CapacityUnits-Alert.json
+    - name: Cpu Utilization
+      description: Metric Alert for App Gateway CPU Utilization
+      type: Metric
+      properties:
+        metricName: CpuUtilization
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway CPU Utilization Alert
+        template: Deploy-AGW-CPUUtil-Alert.json
+    - name: Failed Requests
+      description: Metric Alert for App Gateway FailedRequests
+      type: Metric
+      properties:
+        metricName: FailedRequests
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Total
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 2
+          minFailingPeriodsToAlert: 2
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway FailedRequests Alert
+        template: Deploy-AGW-FailedRequests-Alert.json
+    - name: Response Status
+      description: Metric Alert for App Gateway ResponseStatus
+      type: Metric
+      properties:
+        metricName: ResponseStatus
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Total
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        dimensions:
+          HttpStatusGroup:
+            operator: Include
+            values: [4xx, 5xx]
+        failingPeriods:
+          numberOfEvaluationPeriods: 2
+          minFailingPeriodsToAlert: 2
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway ResponseStatus Alert
+        template: Deploy-AGW-ResponseStatus-Alert.json
+    - name: Unhealthy Host Count
+      description: Metric Alert for App Gateway Unhealthy Host Count
+      type: Metric
+      properties:
+        metricName: UnhealthyHostCount
+        metricNamespace: Microsoft.Network/applicationGateways
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 20
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Application Gateway Unhealthy Host Count Alert
+        template: Deploy-AGW-UnhealthyHostCount-Alert.json
+  azureFirewalls:
+    alerts:
+    - name: Activity Log Azure Firewall Delete
+      description: Activity Log Alert for Azure Firewall Delete
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.Network/azureFirewalls/delete
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log Azure Firewall Delete Alert
+        template: Deploy-ActivityLog-AzureFirewall-Del.json
+    - name: Firewall Health
+      description: Metric Alert for AFW FirewallHealth
+      type: Metric
+      properties:
+        metricName: FirewallHealth
+        metricNamespace: Microsoft.Network/azureFirewalls
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Firewall FirewallHealth Alert
+        template: Deploy-AFW-FirewallHealth-Alert.json
+    - name: SNAT Port Utilization
+      description: Metric Alert for AFW SNATPortUtilization
+      type: Metric
+      properties:
+        metricName: SNATPortUtilization
+        metricNamespace: Microsoft.Network/azureFirewalls
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Firewall SNATPortUtilization Alert
+        template: Deploy-AFW-SNATPortUtilization-Alert.json
+  expressRouteCircuits:
+    alerts:
+    - name: ARP Availability
+      description: Metric Alert for ExpressRoute Circuit ARP Availability
+      type: Metric
+      properties:
+        metricName: ArpAvailability
+        metricNamespace: Microsoft.Network/expressRouteCircuits
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ExpressRoute Circuits ARP Availability Alert
+        template: Deploy-ERCIR-ARPAvailability-Alert.json
+    - name: BGP Availability
+      description: Metric Alert for ExpressRoute Circuit BGP Availability
+      type: Metric
+      properties:
+        metricName: BgpAvailability
+        metricNamespace: Microsoft.Network/expressRouteCircuits
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ExpressRoute Circuits BGP Availability Alert
+        template: Deploy-ERCIR-BGPAvailability-Alert.json
+    - name: QOS Drop Bits In Per Second
+      description: Metric Alert for ExpressRoute Circuit QosDropBitsInPerSecond
+      type: Metric
+      properties:
+        metricName: QosDropBitsInPerSecond
+        metricNamespace: Microsoft.Network/expressRouteCircuits
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
+        template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
+    - name: QOS Drop Bits Out Per Second
+      description: Metric Alert for ExpressRoute Circuit QosDropBitsOutPerSecond
+      type: Metric
+      properties:
+        metricName: QosDropBitsOutPerSecond
+        metricNamespace: Microsoft.Network/expressRouteCircuits
+        severity: 2
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
+        template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json
+  expressRouteGateways:
+    alerts:
+    - name: ER Gateway Connection Bits In Per Second
+      description: Metric Alert for ER Gateway Connection BitsInPerSecond
+      type: Metric
+      properties:
+        metricName: ERGatewayConnectionBitsInPerSecond
+        metricNamespace: Microsoft.Network/expressRouteGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Gateway Connection BitsInPerSecond Alert
+        template: Deploy-ERG-BitsInPerSecond-Alert.json
+    - name: ER Gateway Connection Bits Out Per Second
+      description: Metric Alert for ER Gateway Connection BitsOutPerSecond
+      type: Metric
+      properties:
+        metricName: ERGatewayConnectionBitsOutPerSecond
+        metricNamespace: Microsoft.Network/expressRouteGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Gateway Connection BitsOutPerSecond Alert
+        template: Deploy-ERG-BitsOutPerSecond-Alert.json
+    - name: ExpressRoute Gateway CPU Utilization
+      description: Metric Alert for ER Gateway Express Route CPU Utilization
+      type: Metric
+      properties:
+        metricName: ExpressRouteGatewayCpuUtilization
+        metricNamespace: Microsoft.Network/expressRouteGateways
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Gateway Express Route CPU Utilization Alert
+        template: Deploy-ERG-CPUUtilization-Alert.json
+  expressRoutePorts:
+    alerts:
+    - name: Port Bits In Per Second
+      description: Metric Alert for ER Direct Connection BitsInPerSecond
+      type: Metric
+      properties:
+        metricName: PortBitsInPerSecond
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct Connection BitsInPerSecond Alert
+        template: Deploy-ERP-BitsInPerSecond-Alert.json
+    - name: Port Bits Out Per Second
+      description: Metric Alert for ER Direct Connection BitsOutPerSecond
+      type: Metric
+      properties:
+        metricName: PortBitsOutPerSecond
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct Connection BitsOutPerSecond Alert
+        template: Deploy-ERP-BitsOutPerSecond-Alert.json
+    - name: Line Protocol
+      description: Metric Alert for ER Direct Connection LineProtocol
+      type: Metric
+      properties:
+        metricName: LineProtocol
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 0.9
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct LineProtocol Alert
+        template: Deploy-ERP-LineProtocol-Alert.json
+    - name: Rx Light Level High
+      description: Metric Alert for ER Direct Connection RxLightLevel High
+      type: Metric
+      properties:
+        metricName: RxLightLevel
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 0
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct RxLightLevel High Alert
+        template: Deploy-ERP-RxLightLevelHigh-Alert.json
+    - name: Rx Light Level Low
+      description: Metric Alert for ER Direct Connection RxLightLevel Low
+      type: Metric
+      properties:
+        metricName: RxLightLevel
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: -10
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct RxLightLevel Low Alert
+        template: Deploy-ERP-RxLightLevelLow-Alert.json
+    - name: Tx Light Level High
+      description: Metric Alert for ER Direct Connection TxLightLevel High
+      type: Metric
+      properties:
+        metricName: TxLightLevel
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 0
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct TxLightLevel High Alert
+        template: Deploy-ERP-TxLightLevelHigh-Alert.json
+    - name: Tx Light Level Low
+      description: Metric Alert for ER Direct Connection TxLightLevel Low
+      type: Metric
+      properties:
+        metricName: TxLightLevel
+        metricNamespace: Microsoft.Network/expressRoutePorts
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: -10
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy ER Direct TxLightLevel Low Alert
+        template: Deploy-ERP-TxLightLevelLow-Alert.json
+  loadBalancers:
+    alerts:
+    - name: Vip Availability
+      description: Metric Alert for ALB Data Path Availability
+      type: Metric
+      properties:
+        metricName: VipAvailability
+        metricNamespace: Microsoft.Network/loadBalancers
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Load Balancer Data Path Availability Alert
+        template: Deploy-LB-DatapathAvailability-Alert.json
+    - name: Global Backend Availability
+      description: Metric Alert for Global Backend Availability
+      type: Metric
+      properties:
+        metricName: GlobalBackendAvailability
+        metricNamespace: Microsoft.Network/loadBalancers
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Load Balancer Global Backend Availability Alert
+        template: Deploy-LB-GlobalBackendAvailability-Alert.json
+    - name: Dip Availability
+      description: Metric Alert for ALB Health Probe Status
+      type: Metric
+      properties:
+        metricName: DipAvailability
+        metricNamespace: Microsoft.Network/loadBalancers
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Load Balancer Health Probe Status Alert
+        template: Deploy-LB-HealthProbeStatus-Alert.json
+    - name: Used SNAT Ports
+      description: Metric Alert for ALB Used SNAT Ports
+      type: Metric
+      properties:
+        metricName: UsedSNATPorts
+        metricNamespace: Microsoft.Network/loadBalancers
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 900
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Azure Load Balancer Used SNAT Ports Alert
+        template: Deploy-LB-UsedSNATPorts-Alert.json
+  networkSecurityGroups:
+    alerts:
+    - name: Activity Log NSG Delete
+      description: Activity Log Alert for NSG Delete
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.Network/networkSecurityGroups/delete
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log NSG Delete Alert
+        template: Deploy-ActivityLog-NSG-Del.json
+  privateDnsZones:
+    alerts:
+    - name: Virtual Network Link Capacity Utilization
+      description: Metric Alert for Private DNS Zone Virtual Network Link Capacity Utilization
+      type: Metric
+      properties:
+        metricName: VirtualNetworkLinkCapacityUtilization
+        metricNamespace: Microsoft.Network/privateDnsZones
+        severity: 2
+        windowSize: PT1H
+        evaluationFrequency: PT1H
+        timeAggregation: Maximum
+        operator: GreaterThanOrEqual
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Private DNS Zone Capacity Utilization Alert
+        template: Deploy-PDNSZ-CapacityUtilization-Alert.json
+    - name: Query Volume
+      description: Metric Alert for Private DNS Query Volume
+      type: Metric
+      properties:
+        metricName: QueryVolume
+        metricNamespace: Microsoft.Network/privateDnsZones
+        severity: 4
+        windowSize: PT1H
+        evaluationFrequency: PT1H
+        timeAggregation: Total
+        operator: GreaterThanOrEqual
+        threshold: 500
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Private DNS Zone Query Volume Alert
+        template: Deploy-PDNSZ-QueryVolume-Alert.json
+    - name: Record Set Capacity Utilization
+      description: Metric Alert for Private DNS Zone Record Set Capacity Utilization
+      type: Metric
+      properties:
+        metricName: RecordSetCapacityUtilization
+        metricNamespace: Microsoft.Network/privateDnsZones
+        severity: 2
+        windowSize: PT1H
+        evaluationFrequency: PT1H
+        timeAggregation: Maximum
+        operator: GreaterThanOrEqual
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Private DNS Zone Record Set Capacity Alert
+        template: Deploy-PDNSZ-RecordSetCapacity-Alert.json
+    - name: Virtual Network With Registration Capacity Utilization
+      description: Metric Alert for Private DNS Zone Registration Capacity Utilization
+      type: Metric
+      properties:
+        metricName: VirtualNetworkWithRegistrationCapacityUtilization
+        metricNamespace: Microsoft.Network/privateDnsZones
+        severity: 2
+        windowSize: PT1H
+        evaluationFrequency: PT1H
+        timeAggregation: Maximum
+        operator: GreaterThanOrEqual
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Private DNS Zone Registration Capacity Utilization Alert
+        template: Deploy-PDNSZ-RegistrationCapacityUtilization-Alert.json
+  publicIPAddresses:
+    alerts:
+    - name: Bytes In DDoS
+      description: Metric Alert for Public IP Address Bytes IN DDOS
+      type: Metric
+      properties:
+        metricName: bytesinddos
+        metricNamespace: Microsoft.Network/publicIPAddresses
+        severity: 4
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Maximum
+        operator: GreaterThan
+        threshold: 8000000
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy PIP Bytes in DDoS Attack Alert
+        template: Deploy-PIP-BytesInDDOSAttack-Alert.json
+    - name: If Under DDoS Attack
+      description: Metric Alert for Public IP Address Under Attack
+      type: Metric
+      properties:
+        metricName: ifunderddosattack
+        metricNamespace: Microsoft.Network/publicIPAddresses
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Maximum
+        operator: GreaterThan
+        threshold: 0
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy PIP DDoS Attack Alert
+        template: Deploy-PIP-DDOSAttack-Alert.json
+    - name: Packets In DDoS
+      description: Metric Alert for Public IP Address Packets IN DDOS
+      type: Metric
+      properties:
+        metricName: PacketsInDDoS
+        metricNamespace: Microsoft.Network/publicIPAddresses
+        severity: 4
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Total
+        operator: GreaterThanOrEqual
+        threshold: 40000
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy PIP Packets in DDoS Attack Alert
+        template: Deploy-PIP-PacketsInDDOS-Alert.json
+    - name: VIP Availability
+      description: Metric Alert for Public IP Address VIP Availability
+      type: Metric
+      properties:
+        metricName: VipAvailability
+        metricNamespace: Microsoft.Network/publicIPAddresses
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy PIP VIP Availability Alert
+        template: Deploy-PIP-VIPAvailability-Alert.json
+  routeTables:
+    alerts:
+    - name: Activity Log Route Table Update
+      description: Activity Log Alert for Route Table Update
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.Network/routeTables/routes/write
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log Route Table Update Alert
+        template: Deploy-ActivityLog-RouteTable-Update.json
+  virtualNetworkGateways:
+    alerts:
+    - name: Tunnel Average Bandwidth
+      description: Metric Alert for VNet Gateway Tunnel Avg Bandwidth
+      type: Metric
+      properties:
+        metricName: TunnelAverageBandwidth
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network Gateway Tunnel Bandwidth Alert
+        template: Deploy-VNETG-BandwidthUtilization-Alert.json
+    - name: Tunnel Egress Bytes
+      description: Metric Alert for VNet Gateway Tunnel Egress Bytes
+      type: Metric
+      properties:
+        metricName: TunnelEgressBytes
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network Gateway Tunnel Egress Alert
+        template: Deploy-VNETG-Egress-Alert.json
+    - name: Tunnel Egress Packet Drop Count
+      description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropCount
+      type: Metric
+      properties:
+        metricName: TunnelEgressPacketDropCount
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Count Alert
+        template: Deploy-VNETG-EgressPacketDropCount-Alert.json
+    - name: Tunnel Egress Packet Drop TS Mismatch
+      description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropTSMismatch
+      type: Metric
+      properties:
+        metricName: TunnelEgressPacketDropTSMismatch
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Mismatch Alert
+        template: Deploy-VNETG-EgressPacketDropMismatch-Alert.json
+    - name: ExpressRoute Gateway Bits Per Second
+      description: Metric Alert for VNet Gateway Express Route Bits Per Second
+      type: Metric
+      properties:
+        metricName: ExpressRouteGatewayBitsPerSecond
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network Gateway Express Route Bits Per Second Alert
+        template: Deploy-VNETG-ERGBitsPerSecond-Alert.json
+    - name: ExpressRoute Gateway CPU Utilization
+      description: Metric Alert for VNet Gateway Express Route CPU Utilization
+      type: Metric
+      properties:
+        metricName: ExpressRouteGatewayCpuUtilization
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: GreaterThan
+        threshold: 80
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network Gateway Express Route CPU Utilization
+        template: Deploy-VNETG-ERGCPUUtilization-Alert.json
+    - name: Tunnel Ingress Bytes
+      description: Metric Alert for VNet Gateway Tunnel ingress Bytes
+      type: Metric
+      properties:
+        metricName: TunnelIngressBytes
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network Gateway Tunnel Ingress Alert
+        template: Deploy-VNETG-Ingress-Alert.json
+    - name: Tunnel Ingress Packet Drop Count
+      description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropCount
+      type: Metric
+      properties:
+        metricName: TunnelIngressPacketDropCount
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Count Alert
+        template: Deploy-VNETG-IngressPacketDropCount-Alert.json
+    - name: Tunnel Ingress Packet Drop TS Mismatch
+      description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
+      type: Metric
+      properties:
+        metricName: TunnelIngressPacketDropCount
+        metricNamespace: Microsoft.Network/virtualNetworkGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch Alert
+        template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+  virtualNetworks:
+    alerts:
+    - name: If Under DDoS Attack
+      description: Metric Alert for VNet DDOS Attack
+      type: Metric
+      properties:
+        metricName: ifunderddosattack
+        metricNamespace: Microsoft.Network/virtualNetworks
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Maximum
+        operator: GreaterThan
+        threshold: 0
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy Virtual Network DDoS Attack Alert
+        template: Deploy-VNET-DDOSAttack-Alert.json
+  vpnGateways:
+    alerts:
+    - name: Activity Log VPN Gateway Delete
+      description: Activity Log Alert for VPN Gateway Delete
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.Network/vpnGateways/delete
+        status: [ succeeded ]
+      deployments:
+      - description: Policy to Deploy Activity Log VPN Gateway Delete Alert
+        template: Deploy-ActivityLog-VPNG-Del.json
+    - name: Tunnel Average Bandwidth
+      description: Metric Alert for VPN Gateway Bandwidth Utilization
+      type: Metric
+      properties:
+        metricName: tunnelaveragebandwidth
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Bandwidth Utilization Alert
+        template: Deploy-VPNG-BandwidthUtilization-Alert.json
+    - name: BGP Peer Status
+      description: Metric Alert for VPN Gateway BGP peer status
+      type: Metric
+      properties:
+        metricName: bgppeerstatus
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT1M
+        timeAggregation: Total
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway BGP Peer Status Alert
+        template: Deploy-VPNG-BGPPeerStatus-Alert.json
+    - name: Tunnel Egress Bytes
+      description: Metric Alert for VPN Gateway tunnel egress bytes
+      type: Metric
+      properties:
+        metricName: tunnelegressbytes
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Egress Alert
+        template: Deploy-VPNG-Egress-Alert.json
+    - name: Tunnel Egress Packet Drop Count
+      description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropCount
+      type: Metric
+      properties:
+        metricName: TunnelEgressPacketDropCount
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Egress Packet Drop Count Alert
+        template: Deploy-VPNG-EgressPacketDropCount-Alert.json
+    - name: Tunnel Egress Packet Drop TS Mismatch
+      description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropTSMismatch
+      type: Metric
+      properties:
+        metricName: TunnelEgressPacketDropTSMismatch
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Egress Packet Drop Mismatch Alert
+        template: Deploy-VPNG-EgressPacketDropMismatch-Alert.json
+    - name: Tunnel Ingress Bytes
+      description: Metric Alert for VPN Gateway tunnel ingress bytes
+      type: Metric
+      properties:
+        metricName: tunnelingressbytes
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 0
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 1
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Ingress Alert
+        template: Deploy-VPNG-Ingress-Alert.json
+    - name: Tunnel Ingress Packet Drop Count
+      description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropCount
+      type: Metric
+      properties:
+        metricName: TunnelIngressPacketDropCount
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy VPN Gateway Ingress Packet Drop Count Alert
+        template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+    - name: Tunnel Ingress Packet Drop TS Mismatch
+      description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
+      type: Metric
+      properties:
+        metricName: TunnelIngressPacketDropTSMismatch
+        metricNamespace: Microsoft.Network/vpnGateways
+        severity: 3
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: GreaterThan
+        criterionType: DynamicThresholdCriterion
+        alertSensitivity: Medium
+        failingPeriods:
+          numberOfEvaluationPeriods: 4
+          minFailingPeriodsToAlert: 4
+      deployments:
+      - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch Alert
+        template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+OperationalInsights:
+  workspaces:
+    alerts:
+    - name: Activity Log LA Workspace Delete
+      description: Activity Log LA Workspace Delete
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.OperationalInsights/workspaces/delete
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log LA Workspace Delete Alert
+        template: Deploy-ActivityLog-LAWorkspace-Del.json
+    - name: Activity Log LA Workspace Regenerate Key
+      description: Activity Log Alert for LA Workspace Regenerate Key
+      type: ActivityLog
+      properties:
+        category: Administrative
+        operationName: Microsoft.OperationalInsights/workspaces/regeneratesharedkey/action
+        status: [ succeeded ]
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Activity Log LA Workspace Regenerate Key Alert
+        template: Deploy-ActivityLog-LAWorkspace-KeyRegen.json
+Resources:
+  subscriptions:
+    alerts:
+    - name: Resource Health Unhealthy
+      description: Resource Health Unhealthy Alert
+      type: ActivityLog
+      properties:
+        category: ResourceHealth
+        causes: [ PlatoformInitiated, UserInitiated ]
+        currentHealthStatus: [ Degraded, Unavailable ]
+      references:
+      - name: Resource Health
+        url: https://learn.microsoft.com/azure/service-health/resource-health-overview
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Resource Health Unhealthy Alert
+        template: Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json
+    - name: Service Health Advisory
+      description: Service Health Advisory Alert
+      type: ActivityLog
+      properties:
+        category: ServiceHealth
+        incidentType: ActionRequired
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Service Health Advisory Alert
+        template: Deploy-ActivityLog-ServiceHealth-Health.json
+    - name: Service Health Incident
+      description: Service Health Incident Alert
+      type: ActivityLog
+      properties:
+        category: ServiceHealth
+        incidentType: Incident
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Service Health Incident Alert
+        template: Deploy-ActivityLog-ServiceHealth-Incident.json
+    - name: Service Health Maintenance
+      description: Service Health Maintenance Alert
+      type: ActivityLog
+      properties:
+        category: ServiceHealth
+        incidentType: Maintenance
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Service Health Maintenance Alert
+        template: Deploy-ActivityLog-ServiceHealth-Maintenance.json
+    - name: Service Health Security
+      description: Service Health Security Alert
+      type: ActivityLog
+      properties:
+        category: ServiceHealth
+        incidentType: Security
+      references:
+      - name: Activity Log Service Notifications
+        url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+      - name: Best practices for setting up service health alerts
+        url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+      deployments:
+      - description: Policy to Deploy Service Health Security Alert
+        template: Deploy-ActivityLog-ServiceHealth-Security.json
+Storage:
+  storageAccounts:
+    alerts:
+    - name: Deploy SA Availability Alert
+      description: Metric Alert for Storage Account Availability
+      type: Metric
+      properties:
+        metricName: Availability
+        metricNamespace: Microsoft.Storage/storageAccounts
+        severity: 1
+        windowSize: PT5M
+        evaluationFrequency: PT5M
+        timeAggregation: Average
+        operator: LessThan
+        threshold: 90
+        criterionType: StaticThresholdCriterion
+      deployments:
+      - description: Policy to audit/deploy SA Availability Alert
+        template: Deploy-SA-Availability-Alert.json
