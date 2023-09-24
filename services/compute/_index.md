@@ -1,5 +1,0 @@
----
-title: Compute
-geekdocCollapseSection: true
----
-
