@@ -1,0 +1,70 @@
+- name: ARP Availability
+  description: Metric Alert for ExpressRoute Circuit ARP Availability
+  type: Metric
+  properties:
+    metricName: ArpAvailability
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ExpressRoute Circuits ARP Availability Alert
+    template: Deploy-ERCIR-ARPAvailability-Alert.json
+- name: BGP Availability
+  description: Metric Alert for ExpressRoute Circuit BGP Availability
+  type: Metric
+  properties:
+    metricName: BgpAvailability
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ExpressRoute Circuits BGP Availability Alert
+    template: Deploy-ERCIR-BGPAvailability-Alert.json
+- name: QOS Drop Bits In Per Second
+  description: Metric Alert for ExpressRoute Circuit QosDropBitsInPerSecond
+  type: Metric
+  properties:
+    metricName: QosDropBitsInPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
+    template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
+- name: QOS Drop Bits Out Per Second
+  description: Metric Alert for ExpressRoute Circuit QosDropBitsOutPerSecond
+  type: Metric
+  properties:
+    metricName: QosDropBitsOutPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
+    template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json

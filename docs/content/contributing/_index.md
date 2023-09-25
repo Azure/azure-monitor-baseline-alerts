@@ -24,13 +24,14 @@ The example folder structure below highlights all of the key assets that define 
 │   └── alz
 │
 └── services
-    ├── Compute
-    │   └── virtualMachines
-    │       ├── Deploy-VM-AvailableMemory-Alert.json
-    │       ├── Deploy-VM-DataDiskReadLatency-Alert.json
-    │       └── _index.md
     ├── _index.md
-    └── Alerts.yaml
+    └── Compute
+        ├── _index.md
+        └── virtualMachines
+            ├── _index.md
+            ├── alerts.yaml
+            ├── Deploy-VM-AvailableMemory-Alert.json
+            └── Deploy-VM-DataDiskReadLatency-Alert.json
 ```
 
 **patterns:** *This folder contains assets for pattern/scenario specfic guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
@@ -39,48 +40,42 @@ The example folder structure below highlights all of the key assets that define 
 
 **_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource categories, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
 
-**Alerts.yaml:** *This YAML-based file contains the detailed configuration for the baseline alerts. Below is the general structure of the file.*
+**alerts.yaml:** *This YAML-based file contains the detailed defnition and guidance for the baseline alerts within each resource category/type folder. Below is the general structure of the file.*
 
 ```yaml
-<resourceCategory>:
-  <resourceType>:
-    alerts:
-    - name: <alert name>
-    - description: <alert description>
-    - type: <alert type>
-    - properties:
-      <list of properties that define the alert base on type>
-    - references:
-      <list of urls the contain additonal guidance for the alert>
-    - deployments:
-      <a list of example deployment templates for the alert>
+- name: <alert name>
+  description: <alert description>
+  type: <alert type>
+  properties:
+    <list of properties that define the alert base on type>
+  references:
+  - <list of urls the contain additonal guidance for the alert>
+  deployments:
+  - <a list of example deployment templates for the alert>
 ```
 
 Here is an example of an alert definition for an Azure Virtual Machine (Microsoft.Compute/virtualMachines).
 
 ```yaml
-Compute:
-  virtualMachines:
-    alerts:
-    - name: Available Memory Bytes (MBytes)
-      description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
-      type: Metric
-      properties:
-        metricName: Available Memory Bytes
-        metricNamespace: Microsoft.Compute/virtualMachines
-        severity: 2
-        windowSize: PT5M
-        evaluationFrequency: PT5M
-        timeAggregation: Average
-        operator: LessThan
-        threshold: 1000
-        criterionType: StaticThresholdCriterion
-      references:
-      - name: Supported Metrics for Microsoft.Compute/virtualMachines
-        urls: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
-      deployments:
-      - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
-        template: Deploy-VM-AvailableMemory-Alert.json
+- name: Available Memory Bytes (MBytes)
+  description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
+  type: Metric
+  properties:
+    metricName: Available Memory Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1000
+    criterionType: StaticThresholdCriterion
+  references:
+  - name: Supported Metrics for Microsoft.Compute/virtualMachines
+    urls: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
+  deployments:
+  - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
+    template: Deploy-VM-AvailableMemory-Alert.json
 ```
 
 ## Context/Background

@@ -1,0 +1,64 @@
+- name: Bytes In DDoS
+  description: Metric Alert for Public IP Address Bytes IN DDOS
+  type: Metric
+  properties:
+    metricName: bytesinddos
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 4
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    threshold: 8000000
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy PIP Bytes in DDoS Attack Alert
+    template: Deploy-PIP-BytesInDDOSAttack-Alert.json
+- name: If Under DDoS Attack
+  description: Metric Alert for Public IP Address Under Attack
+  type: Metric
+  properties:
+    metricName: ifunderddosattack
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    threshold: 0
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy PIP DDoS Attack Alert
+    template: Deploy-PIP-DDOSAttack-Alert.json
+- name: Packets In DDoS
+  description: Metric Alert for Public IP Address Packets IN DDOS
+  type: Metric
+  properties:
+    metricName: PacketsInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 4
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThanOrEqual
+    threshold: 40000
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy PIP Packets in DDoS Attack Alert
+    template: Deploy-PIP-PacketsInDDOS-Alert.json
+- name: VIP Availability
+  description: Metric Alert for Public IP Address VIP Availability
+  type: Metric
+  properties:
+    metricName: VipAvailability
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy PIP VIP Availability Alert
+    template: Deploy-PIP-VIPAvailability-Alert.json

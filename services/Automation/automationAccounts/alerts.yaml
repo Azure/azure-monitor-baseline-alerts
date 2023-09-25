@@ -1,0 +1,21 @@
+- name: TotalJob
+  description: Metric Alert for Automation Account TotalJob Alert
+  type: Metric
+  properties:
+    metricName: TotalJob
+    metricNamespace: Microsoft.Automation/automationAccounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 0
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - Status:
+        operator: Exclude
+        values:
+        - Completed
+  deployments:
+  - description: Policy to audit/deploy Automation Account TotalJob Alert
+    template: Deploy-AA-TotalJob-Alert.json

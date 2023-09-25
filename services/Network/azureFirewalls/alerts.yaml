@@ -1,0 +1,47 @@
+- name: Activity Log Azure Firewall Delete
+  description: Activity Log Alert for Azure Firewall Delete
+  type: ActivityLog
+  properties:
+    category: Administrative
+    operationName: Microsoft.Network/azureFirewalls/delete
+    status: [ succeeded ]
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Activity Log Azure Firewall Delete Alert
+    template: Deploy-ActivityLog-AzureFirewall-Del.json
+- name: Firewall Health
+  description: Metric Alert for AFW FirewallHealth
+  type: Metric
+  properties:
+    metricName: FirewallHealth
+    metricNamespace: Microsoft.Network/azureFirewalls
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Firewall FirewallHealth Alert
+    template: Deploy-AFW-FirewallHealth-Alert.json
+- name: SNAT Port Utilization
+  description: Metric Alert for AFW SNATPortUtilization
+  type: Metric
+  properties:
+    metricName: SNATPortUtilization
+    metricNamespace: Microsoft.Network/azureFirewalls
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Firewall SNATPortUtilization Alert
+    template: Deploy-AFW-SNATPortUtilization-Alert.json

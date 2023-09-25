@@ -1,0 +1,71 @@
+- name: Resource Health Unhealthy
+  description: Resource Health Unhealthy Alert
+  type: ActivityLog
+  properties:
+    category: ResourceHealth
+    causes: [ PlatoformInitiated, UserInitiated ]
+    currentHealthStatus: [ Degraded, Unavailable ]
+  references:
+  - name: Resource Health
+    url: https://learn.microsoft.com/azure/service-health/resource-health-overview
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Resource Health Unhealthy Alert
+    template: Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json
+- name: Service Health Advisory
+  description: Service Health Advisory Alert
+  type: ActivityLog
+  properties:
+    category: ServiceHealth
+    incidentType: ActionRequired
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Service Health Advisory Alert
+    template: Deploy-ActivityLog-ServiceHealth-Health.json
+- name: Service Health Incident
+  description: Service Health Incident Alert
+  type: ActivityLog
+  properties:
+    category: ServiceHealth
+    incidentType: Incident
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Service Health Incident Alert
+    template: Deploy-ActivityLog-ServiceHealth-Incident.json
+- name: Service Health Maintenance
+  description: Service Health Maintenance Alert
+  type: ActivityLog
+  properties:
+    category: ServiceHealth
+    incidentType: Maintenance
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Service Health Maintenance Alert
+    template: Deploy-ActivityLog-ServiceHealth-Maintenance.json
+- name: Service Health Security
+  description: Service Health Security Alert
+  type: ActivityLog
+  properties:
+    category: ServiceHealth
+    incidentType: Security
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Service Health Security Alert
+    template: Deploy-ActivityLog-ServiceHealth-Security.json

@@ -1,0 +1,64 @@
+- name: Vip Availability
+  description: Metric Alert for ALB Data Path Availability
+  type: Metric
+  properties:
+    metricName: VipAvailability
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Load Balancer Data Path Availability Alert
+    template: Deploy-LB-DatapathAvailability-Alert.json
+- name: Global Backend Availability
+  description: Metric Alert for Global Backend Availability
+  type: Metric
+  properties:
+    metricName: GlobalBackendAvailability
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Load Balancer Global Backend Availability Alert
+    template: Deploy-LB-GlobalBackendAvailability-Alert.json
+- name: Dip Availability
+  description: Metric Alert for ALB Health Probe Status
+  type: Metric
+  properties:
+    metricName: DipAvailability
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Load Balancer Health Probe Status Alert
+    template: Deploy-LB-HealthProbeStatus-Alert.json
+- name: Used SNAT Ports
+  description: Metric Alert for ALB Used SNAT Ports
+  type: Metric
+  properties:
+    metricName: UsedSNATPorts
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 900
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Load Balancer Used SNAT Ports Alert
+    template: Deploy-LB-UsedSNATPorts-Alert.json
