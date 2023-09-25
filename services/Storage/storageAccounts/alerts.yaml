@@ -1,0 +1,16 @@
+- name: Deploy SA Availability Alert
+  description: Metric Alert for Storage Account Availability
+  type: Metric
+  properties:
+    metricName: Availability
+    metricNamespace: Microsoft.Storage/storageAccounts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy SA Availability Alert
+    template: Deploy-SA-Availability-Alert.json

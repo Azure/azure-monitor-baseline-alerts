@@ -1,0 +1,112 @@
+- name: Port Bits In Per Second
+  description: Metric Alert for ER Direct Connection BitsInPerSecond
+  type: Metric
+  properties:
+    metricName: PortBitsInPerSecond
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct Connection BitsInPerSecond Alert
+    template: Deploy-ERP-BitsInPerSecond-Alert.json
+- name: Port Bits Out Per Second
+  description: Metric Alert for ER Direct Connection BitsOutPerSecond
+  type: Metric
+  properties:
+    metricName: PortBitsOutPerSecond
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct Connection BitsOutPerSecond Alert
+    template: Deploy-ERP-BitsOutPerSecond-Alert.json
+- name: Line Protocol
+  description: Metric Alert for ER Direct Connection LineProtocol
+  type: Metric
+  properties:
+    metricName: LineProtocol
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 0.9
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct LineProtocol Alert
+    template: Deploy-ERP-LineProtocol-Alert.json
+- name: Rx Light Level High
+  description: Metric Alert for ER Direct Connection RxLightLevel High
+  type: Metric
+  properties:
+    metricName: RxLightLevel
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 0
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct RxLightLevel High Alert
+    template: Deploy-ERP-RxLightLevelHigh-Alert.json
+- name: Rx Light Level Low
+  description: Metric Alert for ER Direct Connection RxLightLevel Low
+  type: Metric
+  properties:
+    metricName: RxLightLevel
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: -10
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct RxLightLevel Low Alert
+    template: Deploy-ERP-RxLightLevelLow-Alert.json
+- name: Tx Light Level High
+  description: Metric Alert for ER Direct Connection TxLightLevel High
+  type: Metric
+  properties:
+    metricName: TxLightLevel
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 0
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct TxLightLevel High Alert
+    template: Deploy-ERP-TxLightLevelHigh-Alert.json
+- name: Tx Light Level Low
+  description: Metric Alert for ER Direct Connection TxLightLevel Low
+  type: Metric
+  properties:
+    metricName: TxLightLevel
+    metricNamespace: Microsoft.Network/expressRoutePorts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: -10
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Direct TxLightLevel Low Alert
+    template: Deploy-ERP-TxLightLevelLow-Alert.json

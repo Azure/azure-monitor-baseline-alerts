@@ -1,0 +1,144 @@
+- name: Application Gateway Total Time
+  description: Metric Alert for App Gateway ApplicationGatewayTotalTime
+  type: Metric
+  properties:
+    metricName: ApplicationGatewayTotalTime
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 2
+      minFailingPeriodsToAlert: 2
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway ApplicationGatewayTotalTime Alert
+    template: Deploy-AGW-ApplicationGatewayTotalTime-Alert.json
+- name: Backend Last Byte Response Time
+  description: Metric Alert for App Gateway BackendLastByteResponseTime
+  type: Metric
+  properties:
+    metricName: BackendLastByteResponseTime
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 2
+      minFailingPeriodsToAlert: 2
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway BackendLastByteResponseTime Alert
+    template: Deploy-AGW-BackendLastByteResponseTime-Alert.json
+- name: Capacity Units
+  description: Metric Alert for App Gateway Capacity
+  type: Metric
+  properties:
+    metricName: CapacityUnits
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 75
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway CapacityUnits Alert
+    template: Deploy-AGW-CapacityUnits-Alert.json
+- name: Compute Units
+  description: Metric Alert for App Gateway Compute Units
+  type: Metric
+  properties:
+    metricName: ComputeUnits
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 75
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway CapacityUnits Alert
+    template: Deploy-AGW-CapacityUnits-Alert.json
+- name: Cpu Utilization
+  description: Metric Alert for App Gateway CPU Utilization
+  type: Metric
+  properties:
+    metricName: CpuUtilization
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway CPU Utilization Alert
+    template: Deploy-AGW-CPUUtil-Alert.json
+- name: Failed Requests
+  description: Metric Alert for App Gateway FailedRequests
+  type: Metric
+  properties:
+    metricName: FailedRequests
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 2
+      minFailingPeriodsToAlert: 2
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway FailedRequests Alert
+    template: Deploy-AGW-FailedRequests-Alert.json
+- name: Response Status
+  description: Metric Alert for App Gateway ResponseStatus
+  type: Metric
+  properties:
+    metricName: ResponseStatus
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    dimensions:
+      HttpStatusGroup:
+        operator: Include
+        values: [4xx, 5xx]
+    failingPeriods:
+      numberOfEvaluationPeriods: 2
+      minFailingPeriodsToAlert: 2
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway ResponseStatus Alert
+    template: Deploy-AGW-ResponseStatus-Alert.json
+- name: Unhealthy Host Count
+  description: Metric Alert for App Gateway Unhealthy Host Count
+  type: Metric
+  properties:
+    metricName: UnhealthyHostCount
+    metricNamespace: Microsoft.Network/applicationGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 20
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Azure Application Gateway Unhealthy Host Count Alert
+    template: Deploy-AGW-UnhealthyHostCount-Alert.json

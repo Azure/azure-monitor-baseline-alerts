@@ -1,0 +1,16 @@
+- name: If Under DDoS Attack
+  description: Metric Alert for VNet DDOS Attack
+  type: Metric
+  properties:
+    metricName: ifunderddosattack
+    metricNamespace: Microsoft.Network/virtualNetworks
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    threshold: 0
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network DDoS Attack Alert
+    template: Deploy-VNET-DDOSAttack-Alert.json

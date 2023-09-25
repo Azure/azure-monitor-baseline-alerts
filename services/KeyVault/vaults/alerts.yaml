@@ -1,0 +1,82 @@
+- name: Activity Log Key Vault Delete
+  description: Activity Log Alert for Key Vault Delete
+  type: ActivityLog
+  properties:
+    category: Administrative
+    operationName: Microsoft.KeyVault/vaults/delete
+    status: [ succeeded ]
+  references:
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+  deployments:
+  - description: Policy to Deploy Activity Log Key Vault Delete Alert
+    template: Deploy-ActivityLog-KeyVault-Del.json
+- name: Availability
+  description: Metric Alert for KeyVault Availability
+  type: Metric
+  properties:
+    metricName: Availability
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 90
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy KeyVault Availability Alert
+    template: Deploy-KV-Availability-Alert.json
+- name: Saturation Shoebox
+  description: Metric Alert for KeyVault Capacity
+  type: Metric
+  properties:
+    metricName: SaturationShoebox
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 75
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy KeyVault Capacity Alert
+    template: Deploy-KV-Capacity-Alert.json
+- name: Service API Latency
+  description: Metric Alert for KeyVault Latency
+  type: Metric
+  properties:
+    metricName: ServiceApiLatency
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 1000
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy KeyVault Latency Alert
+    template: Deploy-KV-Latency-Alert.json
+- name: Service API Result
+  description: Metric Alert for KeyVault Requests
+  type: Metric
+  properties:
+    metricName: ServiceApiResult
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy KeyVault Requests Alert
+    template: Deploy-KV-Requests-Alert.json

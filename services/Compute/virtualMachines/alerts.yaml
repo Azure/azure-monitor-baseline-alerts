@@ -1,0 +1,358 @@
+- name: Available Memory Bytes (MBytes)
+  description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
+  type: Metric
+  properties:
+    metricName: Available Memory Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1000
+    criterionType: StaticThresholdCriterion
+  references:
+  - name: Supported Metrics for Microsoft.Compute/virtualMachines
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
+  deployments:
+  - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
+    template: Deploy-VM-AvailableMemory-Alert.json
+- name: Data Disk Read Latency (ms)
+  description: Log Alert for Virtual Machine Data Disk Read Latency (ms)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 30
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ('C:','/')
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM Data Disk Read Latency Alert
+    template: Deploy-VM-DataDiskReadLatency-Alert.json
+- name: Data Disk Free Space Percentage
+  description: Log Alert for Virtual Machine Data Disk Free Space Percentage
+  type: Log
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk"and Name == "FreeSpacePercentage"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ('C:','/')
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM Data Disk Free Space Percentage Alert
+    template: Deploy-VM-DataDiskSpace-Alert.json
+- name: Data Disk Write Latency (ms)
+  description: Log Alert for Virtual Machine Data Disk Write Latency (ms)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 30
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ('C:','/')
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM Data Disk Write Latency Alert
+    template: Deploy-VM-DataDiskWriteLatency-Alert.json
+- name: Heartbeat
+  description: Log Alert for Virtual Machine Heartbeat
+  type: Log
+  properties:
+    severity: 1
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      Heartbeat
+      | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
+      | extend Duration = datetime_diff('minute',now(),TimeGenerated)
+      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId
+  deployments:
+  - description: Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription
+    template: Deploy-VM-HeartBeat-Alert.json
+  - description: Policy to audit/deploy VM HeartBeat Alert for VMs in the resource
+      group
+    template: Deploy-VM-HeartBeatAlertRG.json
+- name: Network Read (bytes/sec)
+  description: Log Alert for Virtual Machine Network Read (bytes/sec)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10000000
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      NetworkInterface:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Network" and Name == "ReadBytesPerSecond"
+      | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+  deployments:
+  - description: Policy to audit/deploy VM Nework Read (bytes/sec) Alert
+    template: Deploy-VM-NetworkIn-Alert.json
+- name: Network Write (bytes/sec)
+  description: Log Alert for Virtual Machine Network Write (bytes/sec)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10000000
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      NetworkInterface:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Network" and Name == "WriteBytesPerSecond"
+      | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+  deployments:
+  - description: Policy to audit/deploy VM Nework Write (bytes/sec) Alert
+    template: Deploy-VM-NetworkOut-Alert.json
+- name: OS Disk Read Latency (ms)
+  description: Log Alert for Virtual Machine Data OS Read Latency (ms)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 30
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM OS Disk Read Latency Alert
+    template: Deploy-VM-OSDiskReadLatency-Alert.json
+- name: OS Disk Free Space Percentage
+  description: Log Alert for Virtual Machine OS Disk Free Space Percentage
+  type: Log
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM OS Disk Free Space Percentage Alert
+    template: Deploy-VM-OSDiskSpace-Alert.json
+- name: OS Disk Write Latency (ms)
+  description: Log Alert for Virtual Machine OS Disk Write Latency (ms)
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 50
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+      Disk:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics| where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+  deployments:
+  - description: Policy to audit/deploy VM OS Disk Write Latency Alert
+    template: Deploy-VM-OSDiskWriteLatency-Alert.json
+- name: Processor Utilization Percentage
+  description: Log Alert for Virtual Machine Processor Utilization Percentage
+  type: Log
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 85
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Processor" and Name == "UtilizationPercentage"
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId
+  deployments:
+  - description: Policy to audit/deploy VM Processor Utilization Percentage Alert
+    template: Deploy-VM-PercentCPU-Alert.json
+- name: Available Memory Percentage
+  description: Log Alert for Virtual Machine Available Memory Percentage
+  type: Log
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+      Computer:
+        operator: Include
+        values: ['*']
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: |
+      InsightsMetrics
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Memory" and Name == "AvailableMB"
+      | extend TotalMemory = toreal(todynamic(Tags)["vm.azm.ms/memorySizeMB"])
+      | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0
+      | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId
+  deployments:
+  - description: Policy to audit/deploy VM Available Memory Percentage Alert
+    template: Deploy-VM-PercentMemory-Alert.json

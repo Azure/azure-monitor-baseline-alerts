@@ -1,5 +1,5 @@
 ---
-title: Route Tables
+title: Storage Accounts
 geekdocCollapseSection: true
 ---
 

@@ -1,0 +1,48 @@
+- name: ER Gateway Connection Bits In Per Second
+  description: Metric Alert for ER Gateway Connection BitsInPerSecond
+  type: Metric
+  properties:
+    metricName: ERGatewayConnectionBitsInPerSecond
+    metricNamespace: Microsoft.Network/expressRouteGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Gateway Connection BitsInPerSecond Alert
+    template: Deploy-ERG-BitsInPerSecond-Alert.json
+- name: ER Gateway Connection Bits Out Per Second
+  description: Metric Alert for ER Gateway Connection BitsOutPerSecond
+  type: Metric
+  properties:
+    metricName: ERGatewayConnectionBitsOutPerSecond
+    metricNamespace: Microsoft.Network/expressRouteGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Gateway Connection BitsOutPerSecond Alert
+    template: Deploy-ERG-BitsOutPerSecond-Alert.json
+- name: ExpressRoute Gateway CPU Utilization
+  description: Metric Alert for ER Gateway Express Route CPU Utilization
+  type: Metric
+  properties:
+    metricName: ExpressRouteGatewayCpuUtilization
+    metricNamespace: Microsoft.Network/expressRouteGateways
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy ER Gateway Express Route CPU Utilization Alert
+    template: Deploy-ERG-CPUUtilization-Alert.json

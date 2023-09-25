@@ -1,0 +1,64 @@
+- name: Virtual Network Link Capacity Utilization
+  description: Metric Alert for Private DNS Zone Virtual Network Link Capacity Utilization
+  type: Metric
+  properties:
+    metricName: VirtualNetworkLinkCapacityUtilization
+    metricNamespace: Microsoft.Network/privateDnsZones
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Private DNS Zone Capacity Utilization Alert
+    template: Deploy-PDNSZ-CapacityUtilization-Alert.json
+- name: Query Volume
+  description: Metric Alert for Private DNS Query Volume
+  type: Metric
+  properties:
+    metricName: QueryVolume
+    metricNamespace: Microsoft.Network/privateDnsZones
+    severity: 4
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Total
+    operator: GreaterThanOrEqual
+    threshold: 500
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Private DNS Zone Query Volume Alert
+    template: Deploy-PDNSZ-QueryVolume-Alert.json
+- name: Record Set Capacity Utilization
+  description: Metric Alert for Private DNS Zone Record Set Capacity Utilization
+  type: Metric
+  properties:
+    metricName: RecordSetCapacityUtilization
+    metricNamespace: Microsoft.Network/privateDnsZones
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Private DNS Zone Record Set Capacity Alert
+    template: Deploy-PDNSZ-RecordSetCapacity-Alert.json
+- name: Virtual Network With Registration Capacity Utilization
+  description: Metric Alert for Private DNS Zone Registration Capacity Utilization
+  type: Metric
+  properties:
+    metricName: VirtualNetworkWithRegistrationCapacityUtilization
+    metricNamespace: Microsoft.Network/privateDnsZones
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Private DNS Zone Registration Capacity Utilization Alert
+    template: Deploy-PDNSZ-RegistrationCapacityUtilization-Alert.json

@@ -1,0 +1,156 @@
+- name: Tunnel Average Bandwidth
+  description: Metric Alert for VNet Gateway Tunnel Avg Bandwidth
+  type: Metric
+  properties:
+    metricName: TunnelAverageBandwidth
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Bandwidth Alert
+    template: Deploy-VNETG-BandwidthUtilization-Alert.json
+- name: Tunnel Egress Bytes
+  description: Metric Alert for VNet Gateway Tunnel Egress Bytes
+  type: Metric
+  properties:
+    metricName: TunnelEgressBytes
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Egress Alert
+    template: Deploy-VNETG-Egress-Alert.json
+- name: Tunnel Egress Packet Drop Count
+  description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropCount
+  type: Metric
+  properties:
+    metricName: TunnelEgressPacketDropCount
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Count Alert
+    template: Deploy-VNETG-EgressPacketDropCount-Alert.json
+- name: Tunnel Egress Packet Drop TS Mismatch
+  description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropTSMismatch
+  type: Metric
+  properties:
+    metricName: TunnelEgressPacketDropTSMismatch
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Mismatch Alert
+    template: Deploy-VNETG-EgressPacketDropMismatch-Alert.json
+- name: ExpressRoute Gateway Bits Per Second
+  description: Metric Alert for VNet Gateway Express Route Bits Per Second
+  type: Metric
+  properties:
+    metricName: ExpressRouteGatewayBitsPerSecond
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network Gateway Express Route Bits Per Second Alert
+    template: Deploy-VNETG-ERGBitsPerSecond-Alert.json
+- name: ExpressRoute Gateway CPU Utilization
+  description: Metric Alert for VNet Gateway Express Route CPU Utilization
+  type: Metric
+  properties:
+    metricName: ExpressRouteGatewayCpuUtilization
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    threshold: 80
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network Gateway Express Route CPU Utilization
+    template: Deploy-VNETG-ERGCPUUtilization-Alert.json
+- name: Tunnel Ingress Bytes
+  description: Metric Alert for VNet Gateway Tunnel ingress Bytes
+  type: Metric
+  properties:
+    metricName: TunnelIngressBytes
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+  deployments:
+  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Ingress Alert
+    template: Deploy-VNETG-Ingress-Alert.json
+- name: Tunnel Ingress Packet Drop Count
+  description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropCount
+  type: Metric
+  properties:
+    metricName: TunnelIngressPacketDropCount
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Count Alert
+    template: Deploy-VNETG-IngressPacketDropCount-Alert.json
+- name: Tunnel Ingress Packet Drop TS Mismatch
+  description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
+  type: Metric
+  properties:
+    metricName: TunnelIngressPacketDropCount
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    alertSensitivity: Medium
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+  deployments:
+  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch Alert
+    template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
