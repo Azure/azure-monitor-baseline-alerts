@@ -150,7 +150,7 @@ def main():
   data = readYamlData(args.path)
 
   if len(args.output_xls) > 0:
-    exportToXls(data, args.template, args.output)
+    exportToXls(data, args.template, args.output_xls)
 
   if len(args.output_json) > 0:
     outputToJsonFile(data, args.output_json)
