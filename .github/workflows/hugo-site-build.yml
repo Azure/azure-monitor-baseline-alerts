@@ -54,13 +54,16 @@ jobs:
         with:
           python-version: '3.11' # install the python version needed
 
-      - name: Install Python packages
+      - name: Export Alerts
+        run: ls -l
+
+      - name: Install Python Packages
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
         working-directory: tooling/export_alerts
 
-      - name: Export alerts
+      - name: Export Alerts
         run: python export-alerts.py --path ../../services --template ./alerts-template.xlsx --output-xls ../../services/amba-alerts.xls --output-json ../../services/amba-alerts.json --output-yaml ../../services/amba-alerts.yaml
         working-directory: tooling/export_alerts
 
