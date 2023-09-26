@@ -2,7 +2,7 @@
 
 > **_NOTE:_**  Please check out our the [AMBA GitHub Pages](https://azure.github.io/azure-monitor-baseline-alerts/welcome) site for more interactive access to the content in this repo.
 
-Welcome to the **Azure Monitor Baseline Alerts (AMBA)** site!  The purpose of this site is to provide best practice guidance around key alerts metrics and their thresholds.
+Welcome to the **Azure Monitor Baseline Alerts (AMBA)** repo!  The purpose of this site is to provide best practice guidance around key alerts metrics and their thresholds.
 
 This sites is broken down into two main sections:
 1. **Services:** This section provides guidance for individual Azure services.  For each service, there is a list of key alert metrics and the recommended thresholds.
