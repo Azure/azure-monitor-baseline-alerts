@@ -102,7 +102,7 @@ When in VS Code you should be able to open a terminal and run the below commands
 
 ```text
 cd docs
-hugo servver -D
+hugo server -D
 ```
 
 ### Software/Applications
