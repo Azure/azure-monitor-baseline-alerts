@@ -1,0 +1,40 @@
+
+<div><table>
+  <tr>
+    <th>Dimensions</th>
+    <th>Failing Periods</th>
+    <th>Aggregation</th>
+    <th>Operator</th>
+    <th>Threshold</th>
+    <th>Window</th>
+    <th>Frequency</th>
+    <th>Severity</th>
+    <th>Metric Measure Column</th>
+    <th>Resource ID Column</th>
+  </tr>
+
+  <tr>
+    <td>
+      {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
+        {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ") .dimensions) "json" }}
+      {{ else }}
+        {{ .dimensions }}
+      {{ end }}
+    </td>
+    <td>
+      {{ if or (reflect.IsMap .failingPeriods) (reflect.IsSlice .failingPeriods) }}
+        {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ")  .failingPeriods) "json" }}
+      {{ else }}
+        {{ .failingPeriods }}
+      {{ end }}
+    </td>
+    <td>{{ .timeAggregation }}</td>
+    <td>{{ .operator }}</td>
+    <td>{{ .threshold }}</td>
+    <td>{{ .windowSize }}</td>
+    <td>{{ .evaluationFrequency }}</td>
+    <td>{{ .severity }}</td>
+    <td>{{ .metricMeasureColumn }}</td>
+    <td>{{ .resouceIdColumn }}</td>
+  </tr>
+</table></div>

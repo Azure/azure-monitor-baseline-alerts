@@ -39,28 +39,12 @@ Alert List
       <h3>{{ .name }} - {{ .type }} Alert</h3>
       <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
       <h4>Recommended Properties:</h4>
-      {{ range $key, $value := .properties }}
-        <div style="text-indent: 1%;">
-          {{ if reflect.IsMap $value }}
-            {{ humanize $key  }}:
-              {{ range $key, $value := $value }}
-                <div style="text-indent: 2%;">
-                  {{ if reflect.IsMap $value }}
-                    {{ humanize $key  }}:
-                      {{ range $key, $value := $value }}
-                        <div style="text-indent: 3%;">
-                          {{ humanize $key  }}: {{ $value }}
-                        </div>
-                      {{ end }}
-                  {{ else }}
-                    {{ humanize $key  }}: {{ $value }}
-                  {{ end }}
-                </div>
-              {{ end }}
-          {{ else if ne $key "query"  }}
-            {{ humanize $key  }}: {{ $value }}
-          {{ end }}
-        </div>
+      {{ if eq .type "Metric" }}
+        {{- partial "metricAlertProperties" .properties }}
+      {{ else if eq .type "Log" }}
+        {{- partial "logAlertProperties" .properties }}
+      {{ else if eq .type "ActivityLog" }}
+        {{- partial "activityAlertProperties" .properties }}
       {{ end }}
       {{ if .properties.query }}
         <div>
