@@ -36,7 +36,7 @@ The example folder structure below highlights all of the key assets that define 
 
 **patterns:** *This folder contains assets for pattern/scenario specfic guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
 
-**services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines). *
+**services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines).*
 
 {{< hint type=note >}}
 You maybe need to need to add new category and/or type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure) documentation.
