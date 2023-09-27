@@ -36,7 +36,11 @@ The example folder structure below highlights all of the key assets that define 
 
 **patterns:** *This folder contains assets for pattern/scenario specfic guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
 
-**services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines).  You will need to added new category and type folders as you define new baseline alerts. These folder are case-sensitive and follow the pattern defined by the Azure resrouce reference documentation. [Azure Resource Reference](https://learn.microsoft.com/azure)*
+**services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines). *
+
+{{< hint type=note >}}
+You maybe need to need to add new category and/or type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure) documentation.
+{{< /hint >}}
 
 **_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource categories, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
 
@@ -165,6 +169,12 @@ Doing this will ensure you have the latest changes from the upstream repo and yo
 git checkout main
 git checkout -b <YOUR-DESIRED-BRANCH-NAME-HERE>
 ```
+
+## Creating a pull request
+
+Once you have committed changes to your fork of the AMBA repo, you create a pull request to merge your changes in to the AMBA repo.
+- [GitHub - Creating a pull request from a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/)
+
 
 ## Top Tips
 
