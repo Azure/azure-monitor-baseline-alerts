@@ -86,7 +86,7 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
 
 Before jumping into the pre-requisites and specific section contribution guidance, please familiarize yourself with this context/background on how this library is built to help you contribute going forward.
 
-This [site](https://azure.github.io/azure-monitor-baseline-alerts) is built using [Hugo](https://gohugo.io/), a static site generator, that's source code is stored in the [AMBA GitHub repo](https://azure.github.io/azure-monitor-baseline-alerts/repo) (link in header of this site too) and is hosted on [GitHub Pages](https://pages.github.com), via the repo.
+This [site](https://azure.github.io/azure-monitor-baseline-alerts) is built using [Hugo](https://gohugo.io/), a static site generator, that's source code is stored in the [AMBA GitHub repo](https://github.com/Azure/azure-monitor-baseline-alerts) (link in header of this site too) and is hosted on [GitHub Pages](https://pages.github.com), via the repo.
 
 The reason for the combination of Hugo & GitHub pages is to allow us to present an easy to navigate and consume library, rather than using a native GitHub repo, which is not easy to consume when there are lots of pages and folders. Also Hugo generates the site in such a way that it is also friendly for mobile consumers.
 
@@ -98,7 +98,7 @@ That's okay and you really don't need them. Hugo just needs you to be able to au
 
 Read and follow the below sections to leave you in a "ready state" to contribute to AMBA.
 
-A "ready state" means you have a forked copy of the [`Azure/azure-monitor-baseline-alerts` repo](https://azure.github.io/azure-monitor-baseline-alerts/repo) cloned to your local machine and open in VS Code.
+A "ready state" means you have a forked copy of the [`Azure/azure-monitor-baseline-alerts` repo](https://github.com/Azure/azure-monitor-baseline-alerts) cloned to your local machine and open in VS Code.
 
 ## Run and Access a Local Copy of AMBA During Development
 
@@ -138,7 +138,7 @@ winget install --id 'Hugo.Hugo.Extended'
 ### Other requirements
 
 - [A GitHub profile/account](https://github.com/join)
-- A fork of the [`Azure/azure-monitor-baseline-alerts` repo](https://azure.github.io/azure-monitor-baseline-alerts/repo) into your GitHub org/account and cloned locally to your machine
+- A fork of the [`Azure/azure-monitor-baseline-alerts` repo](https://github.com/Azure/azure-monitor-baseline-alerts) into your GitHub org/account and cloned locally to your machine
   - Instructions on forking a repo and then cloning it can be found [here](https://docs.github.com/get-started/quickstart/fork-a-repo)
 
 ## Useful Resources
