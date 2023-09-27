@@ -101,8 +101,7 @@ A "ready state" means you have a forked copy of the [`Azure/azure-monitor-baseli
 When in VS Code you should be able to open a terminal and run the below commands to access a copy of the AMBA website from a local web server, provided by Hugo, using the following address [`http://localhost:1313/azure-monitor-baseline-alerts/`](http://localhost:1313/azure-monitor-baseline-alerts/):
 
 ```text
-cd docs
-hugo servver -D
+hugo server -D
 ```
 
 ### Software/Applications
@@ -170,5 +169,5 @@ git checkout -b <YOUR-DESIRED-BRANCH-NAME-HERE>
 ## Top Tips
 
 1. Sometimes the local version of the website may show some inconsistencies that don't reflect the content you have created.
-     - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the `docs/` directory
+     - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
 
