@@ -2,7 +2,9 @@
 <div><table>
   <tr>
     <th>Criterion Type</th>
-    <th>Dimensions</th>
+    {{ if isset . "dimensions" }}
+      <th>Dimensions</th>
+    {{ end }}
     {{ if eq .criterionType "DynamicThresholdCriterion" }}
       <th>Alert Sensitivity</th>
       <th>Failing Periods</th>
@@ -17,13 +19,15 @@
 
   <tr>
     <td>{{ .criterionType }}</td>
-    <td>
-      {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
-        {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
-      {{ else }}
-        {{ .dimensions }}
-      {{ end }}
-    </td>
+    {{ if isset . "dimensions" }}
+      <td>
+        {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
+        {{ else }}
+          {{ .dimensions }}
+        {{ end }}
+      </td>
+    {{ end }}
     {{ if eq .criterionType "DynamicThresholdCriterion" }}
       <td>{{ .alertSensitivity }}</td>
       <td>

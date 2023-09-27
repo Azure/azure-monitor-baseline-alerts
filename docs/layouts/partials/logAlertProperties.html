@@ -1,7 +1,9 @@
 
 <div><table>
   <tr>
-    <th>Dimensions</th>
+    {{ if isset . "dimensions" }}
+      <th>Dimensions</th>
+    {{ end }}
     <th>Failing Periods</th>
     <th>Aggregation</th>
     <th>Operator</th>
@@ -14,13 +16,15 @@
   </tr>
 
   <tr>
-    <td>
-      {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
-        {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
-      {{ else }}
-        {{ .dimensions }}
-      {{ end }}
-    </td>
+    {{ if isset . "dimensions" }}
+      <td>
+        {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
+        {{ else }}
+          {{ .dimensions }}
+        {{ end }}
+      </td>
+    {{ end }}
     <td>
       {{ if or (reflect.IsMap .failingPeriods) (reflect.IsSlice .failingPeriods) }}
         {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .failingPeriods) "json" }}
