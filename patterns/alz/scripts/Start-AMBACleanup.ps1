@@ -135,7 +135,7 @@ ForEach ($identity in $policyAssignmentIdentities) {
 
     ForEach ($roleAssignment in $identityRoleAssignments) {
 
-        If ($roleAssignment.Description -like '*_deployed_by_amba*') {
+        If ($roleAssignment.Description -eq '_deployed_by_amba') {
             $roleAssignments += $roleAssignment
         }
     }
