@@ -19,21 +19,21 @@
       <td>{{ .operationName }}</td>
       <td>
         {{ if or (reflect.IsMap .status) (reflect.IsSlice .status) }}
-          {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ")  .status) "json" }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .status) "json" }}
         {{ else }}
           {{ .status }}
         {{ end }}      </td>
     {{ else if eq .category "ResourceHealth" }}
       <td>
         {{ if or (reflect.IsMap .causes) (reflect.IsSlice .causes) }}
-          {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ")  .causes) "json" }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .causes) "json" }}
         {{ else }}
           {{ .causes }}
         {{ end }}
       </td>
       <td>
         {{ if or (reflect.IsMap .currentHealthStatus) (reflect.IsSlice .currentHealthStatus) }}
-          {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ")  .currentHealthStatus) "json" }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .currentHealthStatus) "json" }}
         {{ else }}
           {{ .currentHealthStatus }}
         {{ end }}

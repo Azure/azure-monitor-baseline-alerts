@@ -16,14 +16,14 @@
   <tr>
     <td>
       {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
-        {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ") .dimensions) "json" }}
+        {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
       {{ else }}
         {{ .dimensions }}
       {{ end }}
     </td>
     <td>
       {{ if or (reflect.IsMap .failingPeriods) (reflect.IsSlice .failingPeriods) }}
-        {{ transform.Highlight (encoding.Jsonify (dict "prefix" "\n" "indent" "  ")  .failingPeriods) "json" }}
+        {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .failingPeriods) "json" }}
       {{ else }}
         {{ .failingPeriods }}
       {{ end }}
