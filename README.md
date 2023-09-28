@@ -1,5 +1,9 @@
 # Azure Monitor Baseline Alerts (AMBA)
 
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/azure/azure-monitor-baseline-alerts "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/azure/azure-monitor-baseline-alerts "Percentage of issues still open")
+
+
 > **_NOTE:_**  Please check out our the [AMBA GitHub Pages](https://azure.github.io/azure-monitor-baseline-alerts/welcome) site for more interactive access to the content in this repo.
 
 Welcome to the **Azure Monitor Baseline Alerts (AMBA)** repo!  The purpose of this site is to provide best practice guidance around key alerts metrics and their thresholds.
