@@ -4,7 +4,7 @@ weight: 30
 ---
 
 {{< hint type=Important >}}
-Updating from a preview version is not supported. If you deployed a preview version, please proceed with [Cleaning Up Preview Version Deployment](../Cleaning-Up-Preview-Version-Deployment) before continuing.
+Updating from a preview version is not supported. If you deployed a preview version, please proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
 
 ## 1. Parameter configuration
@@ -134,6 +134,8 @@ pseudoRootManagementGroup="The pseudo root management group id parenting the ide
 When running Azure CLI from PowerShell the variables have to start with a $.
 
 Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "enterpriseScaleCompanyPrefix" parameter, as set previously within the parameter files.
+
+The location variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region specific.
 {{< /hint >}}
 
 ## 4. Deploying AMBA
