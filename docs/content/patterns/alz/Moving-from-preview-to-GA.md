@@ -1,5 +1,5 @@
 ---
-title: Cleaning up preview version deployment
+title: Moving from preview to GA
 geekdocCollapseSection: true
 weight: 70
 ---
@@ -57,3 +57,11 @@ Follow the instructions below to download the cleanup script file. Alternatively
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -Force
   ```
+
+## Next steps
+
+- To customize policy assignments, please proceed with [Customize Policy Assignment](../deploy/Customize-Policy-Assignment)
+- To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
+- To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
+- To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
+- To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
