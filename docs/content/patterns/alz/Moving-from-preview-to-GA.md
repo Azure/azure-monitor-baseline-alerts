@@ -4,7 +4,7 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
-In some scenarios, it may be necessary to remove everything deployed by the ALZ Monitor solution. The instructions below detail execution of a PowerShell script to delete all resources deployed, including:
+When moving from the preview version to GA, it is required to remove everything deployed by the ALZ Monitor solution. The instructions below detail execution of a PowerShell script to delete all resources deployed, including:
 
 - Metric Alerts
 - Activity Log Alerts

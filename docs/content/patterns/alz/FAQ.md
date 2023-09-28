@@ -8,6 +8,10 @@ weight: 80
 
 *No but you will need to be using Azure Management groups and for now our focus is on the resources frequently deployed as part of Azure Landing Zone deployments.*
 
+## Do I need to deploy to each region that I want to monitor?
+
+*No, deploying to multiple regions is not necessary. The definitions and assignments are scoped to a management group and are not region specific.*
+
 ## Do I need to use the thresholds defined as default values in the metric rule alerts?
 
 *It's provided as a starting point, we've based the initial thresholds on what we've seen and what Microsoft's documentation recommends. You will need to adjust the thresholds at some point.*

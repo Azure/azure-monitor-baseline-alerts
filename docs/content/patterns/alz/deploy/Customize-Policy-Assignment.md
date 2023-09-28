@@ -20,7 +20,9 @@ As an example you may want to change alert thresholds for one or more metric ale
 
 If we want to change the threshold value for Virtual Network Gateway Express Route CPU utilization from 80 (default value) to 90, and Virtual Network Gateway Egress traffic from 1 to 1000, what we would do is include this in a parameter file as shown below. These specific thresholds would then be set in the individual policy assignment, while the remaining values for all other policies would remain at default. Note that the parameter file shown below has been truncated for brevity, compared to the samples included.
 
-> The parameters file templates contain the same default values as listed in our documentation. However, be aware that the _Policy assignment parameter reference type​_ will change for all parameters when using the template parameter file, even when a value of a parameter wasn't modified it will appear as a _User defined parameter_ after deployment. This occurs because the parameter is explicitly defined in the parameter file. To avoid this, you can create your own parameter files that only include the parameters that you wish to modify.
+{{< hint type=Note >}}
+The parameter file contains the same default values as listed in our documentation. However, be aware that the _Policy assignment parameter reference type​_ will change for all parameters when using the template parameter file, even when a value of a parameter wasn't modified it will appear as a _User defined parameter_ after deployment. This occurs because the parameter is explicitly defined in the parameter file. To avoid this, you can create your own parameter files that only includes the parameters that you wish to modify.
+{{< /hint >}}
 
 ```json
 {
