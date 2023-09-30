@@ -74,6 +74,10 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
     operator: LessThan
     threshold: 1000
     criterionType: StaticThresholdCriterion
+    verified: true
+    visible: true
+    tags:
+    - alz
   references:
   - name: Supported Metrics for Microsoft.Compute/virtualMachines
     urls: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
