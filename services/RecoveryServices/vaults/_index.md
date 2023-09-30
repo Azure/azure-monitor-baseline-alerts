@@ -1,5 +1,5 @@
 ---
-title: Recovery Services Vaults
+title: vaults
 geekdocCollapseSection: true
 ---
 
