@@ -1,5 +1,5 @@
 ---
-title: virtualMachineScaleSets
+title: Virtual Machine Scale Sets
 geekdocCollapseSection: true
 ---
 

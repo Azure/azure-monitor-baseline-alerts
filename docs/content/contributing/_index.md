@@ -64,6 +64,10 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
 - name: Available Memory Bytes (MBytes)
   description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -74,10 +78,6 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
     operator: LessThan
     threshold: 1000
     criterionType: StaticThresholdCriterion
-    verified: true
-    visible: true
-    tags:
-    - alz
   references:
   - name: Supported Metrics for Microsoft.Compute/virtualMachines
     urls: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
@@ -85,6 +85,13 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
   - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
     template: Deploy-VM-AvailableMemory-Alert.json
 ```
+
+{{< hint type=note >}}
+Please note the following settings in the alert definition:
+- *verified:* Alert has verified by the PG.
+- *visible:* Alert is visible on the website.
+- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
+{{< /hint >}}
 
 ## Context/Background
 
