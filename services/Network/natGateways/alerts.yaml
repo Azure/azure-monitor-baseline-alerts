@@ -1,0 +1,77 @@
+- name: DatapathAvailability
+  description: NAT Gateway Datapath Availability
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-4909
+  properties:
+    metricName: DatapathAvailability
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 0
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: SNATConnectionCount
+  description: Total concurrent active connections
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2633
+  properties:
+    metricName: SNATConnectionCount
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: connectionstate
+      operator: include
+      values:
+      - failed
+    threshold: 1000000.0
+- name: TotalConnectionCount
+  description: Total number of active SNAT connections
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2408
+  properties:
+    metricName: TotalConnectionCount
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100000.0
+- name: PacketDropCount
+  description: Count of dropped packets
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-945
+  properties:
+    metricName: PacketDropCount
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0

@@ -1,0 +1,23 @@
+- name: ProbeAgentCurrentEndpointStateByProfileResourceId
+  description: 1 if an endpoint's probe status is "Enabled", 0 otherwise.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-5272
+  properties:
+    metricName: ProbeAgentCurrentEndpointStateByProfileResourceId
+    metricNamespace: Microsoft.Network/trafficmanagerprofiles
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: endpointname
+      operator: include
+      values:
+      - '*'
+    threshold: 1.0

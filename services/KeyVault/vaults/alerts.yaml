@@ -1,10 +1,15 @@
 - name: Activity Log Key Vault Delete
   description: Activity Log Alert for Key Vault Delete
   type: ActivityLog
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     category: Administrative
     operationName: Microsoft.KeyVault/vaults/delete
-    status: [ succeeded ]
+    status:
+    - succeeded
   references:
   - name: Activity Log Service Notifications
     url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
@@ -14,8 +19,12 @@
   - description: Policy to Deploy Activity Log Key Vault Delete Alert
     template: Deploy-ActivityLog-KeyVault-Del.json
 - name: Availability
-  description: Metric Alert for KeyVault Availability
+  description: Vault requests availability
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: Availability
     metricNamespace: Microsoft.KeyVault/vaults
@@ -37,8 +46,12 @@
   - description: Policy to audit/deploy KeyVault Availability Alert
     template: Deploy-KV-Availability-Alert.json
 - name: Saturation Shoebox
-  description: Metric Alert for KeyVault Capacity
+  description: Vault capacity used
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: SaturationShoebox
     metricNamespace: Microsoft.KeyVault/vaults
@@ -60,8 +73,12 @@
   - description: Policy to audit/deploy KeyVault Capacity Alert
     template: Deploy-KV-Capacity-Alert.json
 - name: Service API Latency
-  description: Metric Alert for KeyVault Latency
+  description: Overall latency of service api requests
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: ServiceApiLatency
     metricNamespace: Microsoft.KeyVault/vaults
@@ -83,8 +100,12 @@
   - description: Policy to audit/deploy KeyVault Latency Alert
     template: Deploy-KV-Latency-Alert.json
 - name: Service API Result
-  description: Metric Alert for KeyVault Requests
+  description: Number of total service api results
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: ServiceApiResult
     metricNamespace: Microsoft.KeyVault/vaults
@@ -108,3 +129,98 @@
   deployments:
   - description: Policy to audit/deploy KeyVault Requests Alert
     template: Deploy-KV-Requests-Alert.json
+- name: Availability
+  description: Vault requests availability
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-21701
+  properties:
+    metricName: Availability
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: ServiceApiLatency
+  description: Overall latency of service api requests
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-11958
+  properties:
+    metricName: ServiceApiLatency
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
+- name: SaturationShoebox
+  description: Vault capacity used
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-10046
+  properties:
+    metricName: SaturationShoebox
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 75.0
+- name: ServiceApiHit
+  description: Number of total service api hits
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2688
+  properties:
+    metricName: ServiceApiHit
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: ServiceApiResult
+  description: Number of total service api results
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2619
+  properties:
+    metricName: ServiceApiResult
+    metricNamespace: Microsoft.KeyVault/vaults
+    severity: 3
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: statuscode
+      operator: include
+      values:
+      - '429'
+    threshold: 0.0

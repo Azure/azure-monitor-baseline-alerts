@@ -1,0 +1,575 @@
+- name: AverageResponseTime
+  description: The average time taken for the app to serve requests, in seconds. For
+    WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-21698
+  properties:
+    metricName: AverageResponseTime
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 30.0
+- name: CpuTime
+  description: The amount of CPU consumed by the app, in seconds. For more information
+    about this metric. Please see https://aka.ms/website-monitor-cpu-time-vs-cpu-percentage
+    (CPU time vs CPU percentage). For WebApps only.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-17242
+  properties:
+    metricName: CpuTime
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 120.0
+- name: PrivateBytes
+  description: Private Bytes is the current size, in bytes, of memory that the app
+    process has allocated that can't be shared with other processes. For WebApps and
+    FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-13219
+  properties:
+    metricName: PrivateBytes
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1200000000.0
+- name: RequestsInApplicationQueue
+  description: The number of requests in the application request queue. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-9854
+  properties:
+    metricName: RequestsInApplicationQueue
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: instance
+      operator: include
+      values:
+      - '*'
+    threshold: 10.0
+- name: AppConnections
+  description: The number of bound sockets existing in the sandbox (w3wp.exe and its
+    child processes). A bound socket is created by calling bind()/connect() APIs and
+    remains until said socket is closed with CloseHandle()/closesocket(). For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-9147
+  properties:
+    metricName: AppConnections
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: instance
+      operator: include
+      values:
+      - '*'
+    threshold: 6000.0
+- name: Http401
+  description: The count of requests resulting in HTTP 401 status code. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-5591
+  properties:
+    metricName: Http401
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 20.0
+- name: Http404
+  description: The count of requests resulting in HTTP 404 status code. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-5060
+  properties:
+    metricName: Http404
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10.0
+- name: FileSystemUsage
+  description: Percentage of filesystem quota consumed by the app. For WebApps and
+    FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-4838
+  properties:
+    metricName: FileSystemUsage
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT6H
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 400000000.0
+- name: MemoryWorkingSet
+  description: The current amount of memory used by the app, in MiB. For WebApps and
+    FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-4748
+  properties:
+    metricName: MemoryWorkingSet
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1500000000.0
+- name: FunctionExecutionCount
+  description: Function Execution Count. For FunctionApps only.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-3540
+  properties:
+    metricName: FunctionExecutionCount
+    metricNamespace: Microsoft.Web/sites
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: Threads
+  description: The number of threads currently active in the app process. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1457
+  properties:
+    metricName: Threads
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: BytesSent
+  description: The amount of outgoing bandwidth consumed by the app, in MiB. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1401
+  properties:
+    metricName: BytesSent
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Low
+- name: Http406
+  description: The count of requests resulting in HTTP 406 status code. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1063
+  properties:
+    metricName: Http406
+    metricNamespace: Microsoft.Web/sites
+    severity: 1
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: BytesReceived
+  description: The amount of incoming bandwidth consumed by the app, in MiB. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1020
+  properties:
+    metricName: BytesReceived
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 2048000000.0
+- name: Http3xx
+  description: The count of requests resulting in an HTTP status code >= 300 but <
+    400. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1003
+  properties:
+    metricName: Http3xx
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 15.0
+- name: Handles
+  description: The total number of handles currently open by the app process. For
+    WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-752
+  properties:
+    metricName: Handles
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Low
+- name: FunctionExecutionUnits
+  description: Function Execution Units. For FunctionApps only.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-426
+  properties:
+    metricName: FunctionExecutionUnits
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 13000000000.0
+- name: Http2xx
+  description: The count of requests resulting in an HTTP status code >= 200 but <
+    300. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-411
+  properties:
+    metricName: Http2xx
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 15.0
+- name: WorkflowRunsFailureRate
+  description: Workflow Runs Failure Rate. For LogicApps only.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-351
+  properties:
+    metricName: WorkflowRunsFailureRate
+    metricNamespace: Microsoft.Web/sites
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: Gen2Collections
+  description: The number of times the generation 2 objects are garbage collected
+    since the start of the app process. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-258
+  properties:
+    metricName: Gen2Collections
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Gen0Collections
+  description: The number of times the generation 0 objects are garbage collected
+    since the start of the app process. Higher generation GCs include all lower generation
+    GCs. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-253
+  properties:
+    metricName: Gen0Collections
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Gen1Collections
+  description: The number of times the generation 1 objects are garbage collected
+    since the start of the app process. Higher generation GCs include all lower generation
+    GCs. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-253
+  properties:
+    metricName: Gen1Collections
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Http5xx
+  description: The count of requests resulting in an HTTP status code >= 500 but <
+    600.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1800
+  properties:
+    metricName: Http5xx
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 1
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10.0
+- name: HttpResponseTime
+  description: The time taken for the app to serve requests, in seconds.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1020
+  properties:
+    metricName: HttpResponseTime
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 1
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+- name: Http4xx
+  description: The count of requests resulting in an HTTP status code >= 400 but <
+    500.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-685
+  properties:
+    metricName: Http4xx
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 1
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+- name: AverageMemoryWorkingSet
+  description: The average amount of memory used by the app, in megabytes (MiB).
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-350
+  properties:
+    metricName: AverageMemoryWorkingSet
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 800000000.0
+- name: Requests
+  description: The total number of requests regardless of their resulting HTTP status
+    code.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-286
+  properties:
+    metricName: Requests
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 2000.0
+- name: HealthCheckStatus
+  description: Health check status
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-277
+  properties:
+    metricName: HealthCheckStatus
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: Http403
+  description: The count of requests resulting in HTTP 403 status code.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-251
+  properties:
+    metricName: Http403
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 0
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0

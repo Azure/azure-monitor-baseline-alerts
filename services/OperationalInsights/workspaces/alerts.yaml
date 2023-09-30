@@ -1,10 +1,15 @@
 - name: Activity Log LA Workspace Delete
   description: Activity Log LA Workspace Delete
   type: ActivityLog
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     category: Administrative
     operationName: Microsoft.OperationalInsights/workspaces/delete
-    status: [ succeeded ]
+    status:
+    - succeeded
   references:
   - name: Activity Log Service Notifications
     url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
@@ -16,10 +21,15 @@
 - name: Activity Log LA Workspace Regenerate Key
   description: Activity Log Alert for LA Workspace Regenerate Key
   type: ActivityLog
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     category: Administrative
     operationName: Microsoft.OperationalInsights/workspaces/regeneratesharedkey/action
-    status: [ succeeded ]
+    status:
+    - succeeded
   references:
   - name: Activity Log Service Notifications
     url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
@@ -28,3 +38,623 @@
   deployments:
   - description: Policy to Deploy Activity Log LA Workspace Regenerate Key Alert
     template: Deploy-ActivityLog-LAWorkspace-KeyRegen.json
+- name: Average_% Free Space
+  description: 'Average_% Free Space. Supported for: Linux, Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-13312
+  properties:
+    metricName: Average_% Free Space
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 10.0
+- name: Average_% Processor Time
+  description: 'Average_% Processor Time. Supported for: Linux, Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-11563
+  properties:
+    metricName: Average_% Processor Time
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 90.0
+- name: Average_% Used Memory
+  description: 'Average_% Used Memory. Supported for: Linux. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-9257
+  properties:
+    metricName: Average_% Used Memory
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 90.0
+- name: Average_% Used Space
+  description: 'Average_% Used Space. Supported for: Linux. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-8227
+  properties:
+    metricName: Average_% Used Space
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 90.0
+- name: Average_% Committed Bytes In Use
+  description: 'Average_% Committed Bytes In Use. Supported for: Windows. Part of
+    [metric alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-6344
+  properties:
+    metricName: Average_% Committed Bytes In Use
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 90.0
+- name: Heartbeat
+  description: 'Heartbeat. Supported for: Linux, Windows. Part of [metric alerts for
+    logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-4467
+  properties:
+    metricName: Heartbeat
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 0.0
+- name: Average_Disk Transfers/sec
+  description: 'Average_Disk Transfers/sec. Supported for: Linux, Windows. Part of
+    [metric alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-3660
+  properties:
+    metricName: Average_Disk Transfers/sec
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 100.0
+- name: Average_Available MBytes
+  description: 'Average_Available MBytes. Supported for: Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2336
+  properties:
+    metricName: Average_Available MBytes
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 512.0
+- name: Average_Available MBytes Memory
+  description: 'Average_Available MBytes Memory. Supported for: Linux. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1519
+  properties:
+    metricName: Average_Available MBytes Memory
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 1.0
+- name: Average_% Available Memory
+  description: 'Average_% Available Memory. Supported for: Linux. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-732
+  properties:
+    metricName: Average_% Available Memory
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 10.0
+- name: Average_Free Megabytes
+  description: 'Average_Free Megabytes. Supported for: Linux, Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-722
+  properties:
+    metricName: Average_Free Megabytes
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - 'c:'
+      - /
+    threshold: 10240.0
+- name: Average_% Used Inodes
+  description: 'Average_% Used Inodes. Supported for: Linux. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-588
+  properties:
+    metricName: Average_% Used Inodes
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 80.0
+- name: Average_% Used Swap Space
+  description: 'Average_% Used Swap Space. Supported for: Linux. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-468
+  properties:
+    metricName: Average_% Used Swap Space
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT1H
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    threshold: 50.0
+- name: Average_Current Disk Queue Length
+  description: 'Average_Current Disk Queue Length. Supported for: Windows. Part of
+    [metric alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-456
+  properties:
+    metricName: Average_Current Disk Queue Length
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    threshold: 40.0
+- name: Event
+  description: 'Event. Supported for: Windows. Part of [metric alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-410
+  properties:
+    metricName: Event
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: source
+      operator: include
+      values:
+      - user32
+    - name: eventlog
+      operator: include
+      values:
+      - system
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: eventid
+      operator: include
+      values:
+      - '1074'
+    threshold: 0.0
+- name: Average_Pages/sec
+  description: 'Average_Pages/sec. Supported for: Linux, Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-389
+  properties:
+    metricName: Average_Pages/sec
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    threshold: 5000.0
+- name: Average_Bytes Sent/sec
+  description: 'Average_Bytes Sent/sec. Supported for: Windows. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-361
+  properties:
+    metricName: Average_Bytes Sent/sec
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    - name: sourcesystem
+      operator: include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Average_Bytes Received/sec
+  description: 'Average_Bytes Received/sec. Supported for: Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-357
+  properties:
+    metricName: Average_Bytes Received/sec
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    - name: sourcesystem
+      operator: include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Average_Total Bytes Transmitted
+  description: 'Average_Total Bytes Transmitted. Supported for: Linux. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-349
+  properties:
+    metricName: Average_Total Bytes Transmitted
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    - name: sourcesystem
+      operator: include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Average_Total Bytes Received
+  description: 'Average_Total Bytes Received. Supported for: Linux. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-347
+  properties:
+    metricName: Average_Total Bytes Received
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - '*'
+    - name: objectname
+      operator: include
+      values:
+      - '*'
+    - name: instancename
+      operator: include
+      values:
+      - '*'
+    - name: sourcesystem
+      operator: include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Medium
+- name: Average_% IO Wait Time
+  description: 'Average_% IO Wait Time. Supported for: Linux. Part of [metric alerts
+    for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-264
+  properties:
+    metricName: Average_% IO Wait Time
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 4
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - vm-pm-public-jump-001
+    threshold: 75.0
+- name: Average_% User Time
+  description: 'Average_% User Time. Supported for: Linux, Windows. Part of [metric
+    alerts for logs feature](https://aka.ms/am-log-to-metric).'
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-261
+  properties:
+    metricName: Average_% User Time
+    metricNamespace: Microsoft.OperationalInsights/workspaces
+    severity: 4
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: computer
+      operator: include
+      values:
+      - vm-pm-public-jump-001
+    threshold: 90.0

@@ -1,10 +1,15 @@
 - name: Activity Log Azure Firewall Delete
   description: Activity Log Alert for Azure Firewall Delete
   type: ActivityLog
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     category: Administrative
     operationName: Microsoft.Network/azureFirewalls/delete
-    status: [ succeeded ]
+    status:
+    - succeeded
   references:
   - name: Activity Log Service Notifications
     url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
@@ -14,8 +19,12 @@
   - description: Policy to Deploy Activity Log Azure Firewall Delete Alert
     template: Deploy-ActivityLog-AzureFirewall-Del.json
 - name: Firewall Health
-  description: Metric Alert for AFW FirewallHealth
+  description: Indicates the overall health of this firewall
   type: Metric
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: FirewallHealth
     metricNamespace: Microsoft.Network/azureFirewalls
@@ -33,8 +42,12 @@
   - description: Policy to audit/deploy Azure Firewall FirewallHealth Alert
     template: Deploy-AFW-FirewallHealth-Alert.json
 - name: SNAT Port Utilization
-  description: Metric Alert for AFW SNATPortUtilization
+  description: Percentage of outbound SNAT ports currently in use
   type: Metric
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: SNATPortUtilization
     metricNamespace: Microsoft.Network/azureFirewalls
@@ -51,3 +64,57 @@
   deployments:
   - description: Policy to audit/deploy Azure Firewall SNATPortUtilization Alert
     template: Deploy-AFW-SNATPortUtilization-Alert.json
+- name: FirewallHealth
+  description: Indicates the overall health of this firewall
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2077
+  properties:
+    metricName: FirewallHealth
+    metricNamespace: Microsoft.Network/azureFirewalls
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: SNATPortUtilization
+  description: Percentage of outbound SNAT ports currently in use
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-950
+  properties:
+    metricName: SNATPortUtilization
+    metricNamespace: Microsoft.Network/azureFirewalls
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 99.0
+- name: Throughput
+  description: Throughput processed by this firewall
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-414
+  properties:
+    metricName: Throughput
+    metricNamespace: Microsoft.Network/azureFirewalls
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 27000000000.0

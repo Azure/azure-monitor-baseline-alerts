@@ -1,6 +1,10 @@
 - name: TotalJob
-  description: Metric Alert for Automation Account TotalJob Alert
+  description: The total number of jobs
   type: Metric
+  verified: false
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: TotalJob
     metricNamespace: Microsoft.Automation/automationAccounts
@@ -22,3 +26,73 @@
   deployments:
   - description: Policy to audit/deploy Automation Account TotalJob Alert
     template: Deploy-AA-TotalJob-Alert.json
+- name: TotalJob
+  description: The total number of jobs
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-6781
+  properties:
+    metricName: TotalJob
+    metricNamespace: Microsoft.Automation/automationAccounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: status
+      operator: include
+      values:
+      - failed
+    threshold: 0.0
+- name: TotalUpdateDeploymentMachineRuns
+  description: Total software update deployment machine runs in a software update
+    deployment run
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1624
+  properties:
+    metricName: TotalUpdateDeploymentMachineRuns
+    metricNamespace: Microsoft.Automation/automationAccounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: status
+      operator: include
+      values:
+      - failed
+    threshold: 0.0
+- name: TotalUpdateDeploymentRuns
+  description: Total software update deployment runs
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1216
+  properties:
+    metricName: TotalUpdateDeploymentRuns
+    metricNamespace: Microsoft.Automation/automationAccounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: status
+      operator: include
+      values:
+      - failed
+    threshold: 0.0

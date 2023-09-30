@@ -20,11 +20,13 @@ Alert List
       </tr>
       <!-- Loop through alerts under category/type -->
       {{ range .alerts }}
-        <tr>
-          <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
-          <td>{{ .type }}</td>
-          <td>{{ .description }}</td>
-        </tr>
+        {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
+          <tr>
+            <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
+            <td>{{ .type }}</td>
+            <td>{{ .description }}</td>
+          </tr>
+        {{ end }}
       {{ end }}
     </table>
   </div>
@@ -33,48 +35,50 @@ Alert List
 
   <!-- Create a detail entry for each alert under category/type -->
   {{ range .alerts }}
-  <br><br>
-    <div id="{{ anchorize .name }}">
-      <hr style="height: 4px;">
-      <h3>{{ .name }} - {{ .type }} Alert</h3>
-      <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
-      <h4>Recommended Properties:</h4>
-      {{ if eq .type "Metric" }}
-        {{- partial "metricAlertProperties" .properties }}
-      {{ else if eq .type "Log" }}
-        {{- partial "logAlertProperties" .properties }}
-      {{ else if eq .type "ActivityLog" }}
-        {{- partial "activityAlertProperties" .properties }}
-      {{ end }}
-      {{ if .properties.query }}
-        <div>
-          <h4>Query:</h4>
+    {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
+    <br><br>
+      <div id="{{ anchorize .name }}">
+        <hr style="height: 4px;">
+        <h3>{{ .name }} - {{ .type }} Alert</h3>
+        <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
+        <h4>Recommended Properties:</h4>
+        {{ if eq .type "Metric" }}
+          {{- partial "metricAlertProperties" .properties }}
+        {{ else if eq .type "Log" }}
+          {{- partial "logAlertProperties" .properties }}
+        {{ else if eq .type "ActivityLog" }}
+          {{- partial "activityAlertProperties" .properties }}
+        {{ end }}
+        {{ if .properties.query }}
           <div>
-            {{ transform.Highlight .properties.query "plaintext" }}
+            <h4>Query:</h4>
+            <div>
+              {{ transform.Highlight .properties.query "plaintext" }}
+            </div>
           </div>
-        </div>
-      {{ end }}
-      <h4>References:</h4>
-      <table>
-        {{ range .references }}
-          <tr>
-            <td><a href="{{ .url }}" target="_blank">{{ .name }}</a></td>
-            {{ $url := path.Join $.Page.File.Dir .template }}
-          </tr>
         {{ end }}
-      </table>
-      <h4>Deployment Templates:</h4>
-      <table>
-        {{ range .deployments }}
-          <tr>
-            <td>{{ .description }}</td>
-            {{ $url := path.Join $.Page.File.Dir .template }}
-            <td>
-              <a href="{{ relURL $url }}" target="_blank">View</a> | <a href="{{ relURL $url }}" download>Download</a>
-            </td>
-          </tr>
-        {{ end }}
-      </table>
-    </div>
+        <h4>References:</h4>
+        <table>
+          {{ range .references }}
+            <tr>
+              <td><a href="{{ .url }}" target="_blank">{{ .name }}</a></td>
+              {{ $url := path.Join $.Page.File.Dir .template }}
+            </tr>
+          {{ end }}
+        </table>
+        <h4>Deployment Templates:</h4>
+        <table>
+          {{ range .deployments }}
+            <tr>
+              <td>{{ .description }}</td>
+              {{ $url := path.Join $.Page.File.Dir .template }}
+              <td>
+                <a href="{{ relURL $url }}" target="_blank">View</a> | <a href="{{ relURL $url }}" download>Download</a>
+              </td>
+            </tr>
+          {{ end }}
+        </table>
+      </div>
+    {{ end }}
   {{ end }}
 {{ end }}

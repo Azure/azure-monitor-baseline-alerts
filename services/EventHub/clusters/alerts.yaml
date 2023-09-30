@@ -1,0 +1,23 @@
+- name: CPU
+  description: CPU utilization for the Event Hub Cluster as a percentage
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-930
+  properties:
+    metricName: CPU
+    metricNamespace: Microsoft.EventHub/clusters
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: role
+      operator: include
+      values:
+      - sbsfe
+    threshold: 70.0

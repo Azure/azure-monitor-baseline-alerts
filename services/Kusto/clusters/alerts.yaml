@@ -1,0 +1,142 @@
+- name: IngestionLatencyInSeconds
+  description: Latency of data ingested, from the time the data was received in the
+    cluster until it's ready for query. The ingestion latency period depends on the
+    ingestion scenario.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1722
+  properties:
+    metricName: IngestionLatencyInSeconds
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 4
+    windowSize: PT6H
+    evaluationFrequency: PT5M
+    timeAggregation: Minimum
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 1800.0
+- name: KeepAlive
+  description: Sanity check indicates the cluster responds to queries
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1046
+  properties:
+    metricName: KeepAlive
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 4
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.5
+- name: CPU
+  description: CPU utilization level
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-986
+  properties:
+    metricName: CPU
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 3
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 70.0
+- name: BlobsDropped
+  description: Number of blobs permanently rejected by a component.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-884
+  properties:
+    metricName: BlobsDropped
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 4
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: IngestionResult
+  description: Total number of sources that either failed or succeeded to be ingested.
+    Splitting the metric by status, you can get detailed information about the status
+    of the ingestion operations.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-860
+  properties:
+    metricName: IngestionResult
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 4
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Total
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: failurekind
+      operator: include
+      values:
+      - permanent
+    threshold: 300.0
+- name: CacheUtilization
+  description: Utilization level in the cluster scope. The metric is deprecated and
+    presented for backward compatibility only, you should use the 'Cache utilization
+    factor' metric instead.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-296
+  properties:
+    metricName: CacheUtilization
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 3
+    windowSize: PT12H
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 95.0
+- name: QueryResult
+  description: Total number of queries.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-250
+  properties:
+    metricName: QueryResult
+    metricNamespace: Microsoft.Kusto/clusters
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: querystatus
+      operator: exclude
+      values:
+      - completed
+    threshold: 100.0
