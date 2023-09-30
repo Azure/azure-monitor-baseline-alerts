@@ -1,5 +1,5 @@
 ---
-title: vaults
+title: Vaults
 geekdocCollapseSection: true
 ---
 
