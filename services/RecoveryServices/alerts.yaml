@@ -1,0 +1,15 @@
+- name: Deploy RV Backup Health Monitoring Alerts
+  description: Deploy RecoveryVault BackupHealthMonitor Alert
+  type: Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings
+  properties:
+    category: Site Recovery
+    operationName: Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures"
+    status: [ Enabled ]
+  references:
+  - name: Azure Monitor Alerts for Azure Backup
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Move to Azure Monitor Alerts
+    url: https://learn.microsoft.com/en-us/azure/backup/move-to-azure-monitor-alerts
+  deployments:
+  - description: Policy to audit/update Recovery Vault Backup Health Alerting to Azure monitor alerts
+    template: Modify-RSV-BackupHealth-Alert.json
