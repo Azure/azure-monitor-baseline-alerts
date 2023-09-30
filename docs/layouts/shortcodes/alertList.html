@@ -20,7 +20,7 @@ Alert List
       </tr>
       <!-- Loop through alerts under category/type -->
       {{ range .alerts }}
-        {{ if eq .visible true }}
+        {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
           <tr>
             <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
             <td>{{ .type }}</td>
@@ -35,7 +35,7 @@ Alert List
 
   <!-- Create a detail entry for each alert under category/type -->
   {{ range .alerts }}
-    {{ if eq .visible true }}
+    {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
     <br><br>
       <div id="{{ anchorize .name }}">
         <hr style="height: 4px;">

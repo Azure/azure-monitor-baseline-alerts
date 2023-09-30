@@ -1,8 +1,8 @@
 - name: Vip Availability
-  description: Metric Alert for ALB Data Path Availability
+  description: Average Load Balancer data path availability per time duration
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -16,13 +16,14 @@
     threshold: 90
     criterionType: StaticThresholdCriterion
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Data Path Availability Alert
+  - description: Policy to audit/deploy Azure Load Balancer Data Path Availability
+      Alert
     template: Deploy-LB-DatapathAvailability-Alert.json
 - name: Global Backend Availability
   description: Metric Alert for Global Backend Availability
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -36,13 +37,14 @@
     threshold: 90
     criterionType: StaticThresholdCriterion
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Global Backend Availability Alert
+  - description: Policy to audit/deploy Azure Load Balancer Global Backend Availability
+      Alert
     template: Deploy-LB-GlobalBackendAvailability-Alert.json
 - name: Dip Availability
-  description: Metric Alert for ALB Health Probe Status
+  description: Average Load Balancer health probe status per time duration
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -61,8 +63,8 @@
 - name: Used SNAT Ports
   description: Metric Alert for ALB Used SNAT Ports
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -78,3 +80,85 @@
   deployments:
   - description: Policy to audit/deploy Azure Load Balancer Used SNAT Ports Alert
     template: Deploy-LB-UsedSNATPorts-Alert.json
+- name: DipAvailability
+  description: Average Load Balancer health probe status per time duration
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-453234
+  properties:
+    metricName: DipAvailability
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 51.0
+- name: UsedSnatPorts
+  description: Total number of SNAT ports used within time period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-16013
+  properties:
+    metricName: UsedSnatPorts
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: backendipaddress
+      operator: include
+      values:
+      - '*'
+    threshold: 900.0
+- name: VipAvailability
+  description: Average Load Balancer data path availability per time duration
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-14028
+  properties:
+    metricName: VipAvailability
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 50.0
+- name: SnatConnectionCount
+  description: Total number of new SNAT connections created within time period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2923
+  properties:
+    metricName: SnatConnectionCount
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: connectionstate
+      operator: include
+      values:
+      - failed
+    threshold: 0.0

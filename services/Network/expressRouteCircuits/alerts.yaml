@@ -1,8 +1,8 @@
 - name: ARP Availability
-  description: Metric Alert for ExpressRoute Circuit ARP Availability
+  description: ARP Availability from MSEE towards all peers.
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -19,10 +19,10 @@
   - description: Policy to audit/deploy ExpressRoute Circuits ARP Availability Alert
     template: Deploy-ERCIR-ARPAvailability-Alert.json
 - name: BGP Availability
-  description: Metric Alert for ExpressRoute Circuit BGP Availability
+  description: BGP Availability from MSEE towards all peers.
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -39,10 +39,10 @@
   - description: Policy to audit/deploy ExpressRoute Circuits BGP Availability Alert
     template: Deploy-ERCIR-BGPAvailability-Alert.json
 - name: QOS Drop Bits In Per Second
-  description: Metric Alert for ExpressRoute Circuit QosDropBitsInPerSecond
+  description: Ingress bits of data dropped per second
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -59,13 +59,14 @@
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
   deployments:
-  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
+  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsInPerSecond
+      Alert
     template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
 - name: QOS Drop Bits Out Per Second
-  description: Metric Alert for ExpressRoute Circuit QosDropBitsOutPerSecond
+  description: Egress bits of data dropped per second
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -82,5 +83,114 @@
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
   deployments:
-  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
+  - description: Policy to audit/deploy ExpressRoute Circuits QosDropBitsOutPerSecond
+      Alert
     template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json
+- name: BgpAvailability
+  description: BGP Availability from MSEE towards all peers.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2720
+  properties:
+    metricName: BgpAvailability
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: BitsInPerSecond
+  description: Bits ingressing Azure per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1448
+  properties:
+    metricName: BitsInPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 800000000.0
+- name: BitsOutPerSecond
+  description: Bits egressing Azure per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1261
+  properties:
+    metricName: BitsOutPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 800000000.0
+- name: ArpAvailability
+  description: ARP Availability from MSEE towards all peers.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1256
+  properties:
+    metricName: ArpAvailability
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: QosDropBitsInPerSecond
+  description: Ingress bits of data dropped per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-436
+  properties:
+    metricName: QosDropBitsInPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: QosDropBitsOutPerSecond
+  description: Egress bits of data dropped per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-390
+  properties:
+    metricName: QosDropBitsOutPerSecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0

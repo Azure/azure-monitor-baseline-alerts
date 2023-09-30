@@ -1,8 +1,9 @@
 - name: Available Memory Bytes (MBytes)
-  description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
+  description: Amount of physical memory, in bytes, immediately available for allocation
+    to a process or for system use in the Virtual Machine
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -24,8 +25,8 @@
 - name: Data Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Read Latency (ms)
   type: Log
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -40,28 +41,37 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | where Disk !in ('C:','/')
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+
+      | where Disk !in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Data Disk Read Latency Alert
     template: Deploy-VM-DataDiskReadLatency-Alert.json
 - name: Data Disk Free Space Percentage
   description: Log Alert for Virtual Machine Data Disk Free Space Percentage
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -76,28 +86,37 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk"and Name == "FreeSpacePercentage"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | where Disk !in ('C:','/')
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+
+      | where Disk !in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Data Disk Free Space Percentage Alert
     template: Deploy-VM-DataDiskSpace-Alert.json
 - name: Data Disk Write Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Write Latency (ms)
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -112,20 +131,29 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | where Disk !in ('C:','/')
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk
+
+      | where Disk !in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Data Disk Write Latency Alert
     template: Deploy-VM-DataDiskWriteLatency-Alert.json
@@ -144,18 +172,25 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      Heartbeat
+    query: 'Heartbeat
+
       | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
-      | extend Duration = datetime_diff('minute',now(),TimeGenerated)
-      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId
+
+      | extend Duration = datetime_diff(''minute'',now(),TimeGenerated)
+
+      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m),
+      _ResourceId
+
+      '
   deployments:
   - description: Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription
     template: Deploy-VM-HeartBeat-Alert.json
@@ -165,8 +200,8 @@
 - name: Network Read (bytes/sec)
   description: Log Alert for Virtual Machine Network Read (bytes/sec)
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -181,27 +216,35 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       NetworkInterface:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Network" and Name == "ReadBytesPerSecond"
+
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, NetworkInterface
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Nework Read (bytes/sec) Alert
     template: Deploy-VM-NetworkIn-Alert.json
 - name: Network Write (bytes/sec)
   description: Log Alert for Virtual Machine Network Write (bytes/sec)
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -216,27 +259,35 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       NetworkInterface:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Network" and Name == "WriteBytesPerSecond"
+
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, NetworkInterface
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Nework Write (bytes/sec) Alert
     template: Deploy-VM-NetworkOut-Alert.json
 - name: OS Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data OS Read Latency (ms)
   type: Log
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -251,27 +302,35 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM OS Disk Read Latency Alert
     template: Deploy-VM-OSDiskReadLatency-Alert.json
 - name: OS Disk Free Space Percentage
   description: Log Alert for Virtual Machine OS Disk Free Space Percentage
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -286,27 +345,35 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM OS Disk Free Space Percentage Alert
     template: Deploy-VM-OSDiskSpace-Alert.json
 - name: OS Disk Write Latency (ms)
   description: Log Alert for Virtual Machine OS Disk Write Latency (ms)
   type: Log
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -321,26 +388,33 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
       Disk:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics| where Origin == "vm.azm.ms"
+    query: 'InsightsMetrics| where Origin == "vm.azm.ms"
+
       | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, Disk
+
+      '
   deployments:
   - description: Policy to audit/deploy VM OS Disk Write Latency Alert
     template: Deploy-VM-OSDiskWriteLatency-Alert.json
 - name: Processor Utilization Percentage
   description: Log Alert for Virtual Machine Processor Utilization Percentage
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -355,23 +429,29 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Processor" and Name == "UtilizationPercentage"
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Processor Utilization Percentage Alert
     template: Deploy-VM-PercentCPU-Alert.json
 - name: Available Memory Percentage
   description: Log Alert for Virtual Machine Available Memory Percentage
   type: Log
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -386,17 +466,620 @@
     dimensions:
       Computer:
         operator: Include
-        values: ['*']
+        values:
+        - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: |
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Memory" and Name == "AvailableMB"
+
       | extend TotalMemory = toreal(todynamic(Tags)["vm.azm.ms/memorySizeMB"])
+
       | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0
-      | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId
+
+      | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated,
+      15m), Computer, _ResourceId
+
+      '
   deployments:
   - description: Policy to audit/deploy VM Available Memory Percentage Alert
     template: Deploy-VM-PercentMemory-Alert.json
+- name: Percentage CPU
+  description: The percentage of allocated compute units that are currently in use
+    by the Virtual Machine(s)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-334990
+  properties:
+    metricName: Percentage CPU
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: Data Disk IOPS Consumed Percentage
+  description: Percentage of data disk I/Os consumed per minute. Only available on
+    VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-139392
+  properties:
+    metricName: Data Disk IOPS Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 95.0
+- name: OS Disk IOPS Consumed Percentage
+  description: Percentage of operating system disk I/Os consumed per minute. Only
+    available on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-134481
+  properties:
+    metricName: OS Disk IOPS Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 95.0
+- name: Available Memory Bytes
+  description: Amount of physical memory, in bytes, immediately available for allocation
+    to a process or for system use in the Virtual Machine
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-130712
+  properties:
+    metricName: Available Memory Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000000000.0
+- name: Network In Total
+  description: The number of bytes received on all network interfaces by the Virtual
+    Machine(s) (Incoming Traffic)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-112534
+  properties:
+    metricName: Network In Total
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 500000000000.0
+- name: Network Out Total
+  description: The number of bytes out on all network interfaces by the Virtual Machine(s)
+    (Outgoing Traffic)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-111827
+  properties:
+    metricName: Network Out Total
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 200000000000.0
+- name: VmAvailabilityMetric
+  description: Measure of Availability of Virtual machines over time.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-83394
+  properties:
+    metricName: VmAvailabilityMetric
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: OS Disk Bandwidth Consumed Percentage
+  description: Percentage of operating system disk bandwidth consumed per minute.
+    Only available on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-10847
+  properties:
+    metricName: OS Disk Bandwidth Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: Inbound Flows
+  description: Inbound Flows are number of current flows in the inbound direction
+    (traffic going into the VM)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-9070
+  properties:
+    metricName: Inbound Flows
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100000.0
+- name: Outbound Flows
+  description: Outbound Flows are number of current flows in the outbound direction
+    (traffic going out of the VM)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-8907
+  properties:
+    metricName: Outbound Flows
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100000.0
+- name: Data Disk Bandwidth Consumed Percentage
+  description: Percentage of data disk bandwidth consumed per minute. Only available
+    on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-8619
+  properties:
+    metricName: Data Disk Bandwidth Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: CPU Credits Remaining
+  description: Total number of credits available to burst. Only available on B-series
+    burstable VMs
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-7495
+  properties:
+    metricName: CPU Credits Remaining
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+- name: Data Disk Queue Depth
+  description: Data Disk Queue Depth(or Queue Length)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-6104
+  properties:
+    metricName: Data Disk Queue Depth
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: Network In
+  description: The number of billable bytes received on all network interfaces by
+    the Virtual Machine(s) (Incoming Traffic) (Deprecated)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-3454
+  properties:
+    metricName: Network In
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 4
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: Network Out
+  description: The number of billable bytes out on all network interfaces by the Virtual
+    Machine(s) (Outgoing Traffic) (Deprecated)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-3451
+  properties:
+    metricName: Network Out
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 4
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: VM Cached IOPS Consumed Percentage
+  description: Percentage of cached disk IOPS consumed by the VM. Only available on
+    VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2657
+  properties:
+    metricName: VM Cached IOPS Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: OS Disk Queue Depth
+  description: OS Disk Queue Depth(or Queue Length)
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2651
+  properties:
+    metricName: OS Disk Queue Depth
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10.0
+- name: VM Cached Bandwidth Consumed Percentage
+  description: Percentage of cached disk bandwidth consumed by the VM. Only available
+    on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2581
+  properties:
+    metricName: VM Cached Bandwidth Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: VM Uncached IOPS Consumed Percentage
+  description: Percentage of uncached disk IOPS consumed by the VM. Only available
+    on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2124
+  properties:
+    metricName: VM Uncached IOPS Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: VM Uncached Bandwidth Consumed Percentage
+  description: Percentage of uncached disk bandwidth consumed by the VM. Only available
+    on VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2115
+  properties:
+    metricName: VM Uncached Bandwidth Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: Disk Write Operations/Sec
+  description: Disk Write IOPS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1678
+  properties:
+    metricName: Disk Write Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10.0
+- name: CPU Credits Consumed
+  description: Total number of credits consumed by the Virtual Machine. Only available
+    on B-series burstable VMs
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1239
+  properties:
+    metricName: CPU Credits Consumed
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: Data Disk Write Bytes/sec
+  description: Bytes/Sec written to a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1031
+  properties:
+    metricName: Data Disk Write Bytes/sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10000000.0
+- name: OS Disk Write Bytes/sec
+  description: Bytes/Sec written to a single disk during monitoring period for OS
+    disk
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1020
+  properties:
+    metricName: OS Disk Write Bytes/sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 48000000.0
+- name: Disk Read Operations/Sec
+  description: Disk Read IOPS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-688
+  properties:
+    metricName: Disk Read Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 400.0
+- name: OS Disk Max Burst IOPS
+  description: Maximum IOPS OS Disk can achieve with bursting
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-488
+  properties:
+    metricName: OS Disk Max Burst IOPS
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT30M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 3500.0
+- name: Data Disk Read Operations/Sec
+  description: Read IOPS from a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-480
+  properties:
+    metricName: Data Disk Read Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: Data Disk Max Burst IOPS
+  description: Maximum IOPS Data Disk can achieve with bursting
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-423
+  properties:
+    metricName: Data Disk Max Burst IOPS
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT30M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 3750.0
+- name: Disk Write Bytes
+  description: Bytes written to disk during monitoring period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-389
+  properties:
+    metricName: Disk Write Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 107374182400.0
+- name: OS Disk Write Operations/Sec
+  description: Write IOPS from a single disk during monitoring period for OS disk
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-382
+  properties:
+    metricName: OS Disk Write Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 200.0
+- name: Disk Read Bytes
+  description: Bytes read from disk during monitoring period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-370
+  properties:
+    metricName: Disk Read Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: Data Disk Write Operations/Sec
+  description: Write IOPS from a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-334
+  properties:
+    metricName: Data Disk Write Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0

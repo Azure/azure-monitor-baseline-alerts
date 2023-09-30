@@ -1,8 +1,8 @@
 - name: Tunnel Average Bandwidth
-  description: Metric Alert for VNet Gateway Tunnel Avg Bandwidth
+  description: Average bandwidth of a tunnel in bytes per second
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -21,8 +21,8 @@
 - name: Tunnel Egress Bytes
   description: Metric Alert for VNet Gateway Tunnel Egress Bytes
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -41,8 +41,8 @@
 - name: Tunnel Egress Packet Drop Count
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropCount
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -64,8 +64,8 @@
 - name: Tunnel Egress Packet Drop TS Mismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropTSMismatch
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -87,8 +87,8 @@
 - name: ExpressRoute Gateway Bits Per Second
   description: Metric Alert for VNet Gateway Express Route Bits Per Second
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -102,13 +102,14 @@
     threshold: 1
     criterionType: StaticThresholdCriterion
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Express Route Bits Per Second Alert
+  - description: Policy to audit/deploy Virtual Network Gateway Express Route Bits
+      Per Second Alert
     template: Deploy-VNETG-ERGBitsPerSecond-Alert.json
 - name: ExpressRoute Gateway CPU Utilization
-  description: Metric Alert for VNet Gateway Express Route CPU Utilization
+  description: CPU Utilization of the ExpressRoute Gateway
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -122,13 +123,14 @@
     threshold: 80
     criterionType: StaticThresholdCriterion
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Express Route CPU Utilization
+  - description: Policy to audit/deploy Virtual Network Gateway Express Route CPU
+      Utilization
     template: Deploy-VNETG-ERGCPUUtilization-Alert.json
 - name: Tunnel Ingress Bytes
   description: Metric Alert for VNet Gateway Tunnel ingress Bytes
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -147,8 +149,8 @@
 - name: Tunnel Ingress Packet Drop Count
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropCount
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -170,8 +172,8 @@
 - name: Tunnel Ingress Packet Drop TS Mismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -188,5 +190,60 @@
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch Alert
+  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch
+      Alert
     template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+- name: TunnelAverageBandwidth
+  description: Average bandwidth of a tunnel in bytes per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1069
+  properties:
+    metricName: TunnelAverageBandwidth
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: ExpressRouteGatewayCpuUtilization
+  description: CPU Utilization of the ExpressRoute Gateway
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-428
+  properties:
+    metricName: ExpressRouteGatewayCpuUtilization
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: AverageBandwidth
+  description: Site-to-site bandwidth of a gateway in bytes per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-340
+  properties:
+    metricName: AverageBandwidth
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 450000000.0

@@ -1,8 +1,8 @@
 - name: If Under DDoS Attack
   description: Metric Alert for VNet DDOS Attack
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -18,3 +18,21 @@
   deployments:
   - description: Policy to audit/deploy Virtual Network DDoS Attack Alert
     template: Deploy-VNET-DDOSAttack-Alert.json
+- name: IfUnderDDoSAttack
+  description: Under DDoS attack or not
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-613
+  properties:
+    metricName: IfUnderDDoSAttack
+    metricNamespace: Microsoft.Network/virtualNetworks
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0

@@ -1,8 +1,12 @@
 - name: Deploy SA Availability Alert
-  description: Metric Alert for Storage Account Availability
+  description: The percentage of availability for the storage service or the specified
+    API operation. Availability is calculated by taking the TotalBillableRequests
+    value and dividing it by the number of applicable requests, including those that
+    produced unexpected errors. All unexpected errors result in reduced availability
+    for the storage service or the specified API operation.
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -18,3 +22,320 @@
   deployments:
   - description: Policy to audit/deploy SA Availability Alert
     template: Deploy-SA-Availability-Alert.json
+- name: UsedCapacity
+  description: The amount of storage used by the storage account. For standard storage
+    accounts, it's the sum of capacity used by blob, table, file, and queue. For premium
+    storage accounts and Blob storage accounts, it is the same as BlobCapacity or
+    FileCapacity.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-42019
+  properties:
+    metricName: UsedCapacity
+    metricNamespace: Microsoft.Storage/storageAccounts
+    severity: 3
+    windowSize: P1D
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 4000000000000000.0
+- name: Egress
+  description: The amount of egress data. This number includes egress to external
+    client from Azure Storage as well as egress within Azure. As a result, this number
+    does not reflect billable egress.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-3835
+  properties:
+    metricName: Egress
+    metricNamespace: Microsoft.Storage/storageAccounts
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 60000000.0
+- name: Ingress
+  description: The amount of ingress data, in bytes. This number includes ingress
+    from an external client into Azure Storage as well as ingress within Azure.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-2468
+  properties:
+    metricName: Ingress
+    metricNamespace: Microsoft.Storage/storageAccounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1073741824.0
+- name: BlobCapacity
+  description: The amount of storage used by the storage account's Blob service in
+    bytes.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1986
+  properties:
+    metricName: BlobCapacity
+    metricNamespace: Microsoft.Storage/storageAccounts/blobServices
+    severity: 3
+    windowSize: P1D
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 107374182400.0
+- name: SuccessE2ELatency
+  description: The average end-to-end latency of successful requests made to a storage
+    service or the specified API operation, in milliseconds. This value includes the
+    required processing time within Azure Storage to read the request, send the response,
+    and receive acknowledgment of the response.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-504
+  properties:
+    metricName: SuccessE2ELatency
+    metricNamespace: Microsoft.Storage/storageAccounts/blobServices
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
+- name: BlobCount
+  description: The number of blob objects stored in the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-325
+  properties:
+    metricName: BlobCount
+    metricNamespace: Microsoft.Storage/storageAccounts/blobServices
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: SuccessServerLatency
+  description: The average time used to process a successful request by Azure Storage.
+    This value does not include the network latency specified in SuccessE2ELatency.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-257
+  properties:
+    metricName: SuccessServerLatency
+    metricNamespace: Microsoft.Storage/storageAccounts/blobServices
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
+- name: QueueMessageCount
+  description: The number of unexpired queue messages in the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1583
+  properties:
+    metricName: QueueMessageCount
+    metricNamespace: Microsoft.Storage/storageAccounts/queueServices
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
+- name: QueueCapacity
+  description: The amount of Queue storage used by the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-543
+  properties:
+    metricName: QueueCapacity
+    metricNamespace: Microsoft.Storage/storageAccounts/queueServices
+    severity: 0
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: QueueCount
+  description: The number of queues in the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-481
+  properties:
+    metricName: QueueCount
+    metricNamespace: Microsoft.Storage/storageAccounts/queueServices
+    severity: 0
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: FileCapacity
+  description: The amount of File storage used by the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-8048
+  properties:
+    metricName: FileCapacity
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 96636764160.0
+- name: Transactions
+  description: The number of requests made to a storage service or the specified API
+    operation. This number includes successful and failed requests, as well as requests
+    which produced errors. Use ResponseType dimension for the number of different
+    type of response.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-1467
+  properties:
+    metricName: Transactions
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - name: responsetype
+      operator: include
+      values:
+      - success
+    - name: authentication
+      operator: include
+      values:
+      - anonymous
+    threshold: 10.0
+- name: FileShareSnapshotCount
+  description: The number of snapshots present on the share in storage account's Files
+    Service.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-654
+  properties:
+    metricName: FileShareSnapshotCount
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 190.0
+- name: Availability
+  description: The percentage of availability for the storage service or the specified
+    API operation. Availability is calculated by taking the TotalBillableRequests
+    value and dividing it by the number of applicable requests, including those that
+    produced unexpected errors. All unexpected errors result in reduced availability
+    for the storage service or the specified API operation.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-620
+  properties:
+    metricName: Availability
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 99.9
+- name: FileShareCount
+  description: The number of file shares in the storage account.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-407
+  properties:
+    metricName: FileShareCount
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 0
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: FileShareCapacityQuota
+  description: The upper limit on the amount of storage that can be used by Azure
+    Files Service in bytes.
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-357
+  properties:
+    metricName: FileShareCapacityQuota
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 0
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 108851651149824.0

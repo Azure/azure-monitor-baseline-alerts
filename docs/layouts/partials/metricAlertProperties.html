@@ -1,33 +1,26 @@
 
 <div><table>
   <tr>
-    <th>Criterion Type</th>
-    {{ if isset . "dimensions" }}
-      <th>Dimensions</th>
-    {{ end }}
+    <th>Operator</th>
+    <th>Aggregation</th>
     {{ if eq .criterionType "DynamicThresholdCriterion" }}
       <th>Alert Sensitivity</th>
       <th>Failing Periods</th>
+    {{ else }}
+      <th>Threshold</th>
     {{ end }}
-    <th>Aggregation</th>
-    <th>Operator</th>
-    <th>Threshold</th>
     <th>Window</th>
     <th>Frequency</th>
     <th>Severity</th>
+    {{ if isset . "dimensions" }}
+      <th>Dimensions</th>
+    {{ end }}
+    <th>Criterion Type</th>
   </tr>
 
   <tr>
-    <td>{{ .criterionType }}</td>
-    {{ if isset . "dimensions" }}
-      <td>
-        {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
-          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
-        {{ else }}
-          {{ .dimensions }}
-        {{ end }}
-      </td>
-    {{ end }}
+    <td>{{ .operator }}</td>
+    <td>{{ .timeAggregation }}</td>
     {{ if eq .criterionType "DynamicThresholdCriterion" }}
       <td>{{ .alertSensitivity }}</td>
       <td>
@@ -37,12 +30,21 @@
           {{ .failingPeriods }}
         {{ end }}
       </td>
+    {{ else }}
+      <td>{{  cast.ToString .threshold }}</td>
     {{ end }}
-    <td>{{ .timeAggregation }}</td>
-    <td>{{ .operator }}</td>
-    <td>{{ .threshold }}</td>
     <td>{{ .windowSize }}</td>
     <td>{{ .evaluationFrequency }}</td>
     <td>{{ .severity }}</td>
+    {{ if isset . "dimensions" }}
+      <td>
+        {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
+          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
+        {{ else }}
+          {{ .dimensions }}
+        {{ end }}
+      </td>
+    {{ end }}
+    <td>{{ .criterionType }}</td>
   </tr>
 </table></div>

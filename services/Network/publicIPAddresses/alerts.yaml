@@ -1,8 +1,8 @@
 - name: Bytes In DDoS
   description: Metric Alert for Public IP Address Bytes IN DDOS
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -21,8 +21,8 @@
 - name: If Under DDoS Attack
   description: Metric Alert for Public IP Address Under Attack
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -39,10 +39,10 @@
   - description: Policy to audit/deploy PIP DDoS Attack Alert
     template: Deploy-PIP-DDOSAttack-Alert.json
 - name: Packets In DDoS
-  description: Metric Alert for Public IP Address Packets IN DDOS
+  description: Inbound packets DDoS
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -59,10 +59,10 @@
   - description: Policy to audit/deploy PIP Packets in DDoS Attack Alert
     template: Deploy-PIP-PacketsInDDOS-Alert.json
 - name: VIP Availability
-  description: Metric Alert for Public IP Address VIP Availability
+  description: Average IP Address availability per time duration
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -78,3 +78,147 @@
   deployments:
   - description: Policy to audit/deploy PIP VIP Availability Alert
     template: Deploy-PIP-VIPAvailability-Alert.json
+- name: IfUnderDDoSAttack
+  description: Under DDoS attack or not
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-6674
+  properties:
+    metricName: IfUnderDDoSAttack
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: BytesInDDoS
+  description: Inbound bytes DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-977
+  properties:
+    metricName: BytesInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 8000000.0
+- name: VipAvailability
+  description: Average IP Address availability per time duration
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-856
+  properties:
+    metricName: VipAvailability
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+- name: PacketsInDDoS
+  description: Inbound packets DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-685
+  properties:
+    metricName: PacketsInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 40000.0
+- name: TCPPacketsInDDoS
+  description: Inbound TCP packets DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-620
+  properties:
+    metricName: TCPPacketsInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 40000.0
+- name: TCPBytesInDDoS
+  description: Inbound TCP bytes DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-619
+  properties:
+    metricName: TCPBytesInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 40000.0
+- name: UDPPacketsInDDoS
+  description: Inbound UDP packets DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-589
+  properties:
+    metricName: UDPPacketsInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 40000.0
+- name: UDPBytesInDDoS
+  description: Inbound UDP bytes DDoS
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - auto-generated
+  - agc-585
+  properties:
+    metricName: UDPBytesInDDoS
+    metricNamespace: Microsoft.Network/publicIPAddresses
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 40000.0

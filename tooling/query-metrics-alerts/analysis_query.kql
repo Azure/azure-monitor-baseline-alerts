@@ -1,0 +1,98 @@
+let resourceTypes = MetricAlertRules(ago(1d))
+| summarize numRulesRt=dcount(RuleId) by resourceType=tolower(resourceType)
+| where numRulesRt > 1000
+| order by numRulesRt;
+
+let rulesExpanded = MetricAlertRules(ago(1d))
+| where tolower(resourceType) in (resourceTypes)
+| mv-expand allCriteria
+| extend metricName=tolower(parse_json(allCriteria)["metricName"]),
+        operator=tolower(parse_json(allCriteria)["operator"]),
+        timeAggregation=tolower(parse_json(allCriteria)["timeAggregation"]),
+        criterionType=tolower(parse_json(allCriteria)["criterionType"]),
+        dimensions=tolower(parse_json(allCriteria)["dimensions"]),
+        severity=toint(parse_json(JsonPayload)["genevaAlertMonitor"]["properties"]["severity"]),
+        threshold=tolower(parse_json(allCriteria)["threshold"]),
+        alertSensitivity=tolower(parse_json(allCriteria)["alertSensitivity"]),
+        numberOfEvaluationPeriods=toint(parse_json(allCriteria)["failingPeriods"]["numberOfEvaluationPeriods"]),
+        minFailingPeriodsToAlert=toint(parse_json(allCriteria)["failingPeriods"]["minFailingPeriodsToAlert"])
+| extend group = tostring(bag_pack("resourceType", resourceType, "metricName", metricName, "operator", operator, "timeAggregation", timeAggregation, "criterionType", criterionType));
+
+rulesExpanded
+| extend rt_metric = bag_pack("resourceType", resourceType, "metricName", metricName)
+| summarize numRules=dcount(RuleId) by tostring(rt_metric), operator, timeAggregation, criterionType
+| partition hint.strategy=native by rt_metric
+    (
+        top 1 by numRules
+    )
+| where numRules > 50
+| extend a = parse_json(rt_metric)
+| evaluate bag_unpack(a)
+| extend group = tostring(bag_pack("resourceType", resourceType, "metricName", metricName, "operator", operator, "timeAggregation", timeAggregation, "criterionType", criterionType))
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules1=dcount(RuleId) by group, frequency, windowSize
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules1
+            )
+    ) on group
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules2=dcount(RuleId) by group, dimensions
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules2
+            )
+    ) on group
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules3=dcount(RuleId) by group, severity
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules3
+            )
+    ) on group
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules4=dcount(RuleId) by group, threshold
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules4
+            )
+    ) on group
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules5=dcount(RuleId) by group, alertSensitivity
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules5
+            )
+    ) on group
+| join kind=inner
+    (
+        rulesExpanded
+        | where group == group
+        | summarize numRules6=dcount(RuleId) by group, numberOfEvaluationPeriods, minFailingPeriodsToAlert
+        | partition hint.strategy=native by group
+            (
+                top 1 by numRules6
+            )
+    ) on group
+| lookup kind=inner
+    (
+        resourceTypes
+    ) on resourceType
+| extend failingPeriods = iif(criterionType =~ "DynamicThresholdCriterion", bag_pack("numberOfEvaluationPeriods", numberOfEvaluationPeriods, "minFailingPeroidsToAlert", "minFailingPeroidsToAlert"), "")
+| project resourceType, numRulesRt, metricName, numRules, operator, timeAggregation, criterionType, frequency, windowSize, severity, dimensions, threshold, alertSensitivity, failingPeriods
+| order by resourceType asc, numRules desc
