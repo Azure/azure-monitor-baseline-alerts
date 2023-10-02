@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_WSF_MemoryQueueLength_Alert",
+  "name": "Deploy_WSF_HttpQueueLength_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy App Service Plan Memory Queue Length Alert",
-    "description": "Policy to audit/deploy App Service Plan Memory Queue Length Alert",
+    "displayName": "Deploy App Service Plan Http Queue Length Alert",
+    "description": "Policy to audit/deploy App Service Plan Http Queue Length Alert",
     "metadata": {
       "version": "1.0.1",
       "category": "Networking",
@@ -138,7 +138,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
-                "equals": "MemoryQueueLength"
+                "equals": "HttpQueueLength"
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
@@ -192,13 +192,13 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-MemoryQueueLengthAlert')]",
+                    "name": "[[concat(parameters('resourceName'), '-HttpQueueLengthAlert')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "description": "Metric Alert for App Service Plan Memory Queue Length",
+                      "description": "Metric Alert for App Service Plan Http Queue Length",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [
@@ -216,7 +216,7 @@
                             },
                             "name": "ServiceApiResult",
                             "metricNamespace": "Microsoft.Web/serverfarms",
-                            "metricName": "MemoryQueueLength",
+                            "metricName": "HttpQueueLength",
                             "operator": "GreaterThan",
                             "timeAggregation": "Average",
                             "criterionType": "DynamicThresholdCriterion"
