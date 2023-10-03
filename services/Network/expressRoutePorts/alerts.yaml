@@ -1,8 +1,8 @@
 - name: Port Bits In Per Second
   description: Metric Alert for ER Direct Connection BitsInPerSecond
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -15,14 +15,21 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct Connection BitsInPerSecond Alert
+  - name: Deploy ER Direct Connection BitsInPerSecond Alert
     template: Deploy-ERP-BitsInPerSecond-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Port Bits Out Per Second
   description: Metric Alert for ER Direct Connection BitsOutPerSecond
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -35,14 +42,21 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct Connection BitsOutPerSecond Alert
+  - name: Deploy ER Direct Connection BitsOutPerSecond Alert
     template: Deploy-ERP-BitsOutPerSecond-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Line Protocol
   description: Metric Alert for ER Direct Connection LineProtocol
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -55,14 +69,21 @@
     operator: LessThan
     threshold: 0.9
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct LineProtocol Alert
+  - name: Deploy ER Direct LineProtocol Alert
     template: Deploy-ERP-LineProtocol-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Rx Light Level High
   description: Metric Alert for ER Direct Connection RxLightLevel High
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -75,14 +96,21 @@
     operator: GreaterThan
     threshold: 0
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct RxLightLevel High Alert
+  - name: Deploy ER Direct RxLightLevel High Alert
     template: Deploy-ERP-RxLightLevelHigh-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Rx Light Level Low
   description: Metric Alert for ER Direct Connection RxLightLevel Low
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -95,14 +123,21 @@
     operator: LessThan
     threshold: -10
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct RxLightLevel Low Alert
+  - name: Deploy ER Direct RxLightLevel Low Alert
     template: Deploy-ERP-RxLightLevelLow-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tx Light Level High
   description: Metric Alert for ER Direct Connection TxLightLevel High
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -115,14 +150,21 @@
     operator: GreaterThan
     threshold: 0
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct TxLightLevel High Alert
+  - name: Deploy ER Direct TxLightLevel High Alert
     template: Deploy-ERP-TxLightLevelHigh-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tx Light Level Low
   description: Metric Alert for ER Direct Connection TxLightLevel Low
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -135,6 +177,13 @@
     operator: LessThan
     threshold: -10
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   deployments:
-  - description: Policy to audit/deploy ER Direct TxLightLevel Low Alert
+  - name: Deploy ER Direct TxLightLevel Low Alert
     template: Deploy-ERP-TxLightLevelLow-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false

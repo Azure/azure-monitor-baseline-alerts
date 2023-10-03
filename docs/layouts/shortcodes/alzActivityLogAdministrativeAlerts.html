@@ -1,0 +1,73 @@
+<div><table>
+  <tr>
+    <th>Alert Policy Name</th>
+    <th>Alert Name</th>
+    <th>PolicyScope</th>
+    <th>category</th>
+    <th>operationName</th>
+    <th>status</th>
+    <th>Scope</th>
+    <th>Documented</th>
+    <th>References</th>
+  </tr>
+
+{{ range $category, $types := $.Site.Data  }}
+  {{ range $type, $rules := $types }}
+    {{ range $rules.alerts }}
+      {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
+        {{ if and (eq .type "ActivityLog") (in .tags "alz") (eq .properties.category "Administrative") }}
+        {{ $data := newScratch }}
+        {{ if isset . "deployments" }}
+          {{ range where .deployments "type" "Policy" }}
+            {{ if and (in .tags "alz") }}
+              {{ $data.Set "name" .name }}
+              {{ $data.Set "url" (relURL (path.Join "services" $category $type .template)) }}
+              {{ $data.Set "scope" .properties.scope }}
+              {{ $data.Set "policyScope" .properties.policyScope }}
+              {{ $data.Set "documented" .properties.documented }}
+              {{ $data.Set "alertName" .properties.alertName }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        <tr>
+          <td>
+            <a href='{{ $data.Get "url" }}'>{{ $data.Get "name" }}</a>
+          </td>
+          <td>
+            {{ $data.Get "alertName" }}
+          </td>
+          <td>
+            {{ $data.Get "policyScope" }}
+          </td>
+          <td>
+            {{ .properties.category }}
+          </td>
+          <td>
+            {{ .properties.operationName }}
+          </td>
+          <td>
+            {{ .properties.status }}
+          </td>
+          <td>
+            {{ $data.Get "scope" }}
+          </td>
+          <td>
+            {{ if ($data.Get "documented") }}
+              Yes
+            {{ else }}
+              No
+            {{ end }}
+          </td>
+          <td>
+            {{ range .references }}
+              <a href="{{ .url }}" target="_blank">{{ .name }}</a>
+            {{ end }}
+          </td>
+        </tr>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+</table></div>

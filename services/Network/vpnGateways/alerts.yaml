@@ -1,22 +1,31 @@
 - name: Activity Log VPN Gateway Delete
   description: Activity Log Alert for VPN Gateway Delete
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
     category: Administrative
     operationName: Microsoft.Network/vpnGateways/delete
-    status: [ succeeded ]
+    status:
+    - succeeded
   deployments:
-  - description: Policy to Deploy Activity Log VPN Gateway Delete Alert
+  - name: Deploy Activity Log VPN Gateway Delete Alert
     template: Deploy-ActivityLog-VPNG-Del.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: false
+      alertName: ActivityVPNGatewayDelete
 - name: Tunnel Average Bandwidth
   description: Metric Alert for VPN Gateway Bandwidth Utilization
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -29,19 +38,26 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Activity Log Service Notifications
-      url:  https://learn.microsoft.com/en-us/azure/service-health/alerts-activity-log-service-notifications-portal
-    - name: Best practices for setting up service health alerts
-      url: https://www.microsoft.com/videoplayer/embed/RE2OtUa  
+  - name: Activity Log Service Notifications
+    url: https://learn.microsoft.com/en-us/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Best practices for setting up service health alerts
+    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Bandwidth Utilization Alert
+  - name: Deploy VPNG Bandwidth Utilization Alert
     template: Deploy-VPNG-BandwidthUtilization-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: BGP Peer Status
   description: Metric Alert for VPN Gateway BGP peer status
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -54,17 +70,24 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway BGP Peer Status Alert
+  - name: Deploy VPNG BGP Peer Status Alert
     template: Deploy-VPNG-BGPPeerStatus-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Bytes
   description: Metric Alert for VPN Gateway tunnel egress bytes
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -77,17 +100,24 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Egress Alert
+  - name: Deploy VPNG Egress Alert
     template: Deploy-VPNG-Egress-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Packet Drop Count
   description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropCount
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -103,17 +133,24 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Egress Packet Drop Count Alert
+  - name: Deploy VPNG Egress Packet Drop Count Alert
     template: Deploy-VPNG-EgressPacketDropCount-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Packet Drop TS Mismatch
   description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropTSMismatch
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -129,17 +166,24 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Egress Packet Drop Mismatch Alert
+  - name: Deploy VPNG Egress Packet Drop Mismatch Alert
     template: Deploy-VPNG-EgressPacketDropMismatch-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Bytes
   description: Metric Alert for VPN Gateway tunnel ingress bytes
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -152,17 +196,24 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Ingress Alert
+  - name: Deploy VPNG Ingress Alert
     template: Deploy-VPNG-Ingress-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Packet Drop Count
   description: Metric Alert for VPN Gateway tunnel TunnelEgressPacketDropCount
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -178,17 +229,24 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy VPN Gateway Ingress Packet Drop Count Alert
+  - name: Deploy VNetG Ingress Packet Drop Count Alert
     template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Packet Drop TS Mismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -204,9 +262,16 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/vpngateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics 
+  - name: Supported metrics for microsoft.network/vpngateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-vpngateways-metrics
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch Alert
+  - name: Deploy VPNG Ingress Packet Drop Mismatch Alert
     template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false

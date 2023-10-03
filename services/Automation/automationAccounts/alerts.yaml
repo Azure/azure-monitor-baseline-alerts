@@ -20,12 +20,19 @@
         operator: Exclude
         values:
         - Completed
+    autoMitigate: false
   references:
   - name: Azure Automation Azure Monitor Metrics
     url: https://docs.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftautomationautomationaccounts
   deployments:
-  - description: Policy to audit/deploy Automation Account TotalJob Alert
+  - name: Deploy Automation Account TotalJob Alert
     template: Deploy-AA-TotalJob-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: TotalJob
   description: The total number of jobs
   type: Metric
@@ -49,6 +56,7 @@
       values:
       - failed
     threshold: 0.0
+    autoMitigate: false
 - name: TotalUpdateDeploymentMachineRuns
   description: Total software update deployment machine runs in a software update
     deployment run
@@ -73,6 +81,7 @@
       values:
       - failed
     threshold: 0.0
+    autoMitigate: false
 - name: TotalUpdateDeploymentRuns
   description: Total software update deployment runs
   type: Metric
@@ -96,3 +105,4 @@
       values:
       - failed
     threshold: 0.0
+    autoMitigate: false

@@ -1,4 +1,4 @@
-- name: Deploy SA Availability Alert
+- name: Availability
   description: The percentage of availability for the storage service or the specified
     API operation. Availability is calculated by taking the TotalBillableRequests
     value and dividing it by the number of applicable requests, including those that
@@ -19,14 +19,21 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Monitoring Availability
-      url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability
-    - name: Supported metrics for Microsoft.Storage/storageAccounts
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
+  - name: Monitoring Availability
+    url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability
+  - name: Supported metrics for Microsoft.Storage/storageAccounts
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
   deployments:
-  - description: Policy to audit/deploy SA Availability Alert
+  - name: Deploy SA Availability Alert
     template: Deploy-SA-Availability-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: UsedCapacity
   description: The amount of storage used by the storage account. For standard storage
     accounts, it's the sum of capacity used by blob, table, file, and queue. For premium
@@ -48,6 +55,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 4000000000000000.0
+    autoMitigate: false
 - name: Egress
   description: The amount of egress data. This number includes egress to external
     client from Azure Storage as well as egress within Azure. As a result, this number
@@ -68,6 +76,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 60000000.0
+    autoMitigate: false
 - name: Ingress
   description: The amount of ingress data, in bytes. This number includes ingress
     from an external client into Azure Storage as well as ingress within Azure.
@@ -87,6 +96,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1073741824.0
+    autoMitigate: false
 - name: BlobCapacity
   description: The amount of storage used by the storage account's Blob service in
     bytes.
@@ -106,6 +116,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 107374182400.0
+    autoMitigate: false
 - name: SuccessE2ELatency
   description: The average end-to-end latency of successful requests made to a storage
     service or the specified API operation, in milliseconds. This value includes the
@@ -127,6 +138,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    autoMitigate: false
 - name: BlobCount
   description: The number of blob objects stored in the storage account.
   type: Metric
@@ -145,6 +157,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: SuccessServerLatency
   description: The average time used to process a successful request by Azure Storage.
     This value does not include the network latency specified in SuccessE2ELatency.
@@ -164,6 +177,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    autoMitigate: false
 - name: QueueMessageCount
   description: The number of unexpired queue messages in the storage account.
   type: Metric
@@ -182,6 +196,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    autoMitigate: false
 - name: QueueCapacity
   description: The amount of Queue storage used by the storage account.
   type: Metric
@@ -200,6 +215,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: QueueCount
   description: The number of queues in the storage account.
   type: Metric
@@ -218,6 +234,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: FileCapacity
   description: The amount of File storage used by the storage account.
   type: Metric
@@ -236,6 +253,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 96636764160.0
+    autoMitigate: false
 - name: Transactions
   description: The number of requests made to a storage service or the specified API
     operation. This number includes successful and failed requests, as well as requests
@@ -266,6 +284,7 @@
       values:
       - anonymous
     threshold: 10.0
+    autoMitigate: false
 - name: FileShareSnapshotCount
   description: The number of snapshots present on the share in storage account's Files
     Service.
@@ -285,6 +304,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 190.0
+    autoMitigate: false
 - name: Availability
   description: The percentage of availability for the storage service or the specified
     API operation. Availability is calculated by taking the TotalBillableRequests
@@ -307,6 +327,7 @@
     operator: LessThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 99.9
+    autoMitigate: false
 - name: FileShareCount
   description: The number of file shares in the storage account.
   type: Metric
@@ -325,6 +346,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: FileShareCapacityQuota
   description: The upper limit on the amount of storage that can be used by Azure
     Files Service in bytes.
@@ -344,3 +366,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 108851651149824.0
+    autoMitigate: false

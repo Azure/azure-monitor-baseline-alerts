@@ -1,0 +1,95 @@
+<div><table>
+  <tr>
+    <th>Alert Name</th>
+    <th>Component</th>
+    <th>Aggregation</th>
+    <th>Operator</th>
+    <th>Threshold</th>
+    <th>WindowSize</th>
+    <th>Frequency</th>
+    <th>ResolveTime</th>
+    <th>FailingPeriods</th>
+    <th>Dimensions</th>
+    <th>Severity</th>
+    <th>Query</th>
+    <th>Verified</th>
+    <th>References</th>
+  </tr>
+
+{{ range $category, $types := $.Site.Data  }}
+  {{ if ne $category "Compute" }}
+    {{ continue }}
+  {{ end }}
+  {{ range $type, $rules := $types }}
+    {{ if ne $type "virtualMachines" }}
+      {{ continue }}
+    {{ end }}
+    {{ range $rules.alerts }}
+      {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
+        {{ if and (eq .type "Log") (in .tags "alz") }}
+          {{ $data := newScratch }}
+          {{ if isset . "deployments" }}
+            {{ range where .deployments "type" "Policy" }}
+              {{ if and (in .tags "alz") }}
+                {{ $data.Set "name" .name }}
+                {{ $data.Set "url" (relURL (path.Join "services" $category $type .template)) }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          <tr>
+            <td>
+              <a href='{{ $data.Get "url" }}'>{{ $data.Get "name" }}</a>
+            </td>
+            <td>
+              {{$category}}/{{$type}}
+            </td>
+            <td>
+              {{ .properties.timeAggregation }}
+            </td>
+            <td>
+              {{ .properties.operator }}
+            </td>
+            <td>
+              {{ .properties.threshold }}
+            </td>
+            <td>
+              {{ .properties.windowSize }}
+            </td>
+            <td>
+              {{ .properties.evaluationFrequency }}
+            </td>
+            <td>
+              {{ .properties.autoResolveTime }}
+            </td>
+            <td>
+              {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .properties.failingPeriods) "json" }}
+            </td>
+            <td>
+              {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .properties.dimensions) "json" }}
+            </td>
+            <td>
+              {{ .properties.severity }}
+            </td>
+            <td>
+              {{ transform.Highlight .properties.query "plaintext" }}
+            </td>
+            <td>
+              {{ if .verified }}
+                Y
+              {{ else }}
+                N
+              {{ end }}
+            </td>
+            <td>
+              {{ range .references }}
+                <a href="{{ .url }}" target="_blank">{{ .name }}</a>
+              {{ end }}
+            </td>
+          </tr>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+</table></div>
