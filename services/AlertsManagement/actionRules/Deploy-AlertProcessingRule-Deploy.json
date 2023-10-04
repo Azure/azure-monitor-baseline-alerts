@@ -87,7 +87,7 @@
             "allOf": [
               {
                 "field": "Microsoft.AlertsManagement/actionRules/description",
-                "equals": "Alz Alert Processing Rule for Subscription"
+                "equals": "AMBA Alert Processing Rule for Subscription"
               }
             ]
           },
@@ -149,13 +149,13 @@
                             {
                                 "type": "Microsoft.Insights/actionGroups",
                                 "apiVersion": "2022-06-01",
-                                "name": "AlzActionGrp",
+                                "name": "AmbaActionGr",
                                 "location": "Global",
                                 "tags": {
                                     "_deployed_by_amba": true
                                   },
                                 "properties": {
-                                    "groupShortName": "AlzActionGrp",
+                                    "groupShortName": "AmbaActionGr",
                                     "enabled": true,
                                     "copy": [
                                         {
@@ -174,10 +174,10 @@
                             {
                                 "type": "Microsoft.AlertsManagement/actionRules",
                                 "apiVersion": "2021-08-08",
-                                "name": "Alz Alert Processing Rule",
+                                "name": "AMBA Alert Processing Rule",
                                 "location": "Global",
                                 "dependsOn": [
-                                    "[[concat('Microsoft.Insights/actionGroups/', 'AlzActionGrp')]"
+                                    "[[concat('Microsoft.Insights/actionGroups/', 'AmbaActionGr')]"
                                 ],
                                 "tags": {
                                     "_deployed_by_amba": true
@@ -186,12 +186,12 @@
                                     "scopes": [
                                         "[[subscription().Id]"
                                     ],
-                                    "description": "Alz Alert Processing Rule for Subscription",
+                                    "description": "AMBA Alert Processing Rule for Subscription",
                                     "enabled": true,
                                     "actions": [
                                         {
                                         "actiongroupIds": [
-                                            "[[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AlzActionGrp')]"
+                                            "[[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AmbaActionGr')]"
                                         ],
                                         "actionType": "AddActionGroups"
                                         }
