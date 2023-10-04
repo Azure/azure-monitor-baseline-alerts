@@ -93,6 +93,10 @@ Please note the following settings in the alert definition:
 - *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
 {{< /hint >}}
 
+## Auto-Generated Alert Rules
+
+A script was run to auto-generate alert rules based on top usage and settings trends.  These rules have been added the their respective *alerts.yaml* files and have two tags associated with them: *auto-generated* and *agc-xxxx*.  The *agc-xxxx* tag indicates the number of results found for that alert rule in the query used to analyze the top trends.  This number should be used to evaluate the importantance of including that alert in the repo.  Once an auto-generated alert has been verified and updated with reference documenation, the *visible* tag should be updated to true.  This will make the alert alert visible on the site.  Resoruce categories and types that do not have visible alerts are currently hidden from the table of contents.  To make those resource categries and types visible, edit their respective *_index.md* files and remove the *geekdocHidden: true* metadata from the top of the file.
+
 ## Context/Background
 
 Before jumping into the pre-requisites and specific section contribution guidance, please familiarize yourself with this context/background on how this library is built to help you contribute going forward.
