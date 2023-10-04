@@ -19,7 +19,7 @@ If you are looking to help contribute to the definition and guidence for Baselin
 
 The example folder structure below highlights all of the key assets that define and/or support the content of this site:
 
-```
+```plaintext
 ├── patterns
 │   └── alz
 │
@@ -194,5 +194,5 @@ Once you have committed changes to your fork of the AMBA repo, you create a pull
 ## Top Tips
 
 1. Sometimes the local version of the website may show some inconsistencies that don't reflect the content you have created.
-     - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
+   - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
 
