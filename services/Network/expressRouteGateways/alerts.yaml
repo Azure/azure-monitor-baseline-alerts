@@ -1,8 +1,8 @@
 - name: ER Gateway Connection Bits In Per Second
   description: Metric Alert for ER Gateway Connection BitsInPerSecond
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -15,14 +15,24 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: ExpressRoute Monitoring Metrics Alerts for ExpressRoute Gateways
+    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateways
   deployments:
-  - description: Policy to audit/deploy ER Gateway Connection BitsInPerSecond Alert
+  - name: Deploy ERG ExpressRoute Bits In Alert
     template: Deploy-ERG-BitsInPerSecond-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: ER Gateway Connection Bits Out Per Second
   description: Metric Alert for ER Gateway Connection BitsOutPerSecond
   type: Metric
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -35,14 +45,24 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: ExpressRoute Monitoring Metrics Alerts for ExpressRoute Gateways
+    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateways
   deployments:
-  - description: Policy to audit/deploy ER Gateway Connection BitsOutPerSecond Alert
+  - name: Deploy ERG ExpressRoute Bits Out Alert
     template: Deploy-ERG-BitsOutPerSecond-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: ExpressRoute Gateway CPU Utilization
   description: Metric Alert for ER Gateway Express Route CPU Utilization
   type: Metric
-  verified: True
-  visible: True
+  verified: true
+  visible: true
   tags:
   - alz
   properties:
@@ -55,6 +75,16 @@
     operator: GreaterThan
     threshold: 80
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: ExpressRoute Monitoring Metrics Alerts for ExpressRoute Gateways
+    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateways
   deployments:
-  - description: Policy to audit/deploy ER Gateway Express Route CPU Utilization Alert
+  - name: Deploy ERG ExpressRoute CPU Utilization Alert
     template: Deploy-ERG-CPUUtilization-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false

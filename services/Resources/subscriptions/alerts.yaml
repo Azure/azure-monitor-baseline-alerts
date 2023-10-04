@@ -1,27 +1,39 @@
 - name: Resource Health Unhealthy
   description: Resource Health Unhealthy Alert
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
     category: ResourceHealth
-    causes: [ PlatoformInitiated, UserInitiated ]
-    currentHealthStatus: [ Degraded, Unavailable ]
+    causes:
+    - PlatoformInitiated
+    - UserInitiated
+    currentHealthStatus:
+    - Degraded
+    - Unavailable
   references:
   - name: Resource Health
     url: https://learn.microsoft.com/azure/service-health/resource-health-overview
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Resource Health Unhealthy Alert
+  - name: Deploy Resource Health Unhealthy Alert
     template: Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: true
+      alertName: ResourceHealthUnhealthyAlert
 - name: Service Health Advisory
   description: Service Health Advisory Alert
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -33,13 +45,21 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Service Health Advisory Alert
+  - name: Deploy Service Health Advisory Alert
     template: Deploy-ActivityLog-ServiceHealth-Health.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: true
+      alertName: ServiceHealthAdvisoryEvent
 - name: Service Health Incident
   description: Service Health Incident Alert
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -51,13 +71,21 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Service Health Incident Alert
+  - name: Deploy Service Health Incident Alert
     template: Deploy-ActivityLog-ServiceHealth-Incident.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: true
+      alertName: ServiceHealthIncident
 - name: Service Health Maintenance
   description: Service Health Maintenance Alert
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -69,13 +97,21 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Service Health Maintenance Alert
+  - name: Deploy Service Health Maintenance Alert
     template: Deploy-ActivityLog-ServiceHealth-Maintenance.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: true
+      alertName: ServiceHealthPlannedMaintenance
 - name: Service Health Security
   description: Service Health Security Alert
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
@@ -87,5 +123,13 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Service Health Security Alert
+  - name: Deploy Service Health Security Advisory Alert
     template: Deploy-ActivityLog-ServiceHealth-Security.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: true
+      alertName: ServiceHealthSecurityIncident

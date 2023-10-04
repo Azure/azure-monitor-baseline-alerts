@@ -16,12 +16,19 @@
     operator: LessThan
     threshold: 1000
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
   - name: Supported Metrics for Microsoft.Compute/virtualMachines
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
   deployments:
-  - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
+  - name: Deploy VM Available Memory Bytes (MBytes) Alert
     template: Deploy-VM-AvailableMemory-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Data Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Read Latency (ms)
   type: Log
@@ -64,9 +71,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Data Disk Read Latency Alert
+  - name: Deploy VM Data Disk Read Latency Alert
     template: Deploy-VM-DataDiskReadLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Data Disk Free Space Percentage
   description: Log Alert for Virtual Machine Data Disk Free Space Percentage
   type: Log
@@ -109,9 +128,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Data Disk Free Space Percentage Alert
+  - name: Deploy VM Data Disk Free Space Percentage Alert
     template: Deploy-VM-DataDiskSpace-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Data Disk Write Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Write Latency (ms)
   type: Log
@@ -154,9 +185,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Data Disk Write Latency Alert
+  - name: Deploy VM Data Disk Write Latency Alert
     template: Deploy-VM-DataDiskWriteLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Heartbeat
   description: Log Alert for Virtual Machine Heartbeat
   type: Log
@@ -191,12 +234,29 @@
       _ResourceId
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription
+  - name: Deploy VM HeartBeat Alert for all VMs in the subscription
     template: Deploy-VM-HeartBeat-Alert.json
-  - description: Policy to audit/deploy VM HeartBeat Alert for VMs in the resource
-      group
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  - name: Deploy VM HeartBeat Alert for VMs in the resource group
     template: Deploy-VM-HeartBeatAlertRG.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Network Read (bytes/sec)
   description: Log Alert for Virtual Machine Network Read (bytes/sec)
   type: Log
@@ -237,9 +297,21 @@
       _ResourceId, NetworkInterface
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Nework Read (bytes/sec) Alert
+  - name: Deploy VM Nework Read (bytes/sec) Alert
     template: Deploy-VM-NetworkIn-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Network Write (bytes/sec)
   description: Log Alert for Virtual Machine Network Write (bytes/sec)
   type: Log
@@ -280,9 +352,21 @@
       _ResourceId, NetworkInterface
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Nework Write (bytes/sec) Alert
+  - name: Deploy VM Nework Write (bytes/sec) Alert
     template: Deploy-VM-NetworkOut-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: OS Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data OS Read Latency (ms)
   type: Log
@@ -323,9 +407,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM OS Disk Read Latency Alert
+  - name: Deploy VM OS Disk Read Latency Alert
     template: Deploy-VM-OSDiskReadLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: OS Disk Free Space Percentage
   description: Log Alert for Virtual Machine OS Disk Free Space Percentage
   type: Log
@@ -366,9 +462,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM OS Disk Free Space Percentage Alert
+  - name: Deploy VM OS Disk Free Space Percentage Alert
     template: Deploy-VM-OSDiskSpace-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: OS Disk Write Latency (ms)
   description: Log Alert for Virtual Machine OS Disk Write Latency (ms)
   type: Log
@@ -407,9 +515,21 @@
       _ResourceId, Disk
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM OS Disk Write Latency Alert
+  - name: Deploy VM OS Disk Write Latency Alert
     template: Deploy-VM-OSDiskWriteLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Processor Utilization Percentage
   description: Log Alert for Virtual Machine Processor Utilization Percentage
   type: Log
@@ -444,9 +564,21 @@
       _ResourceId
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Processor Utilization Percentage Alert
+  - name: Deploy VM Processor Utilization Percentage Alert
     template: Deploy-VM-PercentCPU-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Available Memory Percentage
   description: Log Alert for Virtual Machine Available Memory Percentage
   type: Log
@@ -485,9 +617,21 @@
       15m), Computer, _ResourceId
 
       '
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: '0:10:00'
+  references:
+  - name: "Monitor virtual machines with Azure Monitor: Alerts"
+    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - description: Policy to audit/deploy VM Available Memory Percentage Alert
+  - name: Deploy VM Available Memory Percentage Alert
     template: Deploy-VM-PercentMemory-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
 - name: Percentage CPU
   description: The percentage of allocated compute units that are currently in use
     by the Virtual Machine(s)
@@ -507,6 +651,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
+    autoMitigate: false
 - name: Data Disk IOPS Consumed Percentage
   description: Percentage of data disk I/Os consumed per minute. Only available on
     VM series that support premium storage.
@@ -526,6 +671,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
+    autoMitigate: false
 - name: OS Disk IOPS Consumed Percentage
   description: Percentage of operating system disk I/Os consumed per minute. Only
     available on VM series that support premium storage.
@@ -545,6 +691,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
+    autoMitigate: false
 - name: Available Memory Bytes
   description: Amount of physical memory, in bytes, immediately available for allocation
     to a process or for system use in the Virtual Machine
@@ -564,6 +711,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1000000000.0
+    autoMitigate: false
 - name: Network In Total
   description: The number of bytes received on all network interfaces by the Virtual
     Machine(s) (Incoming Traffic)
@@ -583,6 +731,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 500000000000.0
+    autoMitigate: false
 - name: Network Out Total
   description: The number of bytes out on all network interfaces by the Virtual Machine(s)
     (Outgoing Traffic)
@@ -602,6 +751,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 200000000000.0
+    autoMitigate: false
 - name: VmAvailabilityMetric
   description: Measure of Availability of Virtual machines over time.
   type: Metric
@@ -620,6 +770,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
+    autoMitigate: false
 - name: OS Disk Bandwidth Consumed Percentage
   description: Percentage of operating system disk bandwidth consumed per minute.
     Only available on VM series that support premium storage.
@@ -639,6 +790,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: Inbound Flows
   description: Inbound Flows are number of current flows in the inbound direction
     (traffic going into the VM)
@@ -658,6 +810,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
+    autoMitigate: false
 - name: Outbound Flows
   description: Outbound Flows are number of current flows in the outbound direction
     (traffic going out of the VM)
@@ -677,6 +830,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
+    autoMitigate: false
 - name: Data Disk Bandwidth Consumed Percentage
   description: Percentage of data disk bandwidth consumed per minute. Only available
     on VM series that support premium storage.
@@ -696,6 +850,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: CPU Credits Remaining
   description: Total number of credits available to burst. Only available on B-series
     burstable VMs
@@ -715,6 +870,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
+    autoMitigate: false
 - name: Data Disk Queue Depth
   description: Data Disk Queue Depth(or Queue Length)
   type: Metric
@@ -733,44 +889,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-- name: Network In
-  description: The number of billable bytes received on all network interfaces by
-    the Virtual Machine(s) (Incoming Traffic) (Deprecated)
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-3454
-  properties:
-    metricName: Network In
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 4
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: LessThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 1.0
-- name: Network Out
-  description: The number of billable bytes out on all network interfaces by the Virtual
-    Machine(s) (Outgoing Traffic) (Deprecated)
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-3451
-  properties:
-    metricName: Network Out
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 4
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: LessThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 1.0
+    autoMitigate: false
 - name: VM Cached IOPS Consumed Percentage
   description: Percentage of cached disk IOPS consumed by the VM. Only available on
     VM series that support premium storage.
@@ -790,6 +909,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: OS Disk Queue Depth
   description: OS Disk Queue Depth(or Queue Length)
   type: Metric
@@ -808,6 +928,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+    autoMitigate: false
 - name: VM Cached Bandwidth Consumed Percentage
   description: Percentage of cached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
@@ -827,6 +948,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: VM Uncached IOPS Consumed Percentage
   description: Percentage of uncached disk IOPS consumed by the VM. Only available
     on VM series that support premium storage.
@@ -846,6 +968,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: VM Uncached Bandwidth Consumed Percentage
   description: Percentage of uncached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
@@ -865,6 +988,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
+    autoMitigate: false
 - name: Disk Write Operations/Sec
   description: Disk Write IOPS
   type: Metric
@@ -883,6 +1007,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+    autoMitigate: false
 - name: CPU Credits Consumed
   description: Total number of credits consumed by the Virtual Machine. Only available
     on B-series burstable VMs
@@ -902,6 +1027,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
+    autoMitigate: false
 - name: Data Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period
   type: Metric
@@ -920,6 +1046,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000000.0
+    autoMitigate: false
 - name: OS Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period for OS
     disk
@@ -939,6 +1066,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 48000000.0
+    autoMitigate: false
 - name: Disk Read Operations/Sec
   description: Disk Read IOPS
   type: Metric
@@ -957,6 +1085,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 400.0
+    autoMitigate: false
 - name: OS Disk Max Burst IOPS
   description: Maximum IOPS OS Disk can achieve with bursting
   type: Metric
@@ -975,6 +1104,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3500.0
+    autoMitigate: false
 - name: Data Disk Read Operations/Sec
   description: Read IOPS from a single disk during monitoring period
   type: Metric
@@ -993,6 +1123,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: Data Disk Max Burst IOPS
   description: Maximum IOPS Data Disk can achieve with bursting
   type: Metric
@@ -1011,6 +1142,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3750.0
+    autoMitigate: false
 - name: Disk Write Bytes
   description: Bytes written to disk during monitoring period
   type: Metric
@@ -1029,6 +1161,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 107374182400.0
+    autoMitigate: false
 - name: OS Disk Write Operations/Sec
   description: Write IOPS from a single disk during monitoring period for OS disk
   type: Metric
@@ -1047,6 +1180,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 200.0
+    autoMitigate: false
 - name: Disk Read Bytes
   description: Bytes read from disk during monitoring period
   type: Metric
@@ -1065,6 +1199,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: Data Disk Write Operations/Sec
   description: Write IOPS from a single disk during monitoring period
   type: Metric
@@ -1083,3 +1218,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    autoMitigate: false

@@ -15,9 +15,21 @@
     operator: GreaterThan
     threshold: 8000000
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitor Public IP Addresses
+    url: https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/monitor-public-ip#alerts
+  - name: Public IP Addresses Supported Metrics
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkpublicipaddresses
   deployments:
-  - description: Policy to audit/deploy PIP Bytes in DDoS Attack Alert
+  - name: Deploy PIP Bytes in DDoS Attack Alert
     template: Deploy-PIP-BytesInDDOSAttack-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: If Under DDoS Attack
   description: Metric Alert for Public IP Address Under Attack
   type: Metric
@@ -35,9 +47,21 @@
     operator: GreaterThan
     threshold: 0
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitor Public IP Addresses
+    url: https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/monitor-public-ip#alerts
+  - name: Public IP Addresses Supported Metrics
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkpublicipaddresses
   deployments:
-  - description: Policy to audit/deploy PIP DDoS Attack Alert
+  - name: Deploy PIP DDoS Attack Alert
     template: Deploy-PIP-DDOSAttack-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Packets In DDoS
   description: Inbound packets DDoS
   type: Metric
@@ -55,9 +79,21 @@
     operator: GreaterThanOrEqual
     threshold: 40000
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitor Public IP Addresses
+    url: https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/monitor-public-ip#alerts
+  - name: Public IP Addresses Supported Metrics
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkpublicipaddresses
   deployments:
-  - description: Policy to audit/deploy PIP Packets in DDoS Attack Alert
+  - name: Deploy PIP Packets in DDoS Attack Alert
     template: Deploy-PIP-PacketsInDDOS-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: VIP Availability
   description: Average IP Address availability per time duration
   type: Metric
@@ -75,9 +111,21 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitor Public IP Addresses
+    url: https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/monitor-public-ip#alerts
+  - name: Public IP Addresses Supported Metrics
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/metrics-supported#microsoftnetworkpublicipaddresses
   deployments:
-  - description: Policy to audit/deploy PIP VIP Availability Alert
+  - name: Deploy PIP VIP Availability Alert
     template: Deploy-PIP-VIPAvailability-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: IfUnderDDoSAttack
   description: Under DDoS attack or not
   type: Metric
@@ -96,6 +144,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: BytesInDDoS
   description: Inbound bytes DDoS
   type: Metric
@@ -114,6 +163,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 8000000.0
+    autoMitigate: false
 - name: VipAvailability
   description: Average IP Address availability per time duration
   type: Metric
@@ -132,6 +182,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
+    autoMitigate: false
 - name: PacketsInDDoS
   description: Inbound packets DDoS
   type: Metric
@@ -150,6 +201,7 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 40000.0
+    autoMitigate: false
 - name: TCPPacketsInDDoS
   description: Inbound TCP packets DDoS
   type: Metric
@@ -168,6 +220,7 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 40000.0
+    autoMitigate: false
 - name: TCPBytesInDDoS
   description: Inbound TCP bytes DDoS
   type: Metric
@@ -186,6 +239,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 40000.0
+    autoMitigate: false
 - name: UDPPacketsInDDoS
   description: Inbound UDP packets DDoS
   type: Metric
@@ -204,6 +258,7 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 40000.0
+    autoMitigate: false
 - name: UDPBytesInDDoS
   description: Inbound UDP bytes DDoS
   type: Metric
@@ -222,3 +277,4 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 40000.0
+    autoMitigate: false

@@ -1,7 +1,6 @@
 ---
-title: virtualMachineScaleSets
+title: Virtual Machine Scale Sets
 geekdocCollapseSection: true
-geekdocHidden: true
 ---
 
 {{< alertList name="alertList" >}}
