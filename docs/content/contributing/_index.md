@@ -19,7 +19,7 @@ If you are looking to help contribute to the definition and guidence for Baselin
 
 The example folder structure below highlights all of the key assets that define and/or support the content of this site:
 
-```plaintext
+```
 ├── patterns
 │   └── alz
 │
