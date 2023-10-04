@@ -14,18 +14,18 @@ This initiative is intended for assignment of policies relevant to networking co
 
 | **Policy Name** | **Path to policy json file** | **Policy default effect** |
 |----------|----------|----------|
-| Deploy_ERCIR_QosDropBitsInPerSecond_Alert | [deploy-ercir_qosdropsbitsin_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-ercir_qosdropsbitsin_alert.json) | deployIfNotExists |
-| Deploy_ERCIR_QosDropBitsOutPerSecond_Alert | [deploy-ercir_qosdropsbitsout_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-ercir_qosdropsbitsout_alert.json) | deployIfNotExists|
-| Deploy_VPNGw_BGPPeerStatus_Alert | [deploy-vpng_bgppeerstatus_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_bgppeerstatus_alert.json) | deployIfNotExists|
-| Deploy_VnetGw_ExpressRouteCpuUtil_Alert | [deploy-vnetg_expressroutecpuutilization_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vnetg_expressroutecpuutilization_alert.json) | deployIfNotExists|
-| Deploy_VnetGw_TunnelBandwidth_Alert | [deploy-vnetg_bandwidthutilization_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vnetg_bandwidthutilization_alert.json) | deployIfNotExists |
-| Deploy_VnetGw_TunnelEgress_Alert | [deploy-vnetg_egress_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vnetg_egress_alert.json) | disabled|
-| Deploy_VnetGw_TunnelIngress_Alert | [deploy-vnetg_ingress_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vnetg_ingress_alert.json) | disabled |
-| Deploy_VPNGw_BandwidthUtil_Alert | [deploy-vpng_bandwidthutilization_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_bandwidthutilization_alert.json) | deployIfNotExists |
-| Deploy_VPNGw_Egress_Alert | [deploy-vpng_egress_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_egress_alert.json) | disabled |
-| Deploy_VPNGw_TunnelEgressPacketDropCount_Alert | [deploy-vpng_egresspacketdropcount_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_egresspacketdropcount_alert.json) | deployIfNotExists|
-| Deploy_VPNGw_TunnelEgressPacketDropMismatch_Alert | [deploy-vpng_egresspacketdropmismatch_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_egresspacketdropmismatch_alert.json) | deployIfNotExists|
-| Deploy_VPNGw_Ingress_Alert | [deploy-vpng_ingress_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_ingress_alert.json) | disabled |
+| Deploy_ERCIR_QosDropBitsInPerSecond_Alert | [deploy-ercir_qosdropsbitsin_alert.json](../blob/main/services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json) | deployIfNotExists |
+| Deploy_ERCIR_QosDropBitsOutPerSecond_Alert | [deploy-ercir_qosdropsbitsout_alert.json](../blob/main/services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsOut-Alert.json) | deployIfNotExists|
+| Deploy_VPNGw_BGPPeerStatus_Alert | [deploy-vpng_bgppeerstatus_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-BGPPeerStatus-Alert.json) | deployIfNotExists|
+| Deploy_VnetGw_ExpressRouteCpuUtil_Alert | [deploy-vnetg_expressroutecpuutilization_alert.json](../blob/main/services\Network\virtualNetworkGateways\Deploy-VNETG-ERGCPUUtilization-Alert.json) | deployIfNotExists|
+| Deploy_VnetGw_TunnelBandwidth_Alert | [deploy-vnetg_bandwidthutilization_alert.json](../blob/main/services\Network\virtualNetworkGateways\Deploy-VNETG-BandwidthUtilization-Alert.json) | deployIfNotExists |
+| Deploy_VnetGw_TunnelEgress_Alert | [deploy-vnetg_egress_alert.json](../blob/main/services\Network\virtualNetworkGateways\Deploy-VNETG-Egress-Alert.json) | disabled|
+| Deploy_VnetGw_TunnelIngress_Alert | [deploy-vnetg_ingress_alert.json](../blob/main/services\Network\virtualNetworkGateways\Deploy-VNETG-Ingress-Alert.json) | disabled |
+| Deploy_VPNGw_BandwidthUtil_Alert | [deploy-vpng_bandwidthutilization_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-BandwidthUtilization-Alert.json) | deployIfNotExists |
+| Deploy_VPNGw_Egress_Alert | [deploy-vpng_egress_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-Egress-Alert.json) | disabled |
+| Deploy_VPNGw_TunnelEgressPacketDropCount_Alert | [deploy-vpng_egresspacketdropcount_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-EgressPacketDropCount-Alert.json) | deployIfNotExists|
+| Deploy_VPNGw_TunnelEgressPacketDropMismatch_Alert | [deploy-vpng_egresspacketdropmismatch_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-EgressPacketDropMismatch-Alert.json) | deployIfNotExists|
+| Deploy_VPNGw_Ingress_Alert | [deploy-vpng_ingress_alert.json](../blob/main/services\Network\vpnGateways\Deploy-VPNG-Ingress-Alert.json) | disabled |
 | Deploy_VPNGw_TunnelIngressPacketDropCount_Alert | [deploy-vpng_ingresspacketdropcount_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_ingresspacketdropcount_alert.json) | deployIfNotExists|
 | Deploy_VPNGw_TunnelIngressPacketDropMismatch_Alert | [deploy-vpng_ingresspacketdropmismatch_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vpng_ingresspacketdropmismatch_alert.json) | deployIfNotExists |
 | Deploy_PDNSZ_CapacityUtil_Alert | [deploy-pdnsz_capacityutilization_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-pdnsz_capacityutilization_alert.json) | deployIfNotExists|
