@@ -19,7 +19,7 @@ If you are looking to help contribute to the definition and guidence for Baselin
 
 The example folder structure below highlights all of the key assets that define and/or support the content of this site:
 
-```
+```plaintext
 ├── patterns
 │   └── alz
 │
@@ -92,6 +92,10 @@ Please note the following settings in the alert definition:
 - *visible:* Alert is visible on the website.
 - *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
 {{< /hint >}}
+
+## Auto-Generated Alert Rules
+
+A script was run to auto-generate alert rules based on top usage and settings trends.  These rules have been added the their respective *alerts.yaml* files and have two tags associated with them: *auto-generated* and *agc-xxxx*.  The *agc-xxxx* tag indicates the number of results found for that alert rule in the query used to analyze the top trends.  This number should be used to evaluate the importantance of including that alert in the repo.  Once an auto-generated alert has been verified and updated with reference documenation, the *visible* tag should be updated to true.  This will make the alert alert visible on the site.  Resoruce categories and types that do not have visible alerts are currently hidden from the table of contents.  To make those resource categries and types visible, edit their respective *_index.md* files and remove the *geekdocHidden: true* metadata from the top of the file.
 
 ## Context/Background
 
@@ -190,5 +194,5 @@ Once you have committed changes to your fork of the AMBA repo, you create a pull
 ## Top Tips
 
 1. Sometimes the local version of the website may show some inconsistencies that don't reflect the content you have created.
-     - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
+   - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
 
