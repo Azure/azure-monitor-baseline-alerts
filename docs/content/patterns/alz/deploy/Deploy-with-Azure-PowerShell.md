@@ -101,11 +101,11 @@ Note that the parameter file shown below has been truncated for brevity, compare
         "policyAssignmentParametersCommon": {
             "value": {
                 "ALZMonitorResourceGroupName": {
-                    "value": "rg-alz-monitor"
+                    "value": "rg-amba-monitoring-001"
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "Project": "alz-monitor"
+                        "Project": "amba-monitoring"
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {

@@ -15,9 +15,9 @@ The repo at present contains code and details for the following:
 Alerts, action groups and alert processing rules are created as follows:
 
 1. All metric alerts are created in the resource group where the resource that is being monitored exists. i.e. creating an ER circuit in a resource group covered by the policies will create the corresponding alerts in that same resource group.
-2. Activity log alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
-3. Resource health alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
-4. Action groups and alert processing rules are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
+2. Activity log alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
+3. Resource health alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
+4. Action groups and alert processing rules are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
 
 ## Prerequisites
 
