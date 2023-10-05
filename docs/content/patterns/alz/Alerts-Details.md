@@ -23,7 +23,7 @@ The Scope column details where we scoped the alerts as described in [Introductio
 
 Only a small number of the resources support metric alert rules scoped at the subscription level and the metric alerts would only apply to resources deployed within the same region. The Support for Multiple Resources column to show which resources support metric alerts being scoped at the subscription level. For a complete list of which resources support metrics alert rules scoped at the subscription level click [here](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types#monitor-multiple-resources).
 
-> **NOTE**: We have tried to make it so that the table doesn't require a lot of side to side scrolling, but it is still a lot of information, we recommended that you click on the specifc alert name which will take you directly to alert details of that alert.
+> **NOTE**: We have tried to make it so that the table doesn't require a lot of side to side scrolling, but it is still a lot of information, we recommended that you click on the specifc alert name which will take you directly to the JSON definition of the alert you're interested in.
 
 {{< alzMetricAlerts >}}
 
