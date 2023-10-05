@@ -27,9 +27,9 @@ This initiative is intended for assignment of policies relevant to networking co
 | Deploy_VPNGw_TunnelEgressPacketDropMismatch_Alert | [deploy-vpng_egresspacketdropmismatch_alert.json](../../../services/Network/vpnGateways/Deploy-VPNG-EgressPacketDropMismatch-Alert.json) | deployIfNotExists|
 | Deploy_VPNGw_Ingress_Alert | [deploy-vpng_ingress_alert.json](../../../services/Network/vpnGateways/Deploy-VPNG-Ingress-Alert.json) | disabled |
 | Deploy_VPNGw_TunnelIngressPacketDropCount_Alert | [deploy-vpng_ingresspacketdropcount_alert.json](../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropCount-Alert.json) | deployIfNotExists|
-| Deploy_VPNGw_TunnelIngressPacketDropMismatch_Alert | [deploy-vpng_ingresspacketdropmismatch_alert.json](../../../services/Network/vpnGateways/deploy-vpng_ingresspacketdropmismatch_alert.json) | deployIfNotExists |
-| Deploy_PDNSZ_CapacityUtil_Alert | [deploy-pdnsz_capacityutilization_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ_CapacityUtilization_Alert.json) | deployIfNotExists|
-| Deploy_PDNSZ_QueryVolume_Alert | [deploy-pdnsz_queryvolume_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ_QueryVolume_Alert.json) | disabled |
+| Deploy_VPNGw_TunnelIngressPacketDropMismatch_Alert | [deploy-vpng_ingresspacketdropmismatch_alert.json](../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropMismatch-Alert.json) | deployIfNotExists |
+| Deploy_PDNSZ_CapacityUtil_Alert | [deploy-pdnsz_capacityutilization_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ-CapacityUtilization-Alert.json) | deployIfNotExists|
+| Deploy_PDNSZ_QueryVolume_Alert | [deploy-pdnsz_queryvolume_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ-QueryVolume-Alert.json) | disabled |
 | Deploy_PDNSZ_RecordSetCapacity_Alert | [deploy-pdnsz_recordsetcapacity_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ-RecordSetCapacity-Alert.json) | deployIfNotExists |
 | Deploy_DNSZ_RegistrationCapacityUtil_Alert | [deploy-pdnsz_registrationcapacityutilization_alert.json](../../../services/Network/privateDnsZones/Deploy-PDNSZ-RegistrationCapacityUtilization-Alert.json) | deployIfNotExists|
 | Deploy_ERGw_ExpressRouteBitsIn_Alert | [deploy-erg_bitsinpersecond_alert.json](../../../services/Network/expressRouteGateways/Deploy-ERG-BitsInPerSecond-Alert.json) | disabled|
@@ -40,7 +40,7 @@ This initiative is intended for assignment of policies relevant to networking co
 | Deploy_VnetGw_TunnelIngressPacketDropMismatch_Alert | [deploy-vnetg_ingresspacketdropmismatch_alert.json](../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropMismatch-Alert.json) | deployIfNotExists |
 | Deploy_VnetGw_TunnelIngressPacketDropCount_Alert | [deploy-vnetg_ingresspacketdropcount_alert.json](../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropCount-Alert.json) | deployIfNotExists |
 | Deploy_ERCIR_BgpAvailability_Alert | [deploy-ercir_bgpavailability_alert.json](../../../services/Network/expressRouteCircuits/Deploy-ERCIR-BGPAvailability-Alert.json) | deployIfNotExists |
-| Deploy_ERCIR_ArpAvailability_Alert | [deploy-ercir_arpavailability_alert.json](../../../azure-monitor-baseline-alerts/services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json) | deployIfNotExists |
+| Deploy_ERCIR_ArpAvailability_Alert | [deploy-ercir_arpavailability_alert.json](../../../services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json) | deployIfNotExists |
 | Deploy_AFW_SNATPortUtilization_Alert | [deploy-afw_snatportutilization_alert.json](../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json) | deployIfNotExists |
 | Deploy_AFW_FirewallHealth_Alert | [deploy-afw_firewallhealth_alert](../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json)  | deployIfNotExists |
 | Deploy_PublicIp_BytesInDDoSAttack_Alert | [deploy-pip_bytesinddosattack_alert.json](../../../services/Network/publicIPAddresses/Deploy-PIP-BytesInDDOSAttack-Alert.json) | disabled |
@@ -71,7 +71,7 @@ This initiative is intended for assignment of policies relevant to identity comp
 
 | **Policy Name** | **Path to policy json file** | **Policy default effect** |
 |----------|----------|----------|
-| Deploy_KeyVault_Requests_Alert | [deploy-kv_requests_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json | disabled |
+| Deploy_KeyVault_Requests_Alert | [deploy-kv_requests_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json) | disabled |
 | Deploy_KeyVault_Availability_Alert | [deploy-kv_availability_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json)  | disabled |
 | Deploy_KeyVault_Latency_Alert | [deploy-kv_latency_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json)  | disabled |
 | Deploy_KeyVault_Capacity_Alert | [deploy-kv_capacity_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Capacity-Alert.json)  | disabled |
@@ -89,8 +89,8 @@ This initiative is intended for assignment of policies relevant to a landing zon
 | Deploy_KeyVault_Latency_Alert | [deploy-kv_latency_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json)  | deployIfNotExists |
 | Deploy_KeyVault_Capacity_Alert | [deploy-kv_capacity_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Capacity-Alert.json)  | deployIfNotExists |
 | Deploy_activitylog_KeyVault_Delete | [deploy-activitylog-KeyVault-Del.json](../../../services/KeyVault/vaults/Deploy-ActivityLog-KeyVault-Del.json)  | deployIfNotExists |
-| Deploy_activitylog_RouteTable_Update | [deploy-activitylog-RouteTable-Update.json](../blob/services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json)  | deployIfNotExists |
-| Deploy_activitylog_NSG_Delete | [deploy-activitylog-NSG-Del.json](../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.jsonn)  | deployIfNotExists |
+| Deploy_activitylog_RouteTable_Update | [deploy-activitylog-RouteTable-Update.json](../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json)  | deployIfNotExists |
+| Deploy_activitylog_NSG_Delete | [deploy-activitylog-NSG-Del.json](../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json)  | deployIfNotExists |
 | Deploy_PublicIp_BytesInDDoSAttack_Alert | [deploy-pip_bytesinddosattack_alert.json](../../../services/Network/publicIPAddresses/Deploy-PIP-BytesInDDOSAttack-Alert.json) | disabled |
 | Deploy_PublicIp_DDoSAttack_Alert | [deploy-pip_ddosattack_alert.json](../../../services/Network/publicIPAddresses/Deploy-PIP-DDOSAttack-Alert.json)  | deployIfNotExists |
 | Deploy_PublicIp_PacketsInDDoSAttack_Alert | [deploy-pip_packetsinddos_alert.json](../../../services/Network/publicIPAddresses/Deploy-PIP-PacketsInDDOS-Alert.json)  | disabled |
@@ -106,7 +106,7 @@ This initiative is intended for assignment of policies relevant to a landing zon
 | Deploy_VM_CPU_Alert | [deploy-vm-PercentCPU_alert.json](../../../services/Compute/virtualMachines/Deploy-VM-PercentCPU-Alert.json)  | deployIfNotExists |
 | Deploy_VM_Memory_Alert | [deploy-vm-PercentMemory_alert.json](../../../services/Compute/virtualMachines/Deploy-VM-PercentMemory-Alert.json)  | deployIfNotExists |
 | Deploy_VM_dataDiskSpace_Alert | [deploy-vm-dataDiskSpace_alert.json](../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json)  | deployIfNotExists |
-| Deploy_VM_dataDiskReadLatency_Alert | [deploy-vm-dataDiskreadLatency_alert.json](../../../src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vm-dataDiskreadLatency_alert.json)  | deployIfNotExists |
+| Deploy_VM_dataDiskReadLatency_Alert | [deploy-vm-dataDiskreadLatency_alert.json](../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json)  | deployIfNotExists |
 | Deploy_VM_dataDiskWriteLatency_Alert | [deploy-vm-dataDiskwriteLatency_alert.json](../../../services/Compute/virtualMachines/Deploy-VM-DataDiskWriteLatency-Alert.json)  | deployIfNotExists |
 
 ## Service Health initiative
