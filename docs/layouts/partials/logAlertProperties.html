@@ -1,22 +1,8 @@
 
 <div><table>
-  <tr>
-    {{ if isset . "dimensions" }}
-      <th>Dimensions</th>
-    {{ end }}
-    <th>Failing Periods</th>
-    <th>Aggregation</th>
-    <th>Operator</th>
-    <th>Threshold</th>
-    <th>Window</th>
-    <th>Frequency</th>
-    <th>Severity</th>
-    <th>Metric Measure Column</th>
-    <th>Resource ID Column</th>
-  </tr>
-
-  <tr>
-    {{ if isset . "dimensions" }}
+  {{ if isset . "dimensions" }}
+    <tr>
+      <td>Dimensions</td>
       <td>
         {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
           {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
@@ -24,7 +10,10 @@
           {{ .dimensions }}
         {{ end }}
       </td>
-    {{ end }}
+    </tr>
+  {{ end }}
+  <tr>
+    <td>Failing Periods</td>
     <td>
       {{ if or (reflect.IsMap .failingPeriods) (reflect.IsSlice .failingPeriods) }}
         {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .failingPeriods) "json" }}
@@ -32,13 +21,37 @@
         {{ .failingPeriods }}
       {{ end }}
     </td>
+  </tr>
+  <tr>
+    <td>Aggregation</td>
     <td>{{ .timeAggregation }}</td>
+  </tr>
+  <tr>
+    <td>Operator</td>
     <td>{{ .operator }}</td>
+  </tr>
+  <tr>
+    <td>Threshold</td>
     <td>{{ .threshold }}</td>
+  </tr>
+  <tr>
+    <td>Window</td>
     <td>{{ .windowSize }}</td>
+  </tr>
+  <tr>
+    <td>Frequency</td>
     <td>{{ .evaluationFrequency }}</td>
+  </tr>
+  <tr>
+    <td>Severity</td>
     <td>{{ .severity }}</td>
+  </tr>
+  <tr>
+    <td>Metric Measure Column</td>
     <td>{{ .metricMeasureColumn }}</td>
+  </tr>
+  <tr>
+    <td>Resource ID Column</td>
     <td>{{ .resouceIdColumn }}</td>
   </tr>
 </table></div>
