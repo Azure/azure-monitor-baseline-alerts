@@ -1,28 +1,20 @@
 
 <div><table>
   <tr>
-    <th>Operator</th>
-    <th>Aggregation</th>
-    {{ if eq .criterionType "DynamicThresholdCriterion" }}
-      <th>Alert Sensitivity</th>
-      <th>Failing Periods</th>
-    {{ else }}
-      <th>Threshold</th>
-    {{ end }}
-    <th>Window</th>
-    <th>Frequency</th>
-    <th>Severity</th>
-    {{ if isset . "dimensions" }}
-      <th>Dimensions</th>
-    {{ end }}
-    <th>Criterion Type</th>
-  </tr>
-
-  <tr>
+    <td>Operator</td>
     <td>{{ .operator }}</td>
+  </tr>
+  <tr>
+    <td>Aggregation</td>
     <td>{{ .timeAggregation }}</td>
-    {{ if eq .criterionType "DynamicThresholdCriterion" }}
+  </tr>
+  {{ if eq .criterionType "DynamicThresholdCriterion" }}
+    <tr>
+      <td>Alert Sensitivity</td>
       <td>{{ .alertSensitivity }}</td>
+    </tr>
+    <tr>
+      <td>Failing Periods</td>
       <td>
         {{ if or (reflect.IsMap .failingPeriods) (reflect.IsSlice .failingPeriods) }}
           {{  transform.Highlight (encoding.Jsonify (dict "indent" "  ") .failingPeriods) "json"  }}
@@ -30,21 +22,39 @@
           {{ .failingPeriods }}
         {{ end }}
       </td>
-    {{ else }}
+    </tr>
+  {{ else }}
+    <tr>
+      <td>Threshold</td>
       <td>{{  cast.ToString .threshold }}</td>
-    {{ end }}
+    </tr>
+  {{ end }}
+  <tr>
+    <td>Window</td>
     <td>{{ .windowSize }}</td>
+  </tr>
+  <tr>
+    <td>Frequency</td>
     <td>{{ .evaluationFrequency }}</td>
+  </tr>
+  <tr>
+    <td>Severity</td>
     <td>{{ .severity }}</td>
-    {{ if isset . "dimensions" }}
+  </tr>
+  {{ if isset . "dimensions" }}
+    <tr>
+      <td>Dimensions</td>
       <td>
-        {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
-          {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
-        {{ else }}
-          {{ .dimensions }}
-        {{ end }}
-      </td>
-    {{ end }}
+      {{ if or (reflect.IsMap .dimensions) (reflect.IsSlice .dimensions) }}
+        {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ") .dimensions) "json" }}
+      {{ else }}
+        {{ .dimensions }}
+      {{ end }}
+    </td>
+    </tr>
+  {{ end }}
+  <tr>
+    <td>Criterion Type</td>
     <td>{{ .criterionType }}</td>
   </tr>
 </table></div>

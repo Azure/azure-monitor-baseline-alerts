@@ -1,29 +1,27 @@
 
 <table>
   <tr>
-    <th>Category</th>
-    {{ if eq .category "Administrative" }}
-      <th>Operation Name</th>
-      <th>Status</th>
-    {{ else if eq .category "ResourceHealth" }}
-      <th>Causes</th>
-      <th>Health Status</th>
-    {{ else if eq .category "ServiceHealth" }}
-      <th>Incident Type</th>
-    {{ end }}
-  </tr>
-
-  <tr>
+    <td>Category</td>
     <td>{{ .category }}</td>
-    {{ if eq .category "Administrative" }}
+  </tr>
+  {{ if eq .category "Administrative" }}
+    <tr>
+      <td>Operation Name</td>
       <td>{{ .operationName }}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
       <td>
         {{ if or (reflect.IsMap .status) (reflect.IsSlice .status) }}
           {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .status) "json" }}
         {{ else }}
           {{ .status }}
-        {{ end }}      </td>
-    {{ else if eq .category "ResourceHealth" }}
+        {{ end }}
+      </td>
+    </tr>
+  {{ else if eq .category "ResourceHealth" }}
+    <tr>
+      <td>Causes</td>
       <td>
         {{ if or (reflect.IsMap .causes) (reflect.IsSlice .causes) }}
           {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .causes) "json" }}
@@ -31,15 +29,21 @@
           {{ .causes }}
         {{ end }}
       </td>
-      <td>
+    </tr>
+    <tr>
+      <td>Health Status</td>
+        <td>
         {{ if or (reflect.IsMap .currentHealthStatus) (reflect.IsSlice .currentHealthStatus) }}
           {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  .currentHealthStatus) "json" }}
         {{ else }}
           {{ .currentHealthStatus }}
         {{ end }}
       </td>
-    {{ else if eq .category "ServiceHealth" }}
+    </tr>
+  {{ else if eq .category "ServiceHealth" }}
+    <tr>
+      <td>Incident Type</td>
       <td>{{ .incidentType }}</td>
-    {{ end }}
-  </tr>
+    </tr>
+  {{ end }}
 </table>

@@ -19,7 +19,7 @@ Alert List
         <th>Description</th>
       </tr>
       <!-- Loop through alerts under category/type -->
-      {{ range .alerts }}
+      {{ range sort .alerts }}
         {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
           <tr>
             <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
@@ -34,7 +34,7 @@ Alert List
   <br>
 
   <!-- Create a detail entry for each alert under category/type -->
-  {{ range .alerts }}
+  {{ range sort .alerts }}
     {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
     <br><br>
       <div id="{{ anchorize .name }}">
@@ -66,18 +66,8 @@ Alert List
             </tr>
           {{ end }}
         </table>
-        <h4>Deployment Templates:</h4>
-        <table>
-          {{ range .deployments }}
-            <tr>
-              <td>{{ .name }}</td>
-              {{ $url := path.Join $.Page.File.Dir .template }}
-              <td>
-                <a href="{{ relURL $url }}" target="_blank">View</a> | <a href="{{ relURL $url }}" download>Download</a>
-              </td>
-            </tr>
-          {{ end }}
-        </table>
+        <h4>Templates:</h4>
+        {{ partial "templates/template-tabs" (dict "category" $category "type" $type "alert" .) }}
       </div>
     {{ end }}
   {{ end }}
