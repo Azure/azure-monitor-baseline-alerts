@@ -17,11 +17,17 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 - Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-<!--
-- Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
--->
 - Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
-- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address where notifications of the alerts are sent to.
+- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address(es) where notifications of the alerts are sent to.
+
+  {{< hint type=note >}}
+  For multiple email addresses, make sure they are entered a single string with values separated by comma. Example:
+
+    "ALZMonitorActionGroupEmail": {
+      "value": "action1@mail.com , action2@mail.com , action3@mail.com"
+      },
+  {{< /hint >}}
+
 - If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_, _enableAMBAServiceHealth_ to "No".
 
 ### If you are aligned to ALZ
@@ -105,7 +111,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "Project": "amba-monitoring"
+                        "_deployed_by_amba": true
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {

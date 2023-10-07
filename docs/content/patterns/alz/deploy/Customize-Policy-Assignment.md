@@ -35,11 +35,11 @@ The parameter file contains the same default values as listed in our documentati
         "policyAssignmentParametersCommon": {
             "value": {
                 "ALZMonitorResourceGroupName": {
-                    "value": "rg-alz-monitor"
+                    "value": "rg-amba-monitoring-001"
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "Project": "alz-monitor"
+                        "_deployed_by_amba": true
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {
@@ -82,7 +82,6 @@ The following parameters can be changed for activity log, service health alert a
 | **Parameter Name** | **Parameter Description** |
 |----------|----------|
 | ALZMonitorResourceGroupName | The name of the resource group to place the alerts in |
-| ALZMonitorResourceGroupTags | Any tags than needs to be added to the resource group created |
 | ALZMonitorResourceGroupLocation | The location of the resource group to place the alerts in |
 
 Note that the above parameters specifies the resource group that activity log alerts are placed in. If the resource group does not exist it gets created. Also the parameter for tags can take several tags, if multiple tags are needed. Tags are only applied at the resource group level. The tags parameter is set to a default value of one tag with the name *environment* and the value *test*, you can add more tags as already mentioned or set it to be an empty value.
