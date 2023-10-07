@@ -152,6 +152,11 @@ Using your preferred command line tool (Windows PowerShell, Cmd, Bash or other U
 
 {{< hint type=note >}}
 This should be tested in a safe environment. If you are subsequently looking to deploy to prod environments, consider leveraging the guidance found in [Customize Policy Assignment](../Customize-Policy-Assignment), to deploy and enable alerts in a controlled manner.
+
+If you customized the policies as documented at [How to modify individual policies](./Introduction-to-deploying-the-ALZ-Pattern.md#how-to-modify-individual-policies), make sure the run the deployment command using your own repository and branch in the ***--template-uri*** parameter value. Example:
+
+    az deployment mg create --template-uri  https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
+     --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 {{< /hint >}}
 
 ```bash

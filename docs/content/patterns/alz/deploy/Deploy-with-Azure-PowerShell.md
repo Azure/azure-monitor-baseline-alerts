@@ -146,10 +146,15 @@ The location variable refers to the deployment location. Deploying to multiple r
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
-Using a PowerShell prompt, if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
+Using a PowerShell prompt, if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives and run the command below.
 
 {{< hint type=note >}}
 This should be tested in a safe environment. If you are subsequently looking to deploy to prod environments, consider leveraging the guidance found in [Customize Policy Assignment](../Customize-Policy-Assignment), to deploy and enable alerts in a controlled manner.
+
+If you customized the policies as documented at [How to modify individual policies](./Introduction-to-deploying-the-ALZ-Pattern.md#how-to-modify-individual-policies), make sure the run the deployment command using your own repository and branch in the ***-TemplateUri*** parameter value. Example:
+
+    New-AzManagementGroupDeployment -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-
+    monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 {{< /hint >}}
 
 ```powershell
