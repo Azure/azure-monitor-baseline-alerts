@@ -17,6 +17,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 - Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
+- Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
 - Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
 - Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address(es) where notifications of the alerts are sent to.
 
@@ -111,7 +112,7 @@ Note that the parameter file shown below has been truncated for brevity, compare
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "_deployed_by_amba": true
+                        "Project": "amba-monitoring"
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {
