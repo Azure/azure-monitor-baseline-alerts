@@ -27,6 +27,9 @@ Here are the key reasons why configuring alerts is important:
 
 5. **Proactive capacity planning**: Alerts provide valuable information for capacity planning and scaling your resources. By monitoring resource utilization trends over time, you can identify patterns and forecast future resource requirements. This helps you avoid performance bottlenecks and ensure a smooth user experience.
 
+{{< figure src="../img/amba_logo.png" width="20%" >}}
+
 {{< hint type=tip >}}
 Please review and leave issues on things you find, via [GitHub Issues](https://github.com/Azure/azure-monitor-baseline-alerts/issues)
 {{< /hint >}}
+
