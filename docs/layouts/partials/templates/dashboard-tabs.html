@@ -1,3 +1,6 @@
+{{ $types := slice "Log" "Metric" }}
+{{ $alerts := where .alerts "visible" true }}
+{{ $alerts := where $alerts "type" "in" $types }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -20,6 +23,6 @@
     Grafana
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" .alerts "devMode" .devMode)) "json" }}
+    {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
   </div>
 </div>
