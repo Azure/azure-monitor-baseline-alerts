@@ -1,3 +1,6 @@
+{{ $types := slice "Log" "Metric" }}
+{{ $alerts := where .alerts "visible" true }}
+{{ $alerts := where $alerts "type" "in" $types }}
 {
   "__inputs": [],
   "__elements": {},
@@ -26,9 +29,6 @@
   "links": [],
   "liveNow": false,
   "panels": [
-  {{ $types := slice "Log" "Metric" }}
-  {{ $alerts := where .alerts "visible" true }}
-  {{ $alerts := where $alerts "type" "in" $types }}
   {{ range $idx, $value := sort $alerts "name" "asc" }}{{ if ne $idx 0}},
   {{ end }}  {
       "title": "{{ $value.name }}",
