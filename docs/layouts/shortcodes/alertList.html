@@ -33,6 +33,9 @@ Alert List
 
   <br>
 
+  <h4>Dashboards:</h4>
+  {{ partial "templates/dashboard-tabs.html" (dict "type" $type "alerts" .alerts) }}
+
   <!-- Create a detail entry for each alert under category/type -->
   {{ range sort .alerts "name" "asc" }}
     {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
