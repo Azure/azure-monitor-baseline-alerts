@@ -125,7 +125,7 @@ Select-Object -ExpandProperty Id
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get role assignments to delete
-$roleAssignmentIds = Search-AzGraphRecursive -Query "authorizationresources | where type == "microsoft.authorization/roleassignments" and properties.description == '_deployed_by_amba' | project id" -ManagementGroupNames $managementGroups.Name |
+$roleAssignmentIds = Search-AzGraphRecursive -Query "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project id" -ManagementGroupNames $managementGroups.Name |
 Select-Object -ExpandProperty Id
 Write-Host "There are '$($roleAssignmentIds.Count)' role assignment with description '_deployed_by_amba' to be deleted."
 
