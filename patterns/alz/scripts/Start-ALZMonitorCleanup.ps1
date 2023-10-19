@@ -124,22 +124,10 @@ $policyDefinitionIds = Search-AzGraphRecursive -Query "policyresources | where t
 Select-Object -ExpandProperty Id
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_alz_monitor=True' to be deleted."
 
-# get policy assignment role assignments to delete
-$policyAssignmentIdentities = $policyAssignments.identity.principalId | Sort-Object | Get-Unique
-Write-Host "There are '$($policyAssignmentIdentities.Count)' policy assignment identities to check for role assignments with description '_deployed_by_alz_monitor' to be deleted."
-
-# get policy assignment role assignments to delete
-$roleAssignments = @()
-ForEach ($identity in $policyAssignmentIdentities) {
-    $identityRoleAssignments = Get-AzRoleAssignment -ObjectId $identity
-
-    ForEach ($roleAssignment in $identityRoleAssignments) {
-
-        If ($roleAssignment.Description -like '*_deployed_by_alz_monitor*') {
-            $roleAssignments += $roleAssignment
-        }
-    }
-}
+# get role assignments to delete
+$roleAssignmentIds = Search-AzGraphRecursive -Query "authorizationresources | where type == "microsoft.authorization/roleassignments" and properties.description == '_deployed_by_alz_monitor' | project id" -ManagementGroupNames $managementGroups.Name |
+Select-Object -ExpandProperty Id
+Write-Host "There are '$($roleAssignmentIds.Count)' role assignment with description '_deployed_by_alz_monitor' to be deleted."
 
 If (!$reportOnly.IsPresent) {
 
