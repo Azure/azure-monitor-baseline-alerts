@@ -127,7 +127,7 @@ Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metada
 # get role assignments to delete
 $roleAssignmentIds = Search-AzGraphRecursive -Query "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project id" -ManagementGroupNames $managementGroups.Name |
 Select-Object -ExpandProperty Id
-Write-Host "There are '$($roleAssignmentIds.Count)' role assignment with description '_deployed_by_amba' to be deleted."
+Write-Host "Found '$($roleAssignmentIds.Count)' role assignment with description '_deployed_by_amba' to be deleted."
 
 If (!$reportOnly.IsPresent) {
 
