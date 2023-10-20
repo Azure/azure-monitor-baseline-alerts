@@ -101,33 +101,33 @@ If ($managementGroups.count -eq 0) {
 
 # get alert resources to delete
 $alertResourceIds = Search-AzGraphRecursive -Query "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_alz_monitor'] =~ 'True' | project id" -ManagementGroupNames $managementGroups.Name |
-Select-Object -ExpandProperty Id
-Write-Host "Found '$($alertResourceIds.Count)' metric activity and log alerts with tag '_deployed_by_alz_monitor=True' to be deleted."
+  Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+Write-Host "Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_alz_monitor=True' to be deleted."
 
 # get resource group to delete
 $resourceGroupIds = Search-AzGraphRecursive -Query "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_alz_monitor'] =~ 'True' | project id" -ManagementGroupNames $managementGroups.Name |
-Select-Object -ExpandProperty Id
+  Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_alz_monitor=True' to be deleted."
 
 # get policy assignments to delete
-$policyAssignments = Search-AzGraphRecursive -Query "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_alz_monitor =~ 'true'" -ManagementGroupNames $managementGroups.Name
-$policyAssignmentIds = $policyAssignments | Select-Object -ExpandProperty Id
+$policyAssignmentIds = Search-AzGraphRecursive -Query "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_alz_monitor =~ 'true'" -ManagementGroupNames $managementGroups.Name |
+  Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_alz_monitor=True' to be deleted."
 
 # get policy set definitions to delete
 $policySetDefinitionIds = Search-AzGraphRecursive -Query "policyresources | where type =~ 'microsoft.authorization/policysetdefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_alz_monitor =~ 'true' | project id" -ManagementGroupNames $managementGroups.Name |
-Select-Object -ExpandProperty Id
+  Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_alz_monitor=True' to be deleted."
 
 # get policy definitions to delete
 $policyDefinitionIds = Search-AzGraphRecursive -Query "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_alz_monitor =~ 'true' | project id" -ManagementGroupNames $managementGroups.Name |
-Select-Object -ExpandProperty Id
+  Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_alz_monitor=True' to be deleted."
 
 # get role assignments to delete
-$roleAssignmentIds = Search-AzGraphRecursive -Query "authorizationresources | type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_alz_monitor' | project id" -ManagementGroupNames $managementGroups.Name |
-Select-Object -ExpandProperty Id
-Write-Host "Found '$($roleAssignmentIds.Count)' role assignment with description '_deployed_by_alz_monitor' to be deleted."
+$roleAssignments = Search-AzGraphRecursive -Query "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_alz_monitor' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id" -ManagementGroupNames $managementGroups.Name |
+  Sort-Object -Property id | Get-Unique -AsString
+Write-Host "Found '$($roleAssignments.Count)' role assignment with description '_deployed_by_alz_monitor' to be deleted."
 
 If (!$reportOnly.IsPresent) {
 
@@ -168,11 +168,12 @@ If (!$reportOnly.IsPresent) {
 
     # delete policy assignment role assignments
     Write-Host "Deleting role assignments..."
-    $roleAssignments | ForEach-Object { $_ | Remove-AzRoleAssignment -Confirm:(!$force) | Out-Null }
+    $roleAssignments | Select-Object -Property objectId,roleDefinitionId,scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
+    Write-Host "Cleanup complete."
 }
 Else {
-    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.RoleAssignmentId
+    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id
 
     return $resourceToBeDeleted
 }
