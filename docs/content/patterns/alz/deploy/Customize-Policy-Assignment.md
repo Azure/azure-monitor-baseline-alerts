@@ -35,11 +35,11 @@ The parameter file contains the same default values as listed in our documentati
         "policyAssignmentParametersCommon": {
             "value": {
                 "ALZMonitorResourceGroupName": {
-                    "value": "rg-alz-monitor"
+                    "value": "rg-amba-monitoring-001"
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "Project": "alz-monitor"
+                        "Project": "amba-monitoring"
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {

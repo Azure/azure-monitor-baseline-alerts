@@ -19,7 +19,7 @@ Alert List
         <th>Description</th>
       </tr>
       <!-- Loop through alerts under category/type -->
-      {{ range .alerts }}
+      {{ range sort .alerts "name" "asc" }}
         {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
           <tr>
             <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
@@ -33,8 +33,11 @@ Alert List
 
   <br>
 
+  <h4>Dashboards:</h4>
+  {{ partial "templates/dashboard-tabs.html" (dict "type" $type "alerts" .alerts) }}
+
   <!-- Create a detail entry for each alert under category/type -->
-  {{ range .alerts }}
+  {{ range sort .alerts "name" "asc" }}
     {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
     <br><br>
       <div id="{{ anchorize .name }}">
@@ -42,21 +45,22 @@ Alert List
         <h3>{{ .name }} - {{ .type }} Alert</h3>
         <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
         <h4>Recommended Properties:</h4>
-        {{ if eq .type "Metric" }}
-          {{- partial "metricAlertProperties" .properties }}
-        {{ else if eq .type "Log" }}
-          {{- partial "logAlertProperties" .properties }}
-        {{ else if eq .type "ActivityLog" }}
-          {{- partial "activityAlertProperties" .properties }}
-        {{ end }}
-        {{ if .properties.query }}
-          <div>
-            <h4>Query:</h4>
-            <div>
-              {{ transform.Highlight .properties.query "plaintext" }}
-            </div>
-          </div>
-        {{ end }}
+        <table>
+          {{ range $key, $value := .properties }}
+            <tr>
+              <td>{{ $key }}</td>
+              <td>
+                {{ if or (reflect.IsMap $value) (reflect.IsSlice $value) }}
+                  {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  $value) "json" }}
+                {{ else if eq $key "query" }}
+                  {{ transform.Highlight $value "plaintext" }}
+                {{ else }}
+                  {{ $value }}
+                {{ end }}
+              </td>
+            </tr>
+          {{ end }}
+        </table>
         <h4>References:</h4>
         <table>
           {{ range .references }}
@@ -66,18 +70,8 @@ Alert List
             </tr>
           {{ end }}
         </table>
-        <h4>Deployment Templates:</h4>
-        <table>
-          {{ range .deployments }}
-            <tr>
-              <td>{{ .name }}</td>
-              {{ $url := path.Join $.Page.File.Dir .template }}
-              <td>
-                <a href="{{ relURL $url }}" target="_blank">View</a> | <a href="{{ relURL $url }}" download>Download</a>
-              </td>
-            </tr>
-          {{ end }}
-        </table>
+        <h4>Templates:</h4>
+        {{ partial "templates/template-tabs" (dict "category" $category "type" $type "alert" .) }}
       </div>
     {{ end }}
   {{ end }}

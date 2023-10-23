@@ -4,43 +4,46 @@ geekdocCollapseSection: true
 weight: 30
 ---
 
-The following metric alerts have been defined and can deployed within your landing zones via Azure Policy.
+Specific alerts for ALZ can be downloaded by clicking on the Download icon (highlighted in red below) in the top right corner of the AMBA documentation.
+
+  ![Alert-Details Download icon](../media/AlertDetailsDownloadReference.png)
+
+The best way to see which policy alert rules are part of the ALZ pattern it is best to go to the [Policy-Initiatives](docs/content/patterns/alz/Policy-Initiatives.md) page.
 
 The resources, metric alerts and their settings provide you with a starting point to help you address the following monitoring questions:
 "What should we monitor in Azure?" and "What alert settings should we use?"  While they are opinionated settings and they are meant to cover the most common Azure Landing Zone components, we encourage you to adjust these settings to suit your monitoring needs based on how you're using Azure.
 
-If you have suggestions for other resources that should be included please open an Issue on this page providing the Azure resource provider and settings you'd like implemented, we can't promise to implement them all but we will look into it. Or if you'd like to contribute directly, follow the steps on how to contribute [here](../../../contributing/patterns).
+If you have suggestions for other resources that should be included please open an Issue on this page providing the Azure resource provider and settings you'd like implemented, we can't promise to implement them all but we will look into it. Or if you'd like to contribute directly, follow the steps on how to contribute [here](../../../contributing/).
 
-
-
-## Metric Alerts Settings
+## Azure Landing Zone Metric Alerts Settings
 
 The values shown for Aggregation, Operator, Threshold, WindowSize, Frequency and Severity have been derived from field experience and what customers have implemented themselves; Alerts are based on Microsoft public guidance where available (indicated by a 'Yes' in the Verified column), and on practical application experience where public guidance is not available (indicated by a 'No' in the Verified column). Links to Product Group guidance can be found in the References column and when no guidance is provided we've provided a link to the description of the Metric on learn.microsoft.com.
 
 The Scope column details where we scoped the alerts as described in [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern).
 
-
 Only a small number of the resources support metric alert rules scoped at the subscription level and the metric alerts would only apply to resources deployed within the same region. The Support for Multiple Resources column to show which resources support metric alerts being scoped at the subscription level. For a complete list of which resources support metrics alert rules scoped at the subscription level click [here](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-types#monitor-multiple-resources).
 
-> **NOTE**: There are hidden columns within the table, to scroll across you need to go to the bottom of the table to scroll and this is a limitation within tables in GitHub. If you have any suggestions to improving this expeirence please do get in touch via a PR or raise an issue, thank you.
+{{< hint type=note >}}
+We have tried to make it so that the table doesn't require a lot of side to side scrolling, but it is still a lot of information, we recommended that you click on the specifc alert name which will take you directly to the JSON definition of the alert you're interested in.
+{{< /hint >}}
 
 {{< alzMetricAlerts >}}
 
 <sup>1</sup> See "Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?" in the [FAQ](FAQ.md) for more details.
 
-## Activity Log Alerts
+## Azure Landing Zone Activity Log Alerts
 
-### Activity Log Resource Health
+### Azure Landing Zone Activity Log Resource Health
 
 Use the following two sections to quickly know when there's a Service Health issue with an Azure resource, saving you the effort of further troubleshooting and allow you to focus on communicating to your user base and/or use these alerts as part of your business continuity actions (remediations).
 
 {{< alzActivityLogResourceHealthAlerts >}}
 
-### Service Health Alerts
+### Azure Landing Zone Service Health Alerts
 
 {{< alzActivityLogServiceHealthAlerts >}}
 
-### Activity Log Administrative
+### Azure Landing Zone Activity Log Administrative
 
 The following table lists a number of operational Activity Log alerts to alert your team when certain resources have been deleted.
 
