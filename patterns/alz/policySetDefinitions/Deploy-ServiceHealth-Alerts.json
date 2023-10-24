@@ -49,6 +49,18 @@
           "description": "State of the Resource Health Unhealthy alert"
         }
       },
+      "ResHlthUnhealthyPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Resource Health Unhealthy Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
       "SvcHlthAdvisoryAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -105,7 +117,7 @@
           "disabled"
         ],
         "metadata": {
-          "displayName": "VService Health Maintenance Alert Policy Effect",
+          "displayName": "Service Health Maintenance Alert Policy Effect",
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
@@ -153,6 +165,9 @@
         "parameters": {
           "enabled": {
             "value": "[[parameters('ResHlthUnhealthyAlertState')]"
+          },
+          "effect": {
+            "value": "[[parameters('ResHlthUnhealthyPolicyEffect')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
