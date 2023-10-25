@@ -6,7 +6,7 @@ weight: 70
 
 The following guide describes the steps to leverage the ALZ pattern to implement Service Health Alerts. When you deploy one Initiative, like Service Health, you will only need the Policy Definitions required by that Initiative. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Initiatives in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
 
-1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health initiative.
+1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Initiative.
 1. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploy only the Policy Definitions and Policy Set Definition that are needed for the Service Health Alerts. Assings only the Service Health initiative.
 
 {{< hint type=note >}}
