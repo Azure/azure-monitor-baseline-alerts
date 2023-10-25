@@ -1,9 +1,9 @@
-- name: BackendHealthPercentage
+- name: Backend Health Percentage
   description: The percentage of successful health probes from the HTTP/S proxy to
     backends
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-2156
@@ -18,11 +18,14 @@
     criterionType: StaticThresholdCriterion
     threshold: 80.0
     autoMitigate: false
-- name: RequestCount
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
+- name: Request Count
   description: The number of client requests served by the HTTP/S proxy
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1350
@@ -42,13 +45,16 @@
       - 5xx
     threshold: 10.0
     autoMitigate: false
-- name: TotalLatency
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
+- name: Total Latency
   description: The time calculated from when the client request was received by the
     HTTP/S proxy until the client acknowledged the last response byte from the HTTP/S
     proxy
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1310
@@ -63,6 +69,9 @@
     criterionType: StaticThresholdCriterion
     threshold: 25000.0
     autoMitigate: false
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
 - name: BackendRequestLatency
   description: The time calculated from when the request was sent by the HTTP/S proxy
     to the backend until the HTTP/S proxy received the last response byte from the
