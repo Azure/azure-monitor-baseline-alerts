@@ -4,13 +4,13 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
-The following guide describes the steps to leverage the ALZ pattern to implement Service Health Alerts. When you deploy one Initiative, like Service Health, you will only need the Policy Definitions required by that Initiative. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Initiatives in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
+The following guide describes the steps to leverage the ALZ pattern to implement Service Health Alerts. When you deploy one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Policy Set Definitions in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
 
-1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Initiative.
-1. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploy only the Policy Definitions and Policy Set Definition that are needed for the Service Health Alerts. Assings only the Service Health initiative.
+1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Policy Set Definition.
+1. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploy only the Policy Definitions and Policy Set Definition that are needed for the Service Health Alerts. Assings only the Service Health Policy Set Definition.
 
 {{< hint type=note >}}
-In this example we will deploy the Service Health initiative via Azure CLI. However, the same principles and steps apply to other Initiatives and deployment methods as well. 
+In this example we will deploy the Service Health Policy Set Definition via Azure CLI. However, the same principles and steps apply to other Policy Set Definitions and deployment methods as well. 
 {{< /hint >}}
 
 &nbsp;
@@ -24,12 +24,12 @@ To start, you can either download a copy of the parameter file or clone/fork the
 
 Make the following changes to the parameter file:
 
-- Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-- Disable initiative assignments. When deploying only the Service Health initiative you should change the value of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_ to "No".
+- Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the Policy Set Definitions. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
+- Disable Policy Set Definition assignments. When deploying only the Service Health Policy Set Definition you should change the value of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_ to "No".
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
 - Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
 - Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
-- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address(es) where notifications of the alerts are sent to.
+- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health Policy Set Definition) to the email address(es) where notifications of the alerts are sent to.
 
   {{< hint type=note >}}
   For multiple email addresses, make sure they are entered a single string with values separated by comma. Example:
@@ -41,7 +41,7 @@ Make the following changes to the parameter file:
 
 ## 2. Example Parameter file
 
-Note that the following parameter file example shows a specific example configuration that already shows other initiatives as disabled. The file shown has been truncated for brevity, compared to the samples included.
+Note that the following parameter file example shows a specific example configuration that already shows other Policy Set Definitions as disabled. The file shown has been truncated for brevity, compared to the samples included.
 
 ```json
 {
@@ -102,7 +102,7 @@ Note that the following parameter file example shows a specific example configur
 
 ## 3. Configuring variables for deployment
 
-Open your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
+Open your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 Run the following commands:
 
@@ -121,7 +121,7 @@ The location variable refers to the deployment location. Deploying to multiple r
 
 ## 4. Deploying AMBA
 
-Using your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
+Using your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
 az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
@@ -188,7 +188,7 @@ Make sure you have the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure
 
 ## 4. Configuring variables for deployment
 
-Open your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
+Open your preferred command line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 Run the following commands:
 
@@ -213,8 +213,8 @@ To deploy policy definitions to the intermediate management group, run the follo
 az deployment mg create --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup
 ```
 
-## 6. Assign the Service Health Policy Initiative
-Assign an initiative by running the following command:
+## 6. Assign the Service Health Policy Policy Set Definition
+Assign an Policy Set Definition by running the following command:
 
 ```bash
 az deployment mg create --template-file .\patterns\alz\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
@@ -223,7 +223,7 @@ az deployment mg create --template-file .\patterns\alz\policyAssignments\DINE-Se
 {{< hint type=important >}}
 The final parameter is the --parameters parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters.
 
-The JSON object contains two parameters: topLevelManagementGroupPrefix and policyAssignmentParameters. The topLevelManagementGroupPrefix parameter is used to specify the intermediate root management group, and should _coincide_ with the value of the "pseudoRootManagementGroup". The policyAssignmentParameters parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Initiative.
+The JSON object contains two parameters: topLevelManagementGroupPrefix and policyAssignmentParameters. The topLevelManagementGroupPrefix parameter is used to specify the intermediate root management group, and should _coincide_ with the value of the "pseudoRootManagementGroup". The policyAssignmentParameters parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
 {{< /hint >}}
 
 &nbsp;
