@@ -49,12 +49,36 @@
           "description": "State of the Resource Health Unhealthy alert"
         }
       },
+      "ResHlthUnhealthyPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Resource Health Unhealthy Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
       "SvcHlthAdvisoryAlertState": {
         "type": "string",
         "defaultValue": "true",
         "metadata": {
           "displayName": "Service Health Advisory Alert State",
           "description": "State of the Service Health Advisory alert"
+        }
+      },
+      "serviceHealthAdvisoryPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Service Health Advisory Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
       "SvcHlthIncidentAlertState": {
@@ -65,6 +89,18 @@
           "description": "State of the Service Health Incident alert"
         }
       },
+      "serviceHealthIncidentPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Service Health Incident Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
       "SvcHlthMaintenanceAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -73,12 +109,36 @@
           "description": "State of the Service Health Maintenance alert"
         }
       },
+      "serviceHealthMaintenancePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Service Health Maintenance Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
       "svcHlthSecAdvisoryAlertState": {
         "type": "string",
         "defaultValue": "true",
         "metadata": {
           "displayName": "Service Health Security Advisory Alert State",
           "description": "State of the Service Health Security Advisory alert"
+        }
+      },
+      "serviceHealthSecurityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Service Health Security Advisory Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
       "ALZMonitorActionGroupEmail": {
@@ -106,6 +166,9 @@
           "enabled": {
             "value": "[[parameters('ResHlthUnhealthyAlertState')]"
           },
+          "effect": {
+            "value": "[[parameters('ResHlthUnhealthyPolicyEffect')]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -123,6 +186,9 @@
         "parameters": {
           "enabled": {
             "value": "[[parameters('SvcHlthAdvisoryAlertState')]"
+          },
+          "effect": {
+            "value": "[[parameters('serviceHealthAdvisoryPolicyEffect')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -145,6 +211,9 @@
           "enabled": {
             "value": "[[parameters('SvcHlthIncidentAlertState')]"
           },
+          "effect": {
+            "value": "[[parameters('serviceHealthIncidentPolicyEffect')]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -166,6 +235,9 @@
           "enabled": {
             "value": "[[parameters('SvcHlthMaintenanceAlertState')]"
           },
+          "effect": {
+            "value": "[[parameters('serviceHealthMaintenancePolicyEffect')]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -186,6 +258,9 @@
         "parameters": {
           "enabled": {
             "value": "[[parameters('svcHlthSecAdvisoryAlertState')]"
+          },
+          "effect": {
+            "value": "[[parameters('serviceHealthSecurityPolicyEffect')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
