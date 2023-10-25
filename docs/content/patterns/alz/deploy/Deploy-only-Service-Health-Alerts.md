@@ -10,7 +10,7 @@ The following guide describes the steps to leverage the ALZ pattern to implement
 1. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploy only the Policy Definitions and Policy Set Definition that are needed for the Service Health Alerts. Assings only the Service Health initiative.
 
 {{< hint type=note >}}
-In this example we will deploy the Service Health initiative via Azure CLI. However, the same principles and steps apply to other initiatives and deployment methods as well. 
+In this example we will deploy the Service Health initiative via Azure CLI. However, the same principles and steps apply to other Initiatives and deployment methods as well. 
 {{< /hint >}}
 
 &nbsp;
