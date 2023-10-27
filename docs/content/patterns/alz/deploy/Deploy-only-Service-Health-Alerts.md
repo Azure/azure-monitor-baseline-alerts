@@ -24,12 +24,12 @@ To start, you can either download a copy of the parameter file or clone/fork the
 
 Make the following changes to the parameter file:
 
-- Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the Policy Set Definitions. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-- Disable Policy Set Definition assignments. When deploying only the Service Health Policy Set Definition you should change the value of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_ to "No".
-- Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-- Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
-- Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
-- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health Policy Set Definition) to the email address(es) where notifications of the alerts are sent to.
+- Change the value of ```enterpriseScaleCompanyPrefix``` to the management group where you wish to deploy the policies and the Policy Set Definitions. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
+- Disable Policy Set Definition assignments. When deploying only the Service Health Policy Set Definition you should change the value of the following parameters; ```enableAMBAConnectivity```, ```enableAMBAIdentity```, ```enableAMBALandingZone```, ```enableAMBAManagement``` to "No".
+- Change the value of ```ALZMonitorResourceGroupName``` to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
+- Change the value of ```ALZMonitorResourceGroupTags``` to specify the tags to be added to said resource group.
+- Change the value of ```ALZMonitorResourceGroupLocation``` to specify the location for said resource group.
+- Change the value of ```ALZMonitorActionGroupEmail``` (specific to the Service Health Policy Set Definition) to the email address(es) where notifications of the alerts are sent to.
 
   {{< hint type=note >}}
   For multiple email addresses, make sure they are entered a single string with values separated by comma. Example:
@@ -114,9 +114,9 @@ pseudoRootManagementGroup="The pseudo root management group id parenting the ide
 {{< hint type=Important >}}
 When running Azure CLI from PowerShell the variables have to start with a $.
 
-Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "enterpriseScaleCompanyPrefix" parameter, as set previously within the parameter files.
+Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
 
-The location variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region specific.
+The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region specific.
 {{< /hint >}}
 
 ## 4. Deploying AMBA
@@ -139,7 +139,7 @@ Copy-Item -Path .\patterns\alz\templates\policies.bicep -Destination .\patterns\
 
 ## 2. Edit policies-sh.bicep
 
-Open the newly created Bicep file in your favorite text editor, such as Visual Studio Code (VSCode). Edit the variables **"loadPolicyDefinitions"** and **"loadPolicySetDefinitions"** in your Bicep file to include only the relevant policy definitions. Here's an example of how you can modify these variables:
+Open the newly created Bicep file in your favorite text editor, such as Visual Studio Code (VSCode). Edit the variables ```loadPolicyDefinitions``` and ```loadPolicySetDefinitions``` in your Bicep file to include only the relevant policy definitions. You should delete or comment out the unnecessary lines. In bicep use ``` // ``` to comment a line. The example below shows the lines you need to keep for the Service Health Policy Set Definition. 
 
 **loadPolicyDefinitions variable**
 
@@ -200,9 +200,9 @@ pseudoRootManagementGroup="The pseudo root management group id parenting the ide
 {{< hint type=Important >}}
 When running Azure CLI from PowerShell the variables have to start with a $.
 
-Above-mentioned "pseudoRootManagementGroup" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "enterpriseScaleCompanyPrefix" parameter, as set previously within the parameter files.
+Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
 
-The location variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region specific.
+The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region specific.
 {{< /hint >}}
 
 
@@ -214,16 +214,16 @@ az deployment mg create --template-file .\patterns\alz\policyDefinitions\policie
 ```
 
 ## 6. Assign the Service Health Policy Policy Set Definition
-Assign an Policy Set Definition by running the following command:
+Assign a Policy Set Definition by running the following command:
 
 ```bash
 az deployment mg create --template-file .\patterns\alz\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
 {{< hint type=important >}}
-The final parameter is the --parameters parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters.
+The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters.
 
-The JSON object contains two parameters: topLevelManagementGroupPrefix and policyAssignmentParameters. The topLevelManagementGroupPrefix parameter is used to specify the intermediate root management group, and should _coincide_ with the value of the "pseudoRootManagementGroup". The policyAssignmentParameters parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
+The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should _coincide_ with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
 {{< /hint >}}
 
 &nbsp;
