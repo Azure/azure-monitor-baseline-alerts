@@ -109,7 +109,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           } else {
             dimensions: [{{ range $idx1, $value1 := .properties.dimensions }}
               {
-                name: '{{ $idx1 }}'
+                name: '{{ $value1.name }}'
                 operator: '{{ $value1.operator }}'
                 values: [{{ range $idx2, $value2 := $value1.values }}'{{ $value2 }}'{{ end }}]
               }{{ end }}
