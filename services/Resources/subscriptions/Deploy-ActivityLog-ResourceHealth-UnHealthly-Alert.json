@@ -56,11 +56,23 @@
         },
         "defaultValue": "centralus"
       },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect of the policy"
+        },
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled"
+      },
       "MonitorDisable": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Tag name to disable monitoring on subscripton level alerts. Set to true if monitoring should be disabled"
+          "description": "Tag name to disable monitoring on subscription level alerts. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
       }
@@ -79,7 +91,7 @@
         ]
       },
       "then": {
-        "effect": "deployIfNotExists",
+        "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
