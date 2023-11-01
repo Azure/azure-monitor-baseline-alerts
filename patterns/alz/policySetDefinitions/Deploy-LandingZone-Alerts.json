@@ -3912,7 +3912,7 @@
           "4"
         ],
         "metadata": {
-          "displayName": "WSF Disk Queue Lenght Alert Severity",
+          "displayName": "WSF HTTP Queue Lenght Alert Severity",
           "description": "Severity of the alert"
         }
       },
@@ -3966,6 +3966,142 @@
         "defaultValue": "true",
         "metadata": {
           "displayName": "WSF HTTP Queue Lenght Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "FDBackendHealthAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "FDBackendHealthWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "FDBackendHealthEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "FDBackendHealthPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "FDBackendHealthAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "FD Backend Health Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "FDBackendRequestLatencyAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "FDBackendRequestLatencyWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "FDBackendRequestLatencyEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "FDBackendRequestLatencyPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "FDBackendRequestLatencyAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "FD Backend Request Latency Alert State",
           "description": "Alert state for the alert"
         }
       }
@@ -5330,6 +5466,48 @@
           },
           "enabled": {
             "value": "[[parameters('WSFHttpQueueLengthAlertState')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_FDBackendHealth",
+        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/',managementGroup().name, '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert')]",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('FDBackendHealthAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('FDBackendHealthWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('FDBackendHealthEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('FDBackendHealthPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('FDBackendHealthAlertState')]"
+          }
+        }
+      },      
+      {
+        "policyDefinitionReferenceId": "ALZ_FDBackendRequestLatency",
+        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/',managementGroup().name, '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert')]",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('FDBackendRequestLatencyAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('FDBackendRequestLatencyWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('FDBackendRequestLatencyEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('FDBackendRequestLatencyPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('FDBackendRequestLatencyAlertState')]"
           }
         }
       }
