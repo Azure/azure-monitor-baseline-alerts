@@ -113,6 +113,14 @@ This initiative is intended for assignment of policies relevant to a landing zon
 | Deploy_VM_dataDiskSpace_Alert | [deploy-vm-dataDiskSpace_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vm-dataDiskSpace_alert.json)  | deployIfNotExists |
 | Deploy_VM_dataDiskReadLatency_Alert | [deploy-vm-dataDiskreadLatency_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vm-dataDiskreadLatency_alert.json)  | deployIfNotExists |
 | Deploy_VM_dataDiskWriteLatency_Alert | [deploy-vm-dataDiskwriteLatency_alert.json](../blob/main/src/resources/Microsoft.Authorization/policyDefinitions/amba/deploy-vm-dataDiskwriteLatency_alert.json)  | deployIfNotExists |
+| Deploy_AG_ApplicationGatewayTotalTime_Alert    | [Deploy-AGW-ApplicationGatewayTotalTime-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-ApplicationGatewayTotalTime-Alert.json)         | deployIfNotExists         |
+| Deploy_AG_BackendLastByteResponseTime_Alert    | [Deploy-AGW-BackendLastByteResponseTime-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-BackendLastByteResponseTime-Alert.json)         | deployIfNotExists         |
+| Deploy_AG_CapacityUnits_Alert                  | [Deploy-AGW-CapacityUnits-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-CapacityUnits-Alert.json)                                     | deployIfNotExists         |
+| Deploy_AG_ComputeUnits_Alert                   | [Deploy-AGW-ComputeUnits-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-ComputeUnits-Alert.json)                                       | deployIfNotExists         |
+| Deploy_AG_CPUUtilization_Alert                 | [Deploy-AGW-CPUUtil-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-CPUUtil-Alert.json)                                                 | deployIfNotExists         |
+| Deploy_AG_FailedRequests_Alert                 | [Deploy-AGW-FailedRequests-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-FailedRequests-Alert.json)                                   | deployIfNotExists         |
+| Deploy_AG_ResponseStatus_Alert                 | [Deploy-AGW-ResponseStatus-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-ResponseStatus-Alert.json)                                   | deployIfNotExists         |
+| Deploy_AG_UnhealthyHostCount_Alert             | [Deploy-AGW-UnhealthyHostCount-Alert.json](../blob/main/services/Network/applicationGateways/Deploy-AGW-UnhealthyHostCount-Alert.json)                           | deployIfNotExists         |
 
 ## Service Health initiative
 
