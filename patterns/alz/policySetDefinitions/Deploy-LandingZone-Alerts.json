@@ -3653,7 +3653,62 @@
           "displayName": "CDN Origin Health Percentage Alert State",
           "description": "Alert state for the alert"
         }
-       }          
+       } ,
+       "FDBackEndHealthAlertSeverity":{
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": ["0", "1", "2", "3", "4"],
+        "metadata":{
+          "displayName": "Front Door Backend Health Alert Severity",
+          "description": "Severity of the alert"
+        }
+       },
+       "FDBackEndHealthWindowSize":{
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata":{
+          "displayName": "Front Door Backend Health WindowSize",
+          "description": "Window size for the alert"
+
+
+        }
+       },
+       "FDBackEndHealthEvaluationFrequency":{
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": ["PT1M", "PT5M", "PT15M", "PT30M", "PT1H"],
+        "metadata":{
+          "displayName": "Front Door Backend Health Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+       },
+       "FDBackEndHealthPolicyEffect":{
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": ["deployIfNotExists", "disabled"],
+        "metadata":{
+          "displayName": "Front Door Backend Health Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+       }  ,
+        "FDBackEndHealthAlertState":{
+          "type": "string",
+          "defaultValue": "true",
+          "metadata":{
+            "displayName": "Front Door Backend Health Alert State",
+            "description": "Alert state for the alert"
+          }
+        } 
     },
     "policyDefinitions": [
       {
@@ -5023,6 +5078,30 @@
              "value": "[[parameters('WSFHttpQueueLengthAlertState')]"
            }
          }
+
+       },
+       {
+        "policyDefinitionReferenceId":"ALZ_FD_BackEndHealth",
+          "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/',managementGroup().name, '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackEndHealth_Alert')]",
+          "parameters": {
+            "severity": {
+              "value": "[[parameters('FDBackEndHealthAlertSeverity')]"
+            },
+            "windowSize": {
+              "value": "[[parameters('FDBackEndHealthWindowSize')]"
+            },
+            "evaluationFrequency": {
+              "value": "[[parameters('FDBackEndHealthEvaluationFrequency')]"
+            },
+            "effect": {
+              "value": "[[parameters('FDBackEndHealthPolicyEffect')]"
+            },
+            "enabled": {
+              "value": "[[parameters('FDBackEndHealthAlertState')]"
+            }
+          }
+
+
 
        }
     ],
