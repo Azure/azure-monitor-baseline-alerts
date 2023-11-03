@@ -1,3 +1,29 @@
+- name: Backup Health Monitoring
+  description: Deploy RecoveryVault BackupHealthMonitor Alert
+  type: Unknown
+  verified: true
+  visible: true
+  tags:
+  - alz
+  properties:
+    category: Site Recovery
+    operationName: Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures"
+    status:
+    - Enabled
+  references:
+  - name: Azure Monitor Alerts for Azure Backup
+    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+  - name: Move to Azure Monitor Alerts
+    url: https://learn.microsoft.com/en-us/azure/backup/move-to-azure-monitor-alerts
+  deployments:
+  - name: Deploy RV Backup Health Monitoring Alerts monitor alerts
+    template: Modify-RSV-BackupHealth-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: BackupHealthEvent
   description: The count of health events pertaining to backup job health
   type: Metric
@@ -25,6 +51,7 @@
       values:
       - healthy
     threshold: 0.0
+    autoMitigate: false
 - name: RestoreHealthEvent
   description: The count of health events pertaining to restore job health
   type: Metric
@@ -48,3 +75,4 @@
       values:
       - healthy
     threshold: 1.0
+    autoMitigate: false
