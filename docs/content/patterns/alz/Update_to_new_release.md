@@ -32,7 +32,7 @@ Synching a fork means that we're making sure any update made to the main branch 
 3. Click on the **Sync fork** and then select **Sync**
 4. Refresh the page and make sure to see the description reported in the picture below on the left of the **Contribute** and **Sync fork** buttons
 
-  ![Branch is up to date](./media/BranhUpToDate.png)
+  ![Branch is up to date](./media/BranchUpToDate.png)
 
 ### Update local copy
 
