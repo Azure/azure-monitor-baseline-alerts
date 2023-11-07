@@ -154,6 +154,17 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-GlobalBackendAvailability-Alert.json')
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-HealthProbeStatus-Alert.json')
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-UsedSNATPorts-Alert.json')
+    loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendHealth-Alert.json')
+    loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendRequestLatency-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginHealthPercentage-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginLatency-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage4XX-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage5XX-Alert.json')
+    loadTextContent('../../../services/Network/trafficmanagerprofiles/Deploy-TM-EndpointHealth-Alert.json')
+    loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-CPUPercentage-Alert.json')
+    loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-DiskQueueLength-Alert.json')
+    loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-HttpQueueLength-Alert.json')
+    loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-MemoryPercentage-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
