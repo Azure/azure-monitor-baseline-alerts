@@ -123,7 +123,7 @@ This initiative is intended for assignment of policies relevant to a landing zon
 
 ## Service Health initiative
 
-This initiative is intended for assignment of policies relevant to service health alerts in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, please refer to the below table.
+This initiative is intended for assignment of policies relevant to service health alerts in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the ALZ intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, please refer to the below table.
 
 | **Policy Name** | **Path to policy json file** | **Policy default effect** |
 |----------|----------|----------|
