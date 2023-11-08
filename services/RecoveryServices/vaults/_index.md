@@ -1,7 +1,9 @@
 ---
-title: vaults
+title: Vaults
 geekdocCollapseSection: true
-geekdocHidden: true
 ---
 
 {{< alertList name="alertList" >}}
+
+
+

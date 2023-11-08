@@ -5,19 +5,19 @@ weight: 10
 
 ## Background
 
-This guide describes how to get started with implementing alert policies and initiatives in your environment for testing and validation. In the guide it is assumed that you will be using GitHub actions or manual deployment to implement policies, initiatives and policy assignments in your environment.
+This guide describes how to get started with implementing alert policies and initiatives in your environment for testing and validation. In the guide, it is assumed that you will be using GitHub actions or manual deployment to implement policies, initiatives and policy assignments in your environment.
 
 The repo at present contains code and details for the following:
 
-- Policies to automatically create alerts, action groups and alert processing rules for different Azure resource types, centered around a recommended Azure Monitor Baseline for Alerting in a customers´ newly created or existing brownfield ALZ deployment.
+- Policies to automatically create alerts, action groups and alert processing rules for different Azure resource types, centered around a recommended Azure Monitor Baseline for Alerting in a customer´ newly created or existing brownfield ALZ deployment.
 - Initiatives grouping said policies into appropriate buckets for ease of policy assignment in alignment with ALZ Platform structure (Networking, Identity and Management).
 
 Alerts, action groups and alert processing rules are created as follows:
 
 1. All metric alerts are created in the resource group where the resource that is being monitored exists. i.e. creating an ER circuit in a resource group covered by the policies will create the corresponding alerts in that same resource group.
-2. Activity log alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
-3. Resource health alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
-4. Action groups and alert processing rules are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of AlzMonitoring-rg.
+2. Activity log alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
+3. Resource health alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
+4. Action groups and alert processing rules are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ Alerts, action groups and alert processing rules are created as follows:
 
     Please see [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider) for details on how to register a resource provider should you need to do so.
 
-7. For leveraging the log alerts for Virtual Machines, ensure that VM Insights is enabled for the Virtual Machines to be monitored. For more details on VM Insights deployment see [here](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview) . Please note only the performance collection of the VM insights solution is required  for the current alerts to deploy.
+7. For leveraging the log alerts for Virtual Machines, ensure that VM Insights is enabled for the Virtual Machines to be monitored. For more details on VM Insights deployment, see [here](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview) . Please note only the performance collection of the VM insights solution is required  for the current alerts to deploy.
 
 {{< hint type=note >}}
 While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. These policies and initiatives can be implemented in existing brownfield scenarios that don´t adhere to the ALZ Management Group hierarchy. For example, in hierarchies where there is a single management group, or where the structure does not align to ALZ. At least one management group is required. In case you haven't implemented management groups, we included guidance on how to get started.
@@ -98,7 +98,7 @@ Suppose Identity / Management / Connectivity are combined in one Platform Manage
 - Landing Zone Initiative is assigned to the Geography management group.
 - Service Health Initiative is assigned to the top-most level(s) in your management group hierarchy.
 
-The image below is an example of how the assignments could look like when the management group hierarchy isn´t aligned with ALZ.
+The image below is an example of how the assignments could look like when the management group hierarchy is not aligned with ALZ.
 
 ![Management group structure - unaligned](../../media/alz-management-groups-unaligned.png)
 
@@ -122,7 +122,7 @@ If you implemented the recommended management group design, you can skip forward
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
 - [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
-If you implemented a single management group, we recommend to move your production subscriptions into that management group, consult the steps in the [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#add-an-existing-subscription-to-a-management-group-in-the-portal) for guidance to add the subscriptions.
+If you implemented a single management group, we recommend moving your production subscriptions into that management group, consult the steps in the [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#add-an-existing-subscription-to-a-management-group-in-the-portal) for guidance to add the subscriptions.
 
 {{< hint type=important >}}
 To prevent unnecessary alerts, we recommend keeping development, sandbox, and other non-production subscriptions either in a different management group or below the tenant root group.
@@ -143,6 +143,37 @@ Whatever way you may choose to consume the policies we do expect, and want, cust
 For example, if you want to include more thresholds, metrics, activity log alerts or similar, outside of what the parameters allow you to change and customize, then by opening the individual policy or initiative definitions you should be able to read, understand and customize the required lines to meet your requirements easily.
 
 This customized policy can then be deployed into your environment to deliver the desired functionality.
+
+### How to modify individual policies
+
+Policy files are stored in the 'services' folder. The **services** folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines). The example folder structure below highlights the position of individual policy files:
+
+```plaintext
+├── patterns
+└── services
+    └── Compute
+        └── virtualMachines
+            ├── Deploy-VM-AvailableMemory-Alert.json
+            └── Deploy-VM-DataDiskReadLatency-Alert.json
+```
+
+To modify settings that are not parameterized, follow the steps below:
+
+1. Fork the repo. More info on how to fork a repo available on the [Fork a repo](https://docs.github.com/en/get-started/quickstart/fork-a-repo) page.
+2. Modify existing policies or add new ones based on your need.
+  {{< hint type=note >}}
+  Regardless you're modifying existing policies or adding new ones, you need to update the ***policies.bicep*** file.
+  {{< /hint >}}
+3. Run the following command to update the above mentioned ***policies.bicep*** file:
+
+    `bicep build .\patterns\alz\templates\policies.bicep --outfile .\patterns\alz\policyDefinitions\policies.json`
+
+4. Commit and sync the changes to your fork.
+5. Deploy you local modified copy using the below command:
+
+    ```AZ CLI
+    az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+    ```
 
 ## Disabling Monitoring
 

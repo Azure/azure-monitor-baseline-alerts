@@ -1,0 +1,126 @@
+@description('Name of the alert')
+@minLength(1)
+param alertName string
+
+@description('Description of alert')
+param alertDescription string = '{{ .description }}'
+
+@description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
+@minLength(1)
+param targetResourceId array
+
+@description('Azure region in which target resources to be monitored are in (without spaces). For example: EastUS')
+param targetResourceRegion string
+
+@description('Resource type of target resources to be monitored.')
+@minLength(1)
+param targetResourceType string
+
+@description('The ID of the action group that is triggered when the alert is activated or deactivated')
+param actionGroupId string = ''
+
+@description('Specifies whether the alert is enabled')
+param isEnabled bool = true
+
+@description('Severity of alert {0,1,2,3,4}')
+@allowed([
+  0
+  1
+  2
+  3
+  4
+])
+param alertSeverity int = {{ .properties.severity }}
+
+@description('Operator comparing the current value with the threshold value.')
+@allowed([
+  'Equals'
+  'GreaterThan'
+  'GreaterThanOrEqual'
+  'LessThan'
+  'LessThanOrEqual'
+])
+param operator string = '{{ .properties.operator }}'
+
+@description('The threshold value at which the alert is activated.')
+param threshold string = '{{ .properties.threshold }}'
+
+@description('How the data that is collected should be combined over time.')
+@allowed([
+  'Average'
+  'Minimum'
+  'Maximum'
+  'Total'
+  'Count'
+])
+param timeAggregation string = '{{ .properties.timeAggregation }}'
+
+@description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
+@allowed([
+  'PT1M'
+  'PT5M'
+  'PT15M'
+  'PT30M'
+  'PT1H'
+  'PT6H'
+  'PT12H'
+  'PT24H'
+])
+param windowSize string = '{{ .properties.windowSize }}'
+
+@description('how often the metric alert is evaluated represented in ISO 8601 duration format')
+@allowed([
+  'PT1M'
+  'PT5M'
+  'PT15M'
+  'PT30M'
+  'PT1H'
+])
+param evaluationFrequency string = '{{ .properties.evaluationFrequency }}'
+
+resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
+  name: alertName
+  location: 'global'
+  tags: {
+    '_deployed_by_amba': true
+  }
+  properties: {
+    description: alertDescription
+    scopes: targetResourceId
+    targetResourceType: targetResourceType
+    targetResourceRegion: targetResourceRegion
+    severity: alertSeverity
+    enabled: isEnabled
+    evaluationFrequency: evaluationFrequency
+    windowSize: windowSize
+    criteria: {
+      'odata.type': 'Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria'
+      allOf: [
+        {
+          name: '1st criterion'
+          metricName: '{{ .properties.metricName }}'
+          if eq (len .properties.dimensions) 0 {
+            dimensions: []
+          } else {
+            dimensions: [{{ range $idx1, $value1 := .properties.dimensions }}
+              {
+                name: '{{ $value1.name }}'
+                operator: '{{ $value1.operator }}'
+                values: [{{ range $idx2, $value2 := $value1.values }}'{{ $value2 }}'{{ end }}]
+              }{{ end }}
+            ]
+          }
+          operator: operator
+          threshold: threshold
+          timeAggregation: timeAggregation
+          criterionType: 'StaticThresholdCriterion'
+        }
+      ]
+    }
+    actions: [
+      {
+        actionGroupId: actionGroupId
+      }
+    ]
+  }
+}

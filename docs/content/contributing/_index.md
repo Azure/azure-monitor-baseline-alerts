@@ -15,11 +15,11 @@ Follow the below instructions, especially the pre-requisites, to get started con
 
 ## Quickstart Guide
 
-If you are looking to help contribute to the definition and guidence for Baseline Alerts, then this section will give you the shortcut way without having deal with the more advance components of this site.
+If you are looking to help contribute to the definition and guidance for Baseline Alerts, then this section will give you the shortcut way without having deal with the more advance components of this site.
 
 The example folder structure below highlights all of the key assets that define and/or support the content of this site:
 
-```
+```plaintext
 ├── patterns
 │   └── alz
 │
@@ -34,17 +34,17 @@ The example folder structure below highlights all of the key assets that define 
             └── Deploy-VM-DataDiskReadLatency-Alert.json
 ```
 
-**patterns:** *This folder contains assets for pattern/scenario specfic guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
+**patterns:** *This folder contains assets for pattern/scenario specific guidance that leverages the baseline alerts in this repo.  This contribute does not cover contributions to the patterns/services section.  There will be specific guides within each pattern/service section.*
 
 **services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines).*
 
 {{< hint type=note >}}
-You may to need to add new resource category and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
+You may need to add new resource category and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
 {{< /hint >}}
 
 **_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource categories, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
 
-**alerts.yaml:** *This YAML-based file contains the detailed defnition and guidance for the baseline alerts within each resource category/type folder. Below is the general structure of the file.*
+**alerts.yaml:** *This YAML-based file contains the detailed definition and guidance for the baseline alerts within each resource category/type folder. Below is the general structure of the file.*
 
 ```yaml
 - name: <alert name>
@@ -53,7 +53,7 @@ You may to need to add new resource category and/or resource type folders as you
   properties:
     <list of properties that define the alert base on type>
   references:
-  - <list of urls the contain additonal guidance for the alert>
+  - <list of urls the contain additional guidance for the alert>
   deployments:
   - <a list of example deployment templates for the alert>
 ```
@@ -64,6 +64,10 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
 - name: Available Memory Bytes (MBytes)
   description: Metric Alert for Virtual Machine Available Memory Bytes (MBytes)
   type: Metric
+  verified: true
+  visible: true
+  tags:
+  - alz
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -81,6 +85,18 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
   - description: Policy to audit/deploy VM Available Memory Bytes (MBytes) Alert
     template: Deploy-VM-AvailableMemory-Alert.json
 ```
+
+{{< hint type=note >}}
+Please note the following settings in the alert definition:
+
+- *verified:* Alert has verified by the PG.
+- *visible:* Alert is visible on the website.
+- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
+{{< /hint >}}
+
+## Auto-Generated Alert Rules
+
+A script was run to automatically generate alert rules based on top usage and settings trends.  These rules have been added to their respective *alerts.yaml* files and have two tags associated with them: *auto-generated* and *agc-xxxx*.  The *agc-xxxx* tag indicates the number of results found for that alert rule in the query used to analyze the top trends.  This number should be used to evaluate the importance of including that alert rule as guidance in the repo.  Once an auto-generated alert rule has been verified and updated with reference documentation, the *visible* property should be set to *true*.  This will make the alert rule visible on the site.  Resource categories and types that do not have visible alerts are currently hidden from the table of contents.  To make those resource categories and types visible, edit their respective *_index.md* files and remove the *geekdocHidden: true* metadata from the top of the file.
 
 ## Context/Background
 
@@ -110,7 +126,7 @@ hugo server -D
 
 ### Software/Applications
 
-To contribute to this project/repo/library you will need the following installed:
+To contribute to this project/repo/library, you will need the following installed:
 
 {{< hint type=note >}}
 
@@ -172,12 +188,12 @@ git checkout -b <YOUR-DESIRED-BRANCH-NAME-HERE>
 
 ## Creating a pull request
 
-Once you have committed changes to your fork of the AMBA repo, you create a pull request to merge your changes in to the AMBA repo.
-- [GitHub - Creating a pull request from a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/)
+Once you have committed changes to your fork of the AMBA repo, you create a pull request to merge your changes into the AMBA repo.
 
+- [GitHub - Creating a pull request from a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/)
 
 ## Top Tips
 
 1. Sometimes the local version of the website may show some inconsistencies that don't reflect the content you have created.
-     - If this happens, simply kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
 
+   - If this happens, kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.

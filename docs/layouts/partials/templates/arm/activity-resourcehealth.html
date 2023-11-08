@@ -1,0 +1,82 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "activityLogAlertName": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique name (within the Resource Group) for the Activity log alert."
+      }
+    },
+    "alertDescription": {
+      "type": "string",
+      "defaultValue": "{{ .description }}",
+      "metadata": {
+        "description": "Description of alert"
+      }
+    },
+    "activityLogAlertEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Indicates whether or not the alert is enabled."
+      }
+    },
+    "actionGroupResourceId": {
+      "type": "string",
+      "metadata": {
+        "description": "Resource Id for the Action group."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/activityLogAlerts",
+      "apiVersion": "2017-04-01",
+      "name": "[parameters('activityLogAlertName')]",
+      "location": "Global",
+      "tags": {
+        "_deployed_by_amba": true
+      },
+      "properties": {
+        "description": "[parameters('alertDescription')]",
+        "scopes": [
+            "[subscription().id]"
+        ],
+        "enabled": "[parameters('activityLogAlertEnabled')]",
+        "condition": {
+          "allOf": [
+            {
+              "field": "category",
+              "equals": "ResourceHealth"
+            },
+            {
+              "anyOf": [{{ range $idx, $value := .properties.causes }}{{ if ne $idx 0}},{{ end }}
+                {
+                  "field": "properties.cause",
+                  "equals": "{{ $value }}"
+                }{{ end }}
+              ]
+            },
+            {
+              "anyOf": [{{ range $idx, $value := .properties.currentHealthStatus }}{{ if ne $idx 0}},{{ end }}
+                {
+                  "field": "properties.currentHealthStatus",
+                  "equals": "{{ $value }}"
+                }{{ end }}
+              ]
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups":
+          [
+            {
+              "actionGroupId": "[parameters('actionGroupResourceId')]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

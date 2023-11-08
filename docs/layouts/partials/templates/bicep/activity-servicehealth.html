@@ -1,0 +1,48 @@
+@description('Unique name (within the Resource Group) for the Activity log alert.')
+@minLength(1)
+param activityLogAlertName string
+
+@description('Description of alert')
+param alertDescription string = '{{ .description }}'
+
+@description('Indicates whether or not the alert is enabled.')
+param activityLogAlertEnabled bool = true
+
+@description('The ID of the action group that is triggered when the alert is activated or deactivated')
+param actionGroupId string = ''
+
+resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' = {
+  name: activityLogAlertName
+  location: 'Global'
+  tags: {
+    '_deployed_by_amba': true
+  }
+  properties: {
+    description: alertDescription
+    scopes: [
+      subscription().id
+    ]
+    enabled: bool
+    condition: {
+      allOf: [
+        {
+          {
+            field: 'category'
+            equals: 'ServiceHealth'
+          }
+          {
+            field: 'properties.incidentType'
+            equals: '{{ .properties.incidentType }}'
+          }
+        }
+      ]
+    }
+    actions: {
+      actionGroups: [
+        {
+          actionGroupId: actionGroupId
+        }
+      ]
+    }
+  }
+}

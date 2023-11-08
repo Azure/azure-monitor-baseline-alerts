@@ -16,8 +16,16 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Activity Log Key Vault Delete Alert
+  - name: Deploy Activity Log Key Vault Delete Alert
     template: Deploy-ActivityLog-KeyVault-Del.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      policyScope: managementGroup
+      documented: false
+      alertName: ActivityKeyVaultDelete
 - name: Availability
   description: Vault requests availability
   type: Metric
@@ -35,9 +43,23 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  - name: KeyVault Insights Overview
+    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - description: Policy to audit/deploy KeyVault Availability Alert
+  - name: Deploy KeyVault Availability Alert
     template: Deploy-KV-Availability-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
 - name: Saturation Shoebox
   description: Vault capacity used
   type: Metric
@@ -55,9 +77,23 @@
     operator: GreaterThan
     threshold: 75
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  - name: KeyVault Insights Overview
+    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - description: Policy to audit/deploy KeyVault Capacity Alert
+  - name: Deploy KeyVault Capacity Alert
     template: Deploy-KV-Capacity-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
 - name: Service API Latency
   description: Overall latency of service api requests
   type: Metric
@@ -75,9 +111,23 @@
     operator: GreaterThan
     threshold: 1000
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  - name: KeyVault Insights Overview
+    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - description: Policy to audit/deploy KeyVault Latency Alert
+  - name: Deploy KeyVault Latency Alert
     template: Deploy-KV-Latency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
 - name: Service API Result
   description: Number of total service api results
   type: Metric
@@ -98,9 +148,23 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  - name: KeyVault Insights Overview
+    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - description: Policy to audit/deploy KeyVault Requests Alert
+  - name: Deploy KeyVault Requests Alert
     template: Deploy-KV-Requests-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
 - name: Availability
   description: Vault requests availability
   type: Metric
@@ -119,6 +183,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: ServiceApiLatency
   description: Overall latency of service api requests
   type: Metric
@@ -137,6 +202,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    autoMitigate: false
 - name: SaturationShoebox
   description: Vault capacity used
   type: Metric
@@ -155,6 +221,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 75.0
+    autoMitigate: false
 - name: ServiceApiHit
   description: Number of total service api hits
   type: Metric
@@ -173,6 +240,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: ServiceApiResult
   description: Number of total service api results
   type: Metric
@@ -196,3 +264,4 @@
       values:
       - '429'
     threshold: 0.0
+    autoMitigate: false

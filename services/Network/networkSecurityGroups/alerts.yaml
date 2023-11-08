@@ -1,19 +1,28 @@
 - name: Activity Log NSG Delete
   description: Activity Log Alert for NSG Delete
   type: ActivityLog
-  verified: False
-  visible: True
+  verified: false
+  visible: true
   tags:
   - alz
   properties:
     category: Administrative
     operationName: Microsoft.Network/networkSecurityGroups/delete
-    status: [ succeeded ]
+    status:
+    - succeeded
   references:
   - name: Activity Log Service Notifications
     url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Activity Log NSG Delete Alert
+  - name: Policy to Deploy Activity Log NSG Delete Alert
     template: Deploy-ActivityLog-NSG-Del.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      policyScope: managementGroup
+      documented: false
+      alertName: ActivityNSGDelete

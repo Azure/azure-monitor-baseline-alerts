@@ -16,8 +16,16 @@
   - name: Best practices for setting up service health alerts
     url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - description: Policy to Deploy Activity Log Azure Firewall Delete Alert
+  - name: Deploy Activity Log Azure Firewall Delete Alert
     template: Deploy-ActivityLog-AzureFirewall-Del.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      policyScope: managementGroup
+      documented: false
+      alertName: ActivityAzureFirewallDelete
 - name: Firewall Health
   description: Indicates the overall health of this firewall
   type: Metric
@@ -35,9 +43,19 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Overview of Azure Firewall logs and metrics
+    url: https://docs.microsoft.com/en-us/azure/firewall/logs-and-metrics#metrics
   deployments:
-  - description: Policy to audit/deploy Azure Firewall FirewallHealth Alert
+  - name: Deploy AFW FirewallHealth Alert
     template: Deploy-AFW-FirewallHealth-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: SNAT Port Utilization
   description: Percentage of outbound SNAT ports currently in use
   type: Metric
@@ -55,9 +73,19 @@
     operator: LessThan
     threshold: 80
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+  - name: Overview of Azure Firewall logs and metrics
+    url: https://docs.microsoft.com/en-us/azure/firewall/logs-and-metrics#metrics
   deployments:
-  - description: Policy to audit/deploy Azure Firewall SNATPortUtilization Alert
+  - name: Deploy AFW SNATPortUtilization Alert
     template: Deploy-AFW-SNATPortUtilization-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: FirewallHealth
   description: Indicates the overall health of this firewall
   type: Metric
@@ -76,6 +104,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: SNATPortUtilization
   description: Percentage of outbound SNAT ports currently in use
   type: Metric
@@ -94,6 +123,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 99.0
+    autoMitigate: false
 - name: Throughput
   description: Throughput processed by this firewall
   type: Metric
@@ -112,3 +142,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 27000000000.0
+    autoMitigate: false

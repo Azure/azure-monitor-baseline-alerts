@@ -1,9 +1,9 @@
-- name: BackendHealthPercentage
+- name: Backend Health Percentage
   description: The percentage of successful health probes from the HTTP/S proxy to
     backends
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-2156
@@ -17,11 +17,15 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-- name: RequestCount
+    autoMitigate: false
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
+- name: Request Count
   description: The number of client requests served by the HTTP/S proxy
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1350
@@ -40,13 +44,17 @@
       values:
       - 5xx
     threshold: 10.0
-- name: TotalLatency
+    autoMitigate: false
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
+- name: Total Latency
   description: The time calculated from when the client request was received by the
     HTTP/S proxy until the client acknowledged the last response byte from the HTTP/S
     proxy
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1310
@@ -60,6 +68,10 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 25000.0
+    autoMitigate: false
+  references:
+  - name: Supported metrics for Microsoft.Network/frontdoors
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-frontdoors-metrics
 - name: BackendRequestLatency
   description: The time calculated from when the request was sent by the HTTP/S proxy
     to the backend until the HTTP/S proxy received the last response byte from the
@@ -80,6 +92,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5000.0
+    autoMitigate: false
 - name: WebApplicationFirewallRequestCount
   description: The number of client requests processed by the Web Application Firewall
   type: Metric
@@ -103,3 +116,4 @@
       values:
       - block
     threshold: 1000.0
+    autoMitigate: false

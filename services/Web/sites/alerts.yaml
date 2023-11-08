@@ -17,6 +17,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 30.0
+    autoMitigate: false
 - name: CpuTime
   description: The amount of CPU consumed by the app, in seconds. For more information
     about this metric. Please see https://aka.ms/website-monitor-cpu-time-vs-cpu-percentage
@@ -37,6 +38,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 120.0
+    autoMitigate: false
 - name: PrivateBytes
   description: Private Bytes is the current size, in bytes, of memory that the app
     process has allocated that can't be shared with other processes. For WebApps and
@@ -57,6 +59,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1200000000.0
+    autoMitigate: false
 - name: RequestsInApplicationQueue
   description: The number of requests in the application request queue. For WebApps
     and FunctionApps.
@@ -81,6 +84,7 @@
       values:
       - '*'
     threshold: 10.0
+    autoMitigate: false
 - name: AppConnections
   description: The number of bound sockets existing in the sandbox (w3wp.exe and its
     child processes). A bound socket is created by calling bind()/connect() APIs and
@@ -107,6 +111,7 @@
       values:
       - '*'
     threshold: 6000.0
+    autoMitigate: false
 - name: Http401
   description: The count of requests resulting in HTTP 401 status code. For WebApps
     and FunctionApps.
@@ -126,6 +131,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 20.0
+    autoMitigate: false
 - name: Http404
   description: The count of requests resulting in HTTP 404 status code. For WebApps
     and FunctionApps.
@@ -145,6 +151,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+    autoMitigate: false
 - name: FileSystemUsage
   description: Percentage of filesystem quota consumed by the app. For WebApps and
     FunctionApps.
@@ -164,6 +171,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 400000000.0
+    autoMitigate: false
 - name: MemoryWorkingSet
   description: The current amount of memory used by the app, in MiB. For WebApps and
     FunctionApps.
@@ -183,6 +191,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1500000000.0
+    autoMitigate: false
 - name: FunctionExecutionCount
   description: Function Execution Count. For FunctionApps only.
   type: Metric
@@ -201,6 +210,7 @@
     operator: LessThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: Threads
   description: The number of threads currently active in the app process. For WebApps
     and FunctionApps.
@@ -220,6 +230,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: BytesSent
   description: The amount of outgoing bandwidth consumed by the app, in MiB. For WebApps
     and FunctionApps.
@@ -240,8 +251,9 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+      minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Low
+    autoMitigate: false
 - name: Http406
   description: The count of requests resulting in HTTP 406 status code. For WebApps
     and FunctionApps.
@@ -261,6 +273,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
+    autoMitigate: false
 - name: BytesReceived
   description: The amount of incoming bandwidth consumed by the app, in MiB. For WebApps
     and FunctionApps.
@@ -280,6 +293,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 2048000000.0
+    autoMitigate: false
 - name: Http3xx
   description: The count of requests resulting in an HTTP status code >= 300 but <
     400. For WebApps and FunctionApps.
@@ -299,6 +313,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 15.0
+    autoMitigate: false
 - name: Handles
   description: The total number of handles currently open by the app process. For
     WebApps and FunctionApps.
@@ -319,8 +334,9 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+      minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Low
+    autoMitigate: false
 - name: FunctionExecutionUnits
   description: Function Execution Units. For FunctionApps only.
   type: Metric
@@ -339,6 +355,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 13000000000.0
+    autoMitigate: false
 - name: Http2xx
   description: The count of requests resulting in an HTTP status code >= 200 but <
     300. For WebApps and FunctionApps.
@@ -358,6 +375,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 15.0
+    autoMitigate: false
 - name: WorkflowRunsFailureRate
   description: Workflow Runs Failure Rate. For LogicApps only.
   type: Metric
@@ -376,6 +394,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+    autoMitigate: false
 - name: Gen2Collections
   description: The number of times the generation 2 objects are garbage collected
     since the start of the app process. For WebApps and FunctionApps.
@@ -396,8 +415,9 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+      minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
+    autoMitigate: false
 - name: Gen0Collections
   description: The number of times the generation 0 objects are garbage collected
     since the start of the app process. Higher generation GCs include all lower generation
@@ -419,8 +439,9 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+      minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
+    autoMitigate: false
 - name: Gen1Collections
   description: The number of times the generation 1 objects are garbage collected
     since the start of the app process. Higher generation GCs include all lower generation
@@ -442,8 +463,9 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+      minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
+    autoMitigate: false
 - name: Http5xx
   description: The count of requests resulting in an HTTP status code >= 500 but <
     600.
@@ -463,6 +485,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+    autoMitigate: false
 - name: HttpResponseTime
   description: The time taken for the app to serve requests, in seconds.
   type: Metric
@@ -481,6 +504,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
+    autoMitigate: false
 - name: Http4xx
   description: The count of requests resulting in an HTTP status code >= 400 but <
     500.
@@ -500,6 +524,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
+    autoMitigate: false
 - name: AverageMemoryWorkingSet
   description: The average amount of memory used by the app, in megabytes (MiB).
   type: Metric
@@ -518,6 +543,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 800000000.0
+    autoMitigate: false
 - name: Requests
   description: The total number of requests regardless of their resulting HTTP status
     code.
@@ -537,6 +563,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 2000.0
+    autoMitigate: false
 - name: HealthCheckStatus
   description: Health check status
   type: Metric
@@ -555,6 +582,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
+    autoMitigate: false
 - name: Http403
   description: The count of requests resulting in HTTP 403 status code.
   type: Metric
@@ -573,3 +601,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
+    autoMitigate: false
