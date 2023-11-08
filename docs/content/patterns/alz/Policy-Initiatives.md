@@ -12,7 +12,6 @@ This document details the ALZ-Monitor Azure policy initiatives leveraged for dep
 
 This initiative is intended for assignment of policies relevant to networking components in ALZ. With the guidance provided in  [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, please refer to the below table.
 
-
 | **Policy Name**| **Path to policy json file**| **Policy default effect** |
 |-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
 | Deploy_ERCIR_QosDropBitsInPerSecond_Alert           | [deploy-ercir_qosdropsbitsin_alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json)                                   | deployIfNotExists         |
@@ -57,7 +56,6 @@ This initiative is intended for assignment of policies relevant to networking co
 | Deploy_activitylog_RouteTable_Update                | [deploy-activitylog-RouteTable-Update.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json)                             | deployIfNotExists         |
 | Deploy_activitylog_NSG_Delete                       | [deploy-activitylog-NSG-Del.json](../../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json)                                                 | deployIfNotExists         |
 | Deploy_activitylog_VPNGateway_Delete                | [deploy-activitylog-VPNGate-Del.json](../../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json)                                         | deployIfNotExists         |
-
 
 ## Management initiative
 
@@ -122,7 +120,6 @@ This initiative is intended for assignment of policies relevant to a landing zon
 | Deploy_AG_FailedRequests_Alert                 | [Deploy-AGW-FailedRequests-Alert.json](../../../../services/Network/applicationGateways/Deploy-AGW-FailedRequests-Alert.json)                                   | deployIfNotExists         |
 | Deploy_AG_ResponseStatus_Alert                 | [Deploy-AGW-ResponseStatus-Alert.json](../../../../services/Network/applicationGateways/Deploy-AGW-ResponseStatus-Alert.json)                                   | deployIfNotExists         |
 | Deploy_AG_UnhealthyHostCount_Alert             | [Deploy-AGW-UnhealthyHostCount-Alert.json](../../../../services/Network/applicationGateways/Deploy-AGW-UnhealthyHostCount-Alert.json)                           | deployIfNotExists         |
-
 
 ## Service Health initiative
 
