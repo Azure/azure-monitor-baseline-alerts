@@ -33,7 +33,7 @@ Synching a fork means that we're making sure any update made to the main branch 
 
 3. Click on the **Sync fork** and then select **Update branch**
 
-    ![Update branch](../media/../alz/media/UpdateBranch.png)
+    ![Update branch](../media/UpdateBranch.png)
 
 4. Refresh the page and make sure to see the description reported in the picture below on the left of the **Contribute** and **Sync fork** buttons
 
