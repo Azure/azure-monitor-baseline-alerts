@@ -8,7 +8,7 @@ weight: 71
 
 The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://github.com/Azure/azure-monitor-baseline-alerts) repository.
 
-On the center-left side of the page there's a specific section indicating the latest release. Click on the release number to see the release content.
+On the center-right side of the page there's a specific section indicating the latest release. Click on the release number to see the release content.
 
 ![Releases](../media/Releases.png)
 
