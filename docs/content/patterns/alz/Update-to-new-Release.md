@@ -16,13 +16,19 @@ On the center-right side of the page there's a specific section indicating the l
 
 ## Steps to update to the latest release
 
-This section will guide you through the necessary steps to update the current deployment with the latest enhancements contained in the latest release. Guidance on updating to releases containing breaking changes is not in scope and could eventually be described in a dedicated pages. As an high-level overview you should:
+This section will guide you through the necessary steps to update the current deployment with the latest enhancements contained in the latest release. Guidance on updating to releases containing breaking changes is not in scope and could eventually be described in a dedicated pages.
 
-1. Sync your fork
-2. Update your local copy of the repo
-3. Deploy
+{{< hint type=Important >}}
+This scenario only applies to AMBA deployments performed using GitHub. If not using GitHub, please refer to the [Can I use AMBA without a GitHub repository](../FAQ/#can-i-use-amba-without-a-github-repository) scenario documented in the *Frequently Asked Questions* making sure you update the template spec as required.
+{{< /hint >}}
 
-### Sync your fork
+Depending if you used the official code from the official GitHub repository or from a forked one, not all the high-level steps below are required:
+
+1. Sync your fork *(only required if you forked the original repo)*
+2. Update your local copy of the repo *(only required if you cloned your fork on your local hard drive)*
+3. Deploy ***(always required)***
+
+### Sync your fork (only required if you forked the original repo)
 
 Synching a fork means that we're making sure any update made to the main branch in the official repo is replicated over yours. To sync your fork:
 
@@ -41,7 +47,7 @@ Synching a fork means that we're making sure any update made to the main branch 
 
 </br>
 
-### Update your local copy
+### Update your local copy (only required if you cloned your fork on your local hard drive)
 
 Within the code editor of your choice, make sure you pull the changes from your remote fork. Pulling changes from origin/main is necessary to ensure that the local branch is exactly the same as the remote. In this guide, we will use VSCode.
 
@@ -60,7 +66,7 @@ Within the code editor of your choice, make sure you pull the changes from your 
 
 </br>
 
-### Deploy
+### Deploy (always required)
 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
 
