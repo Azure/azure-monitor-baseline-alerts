@@ -1,11 +1,12 @@
 - name: Available Memory Bytes (MBytes)
-  description: Amount of physical memory, in bytes, immediately available for allocation
+  description:
+    Amount of physical memory, in bytes, immediately available for allocation
     to a process or for system use in the Virtual Machine
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -18,24 +19,24 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Supported Metrics for Microsoft.Compute/virtualMachines
-    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
+    - name: Supported Metrics for Microsoft.Compute/virtualMachines
+      url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-compute-virtualmachines-metrics
   deployments:
-  - name: Deploy VM Available Memory Bytes (MBytes) Alert
-    template: Deploy-VM-AvailableMemory-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy VM Available Memory Bytes (MBytes) Alert
+      template: Deploy-VM-AvailableMemory-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
 - name: Data Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Read Latency (ms)
   type: Log
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -46,14 +47,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -73,26 +74,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Data Disk Read Latency Alert
-    template: Deploy-VM-DataDiskReadLatency-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Data Disk Read Latency Alert
+      template: Deploy-VM-DataDiskReadLatency-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Data Disk Free Space Percentage
   description: Log Alert for Virtual Machine Data Disk Free Space Percentage
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: LessThan
@@ -103,14 +104,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -130,26 +131,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Data Disk Free Space Percentage Alert
-    template: Deploy-VM-DataDiskSpace-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Data Disk Free Space Percentage Alert
+      template: Deploy-VM-DataDiskSpace-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Data Disk Write Latency (ms)
   description: Log Alert for Virtual Machine Data Disk Write Latency (ms)
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -160,14 +161,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -187,19 +188,19 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Data Disk Write Latency Alert
-    template: Deploy-VM-DataDiskWriteLatency-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Data Disk Write Latency Alert
+      template: Deploy-VM-DataDiskWriteLatency-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Heartbeat
   description: Log Alert for Virtual Machine Heartbeat
   type: Log
@@ -213,57 +214,57 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: 'Heartbeat
+    query: "Heartbeat
 
       | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
 
-      | extend Duration = datetime_diff(''minute'',now(),TimeGenerated)
+      | extend Duration = datetime_diff('minute',now(),TimeGenerated)
 
       | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m),
       _ResourceId
 
-      '
+      "
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM HeartBeat Alert for all VMs in the subscription
-    template: Deploy-VM-HeartBeat-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
-  - name: Deploy VM HeartBeat Alert for VMs in the resource group
-    template: Deploy-VM-HeartBeatAlertRG.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy VM HeartBeat Alert for all VMs in the subscription
+      template: Deploy-VM-HeartBeat-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
+    - name: Deploy VM HeartBeat Alert for VMs in the resource group
+      template: Deploy-VM-HeartBeatAlertRG.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
 - name: Network Read (bytes/sec)
   description: Log Alert for Virtual Machine Network Read (bytes/sec)
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -274,14 +275,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -299,26 +300,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Nework Read (bytes/sec) Alert
-    template: Deploy-VM-NetworkIn-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Nework Read (bytes/sec) Alert
+      template: Deploy-VM-NetworkIn-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Network Write (bytes/sec)
   description: Log Alert for Virtual Machine Network Write (bytes/sec)
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -329,14 +330,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -354,26 +355,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Nework Write (bytes/sec) Alert
-    template: Deploy-VM-NetworkOut-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Nework Write (bytes/sec) Alert
+      template: Deploy-VM-NetworkOut-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: OS Disk Read Latency (ms)
   description: Log Alert for Virtual Machine Data OS Read Latency (ms)
   type: Log
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -384,14 +385,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -409,26 +410,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM OS Disk Read Latency Alert
-    template: Deploy-VM-OSDiskReadLatency-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM OS Disk Read Latency Alert
+      template: Deploy-VM-OSDiskReadLatency-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: OS Disk Free Space Percentage
   description: Log Alert for Virtual Machine OS Disk Free Space Percentage
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: LessThan
@@ -439,14 +440,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -464,26 +465,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM OS Disk Free Space Percentage Alert
-    template: Deploy-VM-OSDiskSpace-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM OS Disk Free Space Percentage Alert
+      template: Deploy-VM-OSDiskSpace-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: OS Disk Write Latency (ms)
   description: Log Alert for Virtual Machine OS Disk Write Latency (ms)
   type: Log
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -494,14 +495,14 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
+      - name: Disk
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -517,26 +518,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM OS Disk Write Latency Alert
-    template: Deploy-VM-OSDiskWriteLatency-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM OS Disk Write Latency Alert
+      template: Deploy-VM-OSDiskWriteLatency-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Processor Utilization Percentage
   description: Log Alert for Virtual Machine Processor Utilization Percentage
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: GreaterThan
@@ -547,10 +548,10 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -566,26 +567,26 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Processor Utilization Percentage Alert
-    template: Deploy-VM-PercentCPU-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Processor Utilization Percentage Alert
+      template: Deploy-VM-PercentCPU-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Available Memory Percentage
   description: Log Alert for Virtual Machine Available Memory Percentage
   type: Log
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     severity: 2
     operator: LessThan
@@ -596,10 +597,10 @@
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: Computer
-      operator: Include
-      values:
-      - '*'
+      - name: Computer
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -619,28 +620,29 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: "0:10:00"
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+    - name: "Monitor virtual machines with Azure Monitor: Alerts"
+      url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
   deployments:
-  - name: Deploy VM Available Memory Percentage Alert
-    template: Deploy-VM-PercentMemory-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: Deploy VM Available Memory Percentage Alert
+      template: Deploy-VM-PercentMemory-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Percentage CPU
-  description: The percentage of allocated compute units that are currently in use
+  description:
+    The percentage of allocated compute units that are currently in use
     by the Virtual Machine(s)
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-334990
+    - auto-generated
+    - agc-334990
   properties:
     metricName: Percentage CPU
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -653,14 +655,15 @@
     threshold: 80.0
     autoMitigate: false
 - name: Data Disk IOPS Consumed Percentage
-  description: Percentage of data disk I/Os consumed per minute. Only available on
+  description:
+    Percentage of data disk I/Os consumed per minute. Only available on
     VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-139392
+    - auto-generated
+    - agc-139392
   properties:
     metricName: Data Disk IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -673,14 +676,15 @@
     threshold: 95.0
     autoMitigate: false
 - name: OS Disk IOPS Consumed Percentage
-  description: Percentage of operating system disk I/Os consumed per minute. Only
+  description:
+    Percentage of operating system disk I/Os consumed per minute. Only
     available on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-134481
+    - auto-generated
+    - agc-134481
   properties:
     metricName: OS Disk IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -693,14 +697,15 @@
     threshold: 95.0
     autoMitigate: false
 - name: Available Memory Bytes
-  description: Amount of physical memory, in bytes, immediately available for allocation
+  description:
+    Amount of physical memory, in bytes, immediately available for allocation
     to a process or for system use in the Virtual Machine
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-130712
+    - auto-generated
+    - agc-130712
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -713,14 +718,15 @@
     threshold: 1000000000.0
     autoMitigate: false
 - name: Network In Total
-  description: The number of bytes received on all network interfaces by the Virtual
+  description:
+    The number of bytes received on all network interfaces by the Virtual
     Machine(s) (Incoming Traffic)
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-112534
+    - auto-generated
+    - agc-112534
   properties:
     metricName: Network In Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -733,14 +739,15 @@
     threshold: 500000000000.0
     autoMitigate: false
 - name: Network Out Total
-  description: The number of bytes out on all network interfaces by the Virtual Machine(s)
+  description:
+    The number of bytes out on all network interfaces by the Virtual Machine(s)
     (Outgoing Traffic)
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-111827
+    - auto-generated
+    - agc-111827
   properties:
     metricName: Network Out Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -758,8 +765,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-83394
+    - auto-generated
+    - agc-83394
   properties:
     metricName: VmAvailabilityMetric
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -772,14 +779,15 @@
     threshold: 1.0
     autoMitigate: false
 - name: OS Disk Bandwidth Consumed Percentage
-  description: Percentage of operating system disk bandwidth consumed per minute.
+  description:
+    Percentage of operating system disk bandwidth consumed per minute.
     Only available on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-10847
+    - auto-generated
+    - agc-10847
   properties:
     metricName: OS Disk Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -792,14 +800,15 @@
     threshold: 90.0
     autoMitigate: false
 - name: Inbound Flows
-  description: Inbound Flows are number of current flows in the inbound direction
+  description:
+    Inbound Flows are number of current flows in the inbound direction
     (traffic going into the VM)
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-9070
+    - auto-generated
+    - agc-9070
   properties:
     metricName: Inbound Flows
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -812,14 +821,15 @@
     threshold: 100000.0
     autoMitigate: false
 - name: Outbound Flows
-  description: Outbound Flows are number of current flows in the outbound direction
+  description:
+    Outbound Flows are number of current flows in the outbound direction
     (traffic going out of the VM)
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-8907
+    - auto-generated
+    - agc-8907
   properties:
     metricName: Outbound Flows
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -832,14 +842,15 @@
     threshold: 100000.0
     autoMitigate: false
 - name: Data Disk Bandwidth Consumed Percentage
-  description: Percentage of data disk bandwidth consumed per minute. Only available
+  description:
+    Percentage of data disk bandwidth consumed per minute. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-8619
+    - auto-generated
+    - agc-8619
   properties:
     metricName: Data Disk Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -852,14 +863,15 @@
     threshold: 90.0
     autoMitigate: false
 - name: CPU Credits Remaining
-  description: Total number of credits available to burst. Only available on B-series
+  description:
+    Total number of credits available to burst. Only available on B-series
     burstable VMs
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-7495
+    - auto-generated
+    - agc-7495
   properties:
     metricName: CPU Credits Remaining
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -877,8 +889,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-6104
+    - auto-generated
+    - agc-6104
   properties:
     metricName: Data Disk Queue Depth
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -891,14 +903,15 @@
     threshold: 100.0
     autoMitigate: false
 - name: VM Cached IOPS Consumed Percentage
-  description: Percentage of cached disk IOPS consumed by the VM. Only available on
+  description:
+    Percentage of cached disk IOPS consumed by the VM. Only available on
     VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2657
+    - auto-generated
+    - agc-2657
   properties:
     metricName: VM Cached IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -916,8 +929,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2651
+    - auto-generated
+    - agc-2651
   properties:
     metricName: OS Disk Queue Depth
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -930,14 +943,15 @@
     threshold: 10.0
     autoMitigate: false
 - name: VM Cached Bandwidth Consumed Percentage
-  description: Percentage of cached disk bandwidth consumed by the VM. Only available
+  description:
+    Percentage of cached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2581
+    - auto-generated
+    - agc-2581
   properties:
     metricName: VM Cached Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -950,14 +964,15 @@
     threshold: 90.0
     autoMitigate: false
 - name: VM Uncached IOPS Consumed Percentage
-  description: Percentage of uncached disk IOPS consumed by the VM. Only available
+  description:
+    Percentage of uncached disk IOPS consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2124
+    - auto-generated
+    - agc-2124
   properties:
     metricName: VM Uncached IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -970,14 +985,15 @@
     threshold: 90.0
     autoMitigate: false
 - name: VM Uncached Bandwidth Consumed Percentage
-  description: Percentage of uncached disk bandwidth consumed by the VM. Only available
+  description:
+    Percentage of uncached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2115
+    - auto-generated
+    - agc-2115
   properties:
     metricName: VM Uncached Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -995,8 +1011,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1678
+    - auto-generated
+    - agc-1678
   properties:
     metricName: Disk Write Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1009,14 +1025,15 @@
     threshold: 10.0
     autoMitigate: false
 - name: CPU Credits Consumed
-  description: Total number of credits consumed by the Virtual Machine. Only available
+  description:
+    Total number of credits consumed by the Virtual Machine. Only available
     on B-series burstable VMs
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1239
+    - auto-generated
+    - agc-1239
   properties:
     metricName: CPU Credits Consumed
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1034,8 +1051,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1031
+    - auto-generated
+    - agc-1031
   properties:
     metricName: Data Disk Write Bytes/sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1048,14 +1065,15 @@
     threshold: 10000000.0
     autoMitigate: false
 - name: OS Disk Write Bytes/sec
-  description: Bytes/Sec written to a single disk during monitoring period for OS
+  description:
+    Bytes/Sec written to a single disk during monitoring period for OS
     disk
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1020
+    - auto-generated
+    - agc-1020
   properties:
     metricName: OS Disk Write Bytes/sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1073,8 +1091,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-688
+    - auto-generated
+    - agc-688
   properties:
     metricName: Disk Read Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1092,8 +1110,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-488
+    - auto-generated
+    - agc-488
   properties:
     metricName: OS Disk Max Burst IOPS
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1111,8 +1129,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-480
+    - auto-generated
+    - agc-480
   properties:
     metricName: Data Disk Read Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1130,8 +1148,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-423
+    - auto-generated
+    - agc-423
   properties:
     metricName: Data Disk Max Burst IOPS
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1149,8 +1167,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-389
+    - auto-generated
+    - agc-389
   properties:
     metricName: Disk Write Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1168,8 +1186,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-382
+    - auto-generated
+    - agc-382
   properties:
     metricName: OS Disk Write Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1187,8 +1205,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-370
+    - auto-generated
+    - agc-370
   properties:
     metricName: Disk Read Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1206,8 +1224,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-334
+    - auto-generated
+    - agc-334
   properties:
     metricName: Data Disk Write Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
