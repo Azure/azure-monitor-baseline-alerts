@@ -168,7 +168,7 @@ Below are links to a number of useful resources to have when contributing to AMB
 
 ## Steps to do before contributing anything (after pre-requisites)
 
-Run the following commands in your terminal of choice from the directory where you fork of the repo is located:
+Run the following commands in your terminal of choice from the directory where your fork of the repo is located:
 
 ```text
 git checkout main
