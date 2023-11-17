@@ -16,7 +16,7 @@ The underlying data is not present in the Log Analytics table.
 
 ### Resolution
 
-For VM Alerts please enable [VM Insights](Monitoring-and-Alerting#log-alerts).
+For VM Alerts please enable [VM Insights]({{< ref "Monitoring-and-Alerting.md#log-alerts" >}}).
 
 ## Failed to deploy because of role assignemnt issue
 

@@ -29,7 +29,7 @@ We have tried to make it so that the table doesn't require a lot of side to side
 
 {{< alzMetricAlerts >}}
 
-<sup>1</sup> See "Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?" in the [FAQ](FAQ.md) for more details.
+<sup>1</sup> See "Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?" in the [FAQ]({{< ref "FAQ.md" >}}) for more details.
 
 ## Azure Landing Zone Activity Log Alerts
 
