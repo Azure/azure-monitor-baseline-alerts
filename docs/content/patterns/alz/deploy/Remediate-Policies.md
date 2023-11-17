@@ -1,6 +1,6 @@
 ---
 title: Remediate Policies
-weight: 70
+weight: 80
 ---
 
 The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you are deploying in a greenfield scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.

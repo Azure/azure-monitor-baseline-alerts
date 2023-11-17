@@ -17,11 +17,18 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 - Change the value of _enterpriseScaleCompanyPrefix_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", e.g. in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 - Change the value of _ALZMonitorResourceGroupName_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-<!--
 - Change the value of _ALZMonitorResourceGroupTags_ to specify the tags to be added to said resource group.
--->
 - Change the value of _ALZMonitorResourceGroupLocation_ to specify the location for said resource group.
-- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address where notifications of the alerts are sent to.
+- Change the value of _ALZMonitorActionGroupEmail_ (specific to the Service Health initiative) to the email address(es) where notifications of the alerts are sent to.
+
+  {{< hint type=note >}}
+  For multiple email addresses, make sure they are entered a single string with values separated by comma. Example:
+
+    "ALZMonitorActionGroupEmail": {
+      "value": "action1@mail.com , action2@mail.com , action3@mail.com"
+      },
+  {{< /hint >}}
+
 - If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _enableAMBAConnectivity_, _enableAMBAIdentity_, _enableAMBALandingZone_, _enableAMBAManagement_, _enableAMBAServiceHealth_ to "No".
 
 ### If you are aligned to ALZ
@@ -101,11 +108,11 @@ Note that the parameter file shown below has been truncated for brevity, compare
         "policyAssignmentParametersCommon": {
             "value": {
                 "ALZMonitorResourceGroupName": {
-                    "value": "rg-alz-monitor"
+                    "value": "rg-amba-monitoring-001"
                 },
                 "ALZMonitorResourceGroupTags": {
                     "value": {
-                        "Project": "alz-monitor"
+                        "Project": "amba-monitoring"
                     }
                 },
                 "ALZMonitorResourceGroupLocation": {
@@ -120,6 +127,15 @@ Note that the parameter file shown below has been truncated for brevity, compare
 ## 3. Configure and run the pipeline
 
 First configure your Azure DevOps project with a pipeline hosted in GitHub as described [here](https://learn.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#access-to-github-repositories). The pipeline should be configured to use the [sample-pipeline.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-pipeline.yml) file.
+
+{{< hint type=note >}}
+If you customized the policies as documented at [How to modify individual policies](./Introduction-to-deploying-the-ALZ-Pattern.md#how-to-modify-individual-policies), make sure to modify the pipeline file to have the **inlineScript** pointing to your own repository and branch. Example:
+
+    inlineScript: |
+      az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
+       --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
+
+{{< /hint >}}
 
 Also in your Azure DevOps project, configure a service connection to your Azure subscription as described [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops&tabs=yaml). The service connection should target the intermediate root management group for ALZ aligned deployments or the management group where you wish to deploy the policies and the initiatives for ALZ unaligned deployments.
 
@@ -137,4 +153,5 @@ The location variable refers to the deployment location. Deploying to multiple r
 {{< /hint >}}
 
 ## Next steps
+
 To remediate non-compliant policies, please proceed with [Policy remediation](../Remediate-Policies)

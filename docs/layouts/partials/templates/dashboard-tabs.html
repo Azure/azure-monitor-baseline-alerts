@@ -1,0 +1,28 @@
+{{ $types := slice "Log" "Metric" }}
+{{ $alerts := where .alerts "visible" true }}
+{{ $alerts := where $alerts "type" "in" $types }}
+<div class="gdoc-tabs">
+  <input
+    type="radio"
+    class="gdoc-tabs__control hidden"
+    name="dashboards"
+    id="dashboards-0"
+    checked="checked"
+  />
+  <label for="dashboards-0" class="gdoc-tabs__label"></label>
+  <div class="gdoc-markdown--nested gdoc-tabs__content">
+    <p><b>Click a tab to view the dashboard template</b></p>
+  </div>
+  <input
+    type="radio"
+    class="gdoc-tabs__control hidden"
+    name="dashboards"
+    id="dashboards-1"
+  />
+  <label for="dashboards-1" class="gdoc-tabs__label">
+    Grafana
+  </label>
+  <div class="gdoc-markdown--nested gdoc-tabs__content">
+    {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
+  </div>
+</div>

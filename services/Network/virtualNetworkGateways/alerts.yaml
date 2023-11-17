@@ -15,12 +15,19 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Bandwidth Alert
+  - name: Deploy VNetG Tunnel Bandwidth Alert
     template: Deploy-VNETG-BandwidthUtilization-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Bytes
   description: Metric Alert for VNet Gateway Tunnel Egress Bytes
   type: Metric
@@ -38,12 +45,19 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Egress Alert
+  - name: Deploy VNetG Tunnel Egress Alert
     template: Deploy-VNETG-Egress-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Packet Drop Count
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropCount
   type: Metric
@@ -64,12 +78,19 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Count Alert
+  - name: Deploy VNetG Egress Packet Drop Count Alert
     template: Deploy-VNETG-EgressPacketDropCount-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Egress Packet Drop TS Mismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropTSMismatch
   type: Metric
@@ -90,12 +111,19 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Egress Packet Drop Mismatch Alert
+  - name: Deploy VNetG Egress Packet Drop Mismatch Alert
     template: Deploy-VNETG-EgressPacketDropMismatch-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: ExpressRoute Gateway Bits Per Second
   description: Metric Alert for VNet Gateway Express Route Bits Per Second
   type: Metric
@@ -113,13 +141,19 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Express Route Bits
-      Per Second Alert
+  - name: Deploy VNetG ExpressRoute Bits Per Second Alert
     template: Deploy-VNETG-ERGBitsPerSecond-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: ExpressRoute Gateway CPU Utilization
   description: CPU Utilization of the ExpressRoute Gateway
   type: Metric
@@ -137,13 +171,19 @@
     operator: GreaterThan
     threshold: 80
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Express Route CPU
-      Utilization
+  - name: Deploy VNetG ExpressRoute CPU Utilization Alert
     template: Deploy-VNETG-ERGCPUUtilization-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Bytes
   description: Metric Alert for VNet Gateway Tunnel ingress Bytes
   type: Metric
@@ -161,12 +201,19 @@
     operator: LessThan
     threshold: 1
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Virtual Network Gateway Tunnel Ingress Alert
+  - name: Deploy VNetG Tunnel Ingress Alert
     template: Deploy-VNETG-Ingress-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Packet Drop Count
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropCount
   type: Metric
@@ -187,12 +234,19 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Count Alert
+  - name: Deploy VNetG Ingress Packet Drop Count Alert
     template: Deploy-VNETG-IngressPacketDropCount-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Tunnel Ingress Packet Drop TS Mismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
   type: Metric
@@ -213,13 +267,19 @@
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
+    autoMitigate: false
   references:
-    - name: Supported metrics for microsoft.network/virtualnetworkgateways
-      url:  https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
+  - name: Supported metrics for microsoft.network/virtualnetworkgateways
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-virtualnetworkgateways-metrics
   deployments:
-  - description: Policy to audit/deploy Vnet Gateway Ingress Packet Drop Mismatch
-      Alert
+  - name: Deploy VNetG Egress Packet Drop Mismatch Alert
     template: Deploy-VNETG-IngressPacketDropMismatch-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: TunnelAverageBandwidth
   description: Average bandwidth of a tunnel in bytes per second
   type: Metric
@@ -238,6 +298,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
+    autoMitigate: false
 - name: ExpressRouteGatewayCpuUtilization
   description: CPU Utilization of the ExpressRoute Gateway
   type: Metric
@@ -256,6 +317,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
+    autoMitigate: false
 - name: AverageBandwidth
   description: Site-to-site bandwidth of a gateway in bytes per second
   type: Metric
@@ -274,3 +336,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 450000000.0
+    autoMitigate: false

@@ -1,0 +1,183 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.5.12"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-azure-monitor-datasource",
+      "name": "Azure Monitor",
+      "version": "1.0.0"
+    }
+  ],
+  "title": "{{ humanize .type }}",
+  "editable": true,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+  {{ range $idx, $value := sort .alerts "name" "asc" }}{{ if ne $idx 0}},
+  {{ end }}  {
+      "title": "{{ $value.name }}",
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#808080",
+                "value": null
+              },
+              {
+{{ if or (eq $value.properties.operator "GreaterThan") (eq $value.properties.operator "GreaterThanOrEqual") }}                
+                "color": "dark-green",{{ else }}
+                "color": "dark-red",{{ end }}                
+                "value": 0
+              },
+              {
+{{ if or (eq $value.properties.operator "GreaterThan") (eq $value.properties.operator "GreaterThanOrEqual") }}                
+                "color": "dark-red",{{ else }}
+                "color": "dark-green",{{ end }}                
+                "value": {{ if $value.properties.threshold }}{{ string $value.properties.threshold }}{{ else }}0{{ end }}
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": {{ mul 12 (mod $idx 2) }},
+        "y": {{ mul 8 (div $idx 2) }}
+      },
+      "id": {{ add $idx 1 }},
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "pluginVersion": "9.5.12",
+      "targets": [
+        {
+          "azureLogAnalytics": {
+{{ if eq $value.type "Log" }}
+            "query": {{ jsonify (replace $value.properties.query "\n" " ") }},{{ else }}
+            "query": "AzureMetrics\r\n| where _ResourceId has '{{ $value.properties.metricNamespace }}'\r\n| where MetricName has '{{ $value.properties.metricName }}'\r\n| summarize metric = avg({{ $value.properties.timeAggregation }}) by _ResourceId, Resource",{{ end }}
+            "resources": [
+              "/subscriptions/$sub"
+            ]
+          },
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Log Analytics",
+          "refId": "A"
+        }
+      ],
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_ResourceId": true
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "bargauge"
+    }{{ end }}
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "ds",
+        "options": [],
+        "query": "grafana-azure-monitor-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Subscription",
+        "multi": false,
+        "name": "sub",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Subscriptions",
+          "refId": "A"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "version": null
+}

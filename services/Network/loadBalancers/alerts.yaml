@@ -15,17 +15,23 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
-    - name: Azure Load Balancer Multi-Demensional-Metrics
-      url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#multi-dimensional-metrics
-    - name: Is The Data Path Up and Available for My Load-Balancer
-      url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#is-the-data-path-up-and-available-for-my-load-balancer-frontend
+  - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
+  - name: Azure Load Balancer Multi-Demensional-Metrics
+    url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#multi-dimensional-metrics
+  - name: Is The Data Path Up and Available for My Load-Balancer
+    url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#is-the-data-path-up-and-available-for-my-load-balancer-frontend
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Data Path Availability
-      Alert
+  - name: Deploy ALB Data Path Availability Alert
     template: Deploy-LB-DatapathAvailability-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Global Backend Availability
   description: Metric Alert for Global Backend Availability
   type: Metric
@@ -43,13 +49,19 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
+  - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Global Backend Availability
-      Alert
+  - name: Deploy ALB Global Backend Availability Alert
     template: Deploy-LB-GlobalBackendAvailability-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Dip Availability
   description: Average Load Balancer health probe status per time duration
   type: Metric
@@ -67,14 +79,21 @@
     operator: LessThan
     threshold: 90
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
-    - name: Are Backend Instances for my Load-Balancer Responding to Probes
-      url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#are-the-backend-instances-for-my-load-balancer-responding-to-probes
+  - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
+  - name: Are Backend Instances for my Load-Balancer Responding to Probes
+    url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#are-the-backend-instances-for-my-load-balancer-responding-to-probes
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Health Probe Status Alert
+  - name: Deploy ALB Health Probe Status Alert
     template: Deploy-LB-HealthProbeStatus-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: Used SNAT Ports
   description: Metric Alert for ALB Used SNAT Ports
   type: Metric
@@ -92,16 +111,23 @@
     operator: GreaterThan
     threshold: 900
     criterionType: StaticThresholdCriterion
+    autoMitigate: false
   references:
-    - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
-    - name: Load-Balancer Alerts
-      url: https://learn.microsoft.com/en-us/azure/load-balancer/monitor-load-balancer#alerts
-    - name: Check My SNAT Port Usage and Allocation
-      url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#how-do-i-check-my-snat-port-usage-and-allocation
+  - name: Azure Monitor supported metrics by resource type - Azure Load Balancer
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-network-loadbalancers-metrics
+  - name: Load-Balancer Alerts
+    url: https://learn.microsoft.com/en-us/azure/load-balancer/monitor-load-balancer#alerts
+  - name: Check My SNAT Port Usage and Allocation
+    url: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-diagnostics#how-do-i-check-my-snat-port-usage-and-allocation
   deployments:
-  - description: Policy to audit/deploy Azure Load Balancer Used SNAT Ports Alert
+  - name: Deploy ALB Used SNAT Ports Alert
     template: Deploy-LB-UsedSNATPorts-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: false
 - name: DipAvailability
   description: Average Load Balancer health probe status per time duration
   type: Metric
@@ -120,6 +146,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 51.0
+    autoMitigate: false
 - name: UsedSnatPorts
   description: Total number of SNAT ports used within time period
   type: Metric
@@ -143,6 +170,7 @@
       values:
       - '*'
     threshold: 900.0
+    autoMitigate: false
 - name: VipAvailability
   description: Average Load Balancer data path availability per time duration
   type: Metric
@@ -161,6 +189,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 50.0
+    autoMitigate: false
 - name: SnatConnectionCount
   description: Total number of new SNAT connections created within time period
   type: Metric
@@ -184,3 +213,4 @@
       values:
       - failed
     threshold: 0.0
+    autoMitigate: false
