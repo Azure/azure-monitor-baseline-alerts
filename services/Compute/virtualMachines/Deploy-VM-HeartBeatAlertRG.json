@@ -223,27 +223,27 @@
                 "equals": "[[parameters('autoResolveTime')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/threshold",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.threshold",
                 "equals": "[[parameters('threshold')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/operator",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.operator",
                 "equals": "[[parameters('operator')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/timeAggregation",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.timeAggregation",
                 "equals": "[[parameters('timeAggregation')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/failingPeriods/numberOfEvaluationPeriods",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.numberOfEvaluationPeriods",
                 "equals": "[[parameters('evaluationPeriods')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/failingPeriods/minFailingPeriodsToAlert",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.minFailingPeriodsToAlert",
                 "equals": "[[parameters('failingPeriods')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria/allOf[0]/query",
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.query",
                 "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
               }
             ]
