@@ -8,34 +8,34 @@
     "displayName": "Deploy Alert Processing Rule",
     "description": "Policy to Deploy Deploy Alert Processing Rule with Action Group",
     "metadata": {
-      "version": "1.0.2",
+      "version": "1.0.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "alzCloudEnvironments": [
+      "ALZCloudEnvironments": [
         "AzureCloud"
       ],
       "_deployed_by_amba": "True"
     },
     "parameters": {
-      "ALZMonitorResourceGroupName": {
+      "AMBAMonitorResourceGroupName": {
         "type": "String",
         "metadata": {
           "displayName": "Resource Group Name",
           "description": "Resource group the alert is placed in"
         },
-        "defaultValue": "rg-amba-monitoring-001"
+        "defaultValue": "AMBAMonitoring-rg"
       },
-      "ALZMonitorResourceGroupTags": {
+      "AMBAMonitorResourceGroupTags": {
         "type": "Object",
         "metadata": {
           "displayName": "Resource Group Tags",
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-            "_deployed_by_amba": true
+            "_deployed_by_alz": true
         }
       },
-      "ALZMonitorResourceGroupLocation": {
+      "AMBAMonitorResourceGroupLocation": {
         "type": "String",
         "metadata": {
           "displayName": "Resource Group Location",
@@ -43,13 +43,117 @@
         },
         "defaultValue": "centralus"
       },
-      "ALZMonitorActionGroupEmail": {
+      "AMBAMonitorActionGroupEmail": {
         "type": "String",
         "metadata": {
           "displayName": "Action Group Email",
           "description": "Email address to send alerts to"
         },
         "defaultValue": "action@mail.com"
+      },
+      "AMBAAGLogicappResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Logic App Resource Id",
+          "description": "Logic App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGLogicAppcallbackUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Logic App Callback Url",
+          "description": "Logic App Callback Url for Action Group"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGEventHubResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Resource Id",
+          "description": "Event Hub Resource Id for action group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGEHSubscriptionId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Subscription Id",
+          "description": "Event Hub Subscription Id"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGEHTenantId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Tenant Id",
+          "description": "Event Hub Tenant Id"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGEventHubName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Name",
+          "description": "Event Hub Name for action group to send alerts to "
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGEventHubNameSpace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub Name Space",
+          "description": "Event Hub Name Space for action group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGIdentifierUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Identifier Uri Secure Webhook ",
+          "description": "Indicates the identifier uri for aad auth in a secure webhook"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGAADObjectId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Entra Object Id Secure Webhook ",
+          "description": "Indicates the Entra object id for Entra auth in a secure webhook"
+        },
+        "defaultValue": ""
+      },
+     "AMBAAGWHTenantId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tenant Id Secure Webhook ",
+          "description": "Indicates the tenant id in a secure webhook"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGServiceUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Service Uri Webhook ",
+          "description": "Indicates the webhook service uri in a webhook"
+        },
+        "defaultValue": ""
+      },
+      "AMBAAGuseAadAuth": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Use Entra Auth",
+          "description": "Indicates if the webhook should be secure and use Entra Authorisation set to true or false"
+        },
+        "defaultValue": "false"
+      },
+      "AMBAAGArmRoleId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Arm Role Id",
+          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+        },
+        "defaultValue": ""
       },
       "MonitorDisable": {
         "type": "String",
@@ -81,7 +185,7 @@
           ],
           "type": "Microsoft.AlertsManagement/actionRules",
           "existenceScope": "resourcegroup",
-          "resourceGroupName": "[[parameters('ALZMonitorResourceGroupName')]",
+          "resourceGroupName": "[[parameters('AMBAMonitorResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
             "allOf": [
@@ -99,37 +203,114 @@
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
-                  "ALZMonitorResourceGroupName": {
+                  "AMBAMonitorResourceGroupName": {
                     "type": "string"
                   },
-                  "ALZMonitorResourceGroupTags": {
+                  "AMBAMonitorResourceGroupTags": {
                     "type": "object"
                   },
-                  "ALZMonitorResourceGroupLocation": {
+                  "AMBAMonitorResourceGroupLocation": {
                     "type": "string"
                   },
-                  "ALZMonitorActionGroupEmail": {
+                  "AMBAMonitorActionGroupEmail": {
+                    "type": "string"
+                  },
+                  "AMBAAGLogicAppcallbackUrl": {
+                    "type": "string"
+                  },
+                  "AMBAAGLogicappResourceId": {
+                    "type": "string"
+                  },
+                  "AMBAAGEventHubResourceId": {
+                    "type": "string"
+                  },
+                  "AMBAAGEventHubName": {
+                    "type": "string"
+                  },
+                  "AMBAAGEventHubNameSpace": {
+                    "type": "string"
+                  },
+                  "AMBAAGEHSubscriptionId": {
+                    "type": "string"
+                  },
+                  "AMBAAGEHTenantId": {
+                    "type": "string"
+                  },
+                  "AMBAAGAADObjectId": {
+                    "type": "string"
+                  },
+                  "AMBAAGIdentifierUri": {
+                    "type": "string"
+                  },                
+                  "AMBAAGServiceUri": {
+                    "type": "string"
+                  },
+                  "AMBAAGWHTenantId": {
+                    "type": "string"
+                  },
+                  "AMBAAGuseAadAuth":{
+                    "type": "string"
+                  },
+                  "AMBAAGArmRoleId":{
                     "type": "string"
                   }
                 },
                 "variables": {
-                    "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
+                    "varAMBAMonitorActionGroupEmail": "[[array(split(parameters('AMBAMonitorActionGroupEmail'),','))]",
+                    "varAMBAMonitorActionGroupArmRoleId":"[[array(split(parameters('AMBAAGArmRoleId'),','))]",
+                    "varEventHubResourceId": "[[parameters('AMBAAGEventHubResourceId')]",
+                    "varSplitEHResourceId": "[[split(variables('varEventHubResourceId'), '/')]",
+                    "varEventhubName": "[[variables('varSplitEHResourceId')[10]]",
+                    "varActionGroupReceivers": {
+                      "varlogicAppReceivers": [
+                        {
+                          "name": "AMBAActionLogicApp",
+                          "callbackUrl": "[[parameters('AMBAAGLogicAppcallbackUrl')]",
+                          "resourceId": "[[parameters('AMBAAGLogicappResourceId')]",
+                          "useCommonAlertSchema": true
+                        }
+                      ],
+                      "varEventHubReceiver": [
+                        {
+                          
+                          "eventHubName": "[[variables('varEventhubName')]",
+                          "eventHubNameSpace": "[[variables('varSplitEHResourceId')[8]]",
+                          "name": "AMBAActionEventHub",
+                          "subscriptionId": "[[variables('varSplitEHResourceId')[2]]",
+                          "tenantId": "[[parameters('AMBAAGEHTenantId')]",
+                          "useCommonAlertSchema": true
+                        }
+                      ],
+                      "varWebhookReceiver": [
+                        {
+                          "identifierUri": "[[parameters('AMBAAGIdentifierUri')]",
+                          "name": "AMBAActionWebHook",
+                          "objectId": "[[parameters('AMBAAGAADObjectId')]",
+                          "serviceUri": "[[parameters('AMBAAGServiceUri')]",
+                          "tenantId": "[[parameters('AMBAAGWHTenantId')]",
+                          "useAadAuth": "[[parameters('AMBAAGuseAadAuth')]",
+                          "useCommonAlertSchema": true
+                        }
+                      ]
+                  
+                    
+                    }
                 },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
                     "apiVersion": "2021-04-01",
-                    "name": "[[parameters('ALZMonitorResourceGroupName')]",
-                    "location": "[[parameters('ALZMonitorResourceGroupLocation')]",
-                    "tags": "[[parameters('ALZMonitorResourceGroupTags')]"
+                    "name": "[[parameters('AMBAMonitorResourceGroupName')]",
+                    "location": "[[parameters('AMBAMonitorResourceGroupLocation')]",
+                    "tags": "[[parameters('AMBAMonitorResourceGroupTags')]"
                   },
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
                     "name": "ActionGroupDeployment",
-                    "resourceGroup": "[[parameters('ALZMonitorResourceGroupName')]",
+                    "resourceGroup": "[[parameters('AMBAMonitorResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('ALZMonitorResourceGroupName'))]"
+                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('AMBAMonitorResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -137,47 +318,148 @@
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                         "contentVersion": "1.0.0.0",
                         "parameters": {
-                          "ALZMonitorResourceGroupName": {
+                          "AMBAMonitorResourceGroupName": {
                             "type": "string"
                           },
-                          "ALZMonitorActionGroupEmail": {
+                          "AMBAMonitorActionGroupEmail": {
+                            "type": "string"
+                          },
+                          "AMBAAGLogicAppcallbackUrl": {
+                            "type": "string"
+                          },
+                          "AMBAAGLogicappResourceId": {
+                            "type": "string"
+                          },
+                          "AMBAAGEventHubResourceId": {
+                            "type": "string"
+                          },
+                          "AMBAAGEventHubName": {
+                            "type": "string"
+                          },
+                          "AMBAAGAADObjectId": {
+                            "type": "string"
+                          },
+                          "AMBAAGEHSubscriptionId": {
+                            "type": "string"
+                          },
+                          "AMBAAGEHTenantId": {
+                            "type": "string"
+                          },
+                          "AMBAAGEventHubNameSpace": {
+                            "type": "string"
+                          },
+                          "AMBAAGIdentifierUri": {
+                            "type": "string"
+                          },
+                          "AMBAAGServiceUri": {
+                            "type": "string"
+                          },
+                  
+                          "AMBAAGWHTenantId": {
+                            "type": "string"
+                          },
+                          "AMBAAGuseAadAuth":{
+                            "type": "string"
+                          },
+                          "AMBAAGArmRoleId":{
                             "type": "string"
                           }
                         },
                         "variables": {},
                         "resources": [
                             {
+                                "condition": "[[not(empty(parameters('AMBAAGArmRoleId')))]",
                                 "type": "Microsoft.Insights/actionGroups",
                                 "apiVersion": "2022-06-01",
-                                "name": "AmbaActionGr",
+                                "name": "AmbaActionGrp",
                                 "location": "Global",
                                 "tags": {
                                     "_deployed_by_amba": true
                                   },
                                 "properties": {
-                                    "groupShortName": "AmbaActionGr",
+                                    "groupShortName": "AMBAActnGrp",
                                     "enabled": true,
                                     "copy": [
                                         {
                                             "name": "emailReceivers",
-                                            "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                                            "count": "[[length(variables('varAMBAMonitorActionGroupEmail'))]",
                                             "mode": "serial",
                                             "input": {
-                                                "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                                "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                                "name": "[[concat('AMBAMail-', indexOf(variables('varAMBAMonitorActionGroupEmail'), variables('varAMBAMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                                "emailAddress": "[[trim(variables('varAMBAMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
                                                 "useCommonSchema": true
                                             }
+                                        },
+
+
+                                        {
+                                          "name": "armRoleReceivers",
+                                          "count": "[[length(variables('varAMBAMonitorActionGroupArmRoleId'))]",
+                                            "mode": "serial",
+                                            "input": {
+                                                "name": "[[concat('AMBAARM-', indexOf(variables('varAMBAMonitorActionGroupArmRoleId'), variables('varAMBAMonitorActionGroupArmRoleId')[copyIndex('armRoleReceivers')]))]",
+                                                "roleId": "[[trim(variables('varAMBAMonitorActionGroupArmRoleId')[copyIndex('armRoleReceivers')])]",
+                                                "useCommonSchema": true
+                                            }
+
+
+
+
                                         }
-                                    ]
+                                    ],
+                                 
+                                    
+                                    "logicAppReceivers": "[[if(empty(parameters('AMBAAGLogicappResourceId')),null(),variables('varActionGroupReceivers').varlogicAppReceivers)]",
+                                    "eventHubReceivers": "[[if(empty(parameters('AMBAAGEventHubName')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
+                                    "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]"
+                                    
+                                    
+
                                 }
                             },
+                            {
+                              "condition":"[[empty(parameters('AMBAAGArmRoleId'))]",
+                              "type": "Microsoft.Insights/actionGroups",
+                              "apiVersion": "2022-06-01",
+                              "name": "AmbaActionGrp",
+                              "location": "Global",
+                              "tags": {
+                                  "_deployed_by_amba": true
+                                },
+                              "properties": {
+                                  "groupShortName": "AMBAActnGrp",
+                                  "enabled": true,
+                                  "copy": [
+                                      {
+                                          "name": "emailReceivers",
+                                          "count": "[[length(variables('varAMBAMonitorActionGroupEmail'))]",
+                                          "mode": "serial",
+                                          "input": {
+                                              "name": "[[concat('AMBAMail-', indexOf(variables('varAMBAMonitorActionGroupEmail'), variables('varAMBAMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                                              "emailAddress": "[[trim(variables('varAMBAMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                                              "useCommonSchema": true
+                                          }
+                                      }                                 
+                                     
+                                      
+                                  ],
+                               
+                                  
+                                  "logicAppReceivers": "[[if(empty(parameters('AMBAAGLogicappResourceId')),null(),variables('varActionGroupReceivers').varlogicAppReceivers)]",
+                                  "eventHubReceivers": "[[if(empty(parameters('AMBAAGEventHubName')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
+                                  "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]"
+                                  
+                                  
+
+                              }
+                          },
                             {
                                 "type": "Microsoft.AlertsManagement/actionRules",
                                 "apiVersion": "2021-08-08",
                                 "name": "AMBA Alert Processing Rule",
                                 "location": "Global",
                                 "dependsOn": [
-                                    "[[concat('Microsoft.Insights/actionGroups/', 'AmbaActionGr')]"
+                                    "[[concat('Microsoft.Insights/actionGroups/', 'AMBAActionGrp')]"
                                 ],
                                 "tags": {
                                     "_deployed_by_amba": true
@@ -191,7 +473,7 @@
                                     "actions": [
                                         {
                                         "actiongroupIds": [
-                                            "[[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AmbaActionGr')]"
+                                            "[[[concat(subscription().Id, '/resourceGroups/', parameters('AMBAMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AMBAActionGrp')]"
                                         ],
                                         "actionType": "AddActionGroups"
                                         }
@@ -201,11 +483,51 @@
                         ]
                       },
                       "parameters": {
-                        "ALZMonitorResourceGroupName": {
-                          "value": "[[parameters('ALZMonitorResourceGroupName')]"
+                        "AMBAMonitorResourceGroupName": {
+                          "value": "[[parameters('AMBAMonitorResourceGroupName')]"
                         },
-                        "ALZMonitorActionGroupEmail": {
-                          "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        "AMBAMonitorActionGroupEmail": {
+                          "value": "[[parameters('AMBAMonitorActionGroupEmail')]"
+                        },
+                        "AMBAAGLogicAppcallbackUrl": {
+                          "value": "[[parameters('AMBAAGLogicAppcallbackUrl')]"
+                        },
+                        "AMBAAGLogicappResourceId": {
+                          "value": "[[parameters('AMBAAGLogicappResourceId')]"
+                        },
+                        "AMBAAGEventHubResourceId": {
+                          "value": "[[parameters('AMBAAGEventHubResourceId')]"
+                        },
+                        "AMBAAGEventHubName": {
+                          "value": "[[parameters('AMBAAGEventHubName')]"
+                        },
+                        "AMBAAGAADObjectId": {
+                          "value": "[[parameters('AMBAAGAADObjectId')]"
+                        },
+                        "AMBAAGEHSubscriptionId": {
+                          "value": "[[parameters('AMBAAGEHSubscriptionId')]"
+                        },
+                        "AMBAAGEHTenantId": {
+                          "value": "[[parameters('AMBAAGEHTenantId')]"
+                        },
+                        "AMBAAGEventHubNameSpace": {
+                          "value": "[[parameters('AMBAAGEventHubNameSpace')]"
+                        },
+                        "AMBAAGIdentifierUri": {
+                          "value": "[[parameters('AMBAAGIdentifierUri')]"
+                        },
+                        "AMBAAGServiceUri": {
+                          "value": "[[parameters('AMBAAGServiceUri')]"
+                        },
+                  
+                        "AMBAAGWHTenantId": {
+                          "value": "[[parameters('AMBAAGWHTenantId')]"
+                        },
+                        "AMBAAGuseAadAuth":{
+                          "value": "[[parameters('AMBAAGuseAadAuth')]"
+                        },
+                        "AMBAAGArmRoleId":{
+                          "value": "[[parameters('AMBAAGArmRoleId')]"
                         }
                       }
                     }
@@ -213,17 +535,57 @@
                 ]
               },
               "parameters": {
-                "ALZMonitorResourceGroupName": {
-                  "value": "[[parameters('ALZMonitorResourceGroupName')]"
+                "AMBAMonitorResourceGroupName": {
+                  "value": "[[parameters('AMBAMonitorResourceGroupName')]"
                 },
-                "ALZMonitorResourceGroupTags": {
-                  "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+                "AMBAMonitorResourceGroupTags": {
+                  "value": "[[parameters('AMBAMonitorResourceGroupTags')]"
                 },
-                "ALZMonitorResourceGroupLocation": {
-                  "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+                "AMBAMonitorResourceGroupLocation": {
+                  "value": "[[parameters('AMBAMonitorResourceGroupLocation')]"
                 },
-                "ALZMonitorActionGroupEmail": {
-                  "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                "AMBAMonitorActionGroupEmail": {
+                  "value": "[[parameters('AMBAMonitorActionGroupEmail')]"
+                },
+                "AMBAAGLogicAppcallbackUrl": {
+                  "value": "[[parameters('AMBAAGLogicAppcallbackUrl')]"
+                },
+                "AMBAAGLogicappResourceId": {
+                  "value": "[[parameters('AMBAAGLogicappResourceId')]"
+                },
+                "AMBAAGEventHubResourceId": {
+                  "value": "[[parameters('AMBAAGEventHubResourceId')]"
+                },
+                "AMBAAGEventHubName": {
+                  "value": "[[parameters('AMBAAGEventHubName')]"
+                },
+                "AMBAAGAADObjectId": {
+                  "value": "[[parameters('AMBAAGAADObjectId')]"
+                },
+                "AMBAAGEHSubscriptionId": {
+                  "value": "[[parameters('AMBAAGEHSubscriptionId')]"
+                },
+                "AMBAAGEHTenantId": {
+                  "value": "[[parameters('AMBAAGEHTenantId')]"
+                },
+                "AMBAAGEventHubNameSpace": {
+                  "value": "[[parameters('AMBAAGEventHubNameSpace')]"
+                },
+                "AMBAAGIdentifierUri": {
+                  "value": "[[parameters('AMBAAGIdentifierUri')]"
+                },
+                "AMBAAGServiceUri": {
+                  "value": "[[parameters('AMBAAGServiceUri')]"
+                },
+           
+                "AMBAAGWHTenantId": {
+                  "value": "[[parameters('AMBAAGWHTenantId')]"
+                },
+                "AMBAAGuseAadAuth":{
+                  "value": "[[parameters('AMBAAGuseAadAuth')]"
+                },
+                "AMBAAGArmRoleId":{
+                  "value": "[[parameters('AMBAAGArmRoleId')]"
                 }
               }
             }
