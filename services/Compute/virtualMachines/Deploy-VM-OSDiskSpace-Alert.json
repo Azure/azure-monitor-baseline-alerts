@@ -8,7 +8,7 @@
     "displayName": "Deploy VM OS Disk Space Alert",
     "description": "Policy to audit/deploy VM OSDiskSpace Alert",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "category": "Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -251,6 +251,54 @@
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/enabled",
                 "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/evaluationFrequency",
+                "equals": "[[parameters('evaluationFrequency')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/windowSize",
+                "equals": "[[parameters('windowSize')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/severity",
+                "equals": "[[parameters('severity')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/autoMitigate",
+                "equals": "[[parameters('autoMitigate')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/ruleResolveConfiguration.autoResolved",
+                "equals": "[[parameters('autoResolve')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/ruleResolveConfiguration.timeToResolve",
+                "equals": "[[parameters('autoResolveTime')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.threshold",
+                "equals": "[[parameters('threshold')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.operator",
+                "equals": "[[parameters('operator')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.timeAggregation",
+                "equals": "[[parameters('timeAggregation')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.numberOfEvaluationPeriods",
+                "equals": "[[parameters('evaluationPeriods')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.minFailingPeriodsToAlert",
+                "equals": "[[parameters('failingPeriods')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/criteria.query",
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
