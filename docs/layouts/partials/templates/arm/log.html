@@ -98,14 +98,14 @@
     },
     "metricMeasureColumn": {
       "type": "string",
-      "defaultValue": "{{ .properties.metricMeasureColumn }}"
+      "defaultValue": "{{ .properties.metricMeasureColumn }}",
       "metadata": {
         "description": "Name of the measure column used in the alert evaluation."
       }
     },
     "resourceIdColumn": {
       "type": "string",
-      "defaultValue": "{{ .properties.resouceIdColumn }}"
+      "defaultValue": "{{ .properties.resouceIdColumn }}",
       "metadata": {
         "description": "Name of the resource ID column used in the alert targeting the alerts."
       }
@@ -214,11 +214,11 @@
               "query": "[parameters('query')]",
               "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
               "resourceIdColumn": "[parameters('resourceIdColumn')]",
-              "dimensions": [{{ range $idx1, $value1 := .properties.dimensions }}{{ if ne $idx1 0}},{{ end }}
+              "dimensions": [{{ range $idx1, $value1 := .properties.dimensions }}{{ if ne $idx1 0 }},{{ end }}
                 {
-                  "name": "{{ $idx1 }}",
+                  "name": "{{ $value1.name }}",
                   "operator": "{{ $value1.operator }}",
-                  "values": [{{ range $idx2, $value2 := $value1.values }}{{ if ne $idx2 0}},{{ end }}"{{ $value2 }}"{{ end }}]
+                  "values": [{{ range $idx2, $value2 := $value1.values }}{{ if ne $idx2 0 }},{{ end }}"{{ $value2 }}"{{ end }}]
                 }{{ end }}
               ],
               "operator": "[parameters('operator')]",
