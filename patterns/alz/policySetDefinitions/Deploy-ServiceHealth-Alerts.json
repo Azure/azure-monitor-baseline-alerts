@@ -145,8 +145,40 @@
         "type": "string",
         "defaultValue": "action@mail.com",
         "metadata": {
-          "displayName": "Action Group Email",
-          "description": "Email address to send alerts to"
+          "displayName": "Action Group Email Addresses",
+          "description": "Email addresses to send alerts to"
+        }
+      },
+      "ALZAGLogicappResourceId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Logic App Resource Id",
+          "description": "Logic App Resource Id for Action Group to send alerts to"
+        }
+      },
+      "ALZAGArmRoleId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Arm Role Id",
+          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+        }
+      },
+      "ALZAGEventHubResourceId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Event Hub resource id",
+          "description": "Event Hub resource id for action group to send alerts to"
+        }
+      },
+      "ALZAGWebhookResourceId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Webhook URLs",
+          "description": "Webhook URLs action group to send alerts to"
         }
       },
       "MonitorDisable": {
@@ -159,6 +191,36 @@
       }
     },
     "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
+        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups')]",
+        "parameters": {
+          "ALZMonitorResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "ALZMonitorResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "ALZMonitorResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "ALZMonitorActionGroupEmail": {
+            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          },
+          "ALZAGLogicappResourceId": {
+           "value": "[[parameters('ALZAGLogicappResourceId')]"
+          },
+          "ALZAGArmRoleId": {
+            "value": "[[parameters('ALZAGArmRoleId')]"
+          },
+          "ALZAGEventHubResourceId": {
+            "value": "[[parameters('ALZAGEventHubResourceId')]"
+          },
+          "ALZAGWebhookResourceId": {
+            "value": "[[parameters('ALZAGWebhookResourceId')]"
+          }
+        }
+      },
       {
         "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
         "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert')]",
@@ -273,27 +335,6 @@
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule')]",
-        "parameters": {
-          "ALZMonitorResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "ALZMonitorResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "ALZMonitorResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
           }
         }
       }
