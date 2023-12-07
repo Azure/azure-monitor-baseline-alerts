@@ -67,22 +67,15 @@
         },
         "defaultValue": ""
       },
-      "AMBAAGEventHubResourceId": {
+      "AMBAEventHubResourceId":{
         "type": "String",
         "metadata": {
           "displayName": "Event Hub Resource Id",
-          "description": "Event Hub Resource Id for action group to send alerts to"
+          "description": "Event Hub Resource Id for action group to send alerts to "
         },
         "defaultValue": ""
       },
-      "AMBAAGEHSubscriptionId": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Event Hub Subscription Id",
-          "description": "Event Hub Subscription Id"
-        },
-        "defaultValue": ""
-      },
+ 
       "AMBAAGEHTenantId": {
         "type": "String",
         "metadata": {
@@ -91,30 +84,8 @@
         },
         "defaultValue": ""
       },
-      "AMBAAGEventHubName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Event Hub Name",
-          "description": "Event Hub Name for action group to send alerts to "
-        },
-        "defaultValue": ""
-      },
-      "AMBAAGEventHubNameSpace": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Event Hub Name Space",
-          "description": "Event Hub Name Space for action group to send alerts to"
-        },
-        "defaultValue": ""
-      },
-      "AMBAAGIdentifierUri": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Identifier Uri Secure Webhook ",
-          "description": "Indicates the identifier uri for aad auth in a secure webhook"
-        },
-        "defaultValue": ""
-      },
+      
+   
       "AMBAAGAADObjectId": {
         "type": "String",
         "metadata": {
@@ -147,6 +118,14 @@
         },
         "defaultValue": "false"
       },
+      "AMBAAGIdentifierUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Identifier Uri Webhook ",
+          "description": "Indicates the webhook identifier uri in a webhook"
+        },
+        "defaultValue": ""
+      },
       "AMBAAGArmRoleId": {
         "type": "String",
         "metadata": {
@@ -155,6 +134,31 @@
         },
         "defaultValue": ""
       },
+      "AMBAMonitorActionGroupFunctionAppResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function App Resource Id",
+          "description": "Function App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "AMBAMonitorActionGroupFunctionName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function Name",
+          "description": "Function Name for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "AMBAMonitorActionGroupFunctionHttpTriggerUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function Http Trigger Url",
+          "description": "Function Http Trigger Url for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+  
       "MonitorDisable": {
         "type": "String",
         "metadata": {
@@ -221,18 +225,10 @@
                   "AMBAAGLogicappResourceId": {
                     "type": "string"
                   },
-                  "AMBAAGEventHubResourceId": {
+                  "AMBAEventHubResourceId": {
                     "type": "string"
-                  },
-                  "AMBAAGEventHubName": {
-                    "type": "string"
-                  },
-                  "AMBAAGEventHubNameSpace": {
-                    "type": "string"
-                  },
-                  "AMBAAGEHSubscriptionId": {
-                    "type": "string"
-                  },
+                  },          
+            
                   "AMBAAGEHTenantId": {
                     "type": "string"
                   },
@@ -253,19 +249,26 @@
                   },
                   "AMBAAGArmRoleId":{
                     "type": "string"
+                  },
+                  "AMBAMonitorActionGroupFunctionAppResourceId": {
+                    "type": "string"
+                  },
+                  "AMBAMonitorActionGroupFunctionName": {
+                    "type": "string"
+                  },
+                  "AMBAMonitorActionGroupFunctionHttpTriggerUrl": {
+                    "type": "string"
                   }
                 },
                 "variables": {
-                    "varAMBAMonitorActionGroupEmail": "[[array(split(parameters('AMBAMonitorActionGroupEmail'),','))]",
-                    "varAMBAMonitorActionGroupArmRoleId":"[[array(split(parameters('AMBAAGArmRoleId'),','))]",
-                    "varEventHubResourceId": "[[parameters('AMBAAGEventHubResourceId')]",
-                    "varSplitEHResourceId": "[[split(variables('varEventHubResourceId'), '/')]",
-                    "varEventhubName": "[[variables('varSplitEHResourceId')[10]]",
-                    "varActionGroupReceivers": {
+                   "varAMBAMonitorActionGroupEmail": "[[array(split(parameters('AMBAMonitorActionGroupEmail'),','))]",
+                   "varAMBAMonitorActionGroupArmRoleId":"[[array(split(parameters('AMBAAGArmRoleId'),','))]",
+                   "varAMBAEventHubResourceId":"[[array(split(parameters('AMBAEventHubResourceId'),'/'))]",
+                   "varActionGroupReceivers": {
                       "varlogicAppReceivers": [
                         {
                           "name": "AMBAActionLogicApp",
-                          "callbackUrl": "[[parameters('AMBAAGLogicAppcallbackUrl')]",
+                          "callbackUrl":"[[parameters('AMBAAGLogicAppcallbackUrl')]",
                           "resourceId": "[[parameters('AMBAAGLogicappResourceId')]",
                           "useCommonAlertSchema": true
                         }
@@ -273,10 +276,10 @@
                       "varEventHubReceiver": [
                         {
                           
-                          "eventHubName": "[[variables('varEventhubName')]",
-                          "eventHubNameSpace": "[[variables('varSplitEHResourceId')[8]]",
+                          "eventHubName": "[[variables('varAMBAEventHubResourceId')[10]]",
+                          "eventHubNameSpace": "[[variables('varAMBAEventHubResourceId')[8]]",
                           "name": "AMBAActionEventHub",
-                          "subscriptionId": "[[variables('varSplitEHResourceId')[2]]",
+                          "subscriptionId":  "[[variables('varAMBAEventHubResourceId')[2]]",
                           "tenantId": "[[parameters('AMBAAGEHTenantId')]",
                           "useCommonAlertSchema": true
                         }
@@ -291,7 +294,17 @@
                           "useAadAuth": "[[parameters('AMBAAGuseAadAuth')]",
                           "useCommonAlertSchema": true
                         }
+                      ],
+                      "varFunctionReceivers": [
+                        {
+                          "functionAppResourceId": "[[parameters('AMBAMonitorActionGroupFunctionAppResourceId')]",
+                          "functionName": "[[parameters('AMBAMonitorActionGroupFunctionName')]",
+                          "httpTriggerUrl": "[[parameters('AMBAMonitorActionGroupFunctionHttpTriggerUrl')]",
+                          "name": "AMBAActionFunction",
+                          "useCommonAlertSchema": true
+                        }
                       ]
+                  
                   
                     
                     }
@@ -329,25 +342,20 @@
                           },
                           "AMBAAGLogicappResourceId": {
                             "type": "string"
-                          },
-                          "AMBAAGEventHubResourceId": {
-                            "type": "string"
-                          },
-                          "AMBAAGEventHubName": {
-                            "type": "string"
-                          },
+                          },               
+                        
                           "AMBAAGAADObjectId": {
                             "type": "string"
                           },
-                          "AMBAAGEHSubscriptionId": {
+
+                         "AMBAEventHubResourceId": {
                             "type": "string"
                           },
+
                           "AMBAAGEHTenantId": {
                             "type": "string"
                           },
-                          "AMBAAGEventHubNameSpace": {
-                            "type": "string"
-                          },
+                       
                           "AMBAAGIdentifierUri": {
                             "type": "string"
                           },
@@ -363,8 +371,17 @@
                           },
                           "AMBAAGArmRoleId":{
                             "type": "string"
-                          }
-                        },
+                          },
+                          "AMBAMonitorActionGroupFunctionAppResourceId": {
+                            "type": "string"
+                          },
+                          "AMBAMonitorActionGroupFunctionName": {
+                            "type": "string"
+                          },
+                          "AMBAMonitorActionGroupFunctionHttpTriggerUrl": {
+                            "type": "string"
+                          },
+                     
                         "variables": {},
                         "resources": [
                             {
@@ -410,8 +427,9 @@
                                  
                                     
                                     "logicAppReceivers": "[[if(empty(parameters('AMBAAGLogicappResourceId')),null(),variables('varActionGroupReceivers').varlogicAppReceivers)]",
-                                    "eventHubReceivers": "[[if(empty(parameters('AMBAAGEventHubName')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
-                                    "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]"
+                                    "eventHubReceivers": "[[if(empty(parameters('AMBAEventHubResourceId')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
+                                    "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]",
+                                    "azureFunctionReceivers": "[[if(empty(parameters('AMBAMonitorActionGroupFunctionAppResourceId')),null(),variables('varActionGroupReceivers').varFunctionReceivers)]"
                                     
                                     
 
@@ -446,8 +464,10 @@
                                
                                   
                                   "logicAppReceivers": "[[if(empty(parameters('AMBAAGLogicappResourceId')),null(),variables('varActionGroupReceivers').varlogicAppReceivers)]",
-                                  "eventHubReceivers": "[[if(empty(parameters('AMBAAGEventHubName')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
-                                  "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]"
+                                  "eventHubReceivers": "[[if(empty(parameters('AMBAEventHubResourceId')),null(),variables('varActionGroupReceivers').varEventHubReceiver)]",
+                                  "webhookReceivers": "[[if(empty(parameters('AMBAAGServiceUri')),null(),variables('varActionGroupReceivers').varWebhookReceiver)]",
+                                  "azureFunctionReceivers": "[[if(empty(parameters('AMBAMonitorActionGroupFunctionAppResourceId')),null(),variables('varActionGroupReceivers').varFunctionReceivers)]"
+                                
                                   
                                   
 
@@ -495,31 +515,24 @@
                         "AMBAAGLogicappResourceId": {
                           "value": "[[parameters('AMBAAGLogicappResourceId')]"
                         },
-                        "AMBAAGEventHubResourceId": {
-                          "value": "[[parameters('AMBAAGEventHubResourceId')]"
-                        },
-                        "AMBAAGEventHubName": {
-                          "value": "[[parameters('AMBAAGEventHubName')]"
+             
+                     "AMBAEventHubResourceId": {
+                          "value": "[[parameters('AMBAEventHubResourceId')]"
                         },
                         "AMBAAGAADObjectId": {
                           "value": "[[parameters('AMBAAGAADObjectId')]"
                         },
-                        "AMBAAGEHSubscriptionId": {
-                          "value": "[[parameters('AMBAAGEHSubscriptionId')]"
-                        },
+                   
                         "AMBAAGEHTenantId": {
                           "value": "[[parameters('AMBAAGEHTenantId')]"
                         },
-                        "AMBAAGEventHubNameSpace": {
-                          "value": "[[parameters('AMBAAGEventHubNameSpace')]"
-                        },
+
                         "AMBAAGIdentifierUri": {
                           "value": "[[parameters('AMBAAGIdentifierUri')]"
                         },
                         "AMBAAGServiceUri": {
                           "value": "[[parameters('AMBAAGServiceUri')]"
-                        },
-                  
+                        },                  
                         "AMBAAGWHTenantId": {
                           "value": "[[parameters('AMBAAGWHTenantId')]"
                         },
@@ -528,7 +541,17 @@
                         },
                         "AMBAAGArmRoleId":{
                           "value": "[[parameters('AMBAAGArmRoleId')]"
+                        },
+                        "AMBAMonitorActionGroupFunctionAppResourceId": {
+                          "value": "[[parameters('AMBAMonitorActionGroupFunctionAppResourceId')]"
+                        },
+                        "AMBAMonitorActionGroupFunctionName": {
+                          "value": "[[parameters('AMBAMonitorActionGroupFunctionName')]"
+                        },
+                        "AMBAMonitorActionGroupFunctionHttpTriggerUrl": {
+                          "value": "[[parameters('AMBAMonitorActionGroupFunctionHttpTriggerUrl')]"
                         }
+                      
                       }
                     }
                   }
@@ -553,24 +576,18 @@
                 "AMBAAGLogicappResourceId": {
                   "value": "[[parameters('AMBAAGLogicappResourceId')]"
                 },
-                "AMBAAGEventHubResourceId": {
-                  "value": "[[parameters('AMBAAGEventHubResourceId')]"
-                },
-                "AMBAAGEventHubName": {
-                  "value": "[[parameters('AMBAAGEventHubName')]"
-                },
+             
                 "AMBAAGAADObjectId": {
                   "value": "[[parameters('AMBAAGAADObjectId')]"
                 },
-                "AMBAAGEHSubscriptionId": {
-                  "value": "[[parameters('AMBAAGEHSubscriptionId')]"
+                "AMBAEventHubResourceId": {
+                  "value": "[[parameters('AMBAEventHubResourceId')]"
                 },
+    
                 "AMBAAGEHTenantId": {
                   "value": "[[parameters('AMBAAGEHTenantId')]"
                 },
-                "AMBAAGEventHubNameSpace": {
-                  "value": "[[parameters('AMBAAGEventHubNameSpace')]"
-                },
+           
                 "AMBAAGIdentifierUri": {
                   "value": "[[parameters('AMBAAGIdentifierUri')]"
                 },
@@ -586,7 +603,18 @@
                 },
                 "AMBAAGArmRoleId":{
                   "value": "[[parameters('AMBAAGArmRoleId')]"
+                },
+                "AMBAMonitorActionGroupFunctionAppResourceId": {
+                  "value": "[[parameters('AMBAMonitorActionGroupFunctionAppResourceId')]"
+                },
+                "AMBAMonitorActionGroupFunctionName": {
+                  "value": "[[parameters('AMBAMonitorActionGroupFunctionName')]"
+                },
+                "AMBAMonitorActionGroupFunctionHttpTriggerUrl": {
+                  "value": "[[parameters('AMBAMonitorActionGroupFunctionHttpTriggerUrl')]"
                 }
+    
+                
               }
             }
           }
