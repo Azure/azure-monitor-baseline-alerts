@@ -71,3 +71,33 @@ To recognize the deployment names belonging to AMBA, select those whose names st
 If you deployed AMBA just one time, you have 14 deployment instances
 
 {{< /hint >}}
+
+## Failed to deploy because of the limit of 800 deployments per management group has been reached
+
+### Error includes
+
+*Error: Code=MultipleErrorsOccurred; Message=Multiple error occurred: Conflict,Conflict,Conflict,Conflict,Conflict,Conflict.*
+
+### Cause
+
+The limit of 800 deployment for the given management group scope has been reached. More information can be found at [Management group limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#management-group-limits)
+
+### Resolution
+To resolve this issue, follow the steps below:
+
+1. Navigate to ***Management Groups***
+2. Select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
+3. Click ***Deployment***
+4. Select all the deployments that could be deleted (example: instances of previous depoloyment related to AMBA) and click ***Delete***.
+
+{{< hint type=Note >}}
+To recognize the deployment names belonging to AMBA, select those whose names start with:
+
+1. amba-
+2. pid-
+3. alzArm
+4. ambaPreparingToLaunch
+
+If you deployed AMBA just one time, you have 14 deployment instances
+
+{{< /hint >}}
