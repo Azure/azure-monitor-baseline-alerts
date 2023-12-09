@@ -8,7 +8,7 @@ Specific alerts for ALZ can be downloaded by clicking on the Download icon (high
 
   ![Alert-Details Download icon](../media/AlertDetailsDownloadReference.png)
 
-The best way to see which policy alert rules are part of the ALZ pattern it is best to go to the [Policy-Initiatives](docs/content/patterns/alz/Policy-Initiatives.md) page.
+The best way to see which policy alert rules are part of the ALZ pattern it is best to go to the [Policy-Initiatives](../Policy-Initiatives/).
 
 The resources, metric alerts and their settings provide you with a starting point to help you address the following monitoring questions:
 "What should we monitor in Azure?" and "What alert settings should we use?"  While they are opinionated settings and they are meant to cover the most common Azure Landing Zone components, we encourage you to adjust these settings to suit your monitoring needs based on how you're using Azure.
@@ -29,7 +29,7 @@ We have tried to make it so that the table doesn't require a lot of side to side
 
 {{< alzMetricAlerts >}}
 
-<sup>1</sup> See "Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?" in the [FAQ](FAQ.md) for more details.
+<sup>1</sup> See "Why are the availability alert thresholds lower than 100% in this solution when the product group documention recommends 100%?" in the [FAQ](../FAQ/) for more details.
 
 ## Azure Landing Zone Activity Log Alerts
 

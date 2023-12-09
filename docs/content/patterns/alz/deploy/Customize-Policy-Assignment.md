@@ -88,9 +88,11 @@ The following parameters can be changed for activity log, service health alert a
 Note that the above parameters specifies the resource group that activity log alerts are placed in. If the resource group does not exist it gets created. Also the parameter for tags can take several tags, if multiple tags are needed. Tags are only applied at the resource group level. The tags parameter is set to a default value of one tag with the name *environment* and the value *test*, you can add more tags as already mentioned or set it to be an empty value.
 
 ### Disabling Policies
+
 - To review the options for disabling policies, please proceed with [Disabling Policies](../../Disabling-Policies)
 
 # Next steps
+
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
