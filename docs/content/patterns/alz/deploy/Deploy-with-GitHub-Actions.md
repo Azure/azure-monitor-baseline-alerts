@@ -133,9 +133,11 @@ To deploy through GitHub actions, please refer to the [sample-workflow.yml](http
 {{< hint type=note >}}
 If you customized the policies as documented at [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern/#how-to-modify-individual-policies), make sure to modify the workflow file to have the **run** pointing to your own repository and branch. Example:
 
+```yaml
     run: |
       az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
        --location ${{ env.Location }} --management-group-id ${{ env.ManagementGroupPrefix }} --parameters .\patterns\alz\alzArm.param.json
+```
 
 {{< /hint >}}
 

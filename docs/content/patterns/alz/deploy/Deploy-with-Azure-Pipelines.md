@@ -131,9 +131,11 @@ First configure your Azure DevOps project with a pipeline hosted in GitHub as de
 {{< hint type=note >}}
 If you customized the policies as documented at [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern/#how-to-modify-individual-policies), make sure to modify the pipeline file to have the **inlineScript** pointing to your own repository and branch. Example:
 
-    inlineScript: |
+```azurecli
+inlineScript: |
       az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
        --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
+```
 
 {{< /hint >}}
 
