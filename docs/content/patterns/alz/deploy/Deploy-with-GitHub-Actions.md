@@ -146,7 +146,7 @@ If you customized the policies as documented at [How to modify individual polici
 - Modify the following values in [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml):
   - Change _Location: "norwayeast"_, to your preferred Azure region
   - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group id parenting the identity, management and connectivity management groups.
-- Go to GitHub actions and run the action *Deploy AMBA*
+- Go to GitHub actions and run the action _**Deploy AMBA**_
 
 {{< hint type=important >}}
 Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
