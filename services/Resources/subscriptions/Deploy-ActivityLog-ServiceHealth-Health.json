@@ -114,6 +114,14 @@
           "description": "Webhook URLs action group to send alerts to"
         },
         "defaultValue": ""
+      },
+      "ALZFunctionAppResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function App Resource Id",
+          "description": "Function App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -213,6 +221,9 @@
                   "ALZAGWebhookResourceId":{
                     "type": "string"
                   },
+                  "ALZFunctionAppResourceId":{
+                    "type":"string"
+                  },
                   "enabled": {
                     "type": "string"
                   }
@@ -277,7 +288,7 @@
                               "actions": {
                                 "actionGroups": [
                                   {
-                                    "actionGroupId": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaActionGr'))]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaMailReceivers'))]"
                                   },
                                   {
                                     "actionGroupId": "[[if(empty(parameters('ALZAGArmRoleId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaArmReceivers'))]"
@@ -290,6 +301,10 @@
                                   },
                                   {
                                     "actionGroupId": "[[if(empty(parameters('ALZAGWebhookResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaWebhookReceivers'))]"
+                                  }
+                                  ,
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZFunctionAppResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaFunctionAppReceivers'))]"
                                   }
                                 ]
                               },
@@ -340,6 +355,9 @@
                         },
                         "ALZAGWebhookResourceId": {
                           "value": "[[parameters('ALZAGWebhookResourceId')]"
+                        },
+                        "ALZFunctionAppResourceId": {
+                          "value": "[[parameters('ALZFunctionAppResourceId')]"
                         }
                       }
                     }
@@ -373,6 +391,9 @@
                 },
                 "ALZAGWebhookResourceId":{
                   "value": "[[parameters('ALZAGWebhookResourceId')]"
+                },
+                "ALZFunctionAppResourceId": {
+                  "value": "[[parameters('ALZFunctionAppResourceId')]"
                 }
               }
             }
