@@ -218,11 +218,6 @@
                   }
                 },
                 "variables": {
-                  "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]",
-                  "varALZAGArmRoleId":"[[array(split(parameters('ALZAGArmRoleId'),','))]",
-                  "varALZAGLogicappResourceId":"[[array(split(parameters('ALZAGLogicappResourceId'),','))]",
-                  "varALZAGEventHubResourceId":"[[array(split(parameters('ALZAGEventHubResourceId'),','))]",
-                  "varALZAGWebhookResourceId":"[[array(split(parameters('ALZAGWebhookResourceId'),','))]"
                 },
                 "resources": [
                   {
@@ -282,19 +277,19 @@
                               "actions": {
                                 "actionGroups": [
                                   {
-                                    "actionGroupId": "[[if((empty(variables('varALZMonitorActionGroupEmail'))), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/AmbaActionGr'), null())]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaActionGr'))]"
                                   },
                                   {
-                                    "actionGroupId": "[[if((empty(variables('varALZAGArmRoleId'))),concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/AmbaActionGr'), null())]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGArmRoleId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaArmReceivers'))]"
                                   },
                                   {
-                                    "actionGroupId": "[[if((empty(variables('varALZAGLogicappResourceId'))),concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/AmbaActionGr'), null())]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGLogicappResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaLogicAppReceivers'))]"
                                   },
                                   {
-                                    "actionGroupId": "[[if((empty(variables('varALZAGEventHubResourceId'))),concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/AmbaActionGr'), null())]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGEventHubResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaEventHubReceivers'))]"
                                   },
                                   {
-                                    "actionGroupId": "[[if((empty(variables('varALZAGWebhookResourceId'))),concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/AmbaActionGr'), null())]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGWebhookResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaWebhookReceivers'))]"
                                   }
                                 ]
                               },
@@ -330,6 +325,21 @@
                         },
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
+                        },
+                        "ALZMonitorActionGroupEmail": {
+                          "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        },
+                        "ALZAGLogicappResourceId": {
+                         "value": "[[parameters('ALZAGLogicappResourceId')]"
+                        },
+                        "ALZAGArmRoleId": {
+                          "value": "[[parameters('ALZAGArmRoleId')]"
+                        },
+                        "ALZAGEventHubResourceId": {
+                          "value": "[[parameters('ALZAGEventHubResourceId')]"
+                        },
+                        "ALZAGWebhookResourceId": {
+                          "value": "[[parameters('ALZAGWebhookResourceId')]"
                         }
                       }
                     }
