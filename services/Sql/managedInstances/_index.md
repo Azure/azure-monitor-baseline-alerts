@@ -3,4 +3,4 @@ title: Managed Instances
 geekdocCollapseSection: true
 ---
 
-{{< alertList name="alertList" >}}
+{{< alertList name="alertList">}}
