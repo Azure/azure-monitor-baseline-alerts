@@ -55,14 +55,6 @@
         },
         "defaultValue": "centralus"
       },
-      "ALZMonitorActionGroupEmail": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Action Group Email",
-          "description": "Email address to send alerts to"
-        },
-        "defaultValue": "action@mail.com"
-      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -82,6 +74,54 @@
           "description": "Tag name to disable monitoring  Subscription level alerts. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorActionGroupEmail": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Action Group Email Addresses",
+          "description": "Email addresses to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZAGLogicappResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Logic App Resource Id",
+          "description": "Logic App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZAGArmRoleId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Arm Role Id",
+          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+        },
+        "defaultValue": ""
+      },
+      "ALZAGEventHubResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Event Hub resource id",
+          "description": "Event Hub resource id for action group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZAGWebhookResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Webhook URLs",
+          "description": "Webhook URLs action group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZFunctionAppResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function App Resource Id",
+          "description": "Function App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -154,7 +194,7 @@
             "properties": {
               "mode": "incremental",
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
                   "alertResourceGroupName": {
@@ -169,12 +209,26 @@
                   "ALZMonitorActionGroupEmail": {
                     "type": "string"
                   },
+                  "ALZAGLogicappResourceId": {
+                    "type": "string"
+                  },
+                  "ALZAGArmRoleId":{
+                    "type": "string"
+                  },
+                  "ALZAGEventHubResourceId":{
+                    "type": "string"
+                  },
+                  "ALZAGWebhookResourceId":{
+                    "type": "string"
+                  },
+                  "ALZFunctionAppResourceId":{
+                    "type":"string"
+                  },
                   "enabled": {
                     "type": "string"
                   }
                 },
                 "variables": {
-                    "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]"
                 },
                 "resources": [
                   {
@@ -190,7 +244,7 @@
                     "name": "ServiceHealthIncident",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                      "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -206,6 +260,18 @@
                           },
                           "ALZMonitorActionGroupEmail": {
                             "type": "string"
+                          },
+                          "ALZAGLogicappResourceId": {
+                            "type": "string"
+                          },
+                          "ALZAGArmRoleId":{
+                            "type": "string"
+                          },
+                          "ALZAGEventHubResourceId":{
+                            "type": "string"
+                          },
+                          "ALZAGWebhookResourceId":{
+                            "type": "string"
                           }
                         },
                         "variables": {},
@@ -215,9 +281,6 @@
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthIncident",
                             "location": "global",
-                            "dependsOn": [
-                              "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AmbaActionGr')]"
-                            ],
                             "tags": {
                               "_deployed_by_amba": true
                             },
@@ -225,7 +288,22 @@
                               "actions": {
                                 "actionGroups": [
                                   {
-                                    "actionGroupId": "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AmbaActionGr')]"
+                                    "actionGroupId": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaMailReceivers'))]"
+                                  },
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGArmRoleId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaArmReceivers'))]"
+                                  },
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGLogicappResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaLogicAppReceivers'))]"
+                                  },
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGEventHubResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaEventHubReceivers'))]"
+                                  },
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZAGWebhookResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaWebhookReceivers'))]"
+                                  },
+                                  {
+                                    "actionGroupId": "[[if(empty(parameters('ALZFunctionAppResourceId')), null(), concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, '- SH-AmbaFunctionAppReceivers'))]"
                                   }
                                 ]
                               },
@@ -252,31 +330,6 @@
                                 }
                               }
                             }
-                          },
-                          {
-                            "type": "Microsoft.Insights/actionGroups",
-                            "apiVersion": "2022-06-01",
-                            "name": "AmbaActionGr",
-                            "location": "global",
-                            "tags": {
-                                "_deployed_by_amba": true
-                              },
-                            "properties": {
-                                "groupShortName": "AmbaActionGr",
-                                "enabled": true,
-                                "copy": [
-                                    {
-                                        "name": "emailReceivers",
-                                        "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
-                                        "mode": "serial",
-                                        "input": {
-                                            "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                            "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
-                                            "useCommonSchema": true
-                                        }
-                                    }
-                                ]
-                            }
                           }
                         ]
                       },
@@ -289,6 +342,21 @@
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        },
+                        "ALZAGLogicappResourceId": {
+                         "value": "[[parameters('ALZAGLogicappResourceId')]"
+                        },
+                        "ALZAGArmRoleId": {
+                          "value": "[[parameters('ALZAGArmRoleId')]"
+                        },
+                        "ALZAGEventHubResourceId": {
+                          "value": "[[parameters('ALZAGEventHubResourceId')]"
+                        },
+                        "ALZAGWebhookResourceId": {
+                          "value": "[[parameters('ALZAGWebhookResourceId')]"
+                        },
+                        "ALZFunctionAppResourceId": {
+                          "value": "[[parameters('ALZFunctionAppResourceId')]"
                         }
                       }
                     }
@@ -310,6 +378,21 @@
                 },
                 "ALZMonitorActionGroupEmail": {
                   "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                },
+                "ALZAGLogicappResourceId": {
+                 "value": "[[parameters('ALZAGLogicappResourceId')]"
+                },
+                "ALZAGArmRoleId": {
+                  "value": "[[parameters('ALZAGArmRoleId')]"
+                },
+                "ALZAGEventHubResourceId": {
+                  "value": "[[parameters('ALZAGEventHubResourceId')]"
+                },
+                "ALZAGWebhookResourceId": {
+                  "value": "[[parameters('ALZAGWebhookResourceId')]"
+                },
+                "ALZFunctionAppResourceId": {
+                  "value": "[[parameters('ALZFunctionAppResourceId')]"
                 }
               }
             }
