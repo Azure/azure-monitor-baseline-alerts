@@ -1,5 +1,6 @@
 - name: Application Gateway Total Time
-  description: Time that it takes for a request to be processed and its response to
+  description:
+    Time that it takes for a request to be processed and its response to
     be sent. This is the interval from the time when Application Gateway receives
     the first byte of an HTTP request to the time when the response send operation
     finishes. It's important to note that this usually includes the Application Gateway
@@ -9,7 +10,7 @@
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ApplicationGatewayTotalTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -25,22 +26,30 @@
       minFailingPeriodsToAlert: 2
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway ApplicationGatewayTotalTime Alert
-    template: Deploy-AGW-ApplicationGatewayTotalTime-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway ApplicationGatewayTotalTime Alert
+      template: Deploy-AGW-ApplicationGatewayTotalTime-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Backend Last Byte Response Time
-  description: Time interval between start of establishing a connection to backend
+  description:
+    Time interval between start of establishing a connection to backend
     server and receiving the last byte of the response body
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: BackendLastByteResponseTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -56,21 +65,28 @@
       minFailingPeriodsToAlert: 2
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway BackendLastByteResponseTime Alert
-    template: Deploy-AGW-BackendLastByteResponseTime-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway BackendLastByteResponseTime Alert
+      template: Deploy-AGW-BackendLastByteResponseTime-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Capacity Units
   description: Capacity Units consumed
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: CapacityUnits
     metricNamespace: Microsoft.Network/applicationGateways
@@ -83,21 +99,28 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway CapacityUnits Alert
-    template: Deploy-AGW-CapacityUnits-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway CapacityUnits Alert
+      template: Deploy-AGW-CapacityUnits-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Compute Units
   description: Compute Units consumed
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ComputeUnits
     metricNamespace: Microsoft.Network/applicationGateways
@@ -110,21 +133,29 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway CapacityUnits Alert
-    template: Deploy-AGW-CapacityUnits-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway CapacityUnits Alert
+      template: Deploy-AGW-CapacityUnits-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
+
 - name: Cpu Utilization
   description: Current CPU utilization of the Application Gateway
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: CpuUtilization
     metricNamespace: Microsoft.Network/applicationGateways
@@ -137,21 +168,28 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway CPU Utilization Alert
-    template: Deploy-AGW-CPUUtil-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway CPU Utilization Alert
+      template: Deploy-AGW-CPUUtil-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Failed Requests
   description: Count of failed requests that Application Gateway has served
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: FailedRequests
     metricNamespace: Microsoft.Network/applicationGateways
@@ -167,21 +205,28 @@
       minFailingPeriodsToAlert: 2
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway FailedRequests Alert
-    template: Deploy-AGW-FailedRequests-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway FailedRequests Alert
+      template: Deploy-AGW-FailedRequests-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Response Status
   description: Http response status returned by Application Gateway
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ResponseStatus
     metricNamespace: Microsoft.Network/applicationGateways
@@ -193,31 +238,38 @@
     criterionType: DynamicThresholdCriterion
     alertSensitivity: Medium
     dimensions:
-    - name: HttpStatusGroup
-      operator: Include
-      values:
-      - 4xx
-      - 5xx
+      - name: HttpStatusGroup
+        operator: Include
+        values:
+          - 4xx
+          - 5xx
     failingPeriods:
       numberOfEvaluationPeriods: 2
       minFailingPeriodsToAlert: 2
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway ResponseStatus Alert
-    template: Deploy-AGW-ResponseStatus-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway ResponseStatus Alert
+      template: Deploy-AGW-ResponseStatus-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Unhealthy Host Count
   description: Number of unhealthy backend hosts
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: UnhealthyHostCount
     metricNamespace: Microsoft.Network/applicationGateways
@@ -230,22 +282,29 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   deployments:
-  - name: Deploy Azure Application Gateway Unhealthy Host Count Alert
-    template: Deploy-AGW-UnhealthyHostCount-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy Azure Application Gateway Unhealthy Host Count Alert
+      template: Deploy-AGW-UnhealthyHostCount-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+  references:
+    - name: Monitoring Azure Application Gateway data reference
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
+    - name: Metrics for Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
+    - name: Monitoring Azure Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: UnhealthyHostCount
   description: Number of unhealthy backend hosts
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-11692
+    - auto-generated
+    - agc-11692
   properties:
     metricName: UnhealthyHostCount
     metricNamespace: Microsoft.Network/applicationGateways
@@ -263,8 +322,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-5511
+    - auto-generated
+    - agc-5511
   properties:
     metricName: FailedRequests
     metricNamespace: Microsoft.Network/applicationGateways
@@ -282,8 +341,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-4033
+    - auto-generated
+    - agc-4033
   properties:
     metricName: HealthyHostCount
     metricNamespace: Microsoft.Network/applicationGateways
@@ -301,8 +360,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2201
+    - auto-generated
+    - agc-2201
   properties:
     metricName: ResponseStatus
     metricNamespace: Microsoft.Network/applicationGateways
@@ -313,14 +372,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: httpstatusgroup
-      operator: include
-      values:
-      - 5xx
+      - name: httpstatusgroup
+        operator: include
+        values:
+          - 5xx
     threshold: 10.0
     autoMitigate: false
 - name: ApplicationGatewayTotalTime
-  description: Time that it takes for a request to be processed and its response to
+  description:
+    Time that it takes for a request to be processed and its response to
     be sent. This is the interval from the time when Application Gateway receives
     the first byte of an HTTP request to the time when the response send operation
     finishes. It's important to note that this usually includes the Application Gateway
@@ -330,8 +390,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1805
+    - auto-generated
+    - agc-1805
   properties:
     metricName: ApplicationGatewayTotalTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -349,8 +409,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1426
+    - auto-generated
+    - agc-1426
   properties:
     metricName: CapacityUnits
     metricNamespace: Microsoft.Network/applicationGateways
@@ -363,14 +423,15 @@
     threshold: 15.0
     autoMitigate: false
 - name: BackendResponseStatus
-  description: The number of HTTP response codes generated by the backend members.
+  description:
+    The number of HTTP response codes generated by the backend members.
     This does not include any response codes generated by the Application Gateway.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1406
+    - auto-generated
+    - agc-1406
   properties:
     metricName: BackendResponseStatus
     metricNamespace: Microsoft.Network/applicationGateways
@@ -381,10 +442,10 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: httpstatusgroup
-      operator: include
-      values:
-      - 5xx
+      - name: httpstatusgroup
+        operator: include
+        values:
+          - 5xx
     threshold: 15000.0
     autoMitigate: false
 - name: CpuUtilization
@@ -393,8 +454,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1302
+    - auto-generated
+    - agc-1302
   properties:
     metricName: CpuUtilization
     metricNamespace: Microsoft.Network/applicationGateways
@@ -412,8 +473,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1292
+    - auto-generated
+    - agc-1292
   properties:
     metricName: BackendConnectTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -431,8 +492,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-969
+    - auto-generated
+    - agc-969
   properties:
     metricName: ComputeUnits
     metricNamespace: Microsoft.Network/applicationGateways
@@ -445,14 +506,15 @@
     threshold: 7.5
     autoMitigate: false
 - name: BackendLastByteResponseTime
-  description: Time interval between start of establishing a connection to backend
+  description:
+    Time interval between start of establishing a connection to backend
     server and receiving the last byte of the response body
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-725
+    - auto-generated
+    - agc-725
   properties:
     metricName: BackendLastByteResponseTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -470,8 +532,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-715
+    - auto-generated
+    - agc-715
   properties:
     metricName: Throughput
     metricNamespace: Microsoft.Network/applicationGateways
@@ -489,8 +551,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-556
+    - auto-generated
+    - agc-556
   properties:
     metricName: CurrentConnections
     metricNamespace: Microsoft.Network/applicationGateways
@@ -508,8 +570,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-533
+    - auto-generated
+    - agc-533
   properties:
     metricName: TotalRequests
     metricNamespace: Microsoft.Network/applicationGateways
@@ -527,8 +589,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-325
+    - auto-generated
+    - agc-325
   properties:
     metricName: NewConnectionsPerSecond
     metricNamespace: Microsoft.Network/applicationGateways
@@ -541,15 +603,16 @@
     threshold: 10000.0
     autoMitigate: false
 - name: BackendFirstByteResponseTime
-  description: Time interval between start of establishing a connection to backend
+  description:
+    Time interval between start of establishing a connection to backend
     server and receiving the first byte of the response header, approximating processing
     time of backend server
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-304
+    - auto-generated
+    - agc-304
   properties:
     metricName: BackendFirstByteResponseTime
     metricNamespace: Microsoft.Network/applicationGateways
@@ -567,8 +630,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-291
+    - auto-generated
+    - agc-291
   properties:
     metricName: EstimatedBilledCapacityUnits
     metricNamespace: Microsoft.Network/applicationGateways
@@ -586,8 +649,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-251
+    - auto-generated
+    - agc-251
   properties:
     metricName: AvgRequestCountPerHealthyHost
     metricNamespace: Microsoft.Network/applicationGateways
