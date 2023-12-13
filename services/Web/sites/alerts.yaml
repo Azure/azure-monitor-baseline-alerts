@@ -3,7 +3,7 @@
     WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-21698
@@ -28,7 +28,7 @@
     (CPU time vs CPU percentage). For WebApps only.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-17242
@@ -49,7 +49,7 @@
     FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-13219
@@ -89,19 +89,19 @@
       - '*'
     threshold: 10.0
     autoMitigate: false
-- name: AppConnections
+- name: Connections
   description: The number of bound sockets existing in the sandbox (w3wp.exe and its
     child processes). A bound socket is created by calling bind()/connect() APIs and
     remains until said socket is closed with CloseHandle()/closesocket(). For WebApps
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-9147
   properties:
-    metricName: AppConnections
+    metricName: Connections
     metricNamespace: Microsoft.Web/sites
     severity: 3
     windowSize: PT15M
@@ -121,7 +121,7 @@
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-5591
@@ -141,7 +141,7 @@
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-5060
@@ -161,7 +161,7 @@
     FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-4838
@@ -200,7 +200,7 @@
   description: Function Execution Count. For FunctionApps only.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-3540
@@ -215,17 +215,17 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
-- name: Threads
+- name: Thread Count
   description: The number of threads currently active in the app process. For WebApps
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1457
   properties:
-    metricName: Threads
+    metricName: Thread Count
     metricNamespace: Microsoft.Web/sites
     severity: 2
     windowSize: PT5M
@@ -235,17 +235,17 @@
     criterionType: StaticThresholdCriterion
     threshold: 100.0
     autoMitigate: false
-- name: BytesSent
+- name: DataOut
   description: The amount of outgoing bandwidth consumed by the app, in MiB. For WebApps
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1401
   properties:
-    metricName: BytesSent
+    metricName: DataOut
     metricNamespace: Microsoft.Web/sites
     severity: 3
     windowSize: PT5M
@@ -263,7 +263,7 @@
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1063
@@ -278,17 +278,17 @@
     criterionType: StaticThresholdCriterion
     threshold: 1.0
     autoMitigate: false
-- name: BytesReceived
+- name: Data In
   description: The amount of incoming bandwidth consumed by the app, in MiB. For WebApps
     and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1020
   properties:
-    metricName: BytesReceived
+    metricName: Data In
     metricNamespace: Microsoft.Web/sites
     severity: 3
     windowSize: PT5M
@@ -303,7 +303,7 @@
     400. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1003
@@ -318,17 +318,17 @@
     criterionType: StaticThresholdCriterion
     threshold: 15.0
     autoMitigate: false
-- name: Handles
+- name: Handle Count 
   description: The total number of handles currently open by the app process. For
     WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-752
   properties:
-    metricName: Handles
+    metricName: Handle Count
     metricNamespace: Microsoft.Web/sites
     severity: 2
     windowSize: PT5M
@@ -345,7 +345,7 @@
   description: Function Execution Units. For FunctionApps only.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-426
@@ -365,7 +365,7 @@
     300. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-411
@@ -380,7 +380,7 @@
     criterionType: StaticThresholdCriterion
     threshold: 15.0
     autoMitigate: false
-- name: WorkflowRunsFailureRate
+- name: WorkflowRunsFailureRate #logic apps only
   description: Workflow Runs Failure Rate. For LogicApps only.
   type: Metric
   verified: false
@@ -399,17 +399,17 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
-- name: Gen2Collections
+- name: Gen2GarbageCollections
   description: The number of times the generation 2 objects are garbage collected
     since the start of the app process. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-258
   properties:
-    metricName: Gen2Collections
+    metricName: Gen2GarbageCollections
     metricNamespace: Microsoft.Web/sites
     severity: 2
     windowSize: PT5M
@@ -422,18 +422,18 @@
       minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
     autoMitigate: false
-- name: Gen0Collections
+- name: Gen0GarbageCollections
   description: The number of times the generation 0 objects are garbage collected
     since the start of the app process. Higher generation GCs include all lower generation
     GCs. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-253
   properties:
-    metricName: Gen0Collections
+    metricName: Gen0GarbageCollections
     metricNamespace: Microsoft.Web/sites
     severity: 2
     windowSize: PT5M
@@ -446,18 +446,18 @@
       minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
     autoMitigate: false
-- name: Gen1Collections
+- name: Gen1GarbageCollections
   description: The number of times the generation 1 objects are garbage collected
     since the start of the app process. Higher generation GCs include all lower generation
     GCs. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-253
   properties:
-    metricName: Gen1Collections
+    metricName: Gen1GarbageCollections
     metricNamespace: Microsoft.Web/sites
     severity: 2
     windowSize: PT5M
@@ -470,17 +470,16 @@
       minFailingPeriodsToAlert: minFailingPeriodsToAlert
     alertSensitivity: Medium
     autoMitigate: false
-- name: Http5xx
-  description: The count of requests resulting in an HTTP status code >= 500 but <
-    600.
+- name: HttpServerErrors
+  description: The count of requests resulting in an HTTP status code >= 500 but < 600. For Web and Function Apps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1800
   properties:
-    metricName: Http5xx
+    metricName: HttpServerErrors
     metricNamespace: Microsoft.Web/sites/slots
     severity: 1
     windowSize: PT15M
@@ -490,16 +489,16 @@
     criterionType: StaticThresholdCriterion
     threshold: 10.0
     autoMitigate: false
-- name: HttpResponseTime
-  description: The time taken for the app to serve requests, in seconds.
+- name: ResponseTime
+  description: The time taken for the app to serve requests, in seconds. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1020
   properties:
-    metricName: HttpResponseTime
+    metricName: ResponseTime
     metricNamespace: Microsoft.Web/sites/slots
     severity: 1
     windowSize: PT30M
@@ -510,11 +509,10 @@
     threshold: 5.0
     autoMitigate: false
 - name: Http4xx
-  description: The count of requests resulting in an HTTP status code >= 400 but <
-    500.
+  description: The count of requests resulting in an HTTP status code >= 400 but < 500. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-685
@@ -530,10 +528,10 @@
     threshold: 5.0
     autoMitigate: false
 - name: AverageMemoryWorkingSet
-  description: The average amount of memory used by the app, in megabytes (MiB).
+  description: The average amount of memory used by the app, in megabytes (MiB). For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-350
@@ -549,11 +547,11 @@
     threshold: 800000000.0
     autoMitigate: false
 - name: Requests
-  description: The total number of requests regardless of their resulting HTTP status
+  description: The total number of requests regardless of their resulting HTTP status. For WebApps and FunctionApps.
     code.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-286
@@ -569,10 +567,10 @@
     threshold: 2000.0
     autoMitigate: false
 - name: HealthCheckStatus
-  description: Health check status
+  description: Health check status.  For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-277
@@ -588,10 +586,10 @@
     threshold: 100.0
     autoMitigate: false
 - name: Http403
-  description: The count of requests resulting in HTTP 403 status code.
+  description: The count of requests resulting in HTTP 403 status code. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-251
