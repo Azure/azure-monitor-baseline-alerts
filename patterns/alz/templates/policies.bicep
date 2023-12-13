@@ -79,6 +79,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Maintenance.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Security.json')
+    loadTextContent('../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
@@ -182,6 +183,7 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     loadTextContent('../policySetDefinitions/Deploy-Management-Alerts.json')
     loadTextContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json')
+    loadTextContent('../policySetDefinitions/Deploy-Notification-Assets.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
