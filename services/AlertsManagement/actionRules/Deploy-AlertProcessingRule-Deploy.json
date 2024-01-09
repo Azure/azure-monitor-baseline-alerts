@@ -230,8 +230,8 @@
                         "objectId": "[[if(empty(parameters('ALZWebhookObjectId')), null(),trim(parameters('ALZWebhookObjectId')))]",
                         "serviceUri": "[[trim(parameters('ALZWebhookServiceUri'))]",
                         "useCommonAlertSchema": true,
-                        "tenantId": "[[subscription().tenantId]",
-                        "useAadAuth": "[[if(empty(parameters('ALZWebhookObjectId')), false, true)]"
+                        "tenantId": "[[if(empty(parameters('ALZWebhookObjectId')), null(), subscription().tenantId)]",
+                        "useAadAuth": "[[if(empty(parameters('ALZWebhookObjectId')), false(), true())]"
                       }
                     ],
                     "varAzureFunctionReceivers": [
