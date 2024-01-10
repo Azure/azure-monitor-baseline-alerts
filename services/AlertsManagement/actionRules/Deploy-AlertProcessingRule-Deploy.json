@@ -107,19 +107,19 @@
         },
         "defaultValue": ""
       },
-      "ALZFunctionAppResourceId": {
+      "ALZFunctionResourceId": {
         "type": "String",
         "metadata": {
-          "displayName": "Function App Resource Id",
-          "description": "Function App Resource Id for Action Group to send alerts to"
+          "displayName": "Function Resource Id",
+          "description": "Function Resource Id for Action Group to send alerts to"
         },
         "defaultValue": ""
       },
-      "ALZFunctionAppTriggerUrl": {
+      "ALZFunctionTriggerUrl": {
         "type": "String",
         "metadata": {
-          "displayName": "Function App Trigger URL",
-          "description": "URL that triggers the Function App"
+          "displayName": "Function Trigger URL",
+          "description": "URL that triggers the Function"
         },
         "defaultValue": ""
       },
@@ -208,10 +208,10 @@
                   "ALZWebhookIdentifierUri":{
                     "type": "String"
                   },
-                  "ALZFunctionAppResourceId":{
+                  "ALZFunctionResourceId":{
                     "type":"string"
                   },
-                  "ALZFunctionAppTriggerUrl": {
+                  "ALZFunctionTriggerUrl": {
                     "type": "String"
                   }
                 },
@@ -241,9 +241,9 @@
                     "varAzureFunctionReceivers": [
                         {
                             "name": "AlzFa-0",
-                            "functionAppResourceId": "[[if(empty(parameters('ALZFunctionAppResourceId')), null(), split(trim(parameters('ALZFunctionAppResourceId')),'/functions/')[0])]",
-                            "functionName": "[[if(empty(parameters('ALZFunctionAppResourceId')), null(), split(trim(parameters('ALZFunctionAppResourceId')),'/')[10])]",
-                            "httpTriggerUrl": "[[if(empty(parameters('ALZFunctionAppTriggerUrl')), null(), trim(parameters('ALZFunctionAppTriggerUrl')))]",
+                            "functionAppResourceId": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]",
+                            "functionName": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/')[10])]",
+                            "httpTriggerUrl": "[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]",
                             "useCommonAlertSchema": true
                         }
                     ],
@@ -321,10 +321,10 @@
                           "ALZWebhookIdentifierUri":{
                             "type": "String"
                           },
-                          "ALZFunctionAppResourceId":{
+                          "ALZFunctionResourceId":{
                             "type": "string"
                           },
-                          "ALZFunctionAppTriggerUrl":{
+                          "ALZFunctionTriggerUrl":{
                             "type": "string"
                           }
                         },
@@ -357,7 +357,7 @@
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
                               "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]",
                               "webhookReceivers": "[[if(empty(parameters('ALZWebhookServiceUri')), null(), variables('varWebhookReceivers'))]",
-                              "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionAppResourceId')), null(), variables('varAzureFunctionReceivers'))]"
+                              "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]"
                             }
                           },
                           {
@@ -417,11 +417,11 @@
                         "ALZWebhookIdentifierUri":{
                           "value": "[[parameters('ALZWebhookIdentifierUri')]"
                         },
-                        "ALZFunctionAppResourceId": {
-                          "value": "[[parameters('ALZFunctionAppResourceId')]"
+                        "ALZFunctionResourceId": {
+                          "value": "[[parameters('ALZFunctionResourceId')]"
                         },
-                        "ALZFunctionAppTriggerUrl": {
-                            "value": "[[parameters('ALZFunctionAppTriggerUrl')]"
+                        "ALZFunctionTriggerUrl": {
+                            "value": "[[parameters('ALZFunctionTriggerUrl')]"
                         }
                       }
                     }
@@ -462,11 +462,11 @@
                 "ALZWebhookIdentifierUri":{
                   "value": "[[parameters('ALZWebhookIdentifierUri')]"
                 },
-                "ALZFunctionAppResourceId": {
-                  "value": "[[parameters('ALZFunctionAppResourceId')]"
+                "ALZFunctionResourceId": {
+                  "value": "[[parameters('ALZFunctionResourceId')]"
                 },
-                "ALZFunctionAppTriggerUrl": {
-                    "value": "[[parameters('ALZFunctionAppTriggerUrl')]"
+                "ALZFunctionTriggerUrl": {
+                    "value": "[[parameters('ALZFunctionTriggerUrl')]"
                 }
               }
             }
