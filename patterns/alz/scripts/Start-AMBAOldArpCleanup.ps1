@@ -101,7 +101,7 @@ If ($managementGroups.count -eq 0) {
 }
 
 # get alert processing rules to delete
-$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules'//, 'Microsoft.Insights/actionGroups') | where properties.description == 'AMBA Alert Processing Rule for Subscription' and tags['_deployed_by_amba'] =~ 'True'| project id"
+$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name == 'AMBA Alert Processing Rule' and properties.description == 'AMBA Alert Processing Rule for Subscription' and tags['_deployed_by_amba'] =~ 'True'| project id"
 $alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with description 'AMBA Alert Processing Rule for Subscription' and tag '_deployed_by_amba=True' to be deleted."
 
