@@ -24,9 +24,9 @@
     autoMitigate: false
   references:
     - name: Monitoring Availability
-      url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability
+      url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability
     - name: Supported metrics for Microsoft.Storage/storageAccounts
-      url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
+      url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
   deployments:
     - name: Deploy SA Availability Alert
       template: Deploy-SA-Availability-Alert.json
@@ -38,7 +38,7 @@
         multiResource: false
 #consider activity log alert for deletion of storage accounts to add to ALZ pattern
 #AUTO GENERATED ALERTS/THRESHOLDS
-- name: UsedCapacity #Would like to consider for ALZ pattern, want to see some more cx evidence
+- name: UsedCapacity
   description:
     The amount of storage used by the storage account. For standard storage
     accounts, it's the sum of capacity used by blob, table, file, and queue. For premium
@@ -46,7 +46,7 @@
     FileCapacity.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-42019
@@ -62,20 +62,19 @@
     threshold: 4000000000000000.0 #we think this is 4 PiB, limit now is 5 PiB, also consider that the most cx wont see amount of storage they are using, so consider a more widely used threshold...
     autoMitigate:
       false
-      #adding references
   references:
     - name: Account Level Metrics
-      url: https://learn.microsoft.com/EN-us/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
+      url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
     - name: Azure Storage Metric - Used Capacity
-      url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#account-level
-- name: Egress #would like to consider for ALZ
+      url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#account-level
+- name: Egress
   description:
     The amount of egress data. This number includes egress to external
     client from Azure Storage as well as egress within Azure. As a result, this number
     does not reflect billable egress.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-3835
@@ -93,17 +92,17 @@
     #adding references
     references:
       - name: Transaction Metrics
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
 
       - name: Storage Account Metric Dimensions (all storage)
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
-- name: Ingress #would like to consider for ALZ
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
+- name: Ingress
   description:
     The amount of ingress data, in bytes. This number includes ingress
     from an external client into Azure Storage as well as ingress within Azure.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-2468
@@ -121,16 +120,16 @@
     #adding references
     references:
       - name: Transaction Metrics
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
       - name: Storage Account Metric Dimensions (all storage)
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
-- name: BlobCapacity #would like to consider for ALZ
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
+- name: BlobCapacity
   description:
     The amount of storage used by the storage account's Blob service in
     bytes.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-1986
@@ -145,14 +144,13 @@
     criterionType: StaticThresholdCriterion
     threshold: 107374182400.0
     autoMitigate: false
-    #adding references
     references:
       - name: Blob Storage Metrics
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#blob-storage
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#blob-storage
 
       - name: Storage Account Metric Dimensions (Blob Storage)
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#dimensions-specific-to-blob-storage
-- name: SuccessE2ELatency #not for ALZ pattern, but perhaps reliability or AKS pattern
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#dimensions-specific-to-blob-storage
+- name: SuccessE2ELatency
   description:
     The average end-to-end latency of successful requests made to a storage
     service or the specified API operation, in milliseconds. This value includes the
@@ -160,7 +158,7 @@
     and receive acknowledgment of the response.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-504
@@ -173,19 +171,18 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 1000.0 #going to be a threshold set by each cx, becuase of the difference in scenarios
+    threshold: 1000.0 #going to be a threshold set by each cx, because of the difference in scenarios
     autoMitigate: false
-    #adding references
     references:
       - name: Verify throughput and latency metrics for a storage account
-        url: https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
       - name: Troubleshoot performance in Azure storage accounts
-        url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/troubleshoot-storage-performance#metrics-show-high-successe2elatency-and-low-successserverlatency
-- name: BlobCount #not for consideration for ALZ pattern (or anyone*)
+        url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/troubleshoot-storage-performance#metrics-show-high-successe2elatency-and-low-successserverlatency
+- name: BlobCount
   description: The number of blob objects stored in the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-325
@@ -200,19 +197,16 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
-    #adding references
     references:
       - name: Monitor the use of a container
-        url: https://learn.microsoft.com/en-us/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
-  # - name:
-  #   url:
-- name: SuccessServerLatency #not for ALZ pattern, but other patterns
+        url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
+- name: SuccessServerLatency
   description:
     The average time used to process a successful request by Azure Storage.
     This value does not include the network latency specified in SuccessE2ELatency.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-257
@@ -227,20 +221,19 @@
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
     autoMitigate: false
-    #adding references
     references:
       - name: Trouble shoot performance in Azure storage accounts
-        url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/troubleshoot-storage-performance
+        url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/troubleshoot-storage-performance
       - name: Verify throughput and latency metrics for a storage account
-        url: https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
       - name: Storage Transaction Metrics
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
 #queue alerts, for ALZ we may want to revisit, but they may also be apart of another pattern [small patterns that are more modular, that can be coupled with ALZ pattern/ other patterns as they come]
-- name: QueueMessageCount #not for ALZ pattern
+- name: QueueMessageCount
   description: The number of unexpired queue messages in the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-1583
@@ -255,19 +248,18 @@
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
     autoMitigate: false
-    #adding references
     references:
       - name: Best practices for Azure Queue storage
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
+        url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
       - name: Queue Storage Metrics
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
+        url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
       - name: supported metrics for Microsoft.Storage/storageAccounts/queueServices
-        url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-queueservices-metrics
-- name: QueueCapacity #would like to consider (if there is a limit on the capacity of a queue)
+        url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-queueservices-metrics
+- name: QueueCapacity
   description: The amount of Queue storage used by the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-543
@@ -282,17 +274,16 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
-    #adding references
     references:
       - name: Queue Storage Metrics
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
+        url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
       - name: Best practices for monitoring Azure Queue Storage
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
-- name: QueueCount #not for ALZ
+        url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
+- name: QueueCount
   description: The number of queues in the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-481
@@ -307,19 +298,16 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
-    #adding references
     references:
       - name: Queue Storage Metrics
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
+        url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
       - name: Best practices for monitoring Azure Queue Storage
-        url: https://learn.microsoft.com/en-us/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
-#file alerts, for ALZ we may want to revisit, but they may also be apart of another pattern [small patterns that are more modular, that can be coupled with ALZ pattern/ other patterns as they come]
-#12/1 update - no plan to add these to the pattern (if alerts are created they may take into consideration)
+        url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
 - name: FileCapacity
   description: The amount of File storage used by the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-8048
@@ -334,10 +322,9 @@
     criterionType: StaticThresholdCriterion
     threshold: 96636764160.0
     autoMitigate: false
-    #adding references
     references:
       - name: File Storage Metrics
-        url: https://learn.microsoft.com/en-us/azure/storage/files/storage-files-monitoring-scenarios#file-storage-metrics
+        url: https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-scenarios#file-storage-metrics
 - name: Transactions
   description:
     The number of requests made to a storage service or the specified API
@@ -346,7 +333,7 @@
     type of response.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-1467
@@ -370,21 +357,20 @@
           - anonymous
     threshold: 10.0
     autoMitigate: false
-    #adding references
     references:
       - name: Identify storage accounts with no or low use
-        url: https://learn.microsoft.com/en-us/azure/storage/blobs/blob-storage-monitoring-scenarios#identify-storage-accounts-with-no-or-low-use
+        url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#identify-storage-accounts-with-no-or-low-use
       - name: Monitor the use of a container
-        url: https://learn.microsoft.com/en-us/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
+        url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
       - name: Storage Transaction Metrics
-        url: https://learn.microsoft.com/EN-us/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
+        url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
 - name: FileShareSnapshotCount
   description:
     The number of snapshots present on the share in storage account's Files
     Service.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-654
@@ -402,8 +388,8 @@
     #adding references
     references:
       - name: Azure Files monitoring data reference
-        url: https://learn.microsoft.com/en-us/azure/storage/files/storage-files-monitoring-reference#azure-files
-- name: Availability
+        url: https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-reference#azure-files
+- name: Availability (File Servers)
   description:
     The percentage of availability for the storage service or the specified
     API operation. Availability is calculated by taking the TotalBillableRequests
@@ -430,13 +416,13 @@
     #adding references
     references:
       - name: Monitoring Availability
-        url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/troubleshoot-storage-availability#monitoring-availability
+        url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/troubleshoot-storage-availability#monitoring-availability
       - name: Troubleshoott availability issues in storage accounts
 - name: FileShareCount
   description: The number of file shares in the storage account.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-407
@@ -457,7 +443,7 @@
     Files Service in bytes.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-357
@@ -472,4 +458,3 @@
     criterionType: StaticThresholdCriterion
     threshold: 108851651149824.0
     autoMitigate: false
-#if there are policies for alerts that we want to create, please do, ALZ team will pull those alerts and then pick the ones they want to utilize
