@@ -129,6 +129,16 @@ $query = "authorizationresources | where type =~ 'microsoft.authorization/roleas
 $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Sort-Object -Property id | Get-Unique -AsString
 Write-Host "Found '$($roleAssignments.Count)' role assignment with description '_deployed_by_amba' to be deleted."
 
+# get alert processing rules to delete
+$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
+$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted."
+
+# get action groups to delete
+$query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | project id"
+$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+Write-Host "Found '$($actionGroupIds.Count)' action group(s) with tag '_deployed_by_amba=True' to be deleted."
+
 If (!$reportOnly.IsPresent) {
 
     Write-Warning "This script will delete the resources discovered above."
@@ -170,10 +180,18 @@ If (!$reportOnly.IsPresent) {
     Write-Host "Deleting role assignments..."
     $roleAssignments | Select-Object -Property objectId,roleDefinitionId,scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
+    # delete alert processing rules
+    Write-Host "Deleting alert processing rule..."
+    $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
+
+    # delete action groups
+    Write-Host "Deleting action group..."
+    $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
+
     Write-Host "Cleanup complete."
 }
 Else {
-    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id
+    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id+$alertProcessingRuleIds+$alertProcessingRuleIds
 
     return $resourceToBeDeleted
 }
