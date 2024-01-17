@@ -15,24 +15,32 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -ReportOnly
+    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
     # generate a list of the resource IDs which would be deleted by this script
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -WhatIf
+    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -Force
+    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -Force
     # delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation
 #>
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
+    # the pseudo managemnt group to start from
+    [Parameter(Mandatory=$True,
+      ValueFromPipeline=$false)]
+      [string]$pseudoManagementGroup,
     # output a list of the resources to be deleted
-    [switch]$reportOnly,
+    [Parameter(Mandatory=$False,
+      ValueFromPipeline=$false)]
+      [switch]$reportOnly,
     # if not specified, delete will prompt for confirmation
-    [switch]$force
+    [Parameter(Mandatory=$False,
+      ValueFromPipeline=$false)]
+      [switch]$force
 )
 
 Function Search-AzGraphRecursive {
@@ -82,6 +90,18 @@ Function Search-AzGraphRecursive {
     $result
 }
 
+Function Iterate-ManagementGroups($mg) {
+
+    $script:managementGroups += $mg.Name
+    if ($mg.Children) {
+        foreach ($child in $mg.Children) {
+            if ($child.Type -eq 'Microsoft.Management/managementGroups') {
+            Iterate-ManagementGroups $child
+            }
+        }
+    }
+}
+
 $ErrorActionPreference = 'Stop'
 
 If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
@@ -92,7 +112,12 @@ If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
 }
 
 # get all management groups -- used in graph query scope
-$managementGroups = Get-AzManagementGroup
+$managementGroups = @()
+$allMgs = Get-AzManagementGroup -GroupName $pseudoManagementGroup -Expand -Recurse
+foreach ($mg in $allMgs) {
+    Iterate-ManagementGroups $mg
+}
+
 Write-Host "Found '$($managementGroups.Count)' management groups to query for ALZ-Monitor resources."
 
 If ($managementGroups.count -eq 0) {
@@ -101,42 +126,42 @@ If ($managementGroups.count -eq 0) {
 
 # get alert resources to delete
 $query = "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id"
-$alertResourceIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$alertResourceIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted."
 
 # get resource group to delete
 $query = "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_amba'] =~ 'True' | project id"
-$resourceGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$resourceGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_amba=True' to be deleted."
 
 # get policy assignments to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_amba =~ 'true'"
-$policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted."
 
 # get policy set definitions to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policysetdefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
-$policySetDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$policySetDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get policy definitions to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
-$policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
-$roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Sort-Object -Property id | Get-Unique -AsString
+$roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
 Write-Host "Found '$($roleAssignments.Count)' role assignment with description '_deployed_by_amba' to be deleted."
 
 # get alert processing rules to delete
 $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
-$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted."
 
 # get action groups to delete
 $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | project id"
-$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($actionGroupIds.Count)' action group(s) with tag '_deployed_by_amba=True' to be deleted."
 
 If (!$reportOnly.IsPresent) {
