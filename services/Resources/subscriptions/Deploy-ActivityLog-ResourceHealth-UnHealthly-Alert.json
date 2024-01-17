@@ -44,7 +44,6 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test",
           "_deployed_by_amba": true
         }
       },
@@ -89,6 +88,14 @@
         "metadata": {
           "displayName": "Logic App Resource Id",
           "description": "Logic App Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZLogicappCallbackUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Logic App Callback URL",
+          "description": "Callback URL that triggers the Logic App"
         },
         "defaultValue": ""
       },
@@ -229,6 +236,9 @@
                   "ALZLogicappResourceId": {
                     "type": "string"
                   },
+                  "ALZLogicappCallbackUrl": {
+                    "type": "String"
+                  },
                   "ALZArmRoleId":{
                     "type": "string"
                   },
@@ -269,7 +279,7 @@
                     "name": "ResourceHealtAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                      "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -287,6 +297,9 @@
                             "type": "string"
                           },
                           "ALZLogicappResourceId": {
+                            "type": "string"
+                          },
+                          "ALZLogicappCallbackUrl": {
                             "type": "string"
                           },
                           "ALZArmRoleId":{
@@ -389,6 +402,9 @@
                         "ALZLogicappResourceId": {
                          "value": "[[parameters('ALZLogicappResourceId')]"
                         },
+                        "ALZLogicappCallbackUrl": {
+                          "value": "[[parameters('ALZLogicappCallbackUrl')]"
+                        },
                         "ALZArmRoleId": {
                           "value": "[[parameters('ALZArmRoleId')]"
                         },
@@ -433,6 +449,9 @@
                 },
                 "ALZLogicappResourceId": {
                  "value": "[[parameters('ALZLogicappResourceId')]"
+                },
+                "ALZLogicappCallbackUrl": {
+                  "value": "[[parameters('ALZLogicappCallbackUrl')]"
                 },
                 "ALZArmRoleId": {
                   "value": "[[parameters('ALZArmRoleId')]"
