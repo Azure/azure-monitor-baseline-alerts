@@ -152,7 +152,7 @@ Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metada
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
 $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-Write-Host "Found '$($roleAssignments.Count)' role assignment with description '_deployed_by_amba' to be deleted."
+Write-Host "Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted."
 
 # get alert processing rules to delete
 $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
@@ -206,11 +206,11 @@ If (!$reportOnly.IsPresent) {
     $roleAssignments | Select-Object -Property objectId,roleDefinitionId,scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
     # delete alert processing rules
-    Write-Host "Deleting alert processing rule..."
+    Write-Host "Deleting alert processing rule(s)..."
     $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
 
     # delete action groups
-    Write-Host "Deleting action group..."
+    Write-Host "Deleting action group(s)..."
     $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
 
     Write-Host "Cleanup complete."

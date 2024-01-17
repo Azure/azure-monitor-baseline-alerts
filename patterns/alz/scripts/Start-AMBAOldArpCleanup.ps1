@@ -16,24 +16,32 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -ReportOnly
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
     # generate a list of the resource IDs which would be deleted by this script
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -WhatIf
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -Force
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -Force
     # delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation
 #>
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
+    # the pseudo managemnt group to start from
+    [Parameter(Mandatory=$True,
+      ValueFromPipeline=$false)]
+      [string]$pseudoManagementGroup,
     # output a list of the resources to be deleted
-    [switch]$reportOnly,
+    [Parameter(Mandatory=$False,
+      ValueFromPipeline=$false)]
+      [switch]$reportOnly,
     # if not specified, delete will prompt for confirmation
-    [switch]$force
+    [Parameter(Mandatory=$False,
+      ValueFromPipeline=$false)]
+      [switch]$force
 )
 
 Function Search-AzGraphRecursive {
@@ -83,6 +91,18 @@ Function Search-AzGraphRecursive {
     $result
 }
 
+Function Iterate-ManagementGroups($mg) {
+
+  $script:managementGroups += $mg.Name
+  if ($mg.Children) {
+      foreach ($child in $mg.Children) {
+          if ($child.Type -eq 'Microsoft.Management/managementGroups') {
+          Iterate-ManagementGroups $child
+          }
+      }
+  }
+}
+
 $ErrorActionPreference = 'Stop'
 
 If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
@@ -93,8 +113,14 @@ If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
 }
 
 # get all management groups -- used in graph query scope
-$managementGroups = Get-AzManagementGroup
+$managementGroups = @()
+$allMgs = Get-AzManagementGroup -GroupName $pseudoManagementGroup -Expand -Recurse
+foreach ($mg in $allMgs) {
+    Iterate-ManagementGroups $mg
+}
+
 Write-Host "Found '$($managementGroups.Count)' management groups to query for ALZ-Monitor resources."
+
 
 If ($managementGroups.count -eq 0) {
     Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources."
@@ -102,12 +128,12 @@ If ($managementGroups.count -eq 0) {
 
 # get alert processing rules to delete
 $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name == 'AMBA Alert Processing Rule' and properties.description == 'AMBA Alert Processing Rule for Subscription' and tags['_deployed_by_amba'] =~ 'True'| project id"
-$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with description 'AMBA Alert Processing Rule for Subscription' and tag '_deployed_by_amba=True' to be deleted."
 
 # get action groups to delete
 $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where name =~ 'AmbaActionGr' and properties.groupShortName =~ 'AmbaActionGr'and tags['_deployed_by_amba'] =~ 'True' | project id"
-$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.Name | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($actionGroupIds.Count)' action group(s) with name 'AmbaActionGr', short name 'AmbaActionGr' and tag '_deployed_by_amba=True' to be deleted."
 
 If (!$reportOnly.IsPresent) {
@@ -128,11 +154,11 @@ If (!$reportOnly.IsPresent) {
     }
 
     # delete alert processing rules
-    Write-Host "Deleting alert processing rule..."
+    Write-Host "Deleting alert processing rule(s)..."
     $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
 
     # delete action groups
-    Write-Host "Deleting action group..."
+    Write-Host "Deleting action group(s)..."
     $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
 
     Write-Host "Cleanup complete."
