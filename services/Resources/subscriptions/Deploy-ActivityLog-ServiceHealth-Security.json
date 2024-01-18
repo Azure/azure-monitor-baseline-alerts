@@ -74,6 +74,14 @@
           "description": "Tag name to disable monitoring  Subscription level alerts. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorActionGroupEmail": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Action Group Email",
+          "description": "Email address to send alerts to"
+        },
+        "defaultValue": "action@mail.com"
       }
     },
     "policyRule": {
@@ -164,6 +172,9 @@
                   },
                   "enabled": {
                     "type": "string"
+                  },
+                  "ALZMonitorActionGroupEmail": {
+                    "type": "string"
                   }
                 },
                 "variables": {
@@ -194,6 +205,9 @@
                             "type": "string"
                           },
                           "alertResourceGroupName": {
+                            "type": "string"
+                          },
+                          "ALZMonitorActionGroupEmail": {
                             "type": "string"
                           }
                         },
@@ -265,6 +279,9 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "ALZMonitorActionGroupEmail": {
+                  "value": "[[parameters('ALZMonitorActionGroupEmail')]"
                 }
               }
             }
