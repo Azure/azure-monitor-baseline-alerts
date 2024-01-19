@@ -33,7 +33,7 @@ param(
     # the pseudo managemnt group to start from
     [Parameter(Mandatory=$True,
       ValueFromPipeline=$false)]
-      [string]$pseudoManagementGroup,
+      [string]$pseudoRootManagementGroup,
     # output a list of the resources to be deleted
     [Parameter(Mandatory=$False,
       ValueFromPipeline=$false)]
@@ -114,7 +114,7 @@ If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
 
 # get all management groups -- used in graph query scope
 $managementGroups = @()
-$allMgs = Get-AzManagementGroup -GroupName $pseudoManagementGroup -Expand -Recurse
+$allMgs = Get-AzManagementGroup -GroupName $pseudoRootManagementGroup -Expand -Recurse
 foreach ($mg in $allMgs) {
     Iterate-ManagementGroups $mg
 }
