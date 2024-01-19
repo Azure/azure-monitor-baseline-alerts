@@ -5,8 +5,8 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Service Health Action Groups",
-    "description": "Policy to deploy Service Health action groups",
+    "displayName": "Deploy Service Health Action Group",
+    "description": "Policy to deploy action group for Service Health alerts",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring",
@@ -17,17 +17,13 @@
       "_deployed_by_amba": "True"
     },
     "parameters": {
-      "effect": {
+      "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Effect of the policy"
+          "displayName": "Monitoring state",
+          "description": "Tag name to disable monitoring  Subscription level alerts. Set to true if monitoring should be disabled"
         },
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "defaultValue": "disabled"
+        "defaultValue": "MonitorDisable"
       },
       "ALZMonitorResourceGroupName": {
         "type": "String",
@@ -142,11 +138,15 @@
           {
             "field": "type",
             "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "notEquals": "true"
           }
         ]
       },
       "then": {
-        "effect": "[[parameters('effect')]",
+        "effect": "deployIfNotExists",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -311,6 +311,12 @@
                           "ALZWebhookServiceUri": {
                             "type": "string"
                           },
+                          "ALZWebhookObjectId":{
+                            "type": "String"
+                          },
+                          "ALZWebhookIdentifierUri":{
+                            "type": "String"
+                          },
                           "ALZFunctionResourceId": {
                             "type": "string"
                           },
@@ -373,6 +379,12 @@
                         },
                         "ALZWebhookServiceUri": {
                           "value": "[[parameters('ALZWebhookServiceUri')]"
+                        },
+                        "ALZWebhookObjectId":{
+                          "value": "[[parameters('ALZWebhookObjectId')]"
+                        },
+                        "ALZWebhookIdentifierUri":{
+                          "value": "[[parameters('ALZWebhookIdentifierUri')]"
                         },
                         "ALZFunctionResourceId": {
                           "value": "[[parameters('ALZFunctionResourceId')]"

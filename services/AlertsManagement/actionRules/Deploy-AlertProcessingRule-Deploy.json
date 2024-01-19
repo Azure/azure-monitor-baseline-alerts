@@ -5,8 +5,8 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Notification Assets and Alert Processing Rule",
-    "description": "Policy to deploy Notification Assets and Alert Processing Rule with Action Group",
+    "displayName": "Deploy AMBA Notification Assets",
+    "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
       "version": "1.0.3",
       "category": "Monitoring",
@@ -46,8 +46,8 @@
       "ALZMonitorActionGroupEmail": {
         "type": "String",
         "metadata": {
-          "displayName": "Action Group Email",
-          "description": "Email address to send alerts to"
+          "displayName": "Action Group Email Addresses",
+          "description": "Email addresses to send alerts to"
         },
         "defaultValue": "action@mail.com"
       },
@@ -78,8 +78,8 @@
       "ALZEventHubResourceId": {
         "type": "String",
         "metadata": {
-          "displayName": "Event Hub",
-          "description": "Event Hub resource id for action group to send alerts to a subscription level"
+          "displayName": "Event Hub resource Id",
+          "description": "Event Hub resource id for action group to send alerts to"
         },
         "defaultValue": ""
       },
@@ -124,12 +124,12 @@
         "defaultValue": ""
       },
       "MonitorDisable": {
-        "type": "String",
+        "type": "string",
+        "defaultValue": "MonitorDisable",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring at subscription. Set to true if monitoring process rule should be disabled"
-        },
-        "defaultValue": "MonitorDisable"
+          "displayName": "Monitoring state",
+          "description": "Tag name to disable monitoring Subscription level alerts. Set to true if monitoring should be disabled"
+        }
       }
     },
     "policyRule": {
@@ -396,7 +396,7 @@
                          "value": "[[parameters('ALZLogicappResourceId')]"
                         },
                         "ALZLogicappCallbackUrl": {
-                            "value": "[[parameters('ALZLogicappCallbackUrl')]"
+                          "value": "[[parameters('ALZLogicappCallbackUrl')]"
                         },
                         "ALZArmRoleId": {
                           "value": "[[parameters('ALZArmRoleId')]"
@@ -441,7 +441,7 @@
                  "value": "[[parameters('ALZLogicappResourceId')]"
                 },
                 "ALZLogicappCallbackUrl": {
-                    "value": "[[parameters('ALZLogicappCallbackUrl')]"
+                  "value": "[[parameters('ALZLogicappCallbackUrl')]"
                 },
                 "ALZArmRoleId": {
                   "value": "[[parameters('ALZArmRoleId')]"
