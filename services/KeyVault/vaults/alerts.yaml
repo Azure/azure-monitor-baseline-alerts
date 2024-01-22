@@ -4,35 +4,35 @@
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     category: Administrative
     operationName: Microsoft.KeyVault/vaults/delete
     status:
-    - succeeded
+      - succeeded
   references:
-  - name: Activity Log Service Notifications
-    url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
-  - name: Best practices for setting up service health alerts
-    url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
+    - name: Activity Log Service Notifications
+      url: https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal
+    - name: Best practices for setting up service health alerts
+      url: https://www.microsoft.com/videoplayer/embed/RE2OtUa
   deployments:
-  - name: Deploy Activity Log Key Vault Delete Alert
-    template: Deploy-ActivityLog-KeyVault-Del.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      policyScope: managementGroup
-      documented: false
-      alertName: ActivityKeyVaultDelete
-- name: Availability
+    - name: Deploy Activity Log Key Vault Delete Alert
+      template: Deploy-ActivityLog-KeyVault-Del.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        policyScope: managementGroup
+        documented: false
+        alertName: ActivityKeyVaultDelete
+- name: Availability #g2g
   description: Vault requests availability
   type: Metric
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: Availability
     metricNamespace: Microsoft.KeyVault/vaults
@@ -45,62 +45,62 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Monitoring KeyVault Reference
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
-  - name: Monitoring Microsoft.KeyVault/vaults
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
-  - name: KeyVault Insights Overview
-    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
+    - name: Monitoring KeyVault Reference
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+    - name: Monitoring Microsoft.KeyVault/vaults
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+    - name: KeyVault Insights Overview
+      url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - name: Deploy KeyVault Availability Alert
-    template: Deploy-KV-Availability-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: true
-- name: Saturation Shoebox
+    - name: Deploy KeyVault Availability Alert
+      template: Deploy-KV-Availability-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: true
+- name: Saturation Shoebox #severity / evaluationFrequency do not match auto gen
   description: Vault capacity used
   type: Metric
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: SaturationShoebox
     metricNamespace: Microsoft.KeyVault/vaults
-    severity: 1
+    severity: 1 #severity is 3 in auto gen
     windowSize: PT5M
-    evaluationFrequency: PT1M
+    evaluationFrequency: PT1M #auto gen reccomendation is PT5M
     timeAggregation: Average
     operator: GreaterThan
     threshold: 75
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Monitoring KeyVault Reference
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
-  - name: Monitoring Microsoft.KeyVault/vaults
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
-  - name: KeyVault Insights Overview
-    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
+    - name: Monitoring KeyVault Reference
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+    - name: Monitoring Microsoft.KeyVault/vaults
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+    - name: KeyVault Insights Overview
+      url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - name: Deploy KeyVault Capacity Alert
-    template: Deploy-KV-Capacity-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: true
-- name: Service API Latency
+    - name: Deploy KeyVault Capacity Alert
+      template: Deploy-KV-Capacity-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: true
+- name: Service API Latency #match auto gen
   description: Overall latency of service api requests
   type: Metric
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ServiceApiLatency
     metricNamespace: Microsoft.KeyVault/vaults
@@ -113,76 +113,77 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Monitoring KeyVault Reference
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
-  - name: Monitoring Microsoft.KeyVault/vaults
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
-  - name: KeyVault Insights Overview
-    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
+    - name: Monitoring KeyVault Reference
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+    - name: Monitoring Microsoft.KeyVault/vaults
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+    - name: KeyVault Insights Overview
+      url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - name: Deploy KeyVault Latency Alert
-    template: Deploy-KV-Latency-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: true
-- name: Service API Result
+    - name: Deploy KeyVault Latency Alert
+      template: Deploy-KV-Latency-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: true
+- name: Service API Result #severity / criterionType do not match auto gen
   description: Number of total service api results
   type: Metric
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ServiceApiResult
     metricNamespace: Microsoft.KeyVault/vaults
-    severity: 2
+    severity: 2 #auto gen reccomendation is 3
     windowSize: PT5M
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
+    criterionType: DynamicThresholdCriterion #auto gen reccomendation is StaticThresholdCriterion
     alertSensitivity: Medium
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
     autoMitigate: false
   references:
-  - name: Monitoring KeyVault Reference
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
-  - name: Monitoring Microsoft.KeyVault/vaults
-    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
-  - name: KeyVault Insights Overview
-    url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
+    - name: Monitoring KeyVault Reference
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+    - name: Monitoring Microsoft.KeyVault/vaults
+      url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+    - name: KeyVault Insights Overview
+      url: https://docs.microsoft.com/en-us/azure/azure-monitor/insights/key-vault-insights-overview
   deployments:
-  - name: Deploy KeyVault Requests Alert
-    template: Deploy-KV-Requests-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: true
+    - name: Deploy KeyVault Requests Alert
+      template: Deploy-KV-Requests-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: true
+#AUTO GENERATED ALERTS/THRESHOLDS
 - name: Availability
   description: Vault requests availability
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-21701
+    - auto-generated
+    - agc-21701
   properties:
     metricName: Availability
     metricNamespace: Microsoft.KeyVault/vaults
-    severity: 2
+    severity: 2 #discrepancy between auto-gen and ALZ
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT5M #discrepancy between auto-gen and ALZ
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 100.0
+    threshold: 100.0 #discrepancy between auto-gen and ALZ
     autoMitigate: false
 - name: ServiceApiLatency
   description: Overall latency of service api requests
@@ -190,8 +191,8 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-11958
+    - auto-generated
+    - agc-11958
   properties:
     metricName: ServiceApiLatency
     metricNamespace: Microsoft.KeyVault/vaults
@@ -209,27 +210,27 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-10046
+    - auto-generated
+    - agc-10046
   properties:
     metricName: SaturationShoebox
     metricNamespace: Microsoft.KeyVault/vaults
-    severity: 3
+    severity: 3 #auto-gen reccomendation is 2
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT5M #alz reccomendation is PT1M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 75.0
     autoMitigate: false
-- name: ServiceApiHit
+- name: ServiceApiHit #not included in ALZ pattern/ research this metric more (ask PG what this is being used for)
   description: Number of total service api hits
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2688
+    - auto-generated
+    - agc-2688
   properties:
     metricName: ServiceApiHit
     metricNamespace: Microsoft.KeyVault/vaults
@@ -247,21 +248,21 @@
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2619
+    - auto-generated
+    - agc-2619
   properties:
     metricName: ServiceApiResult
     metricNamespace: Microsoft.KeyVault/vaults
-    severity: 3
-    windowSize: PT30M
+    severity: 3 #alz reccomendation is 2
+    windowSize: PT30M #alz reccomendation is PT5M
     evaluationFrequency: PT5M
     timeAggregation: Count
     operator: GreaterThan
-    criterionType: StaticThresholdCriterion
+    criterionType: StaticThresholdCriterion #alz reccomendation is DynamicThresholdCriterion
     dimensions:
-    - name: statuscode
-      operator: include
-      values:
-      - '429'
+      - name: statuscode
+        operator: include
+        values:
+          - "429"
     threshold: 0.0
     autoMitigate: false

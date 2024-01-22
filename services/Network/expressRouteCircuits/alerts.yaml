@@ -4,7 +4,7 @@
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: ArpAvailability
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -13,30 +13,30 @@
     evaluationFrequency: PT1M
     timeAggregation: Average
     operator: LessThan
-    threshold: 90
+    threshold: 90 #threshold from ALZ ARP Availability is lower than Auto generated reccomendation, see line 209
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Monitor ExpressRoute Alerts
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
-  - name: ExpressRoute KQL Queries
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
-  - name: Deploy ExpressRoute Circuits ARP Availability Alert
-    template: Deploy-ERCIR-ARPAvailability-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy ExpressRoute Circuits ARP Availability Alert
+      template: Deploy-ERCIR-ARPAvailability-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
 - name: BGP Availability
   description: BGP Availability from MSEE towards all peers.
   type: Metric
   verified: true
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: BgpAvailability
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -49,97 +49,98 @@
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
-  - name: Monitor ExpressRoute Alerts
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
-  - name: ExpressRoute KQL Queries
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
-  - name: Deploy ExpressRoute Circuits BGP Availability Alert
-    template: Deploy-ERCIR-BGPAvailability-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy ExpressRoute Circuits BGP Availability Alert
+      template: Deploy-ERCIR-BGPAvailability-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
 - name: QOS Drop Bits In Per Second
   description: Ingress bits of data dropped per second
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: QosDropBitsInPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
-    severity: 2
+    severity: 2 #severity is higher than Auto generated reccomendation, see line 233
     windowSize: PT5M
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
+    criterionType: DynamicThresholdCriterion #agree to keep this threshold dynamic as well
     alertSensitivity: Medium
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
     autoMitigate: false
   references:
-  - name: Monitor ExpressRoute Alerts
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
-  - name: ExpressRoute KQL Queries
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
-  - name: Deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
-    template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
+    - name: Deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
+      template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
 - name: QOS Drop Bits Out Per Second
   description: Egress bits of data dropped per second
   type: Metric
   verified: false
   visible: true
   tags:
-  - alz
+    - alz
   properties:
     metricName: QosDropBitsOutPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
-    severity: 2
+    severity: 2 #severity is higher than Auto generated reccomendation, see line 254
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT5M #evaluation frequency is lower than Auto generated reccomendation, see line 256
     timeAggregation: Average
     operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
+    criterionType: DynamicThresholdCriterion #auto generated reccomendation is StaticThresholdCriterion, see line 259. However, i think that allowing dynamic in this case may be the best choice this one we will need to dicuss with alot of consideration
     alertSensitivity: Medium
     failingPeriods:
       numberOfEvaluationPeriods: 4
       minFailingPeriodsToAlert: 4
     autoMitigate: false
   references:
-  - name: Monitor ExpressRoute Alerts
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
-  - name: ExpressRoute KQL Queries
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
-  - name: Deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
-    template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-- name: BgpAvailability
+    - name: Deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
+      template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+#AUTO GENERATED ALERTS/THRESHOLDS
+- name: BgpAvailability #using ALZ threshold
   description: BGP Availability from MSEE towards all peers.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-2720
+    - auto-generated
+    - agc-2720
   properties:
     metricName: BgpAvailability
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -149,16 +150,22 @@
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 100.0
+    threshold: 100.0 #use this threshold based on auto generated recommendation
     autoMitigate: false
-- name: BitsInPerSecond
+    #adding references
+  references:
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+- name: BitsInPerSecond #have the the gateway alert, so we dont need this granularity for ALZ pattern (for perhaps reliablity)
   description: Bits ingressing Azure per second
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1448
+    - auto-generated
+    - agc-1448
   properties:
     metricName: BitsInPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -166,18 +173,24 @@
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Average
-    operator: GreaterThan
+    operator: GreaterThan #consider LessThan (threshold of 1)
     criterionType: StaticThresholdCriterion
-    threshold: 800000000.0
+    threshold: 800000000.0 #this would be dependant on the SKU, perhaps to see the kinda of SKU they may want to utilize
     autoMitigate: false
-- name: BitsOutPerSecond
+    #adding references
+    references:
+      - name: Circuit Metrics examples
+        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
+      - name: ExpressRoute Gateway Connections
+        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections
+- name: BitsOutPerSecond #have the the gateway alert, so we dont need this granularity for ALZ pattern
   description: Bits egressing Azure per second
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1261
+    - auto-generated
+    - agc-1261
   properties:
     metricName: BitsOutPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -189,14 +202,19 @@
     criterionType: StaticThresholdCriterion
     threshold: 800000000.0
     autoMitigate: false
-- name: ArpAvailability
+    references:
+      - name: Circuit Metrics examples
+        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
+      - name: ExpressRoute Gateway Connections
+        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections-in-bitsseconds
+- name: ArpAvailability #using ALZ threshold
   description: ARP Availability from MSEE towards all peers.
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-1256
+    - auto-generated
+    - agc-1256
   properties:
     metricName: ArpAvailability
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -208,14 +226,20 @@
     criterionType: StaticThresholdCriterion
     threshold: 100.0
     autoMitigate: false
+    #adding references
+  references:
+    - name: Monitor ExpressRoute Alerts
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+    - name: ExpressRoute KQL Queries
+      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
 - name: QosDropBitsInPerSecond
   description: Ingress bits of data dropped per second
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-436
+    - auto-generated
+    - agc-436
   properties:
     metricName: QosDropBitsInPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -224,17 +248,18 @@
     evaluationFrequency: PT1M
     timeAggregation: Average
     operator: GreaterThan
-    criterionType: StaticThresholdCriterion
+    criterionType: StaticThresholdCriterion # i would prefer to keep the alert dynamic as laided out in the ALZ reccomendation, see line 80.
     threshold: 0.0
     autoMitigate: false
-- name: QosDropBitsOutPerSecond
+- name: QosDropBitsOutPerSecond #using ALZ threshold
+  #revisit these as we go back over these.
   description: Egress bits of data dropped per second
   type: Metric
   verified: false
   visible: false
   tags:
-  - auto-generated
-  - agc-390
+    - auto-generated
+    - agc-390
   properties:
     metricName: QosDropBitsOutPerSecond
     metricNamespace: Microsoft.Network/expressRouteCircuits
@@ -243,6 +268,85 @@
     evaluationFrequency: PT1M
     timeAggregation: Average
     operator: GreaterThan
+    criterionType: StaticThresholdCriterion # in this auto generated reccomendation I think that we should stick to Dynamic threshold as laided out from the ALZ reccomendation, see line 115
+    threshold: 0.0
+    autoMitigate: false
+    #adding references
+    references:
+      - name: Monitor ExpressRoute Alerts
+        url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      - name: ExpressRoute KQL Queries
+    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+- name: globalreachbitsinpersecond #Consider for ALZ pattern... not high on the list but a nice eventual addition.
+  description:
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+    - auto-generated
+    - agc-15
+  properties:
+    metricName: globalreachbitsinpersecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity:
+    windowSize:
+    evaluationFrequency:
+    timeAggregation: Average
+    operator:
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
+  references:
+    - name: View Global Reach Metrics
+      url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
+- name: globalreachbitsoutpersecond #Consider for ALZ pattern... not high on the list but a nice eventual addition.
+  description:
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+    - auto-generated
+    - agc-14
+  properties:
+    metricName: globalreachbitsoutpersecond
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity:
+    windowSize:
+    evaluationFrequency:
+    timeAggregation: Average
+    operator:
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+    autoMitigate: false
+    references:
+      - name: View Global Reach Metrics
+    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
+- name: fastpathroutescountforcircuit # in preview at the moment, lets keep an eye on it, revisit the odd threshold
+  description:
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+    - auto-generateD
+    - agc-13
+  severity:
+  windowSize:
+  evaluationFrequency:
+  timeAggregation: Average
+  operator:
+  criterionType: StaticThresholdCriterion
+  properties:
+    metricName: fastpathroutescountforcircuit
+    metricNamespace: Microsoft.Network/expressRouteCircuits
+    severity: #revisit this
+    windowSize: PT5M #also revisit this as we learn more
+    evaluationFrequency: PT1M #also revisit this as we learn more
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0l #would assume this would be a multiple of one,
+    autoMitigate: false
+    # adding references
+    references:
+      - name: FastPath Routes Count (at circuit level)
+    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#fastpath-routes-count-at-circuit-level
