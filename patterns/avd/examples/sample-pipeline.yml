@@ -1,0 +1,17 @@
+variables:
+  location: "northeurope"
+  ManagementGroupPrefix: "contoso"
+  serviceConnectionName: "AMBA-Service-Connection"
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: AzureCLI@2
+    displayName: "Deploy AMBA ARM template"
+    inputs:
+      azureSubscription: ${{ variables['serviceConnectionName'] }}
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/alzArm.json --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters ./patterns/alz/alzArm.param.json
