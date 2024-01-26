@@ -12,6 +12,9 @@ param _ArtifactsLocation string = 'https://raw.githubusercontent.com/Azure/avdac
 @secure()
 param _ArtifactsLocationSasToken string = ''
 
+@description('Telemetry Opt-Out')  // Change this to true to opt out of Microsoft Telemetry
+param optoutTelemetry bool = false
+
 @description('Alert Name Prefix (Dash will be added after prefix for you.)')
 param AlertNamePrefix string = 'AVD'
 
@@ -99,6 +102,8 @@ var RoleAssignments = {
 // '49a72310-ab8d-41df-bbb0-79b649203868'  // Desktop Virtualization Reader
 // '17d1049b-9a84-46fb-8f53-869881c3d3ab'  // Storage Account Contributor
 // '92aaf0da-9dab-42b6-94a3-d43ce8d16293'  // Log Analtyics Contributor - allows writing to workspace for Host Pool and Storage Logic Apps
+
+var cuaid = 'b8b4a533-1bb2-402f-bbd9-3055d00d885a'
 
 var LogAlertsHostPool = [
   {// Based on Runbook script Output to LAW
@@ -1956,9 +1961,18 @@ var varTimeZones = {
   westus3: 'Mountain Standard Time'
 }
 
+var deploymentNames = {
+  pidCuaDeploymentName: take('pid-${cuaid}-${uniqueString(Location, subscription().displayName, time)}', 64)
+}
+
 // =========== //
 // Deployments //
 // =========== //
+module deploymentNames_pidCuaDeployment 'modules/pid_cuaid.bicep' = if (!optoutTelemetry) {
+  name: deploymentNames.pidCuaDeploymentName
+  params: {}
+}
+
 
 // AVD Shared Services Resource Group
 module resourceGroupAVDMetricsCreate 'carml/1.3.0/Microsoft.Resources/resourceGroups/deploy.bicep' = if (ResourceGroupCreate) {
