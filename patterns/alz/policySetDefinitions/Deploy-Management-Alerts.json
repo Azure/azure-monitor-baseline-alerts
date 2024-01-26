@@ -206,6 +206,14 @@
           "description": "Threshold for the alert"
         }
       },
+      "StorageAccountDeleteAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Storage Account Delete Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
       "activityLAWDeleteAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -314,6 +322,24 @@
           },
           "threshold": {
             "value": "[[parameters('StorageAccountAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activitySADelete",
+        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete')]",
+        "parameters": {
+          "enabled": {
+            "value": "[[parameters('StorageAccountDeleteAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           }
         }
       }

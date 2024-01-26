@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_LAWorkspace_Delete",
+  "name": "Deploy_activitylog_StorageAccount_Delete",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Activity Log LA Workspace Delete Alert",
-    "description": "Policy to Deploy Activity Log LA Workspace Delete Alert",
+    "displayName": "Deploy Activity Log Storage Account Delete Alert",
+    "description": "Policy to Deploy Activity Log Storage Account Delete Alert",
     "metadata": {
       "version": "1.0.2",
       "category": "Monitoring",
@@ -69,7 +69,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.OperationalInsights/workspaces"
+            "equals": "Microsoft.Storage/storageAccounts"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -119,7 +119,7 @@
                           },
                           {
                             "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals",
-                            "equals": "Microsoft.OperationalInsights/workspaces/delete"
+                            "equals": "Microsoft.ClassicStorage/storageAccounts/delete"
                           }
                         ]
                       }
@@ -186,13 +186,13 @@
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ActivityLAWorkspaceDelete",
+                            "name": "Activity Log Storage Account Delete",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "description": "Activity Log LA Workspace Delete",
+                              "description": "Activity Log Storage Account Delete",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().id]"
@@ -205,7 +205,7 @@
                                   },
                                   {
                                     "field": "operationName",
-                                    "equals": "Microsoft.OperationalInsights/workspaces/delete"
+                                    "equals": "Microsoft.ClassicStorage/storageAccounts/delete"
                                   },
                                   {
                                     "field": "status",
