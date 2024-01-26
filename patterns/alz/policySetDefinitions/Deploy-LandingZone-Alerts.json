@@ -421,6 +421,18 @@
           "description": "Threshold for the alert"
         }
       },
+      "StorageAccountDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Storage Account Delete Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
       "StorageAccountDeleteAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -4254,6 +4266,9 @@
         "policyDefinitionReferenceId": "ALZ_activitySADelete",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
         "parameters": {
+          "effect": {
+            "value": "[[parameters('StorageAccountDeletePolicyEffect')]"
+          },
           "enabled": {
             "value": "[[parameters('StorageAccountDeleteAlertState')]"
           },
