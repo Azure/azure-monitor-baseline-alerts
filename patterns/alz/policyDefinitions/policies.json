@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.19.5.34762",
-      "templateHash": "11086570015763313002"
+      "templateHash": "16865371197634433562"
     }
   },
   "parameters": {
@@ -540,6 +540,14 @@
             "metadata": {
               "displayName": "Storage Account Availability Threshold",
               "description": "Threshold for the alert"
+            }
+          },
+          "StorageAccountDeleteAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Storage Account Delete Alert State",
+              "description": "Alert state for the alert"
             }
           },
           "PIPDDoSAttackAlertSeverity": {
@@ -4360,6 +4368,24 @@
               },
               "threshold": {
                 "value": "[[[parameters('StorageAccountAvailabilityThreshold')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_activitySADelete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+            "parameters": {
+              "enabled": {
+                "value": "[[[parameters('StorageAccountDeleteAlertState')]"
+              },
+              "alertResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "alertResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "alertResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
               }
             }
           },
