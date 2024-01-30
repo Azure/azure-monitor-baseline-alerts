@@ -18,7 +18,7 @@ If you customized the policies as documented at [How to modify individual polici
 
     inlineScript: |
       az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
-       --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
+      --name "amba-GeneralDeployment" --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
 
 {{< /hint >}}
 
