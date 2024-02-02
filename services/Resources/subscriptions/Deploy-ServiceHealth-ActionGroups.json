@@ -99,22 +99,6 @@
         },
         "defaultValue": ""
       },
-      "ALZWebhookObjectId": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Secure Webhook Entra Object Id",
-          "description": "Indicates the Entra object id for Entra auth in a secure webhook"
-        },
-        "defaultValue": ""
-      },
-      "ALZWebhookIdentifierUri": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Secure Webhook Identifier URI",
-          "description": "Indicates the identifier uri for Entra auth in a secure webhook"
-        },
-        "defaultValue": ""
-      },
       "ALZFunctionResourceId": {
         "type": "String",
         "metadata": {
@@ -198,12 +182,6 @@
                   "ALZWebhookServiceUri":{
                     "type": "string"
                   },
-                  "ALZWebhookObjectId":{
-                    "type": "String"
-                  },
-                  "ALZWebhookIdentifierUri":{
-                    "type": "String"
-                  },
                   "ALZFunctionResourceId":{
                     "type":"string"
                   },
@@ -215,6 +193,7 @@
                   "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]",
                   "varALZArmRoleId": "[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
+                  "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
                   "varLogicAppReceivers": [
                     {
                         "name": "AlzLA-0",
@@ -222,17 +201,6 @@
                         "callbackUrl": "[[if(empty(parameters('ALZLogicappCallbackUrl')), null(), trim(parameters('ALZLogicappCallbackUrl')))]",
                         "useCommonSchema": true
                     }
-                  ],
-                  "varWebhookReceivers": [
-                      {
-                          "name": "AlzWh-0",
-                          "identifierUri": "[[if(empty(parameters('ALZWebhookIdentifierUri')), null(),trim(parameters('ALZWebhookIdentifierUri')))]",
-                          "objectId": "[[if(empty(parameters('ALZWebhookObjectId')), null(),trim(parameters('ALZWebhookObjectId')))]",
-                          "serviceUri": "[[trim(parameters('ALZWebhookServiceUri'))]",
-                          "useCommonAlertSchema": true,
-                          "tenantId": "[[if(empty(parameters('ALZWebhookObjectId')), null(), subscription().tenantId)]",
-                          "useAadAuth": "[[if(empty(parameters('ALZWebhookObjectId')), false(), true())]"
-                      }
                   ],
                   "varAzureFunctionReceivers": [
                       {
@@ -264,6 +232,20 @@
                         "eventHubName": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(variables('varALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[10])]",
                         "useCommonAlertSchema": true,
                         "tenantId": "[[subscription().tenantId]"
+                      }
+                    },
+                    {
+                      "name": "varWebhookReceivers",
+                      "count": "[[length(variables('varALZWebhookServiceUri'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[concat('AlzWh-', indexOf(variables('varALZWebhookServiceUri'), variables('varALZWebhookServiceUri')[copyIndex('webhookReceivers')]))]",
+                        "identifierUri": "null()",
+                        "objectId": "null()",
+                        "serviceUri": "[[trim(variables('varALZWebhookServiceUri')[copyIndex('varALZWebhookServiceUri')])]",
+                        "useCommonAlertSchema": true,
+                        "tenantId": "null()",
+                        "useAadAuth": "false"
                       }
                     }
                   ]
@@ -310,12 +292,6 @@
                           },
                           "ALZWebhookServiceUri": {
                             "type": "string"
-                          },
-                          "ALZWebhookObjectId":{
-                            "type": "String"
-                          },
-                          "ALZWebhookIdentifierUri":{
-                            "type": "String"
                           },
                           "ALZFunctionResourceId": {
                             "type": "string"
@@ -380,12 +356,6 @@
                         "ALZWebhookServiceUri": {
                           "value": "[[parameters('ALZWebhookServiceUri')]"
                         },
-                        "ALZWebhookObjectId":{
-                          "value": "[[parameters('ALZWebhookObjectId')]"
-                        },
-                        "ALZWebhookIdentifierUri":{
-                          "value": "[[parameters('ALZWebhookIdentifierUri')]"
-                        },
                         "ALZFunctionResourceId": {
                           "value": "[[parameters('ALZFunctionResourceId')]"
                         },
@@ -424,12 +394,6 @@
                 },
                 "ALZWebhookServiceUri": {
                   "value": "[[parameters('ALZWebhookServiceUri')]"
-                },
-                "ALZWebhookObjectId":{
-                  "value": "[[parameters('ALZWebhookObjectId')]"
-                },
-                "ALZWebhookIdentifierUri":{
-                  "value": "[[parameters('ALZWebhookIdentifierUri')]"
                 },
                 "ALZFunctionResourceId": {
                   "value": "[[parameters('ALZFunctionResourceId')]"
