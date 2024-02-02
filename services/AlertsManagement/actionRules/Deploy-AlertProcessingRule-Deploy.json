@@ -202,6 +202,15 @@
                             "useCommonSchema": true
                         }
                     ],
+                    "varAzureFunctionReceivers": [
+                      {
+                        "name": "AlzFa-0",
+                        "functionAppResourceId": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]",
+                        "functionName": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/')[10])]",
+                        "httpTriggerUrl": "[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]",
+                        "useCommonAlertSchema": true
+                      }
+                    ],
                     "copy": [
                       {
                         "name": "varArmRoleReceivers",

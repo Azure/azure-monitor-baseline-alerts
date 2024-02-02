@@ -203,18 +203,19 @@
                     }
                   ],
                   "varAzureFunctionReceivers": [
-                      {
-                          "name": "AlzFa-0",
-                          "functionAppResourceId": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]",
-                          "functionName": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/')[10])]",
-                          "httpTriggerUrl": "[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]",
-                          "useCommonAlertSchema": true
-                      }
+                    {
+                      "name": "AlzFa-0",
+                      "functionAppResourceId": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]",
+                      "functionName": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/')[10])]",
+                      "httpTriggerUrl": "[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]",
+                      "useCommonAlertSchema": true
+                    }
                   ],
                   "copy": [
                     {
                       "name": "varArmRoleReceivers",
                       "count": "[[length(variables('varALZArmRoleId'))]",
+                      "mode": "serial",
                       "input": {
                         "name": "[[concat('AlzARM-', indexOf(variables('varALZArmRoleId'), variables('varALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
                         "roleId": "[[trim(variables('varALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
