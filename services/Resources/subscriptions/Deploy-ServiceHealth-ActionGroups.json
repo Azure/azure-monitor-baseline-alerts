@@ -122,14 +122,6 @@
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
         },
         "defaultValue": ""
-      },
-      "BringYourOwnAlertProcessingRule": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Customer defined Alert Processing Rule Resource ID",
-          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
-        },
-        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -142,6 +134,10 @@
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
             "notEquals": "true"
+          },
+          {
+            "field": "[[parameters('BringYourOwnActionGroup')]",
+            "notEquals": "empty()"
           }
         ]
       },
@@ -206,9 +202,6 @@
                   },
                   "BringYourOwnActionGroup": {
                     "type": "String"
-                  },
-                  "BringYourOwnAlertProcessingRule": {
-                    "type": "String"
                   }
                 },
                 "variables": {
@@ -217,7 +210,6 @@
                   "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
                   "varBringYourOwnActionGroup": "[[array(split(parameters('BringYourOwnActionGroup'),','))]",
-                  "varBringYourOwnAlertProcessingRule": "[[if(empty(parameters('BringYourOwnAlertProcessingRule')), null(), trim(parameters('BringYourOwnAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                     {
                         "name": "AlzLA-0",
@@ -272,11 +264,6 @@
                         "tenantId": "null()",
                         "useAadAuth": "false"
                       }
-                    },
-                    {
-                      "name": "bringYourOwnActionGroupArray",
-                      "count": "[[length(variables('varBringYourOwnActionGroup'))]",
-                      "input": "[[trim(variables('varBringYourOwnActionGroup')[copyIndex('bringYourOwnActionGroupArray')])]"
                     }
                   ]
                 },
@@ -330,9 +317,6 @@
                             "type": "string"
                           },
                           "BringYourOwnActionGroup": {
-                            "type": "string"
-                          },
-                          "BringYourOwnAlertProcessingRule": {
                             "type": "string"
                           }
                         },
@@ -401,9 +385,6 @@
                         },
                         "BringYourOwnActionGroup": {
                           "value": "[[parameters('BringYourOwnActionGroup')]"
-                        },
-                        "BringYourOwnAlertProcessingRule": {
-                          "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                         }
                       }
                     }
@@ -446,9 +427,6 @@
                 },
                 "BringYourOwnActionGroup": {
                   "value": "[[parameters('BringYourOwnActionGroup')]"
-                },
-                "BringYourOwnAlertProcessingRule": {
-                  "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                 }
               }
             }
