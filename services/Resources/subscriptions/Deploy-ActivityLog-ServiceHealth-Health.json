@@ -82,6 +82,14 @@
           "description": "Email addresses to send alerts to"
         },
         "defaultValue": "action@mail.com"
+      },
+      "BringYourOwnActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -175,6 +183,9 @@
                   },
                   "ALZMonitorActionGroupEmail": {
                     "type": "string"
+                  },
+                  "BringYourOwnActionGroup": {
+                    "type": "String"
                   }
                 },
                 "variables": {
@@ -209,11 +220,15 @@
                           },
                           "ALZMonitorActionGroupEmail": {
                             "type": "string"
+                          },
+                          "BringYourOwnActionGroup": {
+                            "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[[empty(parameters('BringYourOwnActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthAdvisoryEvent",
@@ -252,6 +267,47 @@
                                 }
                               }
                             }
+                          },
+                          {
+                            "condition": "[[not(empty(parameters('BringYourOwnActionGroup')))]",
+                            "type": "microsoft.insights/activityLogAlerts",
+                            "apiVersion": "2020-10-01",
+                            "name": "ServiceHealthAdvisoryEvent",
+                            "location": "Global",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "actions": {
+                                "actionGroups": [
+                                  {
+                                    "actionGroupId": "[[parameters('BringYourOwnActionGroup')]"
+                                  }
+                                ]
+                              },
+                              "description": "Service Health Advisory Alert",
+                              "enabled": "[[parameters('enabled')]",
+                              "scopes": [
+                                "[[subscription().id]"
+                              ],
+                              "condition": {
+                                "allOf": [
+                                  {
+                                    "field": "category",
+                                    "equals": "ServiceHealth"
+                                  },
+                                  {
+                                    "field": "properties.incidentType",
+                                    "equals": "ActionRequired"
+                                  }
+                                ]
+                              },
+                              "parameters": {
+                                "enabled": {
+                                  "value": "[[parameters('enabled')]"
+                                }
+                              }
+                            }
                           }
                         ]
                       },
@@ -264,6 +320,9 @@
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        },
+                        "BringYourOwnActionGroup": {
+                          "value": "[[parameters('BringYourOwnActionGroup')]"
                         }
                       }
                     }
@@ -285,6 +344,9 @@
                 },
                 "ALZMonitorActionGroupEmail": {
                   "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                },
+                "BringYourOwnActionGroup": {
+                  "value": "[[parameters('BringYourOwnActionGroup')]"
                 }
               }
             }
