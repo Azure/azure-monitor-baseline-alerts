@@ -5,7 +5,7 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Service Health Action Group",
+    "displayName": "Deploy Service Health Notification Assets",
     "description": "Policy to deploy action group for Service Health alerts",
     "metadata": {
       "version": "1.0.0",
@@ -114,6 +114,22 @@
           "description": "URL that triggers the Function"
         },
         "defaultValue": ""
+      },
+      "BringYourOwnActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group's Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BringYourOwnAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule's Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -187,6 +203,12 @@
                   },
                   "ALZFunctionTriggerUrl": {
                     "type": "String"
+                  },
+                  "BringYourOwnActionGroup": {
+                    "type": "String"
+                  },
+                  "BringYourOwnAlertProcessingRule": {
+                    "type": "String"
                   }
                 },
                 "variables": {
@@ -194,6 +216,8 @@
                   "varALZArmRoleId": "[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
+                  "varBringYourOwnActionGroup": "[[array(split((parameters('BringYourOwnActionGroup'),','))]",
+                  "varBringYourOwnAlertProcessingRule": "[[if(empty(parameters('BringYourOwnAlertProcessingRule')), null(), trim(parameters('BringYourOwnAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                     {
                         "name": "AlzLA-0",
@@ -248,6 +272,11 @@
                         "tenantId": "null()",
                         "useAadAuth": "false"
                       }
+                    },
+                    {
+                      "name": "bringYourOwnActionGroupArray",
+                      "count": "[[length(variables('varBringYourOwnActionGroup'))]",
+                      "input": "[[trim(variables('varBringYourOwnActionGroup')[copyIndex('varBringYourOwnActionGroups')])]"
                     }
                   ]
                 },
@@ -298,6 +327,12 @@
                             "type": "string"
                           },
                           "ALZFunctionTriggerUrl":{
+                            "type": "string"
+                          },
+                          "BringYourOwnActionGroup": {
+                            "type": "string"
+                          },
+                          "BringYourOwnAlertProcessingRule": {
                             "type": "string"
                           }
                         },
@@ -362,6 +397,12 @@
                         },
                         "ALZFunctionTriggerUrl": {
                             "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                        },
+                        "BringYourOwnActionGroup": {
+                          "value": "[[parameters('BringYourOwnActionGroup')]"
+                        },
+                        "BringYourOwnAlertProcessingRule": {
+                          "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                         }
                       }
                     }
@@ -401,6 +442,12 @@
                 },
                 "ALZFunctionTriggerUrl": {
                     "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                },
+                "BringYourOwnActionGroup": {
+                  "value": "[[parameters('BringYourOwnActionGroup')]"
+                },
+                "BringYourOwnAlertProcessingRule": {
+                  "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                 }
               }
             }
