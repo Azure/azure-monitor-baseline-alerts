@@ -107,6 +107,22 @@
         },
         "defaultValue": ""
       },
+      "BringYourOwnActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group's Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BringYourOwnAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule's Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
       "MonitorDisable": {
         "type": "String",
         "metadata": {
@@ -187,6 +203,12 @@
                   },
                   "ALZFunctionTriggerUrl": {
                     "type": "String"
+                  },
+                  "BringYourOwnActionGroup": {
+                    "type": "String"
+                  },
+                  "BringYourOwnAlertProcessingRule": {
+                    "type": "String"
                   }
                 },
                 "variables": {
@@ -194,6 +216,8 @@
                     "varALZArmRoleId":"[[array(split(parameters('ALZArmRoleId'),','))]",
                     "varALZEventHubResourceId":"[[array(split(parameters('ALZEventHubResourceId'),','))]",
                     "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
+                    "varBringYourOwnActionGroup": "[[array(split((parameters('BringYourOwnActionGroup'),','))]",
+                    "varBringYourOwnAlertProcessingRule": "[[if(empty(parameters('BringYourOwnAlertProcessingRule')), null(), trim(parameters('BringYourOwnAlertProcessingRule')))]",
                     "varLogicAppReceivers": [
                         {
                             "name": "AlzLA-0",
@@ -248,6 +272,11 @@
                           "tenantId": "null()",
                           "useAadAuth": "false"
                         }
+                      },
+                      {
+                        "name": "bringYourOwnActionGroupArray",
+                        "count": "[[length(variables('varBringYourOwnActionGroup'))]",
+                        "input": "[[trim(variables('varBringYourOwnActionGroup')[copyIndex('varBringYourOwnActionGroups')])]"
                       }
                     ]
                 },
@@ -299,11 +328,18 @@
                           },
                           "ALZFunctionTriggerUrl":{
                             "type": "string"
+                          },
+                          "BringYourOwnActionGroup": {
+                            "type": "string"
+                          },
+                          "BringYourOwnAlertProcessingRule": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[[and(empty(variables('varBringYourOwnActionGroup')), empty(variables('varBringYourOwnAlertProcessingRule')))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
                             "name": "[[concat(subscription().displayName, ' - AMBA Action Group')]",
@@ -334,6 +370,7 @@
                             }
                           },
                           {
+                            "condition": "[[and(empty(variables('varBringYourOwnActionGroup')), empty(variables('varBringYourOwnAlertProcessingRule')))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat(subscription().displayName, ' - AMBA Alert Processing Rule')]",
@@ -354,6 +391,34 @@
                                 {
                                 "actiongroupIds": [
                                   "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, ' - AMBA Action Group')]"
+                                ],
+                                "actionType": "AddActionGroups"
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "condition": "[[and(not(empty(variables('varBringYourOwnActionGroup'))), empty(variables('varBringYourOwnAlertProcessingRule')))]",
+                            "type": "Microsoft.AlertsManagement/actionRules",
+                            "apiVersion": "2021-08-08",
+                            "name": "[[concat(subscription().displayName, ' - AMBA Alert Processing Rule')]",
+                            "location": "Global",
+                            "dependsOn": [
+                              "[[concat(subscription().displayName, ' - AMBA Action Group')]"
+                            ],
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "scopes": [
+                                "[[subscription().Id]"
+                              ],
+                              "description": "AMBA Notification Assets - Alert Processing Rule for Subscription",
+                              "enabled": true,
+                              "actions": [
+                                {
+                                "actiongroupIds": [
+                                  "[[variables('bringYourOwnActionGroupArray')]"
                                 ],
                                 "actionType": "AddActionGroups"
                                 }
@@ -388,7 +453,13 @@
                           "value": "[[parameters('ALZFunctionResourceId')]"
                         },
                         "ALZFunctionTriggerUrl": {
-                            "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                          "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                        },
+                        "BringYourOwnActionGroup": {
+                          "value": "[[parameters('BringYourOwnActionGroup')]"
+                        },
+                        "BringYourOwnAlertProcessingRule": {
+                          "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                         }
                       }
                     }
@@ -409,10 +480,10 @@
                   "value": "[[parameters('ALZMonitorActionGroupEmail')]"
                 },
                 "ALZLogicappResourceId": {
-                 "value": "[[parameters('ALZLogicappResourceId')]"
+                  "value": "[[parameters('ALZLogicappResourceId')]"
                 },
                 "ALZLogicappCallbackUrl": {
-                    "value": "[[parameters('ALZLogicappCallbackUrl')]"
+                  "value": "[[parameters('ALZLogicappCallbackUrl')]"
                 },
                 "ALZArmRoleId": {
                   "value": "[[parameters('ALZArmRoleId')]"
@@ -427,7 +498,13 @@
                   "value": "[[parameters('ALZFunctionResourceId')]"
                 },
                 "ALZFunctionTriggerUrl": {
-                    "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                  "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                },
+                "BringYourOwnActionGroup": {
+                  "value": "[[parameters('BringYourOwnActionGroup')]"
+                },
+                "BringYourOwnAlertProcessingRule": {
+                  "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
                 }
               }
             }
