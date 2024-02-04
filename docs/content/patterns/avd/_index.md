@@ -16,7 +16,7 @@ Table below shows the Alert Names however the number of alert rules created may 
 
 | Name                                                                      | Threshold(s) (Severity)    |  Signal Type   |  Frequency    |  # Alert Rules |
 |---                                                                        |---                         |---             |---            |---  
-| AVD-HostPool-Capacity :one:                                               | 95% (1) / 85% (2) / 50% (3)| Log Analytics  |  5 min        |  3/hostpool |
+| AVD-HostPool-Capacity (1.)                                                | 95% (1) / 85% (2) / 50% (3)| Log Analytics  |  5 min        |  3/hostpool |
 | AVD-HostPool-Disconnected User over n Hours (hostpoolname)                | 24 (1) / 72 (2)            | Log Analytics  |  1 hour       |  2/hostpool |
 | AVD-HostPool-No Resources Available (hostpoolname)                        | Any are Sev1               | Log Analytics  |  15 min       |  1/hostpool |
 | AVD-HostPool-VM-Available Memory Less Than nGB (hostpoolname)             | 1gb (Sev1) / 2gb (Sev2)    | Metric Alerts  |  5 min        |  2/hostpool |
@@ -33,10 +33,10 @@ Table below shows the Alert Names however the number of alert rules created may 
 | AVD-HostPool-VM-User Connection Failed (hostpoolname)                     | Any are Sev 3              | Log Analytics  |  15 min       |  1/hostpool |
 | AVD-HostPool-VM-Missing Critical Updates (hostpoolname)                   | Any are Sev 1              | Log Analytics  |  1 day        |  1/hostpool |
 | AVD-Storage-Low Space on ANF Share-XX Percent Remaining-{volumename}      | 5 / 15                     | Metric Alerts  |  1 hour       |  2/vol  |
-| AVD-Storage-Low Space on Azure File Share-X% Remaining-{volumename} :one: | 5 / 15                     | Log Analytics  |  1 hour       |  2/share  |
+| AVD-Storage-Low Space on Azure File Share-X% Remaining-{volumename} (1.)  | 5 / 15                     | Log Analytics  |  1 hour       |  2/share  |
 | AVD-Storage-Over XXms Latency for Storage Act-{storacctname}              | 100ms / 50ms               | Metric Alerts  |  15 min       |  2/stor acct |
 | AVD-Storage-Over XXms Latency Between Client-Storage-{storacctname}       | 100ms / 50ms               | Metric Alerts  |  15 min       |  2/stor acct |
-| AVD-Storage-Possible Throttling Due to High IOPs-{storacctname}           | na / custom :two:          | Metric Alerts  |  15 min       |  1/stor acct |
+| AVD-Storage-Possible Throttling Due to High IOPs-{storacctname}  (2.)     | na / custom :two:          | Metric Alerts  |  15 min       |  1/stor acct |
 | AVD-Storage-Azure Files Availability-{storacctname}                       | 99 / na                    | Metric Alerts  |  5 min        |  1/stor acct |
 | AVD-ServiceHealth-Health Advisory                                         | na                         | Service Health |  na           |   4  |
 | AVD-ServiceHealth-Planned Maintenance                                     | na                         | Service Health |  na           |   4  |
@@ -44,8 +44,8 @@ Table below shows the Alert Names however the number of alert rules created may 
 | AVD-ServiceHealth-Service Issue                                           | na                         | Service Health |  na           |   4  |
 
 **NOTES:**  
-:one: Alert based on associated Automation Account / Runbook  
-:two: See the following for custom condition. Note that both Standard and Premium values are incorporated into the alert rule. ['How to create an alert if a file share is throttled'](https://docs.microsoft.com/azure/storage/files/storage-troubleshooting-files-performance#how-to-create-an-alert-if-a-file-share-is-throttled)  
+1. Alert based on associated Automation Account / Runbook  
+2. See the following for custom condition. Note that both Standard and Premium values are incorporated into the alert rule. ['How to create an alert if a file share is throttled'](https://docs.microsoft.com/azure/storage/files/storage-troubleshooting-files-performance#how-to-create-an-alert-if-a-file-share-is-throttled)  
 Service Health - The alert severity cannot be set or changed from 'Verbose'  
 
 ## 📣Feedback 📣
