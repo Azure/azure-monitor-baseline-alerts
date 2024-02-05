@@ -12,7 +12,7 @@ v2.1.5 (Dec 5, 2023)
 
 ## Alerts Table
 
-Table below shows the Alert Names however the number of alert rules created may be multiple based on different severity and/or additional volume or storage name designators. For example, a deployment with a single Azure Files Storage Account and an Azure NetApp Files Volume would yield 20 alert rules created. [(Excel Table)](../media/alerts.xlsx)
+Table below shows the Alert Names however the number of alert rules created may be multiple based on different severity and/or additional volume or storage name designators. For example, a deployment with a single Azure Files Storage Account and an Azure NetApp Files Volume would yield 20 alert rules created. [(Excel Table)](https://github.com/Azure/azure-monitor-baseline-alerts/raw/main/docs/static/img/Avd/alerts.xlsx)
 
 | Name                                                                      | Threshold(s) (Severity)    |  Signal Type   |  Frequency    |  # Alert Rules |
 |---                                                                        |---                         |---             |---            |---  
@@ -83,7 +83,7 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 {{< hint type=note >}}
-Details on contributing to this repo can be found [here](../../../contributing/)
+Details on contributing to this repo can be found [here](../../../contributing)
 {{< /hint >}}
 
 ## Telemetry
