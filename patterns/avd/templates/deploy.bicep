@@ -104,6 +104,7 @@ var RoleAssignments = {
 // '92aaf0da-9dab-42b6-94a3-d43ce8d16293'  // Log Analtyics Contributor - allows writing to workspace for Host Pool and Storage Logic Apps
 
 var cuaid = 'b8b4a533-1bb2-402f-bbd9-3055d00d885a'
+var PidcuaAvdPatternDeploymentName = take('pid-${cuaid}-${uniqueString(Location, subscription().displayName, time)}', 64)
 
 var LogAlertsHostPool = [
   {// Based on Runbook script Output to LAW
@@ -1961,15 +1962,11 @@ var varTimeZones = {
   westus3: 'Mountain Standard Time'
 }
 
-var deploymentNames = {
-  pidCuaDeploymentName: take('pid-${cuaid}-${uniqueString(Location, subscription().displayName, time)}', 64)
-}
-
 // =========== //
 // Deployments //
 // =========== //
 module deploymentNames_pidCuaDeployment 'modules/pid_cuaid.bicep' = if (!optoutTelemetry) {
-  name: deploymentNames.pidCuaDeploymentName
+  name: PidcuaAvdPatternDeploymentName
   params: {}
 }
 
