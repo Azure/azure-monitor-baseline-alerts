@@ -14,51 +14,25 @@ To disable this tracking, we have included a parameter called `telemetryOptOut` 
 
 If you are happy with leaving telemetry tracking enabled, no changes are required.
 
-For example, in the alzArm.json file, you will see the following:
+This deployment has a custom UI definition meaning you will then be provided a form to select options with the ability to check the box labeled ["Opt-Out of Telemetry"](./media/AVDAlertsOptOut.png).
+
+In the avdArm.json file, you will see the following:
 
 ```json
-"telemetryOptOut": {
-    "type": "string",
-    "defaultValue": "No",
-    "allowedValues": [
-       "Yes",
-       "No"
-    ],
-    "metadata": {
-        "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
-    }
-}
+    "optoutTelemetry": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Telemetry Opt-Out"
+      }
+    },
 ```
 
-The default value is `No`, but can be changed to `Yes` in the parameter file. If set to `Yes` the deployment below will be ignored and therefore telemetry will not be tracked.
-
-```json
-{
-    "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-    "apiVersion": "2020-06-01",
-    "name": "[variables('deploymentNames').pidCuaDeploymentName]",
-    "location": "[deployment().location]",
-    "type": "Microsoft.Resources/deployments",
-    "properties": {
-       "mode": "Incremental",
-       "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "resources": []
-        }
-    }
-}
-```
 
 ## Module PID Value Mapping
 
-The following are the unique ID's (also known as PIDs) used in the AMBA deployment
+The following are the unique ID's (also known as PIDs) used in the Alerts Pattern deployment
 
 | Name                            | PID                                  |
 | ------------------------------- | ------------------------------------ |
-| Azure Monitor Baseline Alerts   | d6b3b08c-5825-4b89-a62b-e3168d3d8fb0 |
-| Connectivity Policy Initiative  | 2d69aa07-8780-4697-a431-79882cb9f00e |
-| Identity Policy Initiative      | 8d257c20-97bf-4d14-acb3-38dd1436d13a |
-| Management Policy Initiative    | d87415c4-01ef-4667-af89-0b5adc14af1b |
-| LandingZone Policy Initiative   | 7bcfc615-be78-43da-b81d-98959a9465a5 |
-| ServiceHealth Policy Initiative | 860d2afd-b71e-452f-9d3a-e56196cba570 |
+| AVD Baseline Alerts             | b8b4a533-1bb2-402f-bbd9-3055d00d885a |
