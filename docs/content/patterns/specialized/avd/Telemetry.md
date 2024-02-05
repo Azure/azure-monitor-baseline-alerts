@@ -14,18 +14,19 @@ To disable this tracking, we have included a parameter called `telemetryOptOut` 
 
 If you are happy with leaving telemetry tracking enabled, no changes are required.
 
-**Check the box labeled ["Opt-Out of Telemetry"](../media/AVDAlertsOptOut.png)** when using the "Deploy to Azure" buttons with a custom User Interface. There is no parameters file for this deployment. 
+**Check the box labeled "Opt-Out of Telemetry"** when using the "Deploy to Azure" buttons with a custom User Interface. There is no parameters file for this deployment.  
+<img src="../../../../img/Avd/AVDAlertsOptOut.png" width=30%>
 
 In the avdArm.json file, you will see the following:
 
 ```json
-    "optoutTelemetry": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Telemetry Opt-Out"
-      }
-    },
+"optoutTelemetry": {
+  "type": "bool",
+  "defaultValue": false,
+  "metadata": {
+    "description": "Telemetry Opt-Out"
+  }
+},
 ```
 
 

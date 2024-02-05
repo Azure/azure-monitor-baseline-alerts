@@ -31,8 +31,10 @@ You can also review the Alert Action Group and adjust as needed with additional 
 
 1. Open the [Alerts Azure Portal Page](https://portal.azure.com/#blade/Microsoft_Azure_Monitoring/AzureMonitoringBrowseBlade/alertsV2)  
 2. Click on the "Alert rules" section at the top of the page.  
-[Screenshot](../media/avdAlertRules.jpg)  
+<img src="../../../../../img/Avd/avdAlertRules.jpg" width=30%>
+ 
 3. Initially the list of alert rules may be filtered out or appear missing.  Simply change the filter to include "disabled" or click the "Clear filters" option.  
-[Screenshot](../media/avdAlertRulesFilter.jpg)  
+<img src="../../../../../img/Avd/avdAlertRulesFilter.jpg" width=30%>
+
 4. Select the check box next to each you would like to enable and click "Enable" at the top of the page.  
-[Screenshot](../media/avdAlertRulesEnable.jpg)
+<img src="../../../../../img/Avd/avdAlertRulesEnable.jpg" width=30%>

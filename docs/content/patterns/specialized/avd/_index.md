@@ -56,11 +56,11 @@ If you have encountered a problem please file an issue in our GitHub repo [GitHu
 
 ## Deployment Guide
 
-We have a [Deployment Guide](../avd/deploy/Introduction-to-deploying-the-AVD-Pattern) available for guidance on how to consume the contents of this repo.
+We have a [Deployment Guide](./deploy/Avd-Deploy) available for guidance on how to consume the contents of this repo.
 
 ## Known Issues
 
-Please see the [Known Issues](../avd/Known-Issues).
+Please see the [Known Issues](Known-Issues).
 
 ## Frequently Asked Questions
 
@@ -83,14 +83,14 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 {{< hint type=note >}}
-Details on contributing to this repo can be found [here](../../contributing/patterns)
+Details on contributing to this repo can be found [here](../../../contributing/)
 {{< /hint >}}
 
 ## Telemetry
 
 When you deploy the IP located in this repo, Microsoft can identify the installation of said IP with the deployed Azure resources. Microsoft can correlate these resources used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
-If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](../alz/Telemetry).
+If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](./Telemetry).
 
 ## Trademarks
 
