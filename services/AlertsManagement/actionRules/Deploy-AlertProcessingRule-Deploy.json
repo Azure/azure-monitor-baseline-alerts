@@ -144,8 +144,8 @@
             "notEquals": "true"
           },
           {
-            "value": "[[parameters('BringYourOwnAlertProcessingRule')]",
-            "equals": "empty()"
+            "value": "[[empty(parameters('BringYourOwnAlertProcessingRule'))]",
+            "equals": "true"
           }
         ]
       },
@@ -220,7 +220,6 @@
                   "varALZArmRoleId":"[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId":"[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
-                  "varBringYourOwnActionGroup": "[[array(split(parameters('BringYourOwnActionGroup'),','))]",
                   "varBringYourOwnAlertProcessingRule": "[[if(empty(parameters('BringYourOwnAlertProcessingRule')), null(), trim(parameters('BringYourOwnAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                       {
@@ -276,11 +275,6 @@
                         "tenantId": "null()",
                         "useAadAuth": "false"
                       }
-                    },
-                    {
-                      "name": "bringYourOwnActionGroupArray",
-                      "count": "[[length(variables('varBringYourOwnActionGroup'))]",
-                      "input": "[[trim(variables('varBringYourOwnActionGroup')[copyIndex('bringYourOwnActionGroupArray')])]"
                     }
                   ]
                 },
@@ -343,7 +337,7 @@
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[and(empty(variables('varBringYourOwnActionGroup')), empty(variables('varBringYourOwnAlertProcessingRule')))]",
+                            "condition": "[[and(empty(parameters('BringYourOwnActionGroup')), empty(parameters('BringYourOwnAlertProcessingRule')))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
                             "name": "[[concat(subscription().displayName, ' - AMBA Action Group')]",
@@ -374,7 +368,7 @@
                             }
                           },
                           {
-                            "condition": "[[and(empty(variables('varBringYourOwnActionGroup')), empty(variables('varBringYourOwnAlertProcessingRule')))]",
+                            "condition": "[[and(empty(parameters('BringYourOwnActionGroup')), empty(parameters('BringYourOwnAlertProcessingRule')))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat(subscription().displayName, ' - AMBA Alert Processing Rule')]",
@@ -402,7 +396,7 @@
                             }
                           },
                           {
-                            "condition": "[[and(not(empty(variables('varBringYourOwnActionGroup'))), empty(variables('varBringYourOwnAlertProcessingRule')))]",
+                            "condition": "[[and(not(empty(parameters('BringYourOwnActionGroup'))), empty(parameters('BringYourOwnAlertProcessingRule')))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat(subscription().displayName, ' - AMBA Alert Processing Rule')]",
@@ -422,7 +416,7 @@
                               "actions": [
                                 {
                                 "actiongroupIds": [
-                                  "[[variables('bringYourOwnActionGroupArray')]"
+                                  "[[parameters('BringYourOwnActionGroup')]"
                                 ],
                                 "actionType": "AddActionGroups"
                                 }
