@@ -200,6 +200,17 @@
                   }
                 },
                 "variables": {
+                  "varBringYourOwnActionGroups": "[[split(parameters('BringYourOwnActionGroup'), ',')]",
+                  "copy": [
+                    {
+                      "name": "varActionGroupIds",
+                      "count": "[[length(variables('varBringYourOwnActionGroups'))]",
+                      "mode": "serial",
+                      "input": {
+                        "actionGroupId": "[[string(trim(variables('varBringYourOwnActionGroups')[copyIndex('varActionGroupIds')]))]"
+                      }
+                    }
+                  ]
                 },
                 "resources": [
                   {
@@ -293,11 +304,7 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": [
-                                  {
-                                    "actionGroupId": "[[parameters('BringYourOwnActionGroup')]"
-                                  }
-                                ]
+                                "actionGroups": "[[variables('varActionGroupIds')]"
                               },
                               "description": "Service Health Advisory Alert",
                               "enabled": "[[parameters('enabled')]",

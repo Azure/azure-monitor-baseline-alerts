@@ -220,6 +220,7 @@
                   "varALZArmRoleId":"[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId":"[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
+                  "varBringYourOwnActionGroups": "[split(parameters('BringYourOwnActionGroup'), ',')]",
                   "varBringYourOwnAlertProcessingRule": "[[if(empty(parameters('BringYourOwnAlertProcessingRule')), null(), trim(parameters('BringYourOwnAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                       {
@@ -275,6 +276,12 @@
                         "tenantId": "null()",
                         "useAadAuth": "false"
                       }
+                    },
+                    {
+                      "name": "varActionGroupIds",
+                      "count": "[length(variables('varBringYourOwnActionGroups'))]",
+                      "mode": "serial",
+                      "input": "[trim(variables('varBringYourOwnActionGroups')[copyIndex('varActionGroupIds')])]"
                     }
                   ]
                 },
@@ -415,10 +422,8 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                "actiongroupIds": [
-                                  "[[parameters('BringYourOwnActionGroup')]"
-                                ],
-                                "actionType": "AddActionGroups"
+                                  "actionGroupIds": "[variables('varActionGroupIds')]",
+                                  "actionType": "AddActionGroups"
                                 }
                               ]
                             }
