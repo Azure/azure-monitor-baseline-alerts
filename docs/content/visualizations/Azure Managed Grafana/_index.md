@@ -10,7 +10,7 @@ Listed below are some examples of Grafana dashboards that visualize alerts from 
 
 You can also find information [below](#using-the-grafana-tab-in-the-services-section) on utilizing the Grafana tab found in the Services section of this site.
 
-##  Azure Monitor Team Dashboards
+## Azure Monitor Team Dashboards
 The Azure Monitor Team has built a [library](https://grafana.com/orgs/azuremonitorteam/dashboards) of dashboards that can be imported into your own instance of Grafana.  Below are some examples from that library that help visualize alerting from Azure Monitor.
 
 - [Alert Consumption](https://grafana.com/grafana/dashboards/15128-azure-alert-consumption/)
@@ -31,7 +31,8 @@ The Azure Monitor Team has built a [library](https://grafana.com/orgs/azuremonit
 
   ![SCOM Managed Instance Operational Dashboard Image](https://grafana.com/api/dashboards/19919/images/15100/image)
 <br/>
-##  Using the Grafana Tab in the Services Section
+
+## Using the Grafana Tab in the Services Section
 In the [Services](https://azure.github.io/azure-monitor-baseline-alerts/services/) section of this site where guidance is provided for each individual Azure service, you can find a "Grafana" tab which can be used to import a dashboard that contains a visualization for each alert threshold.  As an example, if you go to the [services/Compute/virtualMachines](https://azure.github.io/azure-monitor-baseline-alerts/services/Compute/virtualMachines/) page, you will find a "Dashboard" section with a "Grafana" tab.  Copy the JSON and use it to import a new dashboard in Grafana.  See yellow highlight in screenshot below:
 
 ![Screenshot of Grafana Tab](../../img/grafana-tab.png)
