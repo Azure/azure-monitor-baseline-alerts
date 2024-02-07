@@ -115,11 +115,19 @@
         },
         "defaultValue": ""
       },
-      "BringYourOwnActionGroup": {
+      "BYOActionGroup": {
         "type": "String",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BYOAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
         },
         "defaultValue": ""
       }
@@ -136,7 +144,7 @@
             "notEquals": "true"
           },
           {
-            "value": "[[empty(parameters('BringYourOwnActionGroup'))]",
+            "value": "[[empty(parameters('BYOActionGroup'))]",
             "equals": "true"
           }
         ]
@@ -200,7 +208,10 @@
                   "ALZFunctionTriggerUrl": {
                     "type": "String"
                   },
-                  "BringYourOwnActionGroup": {
+                  "BYOActionGroup": {
+                    "type": "String"
+                  },
+                  "BYOAlertProcessingRule": {
                     "type": "String"
                   }
                 },
@@ -209,7 +220,7 @@
                   "varALZArmRoleId": "[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
-                  "varBringYourOwnActionGroup": "[[array(split(parameters('BringYourOwnActionGroup'),','))]",
+                  "varBYOActionGroup": "[[array(split(parameters('BYOActionGroup'),','))]",
                   "varLogicAppReceivers": [
                     {
                         "name": "AlzLA-0",
@@ -316,14 +327,17 @@
                           "ALZFunctionTriggerUrl":{
                             "type": "string"
                           },
-                          "BringYourOwnActionGroup": {
+                          "BYOActionGroup": {
                             "type": "string"
+                          },
+                          "BYOAlertProcessingRule": {
+                            "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BringYourOwnActionGroup'))]",
+                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
                             "name": "[[concat(subscription().displayName, ' - SH-AMBA Action Group')]",
@@ -383,8 +397,11 @@
                         "ALZFunctionTriggerUrl": {
                             "value": "[[parameters('ALZFunctionTriggerUrl')]"
                         },
-                        "BringYourOwnActionGroup": {
-                          "value": "[[parameters('BringYourOwnActionGroup')]"
+                        "BYOActionGroup": {
+                          "value": "[[parameters('BYOActionGroup')]"
+                        },
+                        "BYOAlertProcessingRule": {
+                          "value": "[[parameters('BYOAlertProcessingRule')]"
                         }
                       }
                     }
@@ -425,8 +442,11 @@
                 "ALZFunctionTriggerUrl": {
                     "value": "[[parameters('ALZFunctionTriggerUrl')]"
                 },
-                "BringYourOwnActionGroup": {
-                  "value": "[[parameters('BringYourOwnActionGroup')]"
+                "BYOActionGroup": {
+                  "value": "[[parameters('BYOActionGroup')]"
+                },
+                "BYOAlertProcessingRule": {
+                  "value": "[[parameters('BYOAlertProcessingRule')]"
                 }
               }
             }

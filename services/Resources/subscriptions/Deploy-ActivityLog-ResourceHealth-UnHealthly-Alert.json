@@ -75,19 +75,11 @@
         },
         "defaultValue": "MonitorDisable"
       },
-      "BringYourOwnActionGroup": {
+      "BYOActionGroup": {
         "type": "String",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
-        },
-        "defaultValue": ""
-      },
-      "BringYourOwnAlertProcessingRule": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Customer defined Alert Processing Rule Resource ID",
-          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
         },
         "defaultValue": ""
       }
@@ -169,22 +161,19 @@
                   "enabled": {
                     "type": "string"
                   },
-                  "BringYourOwnActionGroup": {
-                    "type": "String"
-                  },
-                  "BringYourOwnAlertProcessingRule": {
+                  "BYOActionGroup": {
                     "type": "String"
                   }
                 },
                 "variables": {
-                  "varBringYourOwnActionGroups": "[[split(parameters('BringYourOwnActionGroup'), ',')]",
+                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
                   "copy": [
                     {
                       "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBringYourOwnActionGroups'))]",
+                      "count": "[[length(variables('varBYOActionGroups'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBringYourOwnActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
                       }
                     }
                   ]
@@ -217,17 +206,14 @@
                           "alertResourceGroupName": {
                             "type": "string"
                           },
-                          "BringYourOwnActionGroup": {
-                            "type": "String"
-                          },
-                          "BringYourOwnAlertProcessingRule": {
+                          "BYOActionGroup": {
                             "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BringYourOwnActionGroup'))]",
+                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ResourceHealthUnhealthyAlert",
@@ -289,7 +275,7 @@
                             }
                           },
                           {
-                            "condition": "[[not(empty(parameters('BringYourOwnActionGroup')))]",
+                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ResourceHealthUnhealthyAlert",
@@ -354,11 +340,8 @@
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
                         },
-                        "BringYourOwnActionGroup": {
-                          "value": "[[parameters('BringYourOwnActionGroup')]"
-                        },
-                        "BringYourOwnAlertProcessingRule": {
-                          "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
+                        "BYOActionGroup": {
+                          "value": "[[parameters('BYOActionGroup')]"
                         }
                       }
                     }
@@ -378,11 +361,8 @@
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
                 },
-                "BringYourOwnActionGroup": {
-                  "value": "[[parameters('BringYourOwnActionGroup')]"
-                },
-                "BringYourOwnAlertProcessingRule": {
-                  "value": "[[parameters('BringYourOwnAlertProcessingRule')]"
+                "BYOActionGroup": {
+                  "value": "[[parameters('BYOActionGroup')]"
                 }
               }
             }
