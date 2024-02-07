@@ -56,10 +56,11 @@ def readYamlData(dir, export_hidden):
             data[resouceCategory][resourceType] = []
 
           alerts = yaml.safe_load(f)
-          for alert in alerts:
-            if (not export_hidden) and ('visible' in alert) and (alert['visible'] == False):
-              continue
-            data[resouceCategory][resourceType].append(alert)
+          if alerts:
+            for alert in alerts:
+              if (not export_hidden) and ('visible' in alert) and (alert['visible'] == False):
+                continue
+              data[resouceCategory][resourceType].append(alert)
 
   return data
 

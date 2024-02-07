@@ -18,9 +18,9 @@
     autoMitigate: false
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
     - name: Deploy ExpressRoute Circuits ARP Availability Alert
       template: Deploy-ERCIR-ARPAvailability-Alert.json
@@ -50,9 +50,9 @@
     autoMitigate: false
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
     - name: Deploy ExpressRoute Circuits BGP Availability Alert
       template: Deploy-ERCIR-BGPAvailability-Alert.json
@@ -85,9 +85,9 @@
     autoMitigate: false
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
     - name: Deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert
       template: Deploy-ERCIR-QOSDropsBitsIn-Alert.json
@@ -120,9 +120,9 @@
     autoMitigate: false
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
   deployments:
     - name: Deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert
       template: Deploy-ERCIR-QOSDropsBitsOut-Alert.json
@@ -155,10 +155,10 @@
     #adding references
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
-- name: BitsInPerSecond #have the the gateway alert, so we dont need this granularity for ALZ pattern (for perhaps reliablity)
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
+- name: BitsInPerSecond
   description: Bits ingressing Azure per second
   type: Metric
   verified: false
@@ -177,13 +177,12 @@
     criterionType: StaticThresholdCriterion
     threshold: 800000000.0 #this would be dependant on the SKU, perhaps to see the kinda of SKU they may want to utilize
     autoMitigate: false
-    #adding references
     references:
       - name: Circuit Metrics examples
-        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
+        url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
       - name: ExpressRoute Gateway Connections
-        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections
-- name: BitsOutPerSecond #have the the gateway alert, so we dont need this granularity for ALZ pattern
+        url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections
+- name: BitsOutPerSecond
   description: Bits egressing Azure per second
   type: Metric
   verified: false
@@ -204,9 +203,9 @@
     autoMitigate: false
     references:
       - name: Circuit Metrics examples
-        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
+        url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#circuits-metrics
       - name: ExpressRoute Gateway Connections
-        url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections-in-bitsseconds
+        url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-gateway-connections-in-bitsseconds
 - name: ArpAvailability #using ALZ threshold
   description: ARP Availability from MSEE towards all peers.
   type: Metric
@@ -229,10 +228,10 @@
     #adding references
   references:
     - name: Monitor ExpressRoute Alerts
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
     - name: ExpressRoute KQL Queries
-      url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
-- name: QosDropBitsInPerSecond
+      url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
+- name: QosDropBitsInPerSecond #using ALZ threshold
   description: Ingress bits of data dropped per second
   type: Metric
   verified: false
@@ -274,14 +273,14 @@
     #adding references
     references:
       - name: Monitor ExpressRoute Alerts
-        url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#alerts
+        url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#alerts
       - name: ExpressRoute KQL Queries
-    url: https://docs.microsoft.com/en-us/azure/expressroute/monitor-expressroute#sample-kusto-queries
-- name: globalreachbitsinpersecond #Consider for ALZ pattern... not high on the list but a nice eventual addition.
+    url: https://docs.microsoft.com/azure/expressroute/monitor-expressroute#sample-kusto-queries
+- name: globalreachbitsinpersecond
   description:
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-15
@@ -298,12 +297,12 @@
     autoMitigate: false
   references:
     - name: View Global Reach Metrics
-      url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
-- name: globalreachbitsoutpersecond #Consider for ALZ pattern... not high on the list but a nice eventual addition.
+      url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
+- name: globalreachbitsoutpersecond
   description:
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
     - auto-generated
     - agc-14
@@ -320,8 +319,8 @@
     autoMitigate: false
     references:
       - name: View Global Reach Metrics
-    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
-- name: fastpathroutescountforcircuit # in preview at the moment, lets keep an eye on it, revisit the odd threshold
+    url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#expressroute-metrics
+- name: fastpathroutescountforcircuit
   description:
   type: Metric
   verified: false
@@ -349,4 +348,4 @@
     # adding references
     references:
       - name: FastPath Routes Count (at circuit level)
-    url: https://learn.microsoft.com/en-us/azure/expressroute/expressroute-monitoring-metrics-alerts#fastpath-routes-count-at-circuit-level
+    url: https://learn.microsoft.com/azure/expressroute/expressroute-monitoring-metrics-alerts#fastpath-routes-count-at-circuit-level

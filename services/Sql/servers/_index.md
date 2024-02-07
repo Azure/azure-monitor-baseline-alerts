@@ -1,7 +1,6 @@
 ---
-title: servers/databases
+title: Server Databases
 geekdocCollapseSection: true
-geekdocHidden: true
 ---
 
-{{< alertList name="alertList" >}}
+{{< alertList name="alertList">}}
