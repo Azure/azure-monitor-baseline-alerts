@@ -1,3 +1,7 @@
+---
+title: Parameter configuration
+geekdocHidden: true
+---
 
 ## 1. Parameter configuration
 
