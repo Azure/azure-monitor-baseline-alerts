@@ -220,7 +220,7 @@
                   "varALZArmRoleId": "[[array(split(parameters('ALZArmRoleId'),','))]",
                   "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri":"[[array(split(parameters('ALZWebhookServiceUri'),','))]",
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
+                  "varBYOAGs": "[[split(parameters('BYOActionGroup'), ',')]",
                   "varBYOAlertProcessingRule": "[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                       {
@@ -278,10 +278,10 @@
                       }
                     },
                     {
-                      "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "name": "varAGIds",
+                      "count": "[[length(variables('varBYOAGs'))]",
                       "mode": "serial",
-                      "input": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                      "input": "[[trim(variables('varBYOAGs')[copyIndex('varAGIds')])]"
                     }
                   ]
                 },
@@ -422,7 +422,7 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                  "actionGroupIds": "[variables('varActionGroupIds')]",
+                                  "actionGroupIds": "[variables('varAGIds')]",
                                   "actionType": "AddActionGroups"
                                 }
                               ]
