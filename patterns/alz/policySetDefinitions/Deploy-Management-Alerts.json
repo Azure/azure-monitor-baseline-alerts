@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Management",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ Management management group",
     "metadata": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -206,6 +206,26 @@
           "description": "Threshold for the alert"
         }
       },
+      "StorageAccountDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Storage Account Delete Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
+      "StorageAccountDeleteAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Storage Account Delete Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
       "activityLAWDeleteAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -226,7 +246,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_activityLAWDelete",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
         "parameters": {
           "enabled": {
             "value": "[[parameters('activityLAWDeleteAlertState')]"
@@ -244,7 +264,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_activityLAWKeyRegen",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
         "parameters": {
           "enabled": {
             "value": "[[parameters('activityLAWKeyRegenAlertState')]"
@@ -262,7 +282,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AATotalJob",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AA_TotalJob_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AA_TotalJob_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AATotalJobAlertSeverity')]"
@@ -286,7 +306,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_RVBackupHealth",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
         "parameters": {
           "effect": {
             "value": "[[parameters('RVBackupHealthMonitorPolicyEffect')]"
@@ -295,7 +315,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('StorageAccountAvailabilityAlertSeverity')]"
@@ -314,6 +334,27 @@
           },
           "threshold": {
             "value": "[[parameters('StorageAccountAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activitySADelete",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('StorageAccountDeletePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('StorageAccountDeleteAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           }
         }
       }

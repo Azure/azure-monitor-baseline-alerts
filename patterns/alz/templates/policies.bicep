@@ -103,6 +103,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-PacketsInDDOS-Alert.json')
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-VIPAvailability-Alert.json')
     loadTextContent('../../../services/storage/storageAccounts/Deploy-SA-Availability-Alert.json')
+    loadTextContent('../../../services/storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-AvailableMemory-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json')

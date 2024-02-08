@@ -1,14 +1,14 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_LAWorkspace_Delete",
+  "name": "Deploy_activitylog_StorageAccount_Delete",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Activity Log LA Workspace Delete Alert",
-    "description": "Policy to Deploy Activity Log LA Workspace Delete Alert",
+    "displayName": "Deploy Activity Log Storage Account Delete Alert",
+    "description": "Policy to Deploy Activity Log Storage Account Delete Alert",
     "metadata": {
-      "version": "1.0.3",
+      "version": "1.0.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -55,10 +55,22 @@
         },
         "defaultValue": "centralus"
       },
-      "MonitorDisable": {
+      "effect": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
+          "description": "Effect of the policy"
+        },
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Monitoring disabled",
           "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
@@ -69,7 +81,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.OperationalInsights/workspaces"
+            "equals": "Microsoft.Storage/storageAccounts"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -78,13 +90,13 @@
         ]
       },
       "then": {
-        "effect": "deployIfNotExists",
+        "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
-          "name": "ActivityLAWorkspaceDelete",
+          "name": "ActivitySADelete",
           "existenceScope": "resourcegroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
@@ -119,7 +131,7 @@
                           },
                           {
                             "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals",
-                            "equals": "Microsoft.OperationalInsights/workspaces/delete"
+                            "equals": "Microsoft.ClassicStorage/storageAccounts/delete"
                           }
                         ]
                       }
@@ -163,7 +175,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ActivityLAWorkspaceDelete",
+                    "name": "ActivitySADelete",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -186,13 +198,13 @@
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ActivityLAWorkspaceDelete",
+                            "name": "Activity Log Storage Account Delete",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "description": "Activity Log LA Workspace Delete",
+                              "description": "Activity Log Storage Account Delete",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().id]"
@@ -205,7 +217,7 @@
                                   },
                                   {
                                     "field": "operationName",
-                                    "equals": "Microsoft.OperationalInsights/workspaces/delete"
+                                    "equals": "Microsoft.ClassicStorage/storageAccounts/delete"
                                   },
                                   {
                                     "field": "status",
