@@ -347,7 +347,7 @@
                             "condition": "[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
-                            "name": "[[concat(subscription().displayName, ' - AMBA Action Group')]",
+                            "name": "[[concat('ag-AMBA-', subscription().displayName, '-001')]",
                             "location": "Global",
                             "tags": {
                               "_deployed_by_amba": true
@@ -378,10 +378,10 @@
                             "condition": "[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
-                            "name": "[[concat(subscription().displayName, ' - AMBA Alert Processing Rule')]",
+                            "name": "[[concat('arp-AMBA-',subscription().displayName, '-001')]",
                             "location": "Global",
                             "dependsOn": [
-                              "[[concat(subscription().displayName, ' - AMBA Action Group')]"
+                              "[[concat('ag-AMBA-', subscription().displayName, '-001')]"
                             ],
                             "tags": {
                               "_deployed_by_amba": true
@@ -395,7 +395,7 @@
                               "actions": [
                                 {
                                 "actiongroupIds": [
-                                  "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/',subscription().displayName, ' - AMBA Action Group')]"
+                                  "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')]"
                                 ],
                                 "actionType": "AddActionGroups"
                                 }
