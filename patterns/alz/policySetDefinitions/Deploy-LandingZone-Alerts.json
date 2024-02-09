@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
     "metadata": {
-      "version": "1.0.4",
+      "version": "1.0.5",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -419,6 +419,26 @@
         "metadata": {
           "displayName": "Storage Account Availability Threshold",
           "description": "Threshold for the alert"
+        }
+      },
+      "StorageAccountDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Storage Account Delete Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
+      "StorageAccountDeleteAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Storage Account Delete Alert State",
+          "description": "Alert state for the alert"
         }
       },
       "PIPDDoSAttackAlertSeverity": {
@@ -4109,7 +4129,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_KVRequest",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('KVRequestAlertSeverity')]"
@@ -4130,7 +4150,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_KvAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('KvAvailabilityAlertSeverity')]"
@@ -4154,7 +4174,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('KvLatencyAvailabilityAlertSeverity')]"
@@ -4178,7 +4198,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_KVCapacity",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('KVCapacityAlertSeverity')]"
@@ -4202,7 +4222,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_activityKVDelete",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
         "parameters": {
           "enabled": {
             "value": "[[parameters('activityKVDeleteAlertState')]"
@@ -4220,7 +4240,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('StorageAccountAvailabilityAlertSeverity')]"
@@ -4243,8 +4263,29 @@
         }
       },
       {
+        "policyDefinitionReferenceId": "ALZ_activitySADelete",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('StorageAccountDeletePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('StorageAccountDeleteAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          }
+        }
+      },
+      {
         "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoS",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('PIPBytesInDDoSAlertSeverity')]"
@@ -4268,7 +4309,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('PIPDDoSAttackAlertSeverity')]"
@@ -4292,7 +4333,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('PIPPacketsInDDoSAlertSeverity')]"
@@ -4316,7 +4357,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('PIPVIPAvailabilityAlertSeverity')]"
@@ -4340,7 +4381,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
         "parameters": {
           "enabled": {
             "value": "[[parameters('activityNSGDeleteAlertState')]"
@@ -4358,7 +4399,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
         "parameters": {
           "enabled": {
             "value": "[[parameters('activityUDRUpdateAlertState')]"
@@ -4376,7 +4417,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
         "parameters": {
           "effect": {
             "value": "[[parameters('RVBackupHealthMonitorPolicyEffect')]"
@@ -4385,7 +4426,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VNETDDOSAttackAlertSeverity')]"
@@ -4409,7 +4450,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMHeartBeatRG",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
         "parameters": {
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -4457,7 +4498,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMNetworkIn",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMNetworkInAlertSeverity')]"
@@ -4517,7 +4558,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMNetworkOut",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMNetworkOutAlertSeverity')]"
@@ -4577,7 +4618,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMOSDiskReadLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMOSDiskReadLatencyAlertSeverity')]"
@@ -4637,7 +4678,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMOSDiskWriteLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMOSDiskWriteLatencyAlertSeverity')]"
@@ -4697,7 +4738,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMOSDiskSpace",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMOSDiskSpaceAlertSeverity')]"
@@ -4757,7 +4798,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMPercentCPU",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMPercentCPUAlertSeverity')]"
@@ -4805,7 +4846,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMPercentMemory",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMPercentMemoryAlertSeverity')]"
@@ -4853,7 +4894,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMDataDiskSpace",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMDataDiskSpaceAlertSeverity')]"
@@ -4910,7 +4951,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMDataDiskReadLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMDataDiskReadLatencyAlertSeverity')]"
@@ -4970,7 +5011,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_VMDataDiskWriteLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('VMDataDiskWriteLatencyAlertSeverity')]"
@@ -5030,7 +5071,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWTotalTime",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
@@ -5051,7 +5092,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWBackendLastByteResponseTime",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
@@ -5072,7 +5113,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWCapacityUnits",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWCapacityUnitsAlertSeverity')]"
@@ -5093,7 +5134,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWComputeUnits",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWComputeUnitsAlertSeverity')]"
@@ -5114,7 +5155,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWCPUUtilization",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWCPUUtilAlertSeverity')]"
@@ -5135,7 +5176,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWFailedRequests",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWFailedRequestsAlertSeverity')]"
@@ -5156,7 +5197,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWResponseStatus",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWResponseStatusAlertSeverity')]"
@@ -5177,7 +5218,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_AGWUnhealthyHostCount",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWUnhealthyHostCountAlertSeverity')]"
@@ -5198,7 +5239,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_LBDataPathAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('LBDataPathAvailabilityAlertSeverity')]"
@@ -5219,7 +5260,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_LBGlobalBackendAvailability",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('LBGlobalBackendAvailabilityAlertSeverity')]"
@@ -5240,7 +5281,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_LBHealthProbeStatus",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('LBHealthProbeStatusAlertSeverity')]"
@@ -5261,7 +5302,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_LBUsedSNATPorts",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('LBUsedSNATPortsAlertSeverity')]"
@@ -5282,7 +5323,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPOriginHealthPercentage",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPOriginHealthPercentageAlertSeverity')]"
@@ -5303,7 +5344,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPOriginLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPOriginLatencyAlertSeverity')]"
@@ -5324,7 +5365,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPPercentage4XX",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage4XX_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage4XX_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPPercentage4XXAlertSeverity')]"
@@ -5345,7 +5386,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPPercentage5XX",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage5XX_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage5XX_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPPercentage5XXAlertSeverity')]"
@@ -5366,7 +5407,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_TMEndpointHealth",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('TMEndpointHealthAlertSeverity')]"
@@ -5387,7 +5428,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_WSFCPUPercentage",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('WSFCPUPercentageAlertSeverity')]"
@@ -5408,7 +5449,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_WSFMemoryPercentage",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('WSFMemoryPercentageAlertSeverity')]"
@@ -5429,7 +5470,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_WSFDiskQueueLength",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('WSFDiskQueueLengthAlertSeverity')]"
@@ -5450,7 +5491,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_WSFHttpQueueLength",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('WSFHttpQueueLengthAlertSeverity')]"
@@ -5471,7 +5512,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_FDBackendHealth",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('FDBackendHealthAlertSeverity')]"
@@ -5489,10 +5530,10 @@
             "value": "[[parameters('FDBackendHealthAlertState')]"
           }
         }
-      },      
+      },
       {
         "policyDefinitionReferenceId": "ALZ_FDBackendRequestLatency",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('FDBackendRequestLatencyAlertSeverity')]"

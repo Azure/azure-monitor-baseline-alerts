@@ -8,7 +8,7 @@
     "displayName": "Deploy PIP VIP Availability Alert",
     "description": "Policy to audit/deploy PIP VIP Availability Alert",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.0.2",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -124,6 +124,10 @@
           {
             "field": "type",
             "equals": "Microsoft.Network/publicIPAddresses"
+          },
+          {
+            "field": "Microsoft.Network/publicIPAddresses/sku.name",
+            "equals": "Standard"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
