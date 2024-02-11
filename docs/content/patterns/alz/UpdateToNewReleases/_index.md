@@ -1,5 +1,5 @@
 ---
-title: Update to a new release
+title: Update to new releases
 geekdocCollapseSection: true
 weight: 71
 ---
@@ -8,7 +8,7 @@ weight: 71
 
 The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://github.com/Azure/azure-monitor-baseline-alerts) repository.
 
-On the center-right side of the page there's a specific section indicating the latest release. Click on the release number to see the release content.
+On the center-right side of the page, there's a specific section indicating the latest release. Click on the release number to see the release content.
 
 ![Releases](../media/Releases.png)
 
@@ -16,7 +16,7 @@ On the center-right side of the page there's a specific section indicating the l
 
 ## Steps to update to the latest release
 
-This section will guide you through the necessary steps to update the current deployment with the latest enhancements contained in the latest release. Guidance on updating to releases containing breaking changes is not in scope and could eventually be described in a dedicated pages.
+This section will guide you through the necessary steps to update the current deployment with the latest enhancements contained in the latest release. Guidance on updating to releases containing breaking changes is not in scope and could eventually be described in a dedicated page.
 
 {{< hint type=Important >}}
 This scenario only applies to AMBA deployments performed using GitHub. If not using GitHub, please refer to the [Can I use AMBA without a GitHub repository](../FAQ/#can-i-use-amba-without-a-github-repository) scenario documented in the *Frequently Asked Questions* making sure you update the template spec as required.
@@ -32,8 +32,8 @@ Depending if you used the official code from the official GitHub repository or f
 
 Synching a fork means that we're making sure any update made to the main branch in the official repo is replicated over yours. To sync your fork:
 
-1. Open the your GitHub repo page. If you don't remember the URL, consider that it normally looks like `https://github.com/***<YourGitHubId>***/azure-monitor-baseline-alerts`.
-2. You should be redirected to the default page which is **<> Code**. If not, click on the **<> Code** tab.
+1. Open your GitHub repo page. If you don't remember the URL, consider that it normally looks like `https://github.com/***<YourGitHubId>***/azure-monitor-baseline-alerts`.
+2. You should be redirected to the default page, which is **<> Code**. If not, click on the **<> Code** tab.
 
     ![<> Code](../media/GitHub_Code.png)
 
@@ -49,9 +49,9 @@ Synching a fork means that we're making sure any update made to the main branch 
 
 ### Update your local copy (only required if you cloned your fork on your local hard drive)
 
-Within the code editor of your choice, make sure you pull the changes from your remote fork. Pulling changes from origin/main is necessary to ensure that the local branch is exactly the same as the remote. In this guide, we will use VSCode.
+Within the code editor of your choice, make sure you pull the changes from your remote fork. Pulling changes from origin/main is necessary to ensure that the local branch is exactly the same as the remote. In this guide, we will use VS Code.
 
-1. Open VSCode and open the folder containing the cloned repo.
+1. Open VS Code and open the folder containing the cloned repo.
 2. In the bottom-left corner click on the pull icon
 
     ![Pull icon](../media/PullIcon.png)
@@ -71,6 +71,8 @@ Within the code editor of your choice, make sure you pull the changes from your 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
 
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
-- To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
+- To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
 - To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
+
+
