@@ -134,7 +134,7 @@ $alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroup
 Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with description 'AMBA Notification Assets - Alert Processing Rule for Subscription' and tag '_deployed_by_amba=True' to be deleted."
 
 # get action groups to delete
-$query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where name startswith 'ag-AMBA-' and name endswith '-001' and properties.groupShortName endswith '-ActGrp'and tags['_deployed_by_amba'] =~ 'True' | project id"
+$query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where name startswith 'ag-AMBA-' and name endswith '-001' and properties.groupShortName endswith 'ActGrp'and tags['_deployed_by_amba'] =~ 'True' | project id"
 $actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($actionGroupIds.Count)' action group(s) with name starting with 'ag-AMBA-', short name ending with 'ActGrp' and tag '_deployed_by_amba=True' to be deleted."
 
