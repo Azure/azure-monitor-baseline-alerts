@@ -1,14 +1,14 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_AlertProcessing_Rule",
+  "name": "Deploy_ServiceHealth_ActionGroups",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy AMBA Notification Assets",
-    "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
+    "displayName": "Deploy Service Health Action Group",
+    "description": "Policy to deploy action group for Service Health alerts",
     "metadata": {
-      "version": "1.0.3",
+      "version": "1.0.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -17,6 +17,14 @@
       "_deployed_by_amba": "True"
     },
     "parameters": {
+      "MonitorDisable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Monitoring disabled",
+          "description": "Tag name to disable monitoring  Subscription level alerts. Set to true if monitoring should be disabled"
+        },
+        "defaultValue": "MonitorDisable"
+      },
       "ALZMonitorResourceGroupName": {
         "type": "String",
         "metadata": {
@@ -78,8 +86,8 @@
       "ALZEventHubResourceId": {
         "type": "String",
         "metadata": {
-          "displayName": "Event Hub",
-          "description": "Event Hub resource id for action group to send alerts to a subscription level"
+          "displayName": "Event Hub resource id",
+          "description": "Event Hub resource id for action group to send alerts to"
         },
         "defaultValue": ""
       },
@@ -106,14 +114,6 @@
           "description": "URL that triggers the Function"
         },
         "defaultValue": ""
-      },
-      "MonitorDisable": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Monitoring disabled",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
-        },
-        "defaultValue": "MonitorDisable"
       }
     },
     "policyRule": {
@@ -135,15 +135,15 @@
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
-          "type": "Microsoft.AlertsManagement/actionRules",
+          "type": "Microsoft.Insights/actionGroups",
           "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('ALZMonitorResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.AlertsManagement/actionRules/description",
-                "equals": "AMBA Notification Assets - Alert Processing Rule for Subscription"
+                "field": "Microsoft.Insights/actionGroups/groupShortName",
+                "equals": "SH-ActGrp"
               }
             ]
           },
@@ -262,7 +262,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ActionGroupDeployment",
+                    "name": "SH-ActionGroupDeployment",
                     "resourceGroup": "[[parameters('ALZMonitorResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('ALZMonitorResourceGroupName'))]"
@@ -306,13 +306,13 @@
                           {
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
-                            "name": "[[concat('ag-AMBA-', subscription().displayName, '-001')]",
+                            "name": "[[concat('ag-AMBA-SH-', subscription().displayName, '-001')]",
                             "location": "Global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "groupShortName": "ActGrp",
+                              "groupShortName": "SH-ActGrp",
                               "enabled": true,
                               "copy": [
                                 {
@@ -331,33 +331,6 @@
                               "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]",
                               "webhookReceivers": "[[if(empty(parameters('ALZWebhookServiceUri')), null(), variables('varWebhookReceivers'))]",
                               "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]"
-                            }
-                          },
-                          {
-                            "type": "Microsoft.AlertsManagement/actionRules",
-                            "apiVersion": "2021-08-08",
-                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-001')]",
-                            "location": "Global",
-                            "dependsOn": [
-                              "[[concat('ag-AMBA-', subscription().displayName, '-001')]"
-                            ],
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "scopes": [
-                                "[[subscription().Id]"
-                              ],
-                              "description": "AMBA Notification Assets - Alert Processing Rule for Subscription",
-                              "enabled": true,
-                              "actions": [
-                                {
-                                  "actiongroupIds": [
-                                    "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')]"
-                                  ],
-                                  "actionType": "AddActionGroups"
-                                }
-                              ]
                             }
                           }
                         ]
