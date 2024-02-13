@@ -37,23 +37,29 @@ Follow the instructions below to download the cleanup script file. Alternatively
 1. Open PowerShell
 2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph`
 3. Change directories to the location of the **Start-AMBACleanup.ps1** script
-4. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
-5. Execute the script using the option below
+4. Configure the _**$pseudoRootManagementGroup**_ variable using the command below:
+
+  ```powershell
+  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+  ```
+
+5. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
+6. Execute the script using one of the options below:
 
 **Generate a list of the resource IDs which would be deleted by this script:**
 
   ```powershell
-  ./Start-AMBACleanup.ps1 -ReportOnly
+  ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
   ```
 
 **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Start-AMBACleanup.ps1 -WhatIf
+  ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
 **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
 
   ```powershell
-  ./Start-AMBACleanup.ps1 -Force
+  ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
   ```

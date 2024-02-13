@@ -1,11 +1,11 @@
-- name: StorageUsed
-  description: The amount of storage used by the container registry. For a registry
+- name: StorageUsed for Premium Pricing Plan
+  description: The amount of storage used by the premium container registry. For a registry
     account, it's the sum of capacity used by all the repositories within a registry.
     It's sum of capacity used by shared layers, manifest files, and replica copies
     in each of its repositories.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1139
@@ -18,13 +18,46 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 429496729600.0
+    threshold: 429496729600
     autoMitigate: false
+  references:
+  - name: Common alert rules for Azure Container Registry
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service#alerts
+  - name: Monitoring Azure Container Registry data reference
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service-reference
+  - name: Service tier features and limits
+    url: https://learn.microsoft.com/azure/container-registry/container-registry-skus#service-tier-features-and-limits
+- name: StorageUsed for Standard Pricing Plan
+  description: The amount of storage used by the standard container registry. For a registry
+    account, it's the sum of capacity used by all the repositories within a registry.
+    It's sum of capacity used by shared layers, manifest files, and replica copies
+    in each of its repositories.
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: StorageUsed
+    metricNamespace: Microsoft.ContainerRegistry/registries
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 50000000000
+    autoMitigate: false
+  references:
+  - name: Common alert rules for Azure Container Registry
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service#alerts
+  - name: Monitoring Azure Container Registry data reference
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service-reference
+  - name: Service tier features and limits
+    url: https://learn.microsoft.com/azure/container-registry/container-registry-skus#service-tier-features-and-limits
 - name: SuccessfulPullCount
   description: Number of successful image pulls
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-738
@@ -39,11 +72,14 @@
     criterionType: StaticThresholdCriterion
     threshold: 50.0
     autoMitigate: false
+  references:
+  - name: Monitoring Azure Container Registry data reference
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service-reference
 - name: SuccessfulPushCount
   description: Number of successful image pushes
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-736
@@ -58,3 +94,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 10.0
     autoMitigate: false
+  references:
+  - name: Monitoring Azure Container Registry data reference
+    url: https://learn.microsoft.com/azure/container-registry/monitor-service-reference

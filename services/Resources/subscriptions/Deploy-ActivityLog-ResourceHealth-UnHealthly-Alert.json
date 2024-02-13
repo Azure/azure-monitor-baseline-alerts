@@ -8,7 +8,7 @@
     "displayName": "Deploy Resource Health Unhealthy Alert",
     "description": "Policy to Deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.0.2",
+      "version": "1.0.3",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -44,7 +44,6 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test",
           "_deployed_by_amba": true
         }
       },
@@ -71,8 +70,8 @@
       "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring on subscription level alerts. Set to true if monitoring should be disabled"
+          "displayName": "Monitoring disabled",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
       }
@@ -105,6 +104,10 @@
               {
                 "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
                 "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                "contains": "ag-AMBA-SH-"
               },
               {
                 "count": {
@@ -166,7 +169,7 @@
                     "name": "ResourceHealtAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                      "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -192,6 +195,14 @@
                               "_deployed_by_amba": true
                             },
                             "properties": {
+                              "actions": {
+                                "actionGroups": [
+                                  {
+                                    "actionGroupId": "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001')]",
+                                    "webhookProperties": {}
+                                  }
+                                ]
+                              },
                               "description": "Resource Health Unhealthy Alert",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
