@@ -24,8 +24,22 @@ If you customized the policies as documented at [How to modify individual polici
 
 - Modify the following values in [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml):
   - Change _Location: "norwayeast"_, to your preferred Azure region
-  - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group id parenting the identity, management and connectivity management groups.
-- Go to GitHub actions and run the action *Deploy AMBA*
+  - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group id parenting the identity, management and connectivity management groups
+- Save the customized [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml) in the _**.github/workflow**_ folder
+
+  {{< hint type=important >}}
+  The file name <ins>_**must perfectly**_</ins> match the name at line **1** of the sample file. You can eventually replace spaces with **-**
+  {{< /hint >}}
+
+  ![Workflow file name](../../media/WorkflowFileName.png)
+
+  ![Workflow saved](../../media/WorkflowSaved.png)
+
+  More information about workflow is available in the GitHub documentation at [Creating starter workflows for your organization](https://docs.github.com/en/actions/using-workflows/creating-starter-workflows-for-your-organization)
+
+- Go to GitHub actions and run the action ***Deploy AMBA***
+
+  ![Deploy AMBA action](../../media/DeployAmbaAction.png)
 
 {{< hint type=important >}}
 Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
