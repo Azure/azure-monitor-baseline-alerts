@@ -11,11 +11,11 @@ geekdocCollapseSection: true
 
 - Minimize the need for the Customer to determine the minimal monitoring items for a certain type of workload 
 
-- Provide best practices out of the box on items that need monitoring for different workloads. The Monitoring Packs work closely wit the Azure Monitor Baseline Alerts [AMBA](http://aka.ms/amba) and the Azure Monitor teams to provide an comprehensive and aligned monitoring solution.
+- Provide best practices out of the box on items that need monitoring for different workloads. The Monitoring Packs work closely wit the Azure Monitor Baseline Alerts [AMBA](http://aka.ms/amba) and the Azure Monitor teams to provide a comprehensive and aligned monitoring solution.
 
 - Create a framework for collaboration that will make it easy to add new monitored technologies. 
 
-For a detailes on the solution, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
+For a details about the solution, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
 
 ## Pre-requisites and recommendations
 
@@ -32,24 +32,11 @@ The Main solution can be deployed by clicking the link below.
 
 ## Monitoring Packs
 
-### IaaS Packs
+### [IaaS Packs](./IaaS)
 
-[ADDS](./ADDS) - Active Directory Domain Services (prototype)
+### [PaaS Packs](./PaaS/)
 
-[DNS2016](./DNS2016) - DNS 2016
-
-[IIS](./IIS) - Internet Information Services
-
-[IIS2016](./IIS2016) - Internet Information Services 2016
-
-[NGinx](./Nginx) - NGinx (prototype)
-
-[PS2016](./PS2016) - Print Services 2016
-
-[VMInsights](./VMInsights) - Virtual Machine Insights
-
-
-### PaaS and Platform Packs
+### [Platform Packs](./Platform/)
 
 
 
