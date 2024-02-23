@@ -213,6 +213,16 @@
                   ],
                   "copy": [
                     {
+                      "name": "varEmailReceivers",
+                      "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                        "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                        "useCommonSchema": true
+                      }
+                    },
+                    {
                       "name": "varArmRoleReceivers",
                       "count": "[[length(variables('varALZArmRoleId'))]",
                       "mode": "serial",
@@ -314,18 +324,7 @@
                             "properties": {
                               "groupShortName": "SH-ActGrp",
                               "enabled": true,
-                              "copy": [
-                                {
-                                  "name": "emailReceivers",
-                                  "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
-                                  "mode": "serial",
-                                  "input": {
-                                    "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                    "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
-                                    "useCommonSchema": true
-                                  }
-                                }
-                              ],
+                              "emailReceivers": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), variables('varEmailReceivers'))]",
                               "armRoleReceivers": "[[if(empty(parameters('ALZArmRoleId')), null(), variables('varArmRoleReceivers'))]",
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
                               "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]",
