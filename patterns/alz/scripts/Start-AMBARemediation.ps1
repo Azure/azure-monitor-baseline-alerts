@@ -54,16 +54,23 @@ function Get-PolicyType {
         [Parameter(Mandatory = $true)] [string] $managementGroupName,
         [Parameter(Mandatory = $true)] [string] $policyName
     )
+
     #Validate that the management group exists through the Azure REST API
     $uri = "https://management.azure.com/providers/Microsoft.Management/managementGroups/$($managementGroupName)?api-version=2021-04-01"
     $result = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
     if ($result.error) {
         throw "Management group $managementGroupName does not exist, please specify a valid management group name"
     }
+
+    # Getting custom policySetDefinitions
+    $uri = "https://management.azure.com/providers/Microsoft.Management/managementGroups/$($managementGroupName)/providers/Microsoft.Authorization/policySetDefinitions?&api-version=2023-04-01"
+    $initiatives = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
+
     #Get policy assignments at management group scope
     $assignmentFound = $false
     $uri = "https://management.azure.com/providers/Microsoft.Management/managementGroups/$($managementGroupName)/providers/Microsoft.Authorization/policyAssignments?`$filter=atScope()&api-version=2022-06-01"
     $result = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
+
     #iterate through the policy assignments
     $result.value | ForEach-Object {
         #check if the policy assignment is for the specified policy set definition
@@ -77,7 +84,24 @@ function Get-PolicyType {
             $assignmentFound = $true
             Enumerate-Policy -managementGroupName $managementGroupName -policyAssignmentObject $PSItem
         }
+        Else {
+          # Getting parent initiative for unassigned individual policies
+          If($initiatives) {
+            $parentInitiative = $initiatives.value | Where-Object {($_.properties.policyType -eq 'Custom') -and ($_.properties.metadata -like '*_deployed_by_amba*')} | Where-Object {$_.properties.policyDefinitions.policyDefinitionReferenceId -eq $policyname}
+
+            # Getting the assignment of the parent initiative
+            If($parentInitiative) {
+              If($($PSItem.properties.policyDefinitionId) -match "/providers/Microsoft.Authorization/policySetDefinitions/$($parentInitiative.name)") {
+                # Invoking policy remediation
+                $assignmentFound = $true
+                Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $PSItem.name -polassignId $PSItem.id -policyDefinitionReferenceId $policyName
+                Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
+              }
+            }
+          }
+        }
     }
+
     #if no policy assignments were found for the specified policy name, throw an error
     If(!$assignmentFound) {
         throw "No policy assignments found for policy $policyName at management group scope $managementGroupName"
@@ -126,4 +150,14 @@ function Enumerate-Policy {
 
 #Main script
 
-Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
+# If remediating the Alerting-ServiceHealth initiative, we will remediate the ALZ_ServiceHealth_ActionGroups first,
+# wait for 5 minutes and then remediate the entire Alerting-ServiceHealth initiative.
+If($policyName -eq 'Alerting-ServiceHealth') {
+  Get-PolicyType -managementGroupName $managementGroupName -policyName 'ALZ_ServiceHealth_ActionGroups'
+  Start-Sleep -Seconds 360
+  Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
+}
+# Otherwise we just remediate everything passed in
+Else {
+  Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
+}
