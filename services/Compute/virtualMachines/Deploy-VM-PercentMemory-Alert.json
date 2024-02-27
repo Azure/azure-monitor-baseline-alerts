@@ -248,35 +248,27 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/ruleResolveConfiguration.autoResolved",
-                "equals": "[[parameters('autoResolve')]"
-              },
-              {
-                "field": "Microsoft.Insights/scheduledQueryRules/ruleResolveConfiguration.timeToResolve",
-                "equals": "[[parameters('autoResolveTime')]"
-              },
-              {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.threshold",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
                 "equals": "[[parameters('threshold')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.operator",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
                 "equals": "[[parameters('operator')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.timeAggregation",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].timeAggregation",
                 "equals": "[[parameters('timeAggregation')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.numberOfEvaluationPeriods",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
                 "equals": "[[parameters('evaluationPeriods')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.failingPeriods.minFailingPeriodsToAlert",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
                 "equals": "[[parameters('failingPeriods')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/criteria.query",
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
                 "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"|where Namespace == \"Memory\" and Name == \"AvailableMB\"| extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0| summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId"
               }
             ]
