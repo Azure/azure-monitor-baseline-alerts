@@ -27,6 +27,8 @@ Depending if you used the official code from the official GitHub repository or f
 1. Sync your fork *(only required if you forked the original repo)*
 2. Update your local copy of the repo *(only required if you cloned your fork on your local hard drive)*
 3. Deploy ***(always required)***
+4. Check for specific requirements when updating to a newer release ***(always required)***
+5. Start the policy remediation ***(always required)***
 
 ### Sync your fork (only required if you forked the original repo)
 
@@ -75,4 +77,12 @@ Once you reached this stage, you are ready to deploy the latest release. You can
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
 - To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
 
+### Check for detailed requirement when updating to a newer release (always required)
 
+Check the content of the page corresponding to the release you are updating from, to see if there's any pre or post deployment action required. For instance, if you're updating from release **2023-11-14**, check the page called ***Updating from release 2023-11-14***
+
+  ![Updating from release](../media/UpdatingFromRelease.png)
+
+### Start the policy remediation (always required)
+
+To remediate non-compliant policies, continue with Policy remediation documented at [Remediate Policies](../deploy/Remediate-Policies)
