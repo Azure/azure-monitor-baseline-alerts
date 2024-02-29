@@ -1,5 +1,5 @@
 ---
-title: Update from release 2023-11-14
+title: Updating from release 2023-11-14
 geekdocCollapseSection: true
 weight: 100
 ---
