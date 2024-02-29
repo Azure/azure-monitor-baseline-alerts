@@ -122,4 +122,13 @@ This initiative is intended for assignment of policies relevant to service healt
 | Deploy_activitylog_ServiceHealth_HealthAdvisory | [deploy-activitylog-ServiceHealth-Health.json](../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Health.json)  | deployIfNotExists |
 | Deploy_activitylog_ServiceHealth_Incident | [deploy-activitylog-ServiceHealth-Incident.json](../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json)  | deployIfNotExists |
 | Deploy_activitylog_ServiceHealth_Maintenance | [deploy-activitylog-ServiceHealth-Maintenance.json](../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Maintenance.json)  | deployIfNotExists |
-| Deploy_AlertProcessing_Rule | [deploy-alertprocessingrule-deploy.json](../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Deploy.json)  | deployIfNotExists |
+| Deploy_ServiceHealth_ActionGroups | [deploy-ServiceHealth-ActionGroups.json](../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json)  | deployIfNotExists |
+
+## Notification Assets initiative
+
+This initiative is intended for assignment of policies relevant to notification in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+
+| **Policy Display Name** | **Reference ID** | **Path to policy json file** | **Policy default effect** |
+|----------|----------|----------|----------|
+| Deploy AMBA Notification Assets | ALZ_AlertProcessing_Rule | [deploy-AlertProcessingRule-deploy.json](../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Deploy.json) | deployIfNotExists |
+| Deploy AMBA Notification Suppression Asset | ALZ_Suppression_AlertProcessing_Rule | [deploy-AlertProcessingRule-Suppression.json](../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Suppression.json) | deployIfNotExists |
