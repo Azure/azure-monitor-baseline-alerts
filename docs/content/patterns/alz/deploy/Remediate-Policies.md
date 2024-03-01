@@ -20,7 +20,7 @@ To use the script, do the following:
 - Navigate to the root of the cloned repo
 - Set the variables
 - Run the remediation script
-- For example to remediate _**Alerting-Management**_ initiative, assigned to the **alz-platform-management** Management Group run the following commands:
+- For example, to remediate **Alerting-Management** initiative, assigned to the **alz-platform-management** Management Group run the following commands:
 
   ```powershell
   #Modify the following variables to match your environment
