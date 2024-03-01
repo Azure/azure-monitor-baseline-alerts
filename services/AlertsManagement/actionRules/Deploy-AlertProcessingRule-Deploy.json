@@ -218,7 +218,7 @@
                       "mode": "serial",
                       "input": {
                         "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
-                        "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
+                        "emailAddress": "[[if(empty(parameters('ALZEventHubResourceId')), null(), trim(variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
                         "useCommonSchema": true
                       }
                     },
