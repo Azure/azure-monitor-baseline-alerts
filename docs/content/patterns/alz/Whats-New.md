@@ -55,5 +55,5 @@ To update your current deployment with the content from the latest release, plea
 
 - How to modify individual policies - [How to modify individual policies](../deploy/Introduction-to-deploying-the-ALZ-Pattern/#how-to-modify-individual-policies)
 - Added guidance to only Server Health alert rules - [Deploy only Service Health Alerts](../deploy/Deploy-only-Service-Health-Alerts)
-- New documentation on updating to a new release - [Update to a new release](../Update-to-new-Release)
+- New documentation on updating to a new release - [Update to new releases](../UpdateToNewReleases)
 - FAQ Updates - [Frequently Asked Questions](../FAQ)
