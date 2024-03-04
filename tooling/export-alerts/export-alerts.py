@@ -68,7 +68,7 @@ def findColumn(ws, colName, headerRow=1):
   # Find the column for the property
   col = 0
   for cell in ws[1]:
-    if cell.value == colName:
+    if cell.value.lower() == colName.lower():
       col = cell.column
       break
 
@@ -77,29 +77,46 @@ def findColumn(ws, colName, headerRow=1):
 
 def addAlertToSheet(alert, ws, headerRow=1):
 
-  properties = alert['properties']
+  # Add general alert paramters
+  for key in alert:
+    col = findColumn(ws, key, headerRow)
+    if col > 0:
+      value = ''
 
+      if key == 'tags':
+        value = ', '.join(alert[key])
+      elif key == 'references':
+        references = alert['references']
+        urls = []
+        for ref in references:
+          if 'url' in ref:
+            urls.append(ref['url'])
+          else:
+            print ('No URL in reference: ' + ref['name'])
+
+        value = '\n'.join(urls)
+      elif type(alert[key]) is str or type(alert[key]) is int or type(alert[key]) is bool:
+        value = alert[key]
+
+      if value != '':
+        ws.cell(row=ws.max_row, column=col).value = value
+
+  # Add the properties
+  properties = alert['properties']
   for key in properties:
 
     col = findColumn(ws, key, headerRow)
     if col > 0:
+      value = ''
+
       # Add the value to the cell
       if type(properties[key]) is str:
-        ws.cell(row=ws.max_row, column=col).value = properties[key]
+        value = properties[key]
       else:
-        ws.cell(row=ws.max_row, column=col).value = json.dumps(properties[key])
+        value = ws.cell(row=ws.max_row, column=col).value = json.dumps(properties[key])
 
-
-  col = findColumn(ws, 'references', headerRow)
-
-  if col > 0:
-    if 'references' in alert:
-      references = alert['references']
-      urls = []
-      for ref in references:
-        urls.append(ref['url'])
-
-      ws.cell(row=ws.max_row, column=col).value = '\n'.join(urls)
+      if value != '':
+        ws.cell(row=ws.max_row, column=col).value = value
 
 def exportToXls(data, templateFile, outputFile):
   wb = load_workbook(templateFile)
@@ -115,15 +132,20 @@ def exportToXls(data, templateFile, outputFile):
   for category in data:
     for type in data[category]:
       for alert in data[category][type]:
+        columnsToAdd = [
+          category,
+          type
+          ]
+
         match alert['type'].lower():
           case 'metric':
-            wsMetric.append([category, type, alert['name'], alert['description']])
+            wsMetric.append(columnsToAdd)
             addAlertToSheet(alert, wsMetric)
           case 'log':
-            wsLog.append([category, type, alert['name'], alert['description']])
+            wsLog.append(columnsToAdd)
             addAlertToSheet(alert, wsLog)
           case 'activitylog':
-            wsActivity.append([category, type, alert['name'], alert['description']])
+            wsActivity.append(columnsToAdd)
             addAlertToSheet(alert, wsActivity)
           case _:
             print('Unknown alert type: ' + alert['type'])
