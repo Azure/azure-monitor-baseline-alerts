@@ -15,6 +15,11 @@ To start, you can either download a copy of the parameter file or clone/fork the
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
 - Change the value of the following parameters at the beginning of parameter file according to the instructions below:
+
+  {{< hint type=note >}}
+  Despite it is possible not to add any notification information (no email, no ARM Role,no Logic App, etc.) it is strongly recommended to setup at least one option to make sure alerts will not be overlooked.
+  {{< /hint >}}
+
   - Change the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 
 - Change the value of parameters under the _```policyAssignmentParametersCommon```_ according to the instructions below:
@@ -23,14 +28,9 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   - Change the value of _```ALZMonitorResourceGroupLocation```_ to specify the location for said resource group.
 
 - Change the value of parameters under the _```policyAssignmentParametersNotificationAssets```_ according to the instructions below:
-
-  {{< hint type=note >}}
-  Despite it is possible not to add any notification information (no email, no ARM Role,no Logic App, etc.) it is strongly recommended to setup at least one option to make sure alerts will not be overlooked.
-  {{< /hint >}}
-
   - Change the value of _```ALZMonitorActionGroupEmail```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
   - Change the value of _```ALZLogicappResourceId```_ to the Logic app resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used.
-  - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [_**Get-AzLogicAppTriggerCallbackUrl**_](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to _**Logic app designer**_, expand the trigger activity (_When an HTTP request is received_*_) and copy the value in the URL field using the 2-sheets icon.
+  - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [_**Get-AzLogicAppTriggerCallbackUrl**_](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to _**Logic app designer**_, expand the trigger activity (_When an HTTP request is received_) and copy the value in the URL field using the 2-sheets icon.
 
     ![Get Logic app callback url](../../media/AMBA-LogicAppCallbackUrl.png)
 
