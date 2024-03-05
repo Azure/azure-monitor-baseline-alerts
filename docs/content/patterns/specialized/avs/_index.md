@@ -7,7 +7,7 @@ geekdocCollapseSection: true
 
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
-**Current Version:**  
+**Current Version:**
 v1.0.0 (Mar 4, 2024)
 
 ## Alerts Table
