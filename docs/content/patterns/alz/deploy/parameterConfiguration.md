@@ -41,7 +41,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
 
     "ALZMonitorActionGroupEmail": {
-      "value": "action1@mail.com , action2@mail.com , action3@mail.com"
+      "value": "action1@contoso.com , action2@contoso.com , action3@contoso.com"
       },
 
     "ALZArmRoleId": {
@@ -72,7 +72,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of _```LandingZoneManagementGroup```_ to the management group id for Landing Zones. The same management group id may be repeated.
 
 {{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_ , _```connectivityMaagementGroup```_ and _```LZManagementGroup```_ with the same management group id.
+For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_ , _```connectivityManagementGroup```_ and _```LZManagementGroup```_ with the same management group id.
 {{< /hint >}}
 
 ### If you have a single management group

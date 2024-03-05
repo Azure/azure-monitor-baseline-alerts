@@ -27,7 +27,7 @@ To start, you can either download a copy of the parameter file or clone/fork the
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
-- Change the value of the following parameters at the beginning of parameter file according to the following instructions:
+- Change the value of the following parameters at the beginning of parameter file according to the instructions below:
   - Change the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
 
 - Change the value of parameters under the _```policyAssignmentParametersCommon```_ according to the instructions below:
@@ -42,7 +42,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Get Logic app callback url](../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Change the value of _```ALZArmRoleId```_ to the ARM Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no ARM Role notification is required.
+  - Change the value of _```ALZArmRoleId```_ to the Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is required.
   - Change the value of _```ALZEventHubResourceId```_ to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
   - Change the value of _```ALZWebhookServiceUri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
   - Change the value of _```ALZFunctionResourceId```_ to the Function resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.
@@ -54,7 +54,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
 
     "ALZMonitorActionGroupEmail": {
-      "value": "action1@mail.com , action2@mail.com , action3@mail.com"
+      "value": "action1@contoso.com , action2@contoso.com , action3@contoso.com"
       },
 
     "ALZArmRoleId": {
@@ -131,7 +131,7 @@ The parameter file shown below has been truncated for brevity, compared to the s
             "value": "No"
         },
         "enableAMBAIdentity": {
-            "value": "NO"
+            "value": "No"
         },
         "enableAMBALandingZone": {
             "value": "No"
