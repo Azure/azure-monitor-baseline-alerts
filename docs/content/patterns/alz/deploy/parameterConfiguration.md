@@ -3,7 +3,7 @@ title: Parameter configuration
 geekdocHidden: true
 ---
 {{< hint type=Important >}}
-Updating from the _***preview***_ version is not supported. If you deployed the _***preview***_ version, please proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
 
 ## 1. Parameter configuration
@@ -23,9 +23,14 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   - Change the value of _```ALZMonitorResourceGroupLocation```_ to specify the location for said resource group.
 
 - Change the value of parameters under the _```policyAssignmentParametersNotificationAssets```_ according to the instructions below:
-  - Change the value of _```ALZMonitorActionGroupEmail```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to.
+
+  {{< hint type=note >}}
+  Despite it is possible not to add any notification information (no email, no ARM Role,no Logic App, etc.) it is strongly recommended to setup at least one option to make sure alerts will not be overlooked.
+  {{< /hint >}}
+
+  - Change the value of _```ALZMonitorActionGroupEmail```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
   - Change the value of _```ALZLogicappResourceId```_ to the Logic app resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used.
-  - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [Get-AzLogicAppTriggerCallbackUrl](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to ***Logic app designer***, expand the trigger activity (*When an HTTP request is received*) and copy the value in the URL field using the 2-sheets icon.
+  - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [_**Get-AzLogicAppTriggerCallbackUrl**_](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to _**Logic app designer**_, expand the trigger activity (_When an HTTP request is received_*_) and copy the value in the URL field using the 2-sheets icon.
 
     ![Get Logic app callback url](../../media/AMBA-LogicAppCallbackUrl.png)
 
@@ -33,7 +38,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   - Change the value of _```ALZEventHubResourceId```_ to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
   - Change the value of _```ALZWebhookServiceUri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
   - Change the value of _```ALZFunctionResourceId```_ to the Function resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.
-  - Change the value of _```ALZFunctionTriggerUrl```_ to the Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the menu top menu and copy the value in the URL field using the 2-sheets icon.
+  - Change the value of _```ALZFunctionTriggerUrl```_ to the Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to _**Code + Test**_, select **Get function URL** from the menu top menu and copy the value in the URL field using the 2-sheets icon.
 
     ![Get function URL](../../media/AMBA-FunctionAppTriggerUrl.png)
 
@@ -53,7 +58,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
     },
   {{< /hint >}}
 
-- If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBALandingZone```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_ to ***"No"***.
+- If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBALandingZone```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_ to _**"No"**_.
 
 ### If you are aligned to ALZ
 
