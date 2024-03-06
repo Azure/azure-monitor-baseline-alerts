@@ -4,6 +4,7 @@ geekdocCollapseSection: true
 ---
 
 ## Overview
+
 [Azure Workbooks](https://learn.microsoft.com/azure/azure-monitor/visualize/workbooks-overview) provide a flexible canvas for data analysis and the creation of rich visual reports. You can use workbooks to tap into multiple data sources from across Azure and combine them into unified interactive experiences.
 
 Listed below are some examples of workbooks that you can use to visualize alerts and key metrics from Azure resources. These workbooks templates can be saved to your workbook gallery in Azure.
@@ -11,13 +12,15 @@ Listed below are some examples of workbooks that you can use to visualize alerts
 You can also find information below on [how to save workbook templates](http://localhost:1313/azure-monitor-baseline-alerts/visualizations/Azure-Workbooks/#import-workbook-templates-quick-start-guide) to your Azure subscription.
 
 ## Azure Monitor Community
+
 The Azure Monitor Team utilizes [this](https://github.com/microsoft/AzureMonitorCommunity/tree/master/Azure%20Services) github repo to share workbooks for various azure services. Below are some workbooks to highlight alert management and ExpressRoute/network monitoring.
 
 ## [Alert Management Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Alerts%20Management.workbook)
+
 A summary of alerts by your filtered subscription. This workbook contains visualizations of alerts triggered by type, serverity and top 5 noisiest objects.
 
-  ![Alert Management Image1](image.png)![image2](image-1.png)
-
+  ![Alert Management Image1](<../../../static/img/alert management wb.png>)
+  
 ## [ExpressRoute Monitoring Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Azure%20Network%20Monitoring.workbook)
 
 This workbook addresses a common challenge to effectively visualize the health and availability of ExpressRoute components. This is an interactive workbook that provides comprehensive monitoring and troubleshooting for ExpressRoute, including the monitoring of key metrics such as: ExpressRoute Circuit Status, BGP availablity, total throughput, and more.
@@ -30,26 +33,20 @@ For full details see:
   ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545407i490AE5C9D99AECEE/image-dimensions/2000?v=v2&px=-1)
 
 ## Import Workbook Templates: quick start guide
+
 Want to see these workbooks live in your Azure environment? Follow these steps to add gallery templates to your saved workbooks.
 
 1. Copy the raw file:
-  - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
 
-  ![alt text](image-7.png)
+    - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.![alt text](<../../../static/img/copy raw file.png>)
 
 2. Open Azure Monitor, and navigate to Workbooks:
-  - Once here, click "new".
-
-  ![alt text](image-3.png)
+    - Once here, click "new".![alt text](<../../../static/img/new workbook.png>)
 
 3. Open the advanced editor (</>):
-  - Paste the raw code, which was copied in step one, in the gallery template.
-  - Once finished, click apply.
-
-  ![alt text](image-4.png)
+    - Paste the raw code, which was copied in step one, in the gallery template.
+    - Once finished, click apply.![text](<../../../static/img/gallery template.png>)
 
 4. View your workbook and save it to your gallery:
-
-![alt text](image-5.png)
-
-![alt text](image-2.png)
+    ![alt text](<../../../static/img/save workbook.png>)
+    ![alt text](<../../../static/img/alert management wb.png>)
