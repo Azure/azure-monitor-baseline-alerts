@@ -29,10 +29,10 @@ For full details see:
   ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545405i13A8ECBF9B370BB4/image-dimensions/2000?v=v2&px=-1)
   ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545407i490AE5C9D99AECEE/image-dimensions/2000?v=v2&px=-1)
 
-## Import Workbook Templates: quick start guide.
+## Import Workbook Templates: quick start guide
 Want to see these workbooks live in your Azure environment? Follow these steps to add gallery templates to your saved workbooks.
 
-1. Copy the raw file: 
+1. Copy the raw file:
   - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
 
   ![alt text](image-7.png)
@@ -43,12 +43,12 @@ Want to see these workbooks live in your Azure environment? Follow these steps t
   ![alt text](image-3.png)
 
 3. Open the advanced editor (</>):
-  - Paste the raw code, which was copied in step one, in the gallery template. 
+  - Paste the raw code, which was copied in step one, in the gallery template.
   - Once finished, click apply.
 
   ![alt text](image-4.png)
 
-4. View your workbook and save it to your gallery: 
+4. View your workbook and save it to your gallery:
 
 ![alt text](image-5.png)
 
