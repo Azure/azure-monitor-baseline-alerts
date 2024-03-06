@@ -16,45 +16,40 @@ The Azure Monitor Team utilizes [this](https://github.com/microsoft/AzureMonitor
 ## [Alert Management Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Alerts%20Management.workbook)
 A summary of alerts by your filtered subscription. This workbook contains visualizations of alerts triggered by type, serverity and top 5 noisiest objects.
 
- ![Alert Management Image1](image.png)![image2](image-1.png)
+  ![Alert Management Image1](image.png)![image2](image-1.png)
 
 ## [ExpressRoute Monitoring Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Azure%20Network%20Monitoring.workbook)
 
 This workbook addresses a common challenge to effectively visualize the health and availability of ExpressRoute components. This is an interactive workbook that provides comprehensive monitoring and troubleshooting for ExpressRoute, including the monitoring of key metrics such as: ExpressRoute Circuit Status, BGP availablity, total throughput, and more.
 
- For full details see: 
+For full details see:
  [Monitoring ExpressRoute: A Workbook Solution](https://techcommunity.microsoft.com/t5/azure-observability-blog/monitoring-expressroute-a-workbook-solution/ba-p/4038130).
 
+  ![image3](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545394i89157D8B217AA777/image-dimensions/2000?v=v2&px=-1)
+  ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545405i13A8ECBF9B370BB4/image-dimensions/2000?v=v2&px=-1)
+  ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545407i490AE5C9D99AECEE/image-dimensions/2000?v=v2&px=-1)
 
- ![image3](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545394i89157D8B217AA777/image-dimensions/2000?v=v2&px=-1)
- ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545405i13A8ECBF9B370BB4/image-dimensions/2000?v=v2&px=-1)
- ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545407i490AE5C9D99AECEE/image-dimensions/2000?v=v2&px=-1)
+## Import Workbook Templates: quick start guide.
+Want to see these workbooks live in your Azure environment? Follow these steps to add gallery templates to your saved workbooks.
 
- ### Import Workbook Templates: quick start guide.
- Want to see these workbooks live in your Azure environment? Follow these steps to add gallary templates to your saved workbooks.
+1. Copy the raw file: 
+  - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
 
- 1. Copy the raw file: 
-- In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
-
-![alt text](image-7.png)
+  ![alt text](image-7.png)
 
 2. Open Azure Monitor, and navigate to Workbooks:
+  - Once here, click "new".
 
- - Once here, click "new".
-
-![alt text](image-3.png)
-    
-   
+  ![alt text](image-3.png)
 
 3. Open the advanced editor (</>):
-- Paste the raw code, which was copied in step one, in the gallary template. 
-- Once finished, click apply.
-![alt text](image-4.png)
+  - Paste the raw code, which was copied in step one, in the gallery template. 
+  - Once finished, click apply.
 
+  ![alt text](image-4.png)
 
 4. View your workbook and save it to your gallery: 
 
 ![alt text](image-5.png)
-
 
 ![alt text](image-2.png)
