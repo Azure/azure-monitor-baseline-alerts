@@ -8,7 +8,7 @@
     "displayName": "Deploy VM HeartBeat Alert",
     "description": "Policy to audit/deploy VM HeartBeat Alert for VMs in the resource group",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "category": "Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -197,6 +197,46 @@
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/enabled",
                 "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/evaluationFrequency",
+                "equals": "[[parameters('evaluationFrequency')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/windowSize",
+                "equals": "[[parameters('windowSize')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/severity",
+                "equals": "[[parameters('severity')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledqueryrules/autoMitigate",
+                "equals": "[[parameters('autoMitigate')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
+                "equals": "[[parameters('threshold')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
+                "equals": "[[parameters('operator')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].timeAggregation",
+                "equals": "[[parameters('timeAggregation')]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
+                "equals": "1"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
+                "equals": "1"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
+                "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
               }
             ]
           },

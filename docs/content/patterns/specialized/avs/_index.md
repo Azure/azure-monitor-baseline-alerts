@@ -7,7 +7,7 @@ geekdocCollapseSection: true
 
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
-**Current Version:**  
+**Current Version:**
 v1.0.0 (Mar 4, 2024)
 
 ## Alerts Table
@@ -17,7 +17,9 @@ Table below shows the Alerts configured after the deployment.
 | Name                              | Threshold(s) (Severity) | Signal Type        | Frequency       | # Alert Rules |
 |-----------------------------------|-------------------------|--------------------|-----------------|---------------|
 | CPU Usage per Cluster             | 80 (2)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
+| CPU Usage per Cluster (Critical)  | 95 (0)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
 | Memory Usage per Cluster          | 80 (2)                  | UsageAverage       | Every 5 minutes | 1             |
+| Memory Usage per Cluster (Critical) | 95 (0)                  | UsageAverage       | Every 5 minutes | 1             |
 | Storage Usage per Datastore       | 70 (2)                  | DiskUsedPercentage | Every 5 minutes | 1             |
 | Storage Usage per Datastore (Critical) | 75 (0)            | DiskUsedPercentage | Every 5 minutes | 1             |
 | Service Health Alerts             | N/A                     | ServiceHealth      | N/A             | 1             |
