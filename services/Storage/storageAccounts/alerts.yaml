@@ -19,7 +19,7 @@
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: LessThan
-    threshold: 90
+    threshold: 100 # JCore - Changed from 90 to 100 per customer feedback
     criterionType: StaticThresholdCriterion
     autoMitigate: false
   references:
@@ -30,6 +30,54 @@
   deployments:
     - name: Deploy SA Availability Alert
       template: Deploy-SA-Availability-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Resource
+        multiResource: false
+# JCore - Added based on AVD Alerts included this storage alert
+- name: Throttling
+  description:
+    The storage account will be throttled if throughput exceeds the account's tier limit. Increasing the file share or storage tier may be necessary.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+    - alz
+  properties:
+    metricName: Transactions
+    dimensions: 
+      - name: ResponseType
+        operator: Include
+        values:
+          - SuccessWithThrottling
+            SuccessWithShareIopsThrottling
+            ClientShareIopsThrottlingError
+      - name: FileShare
+        operator: Include
+        values:
+          - SuccessWithShareEgressThrottling
+            SuccessWithShareIngressThrottling
+            SuccessWithShareIopsThrottling
+            ClientShareEgressThrottlingError
+            ClientShareIngressThrottlingError
+            ClientShareIopsThrottlingError
+    metricNamespace: Microsoft.Storage/storageAccounts/fileServices
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThanOrEqual
+    threshold: 1
+    criterionType: StaticThresholdCriterion
+    autoMitigate: false
+  references:
+    - name: High latency, low throughput, or low IOPS
+      url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/files-troubleshoot-performance?tabs=windows#high-latency-low-throughput-or-low-iops
+  deployments:
+    - name: Deploy SA Throttling Alert
+      template: Deploy-SA-Throttling-Alert.json
       type: Policy
       tags:
         - alz
