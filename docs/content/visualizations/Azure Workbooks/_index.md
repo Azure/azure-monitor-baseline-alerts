@@ -26,7 +26,7 @@ A summary of alerts by your filtered subscription. This workbook contains visual
 This workbook addresses a common challenge to effectively visualize the health and availability of ExpressRoute components. This is an interactive workbook that provides comprehensive monitoring and troubleshooting for ExpressRoute, including the monitoring of key metrics such as: ExpressRoute Circuit Status, BGP availablity, total throughput, and more.
 
 For full details see:
- [Monitoring ExpressRoute: A Workbook Solution](https://techcommunity.microsoft.com/t5/azure-observability-blog/monitoring-expressroute-a-workbook-solution/ba-p/4038130).
+  [Monitoring ExpressRoute: A Workbook Solution](https://techcommunity.microsoft.com/t5/azure-observability-blog/monitoring-expressroute-a-workbook-solution/ba-p/4038130).
 
   ![image3](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545394i89157D8B217AA777/image-dimensions/2000?v=v2&px=-1)
   ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545405i13A8ECBF9B370BB4/image-dimensions/2000?v=v2&px=-1)
@@ -41,12 +41,15 @@ Want to see these workbooks live in your Azure environment? Follow these steps t
     - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.![alt text](<../../../static/img/copy raw file.png>)
 
 2. Open Azure Monitor, and navigate to Workbooks:
-    - Once here, click "new".![alt text](<../../../static/img/new workbook.png>)
+    - Once here, click "new".
+    ![alt text](<../../../static/img/new workbook.png>)
 
 3. Open the advanced editor (</>):
     - Paste the raw code, which was copied in step one, in the gallery template.
-    - Once finished, click apply.![text](<../../../static/img/gallery template.png>)
+    - Once finished, click apply.
+![alt text](<../../../static/img/gallery template.png>)
+4. View your workbook and save it to your gallery:l
 
-4. View your workbook and save it to your gallery:
-    ![alt text](<../../../static/img/save workbook.png>)
-    ![alt text](<../../../static/img/alert management wb.png>)
+![alt text](<../../../static/img/save workbook.png>)
+
+![alt text](<../../../static/img/alert management wb.png>)
