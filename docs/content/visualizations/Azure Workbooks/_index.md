@@ -9,7 +9,7 @@ geekdocCollapseSection: true
 
 Listed below are some examples of workbooks that you can use to visualize alerts and key metrics from Azure resources. These workbooks templates can be saved to your workbook gallery in Azure.
 
-You can also find information below on [how to save workbook templates](http://localhost:1313/azure-monitor-baseline-alerts/visualizations/Azure-Workbooks/#import-workbook-templates-quick-start-guide) to your Azure subscription.
+You can also find information below on [how to save workbook templates](#import-workbook-templates-quick-start-guide)
 
 ## Azure Monitor Community
 
@@ -17,8 +17,7 @@ The Azure Monitor Team utilizes [this](https://github.com/microsoft/AzureMonitor
 
 ## [Alert Management Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Alerts%20Management.workbook)
 
-A summary of alerts by your filtered subscription. This workbook contains visualizations of alerts triggered by type, serverity and top 5 noisiest objects.
-![alert management](../../img/alert-management-wb.png)
+A summary of alerts by your filtered subscription. This workbook contains visualizations of alerts triggered by type, serverity and top 5 noisiest objects.![alert management](../../../static/img/alert-management-wb.png)
 
 ## [ExpressRoute Monitoring Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Azure%20Network%20Monitoring.workbook)
 
