@@ -37,12 +37,17 @@ Want to see these workbooks live in your Azure environment? Follow these steps t
 1. Copy the raw file:
     - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
     ![image6](../../img/copy-raw-file.png)
+
 2. Open Azure Monitor, and navigate to Workbooks:
     - Once here, click "new".
+
     ![image7](../../img/new-workbook.png)
+
 3. Open the advanced editor (</>):
     - Paste the raw code, which was copied in step one, in the gallery template.
     - Once finished, click apply.
     ![image10](../../img/gallery-template.png)
+
 4. View your workbook and save it to your gallery:
+
     ![image11](../../img/save-workbook.png)
