@@ -19,7 +19,7 @@ The Azure Monitor Team utilizes [this](https://github.com/microsoft/AzureMonitor
 
 A summary of alerts by your filtered subscription. This workbook contains visualizations of alerts triggered by type, serverity and top 5 noisiest objects.
 ![alert management](../../img/alert-management-wb.png)
-  
+
 ## [ExpressRoute Monitoring Workbook](https://github.com/microsoft/AzureMonitorCommunity/blob/master/Azure%20Services/Azure%20Monitor/Workbooks/Azure%20Network%20Monitoring.workbook)
 
 This workbook addresses a common challenge to effectively visualize the health and availability of ExpressRoute components. This is an interactive workbook that provides comprehensive monitoring and troubleshooting for ExpressRoute, including the monitoring of key metrics such as: ExpressRoute Circuit Status, BGP availablity, total throughput, and more.
