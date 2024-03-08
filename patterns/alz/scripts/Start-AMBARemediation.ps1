@@ -95,7 +95,6 @@ function Get-PolicyType {
                 # Invoking policy remediation
                 $assignmentFound = $true
                 Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $PSItem.name -polassignId $PSItem.id -policyDefinitionReferenceId $policyName
-                Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
               }
             }
           }
@@ -154,6 +153,7 @@ function Enumerate-Policy {
 # wait for 5 minutes and then remediate the entire Alerting-ServiceHealth initiative.
 If($policyName -eq 'Alerting-ServiceHealth') {
   Get-PolicyType -managementGroupName $managementGroupName -policyName 'ALZ_ServiceHealth_ActionGroups'
+  Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
   Start-Sleep -Seconds 360
   Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
 }

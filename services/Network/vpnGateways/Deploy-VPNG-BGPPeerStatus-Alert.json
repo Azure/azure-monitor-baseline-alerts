@@ -8,7 +8,7 @@
     "displayName": "Deploy VPNG  BGP Peer Status Alert",
     "description": "Policy to audit/deploy VPN Gateway BGP Peer Status Alert",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -155,6 +155,34 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
                 "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/evaluationFrequency",
+                "equals": "[[parameters('evaluationFrequency')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/windowSize",
+                "equals": "[[parameters('windowSize')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/severity",
+                "equals": "[[parameters('severity')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/autoMitigate",
+                "equals": "[[parameters('autoMitigate')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                "equals": "Total"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].operator",
+                "equals": "LessThan"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
+                "equals": "[[parameters('threshold')]"
               }
             ]
           },
