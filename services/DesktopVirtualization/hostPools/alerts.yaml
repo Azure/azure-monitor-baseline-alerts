@@ -214,7 +214,7 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: 'WVDConnections
-      
+
       | where TimeGenerated > ago (15m)
 
       | where _ResourceId contains "xHostPoolNamex"
@@ -287,7 +287,7 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: 'WVDConnections
-    
+
       | where TimeGenerated > ago(24h)
 
       | where State == "Connected"
@@ -350,7 +350,7 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: 'WVDConnections
-    
+
       | where TimeGenerated > ago(24h)
 
       | where State == "Connected"
@@ -504,7 +504,7 @@
       | where InstanceName !contains "D:"
 
       | where InstanceName  !contains "_Total"
-      
+
       | where CounterValue <= 5.00
 
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
@@ -1135,55 +1135,55 @@
     query: 'let MapToDesc = (idx: long) {
 
       case(idx == 0, "DomainJoin",
-          
+
       idx == 1, "DomainTrust",
-          
+
       idx == 2, "FSLogix",
-          
+
       idx == 3, "SxSStack",
-          
+
       idx == 4, "URLCheck",
-          
+
       idx == 5, "GenevaAgent",
-          
+
       idx == 6, "DomainReachable",
-          
+
       idx == 7, "WebRTCRedirector",
-          
+
       idx == 8, "SxSStackEncryption",
-          
+
       idx == 9, "IMDSReachable",
-          
+
       idx == 10, "MSIXPackageStaging",
-          
+
       "InvalidIndex")};
-          
+
       WVDAgentHealthStatus
-      
+
       | where TimeGenerated > ago(10m)
-        
+
       | where Status != \''Available\''
-        
+
       | where AllowNewSessions = True
-        
+
       | extend CheckFailed = parse_json(SessionHostHealthCheckResult)
-        
+
       | mv-expand CheckFailed
-        
+
       | where CheckFailed.AdditionalFailureDetails.ErrorCode != 0
-        
+
       | extend HealthCheckName = tolong(CheckFailed.HealthCheckName)
-        
+
       | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)
-        
+
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
-        
+
       | where HealthCheckDesc != \''InvalidIndex\''
-        
+
       | where _ResourceId contains "xHostPoolNamex"
-        
+
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
-        
+
       | parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName'
     autoMitigate: true
     autoResolve: true
@@ -1234,9 +1234,9 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: 'AzureDiagnostics 
-    
+
       | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
-    
+
       | sort by TimeGenerated
 
       | where TimeGenerated > ago(15m)
