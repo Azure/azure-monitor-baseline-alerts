@@ -88,11 +88,15 @@ def addAlertToSheet(alert, ws, headerRow=1):
       elif key == 'references':
         references = alert['references']
         urls = []
-        for ref in references:
-          if 'url' in ref:
-            urls.append(ref['url'])
-          else:
-            print ('No URL in reference: ' + ref['name'])
+
+        if references:
+          for ref in references:
+            if 'url' in ref:
+              urls.append(ref['url'])
+            else:
+              print ('No URL in reference: ' + ref['name'])
+        else:
+          print ('No references in alert: ' + alert['name'])
 
         value = '\n'.join(urls)
       elif type(alert[key]) is str or type(alert[key]) is int or type(alert[key]) is bool:
