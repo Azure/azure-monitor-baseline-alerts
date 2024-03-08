@@ -196,4 +196,4 @@ Once you have committed changes to your fork of the AMBA repo, you create a pull
 
 1. Sometimes the local version of the website may show some inconsistencies that don't reflect the content you have created.
 
-   - If this happens, kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
+- If this happens, kill the Hugo local web server by pressing <kbd>CTRL</kbd>+<kbd>C</kbd> and then restart the Hugo web server by running `hugo server -D` from the root of the repo.
