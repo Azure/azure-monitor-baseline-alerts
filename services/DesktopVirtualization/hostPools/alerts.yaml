@@ -1,8 +1,8 @@
 - name: Capacity 85 Percent (xHostPoolNamex)
   description: This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
-               -->Last Number in the string is the Percentage Remaining for the Host Pool. 
-               Output is - 
-               HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
+    -->Last Number in the string is the Percentage Remaining for the Host Pool.
+    Output is -
+    HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
   type: Log
   verified: false
   visible: true
@@ -93,7 +93,10 @@
       scope: Subscription
       multiResource: false
 - name: Capacity 95 Percent (xHostPoolNamex)
-  description: This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex. -->Last Number in the string is the Percentage Remaining for the Host Pool. Output is - HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
+  description: This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
+    -->Last Number in the string is the Percentage Remaining for the Host Pool.
+    Output is -
+    HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
   type: Log
   verified: false
   visible: true
@@ -500,7 +503,7 @@
 
       | where InstanceName !contains "D:"
 
-      | where InstanceName  !contains "_Total"  
+      | where InstanceName  !contains "_Total"
       
       | where CounterValue <= 5.00
 
@@ -604,9 +607,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -682,9 +685,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -760,9 +763,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -839,9 +842,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -918,9 +921,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -997,9 +1000,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -1076,9 +1079,9 @@
 
       | extend ComputerName=tolower(ComputerName)
 
-      | summarize arg_max(TimeGenerated,*) by ComputerName  
+      | summarize arg_max(TimeGenerated,*) by ComputerName
 
-      | project VMresourceGroup, ComputerName, HostPool    
+      | project VMresourceGroup, ComputerName, HostPool
 
       ) on ComputerName'
     autoMitigate: true
@@ -1329,29 +1332,29 @@
       minFailingPeriodsToAlert: 1
     query: 'WVDConnections 
 
-      //  | where UserName == "upn.here@contoso.com" 
+      //  | where UserName == "upn.here@contoso.com"
 
-      | project-away TenantId,SourceSystem  
+      | project-away TenantId,SourceSystem
 
-      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'', TimeGenerated , datetime(null) )) by CorrelationId  
+      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'', TimeGenerated , datetime(null) )) by CorrelationId
 
       | join kind=leftouter (WVDErrors
 
-      |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic, ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError, ''Source'', Source)) by CorrelationId  
+      |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic, ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError, ''Source'', Source)) by CorrelationId
 
       ) on CorrelationId
 
       | join kind=leftouter (WVDCheckpoints
 
-      | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name, ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId  
+      | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name, ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId
 
-      | mv-apply Checkpoints on (  
+      | mv-apply Checkpoints on (
 
       order by todatetime(Checkpoints[''Time'']) asc
 
-      | summarize Checkpoints=make_list(Checkpoints) )
+      | summarize Checkpoints=make_list(Checkpoints))
 
-      ) on CorrelationId  
+      ) on CorrelationId
 
       | project-away CorrelationId1, CorrelationId2
 
