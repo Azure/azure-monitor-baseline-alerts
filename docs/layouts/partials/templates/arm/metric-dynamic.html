@@ -17,10 +17,10 @@
       }
     },
     "targetResourceId": {
-      "type": "array",
+      "type": "string",
       "minLength": 1,
       "metadata": {
-        "description": "array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
+        "description": "List of Azure resource Ids seperated by a comma. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
       }
     },
     "targetResourceRegion": {
@@ -120,7 +120,7 @@
         "PT1H",
         "PT6H",
         "PT12H",
-        "PT24H"
+        "PT24H",
         "PT1D"
       ],
       "metadata": {
@@ -160,7 +160,8 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
+    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
     {
@@ -173,7 +174,7 @@
       },
       "properties": {
         "description": "[parameters('alertDescription')]",
-        "scopes": "[parameters('targetResourceId')]",
+        "scopes": "[varTargetResourceId('targetResourceId')]",
         "targetResourceType": "[parameters('targetResourceType')]",
         "targetResourceRegion": "[parameters('targetResourceRegion')]",
         "severity": "[parameters('alertSeverity')]",
