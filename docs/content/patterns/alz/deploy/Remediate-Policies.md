@@ -20,6 +20,9 @@ To use the script, do the following:
 - Navigate to the root of the cloned repo
 - Set the variables
 - Run the remediation script
+
+  {{% include "PowerShell-ExecutionPolicy.md" %}}
+
 - For example, to remediate **Alerting-Management** initiative, assigned to the **alz-platform-management** Management Group run the following commands:
 
   ```powershell
@@ -54,4 +57,11 @@ $LZManagementGroup="The management group id for Landing Zones"
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LandingZone
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+```
+
+Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under [Policy Initiatives](../../Policy-Initiatives). For example, to remediate the ***Deploy AMBA Notification Assets*** policy, run the command below:
+
+```powershell
+#Run the following command to initiate remediation of a single policy definition
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
 ```

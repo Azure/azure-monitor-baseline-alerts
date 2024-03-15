@@ -23,6 +23,8 @@ Updating from release 2023-11-14 will require running a post update script to re
 
   2. Execute the script using one of the options below:
 
+  {{% include "PowerShell-ExecutionPolicy.md" %}}
+
   **Generate a list of the resource IDs which would be deleted by this script:**
 
   ```powershell
