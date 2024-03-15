@@ -1,0 +1,33 @@
+- name: TotalClientIOPS
+  description: Total number of client input/output operations per second
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: ClientIOPS
+    metricNamespace: microsoft.storagecache/caches
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10000
+    autoMitigate: false
+
+- name: AverageClientLatency
+  description: Average latency for client operations
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: ClientLatency
+    metricNamespace: microsoft.storagecache/caches
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10
+    autoMitigate: false
