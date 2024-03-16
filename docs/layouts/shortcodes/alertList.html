@@ -44,7 +44,11 @@ Alert List
         <hr style="height: 4px;">
         <h3>{{ .name }} - {{ .type }} Alert</h3>
         <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
-        <h4>Recommended Properties:</h4>
+        {{ if eq .verified true }}
+          <h4>Recommended Properties:</h4>
+        {{ else }}
+          <h4>Popular Properties:</h4>
+        {{ end }}
         <table>
           {{ range $key, $value := .properties }}
             <tr>

@@ -65,27 +65,8 @@
   references:
   - name: Recommended alert rules
     url: https://learn.microsoft.com/azure/azure-monitor/containers/container-insights-metric-alerts?tabs=arm-template%2Cazure-portal#recommended-alert-rules
-- name: node_memory_rss_percentage
-  description: Container RSS memory used in percent
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-2250
-  properties:
-    metricName: node_memory_rss_percentage
-    metricNamespace: Microsoft.ContainerService/managedClusters
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
 - name: kube_pod_status_phase
-  description: Number of pods in failed state
+  description: Number of pods by phase
   type: Metric
   verified: false
   visible: true
@@ -111,28 +92,8 @@
   references:
   - name: Recommended alert rules
     url: https://learn.microsoft.com/azure/azure-monitor/containers/container-insights-metric-alerts?tabs=arm-template%2Cazure-portal#recommended-alert-rules
-- name: cluster_autoscaler_cluster_safe_to_autoscale
-  description: Determines whether or not cluster autoscaler will take action on the
-    cluster
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1403
-  properties:
-    metricName: cluster_autoscaler_cluster_safe_to_autoscale
-    metricNamespace: Microsoft.ContainerService/managedClusters
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: LessThan
-    criterionType: StaticThresholdCriterion
-    threshold: 1.0
-    autoMitigate: false
 - name: kube_node_status_condition
-  description: Calculate if any node is in a not ready state
+  description: Statuses for various node conditions
   type: Metric
   verified: false
   visible: true
@@ -158,25 +119,6 @@
   references:
   - name: Recommended alert rules
     url: https://learn.microsoft.com/azure/azure-monitor/containers/container-insights-metric-alerts?tabs=arm-template%2Cazure-portal#recommended-alert-rules
-- name: cluster_autoscaler_unschedulable_pods_count
-  description: Number of pods that are currently unschedulable in the cluster
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1088
-  properties:
-    metricName: cluster_autoscaler_unschedulable_pods_count
-    metricNamespace: Microsoft.ContainerService/managedClusters
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
 - name: kube_pod_status_ready
   description: Number of pods in Ready state
   type: Metric
@@ -199,14 +141,69 @@
   references:
   - name: Recommended alert rules
     url: https://learn.microsoft.com/azure/azure-monitor/containers/container-insights-metric-alerts?tabs=arm-template%2Cazure-portal#recommended-alert-rules
+- name: node_memory_rss_percentage
+  description: Container RSS memory used in percent
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-2198
+  properties:
+    metricName: node_memory_rss_percentage
+    metricNamespace: Microsoft.ContainerService/managedClusters
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: cluster_autoscaler_unschedulable_pods_count
+  description: Number of pods that are currently unschedulable in the cluster
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1383
+  properties:
+    metricName: cluster_autoscaler_unschedulable_pods_count
+    metricNamespace: Microsoft.ContainerService/managedClusters
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: cluster_autoscaler_cluster_safe_to_autoscale
+  description: Determines whether or not cluster autoscaler will take action on the
+    cluster
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1311
+  properties:
+    metricName: cluster_autoscaler_cluster_safe_to_autoscale
+    metricNamespace: Microsoft.ContainerService/managedClusters
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
 - name: kube_node_status_allocatable_memory_bytes
   description: Total amount of available memory in a managed cluster
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-611
+  - agc-460
   properties:
     metricName: kube_node_status_allocatable_memory_bytes
     metricNamespace: Microsoft.ContainerService/managedClusters
@@ -216,16 +213,15 @@
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 1000000000.0
-    autoMitigate: false
+    threshold: 2147483648.0
 - name: kube_node_status_allocatable_cpu_cores
   description: Total number of available cpu cores in a managed cluster
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-391
+  - agc-314
   properties:
     metricName: kube_node_status_allocatable_cpu_cores
     metricNamespace: Microsoft.ContainerService/managedClusters
@@ -236,4 +232,3 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 2.0
-    autoMitigate: false

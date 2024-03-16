@@ -1,6 +1,7 @@
 ---
-title: Frontdoors
+title: frontdoors
 geekdocCollapseSection: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

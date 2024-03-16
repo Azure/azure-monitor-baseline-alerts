@@ -203,16 +203,18 @@ def main():
       category = resourceTypes[rt]['category'].replace('Microsoft.', '')
       if not os.path.exists(os.path.join(dir, category, '_index.md')):
         os.makedirs(os.path.join(dir, category), exist_ok=True)
-        with open(os.path.join(dir, category, '_index.md'), 'w+') as f:
-          f.write(f"---\ntitle: {category}\ngeekdocCollapseSection: true\ngeekdocHidden: true\n---\n")
+
+      with open(os.path.join(dir, category, '_index.md'), 'w+') as f:
+        f.write(f"---\ntitle: {category}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n")
 
       # create directory based on type if it doesn't exist
       subdir = type.split('/')[0]
       if not os.path.exists(os.path.join(dir, category, subdir, '_index.md')):
         os.makedirs(os.path.join(dir, category, subdir), exist_ok=True)
-        with open(os.path.join(dir, category, subdir, '_index.md'), 'w+') as f:
-          f.write(f"---\ntitle: {type}\ngeekdocCollapseSection: true\ngeekdocHidden: true\n---\n\n")
-          f.write('{{< alertList name="alertList" >}}')
+
+      with open(os.path.join(dir, category, subdir, '_index.md'), 'w+') as f:
+        f.write(f"---\ntitle: {type}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n\n")
+        f.write('{{< alertList name="alertList" >}}')
 
       # load existing yaml file if it exists
       filename = os.path.join(dir, category, subdir, "alerts.yaml")
@@ -236,14 +238,15 @@ def main():
               data[i]['description'] = description
               break
 
+        popped_alert = None
         # find record where properties.metricName == metric and tag contains auto-generated
         for i in range(len(data)):
           if data[i]['type'] != 'Metric': continue
           if "tags" not in data[i].keys(): continue
 
           if data[i]['properties']['metricName'] == metric and 'auto-generated' in data[i]['tags']:
-            if data[i]['verified'] == False:
-              data.pop(i)
+            if data[i]['verified'] == False and data[i]["visible"] == False:
+              popped_alert = data.pop(i)
               break
             else:
               addAlert = False
@@ -256,7 +259,7 @@ def main():
             "description": description,
             "type": "Metric",
             "verified": False,
-            "visible": False,
+            "visible": True,
             "tags": ["auto-generated", f"agc-{alert['numRules']}"],
             "properties": {
               "metricName": metric,
@@ -266,9 +269,13 @@ def main():
               "evaluationFrequency": alert['frequency'],
               "timeAggregation": alert['timeAggregation'].capitalize(),
               "operator": formatOperator(alert['operator']),
-              "criterionType": formatCriterion(alert['criterionType'])
+              "criterionType": formatCriterion(alert['criterionType']),
             }
           }
+
+          if popped_alert:
+            if 'references' in popped_alert.keys():
+              new_alert['references'] = popped_alert['references']
 
           if 'dimensions' in alert.keys():
             if alert['dimensions'] != '[]':

@@ -1,5 +1,5 @@
 ---
 title: Synapse
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

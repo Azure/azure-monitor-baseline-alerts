@@ -1,7 +1,7 @@
 ---
-title: workspaces
+title: workspaces/sqlPools
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

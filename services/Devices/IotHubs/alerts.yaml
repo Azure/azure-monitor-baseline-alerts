@@ -1,41 +1,3 @@
-- name: dailyMessageQuotaUsed
-  description: Number of total messages used today
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1708
-  properties:
-    metricName: dailyMessageQuotaUsed
-    metricNamespace: Microsoft.Devices/IotHubs
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 300000.0
-    autoMitigate: false
-- name: d2c.telemetry.ingress.sendThrottle
-  description: Number of throttling errors due to device throughput throttles
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-852
-  properties:
-    metricName: d2c.telemetry.ingress.sendThrottle
-    metricNamespace: Microsoft.Devices/IotHubs
-    severity: 3
-    windowSize: PT1H
-    evaluationFrequency: PT1H
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 10.0
-    autoMitigate: false
 - name: connectedDeviceCount
   description: Number of devices connected to your IoT hub
   type: Metric
@@ -75,3 +37,59 @@
     criterionType: StaticThresholdCriterion
     threshold: 24000.0
     autoMitigate: false
+- name: dailyMessageQuotaUsed
+  description: Number of total messages used today
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1896
+  properties:
+    metricName: dailyMessageQuotaUsed
+    metricNamespace: Microsoft.Devices/IotHubs
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 360000.0
+- name: d2c.telemetry.ingress.sendThrottle
+  description: Number of throttling errors due to device throughput throttles
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-574
+  properties:
+    metricName: d2c.telemetry.ingress.sendThrottle
+    metricNamespace: Microsoft.Devices/IotHubs
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: d2c.telemetry.egress.dropped
+  description: The number of times messages were dropped by IoT Hub routing due to
+    dead endpoints. This value does not count messages delivered to fallback route
+    as dropped messages are not delivered there.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-258
+  properties:
+    metricName: d2c.telemetry.egress.dropped
+    metricNamespace: Microsoft.Devices/IotHubs
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
