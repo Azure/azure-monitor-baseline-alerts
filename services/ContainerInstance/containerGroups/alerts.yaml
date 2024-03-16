@@ -1,30 +1,11 @@
-- name: MemoryUsage
-  description: Total memory usage in byte.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-49821
-  properties:
-    metricName: MemoryUsage
-    metricNamespace: Microsoft.ContainerInstance/containerGroups
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 2700000000.0
-    autoMitigate: false
 - name: CpuUsage
   description: CPU usage on all cores in millicores.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1474
+  - agc-1289
   properties:
     metricName: CpuUsage
     metricNamespace: Microsoft.ContainerInstance/containerGroups
@@ -35,23 +16,48 @@
     operator: GreaterThan
     criterionType: DynamicThresholdCriterion
     dimensions:
-    - name: containername
-      operator: include
+    - operator: include
+      name: containername
       values:
       - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false
+- name: MemoryUsage
+  description: Total memory usage in byte.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1281
+  properties:
+    metricName: MemoryUsage
+    metricNamespace: Microsoft.ContainerInstance/containerGroups
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    dimensions:
+    - operator: include
+      name: containername
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
+    alertSensitivity: Low
 - name: NetworkBytesReceivedPerSecond
   description: The network bytes received per second.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1237
+  - agc-1242
   properties:
     metricName: NetworkBytesReceivedPerSecond
     metricNamespace: Microsoft.ContainerInstance/containerGroups
@@ -63,17 +69,16 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false
 - name: NetworkBytesTransmittedPerSecond
   description: The network bytes transmitted per second.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1231
+  - agc-1238
   properties:
     metricName: NetworkBytesTransmittedPerSecond
     metricNamespace: Microsoft.ContainerInstance/containerGroups
@@ -85,6 +90,5 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false

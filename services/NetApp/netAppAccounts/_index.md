@@ -1,7 +1,7 @@
 ---
-title: netAppAccounts/capacityPools
+title: netAppAccounts
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

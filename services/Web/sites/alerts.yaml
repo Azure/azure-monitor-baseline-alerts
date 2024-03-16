@@ -3,27 +3,20 @@
     WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-21698
-  - deprecated
+  - agc-15815
   properties:
     metricName: AverageResponseTime
     metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT15M
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 30.0
-    autoMitigate: false
-  references:
-  - name: Web application monitoring on Azure
-    url: https://learn.microsoft.com/azure/architecture/web-apps/guides/monitoring/app-monitoring
-  - name: Troubleshoot - How to decrease the response time for the first request after idle time?
-    url: https://learn.microsoft.com/troubleshoot/azure/app-service/web-apps-performance-faqs#how-do-i-decrease-the-response-time-for-the-first-request-after-idle-time
+    threshold: 60.0
 - name: CpuTime
   description: The amount of CPU consumed by the app, in seconds. For more information
     about this metric. Please see https://aka.ms/website-monitor-cpu-time-vs-cpu-percentage
@@ -33,7 +26,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-17242
+  - agc-11669
   properties:
     metricName: CpuTime
     metricNamespace: Microsoft.Web/sites
@@ -44,7 +37,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 120.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -56,63 +48,7 @@
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#cpu-time-vs-cpu-percentage
   - name: Alerts and Autoscale in Azure App Service
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#alerts-and-autoscale
-- name: PrivateBytes
-  description: Private Bytes is the current size, in bytes, of memory that the app
-    process has allocated that can't be shared with other processes. For WebApps and
-    FunctionApps.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-13219
-  properties:
-    metricName: PrivateBytes
-    metricNamespace: Microsoft.Web/sites
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 1200000000.0
-    autoMitigate: false
-  references:
-  - name: Understand App Service Metrics
-    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
-  - name: Supported Metrics
-    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: RequestsInApplicationQueue
-  description: The number of requests in the application request queue. For WebApps
-    and FunctionApps.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-9854
-  properties:
-    metricName: RequestsInApplicationQueue
-    metricNamespace: Microsoft.Web/sites
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    dimensions:
-    - name: instance
-      operator: include
-      values:
-      - '*'
-    threshold: 10.0
-    autoMitigate: false
-  references:
-  - name: Understand App Service Metrics
-    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
-  - name: Supported Metrics
-    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: Connections
+- name: AppConnections
   description: The number of bound sockets existing in the sandbox (w3wp.exe and its
     child processes). A bound socket is created by calling bind()/connect() APIs and
     remains until said socket is closed with CloseHandle()/closesocket(). For WebApps
@@ -122,7 +58,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-9147
+  - agc-10341
   properties:
     metricName: AppConnections
     metricNamespace: Microsoft.Web/sites
@@ -133,12 +69,11 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: instance
-      operator: include
+    - operator: include
+      name: instance
       values:
       - '*'
     threshold: 6000.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -148,55 +83,55 @@
     url: https://learn.microsoft.com/azure/azure-functions/manage-connections?tabs=csharp
   - name: Configure Monitoring for Azure Functions
     url: https://learn.microsoft.com/azure/azure-functions/configure-monitoring?tabs=v2
-- name: Http401
-  description: The count of requests resulting in HTTP 401 status code. For WebApps
+- name: RequestsInApplicationQueue
+  description: The number of requests in the application request queue. For WebApps
     and FunctionApps.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-5591
+  - agc-10057
   properties:
-    metricName: Http401
+    metricName: RequestsInApplicationQueue
     metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT5M
+    severity: 3
+    windowSize: PT15M
     evaluationFrequency: PT5M
-    timeAggregation: Total
+    timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 20.0
-    autoMitigate: false
+    dimensions:
+    - operator: include
+      name: instance
+      values:
+      - '*'
+    threshold: 10.0
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
   - name: Supported Metrics
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-  - name: Client-side JavaScript SDK
-    url: https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk?tabs=javascriptwebsdkloaderscript
-  - name: Exception Reporting
-    url: https://learn.microsoft.com/azure/azure-monitor/app/asp-net-exceptions#set-up-exception-reporting
-- name: Http404
-  description: The count of requests resulting in HTTP 404 status code. For WebApps
-    and FunctionApps.
+- name: PrivateBytes
+  description: Private Bytes is the current size, in bytes, of memory that the app
+    process has allocated that can't be shared with other processes. For WebApps and
+    FunctionApps.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-5060
+  - agc-7758
   properties:
-    metricName: Http404
+    metricName: PrivateBytes
     metricNamespace: Microsoft.Web/sites
     severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 10.0
-    autoMitigate: false
+    threshold: 1200000000.0
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -210,18 +145,17 @@
   visible: true
   tags:
   - auto-generated
-  - agc-4838
+  - agc-7042
   properties:
     metricName: FileSystemUsage
     metricNamespace: Microsoft.Web/sites
-    severity: 2
+    severity: 1
     windowSize: PT6H
     evaluationFrequency: PT1H
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 400000000.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -237,7 +171,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-4748
+  - agc-5187
   properties:
     metricName: MemoryWorkingSet
     metricNamespace: Microsoft.Web/sites
@@ -248,7 +182,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1500000000.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -256,6 +189,77 @@
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
   - name: Monitor your app
     url: https://learn.microsoft.com/azure/app-service/troubleshoot-performance-degradation#monitor-your-app
+- name: Threads
+  description: The number of threads currently active in the app process. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-4574
+  properties:
+    metricName: Threads
+    metricNamespace: Microsoft.Web/sites
+    severity: 4
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 200.0
+  references:
+  - name: Understand App Service Metrics
+    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
+  - name: Supported Metrics
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
+- name: Http401
+  description: The count of requests resulting in HTTP 401 status code. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-4499
+  properties:
+    metricName: Http401
+    metricNamespace: Microsoft.Web/sites
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 20.0
+  references:
+  - name: Understand App Service Metrics
+    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
+  - name: Supported Metrics
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
+  - name: Client-side JavaScript SDK
+    url: https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk?tabs=javascriptwebsdkloaderscript
+  - name: Exception Reporting
+    url: https://learn.microsoft.com/azure/azure-monitor/app/asp-net-exceptions#set-up-exception-reporting
+- name: Requests
+  description: The total number of requests regardless of their resulting HTTP status
+    code. For WebApps and FunctionApps.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-4292
+  properties:
+    metricName: Requests
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
 - name: FunctionExecutionCount
   description: Function Execution Count. For FunctionApps only.
   type: Metric
@@ -263,7 +267,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-3540
+  - agc-3568
   properties:
     metricName: FunctionExecutionCount
     metricNamespace: Microsoft.Web/sites
@@ -274,7 +278,6 @@
     operator: LessThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
   references:
   - name: Function Execution Count
     url: https://learn.microsoft.com/azure/azure-functions/monitor-functions-reference#azure-functions-specific-metrics
@@ -282,32 +285,7 @@
     url: https://learn.microsoft.com/azure/azure-functions/monitor-functions?tabs=portal
   - name: Supported Metrics
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: Thread Count
-  description: The number of threads currently active in the app process. For WebApps
-    and FunctionApps.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-1457
-  properties:
-    metricName: Threads
-    metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100.0
-    autoMitigate: false
-  references:
-  - name: Understand App Service Metrics
-    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
-  - name: Supported Metrics
-    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: Data Out
+- name: BytesSent
   description: The amount of outgoing bandwidth consumed by the app, in MiB. For WebApps
     and FunctionApps.
   type: Metric
@@ -315,7 +293,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-1401
+  - agc-1448
   properties:
     metricName: BytesSent
     metricNamespace: Microsoft.Web/sites
@@ -327,9 +305,8 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -343,7 +320,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-1063
+  - agc-992
   properties:
     metricName: Http406
     metricNamespace: Microsoft.Web/sites
@@ -354,32 +331,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
-    autoMitigate: false
-  references:
-  - name: Understand App Service Metrics
-    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
-  - name: Supported Metrics
-    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: Data In
-  description: The amount of incoming bandwidth consumed by the app, in MiB. For WebApps
-    and FunctionApps.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-1020
-  properties:
-    metricName: BytesReceived
-    metricNamespace: Microsoft.Web/sites
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 2048000000.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -393,7 +344,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-1003
+  - agc-988
   properties:
     metricName: Http3xx
     metricNamespace: Microsoft.Web/sites
@@ -404,7 +355,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 15.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -414,7 +364,49 @@
     url: https://learn.microsoft.com/azure/app-service/troubleshoot-diagnostic-logs
   - name: HTTP Status Classes
     url: https://techcommunity.microsoft.com/t5/apps-on-azure-blog/troubleshooting-azure-app-service-apps-using-web-server-logs/ba-p/392329
-- name: Handle Count
+- name: WorkflowRunsFailureRate
+  description: Workflow Runs Failure Rate. For LogicApps only.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-865
+  properties:
+    metricName: WorkflowRunsFailureRate
+    metricNamespace: Microsoft.Web/sites
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: BytesReceived
+  description: The amount of incoming bandwidth consumed by the app, in MiB. For WebApps
+    and FunctionApps.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-836
+  properties:
+    metricName: BytesReceived
+    metricNamespace: Microsoft.Web/sites
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 2048000000.0
+  references:
+  - name: Understand App Service Metrics
+    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
+  - name: Supported Metrics
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
+- name: Handles
   description: The total number of handles currently open by the app process. For
     WebApps and FunctionApps.
   type: Metric
@@ -422,7 +414,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-752
+  - agc-778
   properties:
     metricName: Handles
     metricNamespace: Microsoft.Web/sites
@@ -434,9 +426,8 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -449,7 +440,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-426
+  - agc-463
   properties:
     metricName: FunctionExecutionUnits
     metricNamespace: Microsoft.Web/sites
@@ -460,19 +451,36 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 13000000000.0
-    autoMitigate: false
   references:
   - name: Function Execution Units
     url: https://learn.microsoft.com/azure/azure-functions/monitor-functions-reference#azure-functions-specific-metrics
+- name: WorkflowTriggersFailureRate
+  description: Workflow Triggers Failure Rate. For LogicApps only.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-412
+  properties:
+    metricName: WorkflowTriggersFailureRate
+    metricNamespace: Microsoft.Web/sites
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 50.0
 - name: Http2xx
   description: The count of requests resulting in an HTTP status code >= 200 but <
     300. For WebApps and FunctionApps.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-411
+  - agc-357
   properties:
     metricName: Http2xx
     metricNamespace: Microsoft.Web/sites
@@ -483,114 +491,34 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 15.0
-    autoMitigate: false
-- name: WorkflowRunsFailureRate #logic apps only
-  description: Workflow Runs Failure Rate. For LogicApps only.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-351
-  properties:
-    metricName: WorkflowRunsFailureRate
-    metricNamespace: Microsoft.Web/sites
-    severity: 1
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: Gen2GarbageCollections
-  description: The number of times the generation 2 objects are garbage collected
-    since the start of the app process. For WebApps and FunctionApps.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-258
-  properties:
-    metricName: Gen2Collections
-    metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Medium
-    autoMitigate: false
-  references:
-  - name: Garbage Collection and performance
-    url: https://learn.microsoft.com/dotnet/standard/garbage-collection/performance
-- name: Gen0GarbageCollections
-  description: The number of times the generation 0 objects are garbage collected
-    since the start of the app process. Higher generation GCs include all lower generation
-    GCs. For WebApps and FunctionApps.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-253
-  properties:
-    metricName: Gen0Collections
-    metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Medium
-    autoMitigate: false
-  references:
-  - name: Generation 0 Is Too Big (Issue)
-    url: https://learn.microsoft.com/dotnet/standard/garbage-collection/performance#issue-generation-0-is-too-big
-- name: Gen1GarbageCollections
-  description: The number of times the generation 1 objects are garbage collected
-    since the start of the app process. Higher generation GCs include all lower generation
-    GCs. For WebApps and FunctionApps.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-253
-  properties:
-    metricName: Gen1Collections
-    metricNamespace: Microsoft.Web/sites
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Medium
-    autoMitigate: false
-  references:
-  - name: Determine if problem is cause by garbage collection (troubleshoot)
-    url: https://learn.microsoft.com/dotnet/standard/garbage-collection/performance#to-determine-whether-the-problem-is-caused-by-garbage-collection
-- name: HttpServerErrors
-  description: The count of requests resulting in an HTTP status code >= 500 but < 600. For Web and Function Apps.
+- name: CurrentAssemblies
+  description: The current number of Assemblies loaded across all AppDomains in this
+    application. For WebApps and FunctionApps.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-1800
+  - agc-252
+  properties:
+    metricName: CurrentAssemblies
+    metricNamespace: Microsoft.Web/sites
+    severity: 0
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: slots - Http5xx
+  description: The count of requests resulting in an HTTP status code >= 500 but <
+    600.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1692
   properties:
     metricName: Http5xx
     metricNamespace: Microsoft.Web/sites/slots
@@ -601,7 +529,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -611,14 +538,14 @@
     url: https://techcommunity.microsoft.com/t5/apps-on-azure-blog/diagnose-app-service-web-apps-performance-issues-and-failing/ba-p/3339437
   - name: Troubleshoot HTTP 502/503 Errors
     url: https://learn.microsoft.com/azure/app-service/troubleshoot-http-502-http-503
-- name: ResponseTime
-  description: The time taken for the app to serve requests, in seconds. For WebApps and FunctionApps.
+- name: slots - HttpResponseTime
+  description: The time taken for the app to serve requests, in seconds.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-1020
+  - agc-662
   properties:
     metricName: HttpResponseTime
     metricNamespace: Microsoft.Web/sites/slots
@@ -629,7 +556,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -637,14 +563,15 @@
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
   - name: Troubleshoot Slow App Performance
     url: https://learn.microsoft.com/azure/app-service/troubleshoot-performance-degradation#collect
-- name: Http4xx
-  description: The count of requests resulting in an HTTP status code >= 400 but < 500. For WebApps and FunctionApps.
+- name: slots - Http4xx
+  description: The count of requests resulting in an HTTP status code >= 400 but <
+    500.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-685
+  - agc-486
   properties:
     metricName: Http4xx
     metricNamespace: Microsoft.Web/sites/slots
@@ -655,20 +582,19 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-    autoMitigate: false
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
   - name: Supported Metrics
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
-- name: AverageMemoryWorkingSet
-  description: The average amount of memory used by the app, in megabytes (MiB). For WebApps and FunctionApps.
+- name: slots - AverageMemoryWorkingSet
+  description: The average amount of memory used by the app, in megabytes (MiB).
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-350
+  - agc-381
   properties:
     metricName: AverageMemoryWorkingSet
     metricNamespace: Microsoft.Web/sites/slots
@@ -679,35 +605,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 800000000.0
-    autoMitigate: false
-- name: Requests
-  description: The total number of requests regardless of their resulting HTTP status. For WebApps and FunctionApps.
-    code.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-286
-  properties:
-    metricName: Requests
-    metricNamespace: Microsoft.Web/sites/slots
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 2000.0
-    autoMitigate: false
-- name: HealthCheckStatus
-  description: Health check status.  For WebApps and FunctionApps.
+- name: slots - HealthCheckStatus
+  description: Health check status
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-277
+  - agc-291
   properties:
     metricName: HealthCheckStatus
     metricNamespace: Microsoft.Web/sites/slots
@@ -718,7 +623,6 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-    autoMitigate:
   references:
   - name: Understand App Service Metrics
     url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
@@ -726,14 +630,14 @@
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics
   - name: Monitor App Service Instances using Health check
     url: https://learn.microsoft.com/azure/app-service/monitor-instances-health-check?tabs=dotnet
-- name: Http403
-  description: The count of requests resulting in HTTP 403 status code. For WebApps and FunctionApps.
+- name: slots - Http403
+  description: The count of requests resulting in HTTP 403 status code.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-251
+  - agc-270
   properties:
     metricName: Http403
     metricNamespace: Microsoft.Web/sites/slots
@@ -744,4 +648,26 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-    autoMitigate: false
+- name: slots - Http404
+  description: The count of requests resulting in HTTP 404 status code.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-258
+  properties:
+    metricName: Http404
+    metricNamespace: Microsoft.Web/sites/slots
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 30.0
+  references:
+  - name: Understand App Service Metrics
+    url: https://learn.microsoft.com/azure/app-service/web-sites-monitor#understand-metrics
+  - name: Supported Metrics
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-web-sites-metrics

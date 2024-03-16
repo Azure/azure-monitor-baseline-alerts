@@ -1,87 +1,11 @@
-- name: ServiceAvailability
-  description: Account requests availability at one hour, day or month granularity
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-21477
-  properties:
-    metricName: ServiceAvailability
-    metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 3
-    windowSize: PT1H
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: LessThan
-    criterionType: StaticThresholdCriterion
-    threshold: 98.0
-    autoMitigate: false
-  references:
-  - name: Monitor Azure Cosmos DB
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
-  - name: Create alerts for Azure Cosmos DB using Azure Monitor
-    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-  - name: Monitoring Azure Cosmos DB data reference
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#availability-metrics
-- name: NormalizedRUConsumption
-  description: Max RU consumption percentage per minute
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-20908
-  properties:
-    metricName: NormalizedRUConsumption
-    metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 48.0
-    autoMitigate: false
-  references:
-  - name: How to monitor normalized RU/s for an Azure Cosmos DB container or an account
-    url: https://learn.microsoft.com/en-us/azure/cosmos-db/monitor-normalized-request-units
-  - name: Monitor Azure Cosmos DB
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
-  - name: Create alerts for Azure Cosmos DB using Azure Monitor
-    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-- name: RemoveRegion
-  description: Region Removed
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-16334
-  properties:
-    metricName: RemoveRegion
-    metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Count
-    operator: GreaterThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-  references:
-  - name: Monitor Azure Cosmos DB
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
-  - name: Create alerts for Azure Cosmos DB using Azure Monitor
-    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
 - name: TotalRequests
-  description: Number of requests made with status code 429 (Failed Requests)
+  description: Number of requests made
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-11823
+  - agc-10210
   properties:
     metricName: TotalRequests
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -92,12 +16,11 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: statuscode
-      operator: include
+    - operator: include
+      name: statuscode
       values:
       - '429'
     threshold: 5.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
@@ -107,62 +30,64 @@
     url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#request-metrics
   - name: Explore Azure Monitor Azure Cosmos DB insights
     url: https://learn.microsoft.com/azure/cosmos-db/insights-overview#insights-overview
-- name: SqlContainerDelete
-  description: Sql Container Deleted
+- name: NormalizedRUConsumption
+  description: Max RU consumption percentage per minute
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-8289
+  - agc-7686
   properties:
-    metricName: SqlContainerDelete
+    metricName: NormalizedRUConsumption
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Count
-    operator: GreaterThanOrEqual
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+    threshold: 70.0
   references:
+  - name: How to monitor normalized RU/s for an Azure Cosmos DB container or an account
+    url: https://learn.microsoft.com/en-us/azure/cosmos-db/monitor-normalized-request-units
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-- name: SqlDatabaseDelete
-  description: Sql Database Deleted
+- name: ServiceAvailability
+  description: Account requests availability at one hour, day or month granularity
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-8209
+  - agc-5578
   properties:
-    metricName: SqlDatabaseDelete
+    metricName: ServiceAvailability
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 2
-    windowSize: PT15M
+    severity: 1
+    windowSize: PT1H
     evaluationFrequency: PT5M
-    timeAggregation: Count
-    operator: GreaterThanOrEqual
+    timeAggregation: Average
+    operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+    threshold: 99.9
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
+  - name: Monitoring Azure Cosmos DB data reference
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#availability-metrics
 - name: TotalRequestUnits
-  description: SQL Request Units consumed with status code 429 (Failed Requests)
+  description: SQL Request Units consumed
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-3159
+  - agc-3381
   properties:
     metricName: TotalRequestUnits
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -173,12 +98,11 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: statuscode
-      operator: include
+    - operator: include
+      name: statuscode
       values:
       - '429'
     threshold: 100.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
@@ -186,7 +110,8 @@
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
   - name: Monitoring Azure Cosmos DB data reference
     url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#request-unit-metrics
-  - name: How to monitor throughput or request unit usage of an operation in Azure Cosmos DB
+  - name: How to monitor throughput or request unit usage of an operation in Azure
+      Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor-request-unit-usage
 - name: ServerSideLatency
   description: Server Side Latency
@@ -195,7 +120,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-2777
+  - agc-2201
   properties:
     metricName: ServerSideLatency
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -205,8 +130,7 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 5000.0
-    autoMitigate: false
+    threshold: 100.0
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
@@ -221,18 +145,17 @@
   visible: true
   tags:
   - auto-generated
-  - agc-1568
+  - agc-1906
   properties:
     metricName: ProvisionedThroughput
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
     severity: 3
-    windowSize: PT5M
+    windowSize: PT1H
     evaluationFrequency: PT1M
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3000.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
@@ -240,63 +163,6 @@
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
   - name: Monitoring Azure Cosmos DB data reference
     url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#request-unit-metrics
-- name: MongoRequests
-  description: Number of Mongo Requests Made
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-1420
-  properties:
-    metricName: MongoRequests
-    metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Count
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 2500.0
-    autoMitigate: false
-  references:
-  - name: Monitor Azure Cosmos DB
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
-  - name: Create alerts for Azure Cosmos DB using Azure Monitor
-    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-  - name: Monitoring Azure Cosmos DB data reference
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#request-metrics
-- name: UpdateAccountKeys
-  description: Account Keys Updated
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-1397
-  properties:
-    metricName: UpdateAccountKeys
-    metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Count
-    operator: GreaterThanOrEqual
-    criterionType: StaticThresholdCriterion
-    dimensions:
-    - name: keytype
-      operator: include
-      values:
-      - '*'
-    threshold: 1.0
-    autoMitigate: false
-  references:
-  - name: Monitor Azure Cosmos DB
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
-  - name: Create alerts for Azure Cosmos DB using Azure Monitor
-    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-  - name: Monitor your Azure Cosmos DB account for key updates and key regeneration
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor-account-key-updates
 - name: RegionFailover
   description: Region Failed Over
   type: Metric
@@ -304,7 +170,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-1220
+  - agc-1531
   properties:
     metricName: RegionFailover
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -315,20 +181,49 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
+- name: UpdateAccountKeys
+  description: Account Keys Updated
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1232
+  properties:
+    metricName: UpdateAccountKeys
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: keytype
+      values:
+      - '*'
+    threshold: 1.0
+  references:
+  - name: Monitor Azure Cosmos DB
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
+  - name: Create alerts for Azure Cosmos DB using Azure Monitor
+    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
+  - name: Monitor your Azure Cosmos DB account for key updates and key regeneration
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor-account-key-updates
 - name: DataUsage
   description: Total data usage reported at 5 minutes granularity
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-936
+  - agc-707
   properties:
     metricName: DataUsage
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -338,24 +233,64 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 10000000000.0
-    autoMitigate: false
+    threshold: 2147483648.0
+- name: MongoRequests
+  description: Number of Mongo Requests Made
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-518
+  properties:
+    metricName: MongoRequests
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 9.0
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
   - name: Monitoring Azure Cosmos DB data reference
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#storage-metrics
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#request-metrics
+- name: RemoveRegion
+  description: Region Removed
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-448
+  properties:
+    metricName: RemoveRegion
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor Azure Cosmos DB
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
+  - name: Create alerts for Azure Cosmos DB using Azure Monitor
+    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
 - name: ReplicationLatency
   description: P99 Replication Latency across source and target regions for geo-enabled
     account
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-380
+  - agc-390
   properties:
     metricName: ReplicationLatency
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
@@ -366,13 +301,67 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5000.0
-    autoMitigate: false
+- name: SqlContainerDelete
+  description: Sql Container Deleted
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-364
+  properties:
+    metricName: SqlContainerDelete
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
   references:
   - name: Monitor Azure Cosmos DB
     url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
-  - name: Monitoring Azure Cosmos DB data reference
-    url: https://learn.microsoft.com/azure/cosmos-db/monitor-reference#latency-metrics
-  - name: Monitor and debug with insights in Azure Cosmos DB
-    url: https://learn.microsoft.com/en-us/azure/cosmos-db/use-metrics
+- name: OfflineRegion
+  description: Region Offlined
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-304
+  properties:
+    metricName: OfflineRegion
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: SqlDatabaseDelete
+  description: Sql Database Deleted
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-297
+  properties:
+    metricName: SqlDatabaseDelete
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor Azure Cosmos DB
+    url: https://learn.microsoft.com/azure/cosmos-db/monitor?tabs=azure-diagnostics
+  - name: Create alerts for Azure Cosmos DB using Azure Monitor
+    url: https://learn.microsoft.com/azure/cosmos-db/create-alerts

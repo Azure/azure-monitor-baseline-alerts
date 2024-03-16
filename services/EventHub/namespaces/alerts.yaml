@@ -1,90 +1,3 @@
-- name: ThrottledRequests
-  description: Throttled Requests for Microsoft.EventHub.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-17566
-  properties:
-    metricName: ThrottledRequests
-    metricNamespace: Microsoft.EventHub/namespaces
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 6
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Low
-    autoMitigate: false
-  references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
-    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
-- name: QuotaExceededErrors
-  description: Quota Exceeded Errors for Microsoft.EventHub.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-17532
-  properties:
-    metricName: QuotaExceededErrors
-    metricNamespace: Microsoft.EventHub/namespaces
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Low
-    autoMitigate: false
-  references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
-    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
-- name: ServerErrors
-  description: Server Errors for Microsoft.EventHub.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-17470
-  properties:
-    metricName: ServerErrors
-    metricNamespace: Microsoft.EventHub/namespaces
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 6
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
-    alertSensitivity: Low
-    autoMitigate: false
-  references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
-    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
 - name: IncomingMessages
   description: Incoming Messages for Microsoft.EventHub.
   type: Metric
@@ -92,7 +5,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-8388
+  - agc-9598
   properties:
     metricName: IncomingMessages
     metricNamespace: Microsoft.EventHub/namespaces
@@ -103,18 +16,17 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: entityname
-      operator: include
+    - operator: include
+      name: entityname
       values:
-      - diagnostic-logs
+      - application-logs
     threshold: 0.0
-    autoMitigate: false
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
 - name: OutgoingMessages
   description: Outgoing Messages for Microsoft.EventHub.
@@ -123,7 +35,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-7782
+  - agc-8753
   properties:
     metricName: OutgoingMessages
     metricNamespace: Microsoft.EventHub/namespaces
@@ -134,18 +46,67 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: entityname
-      operator: include
+    - operator: include
+      name: entityname
       values:
-      - diagnostic-logs
+      - application-logs
     threshold: 1.0
-    autoMitigate: false
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
+- name: ThrottledRequests
+  description: Throttled Requests for Microsoft.EventHub.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-7480
+  properties:
+    metricName: ThrottledRequests
+    metricNamespace: Microsoft.EventHub/namespaces
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
+- name: ServerErrors
+  description: Server Errors for Microsoft.EventHub.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-4871
+  properties:
+    metricName: ServerErrors
+    metricNamespace: Microsoft.EventHub/namespaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+  references:
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
 - name: UserErrors
   description: User Errors for Microsoft.EventHub.
@@ -154,61 +115,34 @@
   visible: true
   tags:
   - auto-generated
-  - agc-3719
+  - agc-2637
   properties:
     metricName: UserErrors
     metricNamespace: Microsoft.EventHub/namespaces
-    severity: 1
+    severity: 3
     windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
+    evaluationFrequency: PT5M
+    timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+    threshold: 5.0
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
-- name: NamespaceCpuUsage
-  description: CPU usage metric for Premium SKU namespaces.
+- name: QuotaExceededErrors
+  description: Quota Exceeded Errors for Microsoft.EventHub.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-995
+  - agc-2437
   properties:
-    metricName: NamespaceCpuUsage
-    metricNamespace: Microsoft.EventHub/namespaces
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT15M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 70.0
-    autoMitigate: false
-  references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
-    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
-- name: IncomingBytes
-  description: Incoming Bytes for Microsoft.EventHub.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-678
-  properties:
-    metricName: IncomingBytes
+    metricName: QuotaExceededErrors
     metricNamespace: Microsoft.EventHub/namespaces
     severity: 3
     windowSize: PT5M
@@ -216,14 +150,13 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 400000000.0
-    autoMitigate: false
+    threshold: 0.0
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
 - name: NamespaceMemoryUsage
   description: Memory usage metric for Premium SKU namespaces.
@@ -232,50 +165,48 @@
   visible: true
   tags:
   - auto-generated
-  - agc-664
+  - agc-1056
   properties:
     metricName: NamespaceMemoryUsage
     metricNamespace: Microsoft.EventHub/namespaces
-    severity: 3
+    severity: 2
     windowSize: PT15M
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
-- name: OutgoingBytes
-  description: Outgoing Bytes for Microsoft.EventHub.
+- name: NamespaceCpuUsage
+  description: CPU usage metric for Premium SKU namespaces.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-440
+  - agc-1050
   properties:
-    metricName: OutgoingBytes
+    metricName: NamespaceCpuUsage
     metricNamespace: Microsoft.EventHub/namespaces
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
-    threshold: 400000000.0
-    autoMitigate: false
+    threshold: 80.0
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
 - name: CaptureBacklog
   description: Capture Backlog for Microsoft.EventHub.
@@ -284,7 +215,7 @@
   visible: true
   tags:
   - auto-generated
-  - agc-438
+  - agc-553
   properties:
     metricName: CaptureBacklog
     metricNamespace: Microsoft.EventHub/namespaces
@@ -295,11 +226,60 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 50000000.0
-    autoMitigate: false
   references:
-  - name: "Monitor Azure Event Hubs"
-    url: "https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs"
-  - name: "Supported metrics for Microsoft.EventHub/namspaces"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics"
-  - name: "Monitoring Azure Event Hubs data reference"
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
+- name: IncomingBytes
+  description: Incoming Bytes for Microsoft.EventHub.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-547
+  properties:
+    metricName: IncomingBytes
+    metricNamespace: Microsoft.EventHub/namespaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 400000000.0
+  references:
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
+- name: OutgoingBytes
+  description: Outgoing Bytes for Microsoft.EventHub.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-328
+  properties:
+    metricName: OutgoingBytes
+    metricNamespace: Microsoft.EventHub/namespaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 400000000.0
+  references:
+  - name: Monitor Azure Event Hubs
+    url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs
+  - name: Supported metrics for Microsoft.EventHub/namspaces
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-eventhub-namespaces-metrics
+  - name: Monitoring Azure Event Hubs data reference
     url: https://learn.microsoft.com/en-us/azure/event-hubs/monitor-event-hubs-reference
