@@ -1,5 +1,5 @@
 ---
 title: StorageSync
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

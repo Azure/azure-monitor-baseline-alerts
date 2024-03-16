@@ -1,5 +1,5 @@
 ---
 title: ContainerInstance
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

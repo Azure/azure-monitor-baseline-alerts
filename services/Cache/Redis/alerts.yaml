@@ -1,12 +1,12 @@
 - name: serverLoad
   description: The percentage of cycles in which the Redis server is busy processing
-    and not waiting idle for messages.
+    and not waiting idle for messages. For more details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-129235
+  - agc-15027
   properties:
     metricName: serverLoad
     metricNamespace: Microsoft.Cache/Redis
@@ -17,44 +17,44 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 85.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: usedmemorypercentage
-  description: The percentage of cache memory used for key/value pairs.
+  description: The percentage of cache memory used for key/value pairs. For more details,
+    see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-125979
+  - agc-13670
   properties:
     metricName: usedmemorypercentage
     metricNamespace: Microsoft.Cache/Redis
-    severity: 3
+    severity: 2
     windowSize: PT15M
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 70.0
-    autoMitigate: false
+    threshold: 90.0
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: connectedclients
-  description: The number of client connections to the cache.
+  description: The number of client connections to the cache. For more details, see
+    https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-122242
+  - agc-10156
   properties:
     metricName: connectedclients
     metricNamespace: Microsoft.Cache/Redis
@@ -64,21 +64,21 @@
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 750.0
-    autoMitigate: false
+    threshold: 850.0
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: cacheRead
-  description: The amount of data read from the cache in bytes per second.
+  description: The amount of data read from the cache in bytes per second. For more
+    details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-121455
+  - agc-7790
   properties:
     metricName: cacheRead
     metricNamespace: Microsoft.Cache/Redis
@@ -89,7 +89,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 46875000.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
@@ -97,12 +96,13 @@
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: percentProcessorTime
   description: The CPU utilization of the Azure Redis Cache server as a percentage.
+    For more details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-4553
+  - agc-4143
   properties:
     metricName: percentProcessorTime
     metricNamespace: Microsoft.Cache/Redis
@@ -112,21 +112,67 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
+    threshold: 80.0
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
-- name: cacheLatency
-  description: The latency to the cache in microseconds.
+- name: allusedmemorypercentage
+  description: The percentage of cache memory used for key/value pairs. For more details,
+    see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-4152
+  - agc-1844
+  properties:
+    metricName: allusedmemorypercentage
+    metricNamespace: Microsoft.Cache/Redis
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 85.0
+- name: allserverLoad
+  description: The percentage of cycles in which the Redis server is busy processing
+    and not waiting idle for messages. For more details, see https://aka.ms/redis/metrics.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1571
+  properties:
+    metricName: allserverLoad
+    metricNamespace: Microsoft.Cache/Redis
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: shardid
+      values:
+      - '*'
+    - operator: include
+      name: primary
+      values:
+      - 'true'
+    threshold: 75.0
+- name: cacheLatency
+  description: The latency to the cache in microseconds. For more details, see https://aka.ms/redis/metrics.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1543
   properties:
     metricName: cacheLatency
     metricNamespace: Microsoft.Cache/Redis
@@ -137,45 +183,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000.0
-    autoMitigate: false
-  references:
-  - name: Monitor Azure Cache for Redis
-    url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
-  - name: Azure Cache for Redis List of metrics
-    url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
-- name: usedmemoryRss
-  description: The amount of cache memory used in MB, including fragmentation and
-    metadata.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-2830
-  properties:
-    metricName: usedmemoryRss
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 11000000000.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: errors
-  description: The number errors that occured on the cache.
+  description: The number errors that occured on the cache. For more details, see
+    https://aka.ms/redis/metrics.
   type: Metric
   verified: false
   visible: true
   tags:
   - auto-generated
-  - agc-1611
+  - agc-1534
   properties:
     metricName: errors
     metricNamespace: Microsoft.Cache/Redis
@@ -186,40 +207,48 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
   references:
   - name: Monitor Azure Cache for Redis
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
   - name: Azure Cache for Redis List of metrics
     url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
-- name: allusedmemorypercentage
-  description: The percentage of cache memory used for key/value pairs.
+- name: allpercentprocessortime
+  description: The CPU utilization of the Azure Redis Cache server as a percentage.
+    For more details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1425
+  - agc-1411
   properties:
-    metricName: allusedmemorypercentage
+    metricName: allpercentprocessortime
     metricNamespace: Microsoft.Cache/Redis
     severity: 3
-    windowSize: PT5M
+    windowSize: PT15M
     evaluationFrequency: PT1M
-    timeAggregation: Maximum
+    timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
+    dimensions:
+    - operator: include
+      name: shardid
+      values:
+      - '*'
+    - operator: include
+      name: primary
+      values:
+      - 'true'
+    threshold: 60.0
 - name: usedmemory
   description: The amount of cache memory used for key/value pairs in the cache in
-    MB.
+    MB. For more details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1199
+  - agc-1131
   properties:
     metricName: usedmemory
     metricNamespace: Microsoft.Cache/Redis
@@ -229,18 +258,18 @@
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 4000000000.0
-    autoMitigate: false
-- name: totalcommandsprocessed
-  description: The total number of commands processed by the cache server.
+    threshold: 200000000.0
+- name: usedmemoryRss
+  description: The amount of cache memory used in MB, including fragmentation and
+    metadata. For more details, see https://aka.ms/redis/metrics.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1007
+  - agc-549
   properties:
-    metricName: totalcommandsprocessed
+    metricName: usedmemoryRss
     metricNamespace: Microsoft.Cache/Redis
     severity: 3
     windowSize: PT5M
@@ -248,55 +277,21 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 500.0
-    autoMitigate: false
-- name: allserverLoad
-  description: The percentage of cycles in which the Redis server is busy processing
-    and not waiting idle for messages.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-721
-  properties:
-    metricName: allserverLoad
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 50.0
-    autoMitigate: false
-- name: allpercentprocessortime
-  description: The CPU utilization of the Azure Redis Cache server as a percentage.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-580
-  properties:
-    metricName: allpercentprocessortime
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
+    threshold: 11000000000.0
+  references:
+  - name: Monitor Azure Cache for Redis
+    url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor
+  - name: Azure Cache for Redis List of metrics
+    url: https://learn.microsoft.com/azure/azure-cache-for-redis/cache-how-to-monitor#list-of-metrics
 - name: allconnectedclients
-  description: The number of client connections to the cache.
+  description: The number of client connections to the cache. For more details, see
+    https://aka.ms/redis/metrics.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-417
+  - agc-395
   properties:
     metricName: allconnectedclients
     metricNamespace: Microsoft.Cache/Redis
@@ -306,63 +301,4 @@
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 100.0
-    autoMitigate: false
-- name: allusedmemory
-  description: The amount of cache memory used for key/value pairs in the cache in
-    MB.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-322
-  properties:
-    metricName: allusedmemory
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 0
-    windowSize: PT30M
-    evaluationFrequency: PT15M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 200000000.0
-    autoMitigate: false
-- name: cachemissrate
-  description: The % of get requests that miss.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-279
-  properties:
-    metricName: cachemissrate
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 2
-    windowSize: PT30M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: evictedkeys
-  description: The number of items evicted from the cache.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-273
-  properties:
-    metricName: evictedkeys
-    metricNamespace: Microsoft.Cache/Redis
-    severity: 2
-    windowSize: PT30M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
+    threshold: 128.0

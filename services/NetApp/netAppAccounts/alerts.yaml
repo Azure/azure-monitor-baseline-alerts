@@ -1,30 +1,11 @@
-- name: VolumePoolTotalLogicalSize
-  description: Sum of the logical size of all the volumes belonging to the pool
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1022
-  properties:
-    metricName: VolumePoolTotalLogicalSize
-    metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 3958241859993.6
-    autoMitigate: false
-- name: VolumeConsumedSizePercentage
+- name: capacityPools/volumes - VolumeConsumedSizePercentage
   description: The percentage of the volume consumed including snapshots.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-20837
+  - agc-19726
   properties:
     metricName: VolumeConsumedSizePercentage
     metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
@@ -35,53 +16,32 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
-- name: VolumeLogicalSize
+- name: capacityPools/volumes - VolumeLogicalSize
   description: Logical size of the volume (used bytes)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1741
+  - agc-1914
   properties:
     metricName: VolumeLogicalSize
     metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
-    severity: 3
+    severity: 2
     windowSize: PT1H
     evaluationFrequency: PT30M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 85899345920.0
-    autoMitigate: false
-- name: AverageReadLatency
-  description: Average read latency in milliseconds per operation
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-321
-  properties:
-    metricName: AverageReadLatency
-    metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 20.0
-    autoMitigate: false
-- name: AverageWriteLatency
+- name: capacityPools/volumes - AverageWriteLatency
   description: Average write latency in milliseconds per operation
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-320
+  - agc-375
   properties:
     metricName: AverageWriteLatency
     metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
@@ -92,17 +52,16 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 20.0
-    autoMitigate: false
-- name: VolumeAllocatedSize
-  description: The provisioned size of a volume
+- name: capacityPools/volumes - AverageReadLatency
+  description: Average read latency in milliseconds per operation
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-315
+  - agc-374
   properties:
-    metricName: VolumeAllocatedSize
+    metricName: AverageReadLatency
     metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
     severity: 3
     windowSize: PT5M
@@ -110,17 +69,16 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 107374182400.0
-    autoMitigate: false
-- name: CbsVolumeOperationComplete
+    threshold: 20.0
+- name: capacityPools/volumes - CbsVolumeOperationComplete
   description: Did the last volume backup or restore operation complete successfully?
     1 if yes, 0 if no.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-306
+  - agc-305
   properties:
     metricName: CbsVolumeOperationComplete
     metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
@@ -131,4 +89,21 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
-    autoMitigate: false
+- name: capacityPools/volumes - VolumeAllocatedSize
+  description: The provisioned size of a volume
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-301
+  properties:
+    metricName: VolumeAllocatedSize
+    metricNamespace: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 107374182400.0

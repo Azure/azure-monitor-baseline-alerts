@@ -1,6 +1,7 @@
 ---
-title: Virtual Network Gateways
+title: virtualNetworkGateways
 geekdocCollapseSection: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

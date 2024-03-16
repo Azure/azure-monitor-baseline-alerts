@@ -2,67 +2,82 @@
   description: Host CPU Percent
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3416
+  - agc-4594
   properties:
     metricName: cpu_percent
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
-    severity: 3
-    windowSize: PT1H
+    severity: 2
+    windowSize: PT6H
     evaluationFrequency: PT1H
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-    autoMitigate: false
-- name: memory_percent
-  description: Host Memory Percent
+- name: io_consumption_percent
+  description: Storage I/O consumption percent
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2894
+  - agc-3512
   properties:
-    metricName: memory_percent
+    metricName: io_consumption_percent
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
-    severity: 3
-    windowSize: PT1H
+    severity: 2
+    windowSize: PT6H
     evaluationFrequency: PT1H
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-    autoMitigate: false
 - name: storage_percent
   description: Storage Percent
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2642
+  - agc-1889
   properties:
     metricName: storage_percent
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: memory_percent
+  description: Host Memory Percent
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1624
+  properties:
+    metricName: memory_percent
+    metricNamespace: Microsoft.DBforMySQL/flexibleServers
     severity: 3
-    windowSize: PT1H
-    evaluationFrequency: PT1H
+    windowSize: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
+    threshold: 95.0
 - name: aborted_connections
   description: Aborted Connections
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-922
+  - agc-1093
   properties:
     metricName: aborted_connections
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
@@ -72,54 +87,33 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 4.0
-    autoMitigate: false
+    threshold: 10.0
 - name: active_connections
   description: Active Connections
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-802
+  - agc-1039
   properties:
     metricName: active_connections
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
-    severity: 1
+    severity: 2
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5000.0
-    autoMitigate: false
-- name: io_consumption_percent
-  description: Storage I/O consumption percent
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-753
-  properties:
-    metricName: io_consumption_percent
-    metricNamespace: Microsoft.DBforMySQL/flexibleServers
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
 - name: replication_lag
   description: Replication lag in seconds
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-292
+  - agc-372
   properties:
     metricName: replication_lag
     metricNamespace: Microsoft.DBforMySQL/flexibleServers
@@ -130,4 +124,21 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 6000.0
-    autoMitigate: false
+- name: storage_limit
+  description: Storage Limit
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-331
+  properties:
+    metricName: storage_limit
+    metricNamespace: Microsoft.DBforMySQL/flexibleServers
+    severity: 3
+    windowSize: PT30M
+    evaluationFrequency: PT15M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 15000000000000.0
