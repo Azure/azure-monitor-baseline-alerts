@@ -1,5 +1,5 @@
 ---
-title: Network Security Groups
+title: networkSecurityGroups
 geekdocCollapseSection: true
 ---
 
