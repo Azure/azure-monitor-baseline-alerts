@@ -1,4 +1,6 @@
 ---
+title: PowerShell ExecutionPolicy
+geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
