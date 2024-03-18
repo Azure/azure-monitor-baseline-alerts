@@ -1,5 +1,5 @@
 ---
-title: ExpressRoute Gateways
+title: expressRouteGateways
 geekdocCollapseSection: true
 ---
 

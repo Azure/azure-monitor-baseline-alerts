@@ -1,5 +1,5 @@
 ---
-title: Azure Bastion Host
+title: bastionHosts
 geekdocCollapseSection: true
 ---
 

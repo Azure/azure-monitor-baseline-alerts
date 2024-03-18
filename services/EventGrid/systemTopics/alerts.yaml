@@ -1,11 +1,29 @@
+- name: PublishFailCount
+  description: Total events failed to publish to this topic
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1051
+  properties:
+    metricName: PublishFailCount
+    metricNamespace: Microsoft.EventGrid/systemTopics
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
 - name: DeliveryAttemptFailCount
   description: Total events failed to deliver to this event subscription
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-429
+  - agc-563
   properties:
     metricName: DeliveryAttemptFailCount
     metricNamespace: Microsoft.EventGrid/systemTopics
@@ -16,15 +34,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
 - name: DeadLetteredCount
   description: Total dead lettered events matching to this event subscription
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-354
+  - agc-376
   properties:
     metricName: DeadLetteredCount
     metricNamespace: Microsoft.EventGrid/systemTopics
@@ -35,4 +52,3 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false

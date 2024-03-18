@@ -1,0 +1,46 @@
+- name: DiskUsedPercentage
+  description: Percent of available disk used in Datastore
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-451
+  properties:
+    metricName: DiskUsedPercentage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 2
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: dsname
+      values:
+      - '*'
+    threshold: 75.0
+- name: UsageAverage
+  description: Memory usage as percentage of total configured or available memory
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-278
+  properties:
+    metricName: UsageAverage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 2
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: clustername
+      values:
+      - '*'
+    threshold: 80.0

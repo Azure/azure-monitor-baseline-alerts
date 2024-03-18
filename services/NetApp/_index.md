@@ -1,5 +1,5 @@
 ---
 title: NetApp
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
