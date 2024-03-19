@@ -17,6 +17,10 @@ v1.0.0 (Mar 14, 2024)
 [Monitoring for HPC Cache]()
 [Monitoring for Azure Managed Lustre]()
 
+## GPU Monitoring
+
+We are working on explicit GPU metrics to monitor to for HPC/AI workloads. Until then, Azure HPC Ubuntu VMs come with [Moneo](https://github.com/Azure/Moneo)
+
 ## 📣Feedback 📣
 
 Once you've had an opportunity to deploy the solution we'd love to hear from you! Click [here](https://aka.ms/alz/monitor/feedback) to leave your feedback.
