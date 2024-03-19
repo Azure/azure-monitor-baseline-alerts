@@ -504,6 +504,7 @@ var LogAlertsHostPool = [
           | where InstanceName !contains "D:"
           | where InstanceName  !contains "_Total"| where CounterValue <= 10.00
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+          | summarize arg_max(TimeGenerated, *) by ComputerName
           | extend ComputerName=tolower(ComputerName)
           | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
           | join kind = leftouter
@@ -517,6 +518,7 @@ var LogAlertsHostPool = [
               | summarize arg_max(TimeGenerated,*) by ComputerName
               | project VMresourceGroup, ComputerName, HostPool, _ResourceId
               ) on ComputerName
+          | where ComputerName1 contains ComputerName
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -571,6 +573,7 @@ var LogAlertsHostPool = [
           | where InstanceName !contains "D:"
           | where InstanceName  !contains "_Total"| where CounterValue <= 5.00
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+          | summarize arg_max(TimeGenerated, *) by ComputerName
           | extend ComputerName=tolower(ComputerName)
           | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
           | join kind = leftouter
@@ -584,6 +587,7 @@ var LogAlertsHostPool = [
               | summarize arg_max(TimeGenerated,*) by ComputerName
               | project VMresourceGroup, ComputerName, HostPool, _ResourceId
               ) on ComputerName
+          | where ComputerName1 contains ComputerName
           '''
           timeAggregation: 'Count'
           dimensions: [
