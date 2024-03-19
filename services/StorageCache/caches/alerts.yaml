@@ -8,11 +8,14 @@
   properties:
     metricName: Uptime
     metricNamespace: Microsoft.StorageCache/caches
-    severity: 3
+    severity: 1
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Total
-    operator: GreaterThan
+    operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: False
+    threshold: 99
     autoMitigate: false
+  references:
+    - name: Monitor HPC Cache with metrics and alerts
+      url: https://learn.microsoft.com/en-us/azure/hpc-cache/metrics#metrics-page
