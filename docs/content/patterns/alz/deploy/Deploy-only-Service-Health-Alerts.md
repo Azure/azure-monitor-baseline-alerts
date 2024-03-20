@@ -30,7 +30,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 - Change the value of the following parameters at the beginning of parameter file according to the instructions below:
 
   {{< hint type=note >}}
-  Despite it is possible not to add any notification information (no email, no ARM Role,no Logic App, etc.) it is strongly recommended to setup at least one option to make sure alerts will not be overlooked.
+  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.
   {{< /hint >}}
 
   - Change the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
