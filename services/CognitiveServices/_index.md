@@ -1,5 +1,5 @@
 ---
 title: CognitiveServices
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

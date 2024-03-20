@@ -14,25 +14,25 @@ The repo at present contains code and details for the following:
 
 Alerts, action groups and alert processing rules are created as follows:
 
-1. All metric alerts are created in the resource group where the resource that is being monitored exists. i.e. creating an ER circuit in a resource group covered by the policies will create the corresponding alerts in that same resource group.
+1. All metric alerts are created in the resource group where the resource that is being monitored exists. For example, creating an ER circuit in a resource group covered by the policies will create the corresponding alerts in that same resource group.
 2. Activity log alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
 3. Resource health alerts are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
 4. Action groups and alert processing rules are created in a specific resource group (created specifically by and used for this solution) in each subscription, when the subscription is deployed. The resource group name is parameterized, with a default value of rg-amba-monitoring-001.
 
 ## Prerequisites
 
-1. Azure Active Directory Tenant.
+1. Microsoft Entra ID Tenant.
 2. ALZ Management group hierarchy deployed as described [here](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas).*
-3. Minimum 1 subscription, for when deploying alerts through policies.
+3. Minimum one subscription, for when deploying alerts through policies.
 4. Deployment Identity with `Owner` permission to the pseudo root management group.  Owner permission is required to allow the Service Principal Account to create role-based access control assignments.
 5. If deploying manually, i.e. via Azure CLI or PowerShell, ensure that you have [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) installed and working, before attempting installation. See here for how to configure for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and here for [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell)
 6. For the policies to work, the following Azure resource providers, normally registered by default, must be registered on all subscriptions in scope:
     - Microsoft.AlertsManagement
     - Microsoft.Insights
 
-    Please see [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider) for details on how to register a resource provider should you need to do so.
+    See [here](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider) for details on how to register a resource provider should you need to do so.
 
-7. For leveraging the log alerts for Virtual Machines, ensure that VM Insights is enabled for the Virtual Machines to be monitored. For more details on VM Insights deployment, see [here](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview) . Please note only the performance collection of the VM insights solution is required  for the current alerts to deploy.
+7. For leveraging the log alerts for Virtual Machines, ensure that VM Insights is enabled for the Virtual Machines to be monitored. For more information on VM Insights deployment, see [here](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview) . Note only the performance collection of the VM insights solution is required  for the current alerts to deploy.
 
 {{< hint type=note >}}
 While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. These policies and initiatives can be implemented in existing brownfield scenarios that don´t adhere to the ALZ Management Group hierarchy. For example, in hierarchies where there is a single management group, or where the structure does not align to ALZ. At least one management group is required. In case you haven't implemented management groups, we included guidance on how to get started.
@@ -113,7 +113,7 @@ If you have this management group hierarchy, you can skip forward to your prefer
 
 If management groups were never configured in your environment, there are some additional steps that need to be implemented. To be able to deploy the policies and initiatives through the guidance and code we provide you need to create at least one management group, and by doing so the tenant root management group is created automatically. We strongly recommend following the [Azure Landing Zones guidance](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups) on management group design.
 
-Please refer to our [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/create-management-group-portal) on how to create management groups.
+Refer to our [documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/create-management-group-portal) on how to create management groups.
 
 If you implemented the recommended management group design, you can skip forward to your preferred deployment method, following the ALZ aligned guidance.
 
@@ -146,7 +146,7 @@ This customized policy can then be deployed into your environment to deliver the
 
 ### How to modify individual policies
 
-Policy files are stored in the 'services' folder. The **services** folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (e.g. Compute), and then by resource type (e.g. virtualMachines). The example folder structure below highlights the position of individual policy files:
+Policy files are stored in the 'services' folder. The **services** folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource category (for example, Compute), and then by resource type (for example, virtualMachines). The example folder structure below highlights the position of individual policy files:
 
 ```plaintext
 ├── patterns
@@ -172,7 +172,8 @@ To modify settings that are not parameterized, follow the steps below:
 5. Deploy you local modified copy using the below command:
 
     ```AZ CLI
-    az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+    az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
+    --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
     ```
 
 ## Disabling Monitoring
@@ -193,6 +194,6 @@ In some scenarios, it may be necessary to remove everything deployed by the ALZ 
 
 - To customize policy assignments, please proceed with [Customize Policy Assignment](../Customize-Policy-Assignment)
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
-- To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
+- To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
 - To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)

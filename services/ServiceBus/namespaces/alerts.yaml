@@ -2,10 +2,10 @@
   description: Count of dead-lettered messages in a Queue/Topic.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-38142
+  - agc-29194
   properties:
     metricName: DeadletteredMessages
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -16,15 +16,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
 - name: ActiveMessages
   description: Count of active messages in a Queue/Topic.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-25181
+  - agc-24605
   properties:
     metricName: ActiveMessages
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -35,15 +34,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-    autoMitigate: false
 - name: Size
   description: Size of an Queue/Topic in Bytes.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-20672
+  - agc-22027
   properties:
     metricName: Size
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -54,39 +52,19 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: entityname
-      operator: include
+    - operator: include
+      name: entityname
       values:
       - lp-cl-sa-centralus-queue
     threshold: 3000000000.0
-    autoMitigate: false
-- name: NamespaceCpuUsage
-  description: Service bus premium namespace CPU usage metric.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-16694
-  properties:
-    metricName: NamespaceCpuUsage
-    metricNamespace: Microsoft.ServiceBus/namespaces
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 85.0
-    autoMitigate: false
 - name: Messages
   description: Count of messages in a Queue/Topic.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-7213
+  - agc-7384
   properties:
     metricName: Messages
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -97,53 +75,68 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
-    autoMitigate: false
 - name: ThrottledRequests
   description: Throttled Requests for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3899
+  - agc-3342
   properties:
     metricName: ThrottledRequests
     metricNamespace: Microsoft.ServiceBus/namespaces
-    severity: 1
+    severity: 0
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+    threshold: 10.0
 - name: ServerErrors
   description: Server Errors for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3695
+  - agc-3184
   properties:
     metricName: ServerErrors
     metricNamespace: Microsoft.ServiceBus/namespaces
-    severity: 1
+    severity: 3
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
+- name: NamespaceCpuUsage
+  description: Service bus premium namespace CPU usage metric.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-2328
+  properties:
+    metricName: NamespaceCpuUsage
+    metricNamespace: Microsoft.ServiceBus/namespaces
+    severity: 2
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 85.0
 - name: UserErrors
   description: User Errors for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2036
+  - agc-1427
   properties:
     metricName: UserErrors
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -154,15 +147,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
 - name: OutgoingMessages
   description: Outgoing Messages for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1096
+  - agc-1097
   properties:
     metricName: OutgoingMessages
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -173,15 +165,14 @@
     operator: LessThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
 - name: NamespaceMemoryUsage
   description: Service bus premium namespace memory usage metric.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1039
+  - agc-1092
   properties:
     metricName: NamespaceMemoryUsage
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -192,15 +183,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
 - name: IncomingMessages
   description: Incoming Messages for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-667
+  - agc-725
   properties:
     metricName: IncomingMessages
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -211,34 +201,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
-- name: ScheduledMessages
-  description: Count of scheduled messages in a Queue/Topic.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-425
-  properties:
-    metricName: ScheduledMessages
-    metricNamespace: Microsoft.ServiceBus/namespaces
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 500.0
-    autoMitigate: false
 - name: AbandonMessage
   description: Count of messages abandoned on a Queue/Topic.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-420
+  - agc-468
   properties:
     metricName: AbandonMessage
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -249,17 +219,34 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
-    autoMitigate: false
 - name: ServerSendLatency
   description: Latency of Send Message operations for Service Bus resources.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-353
+  - agc-420
   properties:
     metricName: ServerSendLatency
+    metricNamespace: Microsoft.ServiceBus/namespaces
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 500.0
+- name: ScheduledMessages
+  description: Count of scheduled messages in a Queue/Topic.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-394
+  properties:
+    metricName: ScheduledMessages
     metricNamespace: Microsoft.ServiceBus/namespaces
     severity: 3
     windowSize: PT5M
@@ -268,15 +255,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 500.0
-    autoMitigate: false
 - name: ActiveConnections
   description: Total Active Connections for Microsoft.ServiceBus.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-309
+  - agc-257
   properties:
     metricName: ActiveConnections
     metricNamespace: Microsoft.ServiceBus/namespaces
@@ -287,4 +273,3 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5000.0
-    autoMitigate: false

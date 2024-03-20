@@ -17,10 +17,10 @@
       }
     },
     "targetResourceId": {
-      "type": "array",
+      "type": "string",
       "minLength": 1,
       "metadata": {
-        "description": "Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
+        "description": "List of Azure resource Ids seperated by a comma. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
       }
     },
     "targetResourceRegion": {
@@ -34,13 +34,6 @@
       "minLength": 1,
       "metadata": {
         "description": "Resource type of target resources to be monitored."
-      }
-    },
-    "actionGroupId": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The ID of the action group that is triggered when the alert is activated or deactivated"
       }
     },
     "isEnabled": {
@@ -80,7 +73,7 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "{{ .properties.threshold }}",
+      "defaultValue": "{{ int .properties.threshold }}",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
@@ -110,7 +103,8 @@
         "PT1H",
         "PT6H",
         "PT12H",
-        "PT24H"
+        "PT24H",
+        "PT1D"
       ],
       "metadata": {
         "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
@@ -129,7 +123,29 @@
       "metadata": {
         "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
       }
+    },
+    "currentDateTimeUtcNow": {
+      "type": "string",
+      "defaultValue": "[utcNow()]",
+      "metadata": {
+          "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+          "Yes",
+          "No"
+      ],
+      "metadata": {
+          "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
     }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
     {
@@ -142,7 +158,7 @@
       },
       "properties": {
         "description": "[parameters('alertDescription')]",
-        "scopes": "[parameters('targetResourceId')]",
+        "scopes": "[variables('varTargetResourceId')]",
         "targetResourceType": "[parameters('targetResourceType')]",
         "targetResourceRegion": "[parameters('targetResourceRegion')]",
         "severity": "[parameters('alertSeverity')]",
@@ -150,7 +166,7 @@
         "evaluationFrequency": "[parameters('evaluationFrequency')]",
         "windowSize": "[parameters('windowSize')]",
         "criteria": {
-          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
           "allOf": [
             {
               "name": "1st criterion",
@@ -168,12 +184,21 @@
               "criterionType": "StaticThresholdCriterion"
             }
           ]
-        },
-        "actions": [
-          {
-            "actionGroupId": "[parameters('actionGroupId')]"
+        }
+      }
+    },
+    {
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('pidDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "resources": []
           }
-        ]
       }
     }
   ]

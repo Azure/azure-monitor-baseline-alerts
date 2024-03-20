@@ -47,7 +47,7 @@
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": "action@mail.com"
+        "defaultValue": ""
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -125,7 +125,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule",
         "parameters": {
           "ALZMonitorResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -140,7 +140,7 @@
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
           },
           "ALZLogicappResourceId": {
-           "value": "[[parameters('ALZLogicappResourceId')]"
+            "value": "[[parameters('ALZLogicappResourceId')]"
           },
           "ALZLogicappCallbackUrl": {
             "value": "[[parameters('ALZLogicappCallbackUrl')]"
@@ -165,6 +165,21 @@
           },
           "BYOAlertProcessingRule": {
             "value": "[[parameters('BYOAlertProcessingRule')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_Suppression_AlertProcessing_Rule",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Suppression_AlertProcessing_Rule",
+        "parameters": {
+          "ALZMonitorResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "ALZMonitorResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "ALZMonitorResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           }
         }
       }

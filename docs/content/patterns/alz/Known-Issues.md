@@ -16,11 +16,11 @@ The underlying data is not present in the Log Analytics table.
 
 ### Resolution
 
-For VM Alerts please enable [VM Insights](Monitoring-and-Alerting#log-alerts).
+For VM Alerts, enable [VM Insights](../Monitoring-and-Alerting#log-alerts).
 
-## Failed to deploy because of role assignemnt issue
+## Failed to deploy because of role assignment issue
 
-Deployment of AMBA fails when there are orphaned role assignements.
+Deployment of AMBA fails when there are orphaned role assignments.
 
 ### Error includes
 
@@ -31,7 +31,7 @@ Deployment of AMBA fails when there are orphaned role assignements.
 
 ### Cause
 
-When a role or a role assignement is removed, some orphaned object can still appear, preventing a successful deployment.
+When a role or a role assignment is removed, some orphaned object can still appear, preventing a successful deployment.
 
 ### Resolution
 
@@ -48,10 +48,10 @@ When a role or a role assignement is removed, some orphaned object can still app
 
 ### Cause
 
-A deployment has been performed using one region, for example "uksouth", and when you try to deploy again to the same scope but to a different region you will receive an error. This happens even when a cleanup has been performed (see [Cleaning up a Deployment](../Cleaning-up-a-Deployment) for more details). This is because deployment entries still exists from the previous operation, so a region conflict is detected blocking you to run another deployment using a different region.
+A deployment has been performed using one region, for example "uksouth", and when you try to deploy again to the same scope but to a different region you will receive an error. This happens even when a cleanup has been performed (see [Cleaning up a Deployment](../Cleaning-up-a-Deployment) for more details). This is because deployment entries still exist from the previous operation, so a region conflict is detected blocking you to run another deployment using a different region.
 
 ### Resolution
-Situation 1: You are trying to deploy to a different region in addition to a previous deployment. Deploying to the same scope in a different region is not necessary. The definitions and assignments are scoped to a management group and are not region specific. No action is required.
+Situation 1: You are trying to deploy to a region different from the one used in previous deployment. Deploying to the same scope in a different region is not necessary. The definitions and assignments are scoped to a management group and are not region-specific. No action is required.
 
 Situation 2: You cleaned up a previous implementation and want to deploy again to a different region. To resolve this issue, follow the steps below:
 
@@ -61,7 +61,7 @@ Situation 2: You cleaned up a previous implementation and want to deploy again t
 4. Select all the deployment instances related to AMBA and click ***Delete***.
 
 {{< hint type=Note >}}
-To recognize the deployment names belonging to AMBA, select those whose names start with:
+To recognize the deployment names belonging to AMBA, select those deployments whose names start with:
 
 1. amba-
 2. pid-
@@ -76,7 +76,7 @@ If you deployed AMBA just one time, you have 14 deployment instances
 
 ### Error includes
 
-*Error: Code=MultipleErrorsOccurred; Message=Multiple error occurred: Conflict,Conflict,Conflict,Conflict,Conflict,Conflict.*
+*Error: Code=MultipleErrorsOccurred; Message=Multiple errors occurred: Conflict,Conflict,Conflict,Conflict,Conflict,Conflict.*
 
 ### Cause
 
@@ -88,10 +88,10 @@ To resolve this issue, follow the steps below:
 1. Navigate to ***Management Groups***
 2. Select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
 3. Click ***Deployment***
-4. Select all the deployments that could be deleted (example: instances of previous depoloyment related to AMBA) and click ***Delete***.
+4. Select all the deployments that could be deleted (example: instances of previous deployment related to AMBA) and click ***Delete***.
 
 {{< hint type=Note >}}
-To recognize the deployment names belonging to AMBA, select those whose names start with:
+To recognize the deployment names belonging to AMBA, select those deployments whose names start with:
 
 1. amba-
 2. pid-

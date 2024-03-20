@@ -1,5 +1,5 @@
 ---
 title: RecoveryServices
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
