@@ -5,10 +5,10 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Service Health Notification Assets",
+    "displayName": "Deploy Service Health Action Group",
     "description": "Policy to deploy action group for Service Health alerts",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -57,7 +57,7 @@
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": "action@mail.com"
+        "defaultValue": ""
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -243,6 +243,16 @@
                   ],
                   "copy": [
                     {
+                      "name": "varEmailReceivers",
+                      "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
+                        "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
+                        "useCommonSchema": true
+                      }
+                    },
+                    {
                       "name": "varArmRoleReceivers",
                       "count": "[[length(variables('varALZArmRoleId'))]",
                       "mode": "serial",
@@ -351,18 +361,7 @@
                             "properties": {
                               "groupShortName": "SH-ActGrp",
                               "enabled": true,
-                              "copy": [
-                                {
-                                  "name": "emailReceivers",
-                                  "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
-                                  "mode": "serial",
-                                  "input": {
-                                    "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                    "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
-                                    "useCommonSchema": true
-                                  }
-                                }
-                              ],
+                              "emailReceivers": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), variables('varEmailReceivers'))]",
                               "armRoleReceivers": "[[if(empty(parameters('ALZArmRoleId')), null(), variables('varArmRoleReceivers'))]",
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
                               "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]",

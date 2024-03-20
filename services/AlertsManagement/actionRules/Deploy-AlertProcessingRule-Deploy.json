@@ -8,7 +8,7 @@
     "displayName": "Deploy AMBA Notification Assets",
     "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -49,7 +49,7 @@
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": "action@mail.com"
+        "defaultValue": ""
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -241,6 +241,16 @@
                   ],
                   "copy": [
                     {
+                      "name": "varEmailReceivers",
+                      "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
+                        "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
+                        "useCommonSchema": true
+                      }
+                    },
+                    {
                       "name": "varArmRoleReceivers",
                       "count": "[[length(variables('varALZArmRoleId'))]",
                       "mode": "serial",
@@ -355,18 +365,7 @@
                             "properties": {
                               "groupShortName": "ActGrp",
                               "enabled": true,
-                              "copy": [
-                                {
-                                  "name": "emailReceivers",
-                                  "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
-                                  "mode": "serial",
-                                  "input": {
-                                    "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
-                                    "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
-                                    "useCommonSchema": true
-                                  }
-                                }
-                              ],
+                              "emailReceivers": "[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), variables('varEmailReceivers'))]",
                               "armRoleReceivers": "[[if(empty(parameters('ALZArmRoleId')), null(), variables('varArmRoleReceivers'))]",
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
                               "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]",
@@ -378,7 +377,7 @@
                             "condition": "[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
-                            "name": "[[concat('arp-AMBA-',subscription().displayName, '-001')]",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-001')]",
                             "location": "Global",
                             "dependsOn": [
                               "[[concat('ag-AMBA-', subscription().displayName, '-001')]"
