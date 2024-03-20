@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-    This script cleans up the alert processing rule and action group created deployed by the ALZ-Monitor automation versions newer than 2023-11-14 and not used if customers
-    decided to implement their own assets.
+    This script cleans up the alert processing rules and action groups deployed by the ALZ-Monitor versions up to 2024-03-01 and not used anymore if customers
+    decides to implement their own assets.
 
 .DESCRIPTION
-    This script cleans up the alert processing rule and action group created deployed by the ALZ-Monitor automation versions newer than 2023-11-14 and not used if customers
-    decided to implement their own assets. Newer versions will configure Service Health alerts with the action group(s) and leverage alert processing rules for all other alerts
-    with assets provided by the customer thanks to the "BYO notification assets" feature
+    This script cleans up the alert processing rules and action groups deployed by the ALZ-Monitor versions up to 2024-03-01 and not used anymore if customers
+    decides to implement their own assets. Newer versions will configure Service Health alerts with the action group(s) and leverage alert processing rules for all other alerts
+    with assets provided by the customer thanks to the "BYO notification assets" feature.
 
 .NOTES
     In order for this script to function the deployed resources must have a tag _deployed_by_amba with a value of true and Policy resources must have metadata property
