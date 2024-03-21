@@ -428,6 +428,8 @@
 
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
 
+      | summarize arg_max(TimeGenerated, *) by ComputerName
+
       | extend ComputerName=tolower(ComputerName)
 
       | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
@@ -450,7 +452,9 @@
 
       | project VMresourceGroup, ComputerName, HostPool, _ResourceId
 
-      ) on ComputerName'
+      ) on ComputerName
+
+      | where ComputerName1 contains ComputerName'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: '0:30:00'
@@ -509,6 +513,8 @@
 
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
 
+      | summarize arg_max(TimeGenerated, *) by ComputerName
+
       | extend ComputerName=tolower(ComputerName)
 
       | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
@@ -533,7 +539,9 @@
 
       | project VMresourceGroup, ComputerName, HostPool, _ResourceId
 
-      ) on ComputerName'
+      ) on ComputerName
+
+      | where ComputerName1 contains ComputerName'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: '0:30:00'
