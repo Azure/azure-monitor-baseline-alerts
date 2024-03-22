@@ -124,7 +124,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -212,7 +212,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -229,8 +229,8 @@ var LogAlertsHostPool = [
           | extend HPResourceId=tostring(split(ResultDescription, '|')[13])
           | extend ResourceId=tostring(HPResourceId)
           | where HostPoolPercentLoad >= 50 and HostPoolPercentLoad < 85
-          | where HostPoolName =~ 'xHostPoolNamex'         
-           '''
+          | where HostPoolName =~ 'xHostPoolNamex'
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -300,7 +300,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -316,9 +316,9 @@ var LogAlertsHostPool = [
           | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])
           | extend HPResourceId=tostring(split(ResultDescription, '|')[13])
           | extend ResourceId=tostring(HPResourceId)
-          | where HostPoolPercentLoad >= 95 
-          | where HostPoolName =~ 'xHostPoolNamex'        
-           '''
+          | where HostPoolPercentLoad >= 95
+          | where HostPoolName =~ 'xHostPoolNamex'
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -656,8 +656,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -727,8 +727,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -797,8 +797,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -868,8 +868,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -939,8 +939,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
               '''
           timeAggregation: 'Count'
@@ -1010,8 +1010,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -1081,8 +1081,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -1193,7 +1193,7 @@ var LogAlertsHostPool = [
         {
           query: '''
           // Personal Session Host where Health status is NOT healthy and the VM is assigned
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams"
               and StreamType_s == "Output"
               and RunbookName_s == "AvdHostPoolLogData"
@@ -1209,7 +1209,7 @@ var LogAlertsHostPool = [
           | extend PersonalAssignedUser=extract_json("$.AssignedUser", tostring(split(ResultDescription, '|')[11]), typeof(string))
           | where HostPoolName =~ 'xHostPoolNamex'
           | where Type == 'Personal'
-          | where NumPersonalUnhealthy > 0        
+          | where NumPersonalUnhealthy > 0
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1257,28 +1257,28 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          // Connection Errors 
-          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users. 
-          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue. 
-          WVDConnections 
-          //| where UserName == "upn.here@contoso.com" 
-          | project-away TenantId,SourceSystem  
-          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId  
-          | join kind=leftouter 
+          // Connection Errors
+          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.
+          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.
+          WVDConnections
+          //| where UserName == "upn.here@contoso.com"
+          | project-away TenantId,SourceSystem
+          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
+          | join kind=leftouter
           (
               WVDErrors
-              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId  
+              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
           ) on CorrelationId
-          | join kind=leftouter 
+          | join kind=leftouter
           (
               WVDCheckpoints
-              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId  
+              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
               | mv-apply Checkpoints on
-              (  
+              (
                   order by todatetime(Checkpoints['Time']) asc
                   | summarize Checkpoints=make_list(Checkpoints)
               )
-          ) on CorrelationId  
+          ) on CorrelationId
           | project-away CorrelationId1, CorrelationId2
           | order by TimeGenerated desc
           | where TimeGenerated > ago(15m)
@@ -1287,7 +1287,7 @@ var LogAlertsHostPool = [
           | where HostPool =~ 'xHostPoolNamex'
           | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
           | extend ErrorMessage=tostring(Errors[0].Message)
-          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage      
+          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1381,7 +1381,7 @@ var LogAlertsStorage = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdStorageLogData"
           | where split(ResultDescription, ',')[1] <> ""
           //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available
@@ -1395,9 +1395,9 @@ var LogAlertsStorage = [
           | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))
           | extend ResourceId=tostring(split(ResultDescription, ',')[8])
           | summarize arg_max(TimeGenerated, *) by Share
-          | where PercentAvailable <= 15.00        
+          | where PercentAvailable <= 15.00
           | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable
-           '''
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -1439,7 +1439,7 @@ var LogAlertsStorage = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdStorageLogData"
           | where split(ResultDescription, ',')[1] <> ""
           //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available
@@ -1453,9 +1453,9 @@ var LogAlertsStorage = [
           | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))
           | extend ResourceId=tostring(split(ResultDescription, ',')[8])
           | summarize arg_max(TimeGenerated, *) by Share
-          | where PercentAvailable <= 5.00        
+          | where PercentAvailable <= 5.00
           | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable
-           '''
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
