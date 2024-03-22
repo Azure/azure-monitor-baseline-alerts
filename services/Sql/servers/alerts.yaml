@@ -1,30 +1,34 @@
-- name: connection_failed
+- name: databases - connection_failed
   description: Failed Connections
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-40238
+  - agc-30217
   properties:
     metricName: connection_failed
     metricNamespace: Microsoft.Sql/servers/databases
-    severity: 1
+    severity: 3
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: deadlock
+    threshold: 5.0
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - deadlock
   description: Deadlocks. Not applicable to data warehouses.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-35134
+  - agc-25557
   properties:
     metricName: deadlock
     metricNamespace: Microsoft.Sql/servers/databases
@@ -34,16 +38,20 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: blocked_by_firewall
+    threshold: 1.0
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - blocked_by_firewall
   description: Blocked by Firewall
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-14712
+  - agc-13737
   properties:
     metricName: blocked_by_firewall
     metricNamespace: Microsoft.Sql/servers/databases
@@ -54,15 +62,19 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-    autoMitigate: false
-- name: storage
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - storage
   description: Data space used. Not applicable to data warehouses.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-5882
+  - agc-5689
   properties:
     metricName: storage
     metricNamespace: Microsoft.Sql/servers/databases
@@ -73,15 +85,19 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 934584883610.0
-    autoMitigate: false
-- name: connection_successful
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - connection_successful
   description: Successful Connections
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3844
+  - agc-3978
   properties:
     metricName: connection_successful
     metricNamespace: Microsoft.Sql/servers/databases
@@ -93,36 +109,44 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 5
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeroidsToAlert: minFailingPeroidsToAlert
     alertSensitivity: Low
-    autoMitigate: false
-- name: connection_failed_user_error
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - connection_failed_user_error
   description: 'Failed Connections : User Errors'
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2855
+  - agc-2020
   properties:
     metricName: connection_failed_user_error
     metricNamespace: Microsoft.Sql/servers/databases
-    severity: 2
+    severity: 3
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 10.0
-    autoMitigate: false
-- name: dtu_used
+    threshold: 1.0
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - dtu_used
   description: DTU used. Applies to DTU-based databases.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1689
+  - agc-1363
   properties:
     metricName: dtu_used
     metricNamespace: Microsoft.Sql/servers/databases
@@ -132,16 +156,39 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 85.0
-    autoMitigate: false
-- name: sessions_count
+    threshold: 80.0
+  references:
+  - name: Monitor Azure SQL Database with metrics and alerts
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-metrics-alerts?view=azuresql-db
+  - name: Monitor Azure SQL Database data reference
+    url: https://learn.microsoft.com/azure/azure-sql/database/monitoring-sql-database-azure-monitor-reference?view=azuresql
+- name: databases - sql_instance_memory_percent
+  description: Memory usage by the database engine instance. Not applicable to data
+    warehouses.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-839
+  properties:
+    metricName: sql_instance_memory_percent
+    metricNamespace: Microsoft.Sql/servers/databases
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: databases - sessions_count
   description: Number of active sessions. Not applicable to Synapse DW Analytics.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-637
+  - agc-604
   properties:
     metricName: sessions_count
     metricNamespace: Microsoft.Sql/servers/databases
@@ -152,34 +199,69 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 0.5
-    autoMitigate: false
-- name: dtu_limit
+- name: databases - dtu_limit
   description: DTU Limit. Applies to DTU-based databases.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-577
+  - agc-542
   properties:
     metricName: dtu_limit
     metricNamespace: Microsoft.Sql/servers/databases
-    severity: 3
+    severity: 2
     windowSize: PT5M
     evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-    autoMitigate: false
-- name: app_memory_percent
+- name: databases - sql_instance_cpu_percent
+  description: CPU usage by all user and system workloads. Not applicable to data
+    warehouses.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-445
+  properties:
+    metricName: sql_instance_cpu_percent
+    metricNamespace: Microsoft.Sql/servers/databases
+    severity: 3
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 70.0
+- name: databases - app_cpu_percent
+  description: App CPU percentage. Applies to serverless databases.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-415
+  properties:
+    metricName: app_cpu_percent
+    metricNamespace: Microsoft.Sql/servers/databases
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: databases - app_memory_percent
   description: App memory percentage. Applies to serverless databases.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-361
+  - agc-392
   properties:
     metricName: app_memory_percent
     metricNamespace: Microsoft.Sql/servers/databases
@@ -190,53 +272,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: app_cpu_percent
-  description: App CPU percentage. Applies to serverless databases.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-350
-  properties:
-    metricName: app_cpu_percent
-    metricNamespace: Microsoft.Sql/servers/databases
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: memory_usage_percent
-  description: Memory percentage. Applies only to data warehouses.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-343
-  properties:
-    metricName: memory_usage_percent
-    metricNamespace: Microsoft.Sql/servers/databases
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Maximum
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
-- name: cpu_used
+- name: databases - cpu_used
   description: CPU used. Applies to vCore-based databases.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-328
+  - agc-355
   properties:
     metricName: cpu_used
     metricNamespace: Microsoft.Sql/servers/databases
@@ -247,16 +290,33 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
-- name: tempdb_data_size
+- name: databases - memory_usage_percent
+  description: Memory percentage. Applies only to data warehouses.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-337
+  properties:
+    metricName: memory_usage_percent
+    metricNamespace: Microsoft.Sql/servers/databases
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: databases - tempdb_data_size
   description: Space used in tempdb data files in kilobytes. Not applicable to data
     warehouses.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-298
+  - agc-290
   properties:
     metricName: tempdb_data_size
     metricNamespace: Microsoft.Sql/servers/databases
@@ -267,15 +327,32 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
-- name: storage_percent
+- name: databases - dwu_consumption_percent
+  description: DWU percentage. Applies only to data warehouses.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-253
+  properties:
+    metricName: dwu_consumption_percent
+    metricNamespace: Microsoft.Sql/servers/databases
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 95.0
+- name: elasticpools - storage_percent
   description: Data space used percent. Not applicable to hyperscale
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-5835
+  - agc-5563
   properties:
     metricName: storage_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -285,16 +362,15 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: cpu_percent
+    threshold: 90.0
+- name: elasticpools - cpu_percent
   description: CPU percentage
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-5434
+  - agc-5158
   properties:
     metricName: cpu_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -305,15 +381,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: dtu_consumption_percent
+- name: elasticpools - dtu_consumption_percent
   description: DTU Percentage. Applies to DTU-based elastic pools.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3850
+  - agc-3917
   properties:
     metricName: dtu_consumption_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -324,15 +399,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: allocated_data_storage_percent
+- name: elasticpools - allocated_data_storage_percent
   description: Data space allocated percent. Not applicable to hyperscale
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2800
+  - agc-2773
   properties:
     metricName: allocated_data_storage_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -343,17 +417,34 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: physical_data_read_percent
+- name: elasticpools - physical_data_read_percent
   description: Data IO percentage
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2299
+  - agc-2113
   properties:
     metricName: physical_data_read_percent
+    metricNamespace: Microsoft.Sql/servers/elasticpools
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+- name: elasticpools - log_write_percent
+  description: Log IO percentage
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1483
+  properties:
+    metricName: log_write_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
     severity: 3
     windowSize: PT5M
@@ -362,34 +453,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: log_write_percent
-  description: Log IO percentage
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1775
-  properties:
-    metricName: log_write_percent
-    metricNamespace: Microsoft.Sql/servers/elasticpools
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
-- name: workers_percent
+- name: elasticpools - workers_percent
   description: Workers percentage
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-844
+  - agc-985
   properties:
     metricName: workers_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -399,37 +470,15 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: sqlserver_process_memory_percent
-  description: Memory usage as a percentage of the SQL DB process. Applies to elastic
-    pools. (This metric is equivalent to sql_instance_memory_percent, and will be
-    removed in the future.)
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-505
-  properties:
-    metricName: sqlserver_process_memory_percent
-    metricNamespace: Microsoft.Sql/servers/elasticpools
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: sessions_percent
+    threshold: 90.0
+- name: elasticpools - sessions_percent
   description: Sessions percentage
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-473
+  - agc-552
   properties:
     metricName: sessions_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -439,58 +488,19 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: xtp_storage_percent
-  description: In-Memory OLTP storage percent. Not applicable to hyperscale
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-436
-  properties:
-    metricName: xtp_storage_percent
-    metricNamespace: Microsoft.Sql/servers/elasticpools
-    severity: 3
-    windowSize: PT30M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: sqlserver_process_core_percent
-  description: CPU usage as a percentage of the SQL DB process. Applies to elastic
-    pools. (This metric is equivalent to sql_instance_cpu_percent, and will be removed
-    in the future.)
+- name: elasticpools - sqlserver_process_memory_percent
+  description: Memory usage as a percentage of the SQL DB process. Applies to elastic
+    pools. (This metric is equivalent to sql_instance_memory_percent, and will be
+    removed in the future.)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-418
+  - agc-500
   properties:
-    metricName: sqlserver_process_core_percent
-    metricNamespace: Microsoft.Sql/servers/elasticpools
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 70.0
-    autoMitigate: false
-- name: tempdb_log_used_percent
-  description: Space used percentage in tempdb transaction log file
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-289
-  properties:
-    metricName: tempdb_log_used_percent
+    metricName: sqlserver_process_memory_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
     severity: 2
     windowSize: PT5M
@@ -498,35 +508,71 @@
     timeAggregation: Maximum
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: eDTU_used
-  description: eDTU used. Applies to DTU-based elastic pools.
+    threshold: 90.0
+- name: elasticpools - sqlserver_process_core_percent
+  description: CPU usage as a percentage of the SQL DB process. Applies to elastic
+    pools. (This metric is equivalent to sql_instance_cpu_percent, and will be removed
+    in the future.)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-279
+  - agc-472
   properties:
-    metricName: eDTU_used
+    metricName: sqlserver_process_core_percent
+    metricNamespace: Microsoft.Sql/servers/elasticpools
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Maximum
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 95.0
+- name: elasticpools - xtp_storage_percent
+  description: In-Memory OLTP storage percent. Not applicable to hyperscale
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-331
+  properties:
+    metricName: xtp_storage_percent
     metricNamespace: Microsoft.Sql/servers/elasticpools
     severity: 3
     windowSize: PT5M
-    evaluationFrequency: PT1M
+    evaluationFrequency: PT5M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
-- name: allocated_data_storage
+- name: elasticpools - tempdb_log_used_percent
+  description: Space used percentage in tempdb transaction log file
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-295
+  properties:
+    metricName: tempdb_log_used_percent
+    metricNamespace: Microsoft.Sql/servers/elasticpools
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: elasticpools - allocated_data_storage
   description: Data space allocated. Not applicable to hyperscale
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-262
+  - agc-270
   properties:
     metricName: allocated_data_storage
     metricNamespace: Microsoft.Sql/servers/elasticpools
@@ -537,4 +583,21 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     threshold: 225000000000.0
-    autoMitigate: false
+- name: elasticpools - eDTU_used
+  description: eDTU used. Applies to DTU-based elastic pools.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-256
+  properties:
+    metricName: eDTU_used
+    metricNamespace: Microsoft.Sql/servers/elasticpools
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0

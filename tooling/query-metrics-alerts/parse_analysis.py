@@ -203,16 +203,18 @@ def main():
       category = resourceTypes[rt]['category'].replace('Microsoft.', '')
       if not os.path.exists(os.path.join(dir, category, '_index.md')):
         os.makedirs(os.path.join(dir, category), exist_ok=True)
-        with open(os.path.join(dir, category, '_index.md'), 'w+') as f:
-          f.write(f"---\ntitle: {category}\ngeekdocCollapseSection: true\ngeekdocHidden: true\n---\n")
+
+      with open(os.path.join(dir, category, '_index.md'), 'w+') as f:
+        f.write(f"---\ntitle: {category}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n")
 
       # create directory based on type if it doesn't exist
       subdir = type.split('/')[0]
       if not os.path.exists(os.path.join(dir, category, subdir, '_index.md')):
         os.makedirs(os.path.join(dir, category, subdir), exist_ok=True)
-        with open(os.path.join(dir, category, subdir, '_index.md'), 'w+') as f:
-          f.write(f"---\ntitle: {type}\ngeekdocCollapseSection: true\ngeekdocHidden: true\n---\n\n")
-          f.write('{{< alertList name="alertList" >}}')
+
+      with open(os.path.join(dir, category, subdir, '_index.md'), 'w+') as f:
+        f.write(f"---\ntitle: {subdir}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n\n")
+        f.write('{{< alertList name="alertList" >}}')
 
       # load existing yaml file if it exists
       filename = os.path.join(dir, category, subdir, "alerts.yaml")
@@ -227,15 +229,32 @@ def main():
         except:
           data = []
 
+
+        # remove all alerts that have a tag of auto-generated and is not visible
+        for i in range(len(data)):
+          if data[i]['type'] != 'Metric': continue
+          if "tags" not in data[i].keys(): continue
+
+          if 'auto-generated' in data[i]['tags']:
+            if data[i]["visible"] == False:
+              data.pop(i)
+              break
+
         addAlert = True
+
+        name = metric
+        # if type has more than one segment, slice off the first segment
+        if len(type.split('/')) > 1:
+          name = f"{'/'.join(type.split('/')[1:])} - {metric}"
 
         # Find record where proerpites.metricName == metric
         for i in range(len(data)):
           if data[i]['type'] == 'Metric':
-            if data[i]['properties']['metricName'] == metric:
+            if data[i]['name'] == name:
               data[i]['description'] = description
               break
 
+        popped_alert = None
         # find record where properties.metricName == metric and tag contains auto-generated
         for i in range(len(data)):
           if data[i]['type'] != 'Metric': continue
@@ -243,7 +262,7 @@ def main():
 
           if data[i]['properties']['metricName'] == metric and 'auto-generated' in data[i]['tags']:
             if data[i]['verified'] == False:
-              data.pop(i)
+              popped_alert = data.pop(i)
               break
             else:
               addAlert = False
@@ -252,11 +271,11 @@ def main():
         if addAlert:
           # add alert to yaml file
           new_alert = {
-            "name": metric,
+            "name": name,
             "description": description,
             "type": "Metric",
             "verified": False,
-            "visible": False,
+            "visible": True,
             "tags": ["auto-generated", f"agc-{alert['numRules']}"],
             "properties": {
               "metricName": metric,
@@ -266,9 +285,13 @@ def main():
               "evaluationFrequency": alert['frequency'],
               "timeAggregation": alert['timeAggregation'].capitalize(),
               "operator": formatOperator(alert['operator']),
-              "criterionType": formatCriterion(alert['criterionType'])
+              "criterionType": formatCriterion(alert['criterionType']),
             }
           }
+
+          if popped_alert:
+            if 'references' in popped_alert.keys():
+              new_alert['references'] = popped_alert['references']
 
           if 'dimensions' in alert.keys():
             if alert['dimensions'] != '[]':

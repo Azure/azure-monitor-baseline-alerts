@@ -1,5 +1,5 @@
 ---
 title: Logic
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

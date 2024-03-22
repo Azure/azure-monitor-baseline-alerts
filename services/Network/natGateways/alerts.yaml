@@ -2,72 +2,51 @@
   description: NAT Gateway Datapath Availability
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-4909
+  - agc-1147
   properties:
     metricName: DatapathAvailability
     metricNamespace: Microsoft.Network/natGateways
-    severity: 0
-    windowSize: PT15M
+    severity: 4
+    windowSize: PT30M
     evaluationFrequency: PT1M
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
 - name: SNATConnectionCount
   description: Total concurrent active connections
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2633
+  - agc-1117
   properties:
     metricName: SNATConnectionCount
     metricNamespace: Microsoft.Network/natGateways
-    severity: 1
+    severity: 4
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: connectionstate
-      operator: include
+    - operator: include
+      name: connectionstate
       values:
       - failed
-    threshold: 1000000.0
-    autoMitigate: false
-- name: TotalConnectionCount
-  description: Total number of active SNAT connections
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-2408
-  properties:
-    metricName: TotalConnectionCount
-    metricNamespace: Microsoft.Network/natGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100000.0
-    autoMitigate: false
+    threshold: 0.0
 - name: PacketDropCount
   description: Count of dropped packets
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-945
+  - agc-503
   properties:
     metricName: PacketDropCount
     metricNamespace: Microsoft.Network/natGateways
@@ -78,4 +57,39 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-    autoMitigate: false
+- name: ByteCount
+  description: Total number of Bytes transmitted within time period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-430
+  properties:
+    metricName: ByteCount
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 4
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 300000000000.0
+- name: TotalConnectionCount
+  description: Total number of active SNAT connections
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-412
+  properties:
+    metricName: TotalConnectionCount
+    metricNamespace: Microsoft.Network/natGateways
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 50000.0

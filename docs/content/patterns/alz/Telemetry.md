@@ -54,11 +54,12 @@ The default value is `No`, but can be changed to `Yes` in the parameter file. If
 
 The following are the unique ID's (also known as PIDs) used in the AMBA deployment
 
-| Name                            | PID                                  |
-| ------------------------------- | ------------------------------------ |
-| Azure Monitor Baseline Alerts   | d6b3b08c-5825-4b89-a62b-e3168d3d8fb0 |
-| Connectivity Policy Initiative  | 2d69aa07-8780-4697-a431-79882cb9f00e |
-| Identity Policy Initiative      | 8d257c20-97bf-4d14-acb3-38dd1436d13a |
-| Management Policy Initiative    | d87415c4-01ef-4667-af89-0b5adc14af1b |
-| LandingZone Policy Initiative   | 7bcfc615-be78-43da-b81d-98959a9465a5 |
-| ServiceHealth Policy Initiative | 860d2afd-b71e-452f-9d3a-e56196cba570 |
+| Name                                  | PID                                  |
+| ------------------------------------- | ------------------------------------ |
+| Azure Monitor Baseline Alerts         | d6b3b08c-5825-4b89-a62b-e3168d3d8fb0 |
+| Connectivity Policy Initiative        | 2d69aa07-8780-4697-a431-79882cb9f00e |
+| Identity Policy Initiative            | 8d257c20-97bf-4d14-acb3-38dd1436d13a |
+| Management Policy Initiative          | d87415c4-01ef-4667-af89-0b5adc14af1b |
+| LandingZone Policy Initiative         | 7bcfc615-be78-43da-b81d-98959a9465a5 |
+| ServiceHealth Policy Initiative       | 860d2afd-b71e-452f-9d3a-e56196cba570 |
+| Notification Assets Policy Initiative | eabaaf0b-eed4-48a9-9f91-4f7e431ba807 |

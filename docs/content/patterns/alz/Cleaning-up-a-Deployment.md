@@ -37,23 +37,31 @@ Follow the instructions below to download the cleanup script file. Alternatively
 1. Open PowerShell
 2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph`
 3. Change directories to the location of the **Start-AMBACleanup.ps1** script
-4. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
-5. Execute the script using the option below
-
-**Generate a list of the resource IDs which would be deleted by this script:**
+4. Configure the _**$pseudoRootManagementGroup**_ variable using the command below:
 
   ```powershell
-  ./Start-AMBACleanup.ps1 -ReportOnly
+  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
   ```
 
-**Show output of what would happen if deletes executed:**
+5. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
+6. Execute the script using one of the options below:
 
-  ```powershell
-  ./Start-AMBACleanup.ps1 -WhatIf
-  ```
+    {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-**Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+    **Generate a list of the resource IDs which would be deleted by this script:**
 
-  ```powershell
-  ./Start-AMBACleanup.ps1 -Force
-  ```
+    ```powershell
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
+    ```
+
+    **Show output of what would happen if deletes executed:**
+
+    ```powershell
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
+    ```
+
+    **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+
+    ```powershell
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
+    ```
