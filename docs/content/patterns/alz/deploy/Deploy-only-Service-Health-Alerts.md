@@ -277,8 +277,15 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 To deploy policy definitions to the intermediate management group, run the following command:
 
 ```bash
-az deployment mg create --name "amba-ServiveHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup
+az deployment mg create --name "amba-ServiveHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
+
+{{< hint type=note >}}
+In Azure Cloud Shell run the following command:
+```bash
+az deployment mg create --name "amba-ServiveHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
+```
+{{< /hint >}}
 
 ## 6. Assign the Service Health Policy Set Definition
 Assign a Policy Set Definition by running the following command:
