@@ -43,17 +43,17 @@ ALZ Alerts, Action Groups and Alert Processing Rules are deployed using Azure Po
 
 The following policy definition categories will be enabled as part of ALZ deployments for the hubs and landing zones defined by Azure landing zone:
 
-- Resource Metrics; See [here](../Alerts-Details#metric-alerts-settings) for details on which resource metrics are included.
-- Service and Resource Health; See [here](../Alerts-Details#activity-log-alerts) for details on which alerts are included.
-- Activity Logs; See [here](../Alerts-Details#activity-log-administrative) for details on which alerts are included.
+- Resource Metrics; See [here](../Alerts-Details#azure-landing-zone-metric-alerts-settings) for details on which resource metrics are included.
+- Service and Resource Health; See [here](../Alerts-Details#azure-landing-zone-activity-log-resource-health) for details on which alerts are included.
+- Activity Logs; See [here](../Alerts-Details#azure-landing-zone-activity-log-administrative) for details on which alerts are included.
 - VM Insights Log Alerts; See [here](../Alerts-Details#vm-insights-log-alerts) for details on which alerts are included.
 - Recovery Vault Alerts; See [here](../Alerts-Details#recovery-vault-alerts) for details on which alerts are included.
 
-#### Resource Metrics
+### Resource Metrics
 
 Resource Metric alerts are deployed in the same resource group as the created Azure resource. For example, a resource metric alert for Express Route will be created in the same resource group containing the Express Route Gateway. This is done because these alert types are related to the specific resource id, therefore it makes sense to link the alert to the resource in the same resource group.
 
-#### Log Alerts
+### Log Alerts
 
 Log alerts are scoped at the subscription level. For the policies to remediate and deploy, the data which the alert queries for needs to exist in the Log Analytics table. For the virtual machine log alerts the VM insights solution needs to be enabled on the VMs that are targeted. Only the performance collection of the VM insights solution is required for the current alerts to deploy. To enable VM Insights, you need to install the Azure Monitor Agent and optionally the Dependency agent on your supported machines. You can use different methods to install the agents, such as the Azure portal, Azure Policy, Azure Resource Manager templates, PowerShell, or manual install. For more details, please refer to the links below:
 
@@ -61,7 +61,7 @@ Log alerts are scoped at the subscription level. For the policies to remediate a
 - [Enable VM insights by using Azure Policy](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-policy)
 - [Enable VM insights using Resource Manager templates](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-resource-manager)
 
-#### Service and Resource Health
+### Service and Resource Health
 
 [Service health](https://learn.microsoft.com/en-us/azure/service-health/overview) provides a personalized view of the health of the Azure services and regions you're using. Resource health provides information about the health of your individual cloud resources such as a specific virtual machine instance.
 
