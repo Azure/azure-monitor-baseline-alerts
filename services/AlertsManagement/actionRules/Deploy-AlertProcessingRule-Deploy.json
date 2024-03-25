@@ -374,7 +374,7 @@
                             }
                           },
                           {
-                            "condition": "[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]",
+                            "condition": "[[empty(parameters('BYOAlertProcessingRule'))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat('apr-AMBA-',subscription().displayName, '-001')]",
@@ -393,35 +393,7 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                  "actiongroupIds": [
-                                    "[[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')]"
-                                  ],
-                                  "actionType": "AddActionGroups"
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "condition": "[[and(not(empty(parameters('BYOActionGroup'))), empty(parameters('BYOAlertProcessingRule')))]",
-                            "type": "Microsoft.AlertsManagement/actionRules",
-                            "apiVersion": "2021-08-08",
-                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-001')]",
-                            "location": "Global",
-                            "dependsOn": [
-                              "[[concat('ag-AMBA-', subscription().displayName, '-001')]"
-                            ],
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "scopes": [
-                                "[[subscription().Id]"
-                              ],
-                              "description": "AMBA Notification Assets - Alert Processing Rule for Subscription",
-                              "enabled": true,
-                              "actions": [
-                                {
-                                  "actionGroupIds": "[[variables('varAGIds')]",
+                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')), variables('varAGIds'))]",
                                   "actionType": "AddActionGroups"
                                 }
                               ]
