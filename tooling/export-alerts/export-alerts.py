@@ -141,18 +141,21 @@ def exportToXls(data, templateFile, outputFile):
           type
           ]
 
-        match alert['type'].lower():
-          case 'metric':
-            wsMetric.append(columnsToAdd)
-            addAlertToSheet(alert, wsMetric)
-          case 'log':
-            wsLog.append(columnsToAdd)
-            addAlertToSheet(alert, wsLog)
-          case 'activitylog':
-            wsActivity.append(columnsToAdd)
-            addAlertToSheet(alert, wsActivity)
-          case _:
-            print('Unknown alert type: ' + alert['type'])
+        if 'type' in alert:
+          match alert['type'].lower():
+            case 'metric':
+              wsMetric.append(columnsToAdd)
+              addAlertToSheet(alert, wsMetric)
+            case 'log':
+              wsLog.append(columnsToAdd)
+              addAlertToSheet(alert, wsLog)
+            case 'activitylog':
+              wsActivity.append(columnsToAdd)
+              addAlertToSheet(alert, wsActivity)
+            case _:
+              print('Unknown alert type: ' + alert['type'])
+        else:
+          print(f"No alert type for alert: {category} - {type} - {alert['name']}")
 
   for ws in [wsMetric, wsLog, wsActivity]:
 
