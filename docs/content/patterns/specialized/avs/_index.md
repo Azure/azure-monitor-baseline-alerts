@@ -24,6 +24,20 @@ Table below shows the Alerts configured after the deployment.
 | Storage Usage per Datastore (Critical) | 75 (0)            | DiskUsedPercentage | Every 5 minutes | 1             |
 | Service Health Alerts             | N/A                     | ServiceHealth      | N/A             | 1             |
 
+Table below shows additional Alerts to be configured. These are not yet covered as part of the deployment script. Monitor these metrics manually.
+
+| Name                              | Threshold(s) (Severity) | Signal Type        | Frequency       | # Alert Rules |
+|-----------------------------------|-------------------------|--------------------|-----------------|---------------|
+| Cluster node count             | 14 (2)                  | N/A| After every node addition | N/A             |
+| SDDC node count             | 90 (2)                  | N/A| After every node addition | N/A             |
+| Delete lock on resource group count             | 1 (2)                  | N/A| After SDDC creation | N/A             |
+| Stretched cluster ExpressRoute circuit count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC (Primary + Secondary) count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC LDAPS Identity source count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC DNS server count             | 3 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC vSAN FTT configuration (< 6 nodes)             | RAID-1 FTT-1 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC vSAN FTT configuration (>= 6 nodes)             | RAID-1/6 FTT-2 (2)                  | N/A| After SDDC creation | N/A             |
+
 ## 📣Feedback 📣
 
 Once you've had an opportunity to deploy the solution we'd love to hear from you! Click [here](https://aka.ms/alz/monitor/feedback) to leave your feedback.
