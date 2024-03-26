@@ -1,7 +1,7 @@
 ---
 title: natGateways
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

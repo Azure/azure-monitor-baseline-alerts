@@ -1,5 +1,5 @@
 ---
 title: Batch
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

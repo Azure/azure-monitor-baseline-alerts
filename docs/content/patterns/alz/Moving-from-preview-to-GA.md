@@ -40,19 +40,21 @@ Follow the instructions below to download the cleanup script file. Alternatively
 4. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
 5. Execute the script using the option below
 
-**Generate a list of the resource IDs which would be deleted by this script:**
+  {{% include "PowerShell-ExecutionPolicy.md" %}}
+
+  **Generate a list of the resource IDs which would be deleted by this script:**
 
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -ReportOnly
   ```
 
-**Show output of what would happen if deletes executed:**
+  **Show output of what would happen if deletes executed:**
 
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -WhatIf
   ```
 
-**Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+  **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
 
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -Force

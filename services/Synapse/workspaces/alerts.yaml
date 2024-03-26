@@ -3,10 +3,10 @@
     cancelled
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2916
+  - agc-3423
   properties:
     metricName: IntegrationPipelineRunsEnded
     metricNamespace: Microsoft.Synapse/workspaces
@@ -17,39 +17,19 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: result
-      operator: include
+    - operator: include
+      name: result
       values:
       - failed
     threshold: 0.0
-    autoMitigate: false
-- name: BuiltinSqlPoolLoginAttempts
-  description: Count of login attempts that succeded or failed
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-285
-  properties:
-    metricName: BuiltinSqlPoolLoginAttempts
-    metricNamespace: Microsoft.Synapse/workspaces
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 360.0
-    autoMitigate: false
 - name: BuiltinSqlPoolDataProcessedBytes
   description: Amount of data processed by queries
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-274
+  - agc-322
   properties:
     metricName: BuiltinSqlPoolDataProcessedBytes
     metricNamespace: Microsoft.Synapse/workspaces
@@ -60,36 +40,32 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 386547056640.0
-    autoMitigate: false
-- name: SQLStreamingRuntimeErrors
-  description: This is a preview metric available in East US, West Europe. Total number
-    of errors related to query processing (excluding errors found while ingesting
-    events or outputting results).
+- name: BuiltinSqlPoolLoginAttempts
+  description: Count of login attempts that succeded or failed
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-272
+  - agc-298
   properties:
-    metricName: SQLStreamingRuntimeErrors
+    metricName: BuiltinSqlPoolLoginAttempts
     metricNamespace: Microsoft.Synapse/workspaces
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT15M
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+    threshold: 360.0
 - name: IntegrationTriggerRunsEnded
   description: Count of integration triggers that succeeded, failed, or were cancelled
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-258
+  - agc-273
   properties:
     metricName: IntegrationTriggerRunsEnded
     metricNamespace: Microsoft.Synapse/workspaces
@@ -100,21 +76,38 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: result
-      operator: include
+    - operator: exclude
+      name: result
       values:
-      - failed
+      - succeeded
     threshold: 0.0
-    autoMitigate: false
-- name: DWUUsedPercent
+- name: IntegrationActivityRunsEnded
+  description: Count of integration activities that succeeded, failed, or were cancelled
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-261
+  properties:
+    metricName: IntegrationActivityRunsEnded
+    metricNamespace: Microsoft.Synapse/workspaces
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 700.0
+- name: sqlPools - DWUUsedPercent
   description: Represents a high-level representation of usage across the SQL pool.
     Measured by taking the maximum between CPU percentage and Data IO percentage
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-388
+  - agc-451
   properties:
     metricName: DWUUsedPercent
     metricNamespace: Microsoft.Synapse/workspaces/sqlPools
@@ -125,15 +118,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: CPUPercent
+- name: sqlPools - CPUPercent
   description: CPU utilization across all nodes in the SQL pool
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-368
+  - agc-403
   properties:
     metricName: CPUPercent
     metricNamespace: Microsoft.Synapse/workspaces/sqlPools
@@ -144,15 +136,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: MemoryUsedPercent
+- name: sqlPools - MemoryUsedPercent
   description: Memory utilization across all nodes in the SQL pool
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-275
+  - agc-284
   properties:
     metricName: MemoryUsedPercent
     metricNamespace: Microsoft.Synapse/workspaces/sqlPools
@@ -163,4 +154,3 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false

@@ -84,6 +84,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
     loadTextContent('../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Deploy.json')
+    loadTextContent('../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Suppression.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-BGPAvailability-Alert.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json')

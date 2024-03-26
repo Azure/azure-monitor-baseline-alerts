@@ -13,7 +13,7 @@ param _ArtifactsLocation string = 'https://raw.githubusercontent.com/Azure/azure
 @secure()
 param _ArtifactsLocationSasToken string = ''
 
-@description('Telemetry Opt-Out')  // Change this to true to opt out of Microsoft Telemetry
+@description('Telemetry Opt-Out') // Change this to true to opt out of Microsoft Telemetry
 param optoutTelemetry bool = false
 
 @description('Alert Name Prefix (Dash will be added after prefix for you.)')
@@ -53,7 +53,7 @@ param ResourceGroupName string
 
 //placeholder needed for template validation when VMs in separate RG selected - desktop reader deployment fails otherwise
 @description('AVD Resource Group ID with ALL resources including VMs')
-param AVDResourceGroupId string = '/subscriptions/<subscription ID>/resourceGroups/<Resource Group Name>' 
+param AVDResourceGroupId string = '/subscriptions/<subscription ID>/resourceGroups/<Resource Group Name>'
 
 @description('Flag to determine if a new resource group needs to be created for Alert resources.')
 @allowed([
@@ -74,7 +74,7 @@ param ANFVolumeResourceIds array = []
 param Tags object = {}
 
 var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}'
-var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.1.5)\n'  // DESCRIPTION HEADER AND VERSION <-----------------------------
+var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.1.5)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
 var CloudEnvironment = environment().name
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false
@@ -105,10 +105,14 @@ var RoleAssignments = {
 // '92aaf0da-9dab-42b6-94a3-d43ce8d16293'  // Log Analtyics Contributor - allows writing to workspace for Host Pool and Storage Logic Apps
 
 var cuaid = 'b8b4a533-1bb2-402f-bbd9-3055d00d885a'
-var PidcuaAvdPatternDeploymentName = take('pid-${cuaid}-${uniqueString(Location, subscription().displayName, time)}', 64)
+var PidcuaAvdPatternDeploymentName = take(
+  'pid-${cuaid}-${uniqueString(Location, subscription().displayName, time)}',
+  64
+)
 
 var LogAlertsHostPool = [
-  {// Based on Runbook script Output to LAW
+  {
+    // Based on Runbook script Output to LAW
     name: '${AlertNamePrefix}-HP-Cap-85Prcnt-xHostPoolNamex'
     displayName: '${AlertNamePrefix}-HostPool-Capacity 85 Percent (xHostPoolNamex)'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.\n-->Last Number in the string is the Percentage Remaining for the Host Pool\nOutput is:\nHostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
@@ -120,7 +124,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -138,7 +142,7 @@ var LogAlertsHostPool = [
           | extend ResourceId=tostring(HPResourceId)
           | where HostPoolPercentLoad >= 85 and HostPoolPercentLoad < 95
           | where HostPoolName =~ 'xHostPoolNamex'
-           '''
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -195,7 +199,8 @@ var LogAlertsHostPool = [
       ]
     }
   }
-  {// Based on Runbook script Output to LAW
+  {
+    // Based on Runbook script Output to LAW
     name: '${AlertNamePrefix}-HP-Cap-50Prcnt-xHostPoolNamex'
     displayName: '${AlertNamePrefix}-HostPool-Capacity 50 Percent (xHostPoolNamex)'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.\n-->Last Number in the string is the Percentage Remaining for the Host Pool\nOutput is:\nHostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
@@ -207,7 +212,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -224,8 +229,8 @@ var LogAlertsHostPool = [
           | extend HPResourceId=tostring(split(ResultDescription, '|')[13])
           | extend ResourceId=tostring(HPResourceId)
           | where HostPoolPercentLoad >= 50 and HostPoolPercentLoad < 85
-          | where HostPoolName =~ 'xHostPoolNamex'         
-           '''
+          | where HostPoolName =~ 'xHostPoolNamex'
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -282,7 +287,8 @@ var LogAlertsHostPool = [
       ]
     }
   }
-  {// Based on Runbook script Output to LAW
+  {
+    // Based on Runbook script Output to LAW
     name: '${AlertNamePrefix}-HP-Cap-95Prcnt-xHostPoolNamex'
     displayName: '${AlertNamePrefix}-HostPool-Capacity 95 Percent (xHostPoolNamex)'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.\n-->Last Number in the string is the Percentage Remaining for the Host Pool\nOutput is:\nHostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
@@ -294,7 +300,7 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdHostPoolLogData"
           | sort by TimeGenerated
           | where TimeGenerated > now() - 5m
@@ -310,9 +316,9 @@ var LogAlertsHostPool = [
           | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])
           | extend HPResourceId=tostring(split(ResultDescription, '|')[13])
           | extend ResourceId=tostring(HPResourceId)
-          | where HostPoolPercentLoad >= 95 
-          | where HostPoolName =~ 'xHostPoolNamex'        
-           '''
+          | where HostPoolPercentLoad >= 95
+          | where HostPoolName =~ 'xHostPoolNamex'
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -504,6 +510,7 @@ var LogAlertsHostPool = [
           | where InstanceName !contains "D:"
           | where InstanceName  !contains "_Total"| where CounterValue <= 10.00
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+          | summarize arg_max(TimeGenerated, *) by ComputerName
           | extend ComputerName=tolower(ComputerName)
           | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
           | join kind = leftouter
@@ -517,6 +524,7 @@ var LogAlertsHostPool = [
               | summarize arg_max(TimeGenerated,*) by ComputerName
               | project VMresourceGroup, ComputerName, HostPool, _ResourceId
               ) on ComputerName
+          | where ComputerName1 contains ComputerName
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -571,6 +579,7 @@ var LogAlertsHostPool = [
           | where InstanceName !contains "D:"
           | where InstanceName  !contains "_Total"| where CounterValue <= 5.00
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+          | summarize arg_max(TimeGenerated, *) by ComputerName
           | extend ComputerName=tolower(ComputerName)
           | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated
           | join kind = leftouter
@@ -584,6 +593,7 @@ var LogAlertsHostPool = [
               | summarize arg_max(TimeGenerated,*) by ComputerName
               | project VMresourceGroup, ComputerName, HostPool, _ResourceId
               ) on ComputerName
+          | where ComputerName1 contains ComputerName
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -646,8 +656,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -717,8 +727,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -787,8 +797,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -858,8 +868,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -929,8 +939,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
               '''
           timeAggregation: 'Count'
@@ -1000,8 +1010,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -1071,8 +1081,8 @@ var LogAlertsHostPool = [
                 | parse _ResourceId with "/subscriptions/" subscriptionAgentHealth "/resourcegroups/" ResourceGroupAgentHealth "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
                 | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
                 | extend ComputerName=tolower(ComputerName)
-                | summarize arg_max(TimeGenerated,*) by ComputerName            
-                | project VMresourceGroup, ComputerName, HostPool    
+                | summarize arg_max(TimeGenerated,*) by ComputerName
+                | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
           '''
           timeAggregation: 'Count'
@@ -1183,7 +1193,7 @@ var LogAlertsHostPool = [
         {
           query: '''
           // Personal Session Host where Health status is NOT healthy and the VM is assigned
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams"
               and StreamType_s == "Output"
               and RunbookName_s == "AvdHostPoolLogData"
@@ -1199,7 +1209,7 @@ var LogAlertsHostPool = [
           | extend PersonalAssignedUser=extract_json("$.AssignedUser", tostring(split(ResultDescription, '|')[11]), typeof(string))
           | where HostPoolName =~ 'xHostPoolNamex'
           | where Type == 'Personal'
-          | where NumPersonalUnhealthy > 0        
+          | where NumPersonalUnhealthy > 0
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1247,28 +1257,28 @@ var LogAlertsHostPool = [
       allOf: [
         {
           query: '''
-          // Connection Errors 
-          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users. 
-          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue. 
-          WVDConnections 
-          //| where UserName == "upn.here@contoso.com" 
-          | project-away TenantId,SourceSystem  
-          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId  
-          | join kind=leftouter 
+          // Connection Errors
+          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.
+          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.
+          WVDConnections
+          //| where UserName == "upn.here@contoso.com"
+          | project-away TenantId,SourceSystem
+          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
+          | join kind=leftouter
           (
               WVDErrors
-              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId  
+              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
           ) on CorrelationId
-          | join kind=leftouter 
+          | join kind=leftouter
           (
               WVDCheckpoints
-              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId  
+              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
               | mv-apply Checkpoints on
-              (  
+              (
                   order by todatetime(Checkpoints['Time']) asc
                   | summarize Checkpoints=make_list(Checkpoints)
               )
-          ) on CorrelationId  
+          ) on CorrelationId
           | project-away CorrelationId1, CorrelationId2
           | order by TimeGenerated desc
           | where TimeGenerated > ago(15m)
@@ -1277,7 +1287,7 @@ var LogAlertsHostPool = [
           | where HostPool =~ 'xHostPoolNamex'
           | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
           | extend ErrorMessage=tostring(Errors[0].Message)
-          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage      
+          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1358,7 +1368,8 @@ var LogAlertsHostPool = [
 ]
 
 var LogAlertsStorage = [
-  {// Based on Runbook script Output to LAW
+  {
+    // Based on Runbook script Output to LAW
     name: '${AlertNamePrefix}-StorLowSpaceAzFile-15PrcntRem'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-15 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
@@ -1370,7 +1381,7 @@ var LogAlertsStorage = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdStorageLogData"
           | where split(ResultDescription, ',')[1] <> ""
           //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available
@@ -1384,9 +1395,9 @@ var LogAlertsStorage = [
           | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))
           | extend ResourceId=tostring(split(ResultDescription, ',')[8])
           | summarize arg_max(TimeGenerated, *) by Share
-          | where PercentAvailable <= 15.00        
+          | where PercentAvailable <= 15.00
           | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable
-           '''
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -1415,7 +1426,8 @@ var LogAlertsStorage = [
       ]
     }
   }
-  {// Based on Runbook script Output to LAW
+  {
+    // Based on Runbook script Output to LAW
     name: '${AlertNamePrefix}-StorLowSpaceAzFile-5PrcntRem'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-5 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
@@ -1427,7 +1439,7 @@ var LogAlertsStorage = [
       allOf: [
         {
           query: '''
-          AzureDiagnostics 
+          AzureDiagnostics
           | where Category has "JobStreams" and StreamType_s == "Output" and RunbookName_s == "AvdStorageLogData"
           | where split(ResultDescription, ',')[1] <> ""
           //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available
@@ -1441,9 +1453,9 @@ var LogAlertsStorage = [
           | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))
           | extend ResourceId=tostring(split(ResultDescription, ',')[8])
           | summarize arg_max(TimeGenerated, *) by Share
-          | where PercentAvailable <= 5.00        
+          | where PercentAvailable <= 5.00
           | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable
-           '''
+          '''
           timeAggregation: 'Count'
           dimensions: [
             {
@@ -1892,14 +1904,14 @@ var LogAlertsSvcHealth = [
   }
 ]
 var varJobScheduleParamsHostPool = {
-    CloudEnvironment: CloudEnvironment
-    SubscriptionId: SubscriptionId
-  }
+  CloudEnvironment: CloudEnvironment
+  SubscriptionId: SubscriptionId
+}
 // fixes issue with array not being in JSON format
 var varStorAcctResIDsString = StorageAccountResourceIds
 var varJobScheduleParamsAzFiles = {
-    CloudEnvironment: CloudEnvironment
-    StorageAccountResourceIDs: string(varStorAcctResIDsString)
+  CloudEnvironment: CloudEnvironment
+  StorageAccountResourceIDs: string(varStorAcctResIDsString)
 }
 
 var SubscriptionId = subscription().subscriptionId
@@ -1966,22 +1978,23 @@ var varTimeZones = {
 // =========== //
 // Deployments //
 // =========== //
-module deploymentNames_pidCuaDeployment 'modules/pid_cuaid.bicep' = if (!optoutTelemetry) {
-  name: PidcuaAvdPatternDeploymentName
-  params: {}
-}
-
+module deploymentNames_pidCuaDeployment 'modules/pid_cuaid.bicep' =
+  if (!optoutTelemetry) {
+    name: PidcuaAvdPatternDeploymentName
+    params: {}
+  }
 
 // AVD Shared Services Resource Group
-module resourceGroupAVDMetricsCreate 'carml/1.3.0/Microsoft.Resources/resourceGroups/deploy.bicep' = if (ResourceGroupCreate) {
-  name: ResourceGroupName
-  params: {
+module resourceGroupAVDMetricsCreate 'carml/1.3.0/Microsoft.Resources/resourceGroups/deploy.bicep' =
+  if (ResourceGroupCreate) {
     name: ResourceGroupName
-    location: Location
-    enableDefaultTelemetry: false
-    tags: contains(Tags, 'Microsoft.Resources/resourceGroups') ? Tags['Microsoft.Resources/resourceGroups'] : {}
+    params: {
+      name: ResourceGroupName
+      location: Location
+      enableDefaultTelemetry: false
+      tags: contains(Tags, 'Microsoft.Resources/resourceGroups') ? Tags['Microsoft.Resources/resourceGroups'] : {}
+    }
   }
-}
 
 resource resourceGroupAVDMetricsExisting 'Microsoft.Resources/resourceGroups@2022-09-01' existing = {
   name: ResourceGroupName
@@ -2011,229 +2024,240 @@ module automationAccount 'carml/1.3.0/Microsoft.Automation/automationAccounts/de
     enableDefaultTelemetry: false
     diagnosticWorkspaceId: LogAnalyticsWorkspaceResourceId
     name: AutomationAccountName
-    jobSchedules: !empty(StorageAccountResourceIds) ? [
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-0'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-1'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-2'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-3'
-      }
-      {
-        parameters:  varJobScheduleParamsAzFiles
-        runbookName: RunbookNameGetStorage
-        scheduleName: '${varScheduleName}AzFilesStor-0'
-      }
-      {
-        parameters: varJobScheduleParamsAzFiles
-        runbookName: RunbookNameGetStorage
-        scheduleName: '${varScheduleName}AzFilesStor-1'
-      }
-      {
-        parameters: varJobScheduleParamsAzFiles
-        runbookName: RunbookNameGetStorage
-        scheduleName: '${varScheduleName}AzFilesStor-2'
-      }
-      {
-        parameters: varJobScheduleParamsAzFiles
-        runbookName: RunbookNameGetStorage
-        scheduleName: '${varScheduleName}AzFilesStor-3'
-      }
-    ] :[
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-0'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-1'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-2'
-      }
-      {
-        parameters: varJobScheduleParamsHostPool
-        runbookName: RunbookNameGetHostPool
-        scheduleName: '${varScheduleName}HostPool-3'
-      }
-    ]
+    jobSchedules: !empty(StorageAccountResourceIds)
+      ? [
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-0'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-1'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-2'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-3'
+          }
+          {
+            parameters: varJobScheduleParamsAzFiles
+            runbookName: RunbookNameGetStorage
+            scheduleName: '${varScheduleName}AzFilesStor-0'
+          }
+          {
+            parameters: varJobScheduleParamsAzFiles
+            runbookName: RunbookNameGetStorage
+            scheduleName: '${varScheduleName}AzFilesStor-1'
+          }
+          {
+            parameters: varJobScheduleParamsAzFiles
+            runbookName: RunbookNameGetStorage
+            scheduleName: '${varScheduleName}AzFilesStor-2'
+          }
+          {
+            parameters: varJobScheduleParamsAzFiles
+            runbookName: RunbookNameGetStorage
+            scheduleName: '${varScheduleName}AzFilesStor-3'
+          }
+        ]
+      : [
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-0'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-1'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-2'
+          }
+          {
+            parameters: varJobScheduleParamsHostPool
+            runbookName: RunbookNameGetHostPool
+            scheduleName: '${varScheduleName}HostPool-3'
+          }
+        ]
     location: Location
-    runbooks: !empty(StorageAccountResourceIds) ? [
-      {
-        name: RunbookNameGetHostPool
-        description: 'AVD Metrics Runbook for collecting related Host Pool statistics to store in Log Analytics for specified Alert Queries'
-        type: 'PowerShell'
-        uri: '${_ArtifactsLocation}${RunbookScriptGetHostPool}'
-        version: '1.0.0.0'
-      }
-      {
-        name: RunbookNameGetStorage
-        description: 'AVD Metrics Runbook for collecting related Azure Files storage statistics to store in Log Analytics for specified Alert Queries'
-        type: 'PowerShell'
-        uri: '${_ArtifactsLocation}${RunbookScriptGetStorage}'
-        version: '1.0.0.0'
-      }
-    ] : [
-      {
-        name: RunbookNameGetHostPool
-        description: 'AVD Metrics Runbook for collecting related Host Pool statistics to store in Log Analytics for specified Alert Queries'
-        type: 'PowerShell'
-        uri: '${_ArtifactsLocation}${RunbookScriptGetHostPool}'
-        version: '1.0.0.0'
-      }
-    ]
-    schedules: !empty(StorageAccountResourceIds) ? [
-      {
-        name: '${varScheduleName}HostPool-0'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT15M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-1'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT30M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-2'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT45M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-3'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT60M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}AzFilesStor-0'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT15M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}AzFilesStor-1'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT30M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}AzFilesStor-2'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT45M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}AzFilesStor-3'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT60M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-    ] :[
-      {
-        name: '${varScheduleName}HostPool-0'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT15M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-1'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT30M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-2'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT45M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-      {
-        name: '${varScheduleName}HostPool-3'
-        frequency: 'Hour'
-        interval: 1
-        startTime: dateTimeAdd(time, 'PT60M')
-        TimeZone: varTimeZone
-        advancedSchedule: {}
-      }
-    ]
+    runbooks: !empty(StorageAccountResourceIds)
+      ? [
+          {
+            name: RunbookNameGetHostPool
+            description: 'AVD Metrics Runbook for collecting related Host Pool statistics to store in Log Analytics for specified Alert Queries'
+            type: 'PowerShell'
+            uri: '${_ArtifactsLocation}${RunbookScriptGetHostPool}'
+            version: '1.0.0.0'
+          }
+          {
+            name: RunbookNameGetStorage
+            description: 'AVD Metrics Runbook for collecting related Azure Files storage statistics to store in Log Analytics for specified Alert Queries'
+            type: 'PowerShell'
+            uri: '${_ArtifactsLocation}${RunbookScriptGetStorage}'
+            version: '1.0.0.0'
+          }
+        ]
+      : [
+          {
+            name: RunbookNameGetHostPool
+            description: 'AVD Metrics Runbook for collecting related Host Pool statistics to store in Log Analytics for specified Alert Queries'
+            type: 'PowerShell'
+            uri: '${_ArtifactsLocation}${RunbookScriptGetHostPool}'
+            version: '1.0.0.0'
+          }
+        ]
+    schedules: !empty(StorageAccountResourceIds)
+      ? [
+          {
+            name: '${varScheduleName}HostPool-0'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT15M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-1'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT30M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-2'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT45M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-3'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT60M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}AzFilesStor-0'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT15M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}AzFilesStor-1'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT30M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}AzFilesStor-2'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT45M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}AzFilesStor-3'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT60M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+        ]
+      : [
+          {
+            name: '${varScheduleName}HostPool-0'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT15M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-1'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT30M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-2'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT45M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+          {
+            name: '${varScheduleName}HostPool-3'
+            frequency: 'Hour'
+            interval: 1
+            startTime: dateTimeAdd(time, 'PT60M')
+            TimeZone: varTimeZone
+            advancedSchedule: {}
+          }
+        ]
     skuName: 'Free'
-    tags: contains(Tags, 'Microsoft.Automation/automationAccounts') ? Tags['Microsoft.Automation/automationAccounts'] : {}
+    tags: contains(Tags, 'Microsoft.Automation/automationAccounts')
+      ? Tags['Microsoft.Automation/automationAccounts']
+      : {}
     systemAssignedIdentity: true
   }
   dependsOn: ResourceGroupCreate ? [resourceGroupAVDMetricsCreate] : [resourceGroupAVDMetricsExisting]
 }
 
-module roleAssignment_AutoAcctDesktopRead 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [for RG in HostPoolInfo: if(!AllResourcesSameRG) {
-  scope: resourceGroup(split(RG.colVMResGroup, '/')[4])
-  name: 'c_DsktpRead_${split(RG.colVMResGroup, '/')[4]}'
-  params: {
-    enableDefaultTelemetry: false
-    principalId: automationAccount.outputs.systemAssignedPrincipalId
-    roleDefinitionIdOrName: 'Desktop Virtualization Reader'
-    principalType: 'ServicePrincipal'
-    resourceGroupName: split(RG.colVMResGroup, '/')[4]
+module roleAssignment_AutoAcctDesktopRead 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [
+  for RG in HostPoolInfo: if (!AllResourcesSameRG) {
+    scope: resourceGroup(split(RG.colVMResGroup, '/')[4])
+    name: 'c_DsktpRead_${split(RG.colVMResGroup, '/')[4]}'
+    params: {
+      enableDefaultTelemetry: false
+      principalId: automationAccount.outputs.systemAssignedPrincipalId
+      roleDefinitionIdOrName: 'Desktop Virtualization Reader'
+      principalType: 'ServicePrincipal'
+      resourceGroupName: split(RG.colVMResGroup, '/')[4]
+    }
+    dependsOn: [
+      automationAccount
+    ]
   }
-  dependsOn: [
-    automationAccount
-  ]
-}]
+]
 
-module roleAssignment_AutoAcctDesktopReadSameRG 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = if(AllResourcesSameRG) {
-  scope: resourceGroup(split(AVDResourceGroupId, '/')[4])
-  name: 'c_DsktpRead_${split(AVDResourceGroupId, '/')[4]}'
-  params: {
-    enableDefaultTelemetry: false
-    principalId: automationAccount.outputs.systemAssignedPrincipalId
-    roleDefinitionIdOrName: 'Desktop Virtualization Reader'
-    principalType: 'ServicePrincipal'
-    resourceGroupName: split(AVDResourceGroupId, '/')[4]
+module roleAssignment_AutoAcctDesktopReadSameRG 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' =
+  if (AllResourcesSameRG) {
+    scope: resourceGroup(split(AVDResourceGroupId, '/')[4])
+    name: 'c_DsktpRead_${split(AVDResourceGroupId, '/')[4]}'
+    params: {
+      enableDefaultTelemetry: false
+      principalId: automationAccount.outputs.systemAssignedPrincipalId
+      roleDefinitionIdOrName: 'Desktop Virtualization Reader'
+      principalType: 'ServicePrincipal'
+      resourceGroupName: split(AVDResourceGroupId, '/')[4]
+    }
+    dependsOn: [
+      automationAccount
+    ]
   }
-  dependsOn: [
-    automationAccount
-  ]
-}
 
 module roleAssignment_LogAnalytics 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = {
   scope: resourceGroup(split(LogAnalyticsWorkspaceResourceId, '/')[2], split(LogAnalyticsWorkspaceResourceId, '/')[4])
@@ -2250,20 +2274,22 @@ module roleAssignment_LogAnalytics 'carml/1.3.0/Microsoft.Authorization/roleAssi
   ]
 }
 
-module roleAssignment_Storage 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [for StorAcctRG in StorAcctRGs: {
-  scope: resourceGroup(StorAcctRG)
-  name: 'c_StorAcctContrib_${StorAcctRG}'
-  params: {
-    enableDefaultTelemetry: false
-    principalId: automationAccount.outputs.systemAssignedPrincipalId
-    roleDefinitionIdOrName: '/providers/Microsoft.Authorization/roleDefinitions/${RoleAssignments.StoreAcctContrib.GUID}'
-    principalType: 'ServicePrincipal'
-    resourceGroupName: StorAcctRG
+module roleAssignment_Storage 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [
+  for StorAcctRG in StorAcctRGs: {
+    scope: resourceGroup(StorAcctRG)
+    name: 'c_StorAcctContrib_${StorAcctRG}'
+    params: {
+      enableDefaultTelemetry: false
+      principalId: automationAccount.outputs.systemAssignedPrincipalId
+      roleDefinitionIdOrName: '/providers/Microsoft.Authorization/roleDefinitions/${RoleAssignments.StoreAcctContrib.GUID}'
+      principalType: 'ServicePrincipal'
+      resourceGroupName: StorAcctRG
+    }
+    dependsOn: [
+      automationAccount
+    ]
   }
-  dependsOn: [
-    automationAccount
-  ]
-}]
+]
 
 module metricsResources 'modules/metricsResources.bicep' = {
   name: 'lnk_MonitoringResourcesDeployment'
@@ -2291,5 +2317,5 @@ module metricsResources 'modules/metricsResources.bicep' = {
     roleAssignment_AutoAcctDesktopRead
     roleAssignment_LogAnalytics
     roleAssignment_Storage
-  ] 
+  ]
 }

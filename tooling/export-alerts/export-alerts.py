@@ -83,7 +83,7 @@ def addAlertToSheet(alert, ws, headerRow=1):
     if col > 0:
       value = ''
 
-      if key == 'tags':
+      if key == 'tags' and alert[key] is not None:
         value = ', '.join(alert[key])
       elif key == 'references':
         references = alert['references']

@@ -28,10 +28,10 @@
   description: The count of health events pertaining to backup job health
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-3543
+  - agc-4484
   properties:
     metricName: BackupHealthEvent
     metricNamespace: Microsoft.RecoveryServices/vaults
@@ -41,25 +41,15 @@
     timeAggregation: Count
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    dimensions:
-    - name: datasourceurl
-      operator: include
-      values:
-      - '*'
-    - name: healthstatus
-      operator: exclude
-      values:
-      - healthy
     threshold: 0.0
-    autoMitigate: false
 - name: RestoreHealthEvent
   description: The count of health events pertaining to restore job health
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-285
+  - agc-400
   properties:
     metricName: RestoreHealthEvent
     metricNamespace: Microsoft.RecoveryServices/vaults
@@ -70,9 +60,8 @@
     operator: GreaterThanOrEqual
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: healthstatus
-      operator: exclude
+    - operator: exclude
+      name: healthstatus
       values:
       - healthy
     threshold: 1.0
-    autoMitigate: false
