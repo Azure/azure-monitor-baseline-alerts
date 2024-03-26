@@ -11,6 +11,7 @@ High Performance Compute supports a variety of workloads. Seismic modeling, flui
 * Azure Batch Service
 * Azure NetApp Files
 * Azure Blob Storage
+* Azure Managed Lustre Filesystem - Coming Soon!
 
 Please note that an HPC Landing Zone is built on top of the best practices of the Azure Landing Zone. The approach for broader monitoring and alerting in the context of the Azure Landing Zone can be found [here](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Monitoring-and-Alerting/).
 
