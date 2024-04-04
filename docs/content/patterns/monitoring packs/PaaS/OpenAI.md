@@ -1,5 +1,5 @@
 ---
-title: OpenAI Monitoring Pack
+title: OpenAI Monitoring Pack (Preview)
 geekdocCollapseSection: true
 weight: 50
 ---

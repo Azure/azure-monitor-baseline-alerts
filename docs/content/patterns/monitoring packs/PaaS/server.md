@@ -1,5 +1,5 @@
 ---
-title: server Monitoring Pack
+title: SQL server Monitoring Pack
 geekdocCollapseSection: true
 weight: 50
 ---
