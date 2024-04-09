@@ -8,10 +8,12 @@ weight: 50
 [File Patterns](#file-patterns)
 
 ## Alerts
-|DisplayName||Type|Description|
-|---|---|---|---|
+
+|DisplayName|Type|Description|
+|---|---|---|
 |[AlertRule-Nginx-1](#nginx-service-stopped)|Log| Nginx stopped.|
-### Nginx service stopped.
+
+### Nginx service stopped
 
 |Property | Value |
 |---|---|
@@ -23,6 +25,7 @@ weight: 50
 |Type|rows|
 |Query|Syslog \| where SyslogMessage == "Stopped A high performance web server and a reverse proxy server."|
 |Threshold|N/A|
+
 ## File Patterns
 
 |File Pattern|
