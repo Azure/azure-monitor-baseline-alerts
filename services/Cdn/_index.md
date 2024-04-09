@@ -1,5 +1,5 @@
 ---
 title: Cdn
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

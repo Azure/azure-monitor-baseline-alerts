@@ -1,0 +1,95 @@
+<div><table>
+  <tr>
+    <th>Alert Name</th>
+    <th>Component</th>
+    <th>Metric</th>
+    <th>Aggregation</th>
+    <th>Operator</th>
+    <th>Threshold</th>
+    <th>Window</th>
+    <th>Frequency</th>
+    <th>Severity</th>
+    <th>Scope</th>
+    <th>Support for Multiple Resources</th>
+    <th>Verified</th>
+    <th>References</th>
+  </tr>
+
+{{ range $category, $types := $.Site.Data  }}
+  {{ range $type, $rules := $types }}
+    {{ range $rules.alerts }}
+      {{ if or (eq .visible true) (eq $.Site.Params.ambaDevMode true) }}
+        {{ if and (eq .type "Metric") (in .tags "hpc") }}
+          {{ $data := newScratch }}
+          {{ if isset . "deployments" }}
+            {{ range where .deployments "type" "Policy" }}
+              {{ if and (in .tags "hpc") }}
+                {{ $data.Set "name" .name }}
+                {{ $data.Set "url" (relURL (path.Join "services" $category $type .template)) }}
+                {{ $data.Set "scope" .properties.scope }}
+                {{ $data.Set "multiResource" .properties.multiResource }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
+          <tr>
+            <td>
+              <a href='{{ $data.Get "url" }}'>{{ $data.Get "name" }}</a>
+            </td>
+            <td>
+              {{ .properties.metricNamespace }}
+            </td>
+            <td>
+              {{ .properties.metricName }}
+            </td>
+            <td>
+              {{ .properties.timeAggregation }}
+            </td>
+            <td>
+              {{ .properties.operator }}
+            </td>
+            <td>
+              {{ if eq .properties.criterionType "DynamicThresholdCriterion" }}
+                dynamic
+              {{ else }}
+                {{ .properties.threshold }}
+              {{ end }}
+            </td>
+            <td>
+              {{ .properties.windowSize }}
+            </td>
+            <td>
+              {{ .properties.evaluationFrequency }}
+            </td>
+            <td>
+              {{ .properties.severity }}
+            </td>
+            <td>
+              {{ $data.Get "scope" }}
+            </td>
+            <td>
+              {{ if ($data.Get "multiResource") }}
+                Yes
+              {{ else }}
+                No
+              {{ end }}
+            </td>
+            <td>
+              {{ if .verified }}
+                Y
+              {{ else }}
+                N
+              {{ end }}
+            </td>
+            <td>
+              {{ range .references }}
+                <a href="{{ .url }}" target="_blank">{{ .name }}</a>
+              {{ end }}
+            </td>
+          </tr>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+</table></div>

@@ -18,9 +18,26 @@ To use the script, do the following:
 
 - Log on to Azure PowerShell with an account with at least Resource Policy Contributor permissions at the pseudo-root management group level
 - Navigate to the root of the cloned repo
-- To remediate for example the Alerting-Management initiative, assigned to the alz-platform-management Management Group run the following command: *.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName alz-platform-management -policyName Alerting-Management*.
+- Set the variables
+- Run the remediation script
+
+  {{% include "PowerShell-ExecutionPolicy.md" %}}
+
+- For example, to remediate **Alerting-Management** initiative, assigned to the **alz-platform-management** Management Group run the following commands:
+
+  ```powershell
+  #Modify the following variables to match your environment
+  $managementManagementGroup = "The management group id for Management"
+  ```
+
+  ```powershell
+  #Run the following commands to initiate remediation
+  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
+  ```
+
 - The script will return the output from the REST API calls, which should be a status code 201. If the script fails, check the error message and ensure that the management group name and policy name are correct.
 - After running the script, you should be able to see a number of remediation tasks initiated at the alz-platform-management.
+
 For convenience, assuming that the management hierarchy is fully aligned to ALZ, below are the commands required to remediate all policies assigned through the guidance provided in this repo:
 
 ```powershell
@@ -32,10 +49,6 @@ $connectivityManagementGroup = "The management group id for Connectivity"
 $LZManagementGroup="The management group id for Landing Zones"
 ```
 
-{{< hint type=Note >}}
-Given the async nature of policies you need to run the remediation for ***Alerting-ServiceHealth*** initiatives twice. To avoid the second remediation execution, you might remediate the single ***Deploy_ServiceHealth_ActionGroups*** manually before running the initiative remediation.
-{{< /hint >}}
-
 ```powershell
 #Run the following commands to initiate remediation
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
@@ -44,4 +57,11 @@ Given the async nature of policies you need to run the remediation for ***Alerti
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LandingZone
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+```
+
+Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under [Policy Initiatives](../../Policy-Initiatives). For example, to remediate the ***Deploy AMBA Notification Assets*** policy, run the command below:
+
+```powershell
+#Run the following command to initiate remediation of a single policy definition
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
 ```

@@ -1,5 +1,5 @@
 ---
-title: Update from release 2023-11-14
+title: Updating from release 2023-11-14
 geekdocCollapseSection: true
 weight: 100
 ---
@@ -22,6 +22,8 @@ Updating from release 2023-11-14 will require running a post update script to re
   1. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
 
   2. Execute the script using one of the options below:
+
+  {{% include "PowerShell-ExecutionPolicy.md" %}}
 
   **Generate a list of the resource IDs which would be deleted by this script:**
 

@@ -1,5 +1,5 @@
 ---
-title: Subscriptions
+title: subscriptions
 geekdocCollapseSection: true
 ---
 
