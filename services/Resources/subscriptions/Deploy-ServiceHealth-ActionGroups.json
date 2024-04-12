@@ -8,7 +8,7 @@
     "displayName": "Deploy Service Health Action Group",
     "description": "Policy to deploy action group for Service Health alerts",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -114,6 +114,22 @@
           "description": "URL that triggers the Function"
         },
         "defaultValue": ""
+      },
+      "BYOActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BYOAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -126,6 +142,10 @@
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
             "notEquals": "true"
+          },
+          {
+            "value": "[[empty(parameters('BYOActionGroup'))]",
+            "equals": "true"
           }
         ]
       },
@@ -141,6 +161,10 @@
           "deploymentScope": "subscription",
           "existenceCondition": {
             "allOf": [
+              {
+                "value": "[[empty(parameters('BYOActionGroup'))]",
+                "equals": true
+              },
               {
                 "field": "Microsoft.Insights/actionGroups/groupShortName",
                 "equals": "SH-ActGrp"
@@ -186,6 +210,12 @@
                     "type": "string"
                   },
                   "ALZFunctionTriggerUrl": {
+                    "type": "String"
+                  },
+                  "BYOActionGroup": {
+                    "type": "String"
+                  },
+                  "BYOAlertProcessingRule": {
                     "type": "String"
                   }
                 },
@@ -309,11 +339,18 @@
                           },
                           "ALZFunctionTriggerUrl": {
                             "type": "string"
+                          },
+                          "BYOActionGroup": {
+                            "type": "string"
+                          },
+                          "BYOAlertProcessingRule": {
+                            "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
                             "name": "[[concat('ag-AMBA-SH-', subscription().displayName, '-001')]",
@@ -361,6 +398,12 @@
                         },
                         "ALZFunctionTriggerUrl": {
                           "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                        },
+                        "BYOActionGroup": {
+                          "value": "[[parameters('BYOActionGroup')]"
+                        },
+                        "BYOAlertProcessingRule": {
+                          "value": "[[parameters('BYOAlertProcessingRule')]"
                         }
                       }
                     }
@@ -400,6 +443,12 @@
                 },
                 "ALZFunctionTriggerUrl": {
                   "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                },
+                "BYOActionGroup": {
+                  "value": "[[parameters('BYOActionGroup')]"
+                },
+                "BYOAlertProcessingRule": {
+                  "value": "[[parameters('BYOAlertProcessingRule')]"
                 }
               }
             }
