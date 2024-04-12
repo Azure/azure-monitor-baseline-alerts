@@ -9,7 +9,7 @@ weight: 99
 
 # Post update actions
 
-Updating from release [2024-03-01](../../alz/Whats-New#2024-03-01) might require running a post update script to remove the notification assets deployed by ALZ pattern <ins>***if and only if***</ins> customer decided to use existing action groups and alert processing rule. In this case, the Service Health alerts will be reconfigured to use the customer' action groups as per the _**B**ring **Y**our **O**wn **N**otifications_ (BYON) feature.
+Updating from release [2024-03-01](../../Whats-New#2024-03-01) might require running a post update script to remove the notification assets deployed by ALZ pattern <ins>***if and only if***</ins> customer decided to use existing action groups and alert processing rule. In this case, the Service Health alerts will be reconfigured to use the customer' action groups as per the _**B**ring **Y**our **O**wn **N**otifications_ (BYON) feature.
 
 To run the script, complete the following step:
 

@@ -6,7 +6,7 @@ weight: 61
 
 # Overview
 
-The ***Bring Your Own Notifications*** (BYON) feature, available with release [2024-04-02](../../alz/Whats-New#2024-04-02), allows brownfield customers to use their existing Action Groups (also known as AGs) and Alert Processing Rule (also known as APR) not forcing the use of notification assets deployed by both the [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative and the [Deploy Service Health Action Group](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) policy definition present in the ALZ pattern. It also allows Brownfield customer who deployed the ALZ pattern when this feature wasn't available, to switch to it.
+The ***Bring Your Own Notifications*** (BYON) feature, available with release [2024-04-12](../Whats-New#2024-04-12), allows brownfield customers to use their existing Action Groups (also known as AGs) and Alert Processing Rule (also known as APR) not forcing the use of notification assets deployed by both the [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative and the [Deploy Service Health Action Group](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) policy definition present in the ALZ pattern. It also allows Brownfield customer who deployed the ALZ pattern when this feature wasn't available, to switch to it.
 
 # How this feature works
 
@@ -22,19 +22,19 @@ Differently if they decide to use the assets provided by AMBA or if they're Gree
 
 ## Conditional deployment behavior
 
-When running the deployment, the deployment code has conditions that control the deployment behavior according to the following  three possible cases:
+When running the deployment, the deployment code has conditions that control the deployment behavior according to the following three possible cases:
 
-A. ***Customer wants to use its own AGs with no APR***. In this scenario, the deployment we will:
+A. ***Use your own AGs with the AMBA APR***. In this scenario, the deployment we will:
 
 - Not deploy the AMBA SH AG
-- Deploy the AMBA ARP with customer's AGs in it
+- Deploy the AMBA APR with customer's AGs in it
 - Deploy SH alerts pointing to customer's AGs
 
 Here's an example of the parameter file with the relevant sections populated for this scenario:
 
 ![policyAssignmentParametersBYON section](../../alz/media/BYON_Params_2.png)
 
-B. ***Customer wants to use its own AGs and APR***. In this scenario, the deployment we will:
+B. ***Use your own AGs and APR***. In this scenario, the deployment we will:
 
 - Not deploy any AMBA notification AG or ARP (since it's not physically linked to any alert) assets or AMBA SH AG
 - Deploy SH alerts pointing to customer's AGs
@@ -43,7 +43,7 @@ Here's an example of the parameter file with the relevant sections populated for
 
 ![policyAssignmentParametersBYON section](../../alz/media/BYON_Params_3.png)
 
-C. ***Customer does not have any AGs or APR in place and wants to leverage AMBA notification assets***. In this scenario, the deployment will:
+C. ***Use AMBA notification assets***. In this scenario, the deployment will:
 
 - Deploy notification assets for SH alerts and wide notifications.
 
