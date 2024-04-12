@@ -1,0 +1,21 @@
+- name: Uptime
+  description: Total number of client input/output operations per second
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - hpc
+  properties:
+    metricName: Uptime
+    metricNamespace: Microsoft.StorageCache/caches
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 99
+    autoMitigate: false
+  references:
+    - name: Monitor HPC Cache with metrics and alerts
+      url: https://learn.microsoft.com/en-us/azure/hpc-cache/metrics#metrics-page

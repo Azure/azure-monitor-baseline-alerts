@@ -215,7 +215,7 @@ Open the newly created Bicep file in your favorite text editor, such as Visual S
 {
 var loadPolicyDefinitions = {
   All: [
-    loadTextContent('../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Deploy.json')
+    loadTextContent('../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Health.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json')

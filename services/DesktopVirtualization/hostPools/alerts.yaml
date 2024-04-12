@@ -1,5 +1,6 @@
 - name: Capacity 85 Percent (xHostPoolNamex)
-  description: This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
+  description:
+    This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
     -->Last Number in the string is the Percentage Remaining for the Host Pool.
     Output is -
     HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
@@ -7,7 +8,7 @@
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -17,30 +18,30 @@
     threshold: 1
     resouceIdColumn: ResourceId
     dimensions:
-    - name: HostPoolName
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsTotal
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsDisconnected
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsActive
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsAvailable
-      operator: Include
-      values:
-      - '*'
-    - name: HostPoolPercentLoad
-      operator: Include
-      values:
-      - '*'
+      - name: HostPoolName
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsTotal
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsDisconnected
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsActive
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsAvailable
+        operator: Include
+        values:
+          - "*"
+      - name: HostPoolPercentLoad
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -81,19 +82,20 @@
       | where HostPoolName =~ ''xHostPoolNamex'''
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Capacity 95 Percent (xHostPoolNamex)
-  description: This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
+  description:
+    This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution for xHostPoolNamex.
     -->Last Number in the string is the Percentage Remaining for the Host Pool.
     Output is -
     HostPoolName|ResourceGroup|Type|MaxSessionLimit|NumberHosts|TotalUsers|DisconnectedUser|ActiveUsers|SessionsAvailable|HostPoolPercentageLoad'
@@ -101,7 +103,7 @@
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -111,30 +113,30 @@
     threshold: 1
     resouceIdColumn: ResourceId
     dimensions:
-    - name: HostPoolName
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsTotal
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsDisconnected
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsActive
-      operator: Include
-      values:
-      - '*'
-    - name: UserSessionsAvailable
-      operator: Include
-      values:
-      - '*'
-    - name: HostPoolPercentLoad
-      operator: Include
-      values:
-      - '*'
+      - name: HostPoolName
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsTotal
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsDisconnected
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsActive
+        operator: Include
+        values:
+          - "*"
+      - name: UserSessionsAvailable
+        operator: Include
+        values:
+          - "*"
+      - name: HostPoolPercentLoad
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -175,24 +177,24 @@
       | where HostPoolName =~ ''xHostPoolNamex'''
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: No Resources Available (xHostPoolNamex)
   description: Catastrophic Event! Indicates potential problems with dependencies, diagnose and resolve for xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -202,14 +204,14 @@
     threshold: 1
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: UserName
-      operator: Include
-      values:
-      - '*'
-    - name: SessionHostName
-      operator: Include
-      values:
-      - '*'
+      - name: UserName
+        operator: Include
+        values:
+          - "*"
+      - name: SessionHostName
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -248,24 +250,24 @@
       | where Errors[0].CodeSymbolic == "ConnectionFailedNoHealthyRdshAvailable"'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: User Disconnected over 24h (xHostPoolNamex)
   description: Verify Remote Desktop Policies are applied relating to Session Limits for xHostPoolNamex. This could impact your scaling plan as well.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -275,14 +277,14 @@
     threshold: 1
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: UserName
-      operator: Include
-      values:
-      - '*'
-    - name: SessionHostName
-      operator: Include
-      values:
-      - '*'
+      - name: UserName
+        operator: Include
+        values:
+          - "*"
+      - name: SessionHostName
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -311,24 +313,24 @@
       | sort by Duration desc'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: User Disconnected over 72h (xHostPoolNamex)
   description: Verify Remote Desktop Policies are applied relating to Session Limits for xHostPoolNamex. This could impact your scaling plan as well.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -338,60 +340,50 @@
     threshold: 1
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: UserName
-      operator: Include
-      values:
-      - '*'
-    - name: SessionHostName
-      operator: Include
-      values:
-      - '*'
+      - name: UserName
+        operator: Include
+        values:
+          - "*"
+      - name: SessionHostName
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: 'WVDConnections
-
+    query: >-
+      WVDConnections
       | where TimeGenerated > ago(24h)
-
       | where State == "Connected"
-
       | where _ResourceId contains "xHostPoolNamex"
-
       | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName
-
       | join (WVDConnections
-
-      | where State == "Completed"
-
-      | project EndTime=TimeGenerated, CorrelationId)
-
+        | where State == "Completed"
+        | project EndTime=TimeGenerated, CorrelationId)
       on CorrelationId
-
       | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName
-
       | where Duration >= timespan(72:00:00)
-
-      | sort by Duration desc'
+      | sort by Duration desc
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Local Disk Space less than 10% (xHostPoolNamex)
   description: Disk space Moderately Low. \nConsider review of the VM local C drive and determine what is consuming disk space for the VM in xHostPoolNamex. This could be local profiles or temp files that need to be cleaned up or removed.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -401,18 +393,18 @@
     threshold: 1
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -427,6 +419,8 @@
       | where InstanceName  !contains "_Total"  | where CounterValue <= 10.00
 
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+
+      | summarize arg_max(TimeGenerated, *) by ComputerName
 
       | extend ComputerName=tolower(ComputerName)
 
@@ -450,27 +444,29 @@
 
       | project VMresourceGroup, ComputerName, HostPool, _ResourceId
 
-      ) on ComputerName'
+      ) on ComputerName
+
+      | where ComputerName1 contains ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Local Disk Space less than 5% (xHostPoolNamex)
   description: Disk space Moderately Low. \nConsider review of the VM local C drive and determine what is consuming disk space for the VM in xHostPoolNamex. This could be local profiles or temp files that need to be cleaned up or removed.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -480,18 +476,18 @@
     threshold: 1
     resouceIdColumn: _ResourceId
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -508,6 +504,8 @@
       | where CounterValue <= 5.00
 
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
+
+      | summarize arg_max(TimeGenerated, *) by ComputerName
 
       | extend ComputerName=tolower(ComputerName)
 
@@ -533,27 +531,29 @@
 
       | project VMresourceGroup, ComputerName, HostPool, _ResourceId
 
-      ) on ComputerName'
+      ) on ComputerName
+
+      | where ComputerName1 contains ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Profile less than 5% (xHostPoolNamex)
   description: User Profiles Service logged Event ID 33. Expand User's Virtual Profile Disk and/or clean up user profile data on the VM in xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -562,22 +562,22 @@
     evaluationFrequency: PT5M
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -614,24 +614,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Profile less than 2% (xHostPoolNamex)
   description: User Profiles Service logged Event ID 34. Expand User's Virtual Profile Disk and/or clean up user profile data on the VM in xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -640,22 +640,22 @@
     evaluationFrequency: PT5M
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -692,24 +692,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Network Issue (xHostPoolNamex)
   description: User Profiles Service logged Event ID 43. Verify network communications between the storage and AVD VM related to xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -718,22 +718,22 @@
     evaluationFrequency: PT5M
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -770,24 +770,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Profile Disk Failed to Attach (xHostPoolNamex)
   description: User Profiles Service logged an Event ID 52 or 40. Investigate error details for reason regarding xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -797,22 +797,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -849,24 +849,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Service Disabled (xHostPoolNamex)
   description: User Profile Service Disabled. Determine why service was disabled and re-enable / start the FSLogix service. Regarding xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -876,22 +876,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -928,24 +928,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Disk Compact Failure (xHostPoolNamex)
   description: User Profile Service logged Event ID 62 or 63. The profile Disk was marked for compaction due to additional white space but failed. See error details for additional information regarding xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -955,22 +955,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -1007,24 +1007,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: FSLogix Disk Already In Use (xHostPoolNamex)
   description: User Profile Service logged an Event ID 51. This indicates that a user attempted to load their profile disk but it was in use or possibly mapped to another VM. Ensure the user is not connected to another host pool or remote app with the same profile. Regarding xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -1034,22 +1034,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: ComputerName
-      operator: Include
-      values:
-      - '*'
-    - name: RenderedDescription
-      operator: Include
-      values:
-      - '*'
-    - name: VMresourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
+      - name: ComputerName
+        operator: Include
+        values:
+          - "*"
+      - name: RenderedDescription
+        operator: Include
+        values:
+          - "*"
+      - name: VMresourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -1086,24 +1086,24 @@
       ) on ComputerName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Session Host Healthcheck Failure (xHostPoolNamex)
   description: VM is available for use but one of the dependent resources is in a failed state for hostpool xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 2
     operator: GreaterThanOrEqual
@@ -1113,22 +1113,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: SessionHostName
-      operator: Include
-      values:
-      - '*'
-    - name: HealthCheckDesc
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
-    - name: SessionHostRG
-      operator: Include
-      values:
-      - '*'
+      - name: SessionHostName
+        operator: Include
+        values:
+          - "*"
+      - name: HealthCheckDesc
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
+      - name: SessionHostRG
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -1187,24 +1187,24 @@
       | parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: Personal Desktop Assigned Healthcheck Failure (xHostPoolNamex)
   description: VM is assigned to a user but one of the dependent resources is in a failed state for hostpool xHostPoolNamex. This alert relies on the runbook AvdHostPoolLogData.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 1
     operator: GreaterThanOrEqual
@@ -1214,22 +1214,22 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: SessionHostName
-      operator: Include
-      values:
-      - '*'
-    - name: HealthCheckDesc
-      operator: Include
-      values:
-      - '*'
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
-    - name: SessionHostRG
-      operator: Include
-      values:
-      - '*'
+      - name: SessionHostName
+        operator: Include
+        values:
+          - "*"
+      - name: HealthCheckDesc
+        operator: Include
+        values:
+          - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
+      - name: SessionHostRG
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -1264,24 +1264,24 @@
       | where NumPersonalUnhealthy > 0 '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false
 - name: User Connection to Session Host Failure (xHostPoolNamex)
   description: While trying to connect to xHostPoolNamex a user had an error and failed to connect to a VM. There are lots of variables between the end uers and AVD VMs. If this is frequent for the user, determine if their Internet connection is slow or latency is over 150 ms. Regarding xHostPoolNamex.
   type: Log
   verified: false
   visible: true
   tags:
-  - avd
+    - avd
   properties:
     severity: 3
     operator: GreaterThanOrEqual
@@ -1291,42 +1291,42 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-    - name: HostPool
-      operator: Include
-      values:
-      - '*'
-    - name: ResourceGroup
-      operator: Include
-      values:
-      - '*'
-    - name: UserName
-      operator: Include
-      values:
-      - '*'
-    - name: ClientOS
-      operator: Include
-      values:
-      - '*'
-    - name: ClientVersion
-      operator: Include
-      values:
-      - '*'
-    - name: ClientSideIPAddress
-      operator: Include
-      values:
-      - '*'
-    - name: ConnectionType
-      operator: Include
-      values:
-      - '*'
-    - name: ErrorShort
-      operator: Include
-      values:
-      - '*'
-    - name: ErrorMessage
-      operator: Include
-      values:
-      - '*'
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
+      - name: ResourceGroup
+        operator: Include
+        values:
+          - "*"
+      - name: UserName
+        operator: Include
+        values:
+          - "*"
+      - name: ClientOS
+        operator: Include
+        values:
+          - "*"
+      - name: ClientVersion
+        operator: Include
+        values:
+          - "*"
+      - name: ClientSideIPAddress
+        operator: Include
+        values:
+          - "*"
+      - name: ConnectionType
+        operator: Include
+        values:
+          - "*"
+      - name: ErrorShort
+        operator: Include
+        values:
+          - "*"
+      - name: ErrorMessage
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -1375,14 +1375,14 @@
       | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage'
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:30:00'
+    autoResolveTime: "0:30:00"
   references:
   deployments:
-  - name: AVD-HostPool
-    template: Deploy-AVD-HostPool-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Subscription
-      multiResource: false
+    - name: AVD-HostPool
+      template: Deploy-AVD-HostPool-Alert.json
+      type: Policy
+      tags:
+        - alz
+      properties:
+        scope: Subscription
+        multiResource: false

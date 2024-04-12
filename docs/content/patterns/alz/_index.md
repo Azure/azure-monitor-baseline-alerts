@@ -34,9 +34,9 @@ Monitoring baselines for the above components are proposed to be deployed levera
 - Network security groups
 - Azure route tables
 
-In addition to the component specific alerts mentioned above the repo also contains policies for deploying service health alerts by subscription. 
+In addition to the component specific alerts mentioned above the repo also contains policies for deploying service health alerts by subscription.
 
-Alerts are based on Microsoft public guidance where available, and on practical application experience where public guidance is not available. For more details on which alerts are included please refer to [Alert Details](../alz/Alerts-Details). 
+Alerts are based on Microsoft public guidance where available, and on practical application experience where public guidance is not available. For more details on which alerts are included please refer to [Alert Details](../alz/Alerts-Details).
 
 For details on how policies are grouped into initiatives please refer to [Azure Policy Initiatives](../alz/Policy-Initiatives)
 
