@@ -20,7 +20,7 @@ Table below shows the Alerts configured after the deployment.
 | CPU - Percentage CPU (%) (Critical)  | 95 (0)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
 | Memory - Average Memory Usage (%)          | 80 (2)                  | UsageAverage       | Every 5 minutes | 1             |
 | Memory - Average Memory Usage (%) (Critical) | 95 (0)                  | UsageAverage       | Every 5 minutes | 1             |
-| Disk - Percentage Datastore Disk Used (%) | 1             |
+| Disk - Percentage Datastore Disk Used (%)  | 70 (2)            | DiskUsedPercentage | Every 5 minutes | 1             |
 | Disk - Percentage Datastore Disk Used (%) (Critical) | 75 (0)            | DiskUsedPercentage | Every 5 minutes | 1             |
 | Service Health Alerts             | N/A                     | ServiceHealth      | N/A             | 1             |
 
