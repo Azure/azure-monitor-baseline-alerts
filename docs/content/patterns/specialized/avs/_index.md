@@ -7,8 +7,12 @@ geekdocCollapseSection: true
 
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
+{{< hint type=note >}}
+Please do not operate Azure VMware Solution SDDC above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
+{{< /hint >}}
+
 **Current Version:**
-v1.0.0 (Mar 4, 2024)
+v1.1.0 (Apr 15, 2024)
 
 ## Alerts Table
 
@@ -46,7 +50,7 @@ If you have encountered a problem please file an issue in our GitHub repo [GitHu
 
 ## Deployment Guide
 
-We have a [Deployment Guide](./deploy/deploy.md) available for guidance on how to consume the contents of this repo.
+We have a [Deployment Guide](./deploy/deploy.md#deployment-guide) available for guidance on how to consume the contents of this repo.
 
 ## Known Issues
 
