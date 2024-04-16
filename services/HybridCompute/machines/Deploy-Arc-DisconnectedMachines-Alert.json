@@ -131,26 +131,6 @@
         ],
         "defaultValue": "true"
       },
-      "autoResolve": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Auto Resolve",
-          "description": "Auto Resolve for the alert"
-        },
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true"
-      },
-      "autoResolveTime": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Auto Resolve",
-          "description": "Auto Resolve time for the alert in ISO 8601 format"
-        },
-        "defaultValue": "true"
-      },
       "enabled": {
         "type": "String",
         "metadata": {
@@ -315,12 +295,6 @@
                   "autoMitigate": {
                     "type": "String"
                   },
-                  "autoResolve": {
-                    "type": "String"
-                  },
-                  "autoResolveTime": {
-                    "type": "String"
-                  },
                   "enabled": {
                     "type": "String"
                   },
@@ -400,10 +374,9 @@
                                 "allOf": [
                                   {
                                     "query": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | extend _ResourceId = id | project _ResourceId, name, status, AggregatedValue",
-                                    "metricMeasureColumn": "Minimum",
+                                    "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
-                                    "resourceIdColumn": "_ResourceId",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
                                     "dimensions": [
                                       {
@@ -421,11 +394,7 @@
                                   }
                                 ]
                               },
-                              "autoMitigate": "[[parameters('autoMitigate')]",
-                              "ruleResolveConfiguration": {
-                                "autoResolved": "[[parameters('autoResolve')]",
-                                "timeToResolve": "[[parameters('autoResolveTime')]"
-                              },
+                              "autoMitigate": false,
                               "parameters": {
                                 "alertResourceGroupName": {
                                   "value": "[[parameters('alertResourceGroupName')]"
@@ -444,12 +413,6 @@
                                 },
                                 "autoMitigate": {
                                   "value": "[[parameters('autoMitigate')]"
-                                },
-                                "autoResolve": {
-                                  "value": "[[parameters('autoResolve')]"
-                                },
-                                "autoResolveTime": {
-                                  "value": "[[parameters('autoResolveTime')]"
                                 },
                                 "enabled": {
                                   "value": "[[parameters('enabled')]"
@@ -504,12 +467,6 @@
                 },
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
-                },
-                "autoResolve": {
-                  "value": "[[parameters('autoResolve')]"
-                },
-                "autoResolveTime": {
-                  "value": "[[parameters('autoResolveTime')]"
                 },
                 "enabled": {
                   "value": "[[parameters('enabled')]"
