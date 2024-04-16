@@ -253,7 +253,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | extend _ResourceId = id | project _ResourceId, name, status, AggregatedValue"
+                "equals": "arg('').Resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | project _ResourceId = id, name, status, AggregatedValue"
               }
             ]
           },
@@ -370,7 +370,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | extend _ResourceId = id | project _ResourceId, name, status, AggregatedValue",
+                                    "query": "arg('').Resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | project _ResourceId = id, name, status, AggregatedValue",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
