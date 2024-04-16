@@ -119,6 +119,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskWriteLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentCPU-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentMemory-Alert.json')
+    loadTextContent('../../../services/HybridCompute/machines/Deploy-Arc-DisconnectedMachines-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworks/Deploy-VNET-DDOSAttack-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-BandwidthUtilization-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Egress-Alert.json')
