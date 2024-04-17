@@ -115,6 +115,27 @@
                 "description": "Assign Action assets initiative"
             }
         },
+        "ALZUserAssignedManagedIdentityName": {
+            "type": "string",
+            "defaultValue": "id-AMBA-ARG-Reader",
+            "metadata": {
+                "description": "The name of the user assigned managed identity to be created for monitoring purpose."
+            }
+        },
+        "ALZManagementSubscriptionId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+            }
+        },
+        "BYOUserAssignedManagedIdentity": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The user assigned managed identity to be used for monitoring purpose. If provided, the deployment will not create a new user assigned managed identity."
+            }
+        },
         "delayCount": {
             "type": "int",
             "defaultValue": 1,
@@ -540,11 +561,11 @@
         // ManagedIdentity for ARG related stuff starts here
         {
             // Creating resource group in the Management subscription.
-            "condition": "[empty(parameters('policyAssignmentParametersCommon').BYOUserAssignedManagedIdentity)]",
+            "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
-            "subscriptionId": "[parameters('policyAssignmentParametersCommon').ALZManagementSubscriptionId.value]",
+            "subscriptionId": "[parameters('ALZManagementSubscriptionId.value')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "ambaPolicyCompletion"
@@ -564,11 +585,11 @@
         },
         {
             // Creating UAMI for monitoring purpose using ARG query based alerts.
-            "condition": "[empty(parameters('policyAssignmentParametersCommon').BYOUserAssignedManagedIdentity)]",
+            "condition": "[empty(parameters('BYOUserAssignedManagedIdentity')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
-            "subscriptionId": "[parameters('policyAssignmentParametersCommon').ALZManagementSubscriptionId.value]",
+            "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]"
@@ -580,25 +601,16 @@
                     "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
                 },
                 "parameters": {
-                    "ALZMonitorResourceGroupName": {
-                        "value": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName]"
-                    },
-                    "ALZMonitorResourceGroupLocation": {
-                        "value": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]"
-                    },
-                    "ALZMonitorResourceGroupTags": {
-                        "value": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]"
-                    },
-
-                    "ALZUserAssignedManagedIdentityName": {
-                        "value": "[parameters('policyAssignmentParametersCommon').ALZUserAssignedManagedIdentityName]"
-                    }
+                    "ALZMonitorResourceGroupName": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName]",
+                    "ALZMonitorResourceGroupLocation": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]",
+                    "ALZMonitorResourceGroupTags": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]",
+                    "ALZUserAssignedManagedIdentityName": "[parameters('ALZUserAssignedManagedIdentityName')]"
                 }
             }
         },
         {
             // Assigning UAMI Monitoring Reader role on all subscription based on resource type.
-            "condition": "[empty(parameters('policyAssignmentParametersCommon').BYOUserAssignedManagedIdentity)]",
+            "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2021-04-01",
             "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -616,7 +628,7 @@
                 "parameters": {
                     "principalType": "ServicePrincipal",
                     "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7", // Monitoring Reader
-                    "principalId": "[if(empty(parameters('policyAssignmentParametersCommon').BYOUserAssignedManagedIdentity), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('policyAssignmentParametersCommon').ALZUserAssignedManagedIdentityName)).principalId, parameters('policyAssignmentParametersCommon').BYOUserAssignedManagedIdentity)]"
+                    "principalId": "[if(empty(parameters('BYOUserAssignedManagedIdentity')), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName'))).principalId, parameters('BYOUserAssignedManagedIdentity'))]"
                 }
             }
         }
