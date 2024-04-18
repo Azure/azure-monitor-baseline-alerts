@@ -225,8 +225,8 @@ If (!$reportOnly.IsPresent) {
     $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
     # delete user assigned managed identities
-    Write-Host "Deleting user assigned managed identities..."
-    $UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
+    #Write-Host "Deleting user assigned managed identities..."
+    #$UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
 
     # delete alert processing rules
     Write-Host "Deleting alert processing rule(s)..."
