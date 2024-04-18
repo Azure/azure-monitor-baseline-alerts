@@ -564,7 +564,7 @@
             // Creating resource group in the Management subscription.
             "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2020-10-01",
+            "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
             "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
             "location": "[deployment().location]",
@@ -588,7 +588,7 @@
             // Creating UAMI for monitoring purpose using ARG query based alerts.
             "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2020-10-01",
+            "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
             "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
             "location": "[deployment().location]",
@@ -612,12 +612,13 @@
             }
         },
         {
-            // Assigning UAMI Monitoring Reader role on all subscription based on resource type.
+            // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
             "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+            //"scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+            "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
@@ -629,6 +630,9 @@
                       "uri": "[variables('deploymentUris').AMBAUamiRoleAssignment]"
                 },
                 "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
                     "principalType": {
                         "value": "ServicePrincipal"
                     },
