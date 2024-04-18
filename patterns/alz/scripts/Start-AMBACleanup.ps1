@@ -159,7 +159,7 @@ Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metada
 # get user assigned managed identities to delete
 $query = "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
 $UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-Write-Host "Found '$($Uamis.Count)' role assignments with description '_deployed_by_amba' to be deleted."
+Write-Host "Found '$($Uamis.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
 
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
