@@ -82,7 +82,7 @@ ForEach ($mg in $managementGroups) {
     $allDeployments += $deployments
 }
 
-Write-Host "Found '$($allDeployments.Count)' for ALZ-Monitor deployments with name starting 'amba-'."
+Write-Host "Found '$($allDeployments.Count)' deployments for AMBA pattern with name starting with 'amba-'."
 
 If (!$reportOnly.IsPresent) {
 
