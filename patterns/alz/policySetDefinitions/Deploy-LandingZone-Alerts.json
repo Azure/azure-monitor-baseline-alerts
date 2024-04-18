@@ -41,6 +41,29 @@
           "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
         }
       },
+      "userAssignedManagedIdentityName": {
+          "type": "string",
+          "defaultValue": "id-AMBA-ARG-Reader-001",
+          "metadata": {
+              "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+              "displayName": "Name of the user assigned managed identity to be created."
+          }
+      },
+      "managementSubscriptionId": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+              "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+          }
+      },
+      "BYOUserAssignedManagedIdentity": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+              "description": "The resource Id of the user assigned managed identity provided by the customer.",
+              "displayName": "Customer defined Alert Processing Rule Resource ID"
+          }
+      },
       "KVRequestAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -5190,6 +5213,15 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDisconnected",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
         "parameters": {
+          "userAssignedManagedIdentityName": {
+            "value": "[[parameters('userAssignedManagedIdentityName')]"
+          },
+          "managementSubscriptionId": {
+            "value": "[[parameters('managementSubscriptionId')]"
+          },
+          "BYOUserAssignedManagedIdentity": {
+            "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMDisconnectedAlertSeverity')]"
           },

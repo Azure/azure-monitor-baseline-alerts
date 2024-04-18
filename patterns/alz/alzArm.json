@@ -119,7 +119,8 @@
             "type": "string",
             "defaultValue": "id-AMBA-ARG-Reader-001",
             "metadata": {
-                "description": "The name of the user assigned managed identity to be created for monitoring purpose."
+                "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+                "displayName": "Name of the user assigned managed identity to be created."
             }
         },
         "managementSubscriptionId": {
@@ -133,7 +134,8 @@
             "type": "string",
             "defaultValue": "",
             "metadata": {
-                "description": "The principal Id of the user assigned managed identity provided by the customer."
+                "description": "The resource Id of the user assigned managed identity provided by the customer.",
+                "displayName": "Customer defined Alert Processing Rule Resource ID"
             }
         },
         "delayCount": {
@@ -189,7 +191,7 @@
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
-        "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'))]",
+        "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'), parameters('userAssignedManagedIdentityName'),parameters('managementSubscriptionId'),parameters('BYOUserAssignedManagedIdentity'))]",
         "policyAssignmentParametersManagement": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
         "policyAssignmentParametersServiceHealth": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), parameters('policyAssignmentParametersNotificationAssets'), parameters('policyAssignmentParametersBYON'))]",
         "policyAssignmentParametersNotificationAssets": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersNotificationAssets'), parameters('policyAssignmentParametersBYON'))]",

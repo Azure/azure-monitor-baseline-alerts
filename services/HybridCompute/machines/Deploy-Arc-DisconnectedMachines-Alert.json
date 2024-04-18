@@ -43,6 +43,29 @@
         },
         "defaultValue": "centralus"
       },
+      "userAssignedManagedIdentityName": {
+          "type": "string",
+          "defaultValue": "id-AMBA-ARG-Reader-001",
+          "metadata": {
+              "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+              "displayName": "Name of the user assigned managed identity to be created."
+          }
+      },
+      "managementSubscriptionId": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+              "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+          }
+      },
+      "BYOUserAssignedManagedIdentity": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+              "description": "The resource Id of the user assigned managed identity provided by the customer.",
+              "displayName": "Customer defined Alert Processing Rule Resource ID"
+          }
+      },
       "severity": {
         "type": "String",
         "metadata": {
@@ -274,6 +297,15 @@
                   "alertResourceGroupLocation": {
                     "type": "string"
                   },
+                  "userAssignedManagedIdentityName": {
+                    "type": "string"
+                  },
+                  "managementSubscriptionId": {
+                    "type": "string"
+                  },
+                  "BYOUserAssignedManagedIdentity": {
+                    "type": "string"
+                  },
                   "severity": {
                     "type": "String"
                   },
@@ -305,7 +337,9 @@
                     "type": "String"
                   }
                 },
-                "variables": {},
+                "variables": {
+                  "uamiResourceId": "[[if(empty(BYOUserAssignedManagedIdentity), resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -348,7 +382,8 @@
                             "identity": {
                               "type": "UserAssigned",
                               "userAssignedIdentities": {
-                                "/subscriptions/9eb60821-a097-44f4-ba4b-921a68a5f102/resourceGroups/rg-Identities/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mi-AMBA-ArgReader": {}
+                                //"/subscriptions/9eb60821-a097-44f4-ba4b-921a68a5f102/resourceGroups/rg-Identities/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mi-AMBA-ArgReader": {}
+                                "[[variables('uamiResourceId')]": {}
                               }
                             },
                             "tags": {
@@ -398,6 +433,15 @@
                                 },
                                 "alertResourceGroupLocation": {
                                   "value": "[[parameters('alertResourceGroupLocation')]"
+                                },
+                                "userAssignedManagedIdentityName": {
+                                  "value": "[[parameters('userAssignedManagedIdentityName')]"
+                                },
+                                "managementSubscriptionId": {
+                                  "value": "[[parameters('managementSubscriptionId')]"
+                                },
+                                "BYOUserAssignedManagedIdentity": {
+                                  "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
                                 },
                                 "severity": {
                                   "value": "[[parameters('severity')]"
@@ -452,6 +496,15 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "userAssignedManagedIdentityName": {
+                  "value": "[[parameters('userAssignedManagedIdentityName')]"
+                },
+                "managementSubscriptionId": {
+                  "value": "[[parameters('managementSubscriptionId')]"
+                },
+                "BYOUserAssignedManagedIdentity": {
+                  "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
                 },
                 "severity": {
                   "value": "[[parameters('severity')]"
