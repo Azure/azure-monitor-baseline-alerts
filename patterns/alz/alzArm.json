@@ -225,9 +225,9 @@
             "pidCuaLandingZoneDeploymentName": "[take(concat('amba-pid-', variables('cuaidLandingZone'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaServiceHealthDeploymentName": "[take(concat('amba-pid-', variables('cuaidServiceHealth'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-            "AMBAUamiResourceGroupDeploymentName": "[take(concat('amba-rg-', variables('deploymentSuffix')), 64)]",
-            "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami-', variables('deploymentSuffix')), 64)]",
-            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra-', variables('deploymentSuffix')), 64)]"
+            "AMBAUamiResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
+            "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
+            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
@@ -580,9 +580,9 @@
                         {
                             "type": "Microsoft.Resources/resourceGroups",
                             "apiVersion": "2020-10-01",
-                            "name": "[parameters('ALZMonitorResourceGroupName')]",
-                            "location": "[parameters('ALZMonitorResourceGroupLocation')]",
-                            "tags": "[parameters('ALZMonitorResourceGroupTags')]"
+                            "name": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName]",
+                            "location": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]",
+                            "tags": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]"
                         }
                     ]
                 }
@@ -609,8 +609,8 @@
                             "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                             "apiVersion": "2018-11-30",
                             "name": "[parameters('ALZUserAssignedManagedIdentityName')]",
-                            "location": "[parameters('ALZMonitorResourceGroupLocation')]",
-                            "tags": "[parameters('ALZMonitorResourceGroupTags')]"
+                            "location": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]",
+                            "tags": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]"
                         }
                     ]
                 }
