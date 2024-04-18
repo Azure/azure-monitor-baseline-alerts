@@ -612,11 +612,12 @@
         },
         {
             // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
+            "condition": "[empty(parameters('BYOUserAssignedManagedIdentity'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
-            //"scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-            "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+            //"subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
