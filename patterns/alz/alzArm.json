@@ -623,7 +623,6 @@
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]", // Monitoring Reader
-                //"principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]",
                 "principalId": "[reference(resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]",
                 "description": "_deployed_by_amba"
             }
@@ -632,7 +631,7 @@
     "outputs": {
         "managedIdentityPrincipalId": {
             "type": "string",
-            "value": "[reference(resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]"
+            "value": "[resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName'))]"
         }
     }
 }
