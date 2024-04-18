@@ -223,6 +223,58 @@
         /*
             The following deployments will deploy the required proactive and preventive Azure policies for AMBA policy driven governance
         */
+        // ManagedIdentity for ARG related stuff starts here
+        {
+            // Creating resource group in the Management subscription.
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
+            "subscriptionId": "[string(parameters('uamiParameters').managementSubscriptionId.Value)]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "ambaPolicyCompletion"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAUamiResourceGroup]"
+                },
+                "parameters": {
+                    "rgParameters": {
+                        "value": "[parameters('policyAssignmentParametersCommon')]"
+                    }
+                }
+            }
+        },
+        {
+            // Creating UAMI for monitoring purpose using ARG query based alerts.
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
+            "subscriptionId": "[string(parameters('uamiParameters').managementSubscriptionId.Value)]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
+                },
+                "parameters": {
+                    "rgParameters": {
+                        "value": "[parameters('policyAssignmentParametersCommon')]"
+                    },
+                    "uamiName": {
+                        "value": "[string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)]"
+                    }
+                }
+            }
+        },
         {
             // Deploying AMBA custom policies. Note: all policies should eventually be moved to built-in policies and codebase will be reduced
             "type": "Microsoft.Resources/deployments",
@@ -540,58 +592,6 @@
                 }
             }
         },
-        // ManagedIdentity for ARG related stuff starts here
-        {
-            // Creating resource group in the Management subscription.
-            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
-            "subscriptionId": "[string(parameters('uamiParameters').managementSubscriptionId.Value)]",
-            "location": "[deployment().location]",
-            "dependsOn": [
-                "ambaPolicyCompletion"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUamiResourceGroup]"
-                },
-                "parameters": {
-                    "rgParameters": {
-                        "value": "[parameters('policyAssignmentParametersCommon')]"
-                    }
-                }
-            }
-        },
-        {
-            // Creating UAMI for monitoring purpose using ARG query based alerts.
-            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
-            "subscriptionId": "[string(parameters('uamiParameters').managementSubscriptionId.Value)]",
-            "location": "[deployment().location]",
-            "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
-                },
-                "parameters": {
-                    "rgParameters": {
-                        "value": "[parameters('policyAssignmentParametersCommon')]"
-                    },
-                    "uamiName": {
-                        "value": "[string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)]"
-                    }
-                }
-            }
-        },
         {
             // One of Azure's untold stories.....
             "type": "Microsoft.Resources/deployments",
@@ -619,6 +619,7 @@
                 }
             }
         },
+        // Assigning UAMI to pseudo Root Management Group
         {
             // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
             "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
@@ -637,11 +638,5 @@
                 "description": "_deployed_by_amba"
             }
         }
-    ],
-    "outputs": {
-        "provisioningState": {
-            "type": "string",
-            "value": "[concat('Provisioning state: ', deployment().properties.provisioningState)]"
-        }
-    }
+    ]
 }
