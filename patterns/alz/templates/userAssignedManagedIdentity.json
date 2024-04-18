@@ -6,7 +6,7 @@
             "type": "object",
             "defaultValue": {}
         },
-        "ALZUserAssignedManagedIdentityName": {
+        "uamiName": {
             "type": "string",
             "defaultValue": "id-AMBA-ARG-Reader-001",
             "metadata": {
@@ -19,7 +19,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2021-04-01",
-            "name": "[parameters('ALZUserAssignedManagedIdentityName')]",
+            "name": "[concat('amba-', parameters('uamiName'))]",
             "properties": {
                 "mode": "Incremental",
                 "template": {
@@ -31,7 +31,7 @@
                         {
                             "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                             "apiVersion": "2018-11-30",
-                            "name": "[parameters('ALZUserAssignedManagedIdentityName').Value]",
+                            "name": "[parameters('uamiName')]",
                             "location": "[string(parameters('rgParameters').ALZMonitorResourceGroupLocation.Value)]",
                             "tags": "[parameters('rgParameters').ALZMonitorResourceGroupTags.Value]"
                         }
