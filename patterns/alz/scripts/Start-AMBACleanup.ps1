@@ -111,6 +111,13 @@ If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
     If ($response -match '[yY]') { Install-Module Az.ResourceGraph -Scope CurrentUser }
 }
 
+If (-NOT(Get-Module -ListAvailable Az.ManagedServiceIdentity)) {
+  Write-Warning "This script requires the Az.ManagedServiceIdentity module."
+
+  $response = Read-Host "Would you like to install the 'Az.ManagedServiceIdentity' module now? (y/n)"
+  If ($response -match '[yY]') { Install-Module Az.ManagedServiceIdentity -Scope CurrentUser }
+}
+
 # get all management groups -- used in graph query scope
 $managementGroups = @()
 $allMgs = Get-AzManagementGroup -GroupName $pseudoRootManagementGroup -Expand -Recurse
@@ -148,6 +155,11 @@ Write-Host "Found '$($policySetDefinitionIds.Count)' policy set definitions with
 $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
 $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
+
+# get user assigned managed identities to delete
+$query = "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
+$UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
+Write-Host "Found '$($Uamis.Count)' role assignments with description '_deployed_by_amba' to be deleted."
 
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
@@ -201,9 +213,13 @@ If (!$reportOnly.IsPresent) {
     Write-Host "Deleting policy definitions..."
     $policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
 
-    # delete policy assignment role assignments
+    # delete role assignments
     Write-Host "Deleting role assignments..."
     $roleAssignments | Select-Object -Property objectId,roleDefinitionId,scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
+
+    # delete user assigned managed identities
+    Write-Host "Deleting user assigned managed identities..."
+    $UamiIds | Select-Object -Property name, resourceGroup | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
 
     # delete alert processing rules
     Write-Host "Deleting alert processing rule(s)..."
@@ -216,7 +232,7 @@ If (!$reportOnly.IsPresent) {
     Write-Host "Cleanup complete."
 }
 Else {
-    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id+$alertProcessingRuleIds+$alertProcessingRuleIds
+    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id + $UamiIds + $alertProcessingRuleIds + $alertProcessingRuleIds
 
     return $resourceToBeDeleted
 }
