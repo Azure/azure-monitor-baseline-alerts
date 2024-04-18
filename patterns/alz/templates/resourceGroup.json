@@ -2,31 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "ALZMonitorResourceGroupName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Resource Group Name",
-                "description": "Resource group the alert is placed in"
-              },
-            "defaultValue": "rg-amba-monitoring-001"
-        },
-        "ALZMonitorResourceGroupTags": {
-            "type": "Object",
-            "metadata": {
-                "displayName": "Resource Group Tags",
-                "description": "Tags on the Resource group the alert is placed in"
-            },
-            "defaultValue": {
-                "_deployed_by_amba": true
-            }
-        },
-        "ALZMonitorResourceGroupLocation": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Resource Group Location",
-                "description": "Location of the Resource group the alert is placed in"
-            },
-            "defaultValue": "centralus"
+        "rgParameters": {
+            "type": "object",
+            "defaultValue": {}
         }
     },
     "variables": {},
@@ -34,9 +12,9 @@
         {
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2020-10-01",
-            "name": "[parameters('ALZMonitorResourceGroupName')]",
-            "location": "[parameters('ALZMonitorResourceGroupLocation')]",
-            "tags": "[parameters('ALZMonitorResourceGroupTags')]"
+            "name": "[parameters('rgParameters').ALZMonitorResourceGroupName]",
+            "location": "[parameters('rgParameters').ALZMonitorResourceGroupLocation]",
+            "tags": "[parameters('rgParameters').ALZMonitorResourceGroupTags]"
         }
     ],
     "outputs": {}
