@@ -103,7 +103,7 @@ If (!$reportOnly.IsPresent) {
 
     # delete alert processing rules
     Write-Host "Deleting AMBA deployments..."
-    $allDeployments | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ }
+    $allDeployments | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ } -throttlelimit 100
 
     Write-Host "AMBA deployments cleanup complete."
 }

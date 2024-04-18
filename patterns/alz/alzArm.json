@@ -600,11 +600,11 @@
             "location": "[deployment().location]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAPolicyDeploymentName]"
+                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
             ],
             "copy": {
                 "batchSize": 1,
-                "count": 10,
+                "count": 1,
                 "mode": "Serial",
                 "name": "ambaUamiReplication"
             },
@@ -617,6 +617,25 @@
                     "resources": [],
                     "outputs": {}
                 }
+            }
+        },
+        // Assigning UAMI to pseudo Root Management Group
+        {
+            // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName)]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
+                "ambaUamiReplication"
+            ],
+            "properties": {
+                "principalType": "ServicePrincipal",
+                "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', '43d0d8ad-25c7-4714-9337-8ba259a9fe05')]", // Monitoring Reader
+                "principalId": "[reference(resourceId(string(parameters('uamiParameters').managementSubscriptionId.Value), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)), '2023-01-31').principalId]",
+                "description": "_deployed_by_amba"
             }
         }
     ]
