@@ -104,6 +104,13 @@ Function Iterate-ManagementGroups($mg) {
 
 $ErrorActionPreference = 'Stop'
 
+If (-NOT(Get-Module -ListAvailable Az.Resources)) {
+  Write-Warning "This script requires the Az.Resources module."
+
+  $response = Read-Host "Would you like to install the 'Az.Resources' module now? (y/n)"
+  If ($response -match '[yY]') { Install-Module Az.Resources -Scope CurrentUser }
+}
+
 If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
     Write-Warning "This script requires the Az.ResourceGraph module."
 
@@ -159,7 +166,7 @@ Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metada
 # get user assigned managed identities to delete
 $query = "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
 $UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-Write-Host "Found '$($Uamis.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
+Write-Host "Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
 
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
@@ -215,11 +222,11 @@ If (!$reportOnly.IsPresent) {
 
     # delete role assignments
     Write-Host "Deleting role assignments..."
-    $roleAssignments | Select-Object -Property objectId,roleDefinitionId,scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
+    $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
     # delete user assigned managed identities
     Write-Host "Deleting user assigned managed identities..."
-    $UamiIds | Select-Object -Property name, resourceGroup | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
+    $UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
 
     # delete alert processing rules
     Write-Host "Deleting alert processing rule(s)..."
