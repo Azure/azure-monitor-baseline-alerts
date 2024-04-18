@@ -592,33 +592,6 @@
                 }
             }
         },
-        {
-            // One of Azure's untold stories.....
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[concat('amba-waitUamiReplication', copyIndex())]",
-            "location": "[deployment().location]",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-            "dependsOn": [
-                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
-            ],
-            "copy": {
-                "batchSize": 1,
-                "count": 1,
-                "mode": "Serial",
-                "name": "ambaUamiReplication"
-            },
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [],
-                    "outputs": {}
-                }
-            }
-        },
         // Assigning UAMI to pseudo Root Management Group
         {
             // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
@@ -628,8 +601,7 @@
             "name": "[guid(variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName)]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
-                "ambaUamiReplication"
+                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
             ],
             "properties": {
                 "principalType": "ServicePrincipal",
