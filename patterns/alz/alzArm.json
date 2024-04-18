@@ -235,8 +235,7 @@
         "cuaidManagement": "d87415c4-01ef-4667-af89-0b5adc14af1b",
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
-        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
-        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7']"
+        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807"
     },
     "resources": [
         /*
@@ -640,7 +639,7 @@
                         "value": "acdd72a7-3385-48ef-bd42-f606fba81ae7" // Monitoring Reader
                     },
                     "principalId": {
-                        "value": "[if(empty(parameters('BYOUserAssignedManagedIdentity')), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').principalId, parameters('BYOUserAssignedManagedIdentity'))]"
+                        "value": "[if(empty(parameters('BYOUserAssignedManagedIdentity')), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').identity.principalId, parameters('BYOUserAssignedManagedIdentity'))]"
                     }
                 }
             }
