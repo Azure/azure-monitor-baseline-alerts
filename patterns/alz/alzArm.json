@@ -235,7 +235,8 @@
         "cuaidManagement": "d87415c4-01ef-4667-af89-0b5adc14af1b",
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
-        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807"
+        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
+        "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7']"
     },
     "resources": [
         /*
@@ -572,14 +573,18 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUamiResourceGroup]"
-                },
-                "parameters": {
-                    "ALZMonitorResourceGroupName": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName]",
-                    "ALZMonitorResourceGroupLocation": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]",
-                    "ALZMonitorResourceGroupTags": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]"
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2020-10-01",
+                            "name": "[parameters('ALZMonitorResourceGroupName')]",
+                            "location": "[parameters('ALZMonitorResourceGroupLocation')]",
+                            "tags": "[parameters('ALZMonitorResourceGroupTags')]"
+                        }
+                    ]
                 }
             }
         },
@@ -596,15 +601,18 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
-                },
-                "parameters": {
-                    "ALZMonitorResourceGroupName": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName]",
-                    "ALZMonitorResourceGroupLocation": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation]",
-                    "ALZMonitorResourceGroupTags": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]",
-                    "ALZUserAssignedManagedIdentityName": "[parameters('ALZUserAssignedManagedIdentityName')]"
+                    "resources": [
+                        {
+                            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                            "apiVersion": "2018-11-30",
+                            "name": "[parameters('ALZUserAssignedManagedIdentityName')]",
+                            "location": "[parameters('ALZMonitorResourceGroupLocation')]",
+                            "tags": "[parameters('ALZMonitorResourceGroupTags')]"
+                        }
+                    ]
                 }
             }
         },
@@ -621,14 +629,21 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
-                      "contentVersion": "1.0.0.0",
-                      "uri": "[variables('deploymentUris').AMBAUamiRoleAssignment]"
-                },
-                "parameters": {
-                    "principalType": "ServicePrincipal",
-                    "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7", // Monitoring Reader
-                    "principalId": "[if(empty(parameters('BYOUserAssignedManagedIdentity')), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').principalId, parameters('BYOUserAssignedManagedIdentity'))]"
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.Authorization/roleAssignments",
+                            "apiVersion": "2022-04-01",
+                            "name": "[guid(concat(parameters('topLevelManagementGroupPrefix'), '-MonitoringReaderRole'))]",
+                            "properties": {
+                                "principalType": "ServicePrincipal",
+                                "roleDefinitionId": "[variables('roleDefinitionId')]",
+                                "principalId": "[if(empty(parameters('BYOUserAssignedManagedIdentity')), reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').principalId, parameters('BYOUserAssignedManagedIdentity'))]"
+                            }
+                        }
+                    ]
                 }
             }
         }
