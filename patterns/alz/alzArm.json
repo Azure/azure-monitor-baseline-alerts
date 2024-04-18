@@ -115,14 +115,14 @@
                 "description": "Assign Action assets initiative"
             }
         },
-        "ALZUserAssignedManagedIdentityName": {
+        "userAssignedManagedIdentityName": {
             "type": "string",
             "defaultValue": "id-AMBA-ARG-Reader-001",
             "metadata": {
                 "description": "The name of the user assigned managed identity to be created for monitoring purpose."
             }
         },
-        "ALZManagementSubscriptionId": {
+        "managementSubscriptionId": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
@@ -565,7 +565,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
-            "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
+            "subscriptionId": "[parameters('managementSubscriptionId')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "ambaPolicyCompletion"
@@ -589,7 +589,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
-            "subscriptionId": "[parameters('ALZManagementSubscriptionId')]",
+            "subscriptionId": "[parameters('managementSubscriptionId')]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]"
@@ -605,7 +605,7 @@
                         "value": "[parameters('policyAssignmentParametersCommon')]"
                     },
                     "uamiName": {
-                        "value": "[parameters('ALZUserAssignedManagedIdentityName')]"
+                        "value": "[parameters('userAssignedManagedIdentityName')]"
                     }
                 }
             }
@@ -623,7 +623,8 @@
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]", // Monitoring Reader
-                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').principalId]",
+                //"principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]",
+                "principalId": "[reference(resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]",
                 "description": "_deployed_by_amba"
             }
         }
@@ -631,7 +632,7 @@
     "outputs": {
         "managedIdentityPrincipalId": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')), '2023-01-31').principalId]"
+            "value": "[reference(resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]"
         }
     }
 }
