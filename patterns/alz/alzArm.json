@@ -554,14 +554,33 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUamiResourceGroup]"
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
                 },
                 "parameters": {
                     "rgParameters": {
                         "value": "[parameters('policyAssignmentParametersCommon')]"
                     }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "rgParameters": {
+                            "type": "object",
+                            "defaultValue": {}
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.Resources/resourceGroups",
+                            "apiVersion": "2020-10-01",
+                            "name": "[string(parameters('rgParameters').ALZMonitorResourceGroupName.Value)]",
+                            "location": "[string(parameters('rgParameters').ALZMonitorResourceGroupLocation.Value)]",
+                            "tags": "[parameters('rgParameters').ALZMonitorResourceGroupTags.Value]"
+                        }
+                    ]
                 }
             }
         },
@@ -578,9 +597,8 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
                 },
                 "parameters": {
                     "rgParameters": {
@@ -589,8 +607,35 @@
                     "uamiName": {
                         "value": "[string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)]"
                     }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "rgParameters": {
+                            "type": "object",
+                            "defaultValue": {}
+                        },
+                        "uamiName": {
+                            "type": "object",
+                            "defaultValue": {}
+                        }
+                    },
+                    "variables": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+                            "apiVersion": "2018-11-30",
+                            "name": "[parameters('uamiName')]",
+                            "location": "[string(parameters('rgParameters').ALZMonitorResourceGroupLocation.Value)]",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            }
+                        }
+                    ]
                 }
-            }
+            },
+            "resourceGroup": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value)]"
         },
         // Assigning UAMI to pseudo Root Management Group
         /*{
@@ -616,7 +661,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
-            //"name": "Peppino",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
