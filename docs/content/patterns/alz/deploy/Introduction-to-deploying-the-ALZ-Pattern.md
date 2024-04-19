@@ -70,7 +70,7 @@ The other monitoring initiatives are each assigned at specific platform landing 
 
 ![Azure Monitor Baseline Alerts policy initiative flows](../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
 
-Click [here](../../media/AMBA-Diagrams.vsdx) if you'd like to download this Visio diagram.
+*Download a [Visio file](../../media/AMBA-Diagrams.vsdx) of this architecture.*
 
 If you have this management group hierarchy, you can skip forward to your preferred deployment method:
 
