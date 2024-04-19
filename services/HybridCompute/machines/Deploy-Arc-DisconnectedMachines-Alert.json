@@ -195,8 +195,8 @@
       "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "Monitoring disabled",
+          "description": "Tag name to disable resource monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
       }
@@ -338,7 +338,7 @@
                   }
                 },
                 "variables": {
-                  "uamiResourceId": "[[if(empty(BYOUserAssignedManagedIdentity), resourceId(parameters('managementSubscriptionId'), parameters(ALZMonitorResourceGroupName), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
+                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentity')), resourceId(parameters('managementSubscriptionId'), parameters('ALZMonitorResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
                 },
                 "resources": [
                   {
