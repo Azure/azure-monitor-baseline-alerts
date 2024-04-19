@@ -1,0 +1,38 @@
+#Need to verify with PG
+- name: TotalClientIOPS
+  description: Total number of client input/output operations per second
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - hpc
+  properties:
+    metricName: ClientIOPS
+    metricNamespace: Microsoft.StorageCache/amlFilesystems
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10000
+    autoMitigate: false
+
+- name: AverageClientLatency
+  description: Average latency for client operations
+  type: Metric
+  verified: false
+  visible: false
+  tags:
+  - hpc
+  properties:
+    metricName: ClientLatency
+    metricNamespace: Microsoft.StorageCache/amlFilesystems
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10
+    autoMitigate: false

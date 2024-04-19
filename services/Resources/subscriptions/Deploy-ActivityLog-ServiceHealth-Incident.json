@@ -8,7 +8,7 @@
     "displayName": "Deploy Service Health Incident Alert",
     "description": "Policy to Deploy Service Health Incident Alert",
     "metadata": {
-      "version": "1.1.3",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -81,7 +81,15 @@
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": "action@mail.com"
+        "defaultValue": ""
+      },
+      "BYOActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -114,8 +122,42 @@
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                "contains": "ag-AMBA-SH-"
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "equals": true
+                      },
+                      {
+                        "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                        "contains": "ag-AMBA-SH-"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "equals": false
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "anyOf": [
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                              }
+                            ]
+                          }
+                        },
+                        "equals": 1
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "count": {
@@ -175,9 +217,24 @@
                   },
                   "ALZMonitorActionGroupEmail": {
                     "type": "string"
+                  },
+                  "BYOActionGroup": {
+                    "type": "String"
                   }
                 },
-                "variables": {},
+                "variables": {
+                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
+                  "copy": [
+                    {
+                      "name": "varActionGroupIds",
+                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "mode": "serial",
+                      "input": {
+                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                      }
+                    }
+                  ]
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -208,11 +265,15 @@
                           },
                           "ALZMonitorActionGroupEmail": {
                             "type": "string"
+                          },
+                          "BYOActionGroup": {
+                            "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthIncident",
@@ -228,7 +289,44 @@
                                   }
                                 ]
                               },
-                              "description": "ServiceHealthIncidentAlert",
+                              "description": "Service Health Incident Alert",
+                              "enabled": "[[parameters('enabled')]",
+                              "scopes": [
+                                "[[subscription().id]"
+                              ],
+                              "condition": {
+                                "allOf": [
+                                  {
+                                    "field": "category",
+                                    "equals": "ServiceHealth"
+                                  },
+                                  {
+                                    "field": "properties.incidentType",
+                                    "equals": "Incident"
+                                  }
+                                ]
+                              },
+                              "parameters": {
+                                "enabled": {
+                                  "value": "[[parameters('enabled')]"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
+                            "type": "microsoft.insights/activityLogAlerts",
+                            "apiVersion": "2020-10-01",
+                            "name": "ServiceHealthIncident",
+                            "location": "global",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "actions": {
+                                "actionGroups": "[[variables('varActionGroupIds')]"
+                              },
+                              "description": "Service Health Incident Alert",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().id]"
@@ -263,6 +361,9 @@
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        },
+                        "BYOActionGroup": {
+                          "value": "[[parameters('BYOActionGroup')]"
                         }
                       }
                     }
@@ -284,6 +385,9 @@
                 },
                 "ALZMonitorActionGroupEmail": {
                   "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                },
+                "BYOActionGroup": {
+                  "value": "[[parameters('BYOActionGroup')]"
                 }
               }
             }

@@ -6,8 +6,7 @@ param SetEnabled bool = false
  */
 
 @description('Location of needed scripts to deploy solution.')
-param _ArtifactsLocation string = 'https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/'
-// https://raw.githubusercontent.com/Azure/avdaccelerator/main/workload/scripts/alerts/  OLD from AVD Accelerator Repo
+param _ArtifactsLocation string = 'https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/avd/scripts/'
 
 @description('SaS token if needed for script location.')
 @secure()
