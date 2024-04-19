@@ -191,7 +191,16 @@
           "disabled"
         ],
         "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Monitoring disabled",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+        },
+        "defaultValue": "MonitorDisable"
       }
+
     },
     "policyRule": {
       "if": {
@@ -330,7 +339,17 @@
                   }
                 },
                 "variables": {
-                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentity')), resourceId(parameters('managementSubscriptionId'), parameters('ALZMonitorResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
+                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentity')), resourceId(parameters('managementSubscriptionId'), parameters('ALZMonitorResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]",
+                  "identityCoordinates":{
+                    "type": "UserAssigned",
+                    "tenantId": "[[reference(variable('uamiResourceId'), '2018-11-30').tenantId]]",
+                    "userAssignedIdentities": {
+                      "[[variable('uamiResourceId')]": {
+                        "clientId": "[[reference(variable('uamiResourceId'), '2018-11-30').principalId]]",
+                        "principalId": "[[reference(variable('uamiResourceId'), '2018-11-30').clientId]]"
+                      }
+                    }
+                  }
                 },
                 "resources": [
                   {
@@ -381,8 +400,12 @@
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "identity": {
                               "type": "UserAssigned",
+                              "tenantId": "5c275e5f-b1fe-4d26-9018-76292fe2b11b",
                               "userAssignedIdentities": {
-                                "[[variables('uamiResourceId')]": {}
+                                "/subscriptions/9eb60821-a097-44f4-ba4b-921a68a5f102/resourceGroups/rg-Identities/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mi-AMBA-ArgReader": {
+                                    "clientId": "39f09c51-c5aa-4587-a46c-3ac8c9888b0f",
+                                    "principalId": "9c0b504d-8b48-41a0-b3bb-2987dae554c2"
+                                }
                               }
                             },
                             "tags": {
