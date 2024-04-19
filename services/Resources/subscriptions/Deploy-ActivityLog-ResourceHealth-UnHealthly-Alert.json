@@ -8,7 +8,7 @@
     "displayName": "Deploy Resource Health Unhealthy Alert",
     "description": "Policy to Deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.0.3",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -74,6 +74,14 @@
           "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "BYOActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyRule": {
@@ -106,8 +114,42 @@
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                "contains": "ag-AMBA-SH-"
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "equals": true
+                      },
+                      {
+                        "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                        "contains": "ag-AMBA-SH-"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "equals": false
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
+                          "where": {
+                            "anyOf": [
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
+                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                              }
+                            ]
+                          }
+                        },
+                        "equals": 1
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "count": {
@@ -152,9 +194,24 @@
                   },
                   "enabled": {
                     "type": "string"
+                  },
+                  "BYOActionGroup": {
+                    "type": "String"
                   }
                 },
-                "variables": {},
+                "variables": {
+                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
+                  "copy": [
+                    {
+                      "name": "varActionGroupIds",
+                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "mode": "serial",
+                      "input": {
+                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                      }
+                    }
+                  ]
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -182,11 +239,15 @@
                           },
                           "alertResourceGroupName": {
                             "type": "string"
+                          },
+                          "BYOActionGroup": {
+                            "type": "String"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ResourceHealthUnhealthyAlert",
@@ -246,6 +307,63 @@
                                 }
                               }
                             }
+                          },
+                          {
+                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
+                            "type": "microsoft.insights/activityLogAlerts",
+                            "apiVersion": "2020-10-01",
+                            "name": "ResourceHealthUnhealthyAlert",
+                            "location": "global",
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "actions": {
+                                "actionGroups": "[[variables('varActionGroupIds')]"
+                              },
+                              "description": "Resource Health Unhealthy Alert",
+                              "enabled": "[[parameters('enabled')]",
+                              "scopes": [
+                                "[[subscription().id]"
+                              ],
+                              "condition": {
+                                "allOf": [
+                                  {
+                                    "field": "category",
+                                    "equals": "ResourceHealth"
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "field": "properties.cause",
+                                        "equals": "PlatformInitiated"
+                                      },
+                                      {
+                                        "field": "properties.cause",
+                                        "equals": "UserInitiated"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "field": "properties.currentHealthStatus",
+                                        "equals": "Degraded"
+                                      },
+                                      {
+                                        "field": "properties.currentHealthStatus",
+                                        "equals": "Unavailable"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "parameters": {
+                                "enabled": {
+                                  "value": "[[parameters('enabled')]"
+                                }
+                              }
+                            }
                           }
                         ]
                       },
@@ -255,6 +373,9 @@
                         },
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
+                        },
+                        "BYOActionGroup": {
+                          "value": "[[parameters('BYOActionGroup')]"
                         }
                       }
                     }
@@ -273,6 +394,9 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "BYOActionGroup": {
+                  "value": "[[parameters('BYOActionGroup')]"
                 }
               }
             }

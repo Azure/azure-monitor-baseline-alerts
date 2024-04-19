@@ -7,8 +7,12 @@ geekdocCollapseSection: true
 
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
+{{< hint type=note >}}
+Please do not operate Azure VMware Solution SDDC above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
+{{< /hint >}}
+
 **Current Version:**
-v1.0.0 (Mar 4, 2024)
+v1.1.0 (Apr 15, 2024)
 
 ## Alerts Table
 
@@ -16,13 +20,27 @@ Table below shows the Alerts configured after the deployment.
 
 | Name                              | Threshold(s) (Severity) | Signal Type        | Frequency       | # Alert Rules |
 |-----------------------------------|-------------------------|--------------------|-----------------|---------------|
-| CPU Usage per Cluster             | 80 (2)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
-| CPU Usage per Cluster (Critical)  | 95 (0)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
-| Memory Usage per Cluster          | 80 (2)                  | UsageAverage       | Every 5 minutes | 1             |
-| Memory Usage per Cluster (Critical) | 95 (0)                  | UsageAverage       | Every 5 minutes | 1             |
-| Storage Usage per Datastore       | 70 (2)                  | DiskUsedPercentage | Every 5 minutes | 1             |
-| Storage Usage per Datastore (Critical) | 75 (0)            | DiskUsedPercentage | Every 5 minutes | 1             |
+| CPU - Percentage CPU (%)             | 80 (2)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
+| CPU - Percentage CPU (%) (Critical)  | 95 (0)                  | EffectiveCpuAverage| Every 5 minutes | 1             |
+| Memory - Average Memory Usage (%)          | 80 (2)                  | UsageAverage       | Every 5 minutes | 1             |
+| Memory - Average Memory Usage (%) (Critical) | 95 (0)                  | UsageAverage       | Every 5 minutes | 1             |
+| Disk - Percentage Datastore Disk Used (%)  | 70 (2)            | DiskUsedPercentage | Every 5 minutes | 1             |
+| Disk - Percentage Datastore Disk Used (%) (Critical) | 75 (0)            | DiskUsedPercentage | Every 5 minutes | 1             |
 | Service Health Alerts             | N/A                     | ServiceHealth      | N/A             | 1             |
+
+Table below shows additional Alerts to be configured. These are not yet covered as part of the deployment script. Monitor these metrics manually.
+
+| Name                              | Threshold(s) (Severity) | Signal Type        | Frequency       | # Alert Rules |
+|-----------------------------------|-------------------------|--------------------|-----------------|---------------|
+| Cluster node count             | 14 (2)                  | N/A| After every node addition | N/A             |
+| SDDC node count             | 90 (2)                  | N/A| After every node addition | N/A             |
+| Delete lock on resource group count             | 1 (2)                  | N/A| After SDDC creation | N/A             |
+| Stretched cluster ExpressRoute circuit count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC (Primary + Secondary) count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC LDAPS Identity source count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC DNS server count             | 3 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC vSAN FTT configuration (< 6 nodes)             | RAID-1 FTT-1 (2)                  | N/A| After SDDC creation | N/A             |
+| SDDC vSAN FTT configuration (>= 6 nodes)             | RAID-1/6 FTT-2 (2)                  | N/A| After SDDC creation | N/A             |
 
 ## 📣Feedback 📣
 
@@ -32,7 +50,7 @@ If you have encountered a problem please file an issue in our GitHub repo [GitHu
 
 ## Deployment Guide
 
-We have a [Deployment Guide](./deploy/deploy.md) available for guidance on how to consume the contents of this repo.
+We have a [Deployment Guide](./deploy/deploy.md#deployment-guide) available for guidance on how to consume the contents of this repo.
 
 ## Known Issues
 
