@@ -338,7 +338,7 @@
                   }
                 },
                 "variables": {
-                  "uamiResourceId": "[[if(empty(BYOUserAssignedManagedIdentity), resourceId(parameters('managementSubscriptionId'), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
+                  "uamiResourceId": "[[if(empty(BYOUserAssignedManagedIdentity), resourceId(parameters('managementSubscriptionId'), parameters(ALZMonitorResourceGroupName), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
                 },
                 "resources": [
                   {
@@ -369,6 +369,14 @@
                             "type": "string"
                           },
                           "alertResourceGroupLocation": {
+                            "type": "string"
+                          },"userAssignedManagedIdentityName": {
+                            "type": "string"
+                          },
+                          "managementSubscriptionId": {
+                            "type": "string"
+                          },
+                          "BYOUserAssignedManagedIdentity": {
                             "type": "string"
                           }
                         },
@@ -480,6 +488,15 @@
                         },
                         "alertResourceGroupLocation": {
                           "value": "[[parameters('alertResourceGroupLocation')]"
+                        },
+                        "userAssignedManagedIdentityName": {
+                          "value": "[[parameters('userAssignedManagedIdentityName')]"
+                        },
+                        "managementSubscriptionId": {
+                          "value": "[[parameters('managementSubscriptionId')]"
+                        },
+                        "BYOUserAssignedManagedIdentity": {
+                          "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
                         }
                       }
                     }
