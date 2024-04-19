@@ -191,16 +191,7 @@
           "disabled"
         ],
         "defaultValue": "deployIfNotExists"
-      },
-      "MonitorDisable": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Monitoring disabled",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
-        },
-        "defaultValue": "MonitorDisable"
       }
-
     },
     "policyRule": {
       "if": {
@@ -208,10 +199,6 @@
           {
             "field": "type",
             "equals": "microsoft.hybridcompute/machines"
-          },
-          {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
           }
         ]
       },
