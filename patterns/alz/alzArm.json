@@ -593,7 +593,7 @@
             }
         },
         // Assigning UAMI to pseudo Root Management Group
-        {
+        /*{
             // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
             "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
             "type": "Microsoft.Authorization/roleAssignments",
@@ -608,6 +608,57 @@
                 "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', '43d0d8ad-25c7-4714-9337-8ba259a9fe05')]", // Monitoring Reader
                 "principalId": "[reference(resourceId(string(parameters('uamiParameters').managementSubscriptionId.Value), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)), '2023-01-31').principalId]",
                 "description": "_deployed_by_amba"
+            }
+        }*/
+        {
+            // Assigning UAMI Monitoring Reader role at the pseudo MG level based on resource type.
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentity.Value))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "uamiParameters": {
+                        "value": "[parameters('uamiParameters')]"
+                    },
+                    "policyAssignmentParametersCommon": {
+                        "value": "[parameters('policyAssignmentParametersCommon')]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "uamiParameters": {
+                            "type": "object"
+                        },
+                        "policyAssignmentParametersCommon": {
+                            "type": "object"
+                        }
+                    },
+                    "resources": [
+                        {
+                            "type": "Microsoft.Authorization/roleAssignments",
+                            "apiVersion": "2022-04-01",
+                            "name": "[Guid(string(parameters('uamiParameters').managementSubscriptionId.Value))]",
+                            "location": "[deployment().location]",
+                            "properties": {
+                                "principalType": "ServicePrincipal",
+                                "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', '43d0d8ad-25c7-4714-9337-8ba259a9fe05')]", // Monitoring Reader
+                                "principalId": "[reference(resourceId(string(parameters('uamiParameters').managementSubscriptionId.Value), string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value), 'Microsoft.ManagedIdentity/userAssignedIdentities', string(parameters('uamiParameters').userAssignedManagedIdentityName.Value)), '2023-01-31').principalId]",
+                                "description": "_deployed_by_amba"
+                            }
+                        }
+                    ]
+                }
             }
         }
     ]
