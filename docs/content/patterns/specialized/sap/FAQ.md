@@ -8,11 +8,11 @@ weight: 80
 >
 > It's provided as a starting point, we've based the initial thresholds on what we've seen and what Microsoft's documentation recommends. You will need to adjust the thresholds at some point.
 > You will need to observe and if the alert is too chatty, adjust the threshold up; if it's not alerting when there's a problem, adjust the threshold down a bit, (or vice-versa depending on what metric or log error is being used as a monitoring source). Once you have decided upon an appropriate value, if you feel it's fit for more general consumption we would love to hear about it.
-
+>
 > ## Do I need to use these metrics or can they be replaced with ones more suited to my environment?
 >
 > The metric rules we've created are based on recommendations from Microsoft documentation and field experience. How you're using Azure resources may also be different so tailor the alerts to suit your needs. The main goal of this project is to help you have a way to do Azure Monitor alerts at scale, create new rules with your own thresholds. We'd love to hear about your new rules too so feel free to share back.
-
+>
 > ## How much does it cost to run the ALZ Baseline solution?
 >
 > This depends on numerous factors including how many of the alert rules you choose to deploy into your environment, this combined with how many subscriptions inherit the baseline policies and resources deployed within each subscription that match the policy rules triggering an alert rule and action group deployment influence the cost.
@@ -30,7 +30,7 @@ weight: 80
 > For costings related to your deployment please visit [Pricing - Azure Monitor](https://azure.microsoft.com/en-us/pricing/details/monitor/) and work with your local Microsoft account team to define a rough order of magnitude (RoM) costings
 >
 > <sup>1</sup> Depending on the region you deploy to their may be a small difference in the associated cost, the costs provided here are based on prices captured as of April 2023
-
+>
 > ## Can I use AMBA without a GitHub repository
 >
 > <p>Yes, as long as the ARM templates are publicly accessible. There are several linked templates in this solution which require to be publicly accessible. This is because when the top level ARM template is submitted to Azure Resource Manager, the linked templates are not automatically uploaded and therefore need to pulled in at deploy time from Azure. This means they must be referenced using a URL which can be accessed from Azure (e.g. via a public GitHub repository)</p>
