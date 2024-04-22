@@ -164,7 +164,7 @@ $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNam
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get user assigned managed identities to delete
-$query = "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
+$query = "Resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
 $UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
 Write-Host "Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
 
@@ -225,8 +225,8 @@ If (!$reportOnly.IsPresent) {
     $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
     # delete user assigned managed identities
-    #Write-Host "Deleting user assigned managed identities..."
-    #$UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity @psItem -Confirm:(!$force) | Out-Null }
+    Write-Host "Deleting user assigned managed identities..."
+    $UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -Confirm:(!$force) | Out-Null }
 
     # delete alert processing rules
     Write-Host "Deleting alert processing rule(s)..."
