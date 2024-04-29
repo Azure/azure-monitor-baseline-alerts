@@ -93,7 +93,7 @@
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultValue": "GreaterThanOrEqual"
+        "defaultValue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -107,7 +107,7 @@
           "Total",
           "Count"
         ],
-        "defaultValue": "Minimum"
+        "defaultValue": "Count"
       },
       "windowSize": {
         "type": "String",
@@ -163,7 +163,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "45"
+        "defaultValue": "0"
       },
       "failingPeriods": {
         "type": "String",
@@ -265,7 +265,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "arg('').Resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | project _ResourceId = id, name, status, AggregatedValue"
+                "equals": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate"
               }
             ]
           },
@@ -401,8 +401,8 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "arg('').Resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend TimeGenerated = now() | extend AggregatedValue = datetime_diff('day', TimeGenerated, lastContactedDate) | extend status = tostring(properties.status) | project _ResourceId = id, name, status, AggregatedValue",
-                                    "metricMeasureColumn": "AggregatedValue",
+                                    "query": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate",
+                                    "resourceIdColumn": "id",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
