@@ -403,7 +403,7 @@
                                   {
                                     "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate', parameters('threshold'))]",
                                     "resourceIdColumn": "id",
-                                    "threshold": "[[parameters('threshold')]",
+                                    "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
                                     "dimensions": [
