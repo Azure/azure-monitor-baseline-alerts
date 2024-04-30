@@ -265,7 +265,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(45d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate"
+                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate', parameters('threshold'))]"
               }
             ]
           },
@@ -401,7 +401,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "arg('').resources | where type == 'microsoft.hybridcompute/machines' | where tostring(properties.status) == 'Disconnected' | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(45d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate",
+                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate', parameters('threshold'))]",
                                     "resourceIdColumn": "id",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
