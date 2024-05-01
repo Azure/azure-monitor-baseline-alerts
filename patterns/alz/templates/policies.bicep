@@ -73,8 +73,9 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json')
     loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
-    loadTextContent('../../../services//Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json')
     loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
+    loadTextContent('../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json')
+    loadTextContent('../../../services//Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Health.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json')
     loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Maintenance.json')
@@ -83,6 +84,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
     loadTextContent('../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Deploy.json')
+    loadTextContent('../../../services/AlertsManagement/actionRules/Deploy-AlertProcessingRule-Suppression.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-BGPAvailability-Alert.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json')
@@ -103,6 +105,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-PacketsInDDOS-Alert.json')
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-VIPAvailability-Alert.json')
     loadTextContent('../../../services/storage/storageAccounts/Deploy-SA-Availability-Alert.json')
+    loadTextContent('../../../services/storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-AvailableMemory-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json')
@@ -182,6 +185,7 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     loadTextContent('../policySetDefinitions/Deploy-Management-Alerts.json')
     loadTextContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json')
+    loadTextContent('../policySetDefinitions/Deploy-Notification-Assets.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []

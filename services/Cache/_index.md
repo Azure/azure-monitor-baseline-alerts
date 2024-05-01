@@ -1,5 +1,5 @@
 ---
 title: Cache
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---

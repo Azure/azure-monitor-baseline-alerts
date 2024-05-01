@@ -1,5 +1,5 @@
 ---
-title: VPN Gateways
+title: vpnGateways
 geekdocCollapseSection: true
 ---
 

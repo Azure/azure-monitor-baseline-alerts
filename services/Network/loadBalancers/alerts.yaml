@@ -128,76 +128,14 @@
     properties:
       scope: Resource
       multiResource: false
-- name: DipAvailability
-  description: Average Load Balancer health probe status per time duration
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-453234
-  properties:
-    metricName: DipAvailability
-    metricNamespace: Microsoft.Network/loadBalancers
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: LessThan
-    criterionType: StaticThresholdCriterion
-    threshold: 51.0
-    autoMitigate: false
-- name: UsedSnatPorts
-  description: Total number of SNAT ports used within time period
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-16013
-  properties:
-    metricName: UsedSnatPorts
-    metricNamespace: Microsoft.Network/loadBalancers
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    dimensions:
-    - name: backendipaddress
-      operator: include
-      values:
-      - '*'
-    threshold: 900.0
-    autoMitigate: false
-- name: VipAvailability
-  description: Average Load Balancer data path availability per time duration
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-14028
-  properties:
-    metricName: VipAvailability
-    metricNamespace: Microsoft.Network/loadBalancers
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: LessThan
-    criterionType: StaticThresholdCriterion
-    threshold: 50.0
-    autoMitigate: false
 - name: SnatConnectionCount
   description: Total number of new SNAT connections created within time period
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2923
+  - agc-3226
   properties:
     metricName: SnatConnectionCount
     metricNamespace: Microsoft.Network/loadBalancers
@@ -208,9 +146,66 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: connectionstate
-      operator: include
+    - operator: include
+      name: connectionstate
       values:
       - failed
     threshold: 0.0
     autoMitigate: false
+- name: Byte Count
+  description: Total number of bytes passing through load balancer
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: Bytecount
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    criterionType: StaticThresholdCriterion
+    autoMitigate: false
+- name: Packet Count
+  description: total number of packet passing through load balancer
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: PacketCount
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    autoMitigate: false
+- name: Allocated Snat Ports
+  description: total number of port allocated for SNAT
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: AllocatedSnartPorts
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    criterionType: StaticThresholdCriterion
+    autoMitigate: false
+- name: SYN Count
+  description: number of syn packet which represent an attempt to establish tcp connection.
+  type: Metric
+  verified: false
+  visible: true
+  properties:
+    metricName: SYNCount
+    metricNamespace: Microsoft.Network/loadBalancers
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    criterionType: StaticThresholdCriterion
+    autoMitigate: false
+
+

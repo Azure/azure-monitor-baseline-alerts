@@ -2,10 +2,10 @@
   description: 1 if an endpoint's probe status is "Enabled", 0 otherwise.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-5272
+  - agc-5279
   properties:
     metricName: ProbeAgentCurrentEndpointStateByProfileResourceId
     metricNamespace: Microsoft.Network/trafficmanagerprofiles
@@ -16,9 +16,32 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - name: endpointname
-      operator: include
+    - operator: include
+      name: endpointname
       values:
       - '*'
     threshold: 1.0
-    autoMitigate: false
+- name: QpsByEndpoint
+  description: Number of times a Traffic Manager endpoint was returned in the given
+    time frame
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-384
+  properties:
+    metricName: QpsByEndpoint
+    metricNamespace: Microsoft.Network/trafficmanagerprofiles
+    severity: 3
+    windowSize: P1D
+    evaluationFrequency: PT15M
+    timeAggregation: Total
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: endpointname
+      values:
+      - '*'
+    threshold: 0.0

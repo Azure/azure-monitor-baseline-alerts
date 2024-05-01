@@ -8,7 +8,7 @@
     "displayName": "Deploy AGW ResponseStatus Alert",
     "description": "Policy to audit/deploy Azure Application Gateway ResponseStatus Alert",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "Category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -132,6 +132,42 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
                 "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/evaluationFrequency",
+                "equals": "[[parameters('evaluationFrequency')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/windowSize",
+                "equals": "[[parameters('windowSize')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/severity",
+                "equals": "[[parameters('severity')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/autoMitigate",
+                "equals": "[[parameters('autoMitigate')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                "equals": "Total"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
+                "equals": "GreaterThan"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
+                "equals": "Medium"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert",
+                "equals": 2
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods",
+                "equals": 2
               }
             ]
           },

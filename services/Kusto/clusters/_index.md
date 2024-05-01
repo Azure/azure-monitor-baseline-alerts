@@ -1,7 +1,7 @@
 ---
 title: clusters
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

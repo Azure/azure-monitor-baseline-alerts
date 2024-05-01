@@ -2,10 +2,10 @@
   description: Percent of Record Set capacity utilized by a DNS zone
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-621
+  - agc-1034
   properties:
     metricName: RecordSetCapacityUtilization
     metricNamespace: Microsoft.Network/dnszones
@@ -16,4 +16,24 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 60.0
-    autoMitigate: false
+- name: QueryVolume
+  description: Number of queries served for a DNS zone
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-468
+  properties:
+    metricName: QueryVolume
+    metricNamespace: Microsoft.Network/dnszones
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low

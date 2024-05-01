@@ -3,9 +3,10 @@
     to a process or for system use in the Virtual Machine
   type: Metric
   verified: false
-  visible: true
+  visible: false
   tags:
   - alz
+  - hpc
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -36,6 +37,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -73,10 +75,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Data Disk Read Latency Alert
     template: Deploy-VM-DataDiskReadLatency-Alert.json
@@ -93,6 +95,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: LessThan
@@ -130,10 +133,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Data Disk Free Space Percentage Alert
     template: Deploy-VM-DataDiskSpace-Alert.json
@@ -150,6 +153,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -187,10 +191,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Data Disk Write Latency Alert
     template: Deploy-VM-DataDiskWriteLatency-Alert.json
@@ -203,6 +207,8 @@
 - name: Heartbeat
   description: Log Alert for Virtual Machine Heartbeat
   type: Log
+  verified: false
+  visible: true
   properties:
     severity: 1
     operator: GreaterThan
@@ -236,16 +242,17 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM HeartBeat Alert for all VMs in the subscription
     template: Deploy-VM-HeartBeat-Alert.json
     type: Policy
     tags:
     - alz
+    - hpc
     properties:
       scope: Subscription
       multiResource: false
@@ -264,6 +271,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -299,10 +307,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Nework Read (bytes/sec) Alert
     template: Deploy-VM-NetworkIn-Alert.json
@@ -319,6 +327,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -354,10 +363,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Nework Write (bytes/sec) Alert
     template: Deploy-VM-NetworkOut-Alert.json
@@ -374,6 +383,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -409,10 +419,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM OS Disk Read Latency Alert
     template: Deploy-VM-OSDiskReadLatency-Alert.json
@@ -429,6 +439,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: LessThan
@@ -464,10 +475,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM OS Disk Free Space Percentage Alert
     template: Deploy-VM-OSDiskSpace-Alert.json
@@ -484,6 +495,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -517,10 +529,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM OS Disk Write Latency Alert
     template: Deploy-VM-OSDiskWriteLatency-Alert.json
@@ -537,6 +549,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: GreaterThan
@@ -566,10 +579,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Processor Utilization Percentage Alert
     template: Deploy-VM-PercentCPU-Alert.json
@@ -586,6 +599,7 @@
   visible: true
   tags:
   - alz
+  - hpc
   properties:
     severity: 2
     operator: LessThan
@@ -619,10 +633,10 @@
       '
     autoMitigate: true
     autoResolve: true
-    autoResolveTime: '0:10:00'
+    autoResolveTime: 0:10:00
   references:
-  - name: "Monitor virtual machines with Azure Monitor: Alerts"
-    url: "https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules"
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
   deployments:
   - name: Deploy VM Available Memory Percentage Alert
     template: Deploy-VM-PercentMemory-Alert.json
@@ -636,11 +650,9 @@
   description: The percentage of allocated compute units that are currently in use
     by the Virtual Machine(s)
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
-  - auto-generated
-  - agc-334990
   properties:
     metricName: Percentage CPU
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -650,17 +662,14 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
+    threshold: 80
 - name: Data Disk IOPS Consumed Percentage
   description: Percentage of data disk I/Os consumed per minute. Only available on
     VM series that support premium storage.
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
-  - auto-generated
-  - agc-139392
   properties:
     metricName: Data Disk IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -671,16 +680,13 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-    autoMitigate: false
 - name: OS Disk IOPS Consumed Percentage
   description: Percentage of operating system disk I/Os consumed per minute. Only
     available on VM series that support premium storage.
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
-  - auto-generated
-  - agc-134481
   properties:
     metricName: OS Disk IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -691,16 +697,16 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-    autoMitigate: false
 - name: Available Memory Bytes
   description: Amount of physical memory, in bytes, immediately available for allocation
     to a process or for system use in the Virtual Machine
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
   - auto-generated
   - agc-130712
+  - hpc
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -710,17 +716,14 @@
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 1000000000.0
-    autoMitigate: false
+    threshold: 1000000000
 - name: Network In Total
   description: The number of bytes received on all network interfaces by the Virtual
     Machine(s) (Incoming Traffic)
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
-  - auto-generated
-  - agc-112534
   properties:
     metricName: Network In Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -730,17 +733,14 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 500000000000.0
-    autoMitigate: false
+    threshold: 500000000000
 - name: Network Out Total
   description: The number of bytes out on all network interfaces by the Virtual Machine(s)
     (Outgoing Traffic)
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
-  - auto-generated
-  - agc-111827
   properties:
     metricName: Network Out Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -750,16 +750,16 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 200000000000.0
-    autoMitigate: false
+    threshold: 200000000000
 - name: VmAvailabilityMetric
   description: Measure of Availability of Virtual machines over time.
   type: Metric
-  verified: false
-  visible: false
+  verified: true
+  visible: true
   tags:
   - auto-generated
   - agc-83394
+  - hpc
   properties:
     metricName: VmAvailabilityMetric
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -769,17 +769,16 @@
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 1.0
-    autoMitigate: false
+    threshold: 1
 - name: OS Disk Bandwidth Consumed Percentage
   description: Percentage of operating system disk bandwidth consumed per minute.
     Only available on VM series that support premium storage.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-10847
+  - agc-9986
   properties:
     metricName: OS Disk Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -790,16 +789,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
 - name: Inbound Flows
   description: Inbound Flows are number of current flows in the inbound direction
     (traffic going into the VM)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-9070
+  - agc-8620
   properties:
     metricName: Inbound Flows
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -810,36 +808,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
-    autoMitigate: false
-- name: Outbound Flows
-  description: Outbound Flows are number of current flows in the outbound direction
-    (traffic going out of the VM)
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-8907
-  properties:
-    metricName: Outbound Flows
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 3
-    windowSize: PT15M
-    evaluationFrequency: PT15M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100000.0
-    autoMitigate: false
 - name: Data Disk Bandwidth Consumed Percentage
   description: Percentage of data disk bandwidth consumed per minute. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-8619
+  - agc-8551
   properties:
     metricName: Data Disk Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -850,35 +827,35 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
-- name: CPU Credits Remaining
-  description: Total number of credits available to burst. Only available on B-series
-    burstable VMs
+- name: Outbound Flows
+  description: Outbound Flows are number of current flows in the outbound direction
+    (traffic going out of the VM)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-7495
+  - agc-8472
   properties:
-    metricName: CPU Credits Remaining
+    metricName: Outbound Flows
     metricNamespace: Microsoft.Compute/virtualMachines
     severity: 3
     windowSize: PT15M
-    evaluationFrequency: PT1M
+    evaluationFrequency: PT15M
     timeAggregation: Average
-    operator: LessThan
+    operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 5.0
-    autoMitigate: false
+    threshold: 100000.0
 - name: Data Disk Queue Depth
   description: Data Disk Queue Depth(or Queue Length)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-6104
+  - agc-8619
+  - hpc
+  - agc-6701
   properties:
     metricName: Data Disk Queue Depth
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -889,35 +866,33 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-    autoMitigate: false
-- name: VM Cached IOPS Consumed Percentage
-  description: Percentage of cached disk IOPS consumed by the VM. Only available on
-    VM series that support premium storage.
+- name: CPU Credits Remaining
+  description: Total number of credits available to burst. Only available on B-series
+    burstable VMs
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2657
+  - agc-4417
   properties:
-    metricName: VM Cached IOPS Consumed Percentage
+    metricName: CPU Credits Remaining
     metricNamespace: Microsoft.Compute/virtualMachines
     severity: 3
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Average
-    operator: GreaterThan
+    operator: LessThan
     criterionType: StaticThresholdCriterion
-    threshold: 90.0
-    autoMitigate: false
+    threshold: 5.0
 - name: OS Disk Queue Depth
   description: OS Disk Queue Depth(or Queue Length)
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2651
+  - agc-3666
   properties:
     metricName: OS Disk Queue Depth
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -928,16 +903,34 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-    autoMitigate: false
+- name: VM Cached IOPS Consumed Percentage
+  description: Percentage of cached disk IOPS consumed by the VM. Only available on
+    VM series that support premium storage.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-2736
+  properties:
+    metricName: VM Cached IOPS Consumed Percentage
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
 - name: VM Cached Bandwidth Consumed Percentage
   description: Percentage of cached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2581
+  - agc-2662
   properties:
     metricName: VM Cached Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -948,16 +941,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
 - name: VM Uncached IOPS Consumed Percentage
   description: Percentage of uncached disk IOPS consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2124
+  - agc-2138
   properties:
     metricName: VM Uncached IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -968,16 +960,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
 - name: VM Uncached Bandwidth Consumed Percentage
   description: Percentage of uncached disk bandwidth consumed by the VM. Only available
     on VM series that support premium storage.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2115
+  - agc-2134
   properties:
     metricName: VM Uncached Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -988,15 +979,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-    autoMitigate: false
 - name: Disk Write Operations/Sec
   description: Disk Write IOPS
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1678
+  - agc-1534
   properties:
     metricName: Disk Write Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1007,55 +997,15 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-    autoMitigate: false
-- name: CPU Credits Consumed
-  description: Total number of credits consumed by the Virtual Machine. Only available
-    on B-series burstable VMs
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1239
-  properties:
-    metricName: CPU Credits Consumed
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
-    autoMitigate: false
-- name: Data Disk Write Bytes/sec
-  description: Bytes/Sec written to a single disk during monitoring period
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1031
-  properties:
-    metricName: Data Disk Write Bytes/sec
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 10000000.0
-    autoMitigate: false
 - name: OS Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period for OS
     disk
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1020
+  - agc-1023
   properties:
     metricName: OS Disk Write Bytes/sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1066,15 +1016,51 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 48000000.0
-    autoMitigate: false
+- name: CPU Credits Consumed
+  description: Total number of credits consumed by the Virtual Machine. Only available
+    on B-series burstable VMs
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1010
+  properties:
+    metricName: CPU Credits Consumed
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 80.0
+- name: Data Disk Write Bytes/sec
+  description: Bytes/Sec written to a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-960
+  properties:
+    metricName: Data Disk Write Bytes/sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10000000.0
 - name: Disk Read Operations/Sec
   description: Disk Read IOPS
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-688
+  - agc-674
   properties:
     metricName: Disk Read Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1085,53 +1071,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 400.0
-    autoMitigate: false
-- name: OS Disk Max Burst IOPS
-  description: Maximum IOPS OS Disk can achieve with bursting
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-488
-  properties:
-    metricName: OS Disk Max Burst IOPS
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 3
-    windowSize: PT1H
-    evaluationFrequency: PT30M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 3500.0
-    autoMitigate: false
-- name: Data Disk Read Operations/Sec
-  description: Read IOPS from a single disk during monitoring period
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-480
-  properties:
-    metricName: Data Disk Read Operations/Sec
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 1
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100.0
-    autoMitigate: false
 - name: Data Disk Max Burst IOPS
   description: Maximum IOPS Data Disk can achieve with bursting
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-423
+  - agc-458
   properties:
     metricName: Data Disk Max Burst IOPS
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1142,15 +1089,32 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3750.0
-    autoMitigate: false
+- name: Data Disk Read Operations/Sec
+  description: Read IOPS from a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-442
+  properties:
+    metricName: Data Disk Read Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
 - name: Disk Write Bytes
   description: Bytes written to disk during monitoring period
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-389
+  - agc-367
   properties:
     metricName: Disk Write Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1160,16 +1124,69 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 107374182400.0
-    autoMitigate: false
+    threshold: 3500000000.0
+- name: Data Disk Write Operations/Sec
+  description: Write IOPS from a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-341
+  properties:
+    metricName: Data Disk Write Operations/Sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 0
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 50.0
+- name: OS Disk Max Burst IOPS
+  description: Maximum IOPS OS Disk can achieve with bursting
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-303
+  properties:
+    metricName: OS Disk Max Burst IOPS
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT1H
+    evaluationFrequency: PT30M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 3500.0
+- name: Disk Read Bytes
+  description: Bytes read from disk during monitoring period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-301
+  properties:
+    metricName: Disk Read Bytes
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 4000000000.0
 - name: OS Disk Write Operations/Sec
   description: Write IOPS from a single disk during monitoring period for OS disk
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-382
+  - agc-291
   properties:
     metricName: OS Disk Write Operations/Sec
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -1180,42 +1197,3 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 200.0
-    autoMitigate: false
-- name: Disk Read Bytes
-  description: Bytes read from disk during monitoring period
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-370
-  properties:
-    metricName: Disk Read Bytes
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: Data Disk Write Operations/Sec
-  description: Write IOPS from a single disk during monitoring period
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-334
-  properties:
-    metricName: Data Disk Write Operations/Sec
-    metricNamespace: Microsoft.Compute/virtualMachines
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 1000.0
-    autoMitigate: false

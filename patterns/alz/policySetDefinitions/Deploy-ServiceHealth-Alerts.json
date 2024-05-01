@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Service Health",
     "description": "Initiative to deploy AMBA Service Health alerts to Azure services",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.4.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -141,27 +141,144 @@
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
-      "ALZMonitorActionGroupEmail": {
-        "type": "string",
-        "defaultValue": "action@mail.com",
-        "metadata": {
-          "displayName": "Action Group Email",
-          "description": "Email address to send alerts to"
-        }
-      },
       "MonitorDisable": {
         "type": "string",
         "defaultValue": "MonitorDisable",
         "metadata": {
-          "displayName": "Monitor Disable",
-          "description": "Disable the Monitor"
+          "displayName": "Monitoring disabled",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         }
+      },
+      "ALZMonitorActionGroupEmail": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Action Group Email Addresses",
+          "description": "Email addresses to send alerts to"
+        }
+      },
+      "ALZLogicappResourceId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Logic App Resource Id",
+          "description": "Logic App Resource Id for Action Group to send alerts to"
+        }
+      },
+      "ALZLogicappCallbackUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Logic App Callback URL",
+          "description": "Callback URL that triggers the Logic App"
+        },
+        "defaultValue": ""
+      },
+      "ALZArmRoleId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Arm Role Id",
+          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+        }
+      },
+      "ALZEventHubResourceId": {
+        "type": "String",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Event Hub resource id",
+          "description": "Event Hub resource id for action group to send alerts to"
+        }
+      },
+      "ALZWebhookServiceUri": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Webhook Service Uri",
+          "description": "Indicates the service uri of the webhook to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZFunctionResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function Resource Id",
+          "description": "Function Resource Id for Action Group to send alerts to"
+        },
+        "defaultValue": ""
+      },
+      "ALZFunctionTriggerUrl": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Function Trigger URL",
+          "description": "URL that triggers the Function App"
+        },
+        "defaultValue": ""
+      },
+      "BYOActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BYOAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyDefinitions": [
       {
+        "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
+        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups')]",
+        "parameters": {
+          "ALZMonitorResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "ALZMonitorResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "ALZMonitorResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "ALZMonitorActionGroupEmail": {
+            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          },
+          "ALZLogicappResourceId": {
+            "value": "[[parameters('ALZLogicappResourceId')]"
+          },
+          "ALZLogicappCallbackUrl": {
+            "value": "[[parameters('ALZLogicappCallbackUrl')]"
+          },
+          "ALZArmRoleId": {
+            "value": "[[parameters('ALZArmRoleId')]"
+          },
+          "ALZEventHubResourceId": {
+            "value": "[[parameters('ALZEventHubResourceId')]"
+          },
+          "ALZWebhookServiceUri": {
+            "value": "[[parameters('ALZWebhookServiceUri')]"
+          },
+          "ALZFunctionResourceId": {
+            "value": "[[parameters('ALZFunctionResourceId')]"
+          },
+          "ALZFunctionTriggerUrl": {
+            "value": "[[parameters('ALZFunctionTriggerUrl')]"
+          },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "BYOAlertProcessingRule": {
+            "value": "[[parameters('BYOAlertProcessingRule')]"
+          }
+        }
+      },
+      {
         "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
         "parameters": {
           "enabled": {
             "value": "[[parameters('ResHlthUnhealthyAlertState')]"
@@ -177,12 +294,18 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "MonitorDisable": {
+            "value": "[[parameters('MonitorDisable')]"
           }
         }
       },
       {
         "policyDefinitionReferenceId": "ALZ_SvcHlthAdvisory",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_HealthAdvisory')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_HealthAdvisory",
         "parameters": {
           "enabled": {
             "value": "[[parameters('SvcHlthAdvisoryAlertState')]"
@@ -201,12 +324,18 @@
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "MonitorDisable": {
+            "value": "[[parameters('MonitorDisable')]"
           }
         }
       },
       {
         "policyDefinitionReferenceId": "ALZ_SvcHlthIncident",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Incident')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Incident",
         "parameters": {
           "enabled": {
             "value": "[[parameters('SvcHlthIncidentAlertState')]"
@@ -225,12 +354,18 @@
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "MonitorDisable": {
+            "value": "[[parameters('MonitorDisable')]"
           }
         }
       },
       {
         "policyDefinitionReferenceId": "ALZ_SvcHlthMaintenance",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Maintenance')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Maintenance",
         "parameters": {
           "enabled": {
             "value": "[[parameters('SvcHlthMaintenanceAlertState')]"
@@ -247,14 +382,20 @@
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          },
+          "MonitorDisable": {
+            "value": "[[parameters('MonitorDisable')]"
           }
         }
       },
       {
         "policyDefinitionReferenceId": "ALZ_svcHlthSecAdvisory",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_SecurityAdvisory')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_SecurityAdvisory",
         "parameters": {
           "enabled": {
             "value": "[[parameters('svcHlthSecAdvisoryAlertState')]"
@@ -273,24 +414,9 @@
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule')]",
-        "parameters": {
-          "ALZMonitorResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
-          "ALZMonitorResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "ALZMonitorResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
           },
           "MonitorDisable": {
             "value": "[[parameters('MonitorDisable')]"

@@ -1,7 +1,93 @@
-let resourceTypes = MetricAlertRules(ago(1d))
-| summarize numRulesRt=dcount(RuleId) by resourceType=tolower(resourceType)
-| where numRulesRt > 1000
-| order by numRulesRt;
+let subs = MetricAlertRules(1d)
+| summarize by SubscriptionGuid=SubscriptionId;
+
+let customers = cluster('U360sec').database("Product360").Product360CustomerSubscriptions
+| where CurrentSubscriptionStatus == "ACTIVE"
+    and SubscriptionId in (subs)
+    and IsTrial == False
+    and TPID != 0
+| project C360_ID, SubscriptionId=SubscriptionGuid;
+
+MetricAlertRules(ago(1d))
+| join customers on SubscriptionId
+| summarize numCustomers=dcount(C360_ID), numRulesRt=dcount(RuleId) by resourceType=tolower(resourceType)
+| where numRulesRt > 100
+| order by numCustomers, numRulesRt
+| project strcat('"', resourceType, '", ', numRulesRt, ',')
+
+
+
+
+let resourceTypes = datatable(resourceType: string, numRulesRt: int)
+    [
+"microsoft.compute/virtualmachines", 74664,
+"microsoft.insights/webtests", 27441,
+"microsoft.containerservice/managedclusters", 24783,
+"microsoft.sql/servers/databases", 17926,
+"microsoft.web/sites", 16348,
+"microsoft.insights/components", 17236,
+"microsoft.datafactory/factories", 16990,
+"microsoft.logic/workflows", 8249,
+"microsoft.web/serverfarms", 8132,
+"microsoft.storage/storageaccounts", 9096,
+"microsoft.automation/automationaccounts", 4218,
+"microsoft.operationalinsights/workspaces", 6971,
+"microsoft.servicebus/namespaces", 4765,
+"microsoft.network/applicationgateways", 3992,
+"microsoft.storage/storageaccounts/fileservices", 1905,
+"microsoft.sql/servers/elasticpools", 1986,
+"microsoft.cognitiveservices/accounts", 2058,
+"microsoft.recoveryservices/vaults", 2106,
+"microsoft.dbforpostgresql/flexibleservers", 2143,
+"microsoft.network/loadbalancers", 2004,
+"microsoft.apimanagement/service", 1399,
+"microsoft.network/networkwatchers/connectionmonitors", 1269,
+"microsoft.network/expressroutecircuits", 1291,
+"microsoft.network/virtualnetworkgateways", 1199,
+"microsoft.documentdb/databaseaccounts", 1590,
+"microsoft.synapse/workspaces", 1170,
+"microsoft.cache/redis", 1516,
+"microsoft.sql/managedinstances", 1227,
+"microsoft.dbforpostgresql/servers", 1273,
+"microsoft.compute/virtualmachinescalesets", 1056,
+"microsoft.storagesync/storagesyncservices", 892,
+"microsoft.dbformysql/servers", 918,
+"microsoft.network/publicipaddresses", 1172,
+"microsoft.keyvault/vaults", 2229,
+"microsoft.eventhub/namespaces", 3604,
+"microsoft.network/trafficmanagerprofiles", 793,
+"microsoft.devices/iothubs", 730,
+"microsoft.dbformysql/flexibleservers", 759,
+"microsoft.storage/storageaccounts/blobservices", 573,
+"microsoft.network/azurefirewalls", 647,
+"microsoft.streamanalytics/streamingjobs", 538,
+"microsoft.powerbidedicated/capacities", 480,
+"microsoft.netapp/netappaccounts/capacitypools/volumes", 740,
+"microsoft.network/virtualnetworks", 746,
+"microsoft.network/frontdoors", 360,
+"microsoft.cdn/profiles", 390,
+"microsoft.network/connections", 314,
+"microsoft.containerinstance/containergroups", 269,
+"microsoft.web/sites/slots", 222,
+"microsoft.app/containerapps", 316,
+"microsoft.storage/storageaccounts/queueservices", 238,
+"microsoft.analysisservices/servers", 210,
+"microsoft.dbformariadb/servers", 201,
+"microsoft.eventgrid/topics", 213,
+"microsoft.batch/batchaccounts", 215,
+"microsoft.synapse/workspaces/sqlpools", 192,
+"microsoft.signalrservice/signalr", 147,
+"microsoft.avs/privateclouds", 202,
+"microsoft.network/dnszones", 149,
+"microsoft.containerregistry/registries", 237,
+"microsoft.kusto/clusters", 192,
+"microsoft.search/searchservices", 124,
+"microsoft.network/privatednszones", 137,
+"microsoft.machinelearningservices/workspaces", 134,
+"microsoft.network/vpngateways", 108,
+"microsoft.eventgrid/systemtopics", 281,
+"microsoft.network/natgateways", 127
+    ];
 
 let rulesExpanded = MetricAlertRules(ago(1d))
 | where tolower(resourceType) in (resourceTypes)
@@ -93,6 +179,6 @@ rulesExpanded
     (
         resourceTypes
     ) on resourceType
-| extend failingPeriods = iif(criterionType =~ "DynamicThresholdCriterion", bag_pack("numberOfEvaluationPeriods", numberOfEvaluationPeriods, "minFailingPeriodsToAlert", "minFailingPeriodsToAlert"), "")
+| extend failingPeriods = iif(criterionType =~ "DynamicThresholdCriterion", bag_pack("numberOfEvaluationPeriods", numberOfEvaluationPeriods, "minFailingPeriodsToAlert", minFailingPeriodsToAlert), "")
 | project resourceType, numRulesRt, metricName, numRules, operator, timeAggregation, criterionType, frequency, windowSize, severity, dimensions, threshold, alertSensitivity, failingPeriods
 | order by resourceType asc, numRules desc

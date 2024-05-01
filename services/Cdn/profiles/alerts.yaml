@@ -1,30 +1,9 @@
-- name: TotalLatency
-  description: The time calculated from when the client request was received by the
-    HTTP/S proxy until the client acknowledged the last response byte from the HTTP/S
-    proxy
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1820
-  properties:
-    metricName: TotalLatency
-    metricNamespace: Microsoft.Cdn/profiles
-    severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100.0
-    autoMitigate: false
 - name: ByteHitRatio
   description: This is the ratio of the total bytes served from the cache compared
     to the total response bytes
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1414
@@ -39,61 +18,108 @@
     criterionType: StaticThresholdCriterion
     threshold: 90.0
     autoMitigate: false
+  references:
+  - name: Real-time Monitoring, metrics, and access Logs for Azure CDN
+    url: https://learn.microsoft.com/en-us/azure/cdn/monitoring-and-access-log#metrics
+  - name: Supported metrics for Microsoft.Cdn/profiles
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-cdn-profiles-metrics
 - name: OriginHealthPercentage
   description: The percentage of successful health probes from AFDX to backends.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-963
+  - agc-1105
   properties:
     metricName: OriginHealthPercentage
     metricNamespace: Microsoft.Cdn/profiles
     severity: 2
-    windowSize: PT15M
-    evaluationFrequency: PT5M
+    windowSize: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Average
-    operator: LessThan
+    operator: LessThanOrEqual
     criterionType: StaticThresholdCriterion
-    threshold: 95.0
-    autoMitigate: false
-- name: RequestCount
-  description: The number of client requests served by the HTTP/S proxy
+    dimensions:
+    - operator: include
+      name: origingroup
+      values:
+      - render
+    threshold: 90.0
+  references:
+  - name: Real-time Monitoring, metrics, and access Logs for Azure CDN
+    url: https://learn.microsoft.com/en-us/azure/cdn/monitoring-and-access-log#metrics
+  - name: Supported metrics for Microsoft.Cdn/profiles
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-cdn-profiles-metrics
+- name: TotalLatency
+  description: The time calculated from when the client request was received by the
+    HTTP/S proxy until the client acknowledged the last response byte from the HTTP/S
+    proxy
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-906
+  - agc-591
   properties:
-    metricName: RequestCount
+    metricName: TotalLatency
     metricNamespace: Microsoft.Cdn/profiles
-    severity: 0
+    severity: 2
     windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
+    evaluationFrequency: PT1M
+    timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 10000.0
-    autoMitigate: false
+    threshold: 100.0
+  references:
+  - name: Real-time Monitoring, metrics, and access Logs for Azure CDN
+    url: https://learn.microsoft.com/en-us/azure/cdn/monitoring-and-access-log#metrics
+  - name: Supported metrics for Microsoft.Cdn/profiles
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-cdn-profiles-metrics
 - name: Percentage5XX
   description: The percentage of all the client requests for which the response status
     code is 5XX
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-823
+  - agc-555
   properties:
     metricName: Percentage5XX
     metricNamespace: Microsoft.Cdn/profiles
     severity: 2
     windowSize: PT5M
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-    autoMitigate: false
+  references:
+  - name: Real-time Monitoring, metrics, and access Logs for Azure CDN
+    url: https://learn.microsoft.com/en-us/azure/cdn/monitoring-and-access-log#metrics
+  - name: Supported metrics for Microsoft.Cdn/profiles
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-cdn-profiles-metrics
+- name: RequestCount
+  description: The number of client requests served by the HTTP/S proxy
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-332
+  properties:
+    metricName: RequestCount
+    metricNamespace: Microsoft.Cdn/profiles
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1000.0
+  references:
+  - name: Real-time Monitoring, metrics, and access Logs for Azure CDN
+    url: https://learn.microsoft.com/en-us/azure/cdn/monitoring-and-access-log#metrics
+  - name: Supported metrics for Microsoft.Cdn/profiles
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/reference/supported-metrics/microsoft-cdn-profiles-metrics

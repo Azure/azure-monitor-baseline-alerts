@@ -1,7 +1,7 @@
 ---
 title: managedInstances
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

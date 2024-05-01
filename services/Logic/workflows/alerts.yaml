@@ -2,29 +2,34 @@
   description: Number of workflow runs failed.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-82287
+  - agc-62008
   properties:
     metricName: RunsFailed
     metricNamespace: Microsoft.Logic/workflows
     severity: 3
-    windowSize: PT1M
+    windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
 - name: ActionsFailed
   description: Number of workflow actions failed.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-9511
+  - agc-9543
   properties:
     metricName: ActionsFailed
     metricNamespace: Microsoft.Logic/workflows
@@ -35,15 +40,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
 - name: TriggersFailed
   description: Number of workflow triggers failed.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-7505
+  - agc-8125
   properties:
     metricName: TriggersFailed
     metricNamespace: Microsoft.Logic/workflows
@@ -54,15 +64,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
 - name: RunLatency
   description: Latency of completed workflow runs.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-5323
+  - agc-5341
   properties:
     metricName: RunLatency
     metricNamespace: Microsoft.Logic/workflows
@@ -73,15 +88,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 99999.0
-    autoMitigate: false
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
 - name: RunFailurePercentage
   description: Percentage of workflow runs failed.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-2354
+  - agc-2074
   properties:
     metricName: RunFailurePercentage
     metricNamespace: Microsoft.Logic/workflows
@@ -92,34 +112,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 50.0
-    autoMitigate: false
-- name: RunsStarted
-  description: Number of workflow runs started.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1606
-  properties:
-    metricName: RunsStarted
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
 - name: RunsSucceeded
   description: Number of workflow runs succeeded.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1594
+  - agc-1745
   properties:
     metricName: RunsSucceeded
     metricNamespace: Microsoft.Logic/workflows
@@ -130,15 +136,260 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
-    autoMitigate: false
+- name: RunsStarted
+  description: Number of workflow runs started.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1612
+  properties:
+    metricName: RunsStarted
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: ActionLatency
+  description: Latency of completed workflow actions.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-872
+  properties:
+    metricName: ActionLatency
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: TriggerLatency
+  description: Latency of completed workflow triggers.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-867
+  properties:
+    metricName: TriggerLatency
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: TriggerThrottledEvents
+  description: Number of workflow trigger throttled events.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-788
+  properties:
+    metricName: TriggerThrottledEvents
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: ActionThrottledEvents
+  description: Number of workflow action throttled events..
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-760
+  properties:
+    metricName: ActionThrottledEvents
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: TriggersSkipped
+  description: Number of workflow triggers skipped.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-707
+  properties:
+    metricName: TriggersSkipped
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 2
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    timeAggregation: Count
+    operator: GreaterThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: RunThrottledEvents
+  description: Number of workflow action or trigger throttled events.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-650
+  properties:
+    metricName: RunThrottledEvents
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 1.0
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: RunStartThrottledEvents
+  description: Number of workflow run start throttled events.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-622
+  properties:
+    metricName: RunStartThrottledEvents
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT1M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  references:
+  - name: Monitor workflow run status, review trigger and workflow run history, and
+      set up alerts in Azure Logic Apps
+    url: https://learn.microsoft.com/azure/logic-apps/monitor-logic-apps
+  - name: Supported metrics for Microsoft.Logic/Workflows
+    url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-logic-workflows-metrics
+- name: TotalBillableExecutions
+  description: Number of workflow executions getting billed.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-488
+  properties:
+    metricName: TotalBillableExecutions
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 0
+    windowSize: PT1H
+    evaluationFrequency: PT1M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5000.0
+- name: RunSuccessLatency
+  description: Latency of succeeded workflow runs.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-394
+  properties:
+    metricName: RunSuccessLatency
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 100.0
+- name: RunsCancelled
+  description: Number of workflow runs cancelled.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-329
+  properties:
+    metricName: RunsCancelled
+    metricNamespace: Microsoft.Logic/workflows
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
 - name: RunsCompleted
   description: Number of workflow runs completed.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1022
+  - agc-259
   properties:
     metricName: RunsCompleted
     metricNamespace: Microsoft.Logic/workflows
@@ -150,215 +401,5 @@
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: minFailingPeriodsToAlert
+      minFailingPeriodsToAlert: 4
     alertSensitivity: Medium
-    autoMitigate: false
-- name: ActionLatency
-  description: Latency of completed workflow actions.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-1012
-  properties:
-    metricName: ActionLatency
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 15.0
-    autoMitigate: false
-- name: TriggerLatency
-  description: Latency of completed workflow triggers.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-908
-  properties:
-    metricName: TriggerLatency
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 15.0
-    autoMitigate: false
-- name: TriggerThrottledEvents
-  description: Number of workflow trigger throttled events.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-828
-  properties:
-    metricName: TriggerThrottledEvents
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: ActionThrottledEvents
-  description: Number of workflow action throttled events..
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-804
-  properties:
-    metricName: ActionThrottledEvents
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: TriggersSkipped
-  description: Number of workflow triggers skipped.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-776
-  properties:
-    metricName: TriggersSkipped
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 2
-    windowSize: PT1H
-    evaluationFrequency: PT1H
-    timeAggregation: Count
-    operator: GreaterThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 5.0
-    autoMitigate: false
-- name: RunStartThrottledEvents
-  description: Number of workflow run start throttled events.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-669
-  properties:
-    metricName: RunStartThrottledEvents
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false
-- name: RunThrottledEvents
-  description: Number of workflow action or trigger throttled events.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-637
-  properties:
-    metricName: RunThrottledEvents
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 1.0
-    autoMitigate: false
-- name: TotalBillableExecutions
-  description: Number of workflow executions getting billed.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-497
-  properties:
-    metricName: TotalBillableExecutions
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: P1D
-    evaluationFrequency: PT1H
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 20000.0
-    autoMitigate: false
-- name: RunSuccessLatency
-  description: Latency of succeeded workflow runs.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-389
-  properties:
-    metricName: RunSuccessLatency
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 1
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 100.0
-    autoMitigate: false
-- name: ActionsSkipped
-  description: Number of workflow actions skipped.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-365
-  properties:
-    metricName: ActionsSkipped
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT1H
-    evaluationFrequency: PT1H
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 10.0
-    autoMitigate: false
-- name: RunsCancelled
-  description: Number of workflow runs cancelled.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - auto-generated
-  - agc-328
-  properties:
-    metricName: RunsCancelled
-    metricNamespace: Microsoft.Logic/workflows
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-    autoMitigate: false

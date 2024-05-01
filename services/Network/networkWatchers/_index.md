@@ -1,7 +1,7 @@
 ---
-title: networkWatchers/connectionMonitors
+title: networkWatchers
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 ---
 
 {{< alertList name="alertList" >}}

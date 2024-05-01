@@ -284,10 +284,10 @@
   description: Average bandwidth of a tunnel in bytes per second
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-1069
+  - agc-696
   properties:
     metricName: TunnelAverageBandwidth
     metricNamespace: Microsoft.Network/virtualNetworkGateways
@@ -298,15 +298,14 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
-    autoMitigate: false
 - name: ExpressRouteGatewayCpuUtilization
   description: CPU Utilization of the ExpressRoute Gateway
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-428
+  - agc-514
   properties:
     metricName: ExpressRouteGatewayCpuUtilization
     metricNamespace: Microsoft.Network/virtualNetworkGateways
@@ -317,15 +316,14 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-    autoMitigate: false
 - name: AverageBandwidth
   description: Site-to-site bandwidth of a gateway in bytes per second
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
-  - agc-340
+  - agc-342
   properties:
     metricName: AverageBandwidth
     metricNamespace: Microsoft.Network/virtualNetworkGateways
@@ -336,4 +334,105 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 450000000.0
-    autoMitigate: false
+- name: TunnelEgressPacketDropCount
+  description: Count of outgoing packets dropped by tunnel
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-275
+  properties:
+    metricName: TunnelEgressPacketDropCount
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Medium
+- name: TunnelIngressPacketDropCount
+  description: Count of incoming packets dropped by tunnel
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-274
+  properties:
+    metricName: TunnelIngressPacketDropCount
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Medium
+- name: TunnelIngressBytes
+  description: Incoming bytes of a tunnel
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-266
+  properties:
+    metricName: TunnelIngressBytes
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 1
+    windowSize: PT15M
+    evaluationFrequency: PT15M
+    timeAggregation: Total
+    operator: LessThanOrEqual
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+- name: TunnelEgressPacketDropTSMismatch
+  description: Outgoing packet drop count from traffic selector mismatch of a tunnel
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-264
+  properties:
+    metricName: TunnelEgressPacketDropTSMismatch
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Medium
+- name: TunnelIngressPacketDropTSMismatch
+  description: Incoming packet drop count from traffic selector mismatch of a tunnel
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-263
+  properties:
+    metricName: TunnelIngressPacketDropTSMismatch
+    metricNamespace: Microsoft.Network/virtualNetworkGateways
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Medium
