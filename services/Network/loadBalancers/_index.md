@@ -8,7 +8,12 @@ Load Balancer Monitoring Design
 
 Load balancer(Internal & external ) in Azure distribute traffic to the backend applications and hence when it come to monitoring there are multiple use cases for monitoring. Usually the intent of monitoring is either to monitor application or the availability of the load balancer. Load balancer is exposed internally & externally and therefore data path availability is another dimension which may requires monitoring. Telemetry from session analysis, response time analysis and connectivity analysis aid in analyzing root cause of performance issue of a load balancer and underlying application.
 
-We could look in detail into snat port exhausting or port already in used When load balancer is not responding or accepting new connection to see and understand the pattern of traffic.
+We could look in detail into snat port exhausting or port already in used when load balancer is not responding or accepting new connection to see and understand the pattern of traffic.
+
+Overall, Load balancer telemetry can be group into performance analysis and availability analysis.
+Performance analysis can be further narrowed down to analyzing slow response or unavailability.
+
+Availability is subdivided to load balancer availability & data path availability as well as availability of underlying application.
 
 the following diagram explains some of the most common scenario and use cases for load balancer monitoring.
 
