@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
     "description": "Initiative to deploy AMBA Notification Assets",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -104,6 +104,22 @@
           "description": "URL that triggers the Function"
         },
         "defaultValue": ""
+      },
+      "BYOActionGroup": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource ID",
+          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
+      },
+      "BYOAlertProcessingRule": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Customer defined Alert Processing Rule Resource ID",
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+        },
+        "defaultValue": ""
       }
     },
     "policyDefinitions": [
@@ -143,6 +159,12 @@
           },
           "ALZFunctionTriggerUrl": {
             "value": "[[parameters('ALZFunctionTriggerUrl')]"
+          },
+          "BYOActionGroup": {
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "BYOAlertProcessingRule": {
+            "value": "[[parameters('BYOAlertProcessingRule')]"
           }
         }
       },
