@@ -41,6 +41,22 @@
           "description": "Location of the resource group"
         }
       },
+      "ALZMonitorDisableTagNames": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Monitoring disabled tag name(s)",
+          "description": "Tag name(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable, Environment"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "true, Test, Dev"
+      },
       "AATotalJobAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -259,6 +275,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagNames": {
+            "value": "[[parameters('ALZMonitorDisableTagNames')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
