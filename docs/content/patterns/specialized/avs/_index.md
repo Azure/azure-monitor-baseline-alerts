@@ -41,6 +41,7 @@ Table below shows additional Alerts to be configured. These are not yet covered 
 | SDDC DNS server count             | 3 (2)                  | N/A| After SDDC creation | N/A             |
 | SDDC vSAN FTT configuration (< 6 nodes)             | RAID-1 FTT-1 (2)                  | N/A| After SDDC creation | N/A             |
 | SDDC vSAN FTT configuration (>= 6 nodes)             | RAID-1/6 FTT-2 (2)                  | N/A| After SDDC creation | N/A             |
+| vSphere DRS Automation Level (on-premises VCenter Server)             | Partially Automated (2)                  | N/A| After SDDC creation/HCX Upgrade/Redeploy | N/A             |
 
 ## 📣Feedback 📣
 

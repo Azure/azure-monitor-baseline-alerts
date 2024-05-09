@@ -179,6 +179,6 @@ rulesExpanded
     (
         resourceTypes
     ) on resourceType
-| extend failingPeriods = iif(criterionType =~ "DynamicThresholdCriterion", bag_pack("numberOfEvaluationPeriods", numberOfEvaluationPeriods, "minFailingPeriodsToAlert", "minFailingPeriodsToAlert"), "")
+| extend failingPeriods = iif(criterionType =~ "DynamicThresholdCriterion", bag_pack("numberOfEvaluationPeriods", numberOfEvaluationPeriods, "minFailingPeriodsToAlert", minFailingPeriodsToAlert), "")
 | project resourceType, numRulesRt, metricName, numRules, operator, timeAggregation, criterionType, frequency, windowSize, severity, dimensions, threshold, alertSensitivity, failingPeriods
 | order by resourceType asc, numRules desc
