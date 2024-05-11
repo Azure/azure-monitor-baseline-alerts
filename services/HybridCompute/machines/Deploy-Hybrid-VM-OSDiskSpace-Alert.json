@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_OSDiskwriteLatency_Alert",
+  "name": "Deploy_Hybrid_VM_OSDiskSpace_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM OS Disk Write Latency Alert",
-    "description": "Policy to audit/deploy VM OSDiskwriteLatency Alert",
+    "displayName": "Deploy VM OS Disk Space Alert",
+    "description": "Policy to audit/deploy VM OSDiskSpace Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -70,7 +70,7 @@
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultvalue": "GreaterThan"
+        "defaultvalue": "LessThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "50"
+        "defaultValue": "10"
       },
       "failingPeriods": {
         "type": "String",
@@ -242,7 +242,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -290,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
@@ -366,7 +366,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMOSDiskwriteLatencyAlert",
+                    "name": "VMOSDiskSpaceAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -392,14 +392,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
-                              "description": "Log Alert for Virtual Machine OSDiskwriteLatency",
+                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]",
+                              "description": "Log Alert for Virtual Machine OSDiskSpace",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -413,7 +413,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",

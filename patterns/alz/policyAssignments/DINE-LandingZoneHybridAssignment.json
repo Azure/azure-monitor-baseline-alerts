@@ -27,12 +27,12 @@
     },
     "variables": {
         "policyDefinitions": {
-            "deployAMBALandingZone": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-LandingZone')]"
+            "deployAMBALandingZoneHybrid": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-LandingZone-Hybrid')]"
         },
         "policyAssignmentNames": {
-            "ambaLandingZone": "Deploy-AMBA-LandingZone",
-            "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
-            "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone"
+            "ambaLandingZoneHybrid": "Deploy-AMBA-LandingZone-Hybrid",
+            "description": "Initiative to deploy AMBA hybrid resources alerts relevant to the ALZ LandingZone management group",
+            "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone Hybrid resources"
         },
         "nonComplianceMessage": {
             "message": "Alerting {enforcementMode} be deployed to Azure services.",
@@ -41,14 +41,14 @@
         },
         "rbacContributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
         "roleAssignmentNames": {
-            "deployAMBALandingZone": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaLandingZone))]"
+            "deployAMBALandingZoneHybrid": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaLandingZone))]"
         }
     },
     "resources": [
         {
             "type": "Microsoft.Authorization/policyAssignments",
             "apiVersion": "2020-09-01",
-            "name": "[variables('policyAssignmentNames').ambaLandingZone]",
+            "name": "[variables('policyAssignmentNames').ambaLandingZoneHybrid]",
             "location": "[deployment().location]",
             "identity": {
                 "type": "SystemAssigned"
@@ -56,7 +56,7 @@
             "properties": {
                 "description": "[variables('policyAssignmentNames').description]",
                 "displayName": "[variables('policyAssignmentNames').displayName]",
-                "policyDefinitionId": "[variables('policyDefinitions').deployAMBALandingZone]",
+                "policyDefinitionId": "[variables('policyDefinitions').deployAMBALandingZoneHybrid]",
                 "enforcementMode": "[parameters('enforcementMode')]",
                 "nonComplianceMessages": [
                     {
@@ -72,14 +72,14 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2022-04-01",
-            "name": "[variables('roleAssignmentNames').deployAMBALandingZone]",
+            "name": "[variables('roleAssignmentNames').deployAMBALandingZoneHybrid]",
             "dependsOn": [
-                "[variables('policyAssignmentNames').ambaLandingZone]"
+                "[variables('policyAssignmentNames').ambaLandingZoneHybrid]"
             ],
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacContributor'))]",
-                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaLandingZone), '2019-09-01', 'Full' ).identity.principalId)]",
+                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaLandingZoneHybrid), '2019-09-01', 'Full' ).identity.principalId)]",
                 "description": "_deployed_by_amba"
             }
         }

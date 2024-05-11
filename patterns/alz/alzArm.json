@@ -155,6 +155,10 @@
             "type": "object",
             "defaultValue": {}
         },
+        "policyAssignmentParametersLandingZoneHybrid": {
+            "type": "object",
+            "defaultValue": {}
+        },
         "policyAssignmentParametersManagement": {
             "type": "object",
             "defaultValue": {}
@@ -168,10 +172,11 @@
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
-        "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'), parameters('uamiParameters'))]",
+        "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'))]",
         "policyAssignmentParametersManagement": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
         "policyAssignmentParametersServiceHealth": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), parameters('policyAssignmentParametersNotificationAssets'))]",
         "policyAssignmentParametersNotificationAssets": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersNotificationAssets'))]",
+        "policyAssignmentParametersLandingZoneHybrid": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZoneHybrid'), parameters('uamiParameters'))]",
 
         // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
         "deploymentUris": {
@@ -184,6 +189,7 @@
             "AMBANotificationAssetsInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-NotificationAssetsAssignment.json')]",
             "AMBAUamiResourceGroup": "[uri(deployment().properties.templateLink.uri, 'templates/resourceGroup.json')]",
             "AMBAUserAssignedManagedIdentity": "[uri(deployment().properties.templateLink.uri, 'templates/userAssignedManagedIdentity.json')]",
+            "AMBALandingZoneHybridInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-LandingZoneAssignmentHybrid.json')]"
         },
 
         // Declaring deterministic deployment names
@@ -205,7 +211,9 @@
             "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "AMBAUamiResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
             "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
-            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]"
+            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]",
+            "AMBALandingZoneHybridDeploymentName": "[take(concat('amba-LandingZone', variables('deploymentSuffix')), 64)]",
+            "pidCuaLandingZoneHybridDeploymentName": "[take(concat('amba-pid-', variables('cuaidLandingZoneHybrid'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
@@ -213,7 +221,8 @@
         "cuaidManagement": "d87415c4-01ef-4667-af89-0b5adc14af1b",
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
-        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807"
+        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
+        "cuaidLandingZoneHybrid": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e"
     },
     "resources": [
         /*
@@ -338,6 +347,33 @@
                 "templateLink": {
                     "contentVersion": "1.0.0.0",
                     "uri": "[variables('deploymentUris').AMBALandingZoneInitiative]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersLandingZone')]"
+                    }
+                }
+            }
+        },
+        {
+            // Assigning AMBA LandingZoneHybrid PolicySet to the LandingZone management group if condition is true
+            "condition": "[equals(parameters('enableAMBALandingZone'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBALandingZoneHybridDeploymentName]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "ambaPolicyCompletion"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBALandingZoneHybridInitiative]"
                 },
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
@@ -495,6 +531,21 @@
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBALandingZone'), 'Yes'))]",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').pidCuaLandingZoneDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBALandingZone'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaLandingZoneHybridDeploymentName]",
             "location": "[deployment().location]",
             "type": "Microsoft.Resources/deployments",
             "properties": {

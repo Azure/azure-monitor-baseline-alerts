@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_CPU_Alert",
+  "name": "Deploy_Hybrid_VM_NetworkIn_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM CPU Alert",
-    "description": "Policy to audit/deploy VM CPU Alert",
+    "displayName": "Deploy VM Network Read Alert",
+    "description": "Policy to audit/deploy VM Nework Read Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "85"
+        "defaultValue": "10000000"
       },
       "failingPeriods": {
         "type": "String",
@@ -176,6 +176,34 @@
           "description": "Number of failing periods before alert is fired"
         },
         "defaultValue": "1"
+      },
+      "evaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "1"
+      },
+      "networkInterfacesToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Network Interface to be included to be monitored",
+          "description": "Array of Network Interface to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "computersToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Computers to be included to be monitored",
+          "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
       },
       "effect": {
         "type": "String",
@@ -213,7 +241,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHighCPUAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -253,7 +281,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
-                "equals": "1"
+                "equals": "[[parameters('evaluationPeriods')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
@@ -261,7 +289,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface"
               }
             ]
           },
@@ -314,6 +342,15 @@
                   },
                   "failingPeriods": {
                     "type": "String"
+                  },
+                  "evaluationPeriods": {
+                    "type": "String"
+                  },
+                  "computersToInclude": {
+                    "type": "array"
+                  },
+                  "networkInterfacesToInclude": {
+                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -328,7 +365,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMCPUAlert",
+                    "name": "VMNetworkInAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -354,14 +391,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
-                              "description": "Log Alert for Virtual Machine CPU",
+                              "displayName": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]",
+                              "description": "Log Alert for Virtual Machine NetworkIn",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -375,7 +412,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -385,13 +422,16 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": [
-                                          "*"
-                                        ]
+                                        "values": "[[parameters('computersToInclude')]"
+                                      },
+                                      {
+                                        "name": "NetworkInterface",
+                                        "operator": "Include",
+                                        "values": "[[parameters('networkInterfacesToInclude')]"
                                       }
                                     ],
                                     "failingPeriods": {
-                                      "numberOfEvaluationPeriods": "1",
+                                      "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
                                       "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
                                     }
                                   }
@@ -435,6 +475,15 @@
                                 },
                                 "failingPeriods": {
                                   "value": "[[parameters('failingPeriods')]"
+                                },
+                                "evaluationPeriods": {
+                                  "value": "[[parameters('evaluationPeriods')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[[parameters('computersToInclude')]"
+                                },
+                                "networkInterfacesToInclude": {
+                                  "value": "[[parameters('networkInterfacesToInclude')]"
                                 }
                               }
                             }
@@ -498,6 +547,15 @@
                 },
                 "failingPeriods": {
                   "value": "[[parameters('failingPeriods')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[[parameters('evaluationPeriods')]"
+                },
+                "computersToInclude": {
+                  "value": "[[parameters('computersToInclude')]"
+                },
+                "networkInterfacesToInclude": {
+                  "value": "[[parameters('networkInterfacesToInclude')]"
                 }
               }
             }

@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_NetworkIn_Alert",
+  "name": "Deploy_Hybrid_VM_dataDiskReadLatency_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM Network Read Alert",
-    "description": "Policy to audit/deploy VM Nework Read Alert",
+    "displayName": "Deploy VM Data Disk Read Latency Alert",
+    "description": "Policy to audit/deploy VM dataDiskReadLatency Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "10000000"
+        "defaultValue": "30"
       },
       "failingPeriods": {
         "type": "String",
@@ -185,21 +185,21 @@
         },
         "defaultValue": "1"
       },
-      "networkInterfacesToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Network Interface to be included to be monitored",
-          "description": "Array of Network Interface to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
-      },
       "computersToInclude": {
         "type": "array",
         "metadata": {
           "displayName": "Computers to be included to be monitored",
           "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "disksToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Disks to be included to be monitored",
+          "description": "Array of disk to be monitored for disk both windows and linux"
         },
         "defaultValue": [
           "*"
@@ -241,7 +241,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -289,7 +289,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
@@ -346,10 +346,10 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "computersToInclude": {
+                  "disksToInclude": {
                     "type": "array"
                   },
-                  "networkInterfacesToInclude": {
+                  "computersToInclude": {
                     "type": "array"
                   }
                 },
@@ -365,7 +365,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMNetworkInAlert",
+                    "name": "VMdataDiskReadLatencyAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -391,14 +391,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHighNetworkInAlert')]",
-                              "description": "Log Alert for Virtual Machine NetworkIn",
+                              "displayName": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]",
+                              "description": "Log Alert for Virtual Machine dataDiskReadLatency",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -412,7 +412,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -425,9 +425,9 @@
                                         "values": "[[parameters('computersToInclude')]"
                                       },
                                       {
-                                        "name": "NetworkInterface",
+                                        "name": "Disk",
                                         "operator": "Include",
-                                        "values": "[[parameters('networkInterfacesToInclude')]"
+                                        "values": "[[parameters('disksToInclude')]"
                                       }
                                     ],
                                     "failingPeriods": {
@@ -479,11 +479,11 @@
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
                                 },
+                                "disksToInclude": {
+                                  "value": "[[parameters('disksToInclude')]"
+                                },
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
-                                },
-                                "networkInterfacesToInclude": {
-                                  "value": "[[parameters('networkInterfacesToInclude')]"
                                 }
                               }
                             }
@@ -551,11 +551,11 @@
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
                 },
+                "disksToInclude": {
+                  "value": "[[parameters('disksToInclude')]"
+                },
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
-                },
-                "networkInterfacesToInclude": {
-                  "value": "[[parameters('networkInterfacesToInclude')]"
                 }
               }
             }

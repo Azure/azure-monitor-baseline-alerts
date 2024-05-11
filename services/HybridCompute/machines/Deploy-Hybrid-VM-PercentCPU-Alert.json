@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_OSDiskreadLatency_Alert",
+  "name": "Deploy_Hybrid_VM_CPU_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM OS Disk Read Latency Alert",
-    "description": "Policy to audit/deploy VM OSDiskreadLatency Alert",
+    "displayName": "Deploy VM CPU Alert",
+    "description": "Policy to audit/deploy VM CPU Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "30"
+        "defaultValue": "85"
       },
       "failingPeriods": {
         "type": "String",
@@ -176,35 +176,6 @@
           "description": "Number of failing periods before alert is fired"
         },
         "defaultValue": "1"
-      },
-      "evaluationPeriods": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Evaluation Periods",
-          "description": "The number of aggregated lookback points."
-        },
-        "defaultValue": "1"
-      },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Disks to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
-      },
-      "disksToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Disks to be included to be monitored",
-          "description": "Array of disk to be monitored for disk both windows and linux"
-        },
-        "defaultValue": [
-          "C:",
-          "/"
-        ]
       },
       "effect": {
         "type": "String",
@@ -242,7 +213,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMHighCPUAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -282,7 +253,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
-                "equals": "[[parameters('evaluationPeriods')]"
+                "equals": "1"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
@@ -290,7 +261,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
               }
             ]
           },
@@ -343,15 +314,6 @@
                   },
                   "failingPeriods": {
                     "type": "String"
-                  },
-                  "evaluationPeriods": {
-                    "type": "String"
-                  },
-                  "disksToInclude": {
-                    "type": "array"
-                  },
-                  "computersToInclude": {
-                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -366,7 +328,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMOSDiskreadLatencyAlert",
+                    "name": "VMCPUAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -392,14 +354,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]",
-                              "description": "Log Alert for Virtual Machine OSDiskreadLatency",
+                              "displayName": "[[concat(subscription().displayName, '-VMHighCPUAlert')]",
+                              "description": "Log Alert for Virtual Machine CPU",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -413,7 +375,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -423,16 +385,13 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": "[[parameters('computersToInclude')]"
-                                      },
-                                      {
-                                        "name": "Disk",
-                                        "operator": "Include",
-                                        "values": "[[parameters('disksToInclude')]"
+                                        "values": [
+                                          "*"
+                                        ]
                                       }
                                     ],
                                     "failingPeriods": {
-                                      "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
+                                      "numberOfEvaluationPeriods": "1",
                                       "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
                                     }
                                   }
@@ -476,15 +435,6 @@
                                 },
                                 "failingPeriods": {
                                   "value": "[[parameters('failingPeriods')]"
-                                },
-                                "evaluationPeriods": {
-                                  "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "disksToInclude": {
-                                  "value": "[[parameters('disksToInclude')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
                                 }
                               }
                             }
@@ -548,15 +498,6 @@
                 },
                 "failingPeriods": {
                   "value": "[[parameters('failingPeriods')]"
-                },
-                "evaluationPeriods": {
-                  "value": "[[parameters('evaluationPeriods')]"
-                },
-                "disksToInclude": {
-                  "value": "[[parameters('disksToInclude')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 }
               }
             }

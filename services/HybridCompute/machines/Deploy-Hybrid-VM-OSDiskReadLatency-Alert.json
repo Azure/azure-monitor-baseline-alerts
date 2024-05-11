@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_dataDiskReadLatency_Alert",
+  "name": "Deploy_Hybrid_VM_OSDiskreadLatency_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM Data Disk Read Latency Alert",
-    "description": "Policy to audit/deploy VM dataDiskReadLatency Alert",
+    "displayName": "Deploy VM OS Disk Read Latency Alert",
+    "description": "Policy to audit/deploy VM OSDiskreadLatency Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -188,7 +188,7 @@
       "computersToInclude": {
         "type": "array",
         "metadata": {
-          "displayName": "Computers to be included to be monitored",
+          "displayName": "Disks to be included to be monitored",
           "description": "Array of Computer to be monitored"
         },
         "defaultValue": [
@@ -202,7 +202,8 @@
           "description": "Array of disk to be monitored for disk both windows and linux"
         },
         "defaultValue": [
-          "*"
+          "C:",
+          "/"
         ]
       },
       "effect": {
@@ -241,7 +242,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -289,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
@@ -365,7 +366,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMdataDiskReadLatencyAlert",
+                    "name": "VMOSDiskreadLatencyAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -391,14 +392,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHighdataDiskReadLatencyAlert')]",
-                              "description": "Log Alert for Virtual Machine dataDiskReadLatency",
+                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskreadLatencyAlert')]",
+                              "description": "Log Alert for Virtual Machine OSDiskreadLatency",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -412,7 +413,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",

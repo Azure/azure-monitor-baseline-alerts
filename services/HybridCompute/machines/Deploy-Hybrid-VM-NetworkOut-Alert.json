@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_OSDiskSpace_Alert",
+  "name": "Deploy_Hybrid_VM_NetworkOut_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM OS Disk Space Alert",
-    "description": "Policy to audit/deploy VM OSDiskSpace Alert",
+    "displayName": "Deploy VM Network Write Alert",
+    "description": "Policy to audit/deploy VM Network Out Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -70,7 +70,7 @@
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultvalue": "LessThan"
+        "defaultvalue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "10"
+        "defaultValue": "10000000"
       },
       "failingPeriods": {
         "type": "String",
@@ -188,22 +188,21 @@
       "computersToInclude": {
         "type": "array",
         "metadata": {
-          "displayName": "Disks to be included to be monitored",
+          "displayName": "Computers to be included to be monitored",
           "description": "Array of Computer to be monitored"
         },
         "defaultValue": [
           "*"
         ]
       },
-      "disksToInclude": {
+      "networkInterfacesToInclude": {
         "type": "array",
         "metadata": {
-          "displayName": "Disks to be included to be monitored",
-          "description": "Array of disk to be monitored for disk both windows and linux"
+          "displayName": "Network Interface to be included to be monitored",
+          "description": "Array of Network Interface to be monitored"
         },
         "defaultValue": [
-          "C:",
-          "/"
+          "*"
         ]
       },
       "effect": {
@@ -242,7 +241,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -290,7 +289,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface"
               }
             ]
           },
@@ -347,10 +346,10 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "disksToInclude": {
+                  "computersToInclude": {
                     "type": "array"
                   },
-                  "computersToInclude": {
+                  "networkInterfacesToInclude": {
                     "type": "array"
                   }
                 },
@@ -366,7 +365,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMOSDiskSpaceAlert",
+                    "name": "VMNetworkOutAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -392,14 +391,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskSpaceAlert')]",
-                              "description": "Log Alert for Virtual Machine OSDiskSpace",
+                              "displayName": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]",
+                              "description": "Log Alert for Virtual Machine NetworkOut",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -413,7 +412,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -426,9 +425,9 @@
                                         "values": "[[parameters('computersToInclude')]"
                                       },
                                       {
-                                        "name": "Disk",
+                                        "name": "NetworkInterface",
                                         "operator": "Include",
-                                        "values": "[[parameters('disksToInclude')]"
+                                        "values": "[[parameters('networkInterfacesToInclude')]"
                                       }
                                     ],
                                     "failingPeriods": {
@@ -480,11 +479,11 @@
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
                                 },
-                                "disksToInclude": {
-                                  "value": "[[parameters('disksToInclude')]"
-                                },
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
+                                },
+                                "networkInterfacesToInclude": {
+                                  "value": "[[parameters('networkInterfacesToInclude')]"
                                 }
                               }
                             }
@@ -552,11 +551,11 @@
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
                 },
-                "disksToInclude": {
-                  "value": "[[parameters('disksToInclude')]"
-                },
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
+                },
+                "networkInterfacesToInclude": {
+                  "value": "[[parameters('networkInterfacesToInclude')]"
                 }
               }
             }

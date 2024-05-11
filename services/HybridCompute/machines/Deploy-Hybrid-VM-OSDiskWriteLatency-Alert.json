@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_dataDiskSpace_Alert",
+  "name": "Deploy_Hybrid_VM_OSDiskwriteLatency_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM Data Disk Space Alert",
-    "description": "Policy to audit/deploy VM data Disk Space Alert",
+    "displayName": "Deploy VM OS Disk Write Latency Alert",
+    "description": "Policy to audit/deploy VM OSDiskwriteLatency Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -70,7 +70,7 @@
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultvalue": "LessThan"
+        "defaultvalue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "10"
+        "defaultValue": "50"
       },
       "failingPeriods": {
         "type": "String",
@@ -185,6 +185,27 @@
         },
         "defaultValue": "1"
       },
+      "computersToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Disks to be included to be monitored",
+          "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "disksToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Disks to be included to be monitored",
+          "description": "Array of disk to be monitored for disk both windows and linux"
+        },
+        "defaultValue": [
+          "C:",
+          "/"
+        ]
+      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -196,16 +217,6 @@
           "disabled"
         ],
         "defaultValue": "deployIfNotExists"
-      },
-      "disksToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Disks to be included to be monitored",
-          "description": "Array of disk to be monitored for disk both Windows and Linux"
-        },
-        "defaultValue": [
-          "*"
-        ]
       }
     },
     "policyRule": {
@@ -231,7 +242,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMLowdataDiskSpaceAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -279,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
@@ -338,6 +349,9 @@
                   },
                   "disksToInclude": {
                     "type": "array"
+                  },
+                  "computersToInclude": {
+                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -352,7 +366,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMdataDiskSpaceAlert",
+                    "name": "VMOSDiskwriteLatencyAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -378,14 +392,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMLowdataDiskSpaceAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMLowdataDiskSpaceAlert')]",
-                              "description": "Log Alert for Virtual Machine dataDiskSpace",
+                              "displayName": "[[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
+                              "description": "Log Alert for Virtual Machine OSDiskwriteLatency",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -399,7 +413,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -409,9 +423,7 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": [
-                                          "*"
-                                        ]
+                                        "values": "[[parameters('computersToInclude')]"
                                       },
                                       {
                                         "name": "Disk",
@@ -470,6 +482,9 @@
                                 },
                                 "disksToInclude": {
                                   "value": "[[parameters('disksToInclude')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[[parameters('computersToInclude')]"
                                 }
                               }
                             }
@@ -539,6 +554,9 @@
                 },
                 "disksToInclude": {
                   "value": "[[parameters('disksToInclude')]"
+                },
+                "computersToInclude": {
+                  "value": "[[parameters('computersToInclude')]"
                 }
               }
             }

@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_NetworkOut_Alert",
+  "name": "Deploy_Hybrid_VM_Memory_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM Network Write Alert",
-    "description": "Policy to audit/deploy VM Network Out Alert",
+    "displayName": "Deploy VM Memory Alert",
+    "description": "Policy to audit/deploy VM Memory Alert",
     "metadata": {
       "version": "1.1.0",
       "category": "Compute",
@@ -70,7 +70,7 @@
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultvalue": "GreaterThan"
+        "defaultvalue": "LessThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -167,7 +167,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "10000000"
+        "defaultValue": "10"
       },
       "failingPeriods": {
         "type": "String",
@@ -184,26 +184,6 @@
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "1"
-      },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
-      },
-      "networkInterfacesToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Network Interface to be included to be monitored",
-          "description": "Array of Network Interface to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
       },
       "effect": {
         "type": "String",
@@ -241,7 +221,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]"
+                "equals": "[[concat(subscription().displayName, '-VMLowMemoryAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -289,7 +269,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"|where Namespace == \"Memory\" and Name == \"AvailableMB\"| extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0| summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId"
               }
             ]
           },
@@ -345,12 +325,6 @@
                   },
                   "evaluationPeriods": {
                     "type": "String"
-                  },
-                  "computersToInclude": {
-                    "type": "array"
-                  },
-                  "networkInterfacesToInclude": {
-                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -365,7 +339,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMNetworkOutAlert",
+                    "name": "VMMemoryAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -391,14 +365,14 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]",
+                            "name": "[[concat(subscription().displayName, '-VMLowMemoryAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHighNetworkOutAlert')]",
-                              "description": "Log Alert for Virtual Machine NetworkOut",
+                              "displayName": "[[concat(subscription().displayName, '-VMLowMemoryAlert')]",
+                              "description": "Log Alert for Virtual Machine Memory",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -412,7 +386,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"|where Namespace == \"Memory\" and Name == \"AvailableMB\"| extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0| summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -422,12 +396,9 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": "[[parameters('computersToInclude')]"
-                                      },
-                                      {
-                                        "name": "NetworkInterface",
-                                        "operator": "Include",
-                                        "values": "[[parameters('networkInterfacesToInclude')]"
+                                        "values": [
+                                          "*"
+                                        ]
                                       }
                                     ],
                                     "failingPeriods": {
@@ -478,12 +449,6 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
-                                },
-                                "networkInterfacesToInclude": {
-                                  "value": "[[parameters('networkInterfacesToInclude')]"
                                 }
                               }
                             }
@@ -550,12 +515,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
-                },
-                "networkInterfacesToInclude": {
-                  "value": "[[parameters('networkInterfacesToInclude')]"
                 }
               }
             }
