@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
     "metadata": {
-      "version": "1.0.6",
+      "version": "1.0.5",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -40,14 +40,6 @@
           "displayName": "ALZ Monitor Resource Group Location",
           "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
         }
-      },
-      "userAssignedManagedIdentityName": {
-          "type": "string",
-          "defaultValue": "id-AMBA-ARG-Reader-001",
-          "metadata": {
-              "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
-              "displayName": "Name of the user assigned managed identity to be created."
-          }
       },
       "managementSubscriptionId": {
           "type": "string",
@@ -2584,124 +2576,6 @@
           "description": "Disks To Include for the alert"
         }
       },
-      "HybridVMDisconnectedAlertSeverity": {
-        "type": "String",
-        "defaultValue": "1",
-        "allowedValues": [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Alert Severity",
-          "description": "Severity of the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertWindowSize": {
-        "type": "string",
-        "defaultValue": "P1D",
-        "allowedValues": [
-          "PT12H",
-          "P1D"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Window Size",
-          "description": "Window size for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertEvaluationFrequency": {
-        "type": "string",
-        "defaultValue": "P1D",
-        "allowedValues": [
-          "PT12H",
-          "P1D"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Evaluation Frequency",
-          "description": "Evaluation frequency for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertAutoMitigate": {
-        "type": "string",
-        "defaultValue": "true",
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Auto Mitigate",
-          "description": "Auto Mitigate for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertPolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
-        }
-      },
-      "HybridVMDisconnectedAlertState": {
-        "type": "string",
-        "defaultValue": "true",
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Alert State",
-          "description": "Alert state for the alert, true will enable the alert, false will disable the alert"
-        }
-      },
-      "HybridVMDisconnectedAlertDaysThreshold": {
-        "type": "string",
-        "defaultValue": "45",
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Days Threshold",
-          "description": "Threshold in days for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertOperator": {
-        "type": "string",
-        "defaultValue": "GreaterThanOrEqual",
-        "allowedValues": [
-          "GreaterThan",
-          "GreaterThanOrEqual"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Operator",
-          "description": "Operator for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertTimeAggregation": {
-        "type": "string",
-        "defaultValue": "Minimum",
-        "allowedValues": [
-          "Average",
-          "Maximum",
-          "Minimum",
-          "Total",
-          "Count"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Time Aggregation",
-          "description": "Time Aggregation for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertEvaluationPeriods": {
-        "type": "string",
-        "defaultValue": "1",
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Evaluation Periods",
-          "description": "Evaluation Periods for the Hybrid VM Disconnected alert"
-        }
-      },
-      "HybridVMDisconnectedAlertFailingPeriods": {
-        "type": "string",
-        "defaultValue": "1",
-        "metadata": {
-          "displayName": "Hybrid VM Disconnected Failing Periods",
-          "description": "Failing Periods for the Hybrid VM Disconnected alert"
-        }
-      },
       "AGWApplicationGatewayTotalTimeAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -5198,63 +5072,6 @@
           },
           "disksToInclude": {
             "value": "[[parameters('VMDataDiskWriteLatencyDisksToInclude')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "alertResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_HybridVMDisconnected",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
-        "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('userAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('managementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentity": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
-          },
-          "severity": {
-            "value": "[[parameters('HybridVMDisconnectedAlertSeverity')]"
-          },
-          "windowSize": {
-            "value": "[[parameters('HybridVMDisconnectedAlertWindowSize')]"
-          },
-          "evaluationFrequency": {
-            "value": "[[parameters('HybridVMDisconnectedAlertEvaluationFrequency')]"
-          },
-          "autoMitigate": {
-            "value": "[[parameters('HybridVMDisconnectedAlertAutoMitigate')]"
-          },
-          "effect": {
-            "value": "[[parameters('HybridVMDisconnectedAlertPolicyEffect')]"
-          },
-          "enabled": {
-            "value": "[[parameters('HybridVMDisconnectedAlertState')]"
-          },
-          "threshold": {
-            "value": "[[parameters('HybridVMDisconnectedAlertDaysThreshold')]"
-          },
-          "operator": {
-            "value": "[[parameters('HybridVMDisconnectedAlertOperator')]"
-          },
-          "timeAggregation": {
-            "value": "[[parameters('HybridVMDisconnectedAlertTimeAggregation')]"
-          },
-          "failingPeriods": {
-            "value": "[[parameters('HybridVMDisconnectedAlertFailingPeriods')]"
-          },
-          "evaluationPeriods": {
-            "value": "[[parameters('HybridVMDisconnectedAlertEvaluationPeriods')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
