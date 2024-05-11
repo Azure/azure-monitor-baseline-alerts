@@ -5,7 +5,7 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM Available Memory Alert",
+    "displayName": "Deploy Hybrid VM Available Memory Alert",
     "description": "Policy to audit/deploy VM Available Memory Alert",
     "metadata": {
       "version": "1.1.0",
@@ -123,7 +123,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Compute/virtualMachines"
+            "equals": "Microsoft.HybridCompute/machines"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -142,7 +142,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                "equals": "Microsoft.Compute/virtualMachines"
+                "equals": "Microsoft.HybridCompute/machines"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
@@ -249,7 +249,7 @@
                         "allOf": [
                           {
                             "name": "Average_AvailableMBytes",
-                            "metricNamespace": "Microsoft.Compute/virtualMachines",
+                            "metricNamespace": "Microsoft.HybridCompute/machines",
                             "metricName": "Available Memory Bytes",
                             "operator": "LessThan",
                             "threshold": "[[parameters('threshold')]",
