@@ -1,9 +1,9 @@
 ﻿<#
 .SYNOPSIS
-    This script cleans up the deployment entries at the management group hierarchy level performed by the ALZ-Monitor automation.
+    This script cleans up the deployment entries at the management group hierarchy level performed by the AMBA-ALZ automation.
 
 .DESCRIPTION
-    This script cleans up the deployment entries at the management group hierarchy level performed by the ALZ-Monitor automation.
+    This script cleans up the deployment entries at the management group hierarchy level performed by the AMBA-ALZ automation.
 
 .NOTES
     This script will only removes deployment names whose name starts with 'amba-'All other deployment entries will be left in place.
@@ -21,7 +21,7 @@
 
 .EXAMPLE
     ./Remove-AMBADeployments.ps1 -pseudoManagementGroup Contoso -Force
-    # delete all deployments entries for deployments performed by the ALZ-Monitor IaC without prompting for confirmation
+    # delete all deployments entries for deployments performed by the AMBA-ALZ IaC without prompting for confirmation
 #>
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -68,25 +68,25 @@ ForEach ($mg in $allMgs) {
     Iterate-ManagementGroups $mg
 }
 
-Write-Host "Found '$($managementGroups.Count)' management groups to query for ALZ-Monitor deployments."
+Write-Host "Found '$($managementGroups.Count)' management groups to query for AMBA-ALZ deployments."
 
 
 If ($managementGroups.count -eq 0) {
     Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources."
 }
 
-# get AMBA deployments to delete
+# get AMBA-ALZ deployments to delete
 $allDeployments = @()
 ForEach ($mg in $managementGroups) {
     $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" | where {$_.DeploymentName.StartsWith("amba-")}
     $allDeployments += $deployments
 }
 
-Write-Host "Found '$($allDeployments.Count)' deployments for AMBA pattern with name starting with 'amba-'."
+Write-Host "Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-'."
 
 If (!$reportOnly.IsPresent) {
 
-    Write-Warning "This script will delete the AMBA deployments discovered above."
+    Write-Warning "This script will delete the AMBA-ALZ deployments discovered above."
 
     If (!$force.IsPresent) {
         While ($prompt -notmatch '[yYnN]') {
@@ -102,10 +102,10 @@ If (!$reportOnly.IsPresent) {
     }
 
     # delete alert processing rules
-    Write-Host "Deleting AMBA deployments..."
+    Write-Host "Deleting AMBA-ALZ deployments..."
     $allDeployments | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ } -throttlelimit 100
 
-    Write-Host "AMBA deployments cleanup complete."
+    Write-Host "AMBA-ALZ deployments cleanup complete."
 }
 Else {
     $resourceToBeDeleted = $allDeployments.Name
