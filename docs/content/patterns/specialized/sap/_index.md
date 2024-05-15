@@ -21,8 +21,8 @@ Table below shows the Alerts configured after the deployment.
 | Name                                                       | Threshold(s) (Severity)                    | Signal Type             | Frequency | \# Alert Rules |
 | ---------------------------------------------------------- | ------------------------------------------ | ----------------------- | --------- | -------------- |
 | Percentage CPU > 95                                        | 95 (2)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 90                                       | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 80                                       | 80 (2)                                     | Metric Alerts           | 5 min     | Default        |
+| Percentage CPU >= 85                                       | 85 (1)                                     | Metric Alerts           | 5 min     | Default        |
+| Percentage CPU >= 75                                       | 75 (2)                                     | Metric Alerts           | 5 min     | Default        |
 | VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
@@ -30,13 +30,9 @@ Table below shows the Alerts configured after the deployment.
 | Data Disk IOPS Consumed Percentage > 95                    | \>95 (3)                                   | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 90                | \>=90 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 80                | \>= 80 (2)                                 | Metric Alerts           | 5 min     | Default        |
-| ExpressRouteGatewayCpuUtilization >=95                     | \>= 95 (0)                                 | Metric Alerts           | 5 min     | Default        |
-| ExpressRouteGatewayCpuUtilization >=90                     | \>= 90 (2)                                 | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 95                         | \>=95 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 90                         | \>=90 (2)                                  | Metric Alerts           | 5 min     | Default        |
 | UnhealthyHostCount >=1                                     | \>=1 (0)                                   | Metric Alerts           | 5 min     | Default        |
-| Azure Backup                                               | 0                                          | Azure Backup            | 5 min     | Default        |
-| [SOAP] SAP Netweaver EnqueueReplicationServer Availability | AggregatedValue < 1 In selected dimensions | Log Analytics workspace | 5 min     | AMS            ||
 
 
 ## 📣Feedback 📣
