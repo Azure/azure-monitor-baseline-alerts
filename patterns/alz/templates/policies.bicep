@@ -181,11 +181,11 @@ var loadPolicyDefinitions = {
 var loadPolicySetDefinitions = {
   All: [
     string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
-    loadTextContent('../policySetDefinitions/Deploy-Identity-Alerts.json')
+    string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
-    loadTextContent('../policySetDefinitions/Deploy-Management-Alerts.json')
-    loadTextContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json')
-    loadTextContent('../policySetDefinitions/Deploy-Notification-Assets.json')
+    string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Notification-Assets.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []
