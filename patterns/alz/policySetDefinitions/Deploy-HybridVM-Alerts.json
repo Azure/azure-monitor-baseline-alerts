@@ -1,10 +1,10 @@
 {
   "type": "Microsoft.Authorization/policySetDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Alerting-LandingZone-Hybrid",
+  "name": "Alerting-HybridVM",
   "properties": {
-    "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone Hybrid resources",
-    "description": "Initiative to deploy AMBA hybrid resources alerts relevant to the ALZ LandingZone management group",
+    "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid VM",
+    "description": "Initiative to deploy AMBA Hybrid VM  alerts relevant to the ALZ LandingZone management group",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring",
@@ -42,27 +42,27 @@
         }
       },
       "ALZUserAssignedManagedIdentityName": {
-          "type": "string",
-          "defaultValue": "id-AMBA-ARG-Reader-001",
-          "metadata": {
-              "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
-              "displayName": "Name of the user assigned managed identity to be created."
-          }
+        "type": "string",
+        "defaultValue": "id-AMBA-ARG-Reader-001",
+        "metadata": {
+          "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+          "displayName": "Name of the user assigned managed identity to be created."
+        }
       },
       "ALZManagementSubscriptionId": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
-          }
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+        }
       },
-      "BYOUserAssignedManagedIdentity": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "The resource Id of the user assigned managed identity provided by the customer.",
-              "displayName": "Customer defined User Assigned managed Identity resource Id."
-          }
+      "BYOUserAssignedManagedIdentityResourceId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The resource Id of the user assigned managed identity provided by the customer.",
+          "displayName": "Customer defined User Assigned managed Identity resource Id."
+        }
       },
       "HybridVMHeartBeatRGAlertSeverity": {
         "type": "String",
@@ -2526,8 +2526,8 @@
           "managementSubscriptionId": {
             "value": "[[parameters('ALZManagementSubscriptionId')]"
           },
-          "BYOUserAssignedManagedIdentity": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
+          "BYOUserAssignedManagedIdentityResourceId": {
+            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDisconnectedAlertSeverity')]"

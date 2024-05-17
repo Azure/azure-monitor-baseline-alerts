@@ -2,15 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "rgParameters": {
-            "type": "object",
-            "defaultValue": {}
-        },
         "uamiName": {
             "type": "string",
-            "defaultValue": "id-AMBA-ARG-Reader-001",
+            "defaultValue": "id-amba-prod-001",
             "metadata": {
                 "description": "The name of the user assigned managed identity to be created for monitoring purpose."
+            }
+        },
+        "uamiLocation": {
+            "type": "string",
+            "defaultValue": "northeurope",
+            "metadata": {
+                "description": "The location of the User Assigned Managed Identity.."
             }
         }
     },
@@ -32,15 +35,14 @@
                             "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                             "apiVersion": "2018-11-30",
                             "name": "[parameters('uamiName')]",
-                            "location": "[string(parameters('rgParameters').ALZMonitorResourceGroupLocation.Value)]",
+                            "location": "[parameters('uamiLocation')]",
                             "tags": {
-                              "_deployed_by_amba": true
+                                "deployed_by_amba": "true"
                             }
                         }
                     ]
                 }
-            },
-            "resourceGroup": "[string(parameters('rgParameters').ALZMonitorResourceGroupName.Value)]"
+            }
         }
     ],
     "outputs": {}

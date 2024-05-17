@@ -27,29 +27,29 @@
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
     # the pseudo managemnt group to start from
-    [Parameter(Mandatory=$True,
-      ValueFromPipeline=$false)]
-      [string]$pseudoRootManagementGroup,
+    [Parameter(Mandatory = $True,
+        ValueFromPipeline = $false)]
+    [string]$pseudoRootManagementGroup,
     # output a list of the resources to be deleted
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$reportOnly,
+    [Parameter(Mandatory = $False,
+        ValueFromPipeline = $false)]
+    [switch]$reportOnly,
     # if not specified, delete will prompt for confirmation
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$force
+    [Parameter(Mandatory = $False,
+        ValueFromPipeline = $false)]
+    [switch]$force
 )
 
 Function Iterate-ManagementGroups($mg) {
 
-  $script:managementGroups += $mg.Name
-  if ($mg.Children) {
-      foreach ($child in $mg.Children) {
-          if ($child.Type -eq 'Microsoft.Management/managementGroups') {
-          Iterate-ManagementGroups $child
-          }
-      }
-  }
+    $script:managementGroups += $mg.Name
+    if ($mg.Children) {
+        foreach ($child in $mg.Children) {
+            if ($child.Type -eq 'Microsoft.Management/managementGroups') {
+                Iterate-ManagementGroups $child
+            }
+        }
+    }
 }
 
 $ErrorActionPreference = 'Stop'
@@ -78,7 +78,7 @@ If ($managementGroups.count -eq 0) {
 # get AMBA-ALZ deployments to delete
 $allDeployments = @()
 ForEach ($mg in $managementGroups) {
-    $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" | where {$_.DeploymentName.StartsWith("amba-")}
+    $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" | where { $_.DeploymentName.StartsWith("amba-") }
     $allDeployments += $deployments
 }
 

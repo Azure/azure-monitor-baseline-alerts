@@ -217,7 +217,7 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Notification-Assets.json'))
-    string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Hybrid-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []

@@ -58,7 +58,7 @@
               "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
           }
       },
-      "BYOUserAssignedManagedIdentity": {
+      "BYOUserAssignedManagedIdentityResourceId": {
           "type": "string",
           "defaultValue": "",
           "metadata": {
@@ -292,7 +292,7 @@
                   "managementSubscriptionId": {
                     "type": "string"
                   },
-                  "BYOUserAssignedManagedIdentity": {
+                  "BYOUserAssignedManagedIdentityResourceId": {
                     "type": "string"
                   },
                   "severity": {
@@ -327,7 +327,7 @@
                   }
                 },
                 "variables": {
-                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentity')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentity'))]"
+                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
                 },
                 "resources": [
                   {
@@ -365,7 +365,7 @@
                           "managementSubscriptionId": {
                             "type": "string"
                           },
-                          "BYOUserAssignedManagedIdentity": {
+                          "BYOUserAssignedManagedIdentityResourceId": {
                             "type": "string"
                           }
                         },
@@ -428,8 +428,8 @@
                                 "managementSubscriptionId": {
                                   "value": "[[parameters('managementSubscriptionId')]"
                                 },
-                                "BYOUserAssignedManagedIdentity": {
-                                  "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
+                                "BYOUserAssignedManagedIdentityResourceId": {
+                                  "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                                 },
                                 "severity": {
                                   "value": "[[parameters('severity')]"
@@ -476,8 +476,8 @@
                         "managementSubscriptionId": {
                           "value": "[[parameters('managementSubscriptionId')]"
                         },
-                        "BYOUserAssignedManagedIdentity": {
-                          "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
+                        "BYOUserAssignedManagedIdentityResourceId": {
+                          "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                         }
                       }
                     }
@@ -500,8 +500,8 @@
                 "managementSubscriptionId": {
                   "value": "[[parameters('managementSubscriptionId')]"
                 },
-                "BYOUserAssignedManagedIdentity": {
-                  "value": "[[parameters('BYOUserAssignedManagedIdentity')]"
+                "BYOUserAssignedManagedIdentityResourceId": {
+                  "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                 },
                 "severity": {
                   "value": "[[parameters('severity')]"

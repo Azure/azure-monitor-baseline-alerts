@@ -2,9 +2,28 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "rgParameters": {
+        "rgName": {
+            "type": "string",
+            "defaultValue": "rg-ambo-prod-001",
+            "metadata": {
+                "description": "Name for the resource group."
+            }
+        },
+        "rgLocation": {
+            "type": "string",
+            "defaultValue": "East US",
+            "metadata": {
+                "description": "Location for the resource group."
+            }
+        },
+        "rgTags": {
             "type": "object",
-            "defaultValue": {}
+            "defaultValue": {
+                "_deployed_by_amba": true
+            },
+            "metadata": {
+                "description": "Tags for the resource group."
+            }
         }
     },
     "variables": {},
@@ -12,9 +31,9 @@
         {
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2020-10-01",
-            "name": "[string(parameters('rgParameters').ALZMonitorResourceGroupName.Value)]",
-            "location": "[string(parameters('rgParameters').ALZMonitorResourceGroupLocation.Value)]",
-            "tags": "[parameters('rgParameters').ALZMonitorResourceGroupTags.Value]"
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('rgLocation')]",
+            "tags": "[parameters('rgTags')]"
         }
     ],
     "outputs": {}

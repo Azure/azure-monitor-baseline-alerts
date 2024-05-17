@@ -30,17 +30,17 @@
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
     # the pseudo managemnt group to start from
-    [Parameter(Mandatory=$True,
-      ValueFromPipeline=$false)]
-      [string]$pseudoRootManagementGroup,
+    [Parameter(Mandatory = $True,
+        ValueFromPipeline = $false)]
+    [string]$pseudoRootManagementGroup,
     # output a list of the resources to be deleted
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$reportOnly,
+    [Parameter(Mandatory = $False,
+        ValueFromPipeline = $false)]
+    [switch]$reportOnly,
     # if not specified, delete will prompt for confirmation
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$force
+    [Parameter(Mandatory = $False,
+        ValueFromPipeline = $false)]
+    [switch]$force
 )
 
 Function Search-AzGraphRecursive {
@@ -56,9 +56,9 @@ Function Search-AzGraphRecursive {
     If ($managementGroupNames.count -gt 10) {
         $managementGroupBatches = @()
 
-        For ($i=0;$i -le $managementGroupNames.count;$i=$i+10) {
-            $batchGroups = $managementGroupNames[$i..($i+9)]
-            $managementGroupBatches += ,@($batchGroups)
+        For ($i = 0; $i -le $managementGroupNames.count; $i = $i + 10) {
+            $batchGroups = $managementGroupNames[$i..($i + 9)]
+            $managementGroupBatches += , @($batchGroups)
 
             If ($batchGroups.count -lt 10) {
                 continue
@@ -96,7 +96,7 @@ Function Iterate-ManagementGroups($mg) {
     if ($mg.Children) {
         foreach ($child in $mg.Children) {
             if ($child.Type -eq 'Microsoft.Management/managementGroups') {
-            Iterate-ManagementGroups $child
+                Iterate-ManagementGroups $child
             }
         }
     }
@@ -105,10 +105,10 @@ Function Iterate-ManagementGroups($mg) {
 $ErrorActionPreference = 'Stop'
 
 If (-NOT(Get-Module -ListAvailable Az.Resources)) {
-  Write-Warning "This script requires the Az.Resources module."
+    Write-Warning "This script requires the Az.Resources module."
 
-  $response = Read-Host "Would you like to install the 'Az.Resources' module now? (y/n)"
-  If ($response -match '[yY]') { Install-Module Az.Resources -Scope CurrentUser }
+    $response = Read-Host "Would you like to install the 'Az.Resources' module now? (y/n)"
+    If ($response -match '[yY]') { Install-Module Az.Resources -Scope CurrentUser }
 }
 
 If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
@@ -119,10 +119,10 @@ If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
 }
 
 If (-NOT(Get-Module -ListAvailable Az.ManagedServiceIdentity)) {
-  Write-Warning "This script requires the Az.ManagedServiceIdentity module."
+    Write-Warning "This script requires the Az.ManagedServiceIdentity module."
 
-  $response = Read-Host "Would you like to install the 'Az.ManagedServiceIdentity' module now? (y/n)"
-  If ($response -match '[yY]') { Install-Module Az.ManagedServiceIdentity -Scope CurrentUser }
+    $response = Read-Host "Would you like to install the 'Az.ManagedServiceIdentity' module now? (y/n)"
+    If ($response -match '[yY]') { Install-Module Az.ManagedServiceIdentity -Scope CurrentUser }
 }
 
 # get all management groups -- used in graph query scope
