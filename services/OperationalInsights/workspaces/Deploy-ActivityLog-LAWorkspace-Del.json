@@ -55,16 +55,13 @@
         },
         "defaultValue": "centralus"
       },
-      "MonitorDisableTagNames": {
-        "type": "Array",
+      "MonitorDisable": {
+        "type": "String",
         "metadata": {
           "displayName": "Monitoring disabled tag name(s)",
-          "description": "Tag name(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
-        "defaultValue": [
-          "MonitorDisable",
-          "Environment"
-        ]
+        "defaultValue": "MonitorDisable"
       },
       "MonitorDisableTagValues": {
         "type": "Array",
@@ -75,7 +72,8 @@
         "defaultValue": [
           "true",
           "Test",
-          "Dev"
+          "Dev",
+          "Sandbox"
         ]
       }
     },
@@ -87,7 +85,7 @@
             "equals": "Microsoft.OperationalInsights/workspaces"
           },
           {
-            "field": "tags",
+            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagNames')]"
           }
         ]
