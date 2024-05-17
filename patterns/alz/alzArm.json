@@ -238,11 +238,11 @@
     "resources": [
         {
             // Creating resource group in the Management subscription.
-            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId.Value))]",
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]",
-            "subscriptionId": "[string(parameters('uamiParameters').ALZManagementSubscriptionId.Value)]",
+            "subscriptionId": "[string(parameters('uamiParameters').ALZManagementSubscriptionId)]",
             "location": "[deployment().location]",
             "dependsOn": [],
             "properties": {
@@ -253,10 +253,10 @@
                 },
                 "parameters": {
                     "rgName": {
-                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName.Value)]"
+                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupName)]"
                     },
                     "rgLocation": {
-                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation.Value)]"
+                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation)]"
                     },
                     "rgTags": {
                         "value": "[parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupTags]"
@@ -266,11 +266,11 @@
         },
         {
             // Creating User Assigned Managed Identity for monitoring purpose using ARG query based alerts.
-            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId.Value))]",
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
-            "subscriptionId": "[string(parameters('uamiParameters').ALZManagementSubscriptionId.Value)]",
+            "subscriptionId": "[string(parameters('uamiParameters').ALZManagementSubscriptionId)]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUamiResourceGroupDeploymentName]"
@@ -283,17 +283,17 @@
                 },
                 "parameters": {
                     "uamiName": {
-                        "value": "[string(parameters('uamiParameters').ALZUserAssignedManagedIdentityName.Value)]"
+                        "value": "[string(parameters('uamiParameters').ALZUserAssignedManagedIdentityName)]"
                     },
                     "uamiLocation": {
-                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation.Value)]"
+                        "value": "[string(parameters('policyAssignmentParametersCommon').ALZMonitorResourceGroupLocation)]"
                     }
                 }
             }
         },
         {
             // Assigning Monitoring Reader role to the User Assigned Managed Identity at the pseudo root management group.
-            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId.Value))]",
+            "condition": "[empty(string(parameters('uamiParameters').BYOUserAssignedManagedIdentityResourceId))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -323,12 +323,12 @@
                         {
                             "type": "Microsoft.Authorization/roleAssignments",
                             "apiVersion": "2022-04-01",
-                            "name": "[Guid(string(parameters('uamiParameters').ALZManagementSubscriptionId.Value))]",
+                            "name": "[Guid(string(parameters('uamiParameters').ALZManagementSubscriptionId))]",
                             "location": "[deployment().location]",
                             "properties": {
                                 "principalType": "ServicePrincipal",
                                 "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', '43d0d8ad-25c7-4714-9337-8ba259a9fe05')]", // Monitoring Reader
-                                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('uamiParameters').ALZUserAssignedManagedIdentityName.Value),'2023-01-31').principalId]",
+                                "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', string(parameters('uamiParameters').ALZUserAssignedManagedIdentityName)),'2023-01-31').principalId]",
                                 "description": "_deployed_by_amba"
                             }
                         }
