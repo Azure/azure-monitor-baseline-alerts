@@ -366,6 +366,18 @@
           "description": "Alert state for the alert"
         }
       },
+      "activityKVDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Delete Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
       "StorageAccountAvailabilityAlertSeverity": {
         "type": "String",
         "defaultValue": "1",
@@ -4262,6 +4274,9 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[[parameters('activityKVDeletePolicyEffect')]"
           }
         }
       },
