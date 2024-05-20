@@ -104,7 +104,7 @@
       "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "Monitoring disabled",
+          "displayName": "ALZ Monitoring disabled tag name",
           "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
@@ -123,7 +123,7 @@
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },

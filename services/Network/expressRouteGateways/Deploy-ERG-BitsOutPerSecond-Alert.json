@@ -112,10 +112,23 @@
       "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -127,7 +140,7 @@
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
