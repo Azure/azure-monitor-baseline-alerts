@@ -365,6 +365,17 @@
           "displayName": "Activity Log KeyVault Delete Alert State",
           "description": "State of the alert, true will enable the alert, false will disable the alert"
         }
+      },"activityKVDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Delete Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
       }
     },
     "policyDefinitions": [
@@ -489,7 +500,10 @@
         "policyDefinitionReferenceId": "ALZ_activityKVDelete",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
         "parameters": {
-          "enabled": {
+          "effect": {
+            "value": "[[parameters('activityKVDeletePolicyEffect')]"
+          }
+          ,"enabled": {
             "value": "[[parameters('activityKVDeleteAlertState')]"
           },
           "alertResourceGroupName": {
