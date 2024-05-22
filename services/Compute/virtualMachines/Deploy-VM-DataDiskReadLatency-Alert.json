@@ -216,6 +216,27 @@
           "disabled"
         ],
         "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisable": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -351,6 +372,12 @@
                   },
                   "computersToInclude": {
                     "type": "array"
+                  },
+                  "MonitorDisable": {
+                    "type": "String"
+                  },
+                  "MonitorDisableTagValues": {
+                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -412,7 +439,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
+                                    "query": "[[format('let resourceTags = (arg(\"\").resources | where type in~ (\"Microsoft.Compute/virtualMachines\", \"Microsoft.HybridCompute/machines\") | project _ResourceId = id, tags | where parse_json(tostring(tags.MonitorDisable)) =~ \"true\"); InsightsMetrics | where _ResourceId !in~ (resourceTags) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in ('C:','/') | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), parameters('MonitorDisableTagValues'))",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -484,6 +511,12 @@
                                 },
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
+                                },
+                                "MonitorDisable": {
+                                  "value": "[[parameters('MonitorDisable')]"
+                                },
+                                "MonitorDisableTagValues": {
+                                  "value": "[[parameters('MonitorDisableTagValues')]"
                                 }
                               }
                             }
@@ -556,6 +589,12 @@
                 },
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
+                },
+                "MonitorDisable": {
+                  "value": "[[parameters('MonitorDisable')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[parameters('MonitorDisableTagValues')]"
                 }
               }
             }
