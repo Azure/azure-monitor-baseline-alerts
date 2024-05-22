@@ -1,0 +1,1086 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2021-09-09/uiFormDefinition.schema.json#",
+  "view": {
+      "kind": "Form",
+      "properties": {
+          "title": "Azure Monitor Baseline Alerts Accelerator",
+          "steps": [
+              {  "name": "basics",
+                  "label": "Deployment Settings",
+                  "elements": [
+                                  {
+                          "name": "baselinealertsintro",
+                          "type": "Microsoft.Common.InfoBox",
+                          "visible": true,
+                          "options": {
+                              "text": "AMBA Accelerator will automatically import all policies and initiatives and will assign the Deploy Azure Monitor Baseline Alerts for Service Health policy initiative at the intermediate root. While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. These policies and initiatives can be implemented in existing brownfield scenarios that don´t adhere to the ALZ Management Group hierarchy. For example, in hierarchies where there is a single management group, or where the structure does not align to ALZ. At least one management group is required.",
+                              "uri": "https://aka.ms/amba/alz/docs",
+                              "style": "Info"
+                          }
+                      },
+                    {
+                      "name": "resourceScope",
+                      "type": "Microsoft.Common.ResourceScope",
+                      "kind": "ManagementGroup",
+                      "instanceDetailsLabel": "AMBA Accelerator"
+                  },
+
+
+                      {
+                          "name": "ALZMonitorResourceGroupName",
+                          "type": "Microsoft.Common.TextBox",
+                          "label": "Resource group for baseline alerts",
+                          "toolTip": "Resource group for activity log alerts and action groups. Will be created in all subscriptions in scope for the policy",
+                          "visible": "[equals(steps('monitor').enableMonitorBaselines,'Yes')]",
+                          "defaultValue": "rg-amba-monitoring-001",
+                          "constraints": {
+                              "required": "true",
+                              "regex": "^[a-zA-Z0-9][a-zA-Z0-9-_.()]{0,89}[a-zA-Z0-9]$",
+                              "validationMessage": "Please provide a valid resource group name"
+                          }
+                      },
+                      {
+                        "name": "ALZMonitorResourceGroupTags",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Resource Group Tags",
+                        "toolTip": "Specify the tags to be added to said resource group",
+                        "visible": "[equals(steps('basics').alzaligned,'Yes')],[equals(steps('basics').alzaligned,'No')]",
+                        "defaultValue": "",
+                        "constraints": {
+                            "required": "true",
+                            "regex": "^[a-zA-Z0-9][a-zA-Z0-9-_.()]{0,89}[a-zA-Z0-9]$",
+                            "validationMessage": "Please provide a valid resource group tags name"
+                        }
+                    },
+                    {
+                      "name": "ALZMonitorResourceGroupLocation",
+                      "type": "Microsoft.Common.DropDown",
+                      "label": "Resource Group Location",
+                      "toolTip": "Specify the location for said resource group",
+                      "visible": "[equals(steps('basics').alzaligned,'Yes')],[equals(steps('basics').alzaligned,'No')]",
+                      "defaultValue": "eastus",
+                      "multiselect": false,
+                      "selectAll": false,
+                      "constraints": {
+                        "allowedValues": [{
+                          "label": "East US",
+                          "value": "eastus",
+                          "description": "(US) East US"
+                        },
+                        {
+                          "label": "East US 2",
+                          "value": "eastus2",
+                          "description": "(US) East US 2"
+                        },
+                        {
+                          "label": "South Central US",
+                          "value": "southcentralus",
+                          "description": "(US) South Central US"
+                        },
+                        {
+                          "label": "West US 2",
+                          "value": "westus2",
+                          "description": "(US) West US 2"
+                        },
+                        {
+                          "label": "West US 3",
+                          "value": "westus3",
+                          "description": "(US) West US 3"
+                        },
+                        {
+                          "label": "Australia East",
+                          "value": "australiaeast",
+                          "description": "(Asia Pacific) Australia East"
+                        },
+                        {
+                          "label": "Southeast Asia",
+                          "value": "southeastasia",
+                          "description": "(Asia Pacific) Southeast Asia"
+                        },
+                        {
+                          "label": "North Europe",
+                          "value": "northeurope",
+                          "description": "(Europe) North Europe"
+                        },
+                        {
+                          "label": "Sweden Central",
+                          "value": "swedencentral",
+                          "description": "(Europe) Sweden Central"
+                        },
+                        {
+                          "label": "UK South",
+                          "value": "uksouth",
+                          "description": "(Europe) UK South"
+                        },
+                        {
+                          "label": "West Europe",
+                          "value": "westeurope",
+                          "description": "(Europe) West Europe"
+                        },
+                        {
+                          "label": "Central US",
+                          "value": "centralus",
+                          "description": "(US) Central US"
+                        },
+                        {
+                          "label": "South Africa North",
+                          "value": "southafricanorth",
+                          "description": "(Africa) South Africa North"
+                        },
+                        {
+                          "label": "Central India",
+                          "value": "centralindia",
+                          "description": "(Asia Pacific) Central India"
+                        },
+                        {
+                          "label": "East Asia",
+                          "value": "eastasia",
+                          "description": "(Asia Pacific) East Asia"
+                        },
+                        {
+                          "label": "Japan East",
+                          "value": "japaneast",
+                          "description": "(Asia Pacific) Japan East"
+                        },
+                        {
+                          "label": "Korea Central",
+                          "value": "koreacentral",
+                          "description": "(Asia Pacific) Korea Central"
+                        },
+                        {
+                          "label": "Canada Central",
+                          "value": "canadacentral",
+                          "description": "(Canada) Canada Central"
+                        },
+                        {
+                          "label": "France Central",
+                          "value": "francecentral",
+                          "description": "(Europe) France Central"
+                        },
+                        {
+                          "label": "Germany West Central",
+                          "value": "germanywestcentral",
+                          "description": "(Europe) Germany West Central"
+                        },
+                        {
+                          "label": "Norway East",
+                          "value": "norwayeast",
+                          "description": "(Europe) Norway East"
+                        },
+                        {
+                          "label": "Poland Central",
+                          "value": "polandcentral",
+                          "description": "(Europe) Poland Central"
+                        },
+                        {
+                          "label": "Switzerland North",
+                          "value": "switzerlandnorth",
+                          "description": "(Europe) Switzerland North"
+                        },
+                        {
+                          "label": "UAE North",
+                          "value": "uaenorth",
+                          "description": "(Middle East) UAE North"
+                        },
+                        {
+                          "label": "Brazil South",
+                          "value": "brazilsouth",
+                          "description": "(South America) Brazil South"
+                        },
+                        {
+                          "label": "Central US EUAP",
+                          "value": "centraluseuap",
+                          "description": "(US) Central US EUAP"
+                        },
+                        {
+                          "label": "Qatar Central",
+                          "value": "qatarcentral",
+                          "description": "(Middle East) Qatar Central"
+                        },
+                        {
+                          "label": "Central US (Stage)",
+                          "value": "centralusstage",
+                          "description": "(US) Central US (Stage)"
+                        },
+                        {
+                          "label": "East US (Stage)",
+                          "value": "eastusstage",
+                          "description": "(US) East US (Stage)"
+                        },
+                        {
+                          "label": "East US 2 (Stage)",
+                          "value": "eastus2stage",
+                          "description": "(US) East US 2 (Stage)"
+                        },
+                        {
+                          "label": "North Central US (Stage)",
+                          "value": "northcentralusstage",
+                          "description": "(US) North Central US (Stage)"
+                        },
+                        {
+                          "label": "South Central US (Stage)",
+                          "value": "southcentralusstage",
+                          "description": "(US) South Central US (Stage)"
+                        },
+                        {
+                          "label": "West US (Stage)",
+                          "value": "westusstage",
+                          "description": "(US) West US (Stage)"
+                        },
+                        {
+                          "label": "West US 2 (Stage)",
+                          "value": "westus2stage",
+                          "description": "(US) West US 2 (Stage)"
+                        },
+                        {
+                          "label": "Asia",
+                          "value": "asia",
+                          "description": "Asia"
+                        },
+                        {
+                          "label": "Asia Pacific",
+                          "value": "asiapacific",
+                          "description": "Asia Pacific"
+                        },
+                        {
+                          "label": "Australia",
+                          "value": "australia",
+                          "description": "Australia"
+                        },
+                        {
+                          "label": "Brazil",
+                          "value": "brazil",
+                          "description": "Brazil"
+                        },
+                        {
+                          "label": "Canada",
+                          "value": "canada",
+                          "description": "Canada"
+                        },
+                        {
+                          "label": "Europe",
+                          "value": "europe",
+                          "description": "Europe"
+                        },
+                        {
+                          "label": "France",
+                          "value": "france",
+                          "description": "France"
+                        },
+                        {
+                          "label": "Germany",
+                          "value": "germany",
+                          "description": "Germany"
+                        },
+                        {
+                          "label": "Global",
+                          "value": "global",
+                          "description": "Global"
+                        },
+                        {
+                          "label": "India",
+                          "value": "india",
+                          "description": "India"
+                        },
+                        {
+                          "label": "Japan",
+                          "value": "japan",
+                          "description": "Japan"
+                        },
+                        {
+                          "label": "Korea",
+                          "value": "korea",
+                          "description": "Korea"
+                        },
+                        {
+                          "label": "Norway",
+                          "value": "norway",
+                          "description": "Norway"
+                        },
+                        {
+                          "label": "Singapore",
+                          "value": "singapore",
+                          "description": "Singapore"
+                        },
+                        {
+                          "label": "South Africa",
+                          "value": "southafrica",
+                          "description": "South Africa"
+                        },
+                        {
+                          "label": "Switzerland",
+                          "value": "switzerland",
+                          "description": "Switzerland"
+                        },
+                        {
+                          "label": "United Arab Emirates",
+                          "value": "uae",
+                          "description": "United Arab Emirates"
+                        },
+                        {
+                          "label": "United Kingdom",
+                          "value": "uk",
+                          "description": "United Kingdom"
+                        },
+                        {
+                          "label": "United States",
+                          "value": "unitedstates",
+                          "description": "United States"
+                        },
+                        {
+                          "label": "United States EUAP",
+                          "value": "unitedstateseuap",
+                          "description": "United States EUAP"
+                        },
+                        {
+                          "label": "East Asia (Stage)",
+                          "value": "eastasiastage",
+                          "description": "(Asia Pacific) East Asia (Stage)"
+                        },
+                        {
+                          "label": "Southeast Asia (Stage)",
+                          "value": "southeastasiastage",
+                          "description": "(Asia Pacific) Southeast Asia (Stage)"
+                        },
+                        {
+                          "label": "Brazil US",
+                          "value": "brazilus",
+                          "description": "(South America) Brazil US"
+                        },
+                        {
+                          "label": "East US STG",
+                          "value": "eastusstg",
+                          "description": "(US) East US STG"
+                        },
+                        {
+                          "label": "North Central US",
+                          "value": "northcentralus",
+                          "description": "(US) North Central US"
+                        },
+                        {
+                          "label": "West US",
+                          "value": "westus",
+                          "description": "(US) West US"
+                        },
+                        {
+                          "label": "Jio India West",
+                          "value": "jioindiawest",
+                          "description": "(Asia Pacific) Jio India West"
+                        },
+                        {
+                          "label": "East US 2 EUAP",
+                          "value": "eastus2euap",
+                          "description": "(US) East US 2 EUAP"
+                        },
+                        {
+                          "label": "South Central US STG",
+                          "value": "southcentralusstg",
+                          "description": "(US) South Central US STG"
+                        },
+                        {
+                          "label": "West Central US",
+                          "value": "westcentralus",
+                          "description": "(US) West Central US"
+                        },
+                        {
+                          "label": "South Africa West",
+                          "value": "southafricawest",
+                          "description": "(Africa) South Africa West"
+                        },
+                        {
+                          "label": "Australia Central",
+                          "value": "australiacentral",
+                          "description": "(Asia Pacific) Australia Central"
+                        },
+                        {
+                          "label": "Australia Central 2",
+                          "value": "australiacentral2",
+                          "description": "(Asia Pacific) Australia Central 2"
+                        },
+                        {
+                          "label": "Australia Southeast",
+                          "value": "australiasoutheast",
+                          "description": "(Asia Pacific) Australia Southeast"
+                        },
+                        {
+                          "label": "Japan West",
+                          "value": "japanwest",
+                          "description": "(Asia Pacific) Japan West"
+                        },
+                        {
+                          "label": "Jio India Central",
+                          "value": "jioindiacentral",
+                          "description": "(Asia Pacific) Jio India Central"
+                        },
+                        {
+                          "label": "Korea South",
+                          "value": "koreasouth",
+                          "description": "(Asia Pacific) Korea South"
+                        },
+                        {
+                          "label": "South India",
+                          "value": "southindia",
+                          "description": "(Asia Pacific) South India"
+                        },
+                        {
+                          "label": "West India",
+                          "value": "westindia",
+                          "description": "(Asia Pacific) West India"
+                        },
+                        {
+                          "label": "Canada East",
+                          "value": "canadaeast",
+                          "description": "(Canada) Canada East"
+                        },
+                        {
+                          "label": "France South",
+                          "value": "francesouth",
+                          "description": "(Europe) France South"
+                        },
+                        {
+                          "label": "Germany North",
+                          "value": "germanynorth",
+                          "description": "(Europe) Germany North"
+                        },
+                        {
+                          "label": "Norway West",
+                          "value": "norwaywest",
+                          "description": "(Europe) Norway West"
+                        },
+                        {
+                          "label": "Switzerland West",
+                          "value": "switzerlandwest",
+                          "description": "(Europe) Switzerland West"
+                        },
+                        {
+                          "label": "UK West",
+                          "value": "ukwest",
+                          "description": "(Europe) UK West"
+                        },
+                        {
+                          "label": "UAE Central",
+                          "value": "uaecentral",
+                          "description": "(Middle East) UAE Central"
+                        },
+                        {
+                          "label": "Brazil Southeast",
+                          "value": "brazilsoutheast",
+                          "description": "(South America) Brazil Southeast"
+                        }],
+                          "required": true
+
+                      }
+                  }
+                  ]
+              },
+              {"name": "Configuration",
+              "label": "Management Groups Settings",
+              "elements": [
+                {
+                  "name": "alzaligned",
+                  "type": "Microsoft.Common.OptionsGroup",
+                  "label": "Aligned to an Azure landing zone",
+                  "defaultValue": "Yes",
+                  "toolTip": "Select 'Yes'  if you have an existing Azure landing zone implementation and you want to use the policy-driven approach. Select 'No'if you have a non-Azure landing zone aligned implementation and you want to use the policy-driven approach",
+                  "constraints": {
+                      "allowedValues": [
+                          {
+                              "label": "Yes (recommended)",
+                              "value": "Yes"
+                          },
+                          {
+                              "label": "No",
+                              "value": "No"
+                          }
+                      ]
+                  },
+                  "visible": true
+              },
+              {
+                "name": "alznoalignedintro",
+                "type": "Microsoft.Common.InfoBox",
+                "visible": "[equals(steps('Configuration').alzaligned,'No')]",
+                "options": {
+                    "text": "If you have a single management group, configure the variables Enterprise Scale Company Prefix, Identity Management Group, Management Management Group, Connectivity Management Group and Landing Zones ManagementGroup with the same group id.",
+                    "uri": "https://aka.ms/amba/alz/docs",
+                    "style": "Info"
+                }
+            },
+                {
+                    "name": "enterpriseScaleCompanyPrefix",
+                    "type": "Microsoft.Common.DropDown",
+                    "label": "Enterprise Scale Company Management Group",
+                    "multiselect": false,
+                    "defaultValue": "",
+                    "filter": false,
+                    "defaultDescription": "Enterprise Scale Company Management Group",
+                    "toolTip": "Management group where you wish to deploy the policies and the initiatives. This is usually the so called “pseudo root management group”, this would be the so called “Intermediate Root Management Group” (directly beneath the “Tenant Root Group”).",
+                    "constraints": {
+                      "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                      "required": true
+
+                    },
+                    "visible": true
+                },
+                {
+                  "name": "ManagementGroupAPI",
+                  "type": "Microsoft.Solutions.ArmApiControl",
+                  "request": {
+                    "method": "GET",
+                    "path": "providers/Microsoft.Management/managementGroups?api-version=2020-05-01"
+
+                }
+                },
+
+                {
+                  "name": "platformManagementGroup",
+                  "type": "Microsoft.Common.DropDown",
+                  "label": "Platform Management Group",
+                  "multiselect": false,
+                  "defaultValue": "",
+                  "filter": false,
+                  "defaultDescription": "Platform Management Group",
+                  "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
+                  "constraints": {
+                    "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                    "required": false
+
+                  },
+                  "visible": false
+              },
+
+                {
+                  "name": "enableAMBAIdentity",
+                  "type": "Microsoft.Common.DropDown",
+                  "label": "Enable AMBA Identity",
+
+                  "defaultValue": "No",
+                  "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Identity policy initiative is assigned to the Identity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+                  "constraints": {
+                      "required": true,
+                      "allowedValues": [
+                          {
+                              "label": "Yes",
+                              "value": "Yes"
+                          },
+                          {
+                              "label": "No",
+                              "value": "No"
+                          }
+                      ]
+
+                  },
+
+                  "visible": true
+              },
+
+              {
+                "name": "IdentityManagementGroup",
+                "type": "Microsoft.Common.DropDown",
+                "label": "Identity Management Group",
+                "multiselect": false,
+                "defaultValue": "",
+                "filter": false,
+                "toolTip": "Provide the name of the Management Group that will be used to host the identity resources.",
+                "constraints": {
+                  "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                  "required": false
+
+                },
+                "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
+            },           {
+              "name": "enableAMBAManagement",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Management",
+
+              "defaultValue": "No",
+              "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Management policy initiative is assigned to the Management management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+              "constraints": {
+                  "required": true,
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ]
+              },
+
+              "visible": true
+          },
+                {
+                    "name": "managementManagementGroup",
+                    "type": "Microsoft.Common.DropDown",
+                    "label": "Management Management Group",
+                    "multiselect": false,
+                  "defaultValue": "",
+                  "filter": false,
+                    "toolTip": "Provide the name of the Management Group that will be used to host the management resources.",
+                    "constraints": {
+                      "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                      "required": false
+
+                    },
+                    "visible": "[equals(steps('Configuration').enableAMBAManagement,'Yes')]"
+                },
+                {
+                  "name": "enableAMBAConnectivity",
+                  "type": "Microsoft.Common.DropDown",
+                  "label": "Enable AMBA Connectivity",
+
+                  "defaultValue": "No",
+                  "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Connectivity policy initiative is assigned to the Connectivity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+                  "constraints": {
+                      "required": true,
+                      "allowedValues": [
+                          {
+                              "label": "Yes",
+                              "value": "Yes"
+                          },
+                          {
+                              "label": "No",
+                              "value": "No"
+                          }
+                      ]
+
+                  },
+                  "visible": true
+              },
+                {
+                    "name": "connectivityManagementGroup",
+                    "type": "Microsoft.Common.DropDown",
+                    "label": "Connectivity Management Group",
+                    "multiselect": false,
+                    "defaultValue": "",
+                    "filter": false,
+                    "toolTip": "Provide the name of the Management Group that will be used to host the connectivity resources.",
+                    "constraints": {
+                      "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                      "required": false
+
+                    },
+                    "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
+                },
+
+                {
+                  "name": "enableAMBALandingZone",
+                  "type": "Microsoft.Common.DropDown",
+                  "label": "Enable AMBA Landing Zone",
+
+                  "defaultValue": "No",
+                  "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Landing Zone policy initiative is assigned to the Landing Zones management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+                  "constraints": {
+                      "required": true,
+                      "allowedValues": [
+                          {
+                              "label": "Yes",
+                              "value": "Yes"
+                          },
+                          {
+                              "label": "No",
+                              "value": "No"
+                          }
+                      ]
+
+                  },
+
+                  "visible": true
+              },
+
+                {
+                    "name": "LandingZoneManagementGroup",
+                    "type": "Microsoft.Common.DropDown",
+                    "label": "Landing Zone Management Group",
+                    "multiselect": false,
+                    "defaultValue": "",
+                    "filter": false,
+                    "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
+                    "constraints": {
+                      "allowedValues" : "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                      "required": false
+
+                    },
+                    "visible": "[equals(steps('Configuration').enableAMBALandingZone,'Yes')]"
+                },
+                {
+               "name": "enableAMBAServiceHealth",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Service Health",
+
+              "defaultValue": "No",
+              "toolTip": "Assign Service health initiative",
+              "constraints": {
+                  "required": true,
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ]
+
+              },
+
+              "visible": true
+          },
+          {
+              "name": "enableAMBANotificationAssets",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Notification Assets",
+
+              "defaultValue": "No",
+              "toolTip": "Assign Action assets initiative",
+              "constraints": {
+                  "required": true,
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ]
+
+              },
+
+              "visible": true
+          }
+              ]},
+              {"name": "Notification",
+              "label": "Notification Settings",
+              "elements": [
+                {
+                  "name": "Notificationintro",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                      "text": "The Bring Your Own Notifications (BYON) feature allows brownfield customers to use their existing Action Groups (also known as AGs) and Alert Processing Rule (also known as APR) not forcing the use of notification assets deployed by both the Notification Assets initiative and the Deploy Service Health Action Group policy definition present in the ALZ pattern. It also allows Brownfield customer who deployed the ALZ pattern when this feature wasn’t available, to switch to it. The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).",
+                      "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Bring-your-own-Notifications/",
+                      "style": "Info"
+                  }
+              },
+
+                {
+                  "name": "NotificationOption",
+                  "type": "Microsoft.Common.OptionsGroup",
+                  "label": "Bring Your Own Notifications (BYON)",
+                  "defaultValue": "",
+                  "toolTip": "The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).",
+                  "constraints": {
+                      "allowedValues": [
+                          {
+                              "label": "Yes",
+                              "value": "Yes"
+                          },
+                          {
+                              "label": "No",
+                              "value": "No"
+                          }
+                      ]
+                  },
+                  "visible": true
+              },
+              {
+                "name": "GETBYOActionGroup",
+                "type": "Microsoft.Solutions.ArmApiControl",
+                "request": {
+                  "method": "POST",
+                  "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                  "body": {
+                      "query": "resources | where type == 'microsoft.insights/actiongroups'| project label=tostring(name) , description=name, value=id | order by label asc"
+                  }
+              }
+          },
+                {
+                  "name": "BYOActionGroup",
+                  "type": "Microsoft.Common.DropDown",
+                  "label": "Action Group",
+                  "multiselect": true,
+                  "defaultValue": "",
+                  "filter": true,
+                  "toolTip": "The action groups to be used as action for the alerts (including Service Health alerts).",
+                  "constraints": {
+                    "allowedValues" : "[steps('Notification').GETBYOActionGroup.data]",
+                    "required": false
+
+                  },
+                  "visible":"[equals(steps('Notification').NotificationOption,'Yes')]"
+              },
+                {
+                  "name": "BYOAlertProcessingRule",
+                  "type": "Microsoft.Solutions.ResourceSelector",
+                  "label": "Alert Processing Rule",
+                  "toolTip": "The alert processing rule to be used as action for the alerts (including Service Health alerts).",
+                  "resourceType": "Microsoft.AlertsManagement/actionRules",
+                  "visible": "[equals(steps('Notification').NotificationOption,'Yes')]"
+
+                },
+              {
+                "name": "ALZMonitorActionGroupEmail",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Email contact for action group notifications",
+                "toolTip": "Provide Email address to get email notifications from alerts.It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.",
+                "visible": "[equals(steps('Notification').NotificationOption,'No')]",
+                "defaultValue": "",
+                "constraints": {
+                    "required": false,
+                    "regex": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+                    "validationMessage": "Please provide a valid email"
+                }
+            },
+            {
+              "name": "ALZWebhookServiceUri",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Webhook Service Uri",
+              "toolTip": "The URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.",
+              "visible": "[equals(steps('Notification').NotificationOption,'No')]",
+              "defaultValue": "",
+              "constraints": {
+                  "required": false,
+                  "regex": "",
+                  "validationMessage": ""
+              }
+          },
+
+          {
+            "name": "getALZArmRoleId",
+            "type": "Microsoft.Solutions.ArmApiControl",
+            "request": {
+                "method": "POST",
+                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                    "query": "authorizationresources |extend roleName = tostring(properties.roleName)|where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader')|project label=tostring(roleName) , description=roleName, value=name | order by label asc"
+                }
+            }
+        },
+          {
+            "name": "ALZArmRoleId",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Arm Role Id",
+            "multiselect": true,
+            "filter": true,
+            "toolTip": "The Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is require",
+            "visible": "[equals(steps('Notification').NotificationOption,'No')]",
+            "defaultValue": "",
+            "constraints": {
+              "allowedValues" : "[steps('Notification').getALZArmRoleId.data]",
+              "required": false
+            }
+        },
+
+            {
+              "name": "LogicAppOption",
+              "type": "Microsoft.Common.OptionsGroup",
+              "label": "Add Logic App as action",
+              "defaultValue": "No",
+              "toolTip": "Select 'Yes' if you want to use a Logic App as action for the alerts.",
+              "constraints": {
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ]
+              },
+              "visible": "[equals(steps('Notification').NotificationOption,'No')]"
+          },
+            {
+              "name": "getLogicAppId",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                  "method": "POST",
+                  "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                  "body": {
+                      "query": "resources | where type =~ 'microsoft.logic/workflows' | project label=tostring(name), description=id, value=id | order by label asc"
+                  }
+              }
+          },
+          {
+            "name": "getALZLogicappCallbackUrl",
+            "type": "Microsoft.Solutions.ArmApiControl",
+            "request": {
+                "method": "POST",
+                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                    "query": "resources| where type == 'microsoft.logic/workflows'| project label=tostring(properties.accessEndpoint) , description=properties.accessEndpoint, value=properties.accessEndpoint | order by label asc"
+                }
+            }
+        },
+        {
+          "name": "getALZEventHubResourceId",
+          "type": "Microsoft.Solutions.ArmApiControl",
+          "request": {
+              "method": "POST",
+              "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+              "body": {
+                  "query": "resources| where type == 'microsoft.eventhub/namespaces'| project label=tostring(name) , description=id, value=id | order by label asc"
+              }
+          }
+      },
+          {
+            "name": "ALZLogicappResourceId",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Logicapp Resource Id",
+            "toolTip": "The Logic app resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used",
+            "visible":  "[equals(steps('Notification').LogicAppOption,'Yes')]",
+            "multiselect": false,
+            "defaultValue": "",
+            "filter": false,
+            "constraints": {
+              "allowedValues" : "[steps('Notification').getLogicAppId.data]",
+              "required": false
+
+            }
+
+        },
+
+
+          {
+            "name": "ALZLogicappCallbackUrl",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Logicapp Callback Url",
+            "toolTip": "The Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the Get-AzLogicAppTriggerCallbackUrl PowerShell command or navigate to the Logic app in the Azure portal, go to Logic app designer, expand the trigger activity (When an HTTP request is received) and copy the value in the URL field using the 2-sheets icon.",
+            "visible":  "[equals(steps('Notification').LogicAppOption,'Yes')]",
+            "defaultValue": "",
+            "constraints": {
+                "required": false,
+                "regex": "",
+                "validationMessage": ""
+            }
+        },
+
+      {
+        "name": "EventHubOption",
+        "type": "Microsoft.Common.OptionsGroup",
+        "label": "Add Event Hub as action",
+        "defaultValue": "No",
+        "toolTip": "Select 'Yes' if you want to use an Event Hub as action for the alerts.",
+        "constraints": {
+            "allowedValues": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ]
+        },
+        "visible": "[equals(steps('Notification').NotificationOption,'No')]"
+    },
+      {
+        "name": "ALZEventHubResourceId",
+        "type": "Microsoft.Common.DropDown",
+        "label": "Event Hub Resource Id",
+        "toolTip": "The Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.",
+        "visible":  "[equals(steps('Notification').EventHubOption,'Yes')]",
+        "multiselect": true,
+        "defaultValue": "",
+        "filter": false,
+        "constraints": {
+          "allowedValues" : "[steps('Notification').getALZEventHubResourceId.data]",
+          "required": false
+
+        }
+
+    },
+
+  {
+    "name": "AzureFunctionOption",
+    "type": "Microsoft.Common.OptionsGroup",
+    "label": "Add Azure Function as action",
+    "defaultValue": "No",
+    "toolTip": "Select 'Yes' if you want to use an Azure Function as action for the alerts.",
+    "constraints": {
+        "allowedValues": [
+            {
+                "label": "Yes",
+                "value": "Yes"
+            },
+            {
+                "label": "No",
+                "value": "No"
+            }
+        ]
+    },
+    "visible": "[equals(steps('Notification').NotificationOption,'No')]"
+},
+  {
+    "name": "ALZFunctionResourceId",
+    "type": "Microsoft.Common.TextBox",
+    "label": "Function Resource Id",
+    "toolTip": "The Function resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.",
+    "visible": "[equals(steps('Notification').AzureFunctionOption,'Yes')]",
+    "defaultValue": "",
+    "constraints": {
+        "required": false,
+        "regex": "",
+        "validationMessage": ""
+    }
+},
+  {
+    "name": "ALZFunctionTriggerUrl",
+    "type": "Microsoft.Common.TextBox",
+    "label": "Function Trigger Url",
+    "toolTip": "Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to Code and Test, select Get function URL from the menu top menu and copy the value in the URL field using the 2-sheets icon.",
+    "visible": "[equals(steps('Notification').AzureFunctionOption,'Yes')]",
+    "defaultValue": "",
+    "constraints": {
+      "required": false,
+      "regex": "",
+      "validationMessage": ""
+    }
+  }]}
+          ]
+      },
+      "outputs": {
+        "kind": "ManagementGroup",
+        "location": "[steps('basics').resourceScope.location.name]",
+        "managementGroupId": "[steps('basics').resourceScope.managementGroup.id]",
+        "parameters": {
+            "location": "[steps('basics').resourceScope.location.name]",
+            "ManagementGroupId": "[steps('basics').resourceScope.managementGroup.name]",
+            "ALZMonitorResourceGroupName": "[steps('basics').ALZMonitorResourceGroupName]",
+            "ALZMonitorActionGroupEmail": "[steps('Notification').ALZMonitorActionGroupEmail]",
+            "ALZMonitorResourceGroupLocation": "[steps('basics').ALZMonitorResourceGroupLocation]",
+            "ALZMonitorResourceGroupTags": "[steps('basics').ALZMonitorResourceGroupTags]",
+            "ALZLogicappResourceId": "[steps('Notification').ALZLogicappResourceId]",
+            "ALZLogicappCallbackUrl": "[steps('Notification').ALZLogicappCallbackUrl]",
+            "ALZArmRoleId": "[steps('Notification').ALZArmRoleId]",
+            "ALZEventHubResourceId": "[steps('Notification').ALZEventHubResourceId]",
+            "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
+            "ALZFunctionResourceId": "[steps('Notification').ALZFunctionResourceId]",
+            "ALZFunctionTriggerUrl": "[steps('Notification').ALZFunctionTriggerUrl]",
+            "enableAMBAManagement": "[steps('Configuration').enableAMBAManagement]",
+            "enableAMBAServiceHealth": "[steps('Configuration').enableAMBAServiceHealth]",
+            "enableAMBANotificationAssets": "[steps('Configuration').enableAMBANotificationAssets]",
+            "enableAMBAConnectivity": "[steps('Configuration').enableAMBAConnectivity]",
+            "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
+            "enableAMBALandingZone": "[steps('Configuration').enableAMBALandingZone]",
+            "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
+            "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
+            "IdentityManagementGroup": "[steps('Configuration').IdentityManagementGroup]",
+            "managementManagementGroup": "[steps('Configuration').managementManagementGroup]",
+            "connectivityManagementGroup": "[steps('Configuration').connectivityManagementGroup]",
+            "LandingZoneManagementGroup": "[steps('Configuration').LandingZoneManagementGroup]",
+            "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
+            "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule]"
+
+        }
+
+    }
+  }
+}
