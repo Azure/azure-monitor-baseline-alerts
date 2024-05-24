@@ -45,7 +45,7 @@
                         "label": "Resource Group Tags",
                         "toolTip": "Specify the tags to be added to said resource group",
                         "visible": "[equals(steps('basics').alzaligned,'Yes')],[equals(steps('basics').alzaligned,'No')]",
-                        "defaultValue": "",
+                        "defaultValue": "amba-monitoring",
                         "constraints": {
                             "required": "true",
                             "regex": "^[a-zA-Z0-9][a-zA-Z0-9-_.()]{0,89}[a-zA-Z0-9]$",
@@ -546,7 +546,7 @@
                     "required": false
 
                   },
-                  "visible": true
+                  "visible": false
 
               },
 
@@ -1072,11 +1072,11 @@
             "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
             "enableAMBALandingZone": "[steps('Configuration').enableAMBALandingZone]",
             "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-            "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
-            "IdentityManagementGroup": "[steps('Configuration').IdentityManagementGroup]",
-            "managementManagementGroup": "[steps('Configuration').managementManagementGroup]",
-            "connectivityManagementGroup": "[steps('Configuration').connectivityManagementGroup]",
-            "LandingZoneManagementGroup": "[steps('Configuration').LandingZoneManagementGroup]",
+            "platformManagementGroup": "['contoso-platform']",
+            "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity, 'No'), 'contoso-identity',steps('Configuration').IdentityManagementGroup]",
+            "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management' steps('Configuration').managementManagementGroup)]",
+            "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup]",
+            "LandingZoneManagementGroup": "[if(equals(steps('Configuration').enableAMBALandingZone, 'No'), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup]",
             "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
             "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule]"
 
