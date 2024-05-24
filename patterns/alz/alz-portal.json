@@ -8,7 +8,7 @@
               {  "name": "basics",
                   "label": "Deployment Settings",
                   "elements": [
-                                  {
+                        {
                           "name": "baselinealertsintro",
                           "type": "Microsoft.Common.InfoBox",
                           "visible": true,
@@ -24,8 +24,6 @@
                       "kind": "ManagementGroup",
                       "instanceDetailsLabel": "AMBA Accelerator"
                   },
-
-
                       {
                           "name": "ALZMonitorResourceGroupName",
                           "type": "Microsoft.Common.TextBox",
@@ -39,19 +37,6 @@
                               "validationMessage": "Please provide a valid resource group name"
                           }
                       },
-                      {
-                        "name": "ALZMonitorResourceGroupTags",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Resource Group Tags",
-                        "toolTip": "Specify the tags to be added to said resource group",
-                        "visible": "[equals(steps('basics').alzaligned,'Yes')],[equals(steps('basics').alzaligned,'No')]",
-                        "defaultValue": "amba-monitoring",
-                        "constraints": {
-                            "required": "true",
-                            "regex": "^[a-zA-Z0-9][a-zA-Z0-9-_.()]{0,89}[a-zA-Z0-9]$",
-                            "validationMessage": "Please provide a valid resource group tags name"
-                        }
-                    },
                     {
                       "name": "ALZMonitorResourceGroupLocation",
                       "type": "Microsoft.Common.DropDown",
@@ -470,9 +455,60 @@
                           "required": true
 
                       }
+                  },
+                  {
+                    "name": "telemetryOptOut",
+                    "type": "Microsoft.Common.OptionsGroup",
+                    "label": "Telemetry Opt-Out",
+                    "defaultValue": "No",
+                    "toolTip": "Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.",
+                    "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+                    "constraints": {
+                        "allowedValues": [
+                            {
+                                "label": "Yes",
+                                "value": "Yes"
+                            },
+                            {
+                                "label": "No (recommended)",
+                                "value": "No"
+                            }
+                        ]
+                    },
+                    "visible": true
+                },
+                {
+                  "name": "deployAMBAPortalAccelerator",
+                  "type": "Microsoft.Common.TextBox",
+                  "label": "Deploy AMBA Portal Accelerator",
+                  "toolTip": "",
+                  "visible": false,
+                  "defaultValue": "Yes",
+                  "constraints": {
+                      "required": "true"
                   }
-                  ]
+
               },
+              {
+                "name": "tags",
+                "type": "Microsoft.Common.TextBlock",
+                "visible": true,
+                "required": true,
+                "options": {
+                  "text": "Resource Group Tags",
+                  "link": {
+                    "label": "Resource Group Tags Documentation",
+                    "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/deploy/Deploy-with-Azure-PowerShell/#1-parameter-configuration"
+                  }
+                }
+              },
+              {
+                "name": "ALZMonitorResourceGroupTags",
+                "type": "Microsoft.Common.TagsByResource",
+                "resources": [
+                    "Microsoft.Resources/subscriptions/resourceGroups"
+                ]
+    }]},
               {"name": "Configuration",
               "label": "Management Groups Settings",
               "elements": [
@@ -505,8 +541,8 @@
                     "uri": "https://aka.ms/amba/alz/docs",
                     "style": "Info"
                 }
-            },
-                {
+              },
+              {
                     "name": "enterpriseScaleCompanyPrefix",
                     "type": "Microsoft.Common.DropDown",
                     "label": "Enterprise Scale Company Management Group",
@@ -521,8 +557,8 @@
 
                     },
                     "visible": true
-                },
-                {
+              },
+              {
                   "name": "ManagementGroupAPI",
                   "type": "Microsoft.Solutions.ArmApiControl",
                   "request": {
@@ -530,9 +566,8 @@
                     "path": "providers/Microsoft.Management/managementGroups?api-version=2020-05-01"
 
                 }
-                },
-
-                {
+              },
+              {
                   "name": "platformManagementGroup",
                   "type": "Microsoft.Common.DropDown",
                   "label": "Platform Management Group",
@@ -549,8 +584,7 @@
                   "visible": false
 
               },
-
-                {
+              {
                   "name": "enableAMBAIdentity",
                   "type": "Microsoft.Common.DropDown",
                   "label": "Enable AMBA Identity",
@@ -574,7 +608,6 @@
 
                   "visible": true
               },
-
               {
                 "name": "IdentityManagementGroup",
                 "type": "Microsoft.Common.DropDown",
@@ -589,7 +622,8 @@
 
                 },
                 "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
-            },           {
+              },
+              {
               "name": "enableAMBAManagement",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Management",
@@ -611,8 +645,8 @@
               },
 
               "visible": true
-          },
-                {
+              },
+              {
                     "name": "managementManagementGroup",
                     "type": "Microsoft.Common.DropDown",
                     "label": "Management Management Group",
@@ -626,8 +660,8 @@
 
                     },
                     "visible": "[equals(steps('Configuration').enableAMBAManagement,'Yes')]"
-                },
-                {
+              },
+              {
                   "name": "enableAMBAConnectivity",
                   "type": "Microsoft.Common.DropDown",
                   "label": "Enable AMBA Connectivity",
@@ -650,7 +684,7 @@
                   },
                   "visible": true
               },
-                {
+              {
                     "name": "connectivityManagementGroup",
                     "type": "Microsoft.Common.DropDown",
                     "label": "Connectivity Management Group",
@@ -664,9 +698,8 @@
 
                     },
                     "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
-                },
-
-                {
+              },
+              {
                   "name": "enableAMBALandingZone",
                   "type": "Microsoft.Common.DropDown",
                   "label": "Enable AMBA Landing Zone",
@@ -690,8 +723,7 @@
 
                   "visible": true
               },
-
-                {
+              {
                     "name": "LandingZoneManagementGroup",
                     "type": "Microsoft.Common.DropDown",
                     "label": "Landing Zone Management Group",
@@ -705,8 +737,8 @@
 
                     },
                     "visible": "[equals(steps('Configuration').enableAMBALandingZone,'Yes')]"
-                },
-                {
+              },
+              {
                "name": "enableAMBAServiceHealth",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Service Health",
@@ -729,8 +761,8 @@
               },
 
               "visible": true
-          },
-          {
+              },
+              {
               "name": "enableAMBANotificationAssets",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Notification Assets",
@@ -753,8 +785,8 @@
               },
 
               "visible": true
-          }
-              ]},
+              }
+            ]},
               {"name": "Notification",
               "label": "Notification Settings",
               "elements": [
@@ -1078,8 +1110,9 @@
             "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
             "LandingZoneManagementGroup": "[if(equals(steps('Configuration').enableAMBALandingZone, 'No'), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
             "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
-            "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule]"
-
+            "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule]",
+            "deployAMBAPortalAccelerator":"Yes",
+            "telemetryOptOut": "[steps('basics').telemetryOptOut]"
         }
 
     }
