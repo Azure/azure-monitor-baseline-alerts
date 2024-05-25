@@ -823,6 +823,58 @@
                   "visible": true
               },
               {
+                "name": "policyAssignmentParametersBYON",
+                "type": "Microsoft.Common.EditableGrid",
+                "ariaLabel": "Notifcation",
+                "label": "policyAssignmentParametersBYON",
+                "constraints": {
+                  "width": "Full",
+                  "rows": {
+                    "count": {
+                      "min": 1,
+                      "max": 10
+                    }
+                  },
+                  "columns": [
+                    {
+                      "id": "BYOActionGroup",
+                      "header": "BYOActionGroup",
+                      "width": "1fr",
+                      "element": {
+                                "name": "BYOActionGroup",
+                                "type": "Microsoft.Common.DropDown",
+                                "label": "Action Group",
+                                "multiselect": true,
+                                "defaultValue": "",
+                                "filter": true,
+                                "toolTip": "The action groups to be used as action for the alerts (including Service Health alerts).",
+                                "constraints": {
+                                  "allowedValues" : "[steps('Notification').GETBYOActionGroup.data]",
+                                  "required": false
+
+                                },
+                                "visible":"[equals(steps('Notification').NotificationOption,'Yes')]"
+                            }
+                    },
+                    {
+                      "id": "BYOAlertProcessingRule",
+                      "header": "BYOAlertProcessingRule",
+                      "width": "1fr",
+                      "element":                {
+                                "name": "BYOAlertProcessingRule",
+                                "type": "Microsoft.Solutions.ResourceSelector",
+                                "label": "Alert Processing Rule",
+                                "toolTip": "The alert processing rule to be used as action for the alerts (including Service Health alerts).",
+                                "resourceType": "Microsoft.AlertsManagement/actionRules",
+                                "visible": "[equals(steps('Notification').NotificationOption,'Yes')]"
+
+                              }
+                    }
+
+                  ]
+                }
+              },
+              {
                 "name": "GETBYOActionGroup",
                 "type": "Microsoft.Solutions.ArmApiControl",
                 "request": {
@@ -1077,7 +1129,8 @@
       "regex": "",
       "validationMessage": ""
     }
-  }]}
+  }
+  ]}
           ]
       },
       "outputs": {
@@ -1114,7 +1167,7 @@
             "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule]",
             "deployAMBAPortalAccelerator":"Yes",
             "telemetryOptOut": "[steps('basics').telemetryOptOut]",
-            "policyAssignmentParametersCommon": "[json({\"ALZMonitorResourceGroupName\":\"steps('basics').ALZMonitorResourceGroupName\"})"
+            "policyAssignmentParametersBYON": "[steps('Notification').policyAssignmentParametersBYON]"
         }
     }
   }
