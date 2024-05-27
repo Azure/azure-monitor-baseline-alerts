@@ -30,21 +30,25 @@ Azure front door also integrate with Azure monitor and its important to create [
 
 ```mermaid
 flowchart LR
-    A[Performance Monitoring]-->A1[Traffic Pattern Analysis]
+    AFD[Azure Front Door]-->A[Performance Monitoring]
+    A-->A1[Traffic Pattern Analysis]
     A1-->A3[Origin request count]
     A1-->A4[Origin Latency]
     A1-->A5[Cache Hit Ratio]
     A1-->A6[Byte Hit Ratio]
-    A1-->A6[Total Latency]
-    A1-->A6[Request size]
-    A1-->A6[Response size]
+    A1-->A7[Total Latency]
+    A1-->A8[Request size]
+    A1-->A9[Response size]
 
-    B[Connectivity Monitoring]-->B1[Exception Analysis]
+    AFD-->B[Connectivity Monitoring]
+    B-->B1[Exception Analysis]
     B1-->B2[Percentage 4xx]
     B1-->B3[Percentage 5xx]
-    B1-->B4[Origin Health Percentage]
+    B-->B4[Availability]
+    B4-->B5[Origin Health Percentage]
 
-    D[Security Monitoring]-->D1[Webapplication firewall request count]
+    AFD-->D[Security Monitoring]
+    D-->D1[Webapplication firewall request count]
     D-->D2[Webapplication firewall JS request count]
 
 
@@ -52,3 +56,9 @@ flowchart LR
 
 
 {{< alertList name="alertList" >}}
+{{ if .Store.Get "hasMermaid" }}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+{{ end }}
