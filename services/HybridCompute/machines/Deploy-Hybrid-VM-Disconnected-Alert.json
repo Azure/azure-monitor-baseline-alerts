@@ -265,7 +265,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate', parameters('threshold'))]"
+                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('threshold'))]"
               }
             ]
           },
@@ -401,7 +401,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, name, status, lastContactedDate', parameters('threshold'))]",
+                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({0}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('threshold'))]",
                                     "resourceIdColumn": "id",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
