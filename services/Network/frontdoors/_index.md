@@ -15,11 +15,12 @@ Here are some of the reports with the list of usage and scenario:
 7. [Top user agent report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#top-user-agent-report)
 
 Each of report contains the following key metrics which is helpful in determining performance and availability of front door and origin.
-Peak bandwidth
-Requests
-Cache hit ratio
-Total latency
-5XX error rate
+
+Peak bandwidth. <br>
+Requests. <br>
+Cache hit ratio. <br>
+Total latency. <br>
+5XX error rate. <br>
 
 For availability total number of 5xx error rate would identify origin which is dropping requests. For detail availability,  analyze  percentage of 5XX over total request to get the percentage of request and it will give you which origin or back-end requires further troubleshooting. In addition to 5xx, 4xx error rate also contribute to  unavailability of web application and hence analyze 4xx metrics further aide in analyzing back-end availability.
 
