@@ -1,15 +1,15 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_HeartBeat_Alert",
+  "name": "Deploy_Hybrid_VM_OSDiskSpace_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM HeartBeat Alert",
-    "description": "Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription",
+    "displayName": "Deploy Hybrid VM OS Disk Space Alert",
+    "description": "Policy to audit/deploy VM OSDiskSpace Alert",
     "metadata": {
-      "version": "1.2.0",
-      "category": "Compute",
+      "version": "1.0.0",
+      "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -56,21 +56,21 @@
           "3",
           "4"
         ],
-        "defaultValue": "1"
+        "defaultValue": "2"
       },
       "operator": {
         "type": "String",
         "metadata": {
           "displayName": "Operator"
         },
-        "allowedValues": [
+        "allowedvalues": [
           "Equals",
           "GreaterThan",
           "GreaterThanOrEqual",
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultValue": "GreaterThan"
+        "defaultvalue": "LessThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -84,7 +84,7 @@
           "Minimum",
           "Total"
         ],
-        "defaultValue": "Average"
+        "defaultvalue": "Average"
       },
       "windowSize": {
         "type": "String",
@@ -185,6 +185,27 @@
         },
         "defaultValue": "1"
       },
+      "computersToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Disks to be included to be monitored",
+          "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "disksToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Disks to be included to be monitored",
+          "description": "Array of disk to be monitored for disk both windows and linux"
+        },
+        "defaultValue": [
+          "C:",
+          "/"
+        ]
+      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -203,7 +224,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Compute/virtualMachines"
+            "equals": "Microsoft.HybridCompute/machines"
           }
         ]
       },
@@ -221,7 +242,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]"
+                "equals": "[[concat(subscription().displayName, '-HybridVMLowOSDiskSpaceAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -269,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk"
               }
             ]
           },
@@ -325,6 +346,12 @@
                   },
                   "evaluationPeriods": {
                     "type": "String"
+                  },
+                  "disksToInclude": {
+                    "type": "array"
+                  },
+                  "computersToInclude": {
+                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -339,7 +366,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "HeartBeatAlert",
+                    "name": "VMOSDiskSpaceAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -365,28 +392,28 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]",
+                            "name": "[[concat(subscription().displayName, '-HybridVMLowOSDiskSpaceAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]",
-                              "description": "Log Alert for Virtual Machine Heartbeat",
+                              "displayName": "[[concat(subscription().displayName, '-HybridVMLowOSDiskSpaceAlert')]",
+                              "description": "Log Alert for Virtual Machine OSDiskSpace",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
                               "targetResourceTypes": [
-                                "Microsoft.Compute/virtualMachines"
+                                "Microsoft.HybridCompute/machines"
                               ],
                               "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                               "windowSize": "[[parameters('windowSize')]",
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"FreeSpacePercentage\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -396,9 +423,12 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": [
-                                          "*"
-                                        ]
+                                        "values": "[[parameters('computersToInclude')]"
+                                      },
+                                      {
+                                        "name": "Disk",
+                                        "operator": "Include",
+                                        "values": "[[parameters('disksToInclude')]"
                                       }
                                     ],
                                     "failingPeriods": {
@@ -449,6 +479,12 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
+                                },
+                                "disksToInclude": {
+                                  "value": "[[parameters('disksToInclude')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[[parameters('computersToInclude')]"
                                 }
                               }
                             }
@@ -515,6 +551,12 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
+                },
+                "disksToInclude": {
+                  "value": "[[parameters('disksToInclude')]"
+                },
+                "computersToInclude": {
+                  "value": "[[parameters('computersToInclude')]"
                 }
               }
             }

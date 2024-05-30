@@ -1,15 +1,15 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_VM_HeartBeat_Alert",
+  "name": "Deploy_Hybrid_VM_Memory_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy VM HeartBeat Alert",
-    "description": "Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription",
+    "displayName": "Deploy Hybrid VM Memory Alert",
+    "description": "Policy to audit/deploy VM Memory Alert",
     "metadata": {
-      "version": "1.2.0",
-      "category": "Compute",
+      "version": "1.0.0",
+      "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -56,21 +56,21 @@
           "3",
           "4"
         ],
-        "defaultValue": "1"
+        "defaultValue": "2"
       },
       "operator": {
         "type": "String",
         "metadata": {
           "displayName": "Operator"
         },
-        "allowedValues": [
+        "allowedvalues": [
           "Equals",
           "GreaterThan",
           "GreaterThanOrEqual",
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultValue": "GreaterThan"
+        "defaultvalue": "LessThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -84,7 +84,7 @@
           "Minimum",
           "Total"
         ],
-        "defaultValue": "Average"
+        "defaultvalue": "Average"
       },
       "windowSize": {
         "type": "String",
@@ -203,7 +203,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Compute/virtualMachines"
+            "equals": "Microsoft.HybridCompute/machines"
           }
         ]
       },
@@ -221,7 +221,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]"
+                "equals": "[[concat(subscription().displayName, '-HybridVMLowMemoryAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
@@ -269,7 +269,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
+                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"|where Namespace == \"Memory\" and Name == \"AvailableMB\"| extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0| summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId"
               }
             ]
           },
@@ -339,7 +339,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "HeartBeatAlert",
+                    "name": "VMMemoryAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -365,28 +365,28 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]",
+                            "name": "[[concat(subscription().displayName, '-HybridVMLowMemoryAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]",
-                              "description": "Log Alert for Virtual Machine Heartbeat",
+                              "displayName": "[[concat(subscription().displayName, '-HybridVMLowMemoryAlert')]",
+                              "description": "Log Alert for Virtual Machine Memory",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
                               "targetResourceTypes": [
-                                "Microsoft.Compute/virtualMachines"
+                                "Microsoft.HybridCompute/machines"
                               ],
                               "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                               "windowSize": "[[parameters('windowSize')]",
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"|where Namespace == \"Memory\" and Name == \"AvailableMB\"| extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0| summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
