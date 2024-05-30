@@ -44,7 +44,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -160,7 +160,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -390,7 +390,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -412,6 +412,8 @@
       | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
 
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk
@@ -469,6 +471,8 @@
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
 
+      | where Disk in (''C:'',''/'')
+
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk
 
@@ -502,7 +506,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 50
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -522,6 +526,8 @@
       | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
 
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk
@@ -997,6 +1003,39 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+- name: OS Disk Read Bytes/sec
+  description: Bytes/Sec read to a single disk during monitoring period for OS
+    disk
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1023
+  properties:
+    metricName: OS Disk Read Bytes/sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 48000000.0
+    query: 'InsightsMetrics
+
+      | where Origin == "vm.azm.ms"
+
+      | where Namespace == "LogicalDisk" and Name == "ReadBytesPerSecond"
+
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
 - name: OS Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period for OS
     disk
@@ -1016,6 +1055,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 48000000.0
+    query: 'InsightsMetrics
+
+      | where Origin == "vm.azm.ms"
+
+      | where Namespace == "LogicalDisk" and Name == "WriteBytesPerSecond"
+
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
 - name: CPU Credits Consumed
   description: Total number of credits consumed by the Virtual Machine. Only available
     on B-series burstable VMs
@@ -1035,6 +1088,38 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
+- name: Data Disk Read Bytes/sec
+  description: Bytes/Sec read to a single disk during monitoring period
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-960
+  properties:
+    metricName: Data Disk Read Bytes/sec
+    metricNamespace: Microsoft.Compute/virtualMachines
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 10000000.0
+    query: 'InsightsMetrics
+
+      | where Origin == "vm.azm.ms"
+
+      | where Namespace == "LogicalDisk" and Name == "ReadBytesPerSecond"
+
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk !in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
 - name: Data Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period
   type: Metric
@@ -1053,6 +1138,20 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000000.0
+    query: 'InsightsMetrics
+
+      | where Origin == "vm.azm.ms"
+
+      | where Namespace == "LogicalDisk" and Name == "WriteBytesPerSecond"
+
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk !in (''C:'',''/'')
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,
+      _ResourceId, Disk
+
+      '
 - name: Disk Read Operations/Sec
   description: Disk Read IOPS
   type: Metric
