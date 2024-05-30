@@ -439,7 +439,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let resourceTags = (arg(\"\").resources | where type in~ (\"Microsoft.Compute/virtualMachines\", \"Microsoft.HybridCompute/machines\") | project _ResourceId = id, tags | where parse_json(tostring(tags.MonitorDisable)) =~ \"true\"); InsightsMetrics | where _ResourceId !in~ (resourceTags) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in ('C:','/') | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), parameters('MonitorDisableTagValues'))",
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
