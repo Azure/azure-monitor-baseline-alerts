@@ -115,6 +115,131 @@
                 "description": "Assign Action assets initiative"
             }
         },
+        "enableAMBAHybridVM": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign HybridVM initiative"
+            }
+        },
+        "bringYourOwnUserAssignedManagedIdentity": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Specify if you want to bring your own user assigned managed identity for monitoring purpose."
+            }
+        },
+        "bringYourOwnUserAssignedManagedIdentityResourceId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose."
+            }
+        },
+        "userAssignedManagedIdentityName": {
+            "type": "string",
+            "defaultValue": "id-amba-prod-001",
+            "metadata": {
+                "description": "Specify the name of the user assigned managed identity for monitoring purpose."
+            }
+        },
+        "managementSubscriptionId": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the subscription id where the user assigned managed identity will be created."
+            }
+        },
+        "ALZMonitorResourceGroupName": {
+            "type": "string",
+            "defaultValue": "rg-amba-monitoring-001",
+            "metadata": {
+                "description": "Provide the name of the resource group for Azure Monitor Baseline Alerts."
+            }
+        },
+        "ALZMonitorResourceGroupLocation": {
+            "type": "string",
+            "defaultValue": "northeurope",
+            "metadata": {
+                "description": "Provide the location of the resource group for Azure Monitor Baseline Alerts."
+            }
+        },
+        "ALZMonitorResourceGroupTags": {
+            "type": "object",
+            "defaultValue": {
+                "Project": "amba-monitoring"
+            },
+            "metadata": {
+                "description": "Provide the tags for the resource group for Azure Monitor Baseline Alerts."
+            }
+        },
+        "ALZMonitorActionGroupEmail": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the email address for the action group used for monitoring."
+            }
+        },
+        "ALZLogicappResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the resource id of the logic app used for monitoring."
+            }
+        },
+        "ALZLogicappCallbackUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the callback url of the logic app used for monitoring."
+            }
+        },
+        "ALZArmRoleId": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the role id used for monitoring."
+            }
+        },
+        "ALZEventHubResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the resource id of the event hub used for monitoring."
+            }
+        },
+        "ALZWebhookServiceUri": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the service uri of the webhook used for monitoring."
+            }
+        },
+        "ALZFunctionResourceId": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the resource id of the function used for monitoring."
+            }
+        },
+        "ALZFunctionTriggerUrl": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the trigger url of the function used for monitoring."
+            }
+        },
+        "BYOActionGroup": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the action group used for monitoring."
+            }
+        },
+        "BYOAlertProcessingRule": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the alert processing rule used for monitoring."
+            }
+        },
         "delayCount": {
             "type": "int",
             "defaultValue": 1,
@@ -131,14 +256,6 @@
                 "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
             }
         },
-        "policyAssignmentParametersCommon": {
-            "type": "object",
-            "defaultValue": {}
-        },
-        "policyAssignmentParametersNotificationAssets": {
-            "type": "object",
-            "defaultValue": {}
-        },
         "policyAssignmentParametersConnectivity": {
             "type": "object",
             "defaultValue": {}
@@ -148,6 +265,10 @@
             "defaultValue": {}
         },
         "policyAssignmentParametersLandingZone": {
+            "type": "object",
+            "defaultValue": {}
+        },
+        "policyAssignmentParametersHybridVM": {
             "type": "object",
             "defaultValue": {}
         },
@@ -161,14 +282,68 @@
         }
     },
     "variables": {
+        "uamiParameters": {
+            "ALZUserAssignedManagedIdentityName": {
+                "value": "[parameters('userAssignedManagedIdentityName')]"
+            },
+            "ALZManagementSubscriptionId": {
+                "value": "[parameters('managementSubscriptionId')]"
+            },
+            "BYOUserAssignedManagedIdentityResourceId": {
+                "value": "[parameters('bringYourOwnUserAssignedManagedIdentityResourceId')]"
+            }
+        },
+        "policyAssignmentParametersCommon": {
+            "ALZMonitorResourceGroupName": {
+                "value": "[parameters('ALZMonitorResourceGroupName')]"
+            },
+            "ALZMonitorResourceGroupTags": {
+                "value": "[parameters('ALZMonitorResourceGroupTags')]"
+            },
+            "ALZMonitorResourceGroupLocation": {
+                "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+            }
+        },
+        "notificationAssetParameters": {
+            "ALZMonitorActionGroupEmail": {
+                "value": "[parameters('ALZMonitorActionGroupEmail')]"
+            },
+            "ALZLogicappResourceId": {
+                "value": "[parameters('ALZLogicappResourceId')]"
+            },
+            "ALZLogicappCallbackUrl": {
+                "value": "[parameters('ALZLogicappCallbackUrl')]"
+            },
+            "ALZArmRoleId": {
+                "value": "[parameters('ALZArmRoleId')]"
+            },
+            "ALZEventHubResourceId": {
+                "value": "[parameters('ALZEventHubResourceId')]"
+            },
+            "ALZWebhookServiceUri": {
+                "value": "[parameters('ALZWebhookServiceUri')]"
+            },
+            "ALZFunctionResourceId": {
+                "value": "[parameters('ALZFunctionResourceId')]"
+            },
+            "ALZFunctionTriggerUrl": {
+                "value": "[parameters('ALZFunctionTriggerUrl')]"
+            },
+            "BYOActionGroup": {
+                "value": "[parameters('BYOActionGroup')]"
+            },
+            "BYOAlertProcessingRule": {
+                "value": "[parameters('BYOAlertProcessingRule')]"
+            }
+        },
         // Declaring the policy assignment parameters that will be used for all policy assignments
-        "policyAssignmentParametersConnectivity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
-        "policyAssignmentParametersIdentity": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
-        "policyAssignmentParametersLandingZone": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'))]",
-        "policyAssignmentParametersManagement": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
-        "policyAssignmentParametersServiceHealth": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), parameters('policyAssignmentParametersNotificationAssets'))]",
-        "policyAssignmentParametersNotificationAssets": "[union(parameters('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersNotificationAssets'))]",
-
+        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
+        "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
+        "policyAssignmentParametersLandingZone": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'))]",
+        "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
+        "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
+        "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'))]",
+        "policyAssignmentParametersHybridVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersHybridVM'), variables('uamiParameters'))]",
         // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
         "deploymentUris": {
             "policyDefinitionsAMBA": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies.json')]",
@@ -177,9 +352,11 @@
             "AMBALandingZoneInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-LandingZoneAssignment.json')]",
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
-            "AMBANotificationAssetsInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-NotificationAssetsAssignment.json')]"
+            "AMBANotificationAssetsInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-NotificationAssetsAssignment.json')]",
+            "AMBAUamiResourceGroup": "[uri(deployment().properties.templateLink.uri, 'templates/resourceGroup.json')]",
+            "AMBAUserAssignedManagedIdentity": "[uri(deployment().properties.templateLink.uri, 'templates/userAssignedManagedIdentity.json')]",
+            "AMBAHybridVMInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-HybridVMAssignment.json')]"
         },
-
         // Declaring deterministic deployment names
         "deploymentSuffix": "[concat('-', deployment().location, '-', guid(parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow')))]",
         "deploymentNames": {
@@ -187,6 +364,7 @@
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
             "AMBALandingZoneDeploymentName": "[take(concat('amba-LandingZone', variables('deploymentSuffix')), 64)]",
+            "AMBAHybridVMDeploymentName": "[take(concat('amba-HybridVM', variables('deploymentSuffix')), 64)]",
             "AMBAManagementDeploymentName": "[take(concat('amba-Management', variables('deploymentSuffix')), 64)]",
             "AMBAServiceHealthDeploymentName": "[take(concat('amba-ServiceHealth', variables('deploymentSuffix')), 64)]",
             "AMBANotificationAssetsDeploymentName": "[take(concat('amba-NotificationAssets', variables('deploymentSuffix')), 64)]",
@@ -195,8 +373,12 @@
             "pidCuaIdentityDeploymentName": "[take(concat('amba-pid-', variables('cuaidIdentity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaManagementDeploymentName": "[take(concat('amba-pid-', variables('cuaidManagement'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaLandingZoneDeploymentName": "[take(concat('amba-pid-', variables('cuaidLandingZone'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaHybridVMDeploymentName": "[take(concat('amba-pid-', variables('cuaidHybridVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaServiceHealthDeploymentName": "[take(concat('amba-pid-', variables('cuaidServiceHealth'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-            "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
+            "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "AMBAResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
+            "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
+            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
@@ -204,14 +386,136 @@
         "cuaidManagement": "d87415c4-01ef-4667-af89-0b5adc14af1b",
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
-        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807"
+        "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
+        "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e"
     },
     "resources": [
-        /*
-            The following deployments will deploy the required proactive and preventive Azure policies for AMBA policy driven governance
-        */
+        // Creating resource group in the Management subscription.
         {
-            // Deploying AMBA custom policies. Note: all policies should eventually be moved to built-in policies and codebase will be reduced
+            "condition": "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAResourceGroupDeploymentName]",
+            "subscriptionId": "[parameters('managementSubscriptionId')]",
+            "location": "[deployment().location]",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAUamiResourceGroup]"
+                },
+                "parameters": {
+                    "rgName": {
+                        "value": "[parameters('ALZMonitorResourceGroupName')]"
+                    },
+                    "rgLocation": {
+                        "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+                    },
+                    "rgTags": {
+                        "value": "[parameters('ALZMonitorResourceGroupTags')]"
+                    }
+                }
+            }
+        },
+        // Creating User Assigned Managed Identity for monitoring purpose using ARG query based alerts.
+        {
+            "condition": "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]",
+            "subscriptionId": "[parameters('managementSubscriptionId')]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAResourceGroupDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAUserAssignedManagedIdentity]"
+                },
+                "parameters": {
+                    "uamiName": {
+                        "value": "[parameters('userAssignedManagedIdentityName')]"
+                    },
+                    "uamiLocation": {
+                        "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+                    },
+                    "uamiResourceGroupName": {
+                        "value": "[parameters('ALZMonitorResourceGroupName')]"
+                    }
+                }
+            }
+        },
+        // Assigning Monitoring Reader role to the User Assigned Managed Identity at the pseudo root management group.
+        {
+            "condition": "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAUserAssignedManagedIdentityDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "parameters": {
+                    "userAssignedManagedIdentityName": {
+                        "value": "[parameters('userAssignedManagedIdentityName')]"
+                    },
+                    "managementSubscriptionId": {
+                        "value": "[parameters('managementSubscriptionId')]"
+                    },
+                    "ALZMonitorResourceGroupName": {
+                        "value": "[parameters('ALZMonitorResourceGroupName')]"
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "userAssignedManagedIdentityName": {
+                            "type": "string",
+                            "metadata": {
+                                "description": "The name of the user assigned managed identity to be used for monitoring purpose."
+                            }
+                        },
+                        "managementSubscriptionId": {
+                            "type": "string",
+                            "metadata": {
+                                "description": "The subscription id where the user assigned managed identity will be created."
+                            }
+                        },
+                        "ALZMonitorResourceGroupName": {
+                            "type": "string",
+                            "metadata": {
+                                "description": "The name of the resource group where the user assigned managed identity will be created."
+                            }
+                        }
+                    },
+                    "resources": [
+                        {
+                            "type": "Microsoft.Authorization/roleAssignments",
+                            "apiVersion": "2022-04-01",
+                            "name": "[Guid(concat(parameters('userAssignedManagedIdentityName'), '-MonitoringReader-', parameters('managementSubscriptionId')))]",
+                            "location": "[deployment().location]",
+                            "properties": {
+                                "principalType": "ServicePrincipal",
+                                "roleDefinitionId": "[tenantResourceId('Microsoft.Authorization/roleDefinitions', '43d0d8ad-25c7-4714-9337-8ba259a9fe05')]", // Monitoring Reader
+                                "principalId": "[reference(resourceId(parameters('managementSubscriptionId'), parameters('ALZMonitorResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')), '2023-01-31').principalId]",
+                                "description": "_deployed_by_amba"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        // Deploying AMBA-ALZ custom policies.
+        {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAPolicyDeploymentName]",
@@ -231,8 +535,8 @@
                 }
             }
         },
+        // Adding delay to ensure policy deployment is completed before policy assignments
         {
-            // One of Azure's untold stories.....
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[concat('amba-PreparingToLaunch', copyIndex())]",
@@ -258,8 +562,8 @@
                 }
             }
         },
+        // Assigning AMBA Connectivity PolicySet to the connectivity management group if condition is true
         {
-            // Assigning AMBA Connectivity PolicySet to the connectivity management group if condition is true
             "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -285,8 +589,8 @@
                 }
             }
         },
+        // Assigning AMBA Identity PolicySet to the Indentity management group if condition is true
         {
-            // Assigning AMBA Identity PolicySet to the Indentity management group if condition is true
             "condition": "[equals(parameters('enableAMBAIdentity'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -312,8 +616,8 @@
                 }
             }
         },
+        // Assigning AMBA LandingZone PolicySet to the LandingZone management group if condition is true
         {
-            // Assigning AMBA LandingZone PolicySet to the LandingZone management group if condition is true
             "condition": "[equals(parameters('enableAMBALandingZone'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -339,8 +643,35 @@
                 }
             }
         },
+        // Assigning AMBA HybridVM PolicySet to the LandingZone management group if condition is true
         {
-            // Assigning AMBA management PolicySet to the management management group if condition is true
+            "condition": "[equals(parameters('enableAMBAHybridVM'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBAHybridVMDeploymentName]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "ambaPolicyCompletion"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAHybridVMInitiative]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersHybridVM')]"
+                    }
+                }
+            }
+        },
+        // Assigning AMBA management PolicySet to the management management group if condition is true
+        {
             "condition": "[equals(parameters('enableAMBAManagement'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -366,8 +697,8 @@
                 }
             }
         },
+        // Assigning AMBA service health PolicySet to the service health management group if condition is true
         {
-            // Assigning AMBA service health PolicySet to the service health management group if condition is true
             "condition": "[equals(parameters('enableAMBAServiceHealth'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -393,8 +724,8 @@
                 }
             }
         },
+        // Assigning AMBA notification assets PolicySet to the pseudo root management group if condition is true
         {
-            // Assigning AMBA notification assets PolicySet to the pseudo management group if condition is true
             "condition": "[equals(parameters('enableAMBANotificationAssets'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
@@ -420,6 +751,7 @@
                 }
             }
         },
+        // Deploying general telemetry if not opted out
         {
             "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
             "apiVersion": "2020-06-01",
@@ -435,6 +767,7 @@
                 }
             }
         },
+        // Deploying connectivity PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAConnectivity'), 'Yes'))]",
             "apiVersion": "2020-06-01",
@@ -450,6 +783,7 @@
                 }
             }
         },
+        // Deploying identity PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAIdentity'), 'Yes'))]",
             "apiVersion": "2020-06-01",
@@ -465,6 +799,7 @@
                 }
             }
         },
+        // Deploying management PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAManagement'), 'Yes'))]",
             "apiVersion": "2020-06-01",
@@ -480,6 +815,7 @@
                 }
             }
         },
+        // Deploying landing zone PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBALandingZone'), 'Yes'))]",
             "apiVersion": "2020-06-01",
@@ -495,6 +831,23 @@
                 }
             }
         },
+        // Deploying HybridVM PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAHybridVM'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaHybridVMDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying service health PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAServiceHealth'), 'Yes'))]",
             "apiVersion": "2020-06-01",
@@ -510,6 +863,7 @@
                 }
             }
         },
+        // Deploying notification assets PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBANotificationAssets'), 'Yes'))]",
             "apiVersion": "2020-06-01",
