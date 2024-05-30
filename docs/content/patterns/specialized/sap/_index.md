@@ -26,10 +26,9 @@ Table below shows the Alerts configured after the deployment.
 | VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
-| Available Memory Bytes < 500000000                         | < 500000000 (1)                            | Metric Alerts           | 5 min     | Default        |
-| Data Disk IOPS Consumed Percentage > 95                    | \>95 (3)                                   | Metric Alerts           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 90                | \>=90 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 80                | \>= 80 (2)                                 | Metric Alerts           | 5 min     | Default        |
+| Available Memory Bytes < 500000000                         | < 500000000 (1)                            | Metric Alerts           | 5 min     | Default        |
+| Data Disk IOPS Consumed Percentage > 90                    | \>90 (3)                                   | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 95                         | \>=95 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 90                         | \>=90 (2)                                  | Metric Alerts           | 5 min     | Default        |
 | UnhealthyHostCount >=1                                     | \>=1 (0)                                   | Metric Alerts           | 5 min     | Default        |
