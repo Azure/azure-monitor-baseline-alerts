@@ -8,7 +8,7 @@ geekdocCollapseSection: true
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
 {{< hint type=note >}}
-Please do not operate Azure VMware Solution SDDC above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
+Please do not operate Azure VMware Solution Private Cloud above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
 {{< /hint >}}
 
 **Current Version:**
@@ -33,14 +33,15 @@ Table below shows additional Alerts to be configured. These are not yet covered 
 | Name                              | Threshold(s) (Severity) | Signal Type        | Frequency       | # Alert Rules |
 |-----------------------------------|-------------------------|--------------------|-----------------|---------------|
 | Cluster node count             | 14 (2)                  | N/A| After every node addition | N/A             |
-| SDDC node count             | 90 (2)                  | N/A| After every node addition | N/A             |
-| Delete lock on resource group count             | 1 (2)                  | N/A| After SDDC creation | N/A             |
-| Stretched cluster ExpressRoute circuit count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
-| SDDC (Primary + Secondary) count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
-| SDDC LDAPS Identity source count             | 2 (2)                  | N/A| After SDDC creation | N/A             |
-| SDDC DNS server count             | 3 (2)                  | N/A| After SDDC creation | N/A             |
-| SDDC vSAN FTT configuration (< 6 nodes)             | RAID-1 FTT-1 (2)                  | N/A| After SDDC creation | N/A             |
-| SDDC vSAN FTT configuration (>= 6 nodes)             | RAID-1/6 FTT-2 (2)                  | N/A| After SDDC creation | N/A             |
+| Private Cloud node count             | 90 (2)                  | N/A| After every node addition | N/A             |
+| Delete lock on resource group count             | 1 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Stretched cluster ExpressRoute circuit count             | 2 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Private Cloud (Primary + Secondary) count             | 2 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Private Cloud LDAPS Identity source count             | 2 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Private Cloud DNS server count             | 3 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Private Cloud vSAN FTT configuration (< 6 nodes)             | RAID-1 FTT-1 (2)                  | N/A| After Private Cloud creation | N/A             |
+| Private Cloud vSAN FTT configuration (>= 6 nodes)             | RAID-1/6 FTT-2 (2)                  | N/A| After Private Cloud creation | N/A             |
+| vSphere DRS Automation Level (on-premises VCenter Server)             | Partially Automated (2)                  | N/A| After Private Cloud creation/HCX Upgrade/Redeploy | N/A             |
 
 ## 📣Feedback 📣
 
