@@ -217,10 +217,6 @@
           {
             "field": "type",
             "equals": "Microsoft.HybridCompute/machines"
-          },
-          {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -286,7 +282,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId"
+                "equals": "[[format('let resourceTags = (arg(\"\").resources | where type in~ (\"Microsoft.Compute/virtualMachines\", \"Microsoft.HybridCompute/machines\") | project _ResourceId = id, tags | where parse_json(tostring(tags.MonitorDisable)) =~ \"true\"); InsightsMetrics | where _ResourceId !in~ (resourceTags) | where Origin == \"vm.azm.ms\" | where Namespace == \"Processor\" and Name == \"UtilizationPercentage\" | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), parameters('MonitorDisableTagValues'))"
               }
             ]
           },
@@ -339,6 +335,12 @@
                   },
                   "failingPeriods": {
                     "type": "String"
+                  },
+                  "MonitorDisable": {
+                    "type": "String"
+                  },
+                  "MonitorDisableTagValues": {
+                    "type": "array"
                   }
                 },
                 "variables": {},
@@ -400,7 +402,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Processor\" and Name == \"UtilizationPercentage\"| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId",
+                                    "query": "[[format('let resourceTags = (arg(\"\").resources | where type in~ (\"Microsoft.Compute/virtualMachines\", \"Microsoft.HybridCompute/machines\") | project _ResourceId = id, tags | where parse_json(tostring(tags.MonitorDisable)) =~ \"true\"); InsightsMetrics | where _ResourceId !in~ (resourceTags) | where Origin == \"vm.azm.ms\" | where Namespace == \"Processor\" and Name == \"UtilizationPercentage\" | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), parameters('MonitorDisableTagValues'))",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -460,6 +462,12 @@
                                 },
                                 "failingPeriods": {
                                   "value": "[[parameters('failingPeriods')]"
+                                },
+                                "MonitorDisable": {
+                                  "value": "[[parameters('MonitorDisable')]"
+                                },
+                                "MonitorDisableTagValues": {
+                                  "value": "[[parameters('MonitorDisableTagValues')]"
                                 }
                               }
                             }
@@ -523,6 +531,12 @@
                 },
                 "failingPeriods": {
                   "value": "[[parameters('failingPeriods')]"
+                },
+                "MonitorDisable": {
+                  "value": "[[parameters('MonitorDisable')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[parameters('MonitorDisableTagValues')]"
                 }
               }
             }
