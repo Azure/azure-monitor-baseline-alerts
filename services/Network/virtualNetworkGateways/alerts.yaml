@@ -1,4 +1,4 @@
-- name: Tunnel Average Bandwidth
+- name: TunnelAverageBandwidth
   description: Average bandwidth of a tunnel in bytes per second
   type: Metric
   verified: false
@@ -28,7 +28,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Egress Bytes
+  guid: 09bb7f01-a715-437d-b692-325f89e1869e
+- name: TunnelEgressBytes
   description: Metric Alert for VNet Gateway Tunnel Egress Bytes
   type: Metric
   verified: false
@@ -58,7 +59,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Egress Packet Drop Count
+  guid: 092f6e09-1eb5-436d-b7c2-eadb70318920
+- name: TunnelEgressPacketDropCount
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropCount
   type: Metric
   verified: false
@@ -91,7 +93,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Egress Packet Drop TS Mismatch
+  guid: 6f02e3e8-9bfa-4312-a352-6506139e3dba
+- name: TunnelEgressPacketDropTSMismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelEgressPacketDropTSMismatch
   type: Metric
   verified: false
@@ -124,7 +127,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: ExpressRoute Gateway Bits Per Second
+  guid: ca909c09-89c4-467e-bdca-9140e72d6c82
+- name: ExpressRouteGatewayBitsPerSecond
   description: Metric Alert for VNet Gateway Express Route Bits Per Second
   type: Metric
   verified: false
@@ -154,7 +158,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: ExpressRoute Gateway CPU Utilization
+  guid: 4c3c25d2-7473-4d0c-9174-609162571859
+- name: ExpressRouteGatewayCpuUtilization
   description: CPU Utilization of the ExpressRoute Gateway
   type: Metric
   verified: false
@@ -184,7 +189,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Ingress Bytes
+  guid: 56491bc7-1267-42a2-92c6-fe9efe822ff1
+- name: TunnelIngressBytes
   description: Metric Alert for VNet Gateway Tunnel ingress Bytes
   type: Metric
   verified: false
@@ -214,7 +220,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Ingress Packet Drop Count
+  guid: a34fa329-da3e-4947-8d06-9bd2bee6c8a7
+- name: TunnelIngressPacketDropCount
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropCount
   type: Metric
   verified: false
@@ -247,7 +254,8 @@
     properties:
       scope: Resource
       multiResource: false
-- name: Tunnel Ingress Packet Drop TS Mismatch
+  guid: b511650f-535c-45d1-a089-0ea402245deb
+- name: TunnelIngressPacketDropTSMismatch
   description: Metric Alert for Vnet Gateway tunnel TunnelIngressPacketDropTSMismatch
   type: Metric
   verified: false
@@ -255,7 +263,7 @@
   tags:
   - alz
   properties:
-    metricName: TunnelIngressPacketDropCount
+    metricName: TunnelIngressPacketDropTSMismatch
     metricNamespace: Microsoft.Network/virtualNetworkGateways
     severity: 3
     windowSize: PT5M
@@ -280,42 +288,7 @@
     properties:
       scope: Resource
       multiResource: false
-- name: TunnelAverageBandwidth
-  description: Average bandwidth of a tunnel in bytes per second
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-696
-  properties:
-    metricName: TunnelAverageBandwidth
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: LessThan
-    criterionType: StaticThresholdCriterion
-    threshold: 1.0
-- name: ExpressRouteGatewayCpuUtilization
-  description: CPU Utilization of the ExpressRoute Gateway
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-514
-  properties:
-    metricName: ExpressRouteGatewayCpuUtilization
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 80.0
+  guid: 1cc4a539-e4bf-40e8-a280-f4e9e178fb51
 - name: AverageBandwidth
   description: Site-to-site bandwidth of a gateway in bytes per second
   type: Metric
@@ -334,105 +307,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 450000000.0
-- name: TunnelEgressPacketDropCount
-  description: Count of outgoing packets dropped by tunnel
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-275
-  properties:
-    metricName: TunnelEgressPacketDropCount
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 1
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: 4
-    alertSensitivity: Medium
-- name: TunnelIngressPacketDropCount
-  description: Count of incoming packets dropped by tunnel
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-274
-  properties:
-    metricName: TunnelIngressPacketDropCount
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: 4
-    alertSensitivity: Medium
-- name: TunnelIngressBytes
-  description: Incoming bytes of a tunnel
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-266
-  properties:
-    metricName: TunnelIngressBytes
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 1
-    windowSize: PT15M
-    evaluationFrequency: PT15M
-    timeAggregation: Total
-    operator: LessThanOrEqual
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-- name: TunnelEgressPacketDropTSMismatch
-  description: Outgoing packet drop count from traffic selector mismatch of a tunnel
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-264
-  properties:
-    metricName: TunnelEgressPacketDropTSMismatch
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: 4
-    alertSensitivity: Medium
-- name: TunnelIngressPacketDropTSMismatch
-  description: Incoming packet drop count from traffic selector mismatch of a tunnel
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-263
-  properties:
-    metricName: TunnelIngressPacketDropTSMismatch
-    metricNamespace: Microsoft.Network/virtualNetworkGateways
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT5M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    failingPeriods:
-      numberOfEvaluationPeriods: 4
-      minFailingPeriodsToAlert: 4
-    alertSensitivity: Medium
+  guid: 88642ff7-6c08-486a-9bf2-37764d5bf6a3
