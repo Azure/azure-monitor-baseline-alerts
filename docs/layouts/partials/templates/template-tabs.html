@@ -1,7 +1,8 @@
 {{ $category := .category }}
 {{ $type := .type }}
 {{ $filename := printf "%s.json" .alert.guid | printf "%s"}}
-{{ $file := path.Join "artifacts/templates" $category $type $filename }}
+{{ $version := readFile "artifacts/templates/latest_version.txt" }}
+{{ $file := path.Join "artifacts/templates" $version $category $type $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -42,7 +43,7 @@
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
     {{ $filename := printf "%s.bicep" .alert.guid | printf "%s"}}
-    {{ $file := path.Join "artifacts/templates" $category $type $filename }}
+    {{ $file := path.Join "artifacts/templates" $version $category $type $filename }}
     {{ $data := readFile $file }}
     {{ highlight $data "bicep" }}
   </div>

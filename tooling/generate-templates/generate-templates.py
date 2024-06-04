@@ -2,6 +2,7 @@ import os
 import yaml
 import json
 import argparse
+import datetime
 
 # Parse command line arguments
 def parseArguments():
@@ -74,11 +75,25 @@ def main():
 
   arm, bicep = readTemplates()
 
+  import datetime
+
+  # Get the current timestamp
+  timestamp = datetime.datetime.now()
+
+  # Format it as a string
+  formatted_timestamp = timestamp.strftime("%Y%m%d%H%M%S")
+
+  # Create the output directory if it doesn't exist
+  os.makedirs(args.output, exist_ok=True)
+
+  # Write timestamp to a file
+  with open(os.path.join(args.output, 'latest_version.txt'), 'w') as f:
+    f.write(formatted_timestamp)
+
   for category in data:
     for resourceType in data[category]:
-      # create directory based on category if it doesn't exist
-      os.makedirs(os.path.join(args.output, category), exist_ok=True)
-      os.makedirs(os.path.join(args.output, category, resourceType), exist_ok=True)
+      # create directory based on resourceType if it doesn't exist
+      os.makedirs(os.path.join(args.output, formatted_timestamp, category, resourceType), exist_ok=True)
 
       for alert in data[category][resourceType]:
         arm_template_type = ""
@@ -310,11 +325,11 @@ def main():
             bicep_template = bicep_template.replace("##INCIDENT_TYPE##", "")
 
           # Save the ARM template
-          with open(os.path.join(args.output, category, resourceType, alert['guid'] + '.json'), 'w') as f:
+          with open(os.path.join(args.output, formatted_timestamp, category, resourceType, alert['guid'] + '.json'), 'w') as f:
             f.write(arm_template)
 
           # Save the Bicep template
-          with open(os.path.join(args.output, category, resourceType, alert['guid'] + '.bicep'), 'w') as f:
+          with open(os.path.join(args.output, formatted_timestamp, category, resourceType, alert['guid'] + '.bicep'), 'w') as f:
             f.write(bicep_template)
 
 if __name__ == '__main__':
