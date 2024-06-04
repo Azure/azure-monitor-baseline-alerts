@@ -141,7 +141,7 @@ def main():
 
           if 'autoMitigate' in alert["properties"] and alert["properties"]["autoMitigate"]:
             if alert["properties"]["autoMitigate"] == True:
-              arm_template = arm_template.replace("##AUTO_MITIGATE##", "True")
+              arm_template = arm_template.replace("##AUTO_MITIGATE##", "true")
               bicep_template = bicep_template.replace("##AUTO_MITIGATE##", "true")
             else:
               arm_template = arm_template.replace("##AUTO_MITIGATE##", "False")
