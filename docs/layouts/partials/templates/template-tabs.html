@@ -1,3 +1,7 @@
+{{ $category := .category }}
+{{ $type := .type }}
+{{ $filename := printf "%s.json" .alert.guid | printf "%s"}}
+{{ $file := path.Join "artifacts/templates" $category $type $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -6,9 +10,13 @@
     id="{{ anchorize .alert.name }}-0"
     checked="checked"
   />
-  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label"></label>
+  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy</label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p><b>Click a tab to view the template</b></p>
+    <p>
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+        <img src="https://aka.ms/deploytoazurebutton"/>
+      </a>
+    </p>
   </div>
   <input
     type="radio"
@@ -20,23 +28,8 @@
     ARM
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ if eq .alert.type "Metric" }}
-      {{ if eq .alert.properties.criterionType "StaticThresholdCriterion" }}
-        {{ highlight (partial "templates/arm/metric-static.html" .alert) "json" }}
-      {{ else }}
-        {{ highlight (partial "templates/arm/metric-dynamic.html" .alert) "json" }}
-      {{ end }}
-    {{ else if eq .alert.type "Log" }}
-      {{ highlight (partial "templates/arm/log.html" .alert) "json" }}
-    {{ else if eq .alert.type "ActivityLog" }}
-      {{ if eq .alert.properties.category "Administrative" }}
-        {{ highlight (partial "templates/arm/activity-administrative.html" .alert) "json" }}
-      {{ else if eq .alert.properties.category "ServiceHealth" }}
-        {{ highlight (partial "templates/arm/activity-servicehealth.html" .alert) "json" }}
-      {{ else if eq .alert.properties.category "ResourceHealth" }}
-        {{ highlight (partial "templates/arm/activity-resourcehealth.html" .alert) "json" }}
-      {{ end}}
-    {{ end }}
+    {{ $data := readFile $file }}
+    {{ highlight $data "json" }}
   </div>
   <input
     type="radio"
@@ -48,23 +41,10 @@
     Bicep
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ if eq .alert.type "Metric" }}
-      {{ if eq .alert.properties.criterionType "StaticThresholdCriterion" }}
-        {{ highlight (partial "templates/bicep/metric-static.html" .alert) "bicep" }}
-      {{ else }}
-        {{ highlight (partial "templates/bicep/metric-dynamic.html" .alert) "bicep" }}
-      {{ end }}
-    {{ else if eq .alert.type "Log" }}
-      {{ highlight (partial "templates/bicep/log.html" .alert) "bicep" }}
-    {{ else if eq .alert.type "ActivityLog" }}
-      {{ if eq .alert.properties.category "Administrative" }}
-        {{ highlight (partial "templates/bicep/activity-administrative.html" .alert) "bicep" }}
-      {{ else if eq .alert.properties.category "ServiceHealth" }}
-        {{ highlight (partial "templates/bicep/activity-servicehealth.html" .alert) "bicep" }}
-      {{ else if eq .alert.properties.category "ResourceHealth" }}
-        {{ highlight (partial "templates/bicep/activity-resourcehealth.html" .alert) "bicep" }}
-      {{ end}}
-    {{ end }}
+    {{ $filename := printf "%s.bicep" .alert.guid | printf "%s"}}
+    {{ $file := path.Join "artifacts/templates" $category $type $filename }}
+    {{ $data := readFile $file }}
+    {{ highlight $data "bicep" }}
   </div>
   {{ $name := .alert.name }}
   {{ $category := .category }}
