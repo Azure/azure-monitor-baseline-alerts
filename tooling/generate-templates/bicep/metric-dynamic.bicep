@@ -3,9 +3,9 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = '{{ .description }}'
+param alertDescription string = '##DESCRIPTION##'
 
-@description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
+@description('array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
 param targetResourceId array
 
@@ -27,20 +27,29 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = {{ .properties.severity }}
+param alertSeverity int = ##SEVERITY##
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
-  'Equals'
   'GreaterThan'
-  'GreaterThanOrEqual'
   'LessThan'
-  'LessThanOrEqual'
+  'GreaterOrLessThan'
 ])
-param operator string = '{{ .properties.operator }}'
+param operator string = '##OPERATOR##'
 
-@description('The threshold value at which the alert is activated.')
-param threshold int = {{ int .properties.threshold }}
+@description('Tunes how \'noisy\' the Dynamic Thresholds alerts will be: \'High\' will result in more alerts while \'Low\' will result in fewer alerts.')
+@allowed([
+  'High'
+  'Medium'
+  'Low'
+])
+param alertSensitivity string = '##ALERT_SENSITIVITY##'
+
+@description('The number of periods to check in the alert evaluation.')
+param numberOfEvaluationPeriods int = ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##
+
+@description('The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods).')
+param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -50,9 +59,9 @@ param threshold int = {{ int .properties.threshold }}
   'Total'
   'Count'
 ])
-param timeAggregation string = '{{ .properties.timeAggregation }}'
+param timeAggregation string = '##TIME_AGGREGATION##'
 
-@description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
+@description('Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format.')
 @allowed([
   'PT1M'
   'PT5M'
@@ -64,17 +73,16 @@ param timeAggregation string = '{{ .properties.timeAggregation }}'
   'PT24H'
   'P1D'
 ])
-param windowSize string = '{{ .properties.windowSize }}'
+param windowSize string = '##WINDOW_SIZE##'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
-  'PT1M'
   'PT5M'
   'PT15M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = '{{ .properties.evaluationFrequency }}'
+param evaluationFrequency string = '##EVALUATION_FREQUENCY##'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -105,26 +113,24 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       'odata.type': 'Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria'
       allOf: [
         {
+          criterionType: 'DynamicThresholdCriterion'
           name: '1st criterion'
-          metricName: '{{ .properties.metricName }}'
-          dimensions: [{{ range $idx1, $value1 := .properties.dimensions }}
-            {
-              name: '{{ $idx1 }}'
-              operator: '{{ $value1.operator }}'
-              values: [{{ range $idx2, $value2 := $value1.values }}'{{ $value2 }}'{{ end }}]
-            }{{ end }}
-          ]
+          metricName: '##METRIC_NAME##'
+          dimensions: ##DIMENSIONS##
           operator: operator
-          threshold: threshold
+          alertSensitivity: alertSensitivity
+          failingPeriods: {
+            numberOfEvaluationPeriods: numberOfEvaluationPeriods
+            minFailingPeriodsToAlert: minFailingPeriodsToAlert
+          }
           timeAggregation: timeAggregation
-          criterionType: 'StaticThresholdCriterion'
         }
       ]
     }
   }
 }
 
-var ambaTelemetryPidName = '{{ site.Params.ambaTelemetryPid }}-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {

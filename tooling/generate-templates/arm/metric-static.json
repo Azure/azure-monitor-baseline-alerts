@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "{{ .description }}",
+      "defaultValue": "##DESCRIPTION##",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": {{ .properties.severity }},
+      "defaultValue": ##SEVERITY##,
       "allowedValues": [
         0,
         1,
@@ -59,45 +59,28 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "{{ .properties.operator }}",
+      "defaultValue": "##OPERATOR##",
       "allowedValues": [
+        "Equals",
         "GreaterThan",
+        "GreaterThanOrEqual",
         "LessThan",
-        "GreaterOrLessThan"
+        "LessThanOrEqual"
       ],
       "metadata": {
         "description": "Operator comparing the current value with the threshold value."
       }
     },
-    "alertSensitivity": {
+    "threshold": {
       "type": "string",
-      "defaultValue": "{{ .properties.alertSensitivity }}",
-      "allowedValues": [
-        "High",
-        "Medium",
-        "Low"
-      ],
+      "defaultValue": "##THRESHOLD##",
       "metadata": {
-        "description": "Tunes how 'noisy' the Dynamic Thresholds alerts will be: 'High' will result in more alerts while 'Low' will result in fewer alerts."
-      }
-    },
-    "numberOfEvaluationPeriods": {
-      "type": "int",
-      "defaultValue": {{ .properties.failingPeriods.numberOfEvaluationPeriods }},
-      "metadata": {
-        "description": "The number of periods to check in the alert evaluation."
-      }
-    },
-    "minFailingPeriodsToAlert": {
-      "type": "int",
-      "defaultValue": {{ .properties.failingPeriods.minFailingPeriodsToAlert }},
-      "metadata": {
-        "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
+        "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "{{ .properties.timeAggregation }}",
+      "defaultValue": "##TIME_AGGREGATION##",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -111,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "{{ .properties.windowSize }}",
+      "defaultValue": "##WINDOW_SIZE##",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -124,13 +107,14 @@
         "PT1D"
       ],
       "metadata": {
-        "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format."
+        "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
       }
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "{{ .properties.evaluationFrequency }}",
+      "defaultValue": "##EVALUATION_FREQUENCY##",
       "allowedValues": [
+        "PT1M",
         "PT5M",
         "PT15M",
         "PT30M",
@@ -160,7 +144,7 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
     "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
@@ -185,23 +169,15 @@
           "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
           "allOf": [
             {
-              "criterionType": "DynamicThresholdCriterion",
               "name": "1st criterion",
-              "metricName": "{{ .properties.metricName }}",
-              "dimensions": [{{ range $idx1, $value1 := .properties.dimensions }}{{ if ne $idx1 0}},{{ end }}
-                {
-                  "name": "{{ $idx1 }}",
-                  "operator": "{{ $value1.operator }}",
-                  "values": [{{ range $idx2, $value2 := $value1.values }}{{ if ne $idx2 0}},{{ end }}"{{ $value2 }}"{{ end }}]
-                }{{ end }}
+              "metricName": "##METRIC_NAME##",
+              "dimensions": [
+                ##DIMENSIONS##
               ],
               "operator": "[parameters('operator')]",
-              "alertSensitivity": "[parameters('alertSensitivity')]",
-              "failingPeriods": {
-                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
-                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
-              },
-              "timeAggregation": "[parameters('timeAggregation')]"
+              "threshold": "[parameters('threshold')]",
+              "timeAggregation": "[parameters('timeAggregation')]",
+              "criterionType": "StaticThresholdCriterion"
             }
           ]
         }

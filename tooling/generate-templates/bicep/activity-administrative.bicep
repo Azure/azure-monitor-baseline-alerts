@@ -1,12 +1,12 @@
 @description('Unique name (within the Resource Group) for the Activity log alert.')
 @minLength(1)
-param activityLogAlertName string
+param alertName string
 
 @description('Description of alert')
-param alertDescription string = '{{ .description }}'
+param alertDescription string = '##DESCRIPTION##'
 
 @description('Indicates whether or not the alert is enabled.')
-param activityLogAlertEnabled bool = true
+param isEnabled bool = true
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -19,7 +19,7 @@ param currentDateTimeUtcNow string = utcNow()
 param telemetryOptOut string = 'No'
 
 resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' = {
-  name: activityLogAlertName
+  name: alertName
   location: 'Global'
   tags: {
     _deployed_by_amba: 'true'
@@ -29,17 +29,21 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
     scopes: [
       subscription().id
     ]
-    enabled: bool
+    enabled: isEnabled
     condition: {
       allOf: [
         {
           {
             field: 'category'
-            equals: 'ServiceHealth'
+            equals: 'Administrative'
           }
           {
-            field: 'properties.incidentType'
-            equals: '{{ .properties.incidentType }}'
+            field: 'operationName'
+            equals: '##OPERATION_NAME##'
+          }
+          {
+            field: 'status'
+            containsAny: ##STATUS##
           }
         }
       ]
@@ -47,7 +51,7 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
   }
 }
 
-var ambaTelemetryPidName = '{{ site.Params.ambaTelemetryPid }}-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
