@@ -18,7 +18,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "{{ .description }}",
+      "defaultValue": "##DESCRIPTION##",
       "metadata": {
         "description": "Description of alert"
       }
@@ -62,7 +62,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": {{ .properties.severity }},
+      "defaultValue": ##SEVERITY##,
       "allowedValues": [
         0,
         1,
@@ -76,7 +76,7 @@
     },
     "autoMitigate": {
       "type": "bool",
-      "defaultValue": {{ .properties.autoMitigate }},
+      "defaultValue": ##AUTO_MITIGATE##,
       "metadata": {
         "description": "Specifies whether the alert will automatically resolve"
       }
@@ -84,28 +84,28 @@
     "query": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": {{ jsonify (replace .properties.query "\n" " ") }},
+      "defaultValue": ##QUERY##,
       "metadata": {
         "description": "Name of the metric used in the comparison to activate the alert."
       }
     },
     "metricMeasureColumn": {
       "type": "string",
-      "defaultValue": "{{ .properties.metricMeasureColumn }}",
+      "defaultValue": "##METRIC_MEASURE_COLUMN##",
       "metadata": {
         "description": "Name of the measure column used in the alert evaluation."
       }
     },
     "resourceIdColumn": {
       "type": "string",
-      "defaultValue": "{{ .properties.resouceIdColumn }}",
+      "defaultValue": "##RESOURCE_ID_COLUMN##",
       "metadata": {
         "description": "Name of the resource ID column used in the alert targeting the alerts."
       }
     },
     "operator": {
       "type": "string",
-      "defaultValue": "{{ .properties.operator }}",
+      "defaultValue": "##OPERATOR##",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -119,28 +119,28 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "{{ int .properties.threshold }}",
+      "defaultValue": "##THRESHOLD##",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
     "numberOfEvaluationPeriods": {
       "type": "int",
-      "defaultValue": {{ .properties.failingPeriods.numberOfEvaluationPeriods }},
+      "defaultValue": ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##,
       "metadata": {
         "description": "The number of periods to check in the alert evaluation."
       }
     },
     "minFailingPeriodsToAlert": {
       "type": "int",
-      "defaultValue": {{ .properties.failingPeriods.minFailingPeriodsToAlert }},
+      "defaultValue": ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##,
       "metadata": {
         "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "{{ .properties.timeAggregation }}",
+      "defaultValue": "##TIME_AGGREGATION##",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -154,7 +154,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "{{ .properties.windowSize }}",
+      "defaultValue": "##WINDOW_SIZE##",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -172,7 +172,7 @@
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "{{ .properties.evaluationFrequency }}",
+      "defaultValue": "##EVALUATION_FREQUENCY##",
       "allowedValues": [
         "PT5M",
         "PT15M",
@@ -203,7 +203,7 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
+    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
   },
   "resources": [
     {
@@ -229,12 +229,8 @@
               "query": "[parameters('query')]",
               "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
               "resourceIdColumn": "[parameters('resourceIdColumn')]",
-              "dimensions": [{{ range $idx1, $value1 := .properties.dimensions }}{{ if ne $idx1 0 }},{{ end }}
-                {
-                  "name": "{{ $value1.name }}",
-                  "operator": "{{ $value1.operator }}",
-                  "values": [{{ range $idx2, $value2 := $value1.values }}{{ if ne $idx2 0 }},{{ end }}"{{ $value2 }}"{{ end }}]
-                }{{ end }}
+              "dimensions": [
+                ##DIMENSIONS##
               ],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
