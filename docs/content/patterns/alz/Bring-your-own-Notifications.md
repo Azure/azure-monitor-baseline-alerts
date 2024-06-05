@@ -24,7 +24,7 @@ Differently if they decide to use the assets provided by AMBA or if they're Gree
 
 When running the deployment, the deployment code has conditions that control the deployment behavior according to the following three possible cases:
 
-A. ***Use your own AGs with the AMBA APR***. In this scenario, the deployment we will:
+A. ***Use your own AGs with the AMBA APR***. In this scenario, the deployment will:
 
 - Not deploy the AMBA SH AG
 - Deploy the AMBA APR with customer's AGs in it
@@ -34,7 +34,7 @@ Here's an example of the parameter file with the relevant sections populated for
 
 ![policyAssignmentParametersBYON section](../../alz/media/BYON_Params_2.png)
 
-B. ***Use your own AGs and APR***. In this scenario, the deployment we will:
+B. ***Use your own AGs and APR***. In this scenario, the deployment will:
 
 - Not deploy any AMBA notification AG or ARP (since it's not physically linked to any alert) assets or AMBA SH AG
 - Deploy SH alerts pointing to customer's AGs
