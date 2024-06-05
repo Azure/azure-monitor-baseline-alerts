@@ -14,8 +14,6 @@ The BYO UAMI feature works by creating a new UAMI in the management subscription
 
 Should Brownfield customers decide to use their own UAMI after the initial deployment, it will be sufficient to enter the parameter values for _bringYourOwnUserAssignedManagedIdentity_ and _bringYourOwnUserAssignedManagedIdentityResourceId_, leaving the _userAssignedManagedIdentityName_ parameter at its default and the parameter _managementSubscriptionId_ with no values:
 
-  ![UAMI resource ID](../media/alz-BYO-UAMI.png)
-
 Once parameters are set according to your needs, redeploy the AMBA-ALZ pattern and wait for the remediation to happen. You can also start the Policy remediation manually as documented at [Remediate Policies](../deploy/Remediate-Policies).
 
 ## Conditional deployment behavior
@@ -34,7 +32,7 @@ A. ***Customers want to use existing UAMI.*** In this scenario the deployment wi
 
 Here's an example of the parameter file with the relevant parameter for this scenario:
 
-
+  ![Customer defined UAMI](../../media/alz-UAMI-Param-Example-1.png)
 
 B. ***Customers does not have an existing UAMI and want AMBA-ALZ to create a new one.*** In this scenario the deployment will:
 
@@ -45,6 +43,10 @@ When a new UAMI is created by the deployment template, the the ***Monitoring Rea
   - Deploy any UAMI
   - Assign the Monitorg Reader role
   - Set the provided existing UAMI as the identity to be used in the necessary alerts
+
+Here's an example of the parameter configuration for this scenario:
+
+  ![New UAMI deployed by the template](../../media/alz-UAMI-Param-Example-2.png)
 
 ## Where is it used
 The [conditional deployment behavior](../../alz/Bring-your-own-Notifications#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from the initial notification assets scenario (the only one available until release [2024-03-01](../../alz/Whats-New#2024-03-01)) to the new BYON after deployment and viceversa.

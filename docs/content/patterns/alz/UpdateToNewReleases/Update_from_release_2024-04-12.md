@@ -20,20 +20,20 @@ In particular the new parameter file has the following differences:
    2. ***bringYourOwnUserAssignedManagedIdentityResourceId***: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **Yes**:
       1.1. Enter the UAMI resource ID, leaving the **managementSubscriptionId** blank
 
-        ![UAMI resource ID](../media/alz-BYO-UAMI.png)
+        ![UAMI resource ID](../../media/alz-BYO-UAMI.png)
 
       1.2. Configure it with the ***Monitoring Reader*** role on the pseudo root managemenbt group.
 
    3. ***userAssignedManagedIdentityName***: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **No**, leave the default value or set a different one to specify a different name for the UAMI created during the deployment. The provided default name aligns with the ALZ standard naming convention.
 
-      ![UAMI default name](../media/alz-UAMI-Default-Name.png)
+      ![UAMI default name](../../media/alz-UAMI-Default-Name.png)
 
    4. ***managementSubscriptionId***: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **No**, enter the subscription ID of the subscription under the Management management group. The deployment procedure will create the UAMI in this subscription and assign it the ***Monitoring Reader*** role on the pseudo root managemenbt group
 
-      ![Management subscription ID](../media/alz-ManagementSubscription.png)
+      ![Management subscription ID](../../media/alz-ManagementSubscription.png)
 
-      ![](../media/alz-UAMI-Management-SubscriptionID.png)
+      ![](../../media/alz-UAMI-Management-SubscriptionID.png)
 
 2. Change the previous parameter objects, such as ***policyAssignmentParametersCommon***, ***policyAssignmentParametersBYON*** and ***policyAssignmentParametersNotificationAssets*** into classic parameters using the same name as before. As result, the previous sections of the paramter you will now look like the image below:
 
-  ![new parameter file sample](../media/alz-New-ParamterFile-Structure.png)
+  ![new parameter file sample](../../media/alz-New-ParamterFile-Structure.png)
