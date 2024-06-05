@@ -8,7 +8,7 @@
     "displayName": "Deploy Hybrid VM CPU Alert",
     "description": "Policy to audit/deploy VM CPU Alert",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -240,6 +240,10 @@
           {
             "field": "type",
             "equals": "Microsoft.HybridCompute/machines"
+          },
+          {
+            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -250,7 +254,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/scheduledQueryRules",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -260,27 +264,27 @@
                 "equals": "[[concat(subscription().displayName, '-HybridVMHighCPUAlert')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
+                "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
                 "equals": "[[subscription().id]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/enabled",
+                "field": "Microsoft.Insights/scheduledQueryRules/enabled",
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/evaluationFrequency",
+                "field": "Microsoft.Insights/scheduledQueryRules/evaluationFrequency",
                 "equals": "[[parameters('evaluationFrequency')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/windowSize",
+                "field": "Microsoft.Insights/scheduledQueryRules/windowSize",
                 "equals": "[[parameters('windowSize')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/severity",
+                "field": "Microsoft.Insights/scheduledQueryRules/severity",
                 "equals": "[[parameters('severity')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/autoMitigate",
+                "field": "Microsoft.Insights/scheduledQueryRules/autoMitigate",
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
@@ -389,7 +393,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "VMCPUAlert",
+                    "name": "HybridVMCPUAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"

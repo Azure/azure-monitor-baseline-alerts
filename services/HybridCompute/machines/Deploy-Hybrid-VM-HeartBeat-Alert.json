@@ -8,7 +8,7 @@
     "displayName": "Deploy Hybrid VM HeartBeat Alert",
     "description": "Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -23,7 +23,7 @@
           "displayName": "Resource Group Name",
           "description": "Resource group the alert is placed in"
         },
-        "defaultValue": "AlzMonitoring-rg"
+        "defaultValue": "rg-amba-monitoring-001"
       },
       "alertResourceGroupTags": {
         "type": "Object",
@@ -32,7 +32,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test"
+          "Project": "amba-monitoring"
         }
       },
       "alertResourceGroupLocation": {
@@ -43,6 +43,29 @@
         },
         "defaultValue": "centralus"
       },
+      "userAssignedManagedIdentityName": {
+        "type": "string",
+        "defaultValue": "id-AMBA-ARG-Reader-001",
+        "metadata": {
+            "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+            "displayName": "Name of the user assigned managed identity to be created."
+        }
+    },
+    "managementSubscriptionId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+        }
+    },
+    "BYOUserAssignedManagedIdentityResourceId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "The resource Id of the user assigned managed identity provided by the customer.",
+            "displayName": "Customer defined User Assigned managed Identity resource Id."
+        }
+    },
       "severity": {
         "type": "String",
         "metadata": {
@@ -63,14 +86,14 @@
         "metadata": {
           "displayName": "Operator"
         },
-        "allowedvalues": [
+        "allowedValues": [
           "Equals",
           "GreaterThan",
           "GreaterThanOrEqual",
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultvalue": "GreaterThan"
+        "defaultValue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -84,7 +107,7 @@
           "Minimum",
           "Total"
         ],
-        "defaultvalue": "Average"
+        "defaultValue": "Average"
       },
       "windowSize": {
         "type": "String",
@@ -239,7 +262,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/scheduledQueryRules",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -249,27 +272,27 @@
                 "equals": "[[concat(subscription().displayName, '-HybridVMHeartBeatAlert')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
+                "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
                 "equals": "[[subscription().id]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/enabled",
+                "field": "Microsoft.Insights/scheduledQueryRules/enabled",
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/evaluationFrequency",
+                "field": "Microsoft.Insights/scheduledQueryRules/evaluationFrequency",
                 "equals": "[[parameters('evaluationFrequency')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/windowSize",
+                "field": "Microsoft.Insights/scheduledQueryRules/windowSize",
                 "equals": "[[parameters('windowSize')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/severity",
+                "field": "Microsoft.Insights/scheduledQueryRules/severity",
                 "equals": "[[parameters('severity')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/autoMitigate",
+                "field": "Microsoft.Insights/scheduledQueryRules/autoMitigate",
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
@@ -294,7 +317,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff('minute',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               }
             ]
           },
@@ -313,6 +336,15 @@
                     "type": "object"
                   },
                   "alertResourceGroupLocation": {
+                    "type": "string"
+                  },
+                  "userAssignedManagedIdentityName": {
+                    "type": "string"
+                  },
+                  "managementSubscriptionId": {
+                    "type": "string"
+                  },
+                  "BYOUserAssignedManagedIdentityResourceId": {
                     "type": "string"
                   },
                   "severity": {
@@ -352,7 +384,9 @@
                     "type": "String"
                   }
                 },
-                "variables": {},
+                "variables": {
+                  "uamiResourceId": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -364,7 +398,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "HeartBeatAlert",
+                    "name": "HybridVMHeartBeatAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -383,6 +417,14 @@
                           },
                           "alertResourceGroupLocation": {
                             "type": "string"
+                          },"userAssignedManagedIdentityName": {
+                            "type": "string"
+                          },
+                          "managementSubscriptionId": {
+                            "type": "string"
+                          },
+                          "BYOUserAssignedManagedIdentityResourceId": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
@@ -392,6 +434,12 @@
                             "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-HybridVMHeartBeatAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "identity": {
+                              "type": "UserAssigned",
+                              "userAssignedIdentities": {
+                                "[[variables('uamiResourceId')]": {}
+                              }
+                            },
                             "tags": {
                               "_deployed_by_amba": true
                             },
@@ -411,7 +459,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
+                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff('minute',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -444,6 +492,15 @@
                                 },
                                 "alertResourceGroupLocation": {
                                   "value": "[[parameters('alertResourceGroupLocation')]"
+                                },
+                                "userAssignedManagedIdentityName": {
+                                  "value": "[[parameters('userAssignedManagedIdentityName')]"
+                                },
+                                "managementSubscriptionId": {
+                                  "value": "[[parameters('managementSubscriptionId')]"
+                                },
+                                "BYOUserAssignedManagedIdentityResourceId": {
+                                  "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                                 },
                                 "severity": {
                                   "value": "[[parameters('severity')]"
@@ -489,6 +546,15 @@
                         },
                         "alertResourceGroupLocation": {
                           "value": "[[parameters('alertResourceGroupLocation')]"
+                        },
+                        "userAssignedManagedIdentityName": {
+                          "value": "[[parameters('userAssignedManagedIdentityName')]"
+                        },
+                        "managementSubscriptionId": {
+                          "value": "[[parameters('managementSubscriptionId')]"
+                        },
+                        "BYOUserAssignedManagedIdentityResourceId": {
+                          "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                         }
                       }
                     }
@@ -504,6 +570,15 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "userAssignedManagedIdentityName": {
+                  "value": "[[parameters('userAssignedManagedIdentityName')]"
+                },
+                "managementSubscriptionId": {
+                  "value": "[[parameters('managementSubscriptionId')]"
+                },
+                "BYOUserAssignedManagedIdentityResourceId": {
+                  "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
                 },
                 "severity": {
                   "value": "[[parameters('severity')]"

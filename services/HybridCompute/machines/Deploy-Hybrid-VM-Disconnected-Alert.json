@@ -8,7 +8,7 @@
     "displayName": "Deploy Hybrid VM Disconnected Alert",
     "description": "Policy to Deploy Hybrid VM Disconnected Alert",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -41,7 +41,7 @@
           "displayName": "Resource Group Location",
           "description": "Location of the Resource group the alert is placed in"
         },
-        "defaultValue": "eastus"
+        "defaultValue": "centralus"
       },
       "userAssignedManagedIdentityName": {
           "type": "string",
@@ -220,7 +220,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "microsoft.hybridcompute/machines"
+            "equals": "Microsoft.HybridCompute/machines"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -384,7 +384,8 @@
                           },
                           "alertResourceGroupLocation": {
                             "type": "string"
-                          },"userAssignedManagedIdentityName": {
+                          },
+                          "userAssignedManagedIdentityName": {
                             "type": "string"
                           },
                           "managementSubscriptionId": {
@@ -431,7 +432,15 @@
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
-                                    "dimensions": [],
+                                    "dimensions": [
+                                      {
+                                        "name": "Computer",
+                                        "operator": "Include",
+                                        "values": [
+                                          "*"
+                                        ]
+                                      }
+                                    ],
                                     "failingPeriods": {
                                       "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
                                       "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
