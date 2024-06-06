@@ -44,27 +44,27 @@
         "defaultValue": "centralus"
       },
       "userAssignedManagedIdentityName": {
-          "type": "string",
-          "defaultValue": "id-AMBA-ARG-Reader-001",
-          "metadata": {
-              "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
-              "displayName": "Name of the user assigned managed identity to be created."
-          }
+        "type": "string",
+        "defaultValue": "id-AMBA-ARG-Reader-001",
+        "metadata": {
+          "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+          "displayName": "Name of the user assigned managed identity to be created."
+        }
       },
       "managementSubscriptionId": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
-          }
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+        }
       },
       "BYOUserAssignedManagedIdentityResourceId": {
-          "type": "string",
-          "defaultValue": "",
-          "metadata": {
-              "description": "The resource Id of the user assigned managed identity provided by the customer.",
-              "displayName": "Customer defined User Assigned managed Identity resource Id."
-          }
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The resource Id of the user assigned managed identity provided by the customer.",
+          "displayName": "Customer defined User Assigned managed Identity resource Id."
+        }
       },
       "severity": {
         "type": "String",
@@ -338,6 +338,10 @@
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
                 "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | where Origin == \"vm.azm.ms\"| where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\"| extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"])|where Disk !in ('C:','/')| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/identity.userAssignedIdentities",
+                "equals": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
               }
             ]
           },
@@ -408,6 +412,12 @@
                   },
                   "computersToInclude": {
                     "type": "array"
+                  },
+                  "MonitorDisable": {
+                    "type": "String"
+                  },
+                  "MonitorDisableTagValues": {
+                    "type": "Array"
                   }
                 },
                 "variables": {
@@ -443,14 +453,15 @@
                           },
                           "alertResourceGroupLocation": {
                             "type": "string"
-                            },"userAssignedManagedIdentityName": {
-                              "type": "string"
-                            },
-                            "managementSubscriptionId": {
-                              "type": "string"
-                            },
-                            "BYOUserAssignedManagedIdentityResourceId": {
-                              "type": "string"
+                          },
+                          "userAssignedManagedIdentityName": {
+                            "type": "string"
+                          },
+                          "managementSubscriptionId": {
+                            "type": "string"
+                          },
+                          "BYOUserAssignedManagedIdentityResourceId": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
@@ -566,6 +577,12 @@
                                 },
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
+                                },
+                                "MonitorDisable": {
+                                  "value": "[[parameters('MonitorDisable')]"
+                                },
+                                "MonitorDisableTagValues": {
+                                  "value": "[[parameters('MonitorDisableTagValues')]"
                                 }
                               }
                             }
@@ -656,6 +673,12 @@
                 },
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
+                },
+                "MonitorDisable": {
+                  "value": "[[parameters('MonitorDisable')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[parameters('MonitorDisableTagValues')]"
                 }
               }
             }

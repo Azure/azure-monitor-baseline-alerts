@@ -338,6 +338,10 @@
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
                 "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | where Origin == \"vm.azm.ms\" | where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\" | extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"]) |summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+              },
+              {
+                "field": "Microsoft.Insights/scheduledQueryRules/identity.userAssignedIdentities",
+                "equals": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
               }
             ]
           },
@@ -408,6 +412,12 @@
                   },
                   "networkInterfacesToInclude": {
                     "type": "array"
+                  },
+                  "MonitorDisable": {
+                    "type": "String"
+                  },
+                  "MonitorDisableTagValues": {
+                    "type": "Array"
                   }
                 },
                 "variables": {
@@ -443,7 +453,8 @@
                           },
                           "alertResourceGroupLocation": {
                             "type": "string"
-                          },"userAssignedManagedIdentityName": {
+                          },
+                          "userAssignedManagedIdentityName": {
                             "type": "string"
                           },
                           "managementSubscriptionId": {
@@ -566,6 +577,12 @@
                                 },
                                 "networkInterfacesToInclude": {
                                   "value": "[[parameters('networkInterfacesToInclude')]"
+                                },
+                                "MonitorDisable": {
+                                  "value": "[[parameters('MonitorDisable')]"
+                                },
+                                "MonitorDisableTagValues": {
+                                  "value": "[[parameters('MonitorDisableTagValues')]"
                                 }
                               }
                             }
@@ -656,6 +673,12 @@
                 },
                 "networkInterfacesToInclude": {
                   "value": "[[parameters('networkInterfacesToInclude')]"
+                },
+                "MonitorDisable": {
+                  "value": "[[parameters('MonitorDisable')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[parameters('MonitorDisableTagValues')]"
                 }
               }
             }
