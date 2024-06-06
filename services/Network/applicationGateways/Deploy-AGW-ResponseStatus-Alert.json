@@ -8,7 +8,7 @@
     "displayName": "Deploy AGW ResponseStatus Alert",
     "description": "Policy to audit/deploy Azure Application Gateway ResponseStatus Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -20,7 +20,13 @@
           "displayName": "Severity",
           "description": "Severity of the Alert"
         },
-        "allowedValues": ["0", "1", "2", "3", "4"],
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
         "defaultValue": "2"
       },
       "windowSize": {
@@ -47,7 +53,13 @@
           "displayName": "Evaluation Frequency",
           "description": "Evaluation frequency for the alert"
         },
-        "allowedValues": ["PT1M", "PT5M", "PT15M", "PT30M", "PT1H"],
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
         "defaultValue": "PT1M"
       },
       "alertSensitivity": {
@@ -56,7 +68,11 @@
           "displayName": "Alert Sensitivity",
           "description": "Alert Sensitivity for the alert"
         },
-        "allowedValues": ["Low", "Medium", "High"],
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
         "defaultValue": "Medium"
       },
       "autoMitigate": {
@@ -65,7 +81,10 @@
           "displayName": "Auto Mitigate",
           "description": "Auto Mitigate for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "enabled": {
@@ -74,7 +93,10 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "effect": {
@@ -83,7 +105,10 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": ["deployIfNotExists", "disabled"],
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
         "defaultValue": "deployIfNotExists"
       },
       "MonitorDisable": {
@@ -225,7 +250,9 @@
                       "description": "Metric Alert for App Gateway ResponseStatus",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
-                      "scopes": ["[[parameters('resourceId')]"],
+                      "scopes": [
+                        "[[parameters('resourceId')]"
+                      ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
@@ -245,7 +272,10 @@
                               {
                                 "name": "HttpStatusGroup",
                                 "operator": "Include",
-                                "values": ["4xx", "5xx"]
+                                "values": [
+                                  "4xx",
+                                  "5xx"
+                                ]
                               }
                             ],
                             "criterionType": "DynamicThresholdCriterion"
