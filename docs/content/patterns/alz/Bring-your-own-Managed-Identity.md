@@ -6,7 +6,7 @@ weight: 62
 
 # Overview
 
-The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, available with release [2024-06-06](../Whats-New#2024-06-06), allows both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during the deployment of AMBA-ALZ. It also allows Brownfield customers, who deployed the ALZ pattern when this feature wasn't available, to use any existing one by configuring a couple of parameters. Thanks to this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language. Log-based search alerts can now be enhanced to include ARG queries looking at resource tags.
+The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, available with release [2024-06-05](../Whats-New#2024-06-05), allows both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during the deployment of AMBA-ALZ. It also allows Brownfield customers, who deployed the ALZ pattern when this feature wasn't available, to use any existing one by configuring a couple of parameters. Thanks to this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language. Log-based search alerts can now be enhanced to include ARG queries looking at resource tags.
 
 # How this feature works
 
