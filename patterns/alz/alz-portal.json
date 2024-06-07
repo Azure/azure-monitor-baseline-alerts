@@ -37,6 +37,17 @@
               }
             },
             {
+              "name": "getbringYourOwnUserAssignedManagedIdentityResourceId",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                "method": "POST",
+                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                  "query": "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities'| project label=tostring(name) , description=id, value=id | order by label asc"
+                }
+              }
+            },
+            {
               "name": "ALZMonitorResourceGroupName",
               "type": "Microsoft.Common.TextBox",
               "label": "Resource group for baseline alerts",
@@ -495,18 +506,16 @@
             },
             {
               "name": "bringYourOwnUserAssignedManagedIdentityResourceId",
-              "type": "Microsoft.Common.TextBox",
+              "type": "Microsoft.Common.DropDown",
               "label": "Bring Your Own User Assigned Managed Identity Resource Id",
-              "subLabel": "",
+              "multiselect": false,
               "defaultValue": "",
+              "filter": false,
               "toolTip": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.",
               "constraints": {
                 "required": false,
-                "regex": "",
-                "validationMessage": "",
-                "validations": []
+                "allowedValues": "[steps('basics').getbringYourOwnUserAssignedManagedIdentityResourceId.data]"
               },
-              "infoMessages": [],
               "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
             },
             {
@@ -546,6 +555,7 @@
               "toolTip": "Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.",
               "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
               "constraints": {
+                "required": true,
                 "allowedValues": [
                   {
                     "label": "Enabled",

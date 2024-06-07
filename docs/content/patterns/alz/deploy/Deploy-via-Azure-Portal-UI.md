@@ -4,11 +4,15 @@ weight: 30
 ---
 
 
-## Deploy via the Azure Portal UI
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2Faa3189d4e37b4a9bc7081640a46df4f40dcc8271%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2F2591f662e0ca8294e7df3bb9b4556e9214fb36b8%2Fpatterns%2Falz%2Falz-portal.json)
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftagolovina%2Fazure-monitor-baseline-alerts%2Fportal%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Ftagolovina%2Fazure-monitor-baseline-alerts%2Fportal%2Fpatterns%2Falz%2Falz-portal.json)
 
 ## Deployment Settings Blade
+
+![Deployment Settings Blade](../../media/PortalAccelerator/DeploymentSettings.png)
+
+
 
 - Change the values on the Deployment Settings blade to the instructions below:
 
@@ -25,6 +29,9 @@ weight: 30
 
 ## Management Groups Settings Blade
 - Change the values on the Management Groups Settings blade to the instructions below:
+
+![Management Groups Settings Blade](../../media/PortalAccelerator/MGSettings.png)
+
 
   ### If you are aligned to ALZ
 
@@ -64,6 +71,8 @@ For ease of deployment and maintenance we have kept the same variables.
 
 
 ## Notification Settings Blade
+
+![Notification Settings Blade](../../media/PortalAccelerator/NotificationSettings.png)
 
 - values on the Notification Settings Blade blade to the instructions below:
   - Change the value of _```Bring Your Own Notifications (BYON)```_ to  _``` Yes```_  if you wish to use existing Action Groups and Alert Processing Rule. The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).
