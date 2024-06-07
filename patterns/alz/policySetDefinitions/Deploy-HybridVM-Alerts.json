@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid VMs",
     "description": "Initiative to deploy AMBA Hybrid VM alerts",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -371,16 +371,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "HybridVMNetworkInNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network In Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
-        }
-      },
       "HybridVMNetworkOutAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -535,16 +525,6 @@
         "metadata": {
           "displayName": "Hybrid VM Network Out Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMNetworkOutNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network Out Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
         }
       },
       "HybridVMOSDiskReadLatencyAlertSeverity": {
@@ -703,17 +683,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "HybridVMOSDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "HybridVMOSDiskWriteLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -870,17 +839,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "HybridVMOSDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "HybridVMOSDiskSpaceAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1035,17 +993,6 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Space Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMOSDiskSpaceDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMPercentCPUAlertSeverity": {
@@ -1454,16 +1401,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMDataDiskSpaceDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "HybridVMDataDiskReadLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1618,16 +1555,6 @@
         "metadata": {
           "displayName": "Hybrid VM Data Disk Read Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMDataDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMDataDiskWriteLatencyAlertSeverity": {
@@ -1786,16 +1713,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "HybridVMDataDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "HybridVMDisconnectedAlertSeverity": {
         "type": "String",
         "defaultValue": "1",
@@ -1920,14 +1837,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMHeartBeatRG",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_HeartBeat_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -1983,14 +1894,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMNetworkIn",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkIn_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMNetworkInAlertSeverity')]"
@@ -2034,9 +1939,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMNetworkInComputersToInclude')]"
           },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('HybridVMNetworkInNetworkInterfaceToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2058,14 +1960,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMNetworkOut",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkOut_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMNetworkOutAlertSeverity')]"
@@ -2109,9 +2005,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMNetworkOutComputersToInclude')]"
           },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('HybridVMNetworkOutNetworkInterfaceToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2133,14 +2026,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskreadLatency_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyAlertSeverity')]"
@@ -2184,9 +2071,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskReadLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2208,14 +2092,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskwriteLatency_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyAlertSeverity')]"
@@ -2259,9 +2137,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2283,14 +2158,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskSpace_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskSpaceAlertSeverity')]"
@@ -2334,9 +2203,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskSpaceComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskSpaceDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2358,14 +2224,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMPercentCPU",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_CPU_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMPercentCPUAlertSeverity')]"
@@ -2421,14 +2281,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMPercentMemory",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Memory_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMPercentMemoryAlertSeverity')]"
@@ -2484,14 +2338,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskSpace_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskSpaceAlertSeverity')]"
@@ -2532,9 +2380,6 @@
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMDataDiskSpaceEvaluationPeriods')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskSpaceDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2556,14 +2401,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskReadLatency_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyAlertSeverity')]"
@@ -2607,9 +2446,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskReadLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2631,14 +2467,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskWriteLatency_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyAlertSeverity')]"
@@ -2682,9 +2512,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2706,14 +2533,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDisconnected",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('managementSubscriptionId'), parameters('alertResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('userAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDisconnectedAlertSeverity')]"
