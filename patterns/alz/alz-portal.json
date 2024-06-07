@@ -3,7 +3,7 @@
   "view": {
     "kind": "Form",
     "properties": {
-      "title": "Azure Monitor Baseline Alerts Accelerator",
+      "title": "Azure Monitor Baseline Alerts Accelerator (Preview)",
       "steps": [
         {
           "name": "basics",
@@ -24,6 +24,17 @@
               "type": "Microsoft.Common.ResourceScope",
               "kind": "ManagementGroup",
               "instanceDetailsLabel": "AMBA Accelerator"
+            },
+            {
+              "name": "getmanagementSubscriptionId",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                "method": "POST",
+                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                  "query": "resourcecontainers| where type == 'microsoft.resources/subscriptions'| project label=tostring(name) , description=id, value=subscriptionId | order by label asc"
+                }
+              }
             },
             {
               "name": "ALZMonitorResourceGroupName",
@@ -459,20 +470,89 @@
               }
             },
             {
-              "name": "telemetryOptOut",
-              "type": "Microsoft.Common.OptionsGroup",
-              "label": "Telemetry Opt-Out",
+              "name": "bringYourOwnUserAssignedManagedIdentity",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Bring Your Own User Assigned Managed Identity",
+              "subLabel": "",
               "defaultValue": "No",
-              "toolTip": "Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.",
-              "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+              "toolTip": "Specify if you want to bring your own user assigned managed identity for monitoring purpose.",
               "constraints": {
+                "required": false,
                 "allowedValues": [
                   {
                     "label": "Yes",
                     "value": "Yes"
                   },
                   {
-                    "label": "No (recommended)",
+                    "label": "No",
+                    "value": "No"
+                  }
+                ],
+                "validations": []
+              },
+              "infoMessages": [],
+              "visible": true
+            },
+            {
+              "name": "bringYourOwnUserAssignedManagedIdentityResourceId",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Bring Your Own User Assigned Managed Identity Resource Id",
+              "subLabel": "",
+              "defaultValue": "",
+              "toolTip": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.",
+              "constraints": {
+                "required": false,
+                "regex": "",
+                "validationMessage": "",
+                "validations": []
+              },
+              "infoMessages": [],
+              "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
+            },
+            {
+              "name": "userAssignedManagedIdentityName",
+              "type": "Microsoft.Common.TextBox",
+              "label": "User Assigned Managed Identity Name",
+              "subLabel": "",
+              "defaultValue": "id-amba-prod-001",
+              "toolTip": "Specify the name of the user assigned managed identity for monitoring purpose.",
+              "constraints": {
+                "required": false,
+                "regex": "",
+                "validationMessage": "",
+                "validations": []
+              },
+              "infoMessages": [],
+              "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No')]"
+            },
+            {
+              "name": "managementSubscriptionId",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Management Subscription Id",
+              "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No')]",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
+              "constraints": {
+                "allowedValues": "[steps('basics').getmanagementSubscriptionId.data]"
+              }
+            },
+            {
+              "name": "telemetryOptOut",
+              "type": "Microsoft.Common.OptionsGroup",
+              "label": "Customer Usage Selection Option",
+              "defaultValue": "Disabled",
+              "toolTip": "Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.",
+              "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+              "constraints": {
+                "allowedValues": [
+                  {
+                    "label": "Enabled",
+                    "value": "Yes"
+                  },
+                  {
+                    "label": "Disabled (recommended)",
                     "value": "No"
                   }
                 ]
@@ -718,22 +798,22 @@
               "defaultValue": "Yes",
               "toolTip": "Assign HybridVM initiative",
               "constraints": {
-                  "required": true,
-                  "allowedValues": [
-                      {
-                          "label": "Yes",
-                          "value": "Yes"
-                      },
-                      {
-                          "label": "No",
-                          "value": "No"
-                      }
-                  ],
-                  "validations": []
+                "required": true,
+                "allowedValues": [
+                  {
+                    "label": "Yes",
+                    "value": "Yes"
+                  },
+                  {
+                    "label": "No",
+                    "value": "No"
+                  }
+                ],
+                "validations": []
               },
               "infoMessages": [],
               "visible": true
-          },
+            },
             {
               "name": "LandingZoneManagementGroup",
               "type": "Microsoft.Common.DropDown",
@@ -964,17 +1044,6 @@
               }
             },
             {
-              "name": "getmanagementSubscriptionId",
-              "type": "Microsoft.Solutions.ArmApiControl",
-              "request": {
-                "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
-                "body": {
-                  "query": "resourcecontainers| where type == 'microsoft.resources/subscriptions'| project label=tostring(name) , description=id, value=subscriptionId | order by label asc"
-                }
-              }
-            },
-            {
               "name": "ALZLogicappResourceId",
               "type": "Microsoft.Common.DropDown",
               "label": "Logicapp Resource Id",
@@ -1001,75 +1070,6 @@
                 "validationMessage": ""
               }
             },
-            {
-              "name": "bringYourOwnUserAssignedManagedIdentity",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Bring Your Own User Assigned Managed Identity",
-              "subLabel": "",
-              "defaultValue": "No",
-              "toolTip": "Specify if you want to bring your own user assigned managed identity for monitoring purpose.",
-              "constraints": {
-                  "required": false,
-                  "allowedValues": [
-                      {
-                          "label": "Yes",
-                          "value": "Yes"
-                      },
-                      {
-                          "label": "No",
-                          "value": "No"
-                      }
-                  ],
-                  "validations": []
-              },
-              "infoMessages": [],
-              "visible": true
-          },
-          {
-              "name": "bringYourOwnUserAssignedManagedIdentityResourceId",
-              "type": "Microsoft.Common.TextBox",
-              "label": "Bring Your Own User Assigned Managed Identity Resource Id",
-              "subLabel": "",
-              "defaultValue": "",
-              "toolTip": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.",
-              "constraints": {
-                  "required": false,
-                  "regex": "",
-                  "validationMessage": "",
-                  "validations": []
-              },
-              "infoMessages": [],
-              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
-          },
-          {
-              "name": "userAssignedManagedIdentityName",
-              "type": "Microsoft.Common.TextBox",
-              "label": "User Assigned Managed Identity Name",
-              "subLabel": "",
-              "defaultValue": "id-amba-prod-001",
-              "toolTip": "Specify the name of the user assigned managed identity for monitoring purpose.",
-              "constraints": {
-                  "required": false,
-                  "regex": "",
-                  "validationMessage": "",
-                  "validations": []
-              },
-              "infoMessages": [],
-              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
-          },
-          {
-              "name": "managementSubscriptionId",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Management Subscription Id",
-              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
-              "constraints": {
-                  "allowedValues": "[steps('Notification').getmanagementSubscriptionId.data]"
-              }
-          },
             {
               "name": "EventHubOption",
               "type": "Microsoft.Common.OptionsGroup",
@@ -1167,10 +1167,10 @@
         "ALZMonitorResourceGroupTags": "[steps('basics').ALZMonitorResourceGroupTags]",
         "ALZLogicappResourceId": "[steps('Notification').ALZLogicappResourceId]",
         "ALZLogicappCallbackUrl": "[steps('Notification').ALZLogicappCallbackUrl]",
-        "bringYourOwnUserAssignedManagedIdentity": "[steps('Notification').bringYourOwnUserAssignedManagedIdentity]",
-        "bringYourOwnUserAssignedManagedIdentityResourceId": "[steps('Notification').bringYourOwnUserAssignedManagedIdentityResourceId]",
-        "userAssignedManagedIdentityName": "[steps('Notification').userAssignedManagedIdentityName]",
-        "managementSubscriptionId": "[steps('Notification').managementSubscriptionId]",
+        "bringYourOwnUserAssignedManagedIdentity": "[steps('basics').bringYourOwnUserAssignedManagedIdentity]",
+        "bringYourOwnUserAssignedManagedIdentityResourceId": "[steps('basics').bringYourOwnUserAssignedManagedIdentityResourceId]",
+        "userAssignedManagedIdentityName": "[steps('basics').userAssignedManagedIdentityName]",
+        "managementSubscriptionId": "[steps('basics').managementSubscriptionId]",
         "ALZArmRoleId": "[steps('Notification').ALZArmRoleId]",
         "ALZEventHubResourceId": "[steps('Notification').ALZEventHubResourceId]",
         "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
