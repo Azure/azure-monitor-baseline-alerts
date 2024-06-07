@@ -1,12 +1,12 @@
 ---
-title: Deploy via the Azure Portal UI
+title: Deploy via the Azure Portal (Preview)
 weight: 30
---- 
+---
 
 
-## Deploy via the Azure Portal UI  
+## Deploy via the Azure Portal UI
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2Faa3189d4e37b4a9bc7081640a46df4f40dcc8271%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2F2591f662e0ca8294e7df3bb9b4556e9214fb36b8%2Fpatterns%2Falz%2Falz-portal.json) 
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2Faa3189d4e37b4a9bc7081640a46df4f40dcc8271%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2F2591f662e0ca8294e7df3bb9b4556e9214fb36b8%2Fpatterns%2Falz%2Falz-portal.json)
 
 ## Deployment Settings Blade
 
@@ -85,9 +85,9 @@ For ease of deployment and maintenance we have kept the same variables.
   It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
 
      action1@contoso.com , action2@contoso.com , action3@contoso.com
-    
+
      https://webhookUri1.webhook.com, http://webhookUri2.webhook.com
-  
+
   {{< /hint >}}
 
 

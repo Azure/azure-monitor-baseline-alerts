@@ -711,6 +711,30 @@
               "visible": true
             },
             {
+              "name": "enableAMBAHybridVM",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Hybrid VM",
+              "subLabel": "",
+              "defaultValue": "Yes",
+              "toolTip": "Assign HybridVM initiative",
+              "constraints": {
+                  "required": true,
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ],
+                  "validations": []
+              },
+              "infoMessages": [],
+              "visible": true
+          },
+            {
               "name": "LandingZoneManagementGroup",
               "type": "Microsoft.Common.DropDown",
               "label": "Landing Zone Management Group",
@@ -940,6 +964,17 @@
               }
             },
             {
+              "name": "getmanagementSubscriptionId",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                "method": "POST",
+                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                  "query": "resourcecontainers| where type == 'microsoft.resources/subscriptions'| project label=tostring(name) , description=id, value=subscriptionId | order by label asc"
+                }
+              }
+            },
+            {
               "name": "ALZLogicappResourceId",
               "type": "Microsoft.Common.DropDown",
               "label": "Logicapp Resource Id",
@@ -966,6 +1001,75 @@
                 "validationMessage": ""
               }
             },
+            {
+              "name": "bringYourOwnUserAssignedManagedIdentity",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Bring Your Own User Assigned Managed Identity",
+              "subLabel": "",
+              "defaultValue": "No",
+              "toolTip": "Specify if you want to bring your own user assigned managed identity for monitoring purpose.",
+              "constraints": {
+                  "required": false,
+                  "allowedValues": [
+                      {
+                          "label": "Yes",
+                          "value": "Yes"
+                      },
+                      {
+                          "label": "No",
+                          "value": "No"
+                      }
+                  ],
+                  "validations": []
+              },
+              "infoMessages": [],
+              "visible": true
+          },
+          {
+              "name": "bringYourOwnUserAssignedManagedIdentityResourceId",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Bring Your Own User Assigned Managed Identity Resource Id",
+              "subLabel": "",
+              "defaultValue": "",
+              "toolTip": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.",
+              "constraints": {
+                  "required": false,
+                  "regex": "",
+                  "validationMessage": "",
+                  "validations": []
+              },
+              "infoMessages": [],
+              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
+          },
+          {
+              "name": "userAssignedManagedIdentityName",
+              "type": "Microsoft.Common.TextBox",
+              "label": "User Assigned Managed Identity Name",
+              "subLabel": "",
+              "defaultValue": "id-amba-prod-001",
+              "toolTip": "Specify the name of the user assigned managed identity for monitoring purpose.",
+              "constraints": {
+                  "required": false,
+                  "regex": "",
+                  "validationMessage": "",
+                  "validations": []
+              },
+              "infoMessages": [],
+              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]"
+          },
+          {
+              "name": "managementSubscriptionId",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Management Subscription Id",
+              "visible": "[equals(steps('Notification').bringYourOwnUserAssignedManagedIdentity,'Yes')]",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
+              "constraints": {
+                  "allowedValues": "[steps('Notification').getmanagementSubscriptionId.data]"
+              }
+          },
             {
               "name": "EventHubOption",
               "type": "Microsoft.Common.OptionsGroup",
@@ -1063,6 +1167,10 @@
         "ALZMonitorResourceGroupTags": "[steps('basics').ALZMonitorResourceGroupTags]",
         "ALZLogicappResourceId": "[steps('Notification').ALZLogicappResourceId]",
         "ALZLogicappCallbackUrl": "[steps('Notification').ALZLogicappCallbackUrl]",
+        "bringYourOwnUserAssignedManagedIdentity": "[steps('Notification').bringYourOwnUserAssignedManagedIdentity]",
+        "bringYourOwnUserAssignedManagedIdentityResourceId": "[steps('Notification').bringYourOwnUserAssignedManagedIdentityResourceId]",
+        "userAssignedManagedIdentityName": "[steps('Notification').userAssignedManagedIdentityName]",
+        "managementSubscriptionId": "[steps('Notification').managementSubscriptionId]",
         "ALZArmRoleId": "[steps('Notification').ALZArmRoleId]",
         "ALZEventHubResourceId": "[steps('Notification').ALZEventHubResourceId]",
         "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
@@ -1074,6 +1182,7 @@
         "enableAMBAConnectivity": "[steps('Configuration').enableAMBAConnectivity]",
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBALandingZone": "[steps('Configuration').enableAMBALandingZone]",
+        "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
         "platformManagementGroup": "['contoso-platform']",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
