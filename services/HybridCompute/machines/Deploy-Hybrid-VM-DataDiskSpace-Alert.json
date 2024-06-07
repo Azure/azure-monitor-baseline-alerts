@@ -193,6 +193,16 @@
         },
         "defaultValue": "1"
       },
+      "computersToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Computers to be included to be monitored",
+          "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -366,6 +376,9 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
+                  "computersToInclude": {
+                    "type": "array"
+                  },
                   "MonitorDisable": {
                     "type": "String"
                   },
@@ -451,9 +464,7 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": [
-                                          "*"
-                                        ]
+                                        "values": "[[parameters('computersToInclude')]"
                                       },
                                       {
                                         "name": "Disk",
@@ -514,6 +525,9 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[[parameters('computersToInclude')]"
                                 },
                                 "MonitorDisable": {
                                   "value": "[[parameters('MonitorDisable')]"
@@ -592,6 +606,9 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
+                },
+                "computersToInclude": {
+                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisable": {
                   "value": "[[parameters('MonitorDisable')]"
