@@ -1,8 +1,7 @@
 # Azure Monitor Baseline Alerts (AMBA)
 
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/azure/azure-monitor-baseline-alerts "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/azure/azure-monitor-baseline-alerts "Percentage of issues still open")
-
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/Azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/Azure/azure-monitor-baseline-alerts "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/Azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/Azure/azure-monitor-baseline-alerts "Percentage of issues still open")
 
 > **_NOTE:_**  Please check out our the [AMBA GitHub Pages](https://azure.github.io/azure-monitor-baseline-alerts/welcome) site for more interactive access to the content in this repo.
 
@@ -33,7 +32,7 @@ Here are the key reasons why configuring alerts is important:
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+the rights to use your contribution. For details, visit [Contributor License Agreements](https://cla.opensource.microsoft.com).
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions

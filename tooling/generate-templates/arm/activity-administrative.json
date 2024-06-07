@@ -1,8 +1,8 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "activityLogAlertName": {
+    "alertName": {
       "type": "string",
       "metadata": {
         "description": "Unique name (within the Resource Group) for the Activity log alert."
@@ -10,12 +10,12 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "{{ .description }}",
+      "defaultValue": "##DESCRIPTION##",
       "metadata": {
         "description": "Description of alert"
       }
     },
-    "activityLogAlertEnabled": {
+    "isEnabled": {
       "type": "bool",
       "defaultValue": true,
       "metadata": {
@@ -42,13 +42,13 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('{{ site.Params.ambaTelemetryPid }}-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
+    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
   },
   "resources": [
     {
       "type": "Microsoft.Insights/activityLogAlerts",
       "apiVersion": "2017-04-01",
-      "name": "[parameters('activityLogAlertName')]",
+      "name": "[parameters('alertName')]",
       "location": "Global",
       "tags": {
         "_deployed_by_amba": true
@@ -58,16 +58,20 @@
         "scopes": [
             "[subscription().id]"
         ],
-        "enabled": "[parameters('activityLogAlertEnabled')]",
+        "enabled": "[parameters('isEnabled')]",
         "condition": {
           "allOf": [
             {
               "field": "category",
-              "equals": "ServiceHealth"
+              "equals": "Administrative"
             },
             {
-              "field": "properties.incidentType",
-              "equals": "{{ .properties.incidentType }}"
+              "field": "operationName",
+              "equals": "##OPERATION_NAME##"
+            },
+            {
+              "field": "status",
+              "containsAny": ##STATUS##
             }
           ]
         }
