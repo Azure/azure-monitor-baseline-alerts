@@ -760,22 +760,36 @@
       | project-away TenantId,SourceSystem
       | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
       | join kind=leftouter (WVDErrors
-      |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
-      ) on CorrelationId
-      | join kind=leftouter (WVDCheckpoints
+      // Connection Errors
+      // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.
+      //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.
+      WVDConnections
+      //| where UserName == "upn.here@contoso.com"
+      | project-away TenantId, SourceSystem
+      | summarize
+      arg_max(TimeGenerated, *),
+      StartTime = min(iff(State == 'Started', TimeGenerated, datetime(null))),
+      ConnectTime = min(iff(State == 'Connected', TimeGenerated, datetime(null)))
+      by CorrelationId
+      | join kind=leftouter
+      (
+      WVDErrors
+      | summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message, 'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
+      )
+      on CorrelationId
+        | join kind=leftouter
+      (
+      WVDCheckpoints
       | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
-      | mv-apply Checkpoints on (
-      order by todatetime(Checkpoints['Time']) asc
-      | summarize Checkpoints=make_list(Checkpoints))
-      ) on CorrelationId
+      | mv-apply Checkpoints on
+      (
+        order by todatetime(Checkpoints['Time']) asc
+        | summarize Checkpoints=make_list(Checkpoints)
+      )
+      )
+      on CorrelationId
       | project-away CorrelationId1, CorrelationId2
       | order by TimeGenerated desc
-      | where TimeGenerated > ago(15m)
-      | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
-      | extend HostPool=tostring(split(_ResourceId, '/')[8])
-      | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
-      | extend ErrorMessage=tostring(Errors[0].Message)
-      | project _ResourceId, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
     autoMitigate: true
     autoResolve: true
     autoResolveTime: "0:30:00"
