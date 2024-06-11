@@ -13,7 +13,7 @@ Below are some of the reports with the list of usage and scenario:
 4. [Caching report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#caching-report)
 5. [Top url report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#top-url-report)
 6. [Top referrer report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#top-referrer-report)
-7. [Top user agent report](https://learn.microsoft.com/azure/frontdoor/standard-premium/)
+7. [Top user agent report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=topuser-agent#top-user-agent-report)
 
 Each report contains the following key metrics which are helpful in determining performance and availability of Azure Front Door and origin.
 
