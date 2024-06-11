@@ -755,11 +755,6 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: >-
-      WVDConnections
-      //  | where UserName == "upn.here@contoso.com"
-      | project-away TenantId,SourceSystem
-      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
-      | join kind=leftouter (WVDErrors
       // Connection Errors
       // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.
       //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.
