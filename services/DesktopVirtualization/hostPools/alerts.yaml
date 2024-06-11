@@ -159,7 +159,7 @@
       properties:
         scope: Subscription
         multiResource: false
-- name: FSLogix Profile less than 5%
+- name: FSLogix Profile less than 5 Percent
   description: User Profiles Service logged Event ID 33. Expand User's Virtual Profile Disk and/or clean up user profile data on the VM.
   type: Log
   verified: true
@@ -190,6 +190,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -207,7 +211,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -222,7 +226,7 @@
       properties:
         scope: Subscription
         multiResource: false
-- name: FSLogix Profile less than 2%
+- name: FSLogix Profile less than 2 Percent
   description: User Profiles Service logged Event ID 34. Expand User's Virtual Profile Disk and/or clean up user profile data on the VM.
   type: Log
   verified: true
@@ -253,6 +257,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -270,7 +278,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -296,7 +304,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     threshold: 1
     dimensions:
@@ -313,6 +321,10 @@
         values:
           - "*"
       - name: HostPool
+        operator: Include
+        values:
+          - "*"
+      - name: _ResourceId
         operator: Include
         values:
           - "*"
@@ -333,7 +345,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -359,7 +371,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -380,6 +392,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -397,7 +413,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -423,7 +439,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -444,6 +460,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -461,7 +481,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -487,7 +507,7 @@
     severity: 2
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -508,6 +528,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -525,7 +549,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -551,7 +575,7 @@
     severity: 2
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -572,6 +596,10 @@
         operator: Include
         values:
           - "*"
+      - name: _ResourceId
+        operator: Include
+        values:
+          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -589,7 +617,7 @@
       | parse SessionHostResourceId with "/subscriptions/" VMsubscription "/resourceGroups/" VMresourceGroup "/providers/Microsoft.Compute/virtualMachines/" ComputerName
       | extend ComputerName=tolower(ComputerName)
       | summarize arg_max(TimeGenerated,*) by ComputerName
-      | project VMresourceGroup, ComputerName, HostPool
+      | project VMresourceGroup, ComputerName, HostPool, _ResourceId
       ) on ComputerName
     autoMitigate: true
     autoResolve: true
@@ -655,7 +683,7 @@
       "InvalidIndex")};
       WVDAgentHealthStatus
       | where TimeGenerated > ago(10m)
-      | where Status != \''Available\''
+      | where Status != 'Available'
       | where AllowNewSessions = True
       | extend CheckFailed = parse_json(SessionHostHealthCheckResult)
       | mv-expand CheckFailed
@@ -663,7 +691,7 @@
       | extend HealthCheckName = tolong(CheckFailed.HealthCheckName)
       | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
-      | where HealthCheckDesc != \''InvalidIndex\''
+      | where HealthCheckDesc != 'InvalidIndex'
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
       | parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName
     autoMitigate: true
@@ -695,14 +723,6 @@
     resourceIdColumn: _ResourceId
     threshold: 1
     dimensions:
-      - name: HostPool
-        operator: Include
-        values:
-          - "*"
-      - name: ResourceGroup
-        operator: Include
-        values:
-          - "*"
       - name: UserName
         operator: Include
         values:
@@ -723,6 +743,14 @@
         operator: Include
         values:
           - "*"
+      - name: HostPool
+        operator: Include
+        values:
+          - "*"
+      - name: ResourceGroup
+        operator: Include
+        values:
+          - "*"
       - name: ErrorShort
         operator: Include
         values:
@@ -738,21 +766,21 @@
       WVDConnections
       //  | where UserName == "upn.here@contoso.com"
       | project-away TenantId,SourceSystem
-      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'', TimeGenerated , datetime(null) )) by CorrelationId
+      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
       | join kind=leftouter (WVDErrors
-      |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic, ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError, ''Source'', Source)) by CorrelationId
+      |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
       ) on CorrelationId
       | join kind=leftouter (WVDCheckpoints
-      | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name, ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId
+      | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
       | mv-apply Checkpoints on (
-      order by todatetime(Checkpoints[''Time'']) asc
+      order by todatetime(Checkpoints['Time']) asc
       | summarize Checkpoints=make_list(Checkpoints))
       ) on CorrelationId
       | project-away CorrelationId1, CorrelationId2
       | order by TimeGenerated desc
       | where TimeGenerated > ago(15m)
-      | extend ResourceGroup=tostring(split(_ResourceId, ''/'')[4])
-      | extend HostPool=tostring(split(_ResourceId, ''/'')[8])
+      | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
+      | extend HostPool=tostring(split(_ResourceId, '/')[8])
       | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
       | extend ErrorMessage=tostring(Errors[0].Message)
       | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
