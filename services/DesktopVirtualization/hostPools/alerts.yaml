@@ -655,7 +655,7 @@
       "InvalidIndex")};
       WVDAgentHealthStatus
       | where TimeGenerated > ago(10m)
-      | where Status != \''Available\''
+      | where Status != 'Available'
       | where AllowNewSessions = True
       | extend CheckFailed = parse_json(SessionHostHealthCheckResult)
       | mv-expand CheckFailed
@@ -663,7 +663,7 @@
       | extend HealthCheckName = tolong(CheckFailed.HealthCheckName)
       | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
-      | where HealthCheckDesc != \''InvalidIndex\''
+      | where HealthCheckDesc != 'InvalidIndex'
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
       | parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName
     autoMitigate: true
