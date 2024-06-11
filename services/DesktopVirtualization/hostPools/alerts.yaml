@@ -759,10 +759,6 @@
         operator: Include
         values:
           - "*"
-      - name: HostPool
-        operator: Include
-        values:
-          - "*"
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
@@ -787,7 +783,7 @@
       | extend HostPool=tostring(split(_ResourceId, '/')[8])
       | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
       | extend ErrorMessage=tostring(Errors[0].Message)
-      | project _ResourceId, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage, HostPool
+      | project _ResourceId, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
     autoMitigate: true
     autoResolve: true
     autoResolveTime: "0:30:00"
