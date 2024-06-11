@@ -296,7 +296,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     threshold: 1
     dimensions:
@@ -359,7 +359,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -423,7 +423,7 @@
     severity: 1
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -487,7 +487,7 @@
     severity: 2
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -551,7 +551,7 @@
     severity: 2
     operator: GreaterThanOrEqual
     timeAggregation: Count
-    windowSize: PT1D
+    windowSize: PT24H
     evaluationFrequency: PT5M
     resourceIdColumn: _ResourceId
     threshold: 1
@@ -738,21 +738,21 @@
       WVDConnections
       //  | where UserName == "upn.here@contoso.com"
       | project-away TenantId,SourceSystem
-      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'', TimeGenerated , datetime(null) )) by CorrelationId
+      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId
       | join kind=leftouter (WVDErrors
-      |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic, ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError, ''Source'', Source)) by CorrelationId
+      |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
       ) on CorrelationId
       | join kind=leftouter (WVDCheckpoints
-      | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name, ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId
+      | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
       | mv-apply Checkpoints on (
-      order by todatetime(Checkpoints[''Time'']) asc
+      order by todatetime(Checkpoints['Time']) asc
       | summarize Checkpoints=make_list(Checkpoints))
       ) on CorrelationId
       | project-away CorrelationId1, CorrelationId2
       | order by TimeGenerated desc
       | where TimeGenerated > ago(15m)
-      | extend ResourceGroup=tostring(split(_ResourceId, ''/'')[4])
-      | extend HostPool=tostring(split(_ResourceId, ''/'')[8])
+      | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
+      | extend HostPool=tostring(split(_ResourceId, '/')[8])
       | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
       | extend ErrorMessage=tostring(Errors[0].Message)
       | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
