@@ -29,19 +29,19 @@
       WVDConnections
       | where TimeGenerated > ago (15m)
       | project-away TenantId,SourceSystem
-      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== \''Started\'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== \''Connected\'', TimeGenerated , datetime(null) )) by CorrelationId
+      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== 'Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== 'Connected', TimeGenerated , datetime(null) )) by CorrelationId
       | join kind=leftouter (WVDErrors
-      |summarize Errors=makelist(pack(\''Code\'', Code, \''CodeSymbolic\'', CodeSymbolic, \''Time\'', TimeGenerated, \''Message\'', Message ,\''ServiceError\'', ServiceError, \''Source\'', Source)) by CorrelationId
+      |summarize Errors=makelist(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
       ) on CorrelationId
       | join kind=leftouter (WVDCheckpoints
-      | summarize Checkpoints=makelist(pack(\''Time\'', TimeGenerated, \''Name\'', Name, \''Parameters\'', Parameters, \''Source\'', Source)) by CorrelationId
+      | summarize Checkpoints=makelist(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
       | mv-apply Checkpoints on (
-      order by todatetime(Checkpoints[\''Time\'']) asc
+      order by todatetime(Checkpoints['Time']) asc
       | summarize Checkpoints=makelist(Checkpoints))
       ) on CorrelationId
       | project-away CorrelationId1, CorrelationId2
       | order by TimeGenerated desc
-      | where Errors[0].CodeSymbolic == "ConnectionFailedNoHealthyRdshAvailable"'
+      | where Errors[0].CodeSymbolic == "ConnectionFailedNoHealthyRdshAvailable"
     autoMitigate: true
     autoResolve: true
     autoResolveTime: "0:30:00"

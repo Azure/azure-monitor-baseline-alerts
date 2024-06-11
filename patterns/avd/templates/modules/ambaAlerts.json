@@ -36,7 +36,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "WVDConnections\n| where TimeGenerated > ago (15m)\n| project-away TenantId,SourceSystem\n| summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== \\'Started\\', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== \\'Connected\\', TimeGenerated , datetime(null) )) by CorrelationId\n| join kind=leftouter (WVDErrors\n|summarize Errors=makelist(pack(\\'Code\\', Code, \\'CodeSymbolic\\', CodeSymbolic, \\'Time\\', TimeGenerated, \\'Message\\', Message ,\\'ServiceError\\', ServiceError, \\'Source\\', Source)) by CorrelationId\n) on CorrelationId\n| join kind=leftouter (WVDCheckpoints\n| summarize Checkpoints=makelist(pack(\\'Time\\', TimeGenerated, \\'Name\\', Name, \\'Parameters\\', Parameters, \\'Source\\', Source)) by CorrelationId\n| mv-apply Checkpoints on (\norder by todatetime(Checkpoints[\\'Time\\']) asc\n| summarize Checkpoints=makelist(Checkpoints))\n) on CorrelationId\n| project-away CorrelationId1, CorrelationId2\n| order by TimeGenerated desc\n| where Errors[0].CodeSymbolic == \"ConnectionFailedNoHealthyRdshAvailable\"",
+            "query": "WVDConnections | where TimeGenerated > ago (15m) | project-away TenantId,SourceSystem | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== \\''Started\\'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== \\''Connected\\'', TimeGenerated , datetime(null) )) by CorrelationId | join kind=leftouter (WVDErrors |summarize Errors=makelist(pack(\\''Code\\'', Code, \\''CodeSymbolic\\'', CodeSymbolic, \\''Time\\'', TimeGenerated, \\''Message\\'', Message ,\\''ServiceError\\'', ServiceError, \\''Source\\'', Source)) by CorrelationId ) on CorrelationId | join kind=leftouter (WVDCheckpoints | summarize Checkpoints=makelist(pack(\\''Time\\'', TimeGenerated, \\''Name\\'', Name, \\''Parameters\\'', Parameters, \\''Source\\'', Source)) by CorrelationId | mv-apply Checkpoints on ( order by todatetime(Checkpoints[\\''Time\\'']) asc | summarize Checkpoints=makelist(Checkpoints)) ) on CorrelationId | project-away CorrelationId1, CorrelationId2 | order by TimeGenerated desc | where Errors[0].CodeSymbolic == \"ConnectionFailedNoHealthyRdshAvailable\"'",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -94,7 +94,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "WVDConnections\n| where TimeGenerated > ago(24h)\n| where State == \"Connected\"\n| project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName\n| join (WVDConnections\n| where State == \"Completed\"\n| project EndTime=TimeGenerated, CorrelationId)\non CorrelationId\n| project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName\n| where Duration >= timespan(24:00:00)\n| sort by Duration desc",
+            "query": "WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join (WVDConnections | where State == \"Completed\" | project EndTime=TimeGenerated, CorrelationId) on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(24:00:00) | sort by Duration desc",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -223,7 +223,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Warning\"\n| where EventID == 34\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Warning\" | where EventID == 34 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -294,7 +294,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Error\"\n| where EventID == 33\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Error\" | where EventID == 33 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -328,7 +328,7 @@
             "severity": 1,
             "operator": "GreaterThanOrEqual",
             "timeAggregation": "Count",
-            "windowSize": "PT24H",
+            "windowSize": "PT1D",
             "evaluationFrequency": "PT5M",
             "threshold": 1,
             "dimensions": [
@@ -365,7 +365,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Error\"\n| where EventID == 43\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Error\" | where EventID == 43 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -399,7 +399,7 @@
             "severity": 1,
             "operator": "GreaterThanOrEqual",
             "timeAggregation": "Count",
-            "windowSize": "PT24H",
+            "windowSize": "PT1D",
             "evaluationFrequency": "PT5M",
             "resourceIdColumn": "_ResourceId",
             "threshold": 1,
@@ -437,7 +437,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Error\"\n| where EventID == 42 or EventID == 40\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Error\" | where EventID == 42 or EventID == 40 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -471,7 +471,7 @@
             "severity": 1,
             "operator": "GreaterThanOrEqual",
             "timeAggregation": "Count",
-            "windowSize": "PT24H",
+            "windowSize": "PT1D",
             "evaluationFrequency": "PT5M",
             "resourceIdColumn": "_ResourceId",
             "threshold": 1,
@@ -509,7 +509,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Warning\"\n| where EventID == 60\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Warning\" | where EventID == 60 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -543,7 +543,7 @@
             "severity": 2,
             "operator": "GreaterThanOrEqual",
             "timeAggregation": "Count",
-            "windowSize": "PT24H",
+            "windowSize": "PT1D",
             "evaluationFrequency": "PT5M",
             "resourceIdColumn": "_ResourceId",
             "threshold": 1,
@@ -581,7 +581,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n| where EventLevelName == \"Error\"\n| where EventID == 62 or EventID == 63\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Admin\" | where EventLevelName == \"Error\" | where EventID == 62 or EventID == 63 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -615,7 +615,7 @@
             "severity": 2,
             "operator": "GreaterThanOrEqual",
             "timeAggregation": "Count",
-            "windowSize": "PT24H",
+            "windowSize": "PT1D",
             "evaluationFrequency": "PT5M",
             "resourceIdColumn": "_ResourceId",
             "threshold": 1,
@@ -653,7 +653,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "Event\n| where EventLog == \"Microsoft-FSLogix-Apps/Operational\"\n| where EventLevelName == \"Warning\"\n| where EventID == 51\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n| join kind = leftouter\n(WVDAgentHealthStatus\n| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n| extend ComputerName=tolower(ComputerName)\n| summarize arg_max(TimeGenerated,*) by ComputerName\n| project VMresourceGroup, ComputerName, HostPool\n) on ComputerName",
+            "query": "Event | where EventLog == \"Microsoft-FSLogix-Apps/Operational\" | where EventLevelName == \"Warning\" | where EventID == 51 | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated | join kind = leftouter (WVDAgentHealthStatus | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName | extend ComputerName=tolower(ComputerName) | summarize arg_max(TimeGenerated,*) by ComputerName | project VMresourceGroup, ComputerName, HostPool ) on ComputerName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -725,7 +725,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "let MapToDesc = (idx: long) {\ncase(idx == 0, \"DomainJoin\",\nidx == 1, \"DomainTrust\",\nidx == 2, \"FSLogix\",\nidx == 3, \"SxSStack\",\nidx == 4, \"URLCheck\",\nidx == 5, \"GenevaAgent\",\nidx == 6, \"DomainReachable\",\nidx == 7, \"WebRTCRedirector\",\nidx == 8, \"SxSStackEncryption\",\nidx == 9, \"IMDSReachable\",\nidx == 10, \"MSIXPackageStaging\",\n\"InvalidIndex\")};\nWVDAgentHealthStatus\n| where TimeGenerated > ago(10m)\n| where Status != \\'Available\\'\n| where AllowNewSessions = True\n| extend CheckFailed = parse_json(SessionHostHealthCheckResult)\n| mv-expand CheckFailed\n| where CheckFailed.AdditionalFailureDetails.ErrorCode != 0\n| extend HealthCheckName = tolong(CheckFailed.HealthCheckName)\n| extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)\n| extend HealthCheckDesc = MapToDesc(HealthCheckName)\n| where HealthCheckDesc != \\'InvalidIndex\\'\n| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" HostPoolResourceGroup \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n| parse SessionHostResourceId with \"/subscriptions/\" HostSubscription \"/resourceGroups/\" SessionHostRG \" /providers/Microsoft.Compute/virtualMachines/\" SessionHostName",
+            "query": "let MapToDesc = (idx: long) { case(idx == 0, \"DomainJoin\", idx == 1, \"DomainTrust\", idx == 2, \"FSLogix\", idx == 3, \"SxSStack\", idx == 4, \"URLCheck\", idx == 5, \"GenevaAgent\", idx == 6, \"DomainReachable\", idx == 7, \"WebRTCRedirector\", idx == 8, \"SxSStackEncryption\", idx == 9, \"IMDSReachable\", idx == 10, \"MSIXPackageStaging\", \"InvalidIndex\")}; WVDAgentHealthStatus | where TimeGenerated > ago(10m) | where Status != \\''Available\\'' | where AllowNewSessions = True | extend CheckFailed = parse_json(SessionHostHealthCheckResult) | mv-expand CheckFailed | where CheckFailed.AdditionalFailureDetails.ErrorCode != 0 | extend HealthCheckName = tolong(CheckFailed.HealthCheckName) | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult) | extend HealthCheckDesc = MapToDesc(HealthCheckName) | where HealthCheckDesc != \\''InvalidIndex\\'' | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" HostPoolResourceGroup \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" HostSubscription \"/resourceGroups/\" SessionHostRG \" /providers/Microsoft.Compute/virtualMachines/\" SessionHostName",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
@@ -832,7 +832,7 @@
                 "numberOfEvaluationPeriods": 1,
                 "minFailingPeriodsToAlert": 1
             },
-            "query": "WVDConnections\n//  | where UserName == \"upn.here@contoso.com\"\n| project-away TenantId,SourceSystem\n| summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId\n| join kind=leftouter (WVDErrors\n|summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId\n) on CorrelationId\n| join kind=leftouter (WVDCheckpoints\n| summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId\n| mv-apply Checkpoints on (\norder by todatetime(Checkpoints['Time']) asc\n| summarize Checkpoints=make_list(Checkpoints))\n) on CorrelationId\n| project-away CorrelationId1, CorrelationId2\n| order by TimeGenerated desc\n| where TimeGenerated > ago(15m)\n| extend ResourceGroup=tostring(split(_ResourceId, '/')[4])\n| extend HostPool=tostring(split(_ResourceId, '/')[8])\n| extend ErrorShort=tostring(Errors[0].CodeSymbolic)\n| extend ErrorMessage=tostring(Errors[0].Message)\n| project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage",
+            "query": "WVDConnections //  | where UserName == \"upn.here@contoso.com\" | project-away TenantId,SourceSystem | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'', TimeGenerated , datetime(null) )) by CorrelationId | join kind=leftouter (WVDErrors |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic, ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError, ''Source'', Source)) by CorrelationId ) on CorrelationId | join kind=leftouter (WVDCheckpoints | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name, ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId | mv-apply Checkpoints on ( order by todatetime(Checkpoints[''Time'']) asc | summarize Checkpoints=make_list(Checkpoints)) ) on CorrelationId | project-away CorrelationId1, CorrelationId2 | order by TimeGenerated desc | where TimeGenerated > ago(15m) | extend ResourceGroup=tostring(split(_ResourceId, ''/'')[4]) | extend HostPool=tostring(split(_ResourceId, ''/'')[8]) | extend ErrorShort=tostring(Errors[0].CodeSymbolic) | extend ErrorMessage=tostring(Errors[0].Message) | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage",
             "autoMitigate": true,
             "autoResolve": true,
             "autoResolveTime": "0:30:00"
