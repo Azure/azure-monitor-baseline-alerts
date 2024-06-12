@@ -756,7 +756,6 @@
       minFailingPeriodsToAlert: 1
     query: >-
       WVDConnections
-      //  | where UserName == "upn.here@contoso.com"
       | project-away TenantId,SourceSystem
       | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null))), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null))) by CorrelationId
       | join kind=leftouter (WVDErrors
