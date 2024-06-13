@@ -4,9 +4,9 @@ geekdocCollapseSection: true
 weight: 80
 ---
 
-## What are the Prerequisites?  
+## What are the Prerequisites?
 
-An AVD deployment and the Owner Role on the Subscription containing the AVD resources, VMs and Storage.  You must have also pre-configured the AVD Insights as it will enable diagnostic logging for the Host Pools and associated VMs in which the alerts rely on.  
+An AVD deployment and the Owner Role on the Subscription containing the AVD resources, VMs and Storage.  You must have also pre-configured the AVD Insights as it will enable diagnostic logging for the Host Pools and associated VMs in which the alerts rely on.
 
 ## What's deployed to my Subscription?
 

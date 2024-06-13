@@ -7,7 +7,7 @@ geekdocCollapseSection: true
 
 This solution provides a baseline of alerts for AVD that are disabled by default and for ensuring administrators and staff get meaningful and timely alerts when there are problems related to an AVD deployment. The deployment has been tested in Azure Global and Azure US Government and will incorporate storage alerts for either or both Azure Files and/or Azure Netapp Files. This solution utilizes the alert criteria found within AMBA and reference documentation can be found on this website.
 
-**Current Version:**  
+**Current Version:**
 v3.0.0 (June 13, 2024)
 
 ## 📣Feedback 📣
@@ -26,7 +26,7 @@ Please see the [Known Issues](Known-Issues).
 
 ## Frequently Asked Questions
 
-Please see the [Frequently Asked Questions](../avd/FAQ).
+Please see the [Frequently Asked Questions](FAQ).
 
 ## Contributing
 
@@ -52,7 +52,7 @@ Details on contributing to this repo can be found [here](../../../contributing)
 
 When you deploy the IP located in this repo, Microsoft can identify the installation of said IP with the deployed Azure resources. Microsoft can correlate these resources used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
-If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](./Telemetry).
+If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](./Telemetry.md).
 
 ## Trademarks
 
