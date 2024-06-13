@@ -208,33 +208,12 @@
           "label": "Management Groups Settings",
           "elements": [
             {
-              "name": "alzaligned",
-              "type": "Microsoft.Common.OptionsGroup",
-              "label": "Aligned to an Azure landing zone",
-              "defaultValue": "Yes",
-              "toolTip": "Select 'Yes'  if you have an existing Azure landing zone implementation and you want to use the policy-driven approach. Select 'No'if you have a non-Azure landing zone aligned implementation and you want to use the policy-driven approach",
-              "constraints": {
-                "allowedValues": [
-                  {
-                    "label": "Yes (recommended)",
-                    "value": "Yes"
-                  },
-                  {
-                    "label": "No",
-                    "value": "No"
-                  }
-                ]
-              },
-              "visible": true,
-              "required": true
-            },
-            {
               "name": "alznoalignedintro",
               "type": "Microsoft.Common.InfoBox",
-              "visible": "[equals(steps('Configuration').alzaligned,'No')]",
+              "visible": true,
               "options": {
-                "text": "If you have a single management group, configure the variables Enterprise Scale Company Prefix, Identity Management Group, Management Management Group, Connectivity Management Group and Landing Zones ManagementGroup with the same group id.",
-                "uri": "https://aka.ms/amba/alz/docs",
+                "text": "If you have a single management group, configure the variables Enterprise Scale Company Prefix, Identity Management Group, Management Management Group, Connectivity Management Group and Landing Zones ManagementGroup with the same group name",
+                "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/deploy/Introduction-to-deploying-the-ALZ-Pattern/",
                 "style": "Info"
               }
             },
@@ -280,7 +259,7 @@
               "name": "enableAMBAIdentity",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Identity",
-              "defaultValue": "[steps('Configuration').alzaligned]",
+              "defaultValue": "Yes",
               "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Identity policy initiative is assigned to the Identity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
               "constraints": {
                 "required": true,
@@ -315,7 +294,7 @@
               "name": "enableAMBAManagement",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Management",
-              "defaultValue": "[steps('Configuration').alzaligned]",
+              "defaultValue": "Yes",
               "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Management policy initiative is assigned to the Management management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
               "constraints": {
                 "required": true,
@@ -350,7 +329,7 @@
               "name": "enableAMBAConnectivity",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Connectivity",
-              "defaultValue": "[steps('Configuration').alzaligned]",
+              "defaultValue": "Yes",
               "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Connectivity policy initiative is assigned to the Connectivity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
               "constraints": {
                 "required": true,
@@ -385,7 +364,7 @@
               "name": "enableAMBALandingZone",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Landing Zone",
-              "defaultValue": "[steps('Configuration').alzaligned]",
+              "defaultValue": "Yes",
               "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Landing Zone policy initiative is assigned to the Landing Zones management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
               "constraints": {
                 "required": true,
