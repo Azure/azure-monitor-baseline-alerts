@@ -184,8 +184,8 @@ If (!$reportOnly.IsPresent) {
     $policySetDefinitionIds | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force:$force -Confirm:(!$force) }
 
     # delete policy definitions
-    #Write-Host "Deleting policy definitions..."
-    #$policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
+    Write-Host "Deleting policy definitions..."
+    $policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
 
     # delete role assignments
     Write-Host "Deleting role assignments..."
