@@ -6,7 +6,7 @@ weight: 30
 
 
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftagolovina%2Fazure-monitor-baseline-alerts%2Fportal%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Ftagolovina%2Fazure-monitor-baseline-alerts%2Fportal%2Fpatterns%2Falz%2Falz-portal.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 
 ## Deployment Settings Blade
 
