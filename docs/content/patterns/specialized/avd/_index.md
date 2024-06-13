@@ -12,21 +12,19 @@ v3.0.0 (June 13, 2024)
 
 ## 📣Feedback 📣
 
-Once you've had an opportunity to deploy the solution we'd love to hear from you! Click [here](../../alz/monitor/feedback) to leave your feedback.
-
 If you have encountered a problem please file an issue in our GitHub repo [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues).
 
 ## Deployment Guide
 
-We have a [Deployment Guide](./deploy/Avd-Deploy) available for guidance on how to consume the contents of this repo.
+We have a [Deployment Guide](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/docs/content/patterns/specialized/avd/deploy/Avd-Deploy.md) available for guidance on how to consume the contents of this repo.
 
 ## Known Issues
 
-Please see the [Known Issues](Known-Issues).
+Please see the [Known Issues](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/docs/content/patterns/specialized/avd/Known-Issues.md).
 
 ## Frequently Asked Questions
 
-Please see the [Frequently Asked Questions](FAQ).
+Please see the [Frequently Asked Questions](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/docs/content/patterns/specialized/avd/FAQ.md).
 
 ## Contributing
 
@@ -45,14 +43,14 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 {{< hint type=note >}}
-Details on contributing to this repo can be found [here](../../../contributing)
+Details on contributing to this repo can be found [here](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/docs/content/contributing/_index.md)
 {{< /hint >}}
 
 ## Telemetry
 
 When you deploy the IP located in this repo, Microsoft can identify the installation of said IP with the deployed Azure resources. Microsoft can correlate these resources used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
-If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](./Telemetry.md).
+If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/docs/content/patterns/specialized/avd/Telemetry.md).
 
 ## Trademarks
 
