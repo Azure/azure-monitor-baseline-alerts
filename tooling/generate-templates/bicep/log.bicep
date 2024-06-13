@@ -7,7 +7,7 @@ param alertName string
 param location string
 
 @description('Description of alert')
-param alertDescription string = '{{ .description }}'
+param alertDescription string = '##DESCRIPTION##'
 
 @description('Specifies whether the alert is enabled')
 param isEnabled bool = true
@@ -40,20 +40,20 @@ param muteActionsDuration string
   3
   4
 ])
-param alertSeverity int = {{ .properties.severity }}
+param alertSeverity int = ##SEVERITY##
 
 @description('Specifies whether the alert will automatically resolve')
-param autoMitigate bool = {{ .properties.autoMitigate }}
+param autoMitigate bool = ##AUTO_MITIGATE##
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = '{{ safeHTML (replace .properties.query "\n" " ") }}'
+param query string = '##QUERY##'
 
 @description('Name of the measure column used in the alert evaluation.')
-param metricMeasureColumn string = '{{ .properties.metricMeasureColumn }}'
+param metricMeasureColumn string = '##METRIC_MEASURE_COLUMN##'
 
 @description('Name of the resource ID column used in the alert targeting the alerts.')
-param resourceIdColumn string = '{{ .properties.resouceIdColumn }}'
+param resourceIdColumn string = '##RESOURCE_ID_COLUMN##'
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -63,16 +63,16 @@ param resourceIdColumn string = '{{ .properties.resouceIdColumn }}'
   'LessThan'
   'LessThanOrEqual'
 ])
-param operator string = '{{ .properties.operator }}'
+param operator string = '##OPERATOR##'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = {{ int .properties.threshold }}
+param threshold int = ##THRESHOLD##
 
 @description('The number of periods to check in the alert evaluation.')
-param numberOfEvaluationPeriods int = {{ .properties.failingPeriods.numberOfEvaluationPeriods }}
+param numberOfEvaluationPeriods int = ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##
 
 @description('The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods).')
-param minFailingPeriodsToAlert int = {{ .properties.failingPeriods.minFailingPeriodsToAlert }}
+param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -82,7 +82,7 @@ param minFailingPeriodsToAlert int = {{ .properties.failingPeriods.minFailingPer
   'Total'
   'Count'
 ])
-param timeAggregation string = '{{ .properties.timeAggregation }}'
+param timeAggregation string = '##TIME_AGGREGATION##'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([
@@ -96,7 +96,7 @@ param timeAggregation string = '{{ .properties.timeAggregation }}'
   'PT24H'
   'P1D'
 ])
-param windowSize string = '{{ .properties.windowSize }}'
+param windowSize string = '##WINDOW_SIZE##'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -105,7 +105,7 @@ param windowSize string = '{{ .properties.windowSize }}'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = '{{ .properties.evaluationFrequency }}'
+param evaluationFrequency string = '##EVALUATION_FREQUENCY##'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -138,12 +138,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
           query: query
           metricMeasureColumn: metricMeasureColumn
           resourceIdColumn: resourceIdColumn
-          dimensions: [{{ range $idx1, $value1 := .properties.dimensions }}
-            {
-              name: '{{ $idx1 }}'
-              operator: '{{ $value1.operator }}'
-              values: [{{ range $idx2, $value2 := $value1.values }}'{{ $value2 }}'{{ end }}]
-            }{{ end }}
+          dimensions: [##DIMENSIONS##
           ]
           operator: operator
           threshold: threshold
@@ -161,7 +156,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
   }
 }
 
-var ambaTelemetryPidName = '{{ site.Params.ambaTelemetryPid }}-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
