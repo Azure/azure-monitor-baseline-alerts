@@ -14,12 +14,8 @@ weight: 30
 
 
 
+
 - Change the values on the Deployment Settings blade to the instructions below:
-
-  {{< hint type=note >}}
-  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.
-  {{< /hint >}}
-
   - Choose the Management Group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
   - Choose the value of _```Region```_ to your Azure location of choice.
   - Change the value of _```Resource group for baseline alerts```_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
@@ -74,7 +70,12 @@ For ease of deployment and maintenance we have kept the same variables.
 
 ![Notification Settings Blade](../../media/PortalAccelerator/NotificationSettings.png)
 
-- values on the Notification Settings Blade blade to the instructions below:
+
+  {{< hint type=note >}}
+  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.
+  {{< /hint >}}
+
+- Change values on the Notification Settings Blade blade to the instructions below:
   - Change the value of _```Bring Your Own Notifications (BYON)```_ to  _``` Yes```_  if you wish to use existing Action Groups and Alert Processing Rule. The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).
   - Change the value of _```Email contact for action group notifications```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
   - Change the value of _```Webhook Service Uri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
