@@ -17,10 +17,14 @@ weight: 30
 
 - Change the values on the Deployment Settings blade to the instructions below:
   - Choose the Management Group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-  - Choose the value of _```Region```_ to your Azure location of choice.
+  - Choose the value of _```Region```_ to specify your Azure location of choice.
   - Change the value of _```Resource group for baseline alerts```_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-  - Choose the value of _```Resource Group Location```_ to specify the location for said resource group.
-  - Choose the value of _```Telemetry Opt-Out```_ Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.
+  - Choose the value of _```Resource group location```_ to specify the location for said resource group.
+  - Choose the value of _```Bring Your Own User Assigned Managed Identity```_ to specify if you want to bring your own user assigned managed identity for monitoring purpose.
+  - Define the value of _```User Assigned Managed Identity Name```_ to specify the name of the user assigned managed identity for monitoring purpose.
+  - Choose the value of _```Bring Your Own User Assigned Managed Identity Resource Id```_ to specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.
+  - Choose the value of _```Management Subscription Id```_ to specify the subscription id where the user assigned managed identity will be created.
+  - Choose the value of _```Customer Usage Selection Option```_ Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.
   - Change the value of _```Resource Group Tags```_ to specify the tags to be added to said resource group.
 
 ## Management Groups Settings Blade
