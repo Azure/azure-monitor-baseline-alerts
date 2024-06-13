@@ -52,7 +52,7 @@ Here's a sample extract of the parameter file with the relevant parameter config
 
 This new feature is used in Log-search based alerts. At the moment of this release, there's one alert using it. The alert is part of the new ***Deploy Azure Monitor Vaseline Alerts for Hybrid VMs*** policySet added to monitor hybrid virtual machine.
 
-![Deploy Azure Monitor Vaseline Alerts for Hybrid VMs](../media/deploy-HybridVM-Alerts.png)
+![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../media/deploy-HybridVM-Alerts.png)
 
 {{< hint type=Info >}}
 We're planning to use this feature more in the future and to include it as part of other alerts.
