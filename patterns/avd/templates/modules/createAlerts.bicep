@@ -12,7 +12,7 @@ param MetricScope string
 
 // var AlertDescription = [for Alert in AMBAalerts : (Alert.references != null) ? '${Alert.description}\nResources:\n${join(Alert.references, '\n')}' : '${Alert.description}']
 
-resource metricAlerts 'Microsoft.Insights/metricAlerts@2018-03-01' = [for Alert in AMBAalerts : if(Alert.type == 'Metric' && !contains(Alert.name, 'Blob') && !contains(Alert.name, 'Queue')){
+resource metricAlerts 'Microsoft.Insights/metricAlerts@2018-03-01' = [for Alert in AMBAalerts : if(Alert.type == 'Metric' && (!contains(Alert.name, 'blobServices') && !contains(Alert.name, 'Queue'))){
   name: contains(Alert.name, '/') ? '${AlertNamePrefix}-${replace(Alert.name, '/', ' per ')}-${Environment}' : contains(Alert.name, '%') ? '${AlertNamePrefix}-${replace(Alert.name, '%', ' percent ')}-${Environment}': '${AlertNamePrefix}-${Alert.name}-${Environment}'
   tags: contains(Tags, 'Microsoft.Insights/metricAlerts') ? Tags['Microsoft.Insights/metricAlerts'] : {}
   location: 'global'
@@ -20,7 +20,7 @@ resource metricAlerts 'Microsoft.Insights/metricAlerts@2018-03-01' = [for Alert 
     description: '${AlertDescriptionHeader}${Alert.description}'
     severity: Alert.properties.severity
     enabled: SetEnabled
-    scopes: [MetricScope]
+    scopes: Alert.properties.metricNamespace == 'Microsoft.Storage/storageAccounts/fileServices' ? ['${MetricScope}/fileServices/default'] : [MetricScope]
     evaluationFrequency: Alert.properties.evaluationFrequency
     windowSize: Alert.properties.windowSize
     criteria: {
