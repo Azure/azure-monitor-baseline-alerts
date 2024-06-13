@@ -315,7 +315,7 @@
                 "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\" | extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/identity.userAssignedIdentities",
+                "field": "identity.userAssignedIdentities",
                 "equals": "[[parameters('UAMIResourceId')]"
               }
             ]

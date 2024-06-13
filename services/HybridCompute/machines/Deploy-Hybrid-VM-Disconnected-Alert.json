@@ -278,7 +278,7 @@
                 "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
               },
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/identity.userAssignedIdentities",
+                "field": "identity.userAssignedIdentities",
                 "equals": "[[parameters('UAMIResourceId')]"
               }
             ]
