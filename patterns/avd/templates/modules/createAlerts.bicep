@@ -50,7 +50,7 @@ resource metricAlerts 'Microsoft.Insights/metricAlerts@2018-03-01' = [for Alert 
 }]
 
 
-resource logqueryAlerts 'Microsoft.Insights/scheduledQueryRules@2023-03-15-preview' = [for Alert in AMBAalerts : if(Alert.type == 'Log') {
+resource logqueryAlerts 'Microsoft.Insights/scheduledQueryRules@2022-08-01-preview' = [for Alert in AMBAalerts : if(Alert.type == 'Log') {
   name: contains(Alert.name, '/') ? '${AlertNamePrefix}-${replace(Alert.name, '/', ' per ')}-${Environment}' : '${AlertNamePrefix}-${Alert.name}-${Environment}'
   location: Location
   tags: contains(Tags, 'Microsoft.Insights/scheduledQueryRules') ? Tags['Microsoft.Insights/scheduledQueryRules'] : {}

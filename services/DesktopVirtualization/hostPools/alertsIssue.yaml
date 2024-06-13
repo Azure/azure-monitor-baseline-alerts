@@ -1,0 +1,87 @@
+properties:
+  createdWithApiVersion: 2023-03-15-preview
+  displayName: ___________TEST
+  description: ''
+  severity: 3
+  enabled: true
+  evaluationFrequency: PT5M
+  scopes:
+  - "/subscriptions/8a0ecebc-0e1d-4e8f-8cb8-8a92f49455b9/resourcegroups/rg-eastus2-avdlab-manage/providers/microsoft.operationalinsights/workspaces/law-eastus2-avdlab"
+  targetResourceTypes:
+  - microsoft.operationalinsights/workspaces
+  windowSize: PT5M
+  overrideQueryTimeRange: P2D
+  criteria:
+    allOf:
+    - query: |2
+              WVDConnections
+              //  | where UserName == "upn.here@contoso.com"
+              | project-away TenantId,SourceSystem
+              | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null))), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null))) by CorrelationId
+              | join kind=leftouter (WVDErrors
+              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId
+              ) on CorrelationId
+                | join kind=leftouter (WVDCheckpoints
+                | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId
+                | mv-apply Checkpoints on (
+                order by todatetime(Checkpoints['Time']) asc
+                | summarize Checkpoints=make_list(Checkpoints))
+              ) on CorrelationId
+              | project-away CorrelationId1, CorrelationId2
+              | order by TimeGenerated desc
+              | where TimeGenerated > ago(15m)
+              | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
+              | extend HostPool=tostring(split(_ResourceId, '/')[8])
+              | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
+              | extend ErrorMessage=tostring(Errors[0].Message)
+              | project _ResourceId, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage, HostPool
+      timeAggregation: Count
+      dimensions:
+      - name: ResourceGroup
+        operator: Include
+        values:
+        - "*"
+      - name: UserName
+        operator: Include
+        values:
+        - "*"
+      - name: ClientOS
+        operator: Include
+        values:
+        - "*"
+      - name: ClientVersion
+        operator: Include
+        values:
+        - "*"
+      - name: ClientSideIPAddress
+        operator: Include
+        values:
+        - "*"
+      - name: ConnectionType
+        operator: Include
+        values:
+        - "*"
+      - name: ErrorShort
+        operator: Include
+        values:
+        - "*"
+      - name: ErrorMessage
+        operator: Include
+        values:
+        - "*"
+      - name: HostPool
+        operator: Include
+        values:
+        - "*"
+      resourceIdColumn: _ResourceId
+      operator: GreaterThanOrEqual
+      threshold: 1
+      failingPeriods:
+        numberOfEvaluationPeriods: 1
+        minFailingPeriodsToAlert: 1
+  autoMitigate: false
+  actions:
+    actionGroups:
+    - "/subscriptions/8a0ecebc-0e1d-4e8f-8cb8-8a92f49455b9/resourcegroups/rg-test-alerts/providers/microsoft.insights/actiongroups/ag-avdmetrics-t-eastus2"
+    customProperties: {}
+  checkWorkspaceAlertsStorageConfigured: false

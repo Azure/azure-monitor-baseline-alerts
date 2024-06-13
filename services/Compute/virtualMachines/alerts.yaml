@@ -227,23 +227,14 @@
       operator: Include
       values:
       - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: 'Heartbeat
-
+    query: >-
+      Heartbeat
       | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
-
-      | extend Duration = datetime_diff(''minute'',now(),TimeGenerated)
-
-      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m),
-      _ResourceId
-
-      '
+      | extend Duration = datetime_diff('minute',now(),TimeGenerated)
+      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
@@ -291,25 +282,15 @@
       operator: Include
       values:
       - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: 'InsightsMetrics
-
+    query: >-
+      InsightsMetrics
       | where Origin == "vm.azm.ms"
-
       | where Namespace == "Network" and Name == "ReadBytesPerSecond"
-
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
-      _ResourceId, NetworkInterface
-
-      '
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
@@ -348,25 +329,15 @@
       operator: Include
       values:
       - '*'
-    - name: Disk
-      operator: Include
-      values:
-      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: 'InsightsMetrics
-
+    query: >-
+      InsightsMetrics
       | where Origin == "vm.azm.ms"
-
       | where Namespace == "Network" and Name == "WriteBytesPerSecond"
-
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
-      _ResourceId, NetworkInterface
-
-      '
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
