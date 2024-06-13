@@ -12,7 +12,7 @@ v3.0.0 (June 13, 2024)
 
 ## 📣Feedback 📣
 
-Once you've had an opportunity to deploy the solution we'd love to hear from you! Click [here](https://aka.ms/alz/monitor/feedback) to leave your feedback.
+Once you've had an opportunity to deploy the solution we'd love to hear from you! Click [here](../../alz/monitor/feedback) to leave your feedback.
 
 If you have encountered a problem please file an issue in our GitHub repo [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues).
 

@@ -4,11 +4,10 @@ geekdocCollapseSection: true
 weight: 10
 ---
 
-For information on what's new please refer to the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
-
-To update your current deployment with the content from the latest release, please refer to the [Update to new release](../Update-to-new-Release) page.
+To update your current deployment with the content from the latest release, please refer to the [Update to new release](Update-to-new-Release.md) page.
 
 ## Version 3.0 (2024-06-13)
+
 ### New features
 Complete integration with AMBA sourced alerts! Previously the source of the alerts were based on Azure Engineer based criteria versus what is now vetted via the Product Group. This includes those for the Host Pool, Virtual Machines, and Storage. (including Azure NetApp Files)
 
