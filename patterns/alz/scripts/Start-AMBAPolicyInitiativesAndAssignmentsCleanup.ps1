@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    This script cleans up the resources deployed by the ALZ-Monitor automation, including alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments.
+    This script cleans up the policy assignments, policy initiatives, policy definitions and policy assignment role assignments previously deployed.
 .DESCRIPTION
 
 .NOTES
@@ -15,15 +15,15 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
     # generate a list of the resource IDs which would be deleted by this script
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed
 
 .EXAMPLE
-    ./Start-AMBACleanup.ps1 -pseudoManagementGroup Contoso -Force
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -Force
     # delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation
 #>
 
@@ -138,16 +138,6 @@ If ($managementGroups.count -eq 0) {
     Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources."
 }
 
-# get alert resources to delete
-$query = "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id"
-$alertResourceIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted."
-
-# get resource group to delete
-$query = "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_amba'] =~ 'True' | project id"
-$resourceGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_amba=True' to be deleted."
-
 # get policy assignments to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_amba =~ 'true'"
 $policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
@@ -163,25 +153,10 @@ $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinit
 $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
-# get user assigned managed identities to delete
-$query = "Resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
-$UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-Write-Host "Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
-
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
 $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
 Write-Host "Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted."
-
-# get alert processing rules to delete
-$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
-$alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted."
-
-# get action groups to delete
-$query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | project id"
-$actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($actionGroupIds.Count)' action group(s) with tag '_deployed_by_amba=True' to be deleted."
 
 If (!$reportOnly.IsPresent) {
 
@@ -200,14 +175,6 @@ If (!$reportOnly.IsPresent) {
         }
     }
 
-    # delete alert resources
-    Write-Host "Deleting alert resources..."
-    $alertResourceIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
-
-    # delete resource groups
-    Write-Host "Deleting resource groups..."
-    $resourceGroupIds | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Force:$force -Confirm:(!$force) | Out-Null }
-
     # delete policy assignments
     Write-Host "Deleting policy assignments..."
     $policyAssignmentIds | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:(!$force) -ErrorAction Stop }
@@ -217,29 +184,17 @@ If (!$reportOnly.IsPresent) {
     $policySetDefinitionIds | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force:$force -Confirm:(!$force) }
 
     # delete policy definitions
-    Write-Host "Deleting policy definitions..."
-    $policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
+    #Write-Host "Deleting policy definitions..."
+    #$policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
 
     # delete role assignments
     Write-Host "Deleting role assignments..."
     $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
 
-    # delete user assigned managed identities
-    Write-Host "Deleting user assigned managed identities..."
-    $UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -Confirm:(!$force) | Out-Null }
-
-    # delete alert processing rules
-    Write-Host "Deleting alert processing rule(s)..."
-    $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
-
-    # delete action groups
-    Write-Host "Deleting action group(s)..."
-    $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
-
     Write-Host "Cleanup complete."
 }
 Else {
-    $resourceToBeDeleted = $alertResourceIds + $resourceGroupIds + $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id + $UamiIds + $alertProcessingRuleIds + $alertProcessingRuleIds
+    $resourceToBeDeleted = $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id
 
     return $resourceToBeDeleted
 }
