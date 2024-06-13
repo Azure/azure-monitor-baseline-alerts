@@ -37,7 +37,7 @@ weight: 30
 
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the management group id for Platform.
 - Choose the value of _```Identity Management Group```_ to the management group id for Identity.
-- Choose the value of _```Management Managemen tGroup```_ to the management group id for Management.
+- Choose the value of _```Management Management Group```_ to the management group id for Management.
 - Choose the value of _```Connectivity Management Group```_ to the management group id for Connectivity.
 - Choose the value of _```Landing Zone Management Group```_ to the management group id for Landing Zones.
 
@@ -58,7 +58,7 @@ For ease of deployment and maintenance we have kept the same variables.
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Identity Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Management Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
-- Choose the value of _```Connectivity ManagementG roup```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
+- Choose the value of _```Connectivity Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Landing Zone Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
