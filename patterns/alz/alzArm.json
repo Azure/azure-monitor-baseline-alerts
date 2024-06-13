@@ -399,13 +399,13 @@
       "AMBAServiceHealthDeploymentName": "[take(concat('amba-ServiceHealth', variables('deploymentSuffix')), 64)]",
       "AMBANotificationAssetsDeploymentName": "[take(concat('amba-NotificationAssets', variables('deploymentSuffix')), 64)]",
       "pidCuaDeploymentName": "[take(concat('amba-pid-', variables('cuaid'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaIdentityDeploymentName": "[take(concat('amba-pid-Identity', variables('cuaidIdentity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaManagementDeploymentName": "[take(concat('amba-pid-Management', variables('cuaidManagement'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity-', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaIdentityDeploymentName": "[take(concat('amba-pid-Identity-', variables('cuaidIdentity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaManagementDeploymentName": "[take(concat('amba-pid-Management-', variables('cuaidManagement'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaLandingZoneDeploymentName": "[take(concat('amba-pid-LZ', variables('cuaidLandingZone'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaHybridVMDeploymentName": "[take(concat('amba-pid-Hybrid', variables('cuaidHybridVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaServiceHealthDeploymentName": "[take(concat('amba-pid-SH', variables('cuaidServiceHealth'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-      "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-Notification', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaHybridVMDeploymentName": "[take(concat('amba-pid-Hybrid-', variables('cuaidHybridVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaServiceHealthDeploymentName": "[take(concat('amba-pid-SH-', variables('cuaidServiceHealth'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-Notification-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "AMBAResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
       "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
       "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]"
@@ -544,7 +544,8 @@
         }
       }
     },
-    // Deploying AMBA-ALZ custom policies.
+    // AMBA-ALZ custom policies.
+    //// Deploying all custom policies except Hybrid VM alerts
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
@@ -565,7 +566,7 @@
         }
       }
     },
-    // Deploying AMBA-ALZ Hybrid Alerts custom policies.
+    //// Deploying Hybrid VM alerts custom policies.
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
