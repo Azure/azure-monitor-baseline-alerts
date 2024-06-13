@@ -1858,7 +1858,7 @@
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_HeartBeat_Alert",
         "parameters": {
           "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), resourceId(parameters('ALZManagementSubscriptionId'), parameters('ALZMonitorResourceGroupName'), 'Microsoft.ManagedIdentity/userAssignedIdentities', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
