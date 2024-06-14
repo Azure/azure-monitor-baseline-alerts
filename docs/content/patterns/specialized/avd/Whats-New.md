@@ -17,6 +17,8 @@ No more automation account for Host Pool Capacity! - This feature was regretably
 ### Bug fixes
 - Fixed issue where VM performance related alerts like that for Disk Free Space would fire multiple times.
 
+- Fixed issue where Alert for 'Session Host Healthcheck Failure' which was not providing the Host RG and Name. (Updated Query)
+
 ### Future updates planned
 The next update is anticipated this summer and will incorporate things like an automation account and runbook to place the VMs in drain mode when one of the performance based metrics fire.
 

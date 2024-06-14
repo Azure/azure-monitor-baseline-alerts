@@ -668,21 +668,9 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: >-
-      let MapToDesc = (idx: long) {
-      case(idx == 0, "DomainJoin",
-      idx == 1, "DomainTrust",
-      idx == 2, "FSLogix",
-      idx == 3, "SxSStack",
-      idx == 4, "URLCheck",
-      idx == 5, "GenevaAgent",
-      idx == 6, "DomainReachable",
-      idx == 7, "WebRTCRedirector",
-      idx == 8, "SxSStackEncryption",
-      idx == 9, "IMDSReachable",
-      idx == 10, "MSIXPackageStaging",
-      "InvalidIndex")};
+      let MapToDesc = (idx: long) { case(idx == 0, "DomainJoin", idx == 1, "DomainTrust", idx == 2, "FSLogix", idx == 3, "SxSStack", idx == 4, "URLCheck", idx == 5, "GenevaAgent", idx == 6, "DomainReachable", idx == 7, "WebRTCRedirector", idx == 8, "SxSStackEncryption", idx == 9, "IMDSReachable", idx == 10, "MSIXPackageStaging", "InvalidIndex") };
       WVDAgentHealthStatus
-      | where TimeGenerated > ago(10m)
+      | where TimeGenerated > (datetime(2024-06-14T11:10:12.0000000Z) - 10m)
       | where Status != 'Available'
       | where AllowNewSessions = True
       | extend CheckFailed = parse_json(SessionHostHealthCheckResult)
@@ -692,8 +680,9 @@
       | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
       | where HealthCheckDesc != 'InvalidIndex'
+      | extend SessionHostRG=split(SessionHostResourceId, "/")[4]
+      | extend SessionHostName=split(SessionHostResourceId, "/")[8]
       | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool
-      | parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName
     autoMitigate: true
     autoResolve: true
     autoResolveTime: "0:30:00"
