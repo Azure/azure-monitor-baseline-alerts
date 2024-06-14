@@ -81,14 +81,14 @@ This initiative is intended for assignment of policies relevant to management co
 
 This initiative is intended for assignment of policies relevant to identity components in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz-platform-identity management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
 
-| **Policy Name**                          | **Path to policy json file**                                                                                                             | **Policy default effect** |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| Deploy_KeyVault_Requests_Alert           | [deploy-kv_requests_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json)                                         | disabled                  |
-| Deploy_activitylog_StorageAccount_Delete | [Deploy_activitylog_StorageAccount_Delete.json](../../../services/Storage/storageAccounts/Deploy_activitylog_StorageAccount_Delete.json) | deployIfNotExists         |
-| Deploy_KeyVault_Availability_Alert       | [deploy-kv_availability_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json)                                 | disabled                  |
-| Deploy_KeyVault_Latency_Alert            | [deploy-kv_latency_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json)                                           | disabled                  |
-| Deploy_KeyVault_Capacity_Alert           | [deploy-kv_capacity_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Capacity-Alert.json)                                         | disabled                  |
-| Deploy_activitylog_KeyVault_Delete       | [deploy-activitylog-KeyVault-Del.json](../../../services/KeyVault/vaults/Deploy-ActivityLog-KeyVault-Del.json)                           | deployIfNotExists         |
+| **Policy Name**                                  | **Policy Reference ID**   | **Path to policy json file**                                                                                                             | **Policy default effect** |
+|--------------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------|---------------------------|
+| Deploy KeyVault Requests Alert                   | ALZ_KVRequest             | [deploy-kv_requests_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json)                                         | disabled                  |
+| Deploy Activity Log Storage Account Delete Alert | ALZ_activitySADelete      | [Deploy_activitylog_StorageAccount_Delete.json](../../../services/Storage/storageAccounts/Deploy_activitylog_StorageAccount_Delete.json) | deployIfNotExists         |
+| Deploy KeyVault Availability Alert               | ALZ_KvAvailability        | [deploy-kv_availability_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json)                                 | disabled                  |
+| Deploy KeyVault Latency Alert                    | ALZ_KvLatencyAvailability | [deploy-kv_latency_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json)                                           | disabled                  |
+| Deploy KeyVault Capacity Alert                   | ALZ_KVCapacity            | [deploy-kv_capacity_alert.json](../../../services/KeyVault/vaults/Deploy-KV-Capacity-Alert.json)                                         | disabled                  |
+| Deploy Activity Log Key Vault Delete Alert       | ALZ_activityKVDelete      | [deploy-activitylog-KeyVault-Del.json](../../../services/KeyVault/vaults/Deploy-ActivityLog-KeyVault-Del.json)                           | deployIfNotExists         |
 
 ## Landing Zone initiative
 
