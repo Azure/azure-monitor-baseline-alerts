@@ -34,7 +34,7 @@
             VALIDATE_YAML: true
             VALIDATE_BASH: true
             VALIDATE_EDITORCONFIG: true
-            FILTER_REGEX_EXCLUDE: ".*docs/themes/hugo-geekdoc/.*"
+            FILTER_REGEX_EXCLUDE: "(.*docs/themes/hugo-geekdoc/.*)|(.*tooling/.*)"
 
     markdown-link-check:
       name: Markdown Link Check
@@ -42,7 +42,7 @@
 
       steps:
         - name: Checkout code
-          uses: actions/checkout@master
+          uses: actions/checkout@v4
           with:
             fetch-depth: 0
 
@@ -52,3 +52,5 @@
             config-file: ".github/linters/mlc_config.json"
             use-verbose-mode: "yes"
             use-quiet-mode: "yes"
+            check-modified-files-only: "yes"
+            base-branch: "main"

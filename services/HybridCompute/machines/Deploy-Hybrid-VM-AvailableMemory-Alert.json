@@ -1,16 +1,19 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_FD_BackendHealth_Alert",
+  "name": "Deploy_Hybrid_VM_AvailableMemory_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Frontdoor Backend Health Percentage Alert",
-    "description": "Policy to audit/deploy FrontDoor Backend Health Percentage  Alert",
+    "displayName": "Deploy Hybrid VM Available Memory Alert",
+    "description": "Policy to audit/deploy VM Available Memory Alert",
     "metadata": {
-      "version": "1.2.0",
-      "Category": "Networking",
+      "version": "1.0.0",
+      "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
       "_deployed_by_amba": "True"
     },
     "parameters": {
@@ -20,7 +23,13 @@
           "displayName": "Severity",
           "description": "Severity of the Alert"
         },
-        "allowedValues": ["0", "1", "2", "3", "4"],
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
         "defaultValue": "2"
       },
       "windowSize": {
@@ -47,7 +56,13 @@
           "displayName": "Evaluation Frequency",
           "description": "Evaluation frequency for the alert"
         },
-        "allowedValues": ["PT1M", "PT5M", "PT15M", "PT30M", "PT1H"],
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
         "defaultValue": "PT5M"
       },
       "autoMitigate": {
@@ -56,7 +71,10 @@
           "displayName": "Auto Mitigate",
           "description": "Auto Mitigate for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "enabled": {
@@ -65,7 +83,10 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "threshold": {
@@ -74,7 +95,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "90"
+        "defaultValue": "1000"
       },
       "effect": {
         "type": "String",
@@ -82,29 +103,19 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": ["deployIfNotExists", "disabled"],
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
         "defaultValue": "disabled"
       },
       "MonitorDisable": {
         "type": "String",
         "metadata": {
-          "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+          "displayName": "Effect",
+          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
-      },
-      "MonitorDisableTagValues": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "ALZ Monitoring disabled tag values(s)",
-          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
-        },
-        "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
-          "Sandbox"
-        ]
       }
     },
     "policyRule": {
@@ -112,11 +123,11 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Network/frontdoors"
+            "equals": "Microsoft.HybridCompute/machines"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notIn": "[[parameters('MonitorDisableTagValues')]"
+            "notEquals": "true"
           }
         ]
       },
@@ -130,16 +141,16 @@
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                "equals": "Microsoft.Network/frontdoors"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "Microsoft.HybridCompute/machines"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
-                "equals": "BackendHealthPercentage"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "Available Memory Bytes"
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/frontdoors/', field('fullName'))]"
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/', field('fullName'))]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -166,11 +177,11 @@
                 "equals": "Average"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].operator",
                 "equals": "LessThan"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
                 "equals": "[[parameters('threshold')]"
               }
             ]
@@ -220,24 +231,26 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-BackendHealthPercentage')]",
+                    "name": "[[concat(parameters('resourceName'), '-AvailableMemoryAlert')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "description": "Metric Alert for Frontdoor Backend Health Percentage",
+                      "description": "Metric Alert for Virtual Machine Available Memory (MBytes)",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
-                      "scopes": ["[[parameters('resourceId')]"],
+                      "scopes": [
+                        "[[parameters('resourceId')]"
+                      ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
                         "allOf": [
                           {
-                            "name": "BackendHealthPercentage",
-                            "metricNamespace": "Microsoft.Network/frontdoors",
-                            "metricName": "BackendHealthPercentage",
+                            "name": "Average_AvailableMBytes",
+                            "metricNamespace": "Microsoft.HybridCompute/machines",
+                            "metricName": "Available Memory Bytes",
                             "operator": "LessThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
