@@ -12,11 +12,11 @@ The ***Bring Your Own Notifications*** (BYON) feature, available with release [2
 
 The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).
 
-Should Brownfield customers decide to use their own notification assets, it will be sufficient to enter the _AG resource IDs_ (separated by comma) and the _APR resource ID_ values in the parameter section called ***policyAssignmentParametersBYON***, leaving the ***policyAssignmentParametersNotificationAssets*** <ins>***with no values***</ins>:
+Should Brownfield customers decide to use their own notification assets, it will be sufficient to enter the _AG resource IDs_ (separated by comma) and the _APR resource ID_ values in the respective parameters ***BYOActionGroup*** and ***BYOAlertProcessingRule***, leaving the ***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId*** and ***ALZFunctionTriggerUrl*** <ins>***with no values***</ins>:
 
   ![policyAssignmentParametersBYON section](../../alz/media/BYON_Params.png)
 
-Differently if they decide to use the assets provided by AMBA or if they're Greenfield customers, they'll just leave the policyAssignmentParametersBYON  section with no values and populate the section called ***policyAssignmentParametersNotificationAssets***:
+Differently if they decide to use the assets provided by AMBA or if they're Greenfield customers, they'll just leave the ***BYOActionGroup*** and ***BYOAlertProcessingRule*** parameters with no values and populate all the others (***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId*** and ***ALZFunctionTriggerUrl***):
 
 ![policyAssignmentParametersNotificationAssets section](../../alz/media/NotificationAssets_Params.png)
 
