@@ -68,7 +68,6 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 var loadPolicyDefinitions = {
   All: [
     // Used in Connectivity policy definitions only
-    // Used in Connectivity policy definitions only
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-ActivityLog-AzureFirewall-Del.json')
     loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
     loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
@@ -82,15 +81,6 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-BitsInPerSecond-Alert.json')
     loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-BitsOutPerSecond-Alert.json')
     loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-CPUUtilization-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsInPerSecond-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsOutPerSecond-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-LineProtocol-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelHigh-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelLow-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelHigh-Alert.json')
-    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelLow-Alert.json')
-    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGBitsPerSecond-Alert.json')
-    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGCPUUtilization-Alert.json')
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsInPerSecond-Alert.json')
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsOutPerSecond-Alert.json')
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-LineProtocol-Alert.json')
@@ -206,7 +196,6 @@ var loadPolicyDefinitions = {
 var loadPolicySetDefinitions = {
   All: [
     string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
-    string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
