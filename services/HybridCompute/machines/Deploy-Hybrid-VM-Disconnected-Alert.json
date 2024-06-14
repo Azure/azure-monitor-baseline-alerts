@@ -178,7 +178,7 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
@@ -208,7 +208,7 @@
             "equals": "Microsoft.HybridCompute/machines"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
@@ -275,7 +275,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -333,7 +333,7 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "MonitorDisable": {
+                  "MonitorDisableTagName": {
                     "type": "String"
                   },
                   "MonitorDisableTagValues": {
@@ -408,7 +408,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}d) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
                                     "resourceIdColumn": "id",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
@@ -464,8 +464,8 @@
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
                                 },
-                                "MonitorDisable": {
-                                  "value": "[[parameters('MonitorDisable')]"
+                                "MonitorDisableTagName": {
+                                  "value": "[[parameters('MonitorDisableTagName')]"
                                 },
                                 "MonitorDisableTagValues": {
                                   "value": "[[parameters('MonitorDisableTagValues')]"
@@ -536,8 +536,8 @@
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
                 },
-                "MonitorDisable": {
-                  "value": "[[parameters('MonitorDisable')]"
+                "MonitorDisableTagName": {
+                  "value": "[[parameters('MonitorDisableTagName')]"
                 },
                 "MonitorDisableTagValues": {
                   "value": "[[parameters('MonitorDisableTagValues')]"

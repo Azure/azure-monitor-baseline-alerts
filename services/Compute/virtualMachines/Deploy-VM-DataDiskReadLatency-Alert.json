@@ -215,7 +215,7 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
@@ -245,7 +245,7 @@
             "equals": "Microsoft.Compute/virtualMachines"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
@@ -312,7 +312,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -379,7 +379,7 @@
                   "computersToInclude": {
                     "type": "array"
                   },
-                  "MonitorDisable": {
+                  "MonitorDisableTagName": {
                     "type": "String"
                   },
                   "MonitorDisableTagValues": {
@@ -454,7 +454,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
+                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -529,8 +529,8 @@
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
                                 },
-                                "MonitorDisable": {
-                                  "value": "[[parameters('MonitorDisable')]"
+                                "MonitorDisableTagName": {
+                                  "value": "[[parameters('MonitorDisableTagName')]"
                                 },
                                 "MonitorDisableTagValues": {
                                   "value": "[[parameters('MonitorDisableTagValues')]"
@@ -610,8 +610,8 @@
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
                 },
-                "MonitorDisable": {
-                  "value": "[[parameters('MonitorDisable')]"
+                "MonitorDisableTagName": {
+                  "value": "[[parameters('MonitorDisableTagName')]"
                 },
                 "MonitorDisableTagValues": {
                   "value": "[[parameters('MonitorDisableTagValues')]"

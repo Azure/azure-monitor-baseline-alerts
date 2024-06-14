@@ -43,7 +43,7 @@
         },
         "defaultValue": "centralus"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "ALZ Monitoring disabled tag name",
@@ -73,7 +73,7 @@
             "equals": "Microsoft.Resources/subscriptions"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
@@ -114,8 +114,7 @@
                     "type": "string"
                   }
                 },
-                "variables": {
-                },
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -149,8 +148,7 @@
                             "apiVersion": "2021-08-08",
                             "name": "[[concat('apr-AMBA-',subscription().displayName, '-002')]",
                             "location": "Global",
-                            "dependsOn": [
-                            ],
+                            "dependsOn": [],
                             "tags": {
                               "_deployed_by_amba": true
                             },

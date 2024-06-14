@@ -215,7 +215,7 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
@@ -245,7 +245,7 @@
             "equals": "Microsoft.HybridCompute/machines"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
@@ -312,7 +312,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -379,7 +379,7 @@
                   "computersToInclude": {
                     "type": "array"
                   },
-                  "MonitorDisable": {
+                  "MonitorDisableTagName": {
                     "type": "String"
                   },
                   "MonitorDisableTagValues": {
@@ -454,7 +454,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
+                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -522,8 +522,8 @@
                                 "computersToInclude": {
                                   "value": "[[parameters('computersToInclude')]"
                                 },
-                                "MonitorDisable": {
-                                  "value": "[[parameters('MonitorDisable')]"
+                                "MonitorDisableTagName": {
+                                  "value": "[[parameters('MonitorDisableTagName')]"
                                 },
                                 "MonitorDisableTagValues": {
                                   "value": "[[parameters('MonitorDisableTagValues')]"
@@ -603,8 +603,8 @@
                 "computersToInclude": {
                   "value": "[[parameters('computersToInclude')]"
                 },
-                "MonitorDisable": {
-                  "value": "[[parameters('MonitorDisable')]"
+                "MonitorDisableTagName": {
+                  "value": "[[parameters('MonitorDisableTagName')]"
                 },
                 "MonitorDisableTagValues": {
                   "value": "[[parameters('MonitorDisableTagValues')]"

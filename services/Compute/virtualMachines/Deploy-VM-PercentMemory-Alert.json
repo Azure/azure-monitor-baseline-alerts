@@ -205,7 +205,7 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
@@ -235,7 +235,7 @@
             "equals": "Microsoft.Compute/virtualMachines"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
@@ -302,7 +302,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"Memory\" and Name == \"AvailableMB\" | extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0 | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"Memory\" and Name == \"AvailableMB\" | extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0 | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -366,7 +366,7 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "MonitorDisable": {
+                  "MonitorDisableTagName": {
                     "type": "String"
                   },
                   "MonitorDisableTagValues": {
@@ -441,7 +441,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"Memory\" and Name == \"AvailableMB\" | extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0 | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisable'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
+                                    "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); InsightsMetrics | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | where _ResourceId !in~ (excludedVMSSNodes) | where Origin == \"vm.azm.ms\" | where Namespace == \"Memory\" and Name == \"AvailableMB\" | extend TotalMemory = toreal(todynamic(Tags)[\"vm.azm.ms/memorySizeMB\"]) | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0 | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated, 15m), Computer, _ResourceId', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                                     "metricMeasureColumn": "AggregatedValue",
                                     "threshold": "[[parameters('threshold')]",
                                     "operator": "[[parameters('operator')]",
@@ -508,8 +508,8 @@
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
                                 },
-                                "MonitorDisable": {
-                                  "value": "[[parameters('MonitorDisable')]"
+                                "MonitorDisableTagName": {
+                                  "value": "[[parameters('MonitorDisableTagName')]"
                                 },
                                 "MonitorDisableTagValues": {
                                   "value": "[[parameters('MonitorDisableTagValues')]"
@@ -586,8 +586,8 @@
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
                 },
-                "MonitorDisable": {
-                  "value": "[[parameters('MonitorDisable')]"
+                "MonitorDisableTagName": {
+                  "value": "[[parameters('MonitorDisableTagName')]"
                 },
                 "MonitorDisableTagValues": {
                   "value": "[[parameters('MonitorDisableTagValues')]"
