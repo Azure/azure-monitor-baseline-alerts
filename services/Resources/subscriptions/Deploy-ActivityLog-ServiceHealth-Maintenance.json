@@ -222,19 +222,7 @@
                     "type": "String"
                   }
                 },
-                "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
-                  "copy": [
-                    {
-                      "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
-                      "mode": "serial",
-                      "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
-                      }
-                    }
-                  ]
-                },
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -324,7 +312,7 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": "[[variables('varActionGroupIds')]"
+                                "actionGroups": "[[array(parameter('BYOActionGroup'))]"
                               },
                               "description": "Service Health Planned Maintenance Alert",
                               "enabled": "[[parameters('enabled')]",
