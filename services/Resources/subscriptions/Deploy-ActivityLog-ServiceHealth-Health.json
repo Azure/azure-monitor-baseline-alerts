@@ -75,21 +75,21 @@
         },
         "defaultValue": "MonitorDisable"
       },
-      "ALZMonitorActionGroupEmail": {
-        "type": "String",
+      "ALZMonitorActionGroupEmails": {
+        "type": "Array",
         "metadata": {
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
-      "BYOActionGroup": {
-        "type": "String",
+      "BYOActionGroups": {
+        "type": "Array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups already deployed by the customer in his environment"
         },
-        "defaultValue": ""
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -126,7 +126,7 @@
                   {
                     "allOf": [
                       {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "value": "[[empty(parameters('BYOActionGroups'))]",
                         "equals": true
                       },
                       {
@@ -138,7 +138,7 @@
                   {
                     "allOf": [
                       {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "value": "[[empty(parameters('BYOActionGroups'))]",
                         "equals": false
                       },
                       {
@@ -148,7 +148,7 @@
                             "anyOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                                "in": "[[parameters('BYOActionGroups')]"
                               }
                             ]
                           }
@@ -215,11 +215,11 @@
                   "enabled": {
                     "type": "string"
                   },
-                  "ALZMonitorActionGroupEmail": {
-                    "type": "string"
+                  "ALZMonitorActionGroupEmails": {
+                    "type": "Array"
                   },
-                  "BYOActionGroup": {
-                    "type": "String"
+                  "BYOActionGroups": {
+                    "type": "Array"
                   }
                 },
                 "variables": {},
@@ -251,17 +251,17 @@
                           "alertResourceGroupName": {
                             "type": "string"
                           },
-                          "ALZMonitorActionGroupEmail": {
-                            "type": "string"
+                          "ALZMonitorActionGroupEmails": {
+                            "type": "Array"
                           },
-                          "BYOActionGroup": {
-                            "type": "String"
+                          "BYOActionGroups": {
+                            "type": "Array"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BYOActionGroup'))]",
+                            "condition": "[[empty(parameters('BYOActionGroups'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthAdvisoryEvent",
@@ -302,7 +302,7 @@
                             }
                           },
                           {
-                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
+                            "condition": "[[not(empty(parameters('BYOActionGroups')))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthAdvisoryEvent",
@@ -312,7 +312,7 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": "[[array(parameter('BYOActionGroup'))]"
+                                "actionGroups": "[[parameter('BYOActionGroups')]"
                               },
                               "description": "Service Health Advisory Alert",
                               "enabled": "[[parameters('enabled')]",
@@ -347,11 +347,11 @@
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
                         },
-                        "ALZMonitorActionGroupEmail": {
-                          "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                        "ALZMonitorActionGroupEmails": {
+                          "value": "[[parameters('ALZMonitorActionGroupEmails')]"
                         },
-                        "BYOActionGroup": {
-                          "value": "[[parameters('BYOActionGroup')]"
+                        "BYOActionGroups": {
+                          "value": "[[parameters('BYOActionGroups')]"
                         }
                       }
                     }
@@ -371,11 +371,11 @@
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
                 },
-                "ALZMonitorActionGroupEmail": {
-                  "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+                "ALZMonitorActionGroupEmails": {
+                  "value": "[[parameters('ALZMonitorActionGroupEmails')]"
                 },
-                "BYOActionGroup": {
-                  "value": "[[parameters('BYOActionGroup')]"
+                "BYOActionGroups": {
+                  "value": "[[parameters('BYOActionGroups')]"
                 }
               }
             }
