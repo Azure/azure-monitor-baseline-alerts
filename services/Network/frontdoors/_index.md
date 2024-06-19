@@ -3,9 +3,9 @@ title: frontdoors
 geekdocCollapseSection: true
 geekdocHidden: false
 ---
-Azure Front Door includes built in reports and hence its important to check built-in report for Azure Front Door and use them where it’s possible before creating any custom reports.
+Azure Front Door comes with pre-configured reports. It’s essential to review and utilize these built-in reports whenever possible before you consider developing custom reports.
 
-Below are some of the reports with the list of usage and scenario:
+Below is a list of reports detailing their usage and scenarios:
 
 1. [Traffic by domain](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#traffic-by-domain-report)
 2. [Traffic by location](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#traffic-by-location-report)
@@ -15,17 +15,24 @@ Below are some of the reports with the list of usage and scenario:
 6. [Top referrer report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=traffic-by-domain#top-referrer-report)
 7. [Top user agent report](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-reports?tabs=topuser-agent#top-user-agent-report)
 
-Each report contains the following key metrics which are helpful in determining performance and availability of Azure Front Door and origin.
+Each report contains the following key metrics which are helpful in determining performance and availability of Azure Front Door and origin. An origin refers to the application deployment from which Azure Front Door retrieves content when caching isn’t enabled or when a cache miss occurs. It supports origins hosted in Azure, as well as applications hosted in your on-premises datacenter or with another cloud provider. The origin is essentially the endpoint for your application backend.
 
-Peak bandwidth. <br>
-Requests. <br>
-Cache hit ratio. <br>
-Total latency. <br>
-5XX error rate. <br>
+List of key metrics available in  Azure Front Door reports.
+- Peak Bandwidth. <br>
+- Requests. <br>
+- Cache Hit Ratio. <br>
+- Total Latency. <br>
+- 5XX Error Rate. <br>
 
-For availability total number of 5xx error rate would identify origin which is dropping requests. For detailed availability, analyze percentage of 5XX over total request to get the percentage of request and it will give you which origin or back-end requires further troubleshooting. In addition to 5xx, 4xx error rate also contributes to unavailability of web application and hence analyze 4xx metrics further aide in analyzing back-end availability.
-Azure Front Door also integrate with Azure monitor, and it is important to create [alert](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-monitor-metrics) based on key threshold for availability and performance such as 4XXErrorRate or 5XXErrorRate.
-The following workflow chart will also help in the selection of key metrics for each use case.
+To check availability, look at the 5xx Error Rate metric to see which origin is failing to handle requests.
+
+To understand availability in detail, calculate the 5XX errors Rate as a percentage of total requests. This will show you the rate of failed requests and indicate which origin or backend needs more troubleshooting.
+
+ 4xx Error Rate also affects the web application’s availability. Therefore, examining the 4xx Error Rate metrics can help you understand and improve backend availability.
+
+Azure Front Door also integrate with Azure Monitor, and it is important to create [alert](https://learn.microsoft.com/azure/frontdoor/standard-premium/how-to-monitor-metrics) based on key threshold for availability and performance such as 4XX Error Rate or 5XX Error Rate.
+
+This workflow chart will guide you in choosing the right key metrics for different scenarios.
 
 
 ```mermaid
