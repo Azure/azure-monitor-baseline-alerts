@@ -234,8 +234,28 @@
                   ],
                   "copyLoop": [
                     {
+                      "name": "emailReceivers",
+                      "count": "[[[length(parameters('varALZMonitorActionGroupEmail'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[[concat('AlzMail-', indexOf(parameters('varALZMonitorActionGroupEmail'), parameters('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')]))]",
+                        "emailAddress": "[[[trim(parameters('varALZMonitorActionGroupEmail')[copyIndex('emailReceivers')])]",
+                        "useCommonSchema": true
+                      }
+                    },
+                    {
+                      "name": "armRoleReceivers",
+                      "count": "[[[length(parameters('ALZArmRoleIds'))]",
+                      "mode": "serial",
+                      "input": {
+                        "name": "[[[concat('AlzARM-', indexOf(parameters('ALZArmRoleIds'), parameters('ALZArmRoleIds')[copyIndex('armRoleReceivers')]))]",
+                        "roleId": "[[[trim(parameters('ALZArmRoleIds')[copyIndex('armRoleReceivers')])]",
+                        "useCommonSchema": true
+                      }
+                    },
+                    {
                       "name": "varEventHubReceivers",
-                      "count": "[[[length(variables('ALZEventHubResourceIds'))]",
+                      "count": "[[[length(parameters('ALZEventHubResourceIds'))]",
                       "mode": "serial",
                       "input": {
                         "name": "[[[concat('AlzEH-', indexOf(parameters('ALZEventHubResourceIds'), parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]))]",
@@ -332,8 +352,6 @@
                             "properties": {
                               "groupShortName": "ActGrp",
                               "enabled": true,
-                              "emailReceivers": "[[if(empty(parameters('ALZMonitorActionGroupEmails')), null(), variables('varMonitorActionGroupEmails'))]",
-                              "armRoleReceivers": "[[if(empty(parameters('ALZArmRoleIds')), null(), variables('varArmRoleIds'))]",
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
                               "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]",
                               "copy": "[[variables('copyLoop')]"
@@ -357,7 +375,7 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroups')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')), parameters('BYOActionGroups'))]",
+                                  "actionGroupIds": "[[if(empty(parameters('BYOActionGroups')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')), parameters('BYOActionGroups'))]",
                                   "actionType": "AddActionGroups"
                                 }
                               ]
