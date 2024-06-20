@@ -237,47 +237,47 @@
                   ],
                   "copyLoop": [
                     {
-                      "name": "varEmailReceivers",
-                      "count": "[[length(parameters('ALZMonitorActionGroupEmails'))]",
+                      "name": "emailReceivers",
+                      "count": "[[[length(parameters('ALZMonitorActionGroupEmails'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzMail-', indexOf(parameters('ALZMonitorActionGroupEmails'), parameters('ALZMonitorActionGroupEmails')[copyIndex('varEmailReceivers')]))]",
-                        "emailAddress": "[[trim(parameters('ALZMonitorActionGroupEmails')[copyIndex('varEmailReceivers')])]",
+                        "name": "[[[concat('AlzMail-', indexOf(parameters('ALZMonitorActionGroupEmails'), parameters('ALZMonitorActionGroupEmails')[copyIndex('varEmailReceivers')]))]",
+                        "emailAddress": "[[[trim(parameters('ALZMonitorActionGroupEmails')[copyIndex('varEmailReceivers')])]",
                         "useCommonSchema": true
                       }
                     },
                     {
-                      "name": "varArmRoleReceivers",
-                      "count": "[[length(parameters('ALZArmRoleIds'))]",
+                      "name": "armRoleReceivers",
+                      "count": "[[[length(parameters('ALZArmRoleIds'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzARM-', indexOf(parameters('ALZArmRoleIds'), parameters('ALZArmRoleIds')[copyIndex('varArmRoleReceivers')]))]",
-                        "roleId": "[[trim(parameters('ALZArmRoleIds')[copyIndex('varArmRoleReceivers')])]",
+                        "name": "[[[concat('AlzARM-', indexOf(parameters('ALZArmRoleIds'), parameters('ALZArmRoleIds')[copyIndex('varArmRoleReceivers')]))]",
+                        "roleId": "[[[trim(parameters('ALZArmRoleIds')[copyIndex('varArmRoleReceivers')])]",
                         "useCommonSchema": true
                       }
                     },
                     {
-                      "name": "varEventHubReceivers",
-                      "count": "[[length(parameters('ALZEventHubResourceIds'))]",
+                      "name": "eventHubReceivers",
+                      "count": "[[[length(parameters('ALZEventHubResourceIds'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzEH-', indexOf(parameters('ALZEventHubResourceIds'), parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]))]",
-                        "subscriptionId": "[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[2])]",
-                        "eventHubNameSpace": "[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[8])]",
-                        "eventHubName": "[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[10])]",
+                        "name": "[[[concat('AlzEH-', indexOf(parameters('ALZEventHubResourceIds'), parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]))]",
+                        "subscriptionId": "[[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[2])]",
+                        "eventHubNameSpace": "[[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[8])]",
+                        "eventHubName": "[[[if(empty(parameters('ALZEventHubResourceIds')), null(), split(trim(parameters('ALZEventHubResourceIds')[copyIndex('varEventHubReceivers')]),'/')[10])]",
                         "useCommonAlertSchema": true,
-                        "tenantId": "[[subscription().tenantId]"
+                        "tenantId": "[[[subscription().tenantId]"
                       }
                     },
                     {
-                      "name": "varWebhookReceivers",
-                      "count": "[[length(parameters('ALZWebhookServiceUris'))]",
+                      "name": "webhookReceivers",
+                      "count": "[[[length(parameters('ALZWebhookServiceUris'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzWh-', indexOf(parameters('ALZWebhookServiceUris'), parameters('ALZWebhookServiceUris')[copyIndex('varWebhookReceivers')]))]",
+                        "name": "[[[concat('AlzWh-', indexOf(parameters('ALZWebhookServiceUris'), parameters('ALZWebhookServiceUris')[copyIndex('varWebhookReceivers')]))]",
                         "identifierUri": "null()",
                         "objectId": "null()",
-                        "serviceUri": "[[trim(parameters('ALZWebhookServiceUris')[copyIndex('varWebhookReceivers')])]",
+                        "serviceUri": "[[[trim(parameters('ALZWebhookServiceUris')[copyIndex('varWebhookReceivers')])]",
                         "useCommonAlertSchema": true,
                         "tenantId": "null()",
                         "useAadAuth": "false"

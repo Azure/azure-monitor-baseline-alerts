@@ -11,9 +11,7 @@
       "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "alzCloudEnvironments": [
-        "AzureCloud"
-      ],
+      "alzCloudEnvironments": ["AzureCloud"],
       "_deployed_by_amba": "True"
     },
     "parameters": {
@@ -23,10 +21,7 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": [
-          "true",
-          "false"
-        ],
+        "allowedValues": ["true", "false"],
         "defaultValue": "true"
       },
       "alertResourceGroupName": {
@@ -61,10 +56,7 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
+        "allowedValues": ["deployIfNotExists", "disabled"],
         "defaultValue": "disabled"
       },
       "MonitorDisable": {
@@ -222,7 +214,18 @@
                     "type": "Array"
                   }
                 },
-                "variables": {},
+                "variables": {
+                  "copyLoop": [
+                    {
+                      "name": "actionGroups",
+                      "count": "[[[length(parameters('BYOActionGroups'))]",
+                      "mode": "serial",
+                      "input": {
+                        "actionGroupId": "[[[trim(parameters('BYOActionGroups')[copyIndex('actionGroups')])]"
+                      }
+                    }
+                  ]
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -279,9 +282,7 @@
                               },
                               "description": "Service Health Security Alert",
                               "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
+                              "scopes": ["[[subscription().id]"],
                               "condition": {
                                 "allOf": [
                                   {
@@ -312,13 +313,11 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": "[[parameter('BYOActionGroups')]"
+                                "copy": "[[variables('copyLoop')]"
                               },
                               "description": "Service Health Security Alert",
                               "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
+                              "scopes": ["[[subscription().id]"],
                               "condition": {
                                 "allOf": [
                                   {
