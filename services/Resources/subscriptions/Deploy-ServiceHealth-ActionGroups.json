@@ -11,9 +11,7 @@
       "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "alzCloudEnvironments": [
-        "AzureCloud"
-      ],
+      "alzCloudEnvironments": ["AzureCloud"],
       "_deployed_by_amba": "True"
     },
     "parameters": {
@@ -237,7 +235,7 @@
                       "useCommonAlertSchema": true
                     }
                   ],
-                  "copy": [
+                  "copyLoop": [
                     {
                       "name": "varEmailReceivers",
                       "count": "[[length(parameters('ALZMonitorActionGroupEmails'))]",
@@ -357,12 +355,9 @@
                             "properties": {
                               "groupShortName": "SH-ActGrp",
                               "enabled": true,
-                              "emailReceivers": "[[if(empty(parameters('ALZMonitorActionGroupEmails')), null(), variables('varEmailReceivers'))]",
-                              "armRoleReceivers": "[[if(empty(parameters('ALZArmRoleIds')), null(), variables('varArmRoleReceivers'))]",
                               "logicAppReceivers": "[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]",
-                              "eventHubReceivers": "[[if(empty(parameters('ALZEventHubResourceIds')), null(), variables('varEventHubReceivers'))]",
-                              "webhookReceivers": "[[if(empty(parameters('ALZWebhookServiceUris')), null(), variables('varWebhookReceivers'))]",
-                              "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]"
+                              "azureFunctionReceivers": "[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]",
+                              "copy": "[[variables('copyLoop')]"
                             }
                           }
                         ]
