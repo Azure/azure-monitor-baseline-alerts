@@ -28,15 +28,15 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   - Change the value of _```ALZMonitorResourceGroupLocation```_ to specify the location for said resource group.
 
 - Change the value of parameters under the _```policyAssignmentParametersNotificationAssets```_ according to the instructions below:
-  - Change the value of _```ALZMonitorActionGroupEmail```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
+  - Change the value of _```ALZMonitorActionGroupEmails```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
   - Change the value of _```ALZLogicappResourceId```_ to the Logic app resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used.
   - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [_**Get-AzLogicAppTriggerCallbackUrl**_](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to _**Logic app designer**_, expand the trigger activity (_When an HTTP request is received_) and copy the value in the URL field using the 2-sheets icon.
 
     ![Get Logic app callback url](../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Change the value of _```ALZArmRoleId```_ to the Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is required.
-  - Change the value of _```ALZEventHubResourceId```_ to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
-  - Change the value of _```ALZWebhookServiceUri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
+  - Change the value of _```ALZArmRoleIds```_ to the Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is required.
+  - Change the value of _```ALZEventHubResourceIds```_ to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
+  - Change the value of _```ALZWebhookServiceUris```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
   - Change the value of _```ALZFunctionResourceId```_ to the Function resource id to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.
   - Change the value of _```ALZFunctionTriggerUrl```_ to the Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to _**Code + Test**_, select **Get function URL** from the menu top menu and copy the value in the URL field using the 2-sheets icon.
 
@@ -45,16 +45,16 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   {{< hint type=note >}}
   It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
 
-    "ALZMonitorActionGroupEmail": {
-      "value": "action1@contoso.com , action2@contoso.com , action3@contoso.com"
+    "ALZMonitorActionGroupEmails": {
+      "value": ["action1@contoso.com", "action2@contoso.com", "action3@contoso.com"]
       },
 
-    "ALZArmRoleId": {
-        "value": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635, b24988ac-6180-42a0-ab88-20f7382dd24c"
+    "ALZArmRoleIds": {
+        "value": ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
       },
 
-    "ALZWebhookServiceUri": {
-      "value": "https://webhookUri1.webhook.com, http://webhookUri2.webhook.com"
+    "ALZWebhookServiceUris": {
+      "value": ["https://webhookUri1.webhook.com", "http://webhookUri2.webhook.com"]
     },
   {{< /hint >}}
 

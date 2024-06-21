@@ -1,7 +1,7 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
+  "name": "Deploy_activityLog_ResourceHealth_Unhealthy_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
@@ -11,9 +11,7 @@
       "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "alzCloudEnvironments": [
-        "AzureCloud"
-      ],
+      "alzCloudEnvironments": ["AzureCloud"],
       "_deployed_by_amba": "True"
     },
     "parameters": {
@@ -23,10 +21,7 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": [
-          "true",
-          "false"
-        ],
+        "allowedValues": ["true", "false"],
         "defaultValue": "true"
       },
       "alertResourceGroupName": {
@@ -61,10 +56,7 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
+        "allowedValues": ["deployIfNotExists", "disabled"],
         "defaultValue": "disabled"
       },
       "MonitorDisable": {
@@ -75,13 +67,13 @@
         },
         "defaultValue": "MonitorDisable"
       },
-      "BYOActionGroup": {
-        "type": "String",
+      "BYOActionGroups": {
+        "type": "Array",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "description": "The Resource IDs of existing Action Groups already deployed by the customer in his environment"
         },
-        "defaultValue": ""
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -118,7 +110,7 @@
                   {
                     "allOf": [
                       {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "value": "[[empty(parameters('BYOActionGroups'))]",
                         "equals": true
                       },
                       {
@@ -130,7 +122,7 @@
                   {
                     "allOf": [
                       {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
+                        "value": "[[empty(parameters('BYOActionGroups'))]",
                         "equals": false
                       },
                       {
@@ -140,7 +132,7 @@
                             "anyOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                                "in": "[[parameters('BYOActionGroups')]"
                               }
                             ]
                           }
@@ -195,19 +187,18 @@
                   "enabled": {
                     "type": "string"
                   },
-                  "BYOActionGroup": {
-                    "type": "String"
+                  "BYOActionGroups": {
+                    "type": "Array"
                   }
                 },
                 "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
-                  "copy": [
+                  "copyLoop": [
                     {
-                      "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "name": "actionGroups",
+                      "count": "[[[length(parameters('BYOActionGroups'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[[trim(parameters('BYOActionGroups')[copyIndex('actionGroups')])]"
                       }
                     }
                   ]
@@ -223,7 +214,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ResourceHealtAlert",
+                    "name": "ResourceHealthAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
@@ -240,14 +231,14 @@
                           "alertResourceGroupName": {
                             "type": "string"
                           },
-                          "BYOActionGroup": {
-                            "type": "String"
+                          "BYOActionGroups": {
+                            "type": "Array"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BYOActionGroup'))]",
+                            "condition": "[[empty(parameters('BYOActionGroups'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ResourceHealthUnhealthyAlert",
@@ -266,9 +257,7 @@
                               },
                               "description": "Resource Health Unhealthy Alert",
                               "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
+                              "scopes": ["[[subscription().id]"],
                               "condition": {
                                 "allOf": [
                                   {
@@ -309,7 +298,7 @@
                             }
                           },
                           {
-                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
+                            "condition": "[[not(empty(parameters('BYOActionGroups')))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ResourceHealthUnhealthyAlert",
@@ -319,13 +308,11 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": "[[variables('varActionGroupIds')]"
+                                "copy": "[[variables('copyLoop')]"
                               },
                               "description": "Resource Health Unhealthy Alert",
                               "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
+                              "scopes": ["[[subscription().id]"],
                               "condition": {
                                 "allOf": [
                                   {
@@ -374,8 +361,8 @@
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
                         },
-                        "BYOActionGroup": {
-                          "value": "[[parameters('BYOActionGroup')]"
+                        "BYOActionGroups": {
+                          "value": "[[parameters('BYOActionGroups')]"
                         }
                       }
                     }
@@ -395,8 +382,8 @@
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
                 },
-                "BYOActionGroup": {
-                  "value": "[[parameters('BYOActionGroup')]"
+                "BYOActionGroups": {
+                  "value": "[[parameters('BYOActionGroups')]"
                 }
               }
             }
