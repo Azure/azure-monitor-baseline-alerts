@@ -152,18 +152,18 @@ This initiative is intended for assignment of policies relevant to Hybrid VM ale
 
 | **Policy Display Name** | **Reference ID** | **Path to policy json file** | **Policy default effect** |
 | ----------------------- | ---------------- | ---------------------------- | ------------------------- |
-| Deploy Hybrid VM CPU Alert | ALZ_HybridVMPercentCPU | [Deploy-Hybrid-VM-PercentCPU-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentCPU-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Data Disk Read Latency Alert | ALZ_HybridVMDataDiskReadLatency | [Deploy-Hybrid-VM-DataDiskReadLatency-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Data Disk Space Alert | ALZ_HybridVMDataDiskSpace | [Deploy-Hybrid-VM-DataDiskSpace-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskSpace-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Data Disk Write Latency Alert | ALZ_HybridVMDataDiskWriteLatency | [Deploy-Hybrid-VM-DataDiskWriteLatency-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Disconnected Alert | ALZ_HybridVMDisconnected | [Deploy-Hybrid-VM-Disconnected-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM HeartBeat Alert | ALZ_HybridVMHeartBeatRG | [Deploy-Hybrid-VM-HeartBeatAlertRG](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeatAlert.json) | deployIfNotExists |
-| Deploy Hybrid VM Memory Alert | ALZ_HybridVMPercentMemory | [Deploy-Hybrid-VM-PercentMemory-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Network Read Alert | ALZ_HybridVMNetworkIn | [Deploy-Hybrid-VM-NetworkIn-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkIn-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM Network Write Alert | ALZ_HybridVMNetworkOut | [Deploy-Hybrid-VM-NetworkOut-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkOut-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM OS Disk Read Latency Alert | ALZ_HybridVMOSDiskReadLatency | [Deploy-Hybrid-VM-OSDiskReadLatency-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskReadLatency-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM OS Disk Space Alert | ALZ_HybridVMOSDiskSpace | [Deploy-Hybrid-VM-OSDiskSpace-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskSpace-Alert.json) | deployIfNotExists |
-| Deploy Hybrid VM OS Disk Write Latency Alert | ALZ_HybridVMOSDiskWriteLatency | [Deploy-Hybrid-VM-OSDiskWriteLatency-Alert](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskWriteLatency-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM CPU Alert | ALZ_HybridVMPercentCPU | [Deploy-Hybrid-VM-PercentCPU-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentCPU-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Data Disk Read Latency Alert | ALZ_HybridVMDataDiskReadLatency | [Deploy-Hybrid-VM-DataDiskReadLatency-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Data Disk Space Alert | ALZ_HybridVMDataDiskSpace | [Deploy-Hybrid-VM-DataDiskSpace-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskSpace-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Data Disk Write Latency Alert | ALZ_HybridVMDataDiskWriteLatency | [Deploy-Hybrid-VM-DataDiskWriteLatency-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Disconnected Alert | ALZ_HybridVMDisconnected | [Deploy-Hybrid-VM-Disconnected-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM HeartBeat Alert | ALZ_HybridVMHeartBeatRG | [Deploy-Hybrid-VM-HeartBeatAlertRG](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeat-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Memory Alert | ALZ_HybridVMPercentMemory | [Deploy-Hybrid-VM-PercentMemory-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Network Read Alert | ALZ_HybridVMNetworkIn | [Deploy-Hybrid-VM-NetworkIn-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkIn-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM Network Write Alert | ALZ_HybridVMNetworkOut | [Deploy-Hybrid-VM-NetworkOut-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkOut-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM OS Disk Read Latency Alert | ALZ_HybridVMOSDiskReadLatency | [Deploy-Hybrid-VM-OSDiskReadLatency-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskReadLatency-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM OS Disk Space Alert | ALZ_HybridVMOSDiskSpace | [Deploy-Hybrid-VM-OSDiskSpace-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskSpace-Alert.json) | deployIfNotExists |
+| Deploy Hybrid VM OS Disk Write Latency Alert | ALZ_HybridVMOSDiskWriteLatency | [Deploy-Hybrid-VM-OSDiskWriteLatency-Alert](../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskWriteLatency-Alert.json) | deployIfNotExists |
 
 ## Service Health initiative
 
