@@ -8,7 +8,7 @@
     "displayName": "Deploy Service Health Incident Alert",
     "description": "Policy to Deploy Service Health Incident Alert",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -84,12 +84,12 @@
         "defaultValue": ""
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
         },
-        "defaultValue": ""
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -223,14 +223,13 @@
                   }
                 },
                 "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
                   "copy": [
                     {
                       "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "count": "[[length(parameters('BYOActionGroup'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
                       }
                     }
                   ]
@@ -267,7 +266,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "String"
+                            "type": "array"
                           }
                         },
                         "variables": {},

@@ -108,12 +108,12 @@
         "defaultValue": ""
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "BYOAlertProcessingRule": {
         "type": "String",
@@ -209,14 +209,13 @@
                     "type": "String"
                   },
                   "BYOActionGroup": {
-                    "type": "String"
+                    "type": "array"
                   },
                   "BYOAlertProcessingRule": {
                     "type": "String"
                   }
                 },
                 "variables": {
-                  "varBYOAGs": "[[split(parameters('BYOActionGroup'), ',')]",
                   "varBYOAlertProcessingRule": "[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]",
                   "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]",
                   "varALZWebhookServiceUri": "[[array(split(parameters('ALZWebhookServiceUri'),','))]",
@@ -287,9 +286,9 @@
                     },
                     {
                       "name": "varAGIds",
-                      "count": "[[length(variables('varBYOAGs'))]",
+                      "count": "[[length(parameter(BYOActionGroup))]",
                       "mode": "serial",
-                      "input": "[[trim(variables('varBYOAGs')[copyIndex('varAGIds')])]"
+                      "input": "[[trim(parameter(BYOActionGroup)[copyIndex('varAGIds')])]"
                     }
                   ]
                 },
@@ -343,7 +342,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "string"
+                            "type": "array"
                           },
                           "BYOAlertProcessingRule": {
                             "type": "string"

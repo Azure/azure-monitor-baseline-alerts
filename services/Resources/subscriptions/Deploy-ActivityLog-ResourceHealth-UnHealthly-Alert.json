@@ -8,7 +8,7 @@
     "displayName": "Deploy Resource Health Unhealthy Alert",
     "description": "Policy to Deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -76,12 +76,12 @@
         "defaultValue": "MonitorDisable"
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
           "displayName": "Customer defined Action Group Resource ID",
           "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
         },
-        "defaultValue": ""
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -196,18 +196,17 @@
                     "type": "string"
                   },
                   "BYOActionGroup": {
-                    "type": "String"
+                    "type": "array"
                   }
                 },
                 "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
                   "copy": [
                     {
                       "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "count": "[[length(paremeters('BYOActionGroup'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[trim(paremeters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
                       }
                     }
                   ]
@@ -241,7 +240,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "String"
+                            "type": "array"
                           }
                         },
                         "variables": {},
