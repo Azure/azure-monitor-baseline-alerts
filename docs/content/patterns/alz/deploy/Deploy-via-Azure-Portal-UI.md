@@ -1,36 +1,43 @@
 ---
-title: Deploy via the Azure Portal UI
+title: Deploy via the Azure Portal (Preview)
 weight: 30
---- 
+---
 
 
-## Deploy via the Azure Portal UI  
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2Faa3189d4e37b4a9bc7081640a46df4f40dcc8271%2Fpatterns%2Falz%2FalzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fazure%2Fazure-monitor-baseline-alerts%2F2591f662e0ca8294e7df3bb9b4556e9214fb36b8%2Fpatterns%2Falz%2Falz-portal.json) 
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 
 ## Deployment Settings Blade
 
+![Deployment Settings Blade](../../media/PortalAccelerator/DeploymentSettings.png)
+
+
+
+
 - Change the values on the Deployment Settings blade to the instructions below:
-
-  {{< hint type=note >}}
-  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.
-  {{< /hint >}}
-
   - Choose the Management Group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-  - Choose the value of _```Region```_ to your Azure location of choice.
+  - Choose the value of _```Region```_ to specify your Azure location of choice.
   - Change the value of _```Resource group for baseline alerts```_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-  - Choose the value of _```Resource Group Location```_ to specify the location for said resource group.
-  - Choose the value of _```Telemetry Opt-Out```_ Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.
+  - Choose the value of _```Resource group location```_ to specify the location for said resource group.
+  - Choose the value of _```Bring Your Own User Assigned Managed Identity```_ to specify if you want to bring your own user assigned managed identity for monitoring purpose.
+  - Define the value of _```User Assigned Managed Identity Name```_ to specify the name of the user assigned managed identity for monitoring purpose.
+  - Choose the value of _```Bring Your Own User Assigned Managed Identity Resource Id```_ to specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose.
+  - Choose the value of _```Management Subscription Id```_ to specify the subscription id where the user assigned managed identity will be created.
+  - Choose the value of _```Customer Usage Selection Option```_ Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.
   - Change the value of _```Resource Group Tags```_ to specify the tags to be added to said resource group.
 
 ## Management Groups Settings Blade
 - Change the values on the Management Groups Settings blade to the instructions below:
 
+![Management Groups Settings Blade](../../media/PortalAccelerator/MGSettings.png)
+
+
   ### If you are aligned to ALZ
 
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the management group id for Platform.
 - Choose the value of _```Identity Management Group```_ to the management group id for Identity.
-- Choose the value of _```Management Managemen tGroup```_ to the management group id for Management.
+- Choose the value of _```Management Management Group```_ to the management group id for Management.
 - Choose the value of _```Connectivity Management Group```_ to the management group id for Connectivity.
 - Choose the value of _```Landing Zone Management Group```_ to the management group id for Landing Zones.
 
@@ -51,7 +58,7 @@ For ease of deployment and maintenance we have kept the same variables.
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Identity Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Management Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
-- Choose the value of _```Connectivity ManagementG roup```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
+- Choose the value of _```Connectivity Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 - Choose the value of _```Landing Zone Management Group```_ to the pseudo root management group id, also called the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
@@ -65,7 +72,14 @@ For ease of deployment and maintenance we have kept the same variables.
 
 ## Notification Settings Blade
 
-- values on the Notification Settings Blade blade to the instructions below:
+![Notification Settings Blade](../../media/PortalAccelerator/NotificationSettings.png)
+
+
+  {{< hint type=note >}}
+  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.
+  {{< /hint >}}
+
+- Change values on the Notification Settings Blade blade to the instructions below:
   - Change the value of _```Bring Your Own Notifications (BYON)```_ to  _``` Yes```_  if you wish to use existing Action Groups and Alert Processing Rule. The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).
   - Change the value of _```Email contact for action group notifications```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
   - Change the value of _```Webhook Service Uri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
@@ -85,9 +99,9 @@ For ease of deployment and maintenance we have kept the same variables.
   It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
 
      action1@contoso.com , action2@contoso.com , action3@contoso.com
-    
+
      https://webhookUri1.webhook.com, http://webhookUri2.webhook.com
-  
+
   {{< /hint >}}
 
 
