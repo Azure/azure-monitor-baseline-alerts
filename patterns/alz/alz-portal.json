@@ -149,28 +149,6 @@
               }
             },
             {
-              "name": "telemetryOptOut",
-              "type": "Microsoft.Common.OptionsGroup",
-              "label": "Customer Usage Selection Option",
-              "defaultValue": "No",
-              "toolTip": "Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.",
-              "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
-              "constraints": {
-                "required": true,
-                "allowedValues": [
-                  {
-                    "label": "Enabled",
-                    "value": "Yes"
-                  },
-                  {
-                    "label": "Disabled (recommended)",
-                    "value": "No"
-                  }
-                ]
-              },
-              "visible": true
-            },
-            {
               "name": "deployAMBAPortalAccelerator",
               "type": "Microsoft.Common.TextBox",
               "label": "Deploy AMBA Portal Accelerator",
@@ -200,7 +178,45 @@
               "resources": [
                 "Microsoft.Resources/subscriptions/resourceGroups"
               ]
-            }
+            },
+            {
+              "name": "cuaSection",
+              "type": "Microsoft.Common.Section",
+              "label": "Telemetry Tracking Using Customer Usage Attribution (PID)",
+              "elements": [
+                  {
+                      "name": "cuaSettingsInfo",
+                      "type": "Microsoft.Common.InfoBox",
+                      "visible": true,
+                      "options": {
+                          "text": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more.",
+                          "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+                          "style": "Info"
+                      }
+                  },
+                  {
+                      "name": "telemetryOptOut",
+                      "type": "Microsoft.Common.OptionsGroup",
+                      "visible": true,
+                      "label": "Customer Usage Selection Options",
+                      "defaultValue": "Enabled",
+                      "constraints": {
+                          "allowedValues": [
+                              {
+                                  "label": "Enabled",
+                                  "value": "No"
+                              },
+                              {
+                                  "label": "Disabled",
+                                  "value": "Yes"
+                              }
+                          ],
+                          "required": true
+                      }
+                  }
+              ],
+              "visible": true
+          }
           ]
         },
         {
@@ -386,7 +402,7 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Hybrid VM",
               "subLabel": "",
-              "defaultValue": "No",
+              "defaultValue": "Yes",
               "toolTip": "Assign HybridVM initiative",
               "constraints": {
                 "required": true,
@@ -481,7 +497,7 @@
               "name": "NotificationOption",
               "type": "Microsoft.Common.OptionsGroup",
               "label": "Bring Your Own Notifications (BYON)",
-              "defaultValue": "",
+              "defaultValue": "No",
               "toolTip": "The BYON feature works by setting the necessary parameter values before running the ALZ pattern deployment. Customers have the choice to either specify one or more existing AGs and one APR or to enter target values so the AG and the APR will be created using the actions specified in the parameter file (including the option to not specify any value and creating an empty AG).",
               "constraints": {
                 "allowedValues": [
@@ -783,7 +799,7 @@
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
         "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule.id]",
         "deployAMBAPortalAccelerator": "Yes",
-        "telemetryOptOut": "[steps('basics').telemetryOptOut]"
+        "telemetryOptOut": "[steps('basics').cuaSection.telemetryOptOut]"
       }
     }
   }
