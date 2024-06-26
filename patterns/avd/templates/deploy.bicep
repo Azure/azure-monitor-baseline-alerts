@@ -56,7 +56,9 @@ var AMBAalertsHostPool = loadYamlContent('../../../services/DesktopVirtualizatio
 var AMBAalertsStorage = loadYamlContent('../../../services/Storage/storageAccounts/alerts.yaml')
 var AMBAalertsANF = loadYamlContent('../../../services/NetApp/netAppAccounts/alerts.yaml')
 var AMBAalertsVM = loadYamlContent('../../../services/Compute/virtualMachines/alerts.yaml')
-var AMBAalertsSvcHealth = loadYamlContent('../../../services/Resources//subscriptions/alerts.yaml')
+var AMBAalertsSvcHealth = loadYamlContent('../../../services/Resources/subscriptions/alerts.yaml')
+
+var AlertsStorage = [for alert in AMBAalertsStorage: contains(alert.tags, 'avd') ? alert : null]
 
 var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}'
 var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v3.0.0)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
@@ -103,7 +105,7 @@ module metricsResources 'modules/alertResources.bicep' = {
     AlertNamePrefix: AlertNamePrefix
     AlertDescriptionHeader: AlertDescriptionHeader
     AMBAalertsHostPool: AMBAalertsHostPool
-    AMBAalertsStorage: AMBAalertsStorage
+    AMBAalertsStorage: AlertsStorage
     AMBAalertsANF: AMBAalertsANF
     AMBAalertsVM: VMMetricAlerts
     AMBAalertsSvcHealth: AMBAalertsSvcHealth
