@@ -4,7 +4,7 @@ geekdocCollapseSection: true
 weight: 71
 ---
 
-## What is the latest release
+## What is included in the latest release
 
 The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://github.com/Azure/azure-monitor-baseline-alerts) repository.
 
@@ -26,9 +26,10 @@ Depending if you used the official code from the official GitHub repository or f
 
 1. Sync your fork *(only required if you forked the original repo)*
 2. Update your local copy of the repo *(only required if you cloned your fork on your local hard drive)*
-3. Deploy ***(always required)***
-4. Check for specific requirements when updating to a newer release ***(always required)***
-5. Start the policy remediation ***(always required)***
+3. Check for specific requirements when updating to a newer release ***(always required)***
+4. Update the parameter file with any new parameter and configuration
+5. Deploy ***(always required)***
+6. Start the policy remediation ***(always required)***
 
 ### Sync your fork (only required if you forked the original repo)
 
@@ -68,6 +69,17 @@ Within the code editor of your choice, make sure you pull the changes from your 
 
 </br>
 
+### Check for detailed requirement when updating to a newer release (always required)
+
+Check the content of the page corresponding to the release you are updating from, to see if there's any pre or post deployment action required. For instance, if you're updating from release **2023-11-14**, check the page called ***Updating from release 2023-11-14***
+
+  ![Updating from release](../media/UpdatingFromRelease.png)
+
+### Update the parameter file with any new parameter and configuration
+
+The parameter may undergo changes in the structure or in the number of parameters that need to be configured.
+For this reason, based on what documented in the [What's new](../Whats-New.md) or in the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) pages. For this reason it mandatory that you check your current parameter file content with the one coming with the release, making sure you with new or refactored parameters.
+
 ### Deploy (always required)
 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
@@ -76,12 +88,6 @@ Once you reached this stage, you are ready to deploy the latest release. You can
 - To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
 - To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
-
-### Check for detailed requirement when updating to a newer release (always required)
-
-Check the content of the page corresponding to the release you are updating from, to see if there's any pre or post deployment action required. For instance, if you're updating from release **2023-11-14**, check the page called ***Updating from release 2023-11-14***
-
-  ![Updating from release](../media/UpdatingFromRelease.png)
 
 ### Start the policy remediation (always required)
 
