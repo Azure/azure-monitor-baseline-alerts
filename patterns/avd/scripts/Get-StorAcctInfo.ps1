@@ -13,10 +13,10 @@ AzureDiagnostics
 
 [CmdletBinding(SupportsShouldProcess)]
 param(
-	[Parameter(Mandatory)]
-	[string]$CloudEnvironment,
     [Parameter(Mandatory)]
-	[array]$StorageAccountResourceIDs
+    [string]$CloudEnvironment,
+    [Parameter(Mandatory)]
+    [array]$StorageAccountResourceIDs
 )
 
 Connect-AzAccount -Identity -Environment $CloudEnvironment | Out-Null
@@ -33,7 +33,7 @@ Foreach ($storageAcct in $storageAccountResourceIDs) {
     #Write-Host "Working on Storage:" $storageAcctName "in" $resourceGroup
 
     # $shares = Get-AzStorageShare -ResourceGroupName $resourceGroup -StorageAccountName $storageAcctName -Name 'profiles' -GetShareUsage
-	$shares = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName
+    $shares = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName
 
     # Foreach Share
     Foreach ($share in $shares) {
