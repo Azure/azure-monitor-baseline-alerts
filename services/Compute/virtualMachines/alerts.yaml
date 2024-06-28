@@ -6,8 +6,8 @@
   visible: false
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     metricName: Available Memory Bytes
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -39,8 +39,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -99,8 +99,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: LessThan
@@ -159,8 +159,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -217,6 +217,8 @@
   type: Log
   verified: false
   visible: true
+  tags:
+  - none
   properties:
     severity: 1
     operator: GreaterThan
@@ -231,14 +233,23 @@
       operator: Include
       values:
       - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: >-
-      Heartbeat
+    query: 'Heartbeat
+
       | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
-      | extend Duration = datetime_diff('minute',now(),TimeGenerated)
-      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId
+
+      | extend Duration = datetime_diff(''minute'',now(),TimeGenerated)
+
+      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m),
+      _ResourceId
+
+      '
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
@@ -271,8 +282,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -287,15 +298,25 @@
       operator: Include
       values:
       - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: >-
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Network" and Name == "ReadBytesPerSecond"
+
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, NetworkInterface
+
+      '
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
@@ -319,8 +340,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -335,15 +356,25 @@
       operator: Include
       values:
       - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: >-
-      InsightsMetrics
+    query: 'InsightsMetrics
+
       | where Origin == "vm.azm.ms"
+
       | where Namespace == "Network" and Name == "WriteBytesPerSecond"
+
       | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
-      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface
+
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
+      _ResourceId, NetworkInterface
+
+      '
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:10:00
@@ -367,8 +398,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -425,8 +456,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: LessThan
@@ -483,8 +514,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -539,8 +570,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: GreaterThan
@@ -591,8 +622,8 @@
   visible: true
   tags:
   - alz
-  - avd
   - hpc
+  - avd
   properties:
     severity: 2
     operator: LessThan
@@ -646,7 +677,8 @@
   type: Metric
   verified: true
   visible: true
-  tags: null
+  tags:
+  - none
   properties:
     metricName: Percentage CPU
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -657,7 +689,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80
-  references:
   guid: a9bac9fd-2382-4ce1-b68b-8898caf45038
 - name: Data Disk IOPS Consumed Percentage
   description: Percentage of data disk I/Os consumed per minute. Only available on
@@ -665,8 +696,8 @@
   type: Metric
   verified: true
   visible: true
-  tags: 
-  - avd
+  tags:
+  - none
   properties:
     metricName: Data Disk IOPS Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -677,7 +708,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-  references:
   guid: b0cbb9f8-cc67-4e7d-95a8-5a058c6de7e0
 - name: OS Disk IOPS Consumed Percentage
   description: Percentage of operating system disk I/Os consumed per minute. Only
@@ -685,7 +715,7 @@
   type: Metric
   verified: true
   visible: true
-  tags: 
+  tags:
   - avd
   properties:
     metricName: OS Disk IOPS Consumed Percentage
@@ -697,7 +727,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 95.0
-  references:
   guid: a2bf3c43-d327-473b-9204-f77e2a0fe398
 - name: Available Memory Bytes
   description: Amount of physical memory, in bytes, immediately available for allocation
@@ -719,7 +748,6 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1000000000
-  references:
   guid: bf1e0006-6089-4f92-a115-fc83aa0fbdd5
 - name: Network In Total
   description: The number of bytes received on all network interfaces by the Virtual
@@ -727,7 +755,8 @@
   type: Metric
   verified: true
   visible: true
-  tags: null
+  tags:
+  - none 
   properties:
     metricName: Network In Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -738,7 +767,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 500000000000
-  references:
   guid: ea4501a3-1e77-4df1-ab61-3ee28ae529eb
 - name: Network Out Total
   description: The number of bytes out on all network interfaces by the Virtual Machine(s)
@@ -746,7 +774,8 @@
   type: Metric
   verified: true
   visible: true
-  tags: null
+  tags:
+  - none 
   properties:
     metricName: Network Out Total
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -757,7 +786,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 200000000000
-  references:
   guid: e2028144-b142-445c-b544-3bb438537c8f
 - name: VmAvailabilityMetric
   description: Measure of Availability of Virtual machines over time.
@@ -778,7 +806,6 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1
-  references:
   guid: 3fa5376a-705a-48e4-b314-6282a74c9f7c
 - name: OS Disk Bandwidth Consumed Percentage
   description: Percentage of operating system disk bandwidth consumed per minute.
@@ -789,7 +816,6 @@
   tags:
   - auto-generated
   - agc-9986
-  - avd
   properties:
     metricName: OS Disk Bandwidth Consumed Percentage
     metricNamespace: Microsoft.Compute/virtualMachines
@@ -800,7 +826,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: f7e19635-0118-4040-83d5-2f4c2150aef1
 - name: Inbound Flows
   description: Inbound Flows are number of current flows in the inbound direction
@@ -821,7 +846,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
-  references:
   guid: 6de4e570-4270-4e9b-949e-5680b061e7fd
 - name: Data Disk Bandwidth Consumed Percentage
   description: Percentage of data disk bandwidth consumed per minute. Only available
@@ -830,7 +854,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-8551
   properties:
@@ -843,7 +866,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: b57b0749-f851-4c3d-b7fb-7cf26f3bf16a
 - name: Outbound Flows
   description: Outbound Flows are number of current flows in the outbound direction
@@ -864,7 +886,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100000.0
-  references:
   guid: a477bf96-4b0f-471c-b5d3-0acdb59612e6
 - name: Data Disk Queue Depth
   description: Data Disk Queue Depth(or Queue Length)
@@ -886,7 +907,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-  references:
   guid: 040bc9c3-da5c-4fd0-b160-979ce89364ae
 - name: CPU Credits Remaining
   description: Total number of credits available to burst. Only available on B-series
@@ -907,7 +927,6 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 5.0
-  references:
   guid: 821888a1-6490-4a2d-8850-bdc45057a853
 - name: OS Disk Queue Depth
   description: OS Disk Queue Depth(or Queue Length)
@@ -927,7 +946,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-  references:
   guid: 36262245-4c8a-4143-9ab4-68e9c23ae19a
 - name: VM Cached IOPS Consumed Percentage
   description: Percentage of cached disk IOPS consumed by the VM. Only available on
@@ -936,7 +954,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-2736
   properties:
@@ -949,7 +966,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: c878115f-2a89-446e-8980-ef4f152120c5
 - name: VM Cached Bandwidth Consumed Percentage
   description: Percentage of cached disk bandwidth consumed by the VM. Only available
@@ -970,7 +986,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: eb85f15b-b705-418f-b8ed-93d8cc7a9a6c
 - name: VM Uncached IOPS Consumed Percentage
   description: Percentage of uncached disk IOPS consumed by the VM. Only available
@@ -991,7 +1006,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: 765ceb5b-ec1d-44d7-b94d-bb139030df81
 - name: VM Uncached Bandwidth Consumed Percentage
   description: Percentage of uncached disk bandwidth consumed by the VM. Only available
@@ -1012,7 +1026,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 90.0
-  references:
   guid: e3981e7b-fd8b-4e07-bb68-d598c020c12d
 - name: Disk Write Operations/Sec
   description: Disk Write IOPS
@@ -1020,7 +1033,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-1534
   properties:
@@ -1033,7 +1045,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
-  references:
   guid: edff41cb-d9b8-46ba-ba39-42747c1a4c4b
 - name: OS Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period for OS
@@ -1042,7 +1053,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-1023
   properties:
@@ -1055,7 +1065,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 48000000.0
-  references:
   guid: 929b095e-5ea1-48b4-bf4e-bfc1a941a908
 - name: CPU Credits Consumed
   description: Total number of credits consumed by the Virtual Machine. Only available
@@ -1076,7 +1085,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
-  references:
   guid: a407ae10-6263-449c-81b9-172760d6dc6d
 - name: Data Disk Write Bytes/sec
   description: Bytes/Sec written to a single disk during monitoring period
@@ -1084,7 +1092,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-960
   properties:
@@ -1097,7 +1104,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000000.0
-  references:
   guid: e45d685d-14c4-4422-8096-6f11d628fb20
 - name: Disk Read Operations/Sec
   description: Disk Read IOPS
@@ -1105,7 +1111,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-674
   properties:
@@ -1118,7 +1123,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 400.0
-  references:
   guid: 8bc489c0-d2f7-43c1-9bb7-478c9503fb2e
 - name: Data Disk Max Burst IOPS
   description: Maximum IOPS Data Disk can achieve with bursting
@@ -1138,7 +1142,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3750.0
-  references:
   guid: 9b0f41af-1c52-4890-a23a-3bfebfee1154
 - name: Data Disk Read Operations/Sec
   description: Read IOPS from a single disk during monitoring period
@@ -1158,7 +1161,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 100.0
-  references:
   guid: 3c5518ea-9a0f-44ff-b197-47b3d6db060b
 - name: Disk Write Bytes
   description: Bytes written to disk during monitoring period
@@ -1166,7 +1168,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-367
   properties:
@@ -1179,7 +1180,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3500000000.0
-  references:
   guid: b1cc650c-24fe-4f9e-a2ec-5757816526c0
 - name: Data Disk Write Operations/Sec
   description: Write IOPS from a single disk during monitoring period
@@ -1199,7 +1199,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 50.0
-  references:
   guid: 326b359d-e0a2-4055-8e1f-f9c5f9df5599
 - name: OS Disk Max Burst IOPS
   description: Maximum IOPS OS Disk can achieve with bursting
@@ -1207,7 +1206,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-303
   properties:
@@ -1220,7 +1218,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 3500.0
-  references:
   guid: 916dc60b-b2d2-4708-9fa4-6a36b244f499
 - name: Disk Read Bytes
   description: Bytes read from disk during monitoring period
@@ -1228,7 +1225,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-301
   properties:
@@ -1241,7 +1237,6 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 4000000000.0
-  references:
   guid: b9221998-f2bb-4ae8-b2c8-f9c4750e06f7
 - name: OS Disk Write Operations/Sec
   description: Write IOPS from a single disk during monitoring period for OS disk
@@ -1249,7 +1244,6 @@
   verified: false
   visible: true
   tags:
-  - avd
   - auto-generated
   - agc-291
   properties:
@@ -1262,5 +1256,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 200.0
-  references:
   guid: 3be4037a-c692-402d-843d-b3fe43053edf

@@ -51,24 +51,17 @@ param ANFVolumeResourceIds array = []
 
 param Tags object = {}
 
-// Load all AMBA alerts (Array of Objects)
-var AMBAalertsHostPool = loadYamlContent('../../../services/DesktopVirtualization/hostPools/alerts.yaml')
-var AMBAalertsStorage = loadYamlContent('../../../services/Storage/storageAccounts/alerts.yaml')
-var AMBAalertsANF = loadYamlContent('../../../services/NetApp/netAppAccounts/alerts.yaml')
-var AMBAalertsVM = loadYamlContent('../../../services/Compute/virtualMachines/alerts.yaml')
-var AMBAalertsSvcHealth = loadYamlContent('../../../services/Resources/subscriptions/alerts.yaml')
+// Load all AMBA alerts (Array of Objects) only where tag is 'avd and marked visible
+var AMBAalertsHostPool = [for alert in (loadYamlContent('../../../services/DesktopVirtualization/hostPools/alerts.yaml')): contains(alert.tags, 'avd') && (alert.visible) ? alert : null]
+var AMBAalertsStorage = [for alert in (loadYamlContent('../../../services/Storage/storageAccounts/alerts.yaml')): contains(alert.tags, 'avd') && (alert.visible) ? alert : null]
+var AMBAalertsANF = [for alert in (loadYamlContent('../../../services/NetApp/netAppAccounts/alerts.yaml')): contains(alert.tags, 'avd') && (alert.visible) ? alert : null]
+var AMBAalertsVM = [for alert in (loadYamlContent('../../../services/Compute/virtualMachines/alerts.yaml')): contains(alert.tags, 'avd') && (alert.visible) ? alert : null]
+//var AMBAalertsSvcHealth = [for alert in (loadYamlContent('../../../services/Resources/subscriptions/alerts.yaml')): contains(alert.tags, 'avd') && (alert.visible) ? alert : null]
 
-var AlertsStorage = [for alert in AMBAalertsStorage: contains(alert.tags, 'avd') ? alert : null]
 
 var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}'
 var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v3.0.0)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false
-
-// Filter out VM Alerts that can only be scoped to the VM object (Deployment scope is to Subscription)
-var VMScopeOnly = ['Network In Total', 'Network Out Total', 'Inbound Flows', 'Outbound Flows']
-var VMMetricAlerts = filter(AMBAalertsVM, (x) => !contains(VMScopeOnly, x.name))
-var VMScopeAlerts = filter(AMBAalertsVM, (x) => contains(VMScopeOnly, x.name))  //placeholder for future use (scope to VM)
-
 
 // var UsrManagedIdentityName = 'id-ds-avdAlerts-Deployment'
 
@@ -105,10 +98,10 @@ module metricsResources 'modules/alertResources.bicep' = {
     AlertNamePrefix: AlertNamePrefix
     AlertDescriptionHeader: AlertDescriptionHeader
     AMBAalertsHostPool: AMBAalertsHostPool
-    AMBAalertsStorage: AlertsStorage
+    AMBAalertsStorage: AMBAalertsStorage
     AMBAalertsANF: AMBAalertsANF
-    AMBAalertsVM: VMMetricAlerts
-    AMBAalertsSvcHealth: AMBAalertsSvcHealth
+    AMBAalertsVM: AMBAalertsVM
+   // AMBAalertsSvcHealth: AMBAalertsSvcHealth
     AutoResolveAlert: AutoResolveAlert
     DistributionGroup: DistributionGroup
     Environment: Environment
@@ -124,3 +117,4 @@ module metricsResources 'modules/alertResources.bicep' = {
     resourceGroupAVDAlerts
   ]
 }
+

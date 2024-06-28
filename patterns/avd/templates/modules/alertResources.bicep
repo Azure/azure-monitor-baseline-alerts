@@ -5,7 +5,7 @@ param AMBAalertsHostPool array
 param AMBAalertsStorage array
 param AMBAalertsANF array
 param AMBAalertsVM array
-param AMBAalertsSvcHealth array
+//param AMBAalertsSvcHealth array
 param AutoResolveAlert bool
 param ANFVolumeResourceIds array
 param DistributionGroup string
@@ -106,7 +106,7 @@ module logAlertHostPoolQueriesSub 'createAlerts.bicep' =  {
     }
   }
 
-module logAlertSvcHealth 'createAlerts.bicep' = {
+/* module logAlertSvcHealth 'createAlerts.bicep' = {
     name: 'lnk_AlertsSvcHlth'
     params: {
       AlertDescriptionHeader: AlertDescriptionHeader
@@ -116,12 +116,13 @@ module logAlertSvcHealth 'createAlerts.bicep' = {
       ActionGroupId: actionGroup.id
       Environment: Environment
       Location: Location
+      LogAlertType: 'Service'
       LogAnalyticsWorkspaceResourceId: LogAnalyticsWorkspaceResourceId
       SetEnabled: SetEnabled
       Tags: Tags
       MetricScope: SubscriptionId
     }
-  }
+  } */
 
 
 
