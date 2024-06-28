@@ -1,11 +1,11 @@
-# Deployed from resources.bicep 
+# Deployed from resources.bicep
 # Code for Runbook associated with Action Account deployment
 # Collects Azure Files Storage data and writes output in following format:
 # AzFiles, Subscription ,RG ,StorAcct ,Share ,Quota ,GB Used ,%Available
 
 <#
 //Kusto Query for Log Analtyics
-AzureDiagnostics 
+AzureDiagnostics
 | where Category has "JobStreams"
 | where StreamType_s has "Output"
 | extend Results=split(ResultDescription,',')
@@ -27,11 +27,11 @@ $SubName = (Get-azSubscription -SubscriptionId ($StorageAccountResourceIDs -spli
 
 # Foreach storage account
 Foreach ($storageAcct in $storageAccountResourceIDs) {
-    
+
     $resourceGroup = ($storageAcct -split '/')[4]
     $storageAcctName = ($storageAcct -split '/')[8]
     #Write-Host "Working on Storage:" $storageAcctName "in" $resourceGroup
- 
+
     # $shares = Get-AzStorageShare -ResourceGroupName $resourceGroup -StorageAccountName $storageAcctName -Name 'profiles' -GetShareUsage
 	$shares = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName
 
@@ -42,13 +42,13 @@ Foreach ($storageAcct in $storageAccountResourceIDs) {
         #Write-Host "Share: " $shareName
         $shareQuota = $share.QuotaGiB #GB
         $shareUsageInGB = $share.ShareUsageBytes / 1073741824 # Bytes to GB
-        
-        $RemainingPercent = 100 - ($shareUsageInGB / $shareQuota)
+
+        $RemainingPercent = 100 - ($shareUsageInGB / $shareQuota * 100)
         #Write-Host "..." $shareUsageInGB "of" $shareQuota "GB used"
         #Write-Host "..." $RemainingPercent "% Available"
         # Add file share resource Id
         $shareResourceId = $share.Id
-        # Compile results 
+        # Compile results
         # AzFiles / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available
         $Data = @('AzFiles', $SubName, $resourceGroup, $storageAcctName, $shareName, $shareQuota.ToString(), $shareUsageInGB.ToString(), $RemainingPercent.ToString(), $shareResourceId)
         $i = 0
