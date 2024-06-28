@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.28.1.47646",
-      "templateHash": "1985976587747610493"
+      "templateHash": "17428570985354062884"
     }
   },
   "parameters": {
@@ -111,6 +111,28 @@
     }
   },
   "variables": {
+    "copy": [
+      {
+        "name": "AMBAalertsHostPool",
+        "count": "[length(variables('$fxv#0'))]",
+        "input": "[if(and(contains(variables('$fxv#0')[copyIndex('AMBAalertsHostPool')].tags, 'avd'), variables('$fxv#0')[copyIndex('AMBAalertsHostPool')].visible), variables('$fxv#0')[copyIndex('AMBAalertsHostPool')], null())]"
+      },
+      {
+        "name": "AMBAalertsStorage",
+        "count": "[length(variables('$fxv#1'))]",
+        "input": "[if(and(contains(variables('$fxv#1')[copyIndex('AMBAalertsStorage')].tags, 'avd'), variables('$fxv#1')[copyIndex('AMBAalertsStorage')].visible), variables('$fxv#1')[copyIndex('AMBAalertsStorage')], null())]"
+      },
+      {
+        "name": "AMBAalertsANF",
+        "count": "[length(variables('$fxv#2'))]",
+        "input": "[if(and(contains(variables('$fxv#2')[copyIndex('AMBAalertsANF')].tags, 'avd'), variables('$fxv#2')[copyIndex('AMBAalertsANF')].visible), variables('$fxv#2')[copyIndex('AMBAalertsANF')], null())]"
+      },
+      {
+        "name": "AMBAalertsVM",
+        "count": "[length(variables('$fxv#3'))]",
+        "input": "[if(and(contains(variables('$fxv#3')[copyIndex('AMBAalertsVM')].tags, 'avd'), variables('$fxv#3')[copyIndex('AMBAalertsVM')].visible), variables('$fxv#3')[copyIndex('AMBAalertsVM')], null())]"
+      }
+    ],
     "$fxv#0": [
       {
         "name": "No Resources Available",
@@ -876,7 +898,7 @@
               ]
             },
             {
-              "name": "SessionHostRG",
+              "name": "SessionHostResourceId",
               "operator": "Include",
               "values": [
                 "*"
@@ -887,7 +909,7 @@
             "numberOfEvaluationPeriods": 1,
             "minFailingPeriodsToAlert": 1
           },
-          "query": "let MapToDesc = (idx: long) { case(idx == 0, \"DomainJoin\", idx == 1, \"DomainTrust\", idx == 2, \"FSLogix\", idx == 3, \"SxSStack\", idx == 4, \"URLCheck\", idx == 5, \"GenevaAgent\", idx == 6, \"DomainReachable\", idx == 7, \"WebRTCRedirector\", idx == 8, \"SxSStackEncryption\", idx == 9, \"IMDSReachable\", idx == 10, \"MSIXPackageStaging\", \"InvalidIndex\")}; WVDAgentHealthStatus | where TimeGenerated > ago(10m) | where Status != 'Available' | where AllowNewSessions = True | extend CheckFailed = parse_json(SessionHostHealthCheckResult) | mv-expand CheckFailed | where CheckFailed.AdditionalFailureDetails.ErrorCode != 0 | extend HealthCheckName = tolong(CheckFailed.HealthCheckName) | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult) | extend HealthCheckDesc = MapToDesc(HealthCheckName) | where HealthCheckDesc != 'InvalidIndex' | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" HostPoolResourceGroup \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool | parse SessionHostResourceId with \"/subscriptions/\" HostSubscription \"/resourceGroups/\" SessionHostRG \" /providers/Microsoft.Compute/virtualMachines/\" SessionHostName",
+          "query": "let MapToDesc = (idx: long) { case(idx == 0, \"DomainJoin\", idx == 1, \"DomainTrust\", idx == 2, \"FSLogix\", idx == 3, \"SxSStack\", idx == 4, \"URLCheck\", idx == 5, \"GenevaAgent\", idx == 6, \"DomainReachable\", idx == 7, \"WebRTCRedirector\", idx == 8, \"SxSStackEncryption\", idx == 9, \"IMDSReachable\", idx == 10, \"MSIXPackageStaging\", \"InvalidIndex\") };\n WVDAgentHealthStatus\n | where TimeGenerated > ago(10m)\n | where Status != 'Available'\n | where AllowNewSessions = True\n | extend CheckFailed = parse_json(SessionHostHealthCheckResult)\n | mv-expand CheckFailed\n | where CheckFailed.AdditionalFailureDetails.ErrorCode != 0\n | extend HealthCheckName = tolong(CheckFailed.HealthCheckName)\n | extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)\n | extend HealthCheckDesc = MapToDesc(HealthCheckName)\n | where HealthCheckDesc != 'InvalidIndex'\n | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" HostPoolResourceGroup \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool \"/providers/microsoft.compute/virtualmachines/\" SessionHostName",
           "autoMitigate": true,
           "autoResolve": true,
           "autoResolveTime": "0:30:00"
@@ -1024,7 +1046,7 @@
         "verified": true,
         "visible": true,
         "tags": [
-          "alz",
+          "avd",
           "hpc",
           "alz"
         ],
@@ -1073,7 +1095,7 @@
         "verified": false,
         "visible": true,
         "tags": [
-          "alz",
+          "avd",
           "hpc",
           "alz"
         ],
@@ -1187,6 +1209,7 @@
           "threshold": "[json('0')]",
           "autoMitigate": false
         },
+        "references": "",
         "guid": "a4adc774-7ca4-4a4b-b2fa-514b9fcbbc80"
       },
       {
@@ -1196,6 +1219,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-42019",
           "hpc",
@@ -1232,6 +1256,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-3835",
           "hpc",
@@ -1268,6 +1293,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-2468",
           "hpc",
@@ -1512,6 +1538,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-8269"
         ],
@@ -1541,6 +1568,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-1467",
           "hpc",
@@ -1597,6 +1625,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-617"
         ],
@@ -1626,6 +1655,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-585"
         ],
@@ -1640,6 +1670,7 @@
           "criterionType": "StaticThresholdCriterion",
           "threshold": "[json('99.9')]"
         },
+        "references": "",
         "guid": "45fef979-c27e-425a-a6c3-e5bd28b1eb86"
       },
       {
@@ -1649,6 +1680,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-578"
         ],
@@ -1663,6 +1695,7 @@
           "criterionType": "StaticThresholdCriterion",
           "threshold": "[json('5222680231936')]"
         },
+        "references": "",
         "guid": "8660f357-83f9-4719-bdf3-bae57af2d967"
       }
     ],
@@ -1674,6 +1707,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-19726"
         ],
@@ -1697,6 +1731,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-1914"
         ],
@@ -1721,6 +1756,7 @@
         "verified": false,
         "visible": false,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-321",
           "hpc"
@@ -1746,6 +1782,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-320",
           "hpc",
@@ -1771,6 +1808,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-374"
         ],
@@ -1794,6 +1832,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-305"
         ],
@@ -1817,6 +1856,7 @@
         "verified": false,
         "visible": true,
         "tags": [
+          "avd",
           "auto-generated",
           "agc-301"
         ],
@@ -1843,7 +1883,8 @@
         "visible": false,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "metricName": "Available Memory Bytes",
@@ -1887,7 +1928,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -1953,7 +1995,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2019,7 +2062,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2083,6 +2127,9 @@
         "type": "Log",
         "verified": false,
         "visible": true,
+        "tags": [
+          "none"
+        ],
         "properties": {
           "severity": 1,
           "operator": "GreaterThan",
@@ -2099,13 +2146,20 @@
               "values": [
                 "*"
               ]
+            },
+            {
+              "name": "Disk",
+              "operator": "Include",
+              "values": [
+                "*"
+              ]
             }
           ],
           "failingPeriods": {
             "numberOfEvaluationPeriods": 1,
             "minFailingPeriodsToAlert": 1
           },
-          "query": "Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff('minute',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
+          "query": "Heartbeat\n| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId\n| extend Duration = datetime_diff('minute',now(),TimeGenerated)\n| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId\n",
           "autoMitigate": true,
           "autoResolve": true,
           "autoResolveTime": "0:10:00"
@@ -2153,7 +2207,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2171,13 +2226,20 @@
               "values": [
                 "*"
               ]
+            },
+            {
+              "name": "Disk",
+              "operator": "Include",
+              "values": [
+                "*"
+              ]
             }
           ],
           "failingPeriods": {
             "numberOfEvaluationPeriods": 1,
             "minFailingPeriodsToAlert": 1
           },
-          "query": "InsightsMetrics | where Origin == \"vm.azm.ms\" | where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\" | extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
+          "query": "InsightsMetrics\n| where Origin == \"vm.azm.ms\"\n| where Namespace == \"Network\" and Name == \"ReadBytesPerSecond\"\n| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])\n| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface\n",
           "autoMitigate": true,
           "autoResolve": true,
           "autoResolveTime": "0:10:00"
@@ -2212,7 +2274,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2230,13 +2293,20 @@
               "values": [
                 "*"
               ]
+            },
+            {
+              "name": "Disk",
+              "operator": "Include",
+              "values": [
+                "*"
+              ]
             }
           ],
           "failingPeriods": {
             "numberOfEvaluationPeriods": 1,
             "minFailingPeriodsToAlert": 1
           },
-          "query": "InsightsMetrics | where Origin == \"vm.azm.ms\" | where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\" | extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface",
+          "query": "InsightsMetrics\n| where Origin == \"vm.azm.ms\"\n| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"\n| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])\n| summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface\n",
           "autoMitigate": true,
           "autoResolve": true,
           "autoResolveTime": "0:10:00"
@@ -2271,7 +2341,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2337,7 +2408,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2403,7 +2475,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2469,7 +2542,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2528,7 +2602,8 @@
         "visible": true,
         "tags": [
           "alz",
-          "hpc"
+          "hpc",
+          "avd"
         ],
         "properties": {
           "severity": 2,
@@ -2585,7 +2660,9 @@
         "type": "Metric",
         "verified": true,
         "visible": true,
-        "tags": null,
+        "tags": [
+          "none"
+        ],
         "properties": {
           "metricName": "Percentage CPU",
           "metricNamespace": "Microsoft.Compute/virtualMachines",
@@ -2605,7 +2682,9 @@
         "type": "Metric",
         "verified": true,
         "visible": true,
-        "tags": null,
+        "tags": [
+          "none"
+        ],
         "properties": {
           "metricName": "Data Disk IOPS Consumed Percentage",
           "metricNamespace": "Microsoft.Compute/virtualMachines",
@@ -2625,7 +2704,9 @@
         "type": "Metric",
         "verified": true,
         "visible": true,
-        "tags": null,
+        "tags": [
+          "avd"
+        ],
         "properties": {
           "metricName": "OS Disk IOPS Consumed Percentage",
           "metricNamespace": "Microsoft.Compute/virtualMachines",
@@ -2669,7 +2750,9 @@
         "type": "Metric",
         "verified": true,
         "visible": true,
-        "tags": null,
+        "tags": [
+          "none"
+        ],
         "properties": {
           "metricName": "Network In Total",
           "metricNamespace": "Microsoft.Compute/virtualMachines",
@@ -2689,7 +2772,9 @@
         "type": "Metric",
         "verified": true,
         "visible": true,
-        "tags": null,
+        "tags": [
+          "none"
+        ],
         "properties": {
           "metricName": "Network Out Total",
           "metricNamespace": "Microsoft.Compute/virtualMachines",
@@ -3259,236 +3344,9 @@
         "guid": "3be4037a-c692-402d-843d-b3fe43053edf"
       }
     ],
-    "$fxv#4": [
-      {
-        "name": "Resource Health Unhealthy",
-        "description": "Resource Health Unhealthy Alert",
-        "type": "ActivityLog",
-        "verified": false,
-        "visible": true,
-        "tags": [
-          "alz"
-        ],
-        "properties": {
-          "category": "ResourceHealth",
-          "causes": [
-            "PlatoformInitiated",
-            "UserInitiated"
-          ],
-          "currentHealthStatus": [
-            "Degraded",
-            "Unavailable"
-          ]
-        },
-        "references": [
-          {
-            "name": "Resource Health",
-            "url": "https://learn.microsoft.com/azure/service-health/resource-health-overview"
-          },
-          {
-            "name": "Best practices for setting up service health alerts",
-            "url": "https://www.microsoft.com/videoplayer/embed/RE2OtUa"
-          }
-        ],
-        "deployments": [
-          {
-            "name": "Deploy Resource Health Unhealthy Alert",
-            "template": "Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json",
-            "type": "Policy",
-            "tags": [
-              "alz"
-            ],
-            "properties": {
-              "scope": "Subscription",
-              "policyScope": "managementGroup",
-              "documented": true,
-              "alertName": "ResourceHealthUnhealthyAlert"
-            }
-          }
-        ],
-        "guid": "afcf3ad4-93c9-46e4-bdb7-3a8e9af405d1"
-      },
-      {
-        "name": "Service Health Advisory",
-        "description": "Service Health Advisory Alert",
-        "type": "ActivityLog",
-        "verified": false,
-        "visible": true,
-        "tags": [
-          "alz"
-        ],
-        "properties": {
-          "category": "ServiceHealth",
-          "incidentType": "ActionRequired"
-        },
-        "references": [
-          {
-            "name": "Activity Log Service Notifications",
-            "url": "https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal"
-          },
-          {
-            "name": "Best practices for setting up service health alerts",
-            "url": "https://www.microsoft.com/videoplayer/embed/RE2OtUa"
-          }
-        ],
-        "deployments": [
-          {
-            "name": "Deploy Service Health Advisory Alert",
-            "template": "Deploy-ActivityLog-ServiceHealth-Health.json",
-            "type": "Policy",
-            "tags": [
-              "alz"
-            ],
-            "properties": {
-              "scope": "Subscription",
-              "policyScope": "managementGroup",
-              "documented": true,
-              "alertName": "ServiceHealthAdvisoryEvent"
-            }
-          }
-        ],
-        "guid": "7b56e46e-8fbf-404d-a1e5-fbb3d9ea8d7e"
-      },
-      {
-        "name": "Service Health Incident",
-        "description": "Service Health Incident Alert",
-        "type": "ActivityLog",
-        "verified": false,
-        "visible": true,
-        "tags": [
-          "alz"
-        ],
-        "properties": {
-          "category": "ServiceHealth",
-          "incidentType": "Incident"
-        },
-        "references": [
-          {
-            "name": "Activity Log Service Notifications",
-            "url": "https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal"
-          },
-          {
-            "name": "Best practices for setting up service health alerts",
-            "url": "https://www.microsoft.com/videoplayer/embed/RE2OtUa"
-          }
-        ],
-        "deployments": [
-          {
-            "name": "Deploy Service Health Incident Alert",
-            "template": "Deploy-ActivityLog-ServiceHealth-Incident.json",
-            "type": "Policy",
-            "tags": [
-              "alz"
-            ],
-            "properties": {
-              "scope": "Subscription",
-              "policyScope": "managementGroup",
-              "documented": true,
-              "alertName": "ServiceHealthIncident"
-            }
-          }
-        ],
-        "guid": "f0dfdd7b-8e50-4a96-ba7f-9a58280f0df0"
-      },
-      {
-        "name": "Service Health Maintenance",
-        "description": "Service Health Maintenance Alert",
-        "type": "ActivityLog",
-        "verified": false,
-        "visible": true,
-        "tags": [
-          "alz"
-        ],
-        "properties": {
-          "category": "ServiceHealth",
-          "incidentType": "Maintenance"
-        },
-        "references": [
-          {
-            "name": "Activity Log Service Notifications",
-            "url": "https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal"
-          },
-          {
-            "name": "Best practices for setting up service health alerts",
-            "url": "https://www.microsoft.com/videoplayer/embed/RE2OtUa"
-          }
-        ],
-        "deployments": [
-          {
-            "name": "Deploy Service Health Maintenance Alert",
-            "template": "Deploy-ActivityLog-ServiceHealth-Maintenance.json",
-            "type": "Policy",
-            "tags": [
-              "alz"
-            ],
-            "properties": {
-              "scope": "Subscription",
-              "policyScope": "managementGroup",
-              "documented": true,
-              "alertName": "ServiceHealthPlannedMaintenance"
-            }
-          }
-        ],
-        "guid": "26a33edf-0698-424d-aae2-6bcd5af323d5"
-      },
-      {
-        "name": "Service Health Security",
-        "description": "Service Health Security Alert",
-        "type": "ActivityLog",
-        "verified": false,
-        "visible": true,
-        "tags": [
-          "alz"
-        ],
-        "properties": {
-          "category": "ServiceHealth",
-          "incidentType": "Security"
-        },
-        "references": [
-          {
-            "name": "Activity Log Service Notifications",
-            "url": "https://learn.microsoft.com/azure/service-health/alerts-activity-log-service-notifications-portal"
-          },
-          {
-            "name": "Best practices for setting up service health alerts",
-            "url": "https://www.microsoft.com/videoplayer/embed/RE2OtUa"
-          }
-        ],
-        "deployments": [
-          {
-            "name": "Deploy Service Health Security Advisory Alert",
-            "template": "Deploy-ActivityLog-ServiceHealth-Security.json",
-            "type": "Policy",
-            "tags": [
-              "alz"
-            ],
-            "properties": {
-              "scope": "Subscription",
-              "policyScope": "managementGroup",
-              "documented": true,
-              "alertName": "ServiceHealthSecurityIncident"
-            }
-          }
-        ],
-        "guid": "89dbd4e4-f709-47c6-a243-4207678c8473"
-      }
-    ],
-    "AMBAalertsHostPool": "[variables('$fxv#0')]",
-    "AMBAalertsStorage": "[variables('$fxv#1')]",
-    "AMBAalertsANF": "[variables('$fxv#2')]",
-    "AMBAalertsVM": "[variables('$fxv#3')]",
-    "AMBAalertsSvcHealth": "[variables('$fxv#4')]",
     "ActionGroupName": "[format('ag-avdmetrics-{0}-{1}', parameters('Environment'), parameters('Location'))]",
     "AlertDescriptionHeader": "Automated AVD Alert Deployment Solution (v3.0.0)\n",
     "ResourceGroupCreate": "[if(equals(parameters('ResourceGroupStatus'), 'New'), true(), false())]",
-    "VMScopeOnly": [
-      "Network In Total",
-      "Network Out Total",
-      "Inbound Flows",
-      "Outbound Flows"
-    ],
-    "VMMetricAlerts": "[filter(variables('AMBAalertsVM'), lambda('x', not(contains(variables('VMScopeOnly'), lambdaVariables('x').name))))]",
-    "VMScopeAlerts": "[filter(variables('AMBAalertsVM'), lambda('x', contains(variables('VMScopeOnly'), lambdaVariables('x').name)))]",
     "cuaid": "b8b4a533-1bb2-402f-bbd9-3055d00d885a",
     "PidcuaAvdPatternDeploymentName": "[take(format('pid-{0}-{1}', variables('cuaid'), uniqueString(parameters('Location'), subscription().displayName, parameters('time'))), 64)]"
   },
@@ -3615,10 +3473,7 @@
             "value": "[variables('AMBAalertsANF')]"
           },
           "AMBAalertsVM": {
-            "value": "[variables('VMMetricAlerts')]"
-          },
-          "AMBAalertsSvcHealth": {
-            "value": "[variables('AMBAalertsSvcHealth')]"
+            "value": "[variables('AMBAalertsVM')]"
           },
           "AutoResolveAlert": {
             "value": "[parameters('AutoResolveAlert')]"
@@ -3658,7 +3513,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.28.1.47646",
-              "templateHash": "1041806585284524600"
+              "templateHash": "11659799678936882336"
             }
           },
           "parameters": {
@@ -3681,9 +3536,6 @@
               "type": "array"
             },
             "AMBAalertsVM": {
-              "type": "array"
-            },
-            "AMBAalertsSvcHealth": {
               "type": "array"
             },
             "AutoResolveAlert": {
@@ -3787,7 +3639,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.28.1.47646",
-                      "templateHash": "11222782609573944328"
+                      "templateHash": "10753960737872147634"
                     }
                   },
                   "parameters": {
@@ -3815,6 +3667,10 @@
                     "Location": {
                       "type": "string"
                     },
+                    "LogAlertType": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
                     "LogAnalyticsWorkspaceResourceId": {
                       "type": "string"
                     },
@@ -3831,42 +3687,142 @@
                         "name": "metricAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric'), and(not(contains(parameters('AMBAalerts')[copyIndex()].name, 'blobServices')), not(contains(parameters('AMBAalerts')[copyIndex()].name, 'Queue'))))]",
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), if(contains(parameters('AMBAalerts')[copyIndex()].name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment'))))]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
-                      "location": "global",
+                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric')]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsMetric-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "scopes": "[if(equals(parameters('AMBAalerts')[copyIndex()].properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "name": "Metric1",
-                              "metricNamespace": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].properties.metricName]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]",
-                              "criterionType": "[parameters('AMBAalerts')[copyIndex()].properties.criterionType]"
-                            }
-                          ],
-                          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "targetResourceType": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                        "targetResourceRegion": "[parameters('Location')]",
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupId')]",
-                            "webHookProperties": {}
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          },
+                          "MetricScope": {
+                            "value": "[parameters('MetricScope')]"
                           }
-                        ]
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "12929944027502652437"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "MetricScope": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[join(variables('AlertReferences'), '\n')]",
+                            "Description": "[format('{0}{1}\nResources:\n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew'))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/metricAlerts",
+                              "apiVersion": "2018-03-01",
+                              "name": "[variables('Name')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
+                              "location": "global",
+                              "properties": {
+                                "description": "[variables('Description')]",
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "scopes": "[if(equals(parameters('Alert').properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "windowSize": "[parameters('Alert').properties.windowSize]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "name": "Metric1",
+                                      "metricNamespace": "[parameters('Alert').properties.metricNamespace]",
+                                      "metricName": "[parameters('Alert').properties.metricName]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]",
+                                      "criterionType": "[parameters('Alert').properties.criterionType]"
+                                    }
+                                  ],
+                                  "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "targetResourceType": "[parameters('Alert').properties.metricNamespace]",
+                                "targetResourceRegion": "[parameters('Location')]",
+                                "actions": [
+                                  {
+                                    "actionGroupId": "[parameters('ActionGroupId')]",
+                                    "webHookProperties": {}
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       }
                     },
                     {
@@ -3874,49 +3830,299 @@
                         "name": "logqueryAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Log')]",
-                      "type": "Microsoft.Insights/scheduledQueryRules",
-                      "apiVersion": "2022-08-01-preview",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment')))]",
-                      "location": "[parameters('Location')]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), not(equals(parameters('LogAlertType'), 'Service')))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuery-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "actions": {
-                          "actionGroups": [
-                            "[parameters('ActionGroupId')]"
-                          ]
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "criteria": {
-                          "allOf": [
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
                             {
-                              "dimensions": "[parameters('AMBAalerts')[copyIndex()].properties.dimensions]",
-                              "failingPeriods": "[parameters('AMBAalerts')[copyIndex()].properties.failingPeriods]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].name]",
-                              "metricMeasureColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'metricMeasureColumn'), parameters('AMBAalerts')[copyIndex()].properties.metricMeasureColumn, null())]",
-                              "resourceIdColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'resourceIdColumn'), parameters('AMBAalerts')[copyIndex()].properties.resourceIdColumn, null())]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "query": "[parameters('AMBAalerts')[copyIndex()].properties.query]",
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]"
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
                             }
                           ]
+                        }
+                      }
+                    },
+                    {
+                      "copy": {
+                        "name": "logqueryAlertsSvcHlth",
+                        "count": "[length(parameters('AMBAalerts'))]"
+                      },
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), equals(parameters('LogAlertType'), 'Service'))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuerySvcHlth-{0}', guid(parameters('AMBAalerts')[copyIndex()].description, subscription().id))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "ruleResolveConfiguration": {
-                          "autoResolved": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolve]",
-                          "timeToResolve": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolveTime]"
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
                         },
-                        "scopes": [
-                          "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                        ],
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "targetResourceTypes": [
-                          "microsoft.operationalinsights/workspaces"
-                        ],
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]"
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
+                            }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -3982,7 +4188,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.28.1.47646",
-                      "templateHash": "11222782609573944328"
+                      "templateHash": "10753960737872147634"
                     }
                   },
                   "parameters": {
@@ -4010,6 +4216,10 @@
                     "Location": {
                       "type": "string"
                     },
+                    "LogAlertType": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
                     "LogAnalyticsWorkspaceResourceId": {
                       "type": "string"
                     },
@@ -4026,42 +4236,142 @@
                         "name": "metricAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric'), and(not(contains(parameters('AMBAalerts')[copyIndex()].name, 'blobServices')), not(contains(parameters('AMBAalerts')[copyIndex()].name, 'Queue'))))]",
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), if(contains(parameters('AMBAalerts')[copyIndex()].name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment'))))]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
-                      "location": "global",
+                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric')]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsMetric-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "scopes": "[if(equals(parameters('AMBAalerts')[copyIndex()].properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "name": "Metric1",
-                              "metricNamespace": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].properties.metricName]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]",
-                              "criterionType": "[parameters('AMBAalerts')[copyIndex()].properties.criterionType]"
-                            }
-                          ],
-                          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "targetResourceType": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                        "targetResourceRegion": "[parameters('Location')]",
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupId')]",
-                            "webHookProperties": {}
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          },
+                          "MetricScope": {
+                            "value": "[parameters('MetricScope')]"
                           }
-                        ]
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "12929944027502652437"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "MetricScope": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[join(variables('AlertReferences'), '\n')]",
+                            "Description": "[format('{0}{1}\nResources:\n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew'))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/metricAlerts",
+                              "apiVersion": "2018-03-01",
+                              "name": "[variables('Name')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
+                              "location": "global",
+                              "properties": {
+                                "description": "[variables('Description')]",
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "scopes": "[if(equals(parameters('Alert').properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "windowSize": "[parameters('Alert').properties.windowSize]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "name": "Metric1",
+                                      "metricNamespace": "[parameters('Alert').properties.metricNamespace]",
+                                      "metricName": "[parameters('Alert').properties.metricName]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]",
+                                      "criterionType": "[parameters('Alert').properties.criterionType]"
+                                    }
+                                  ],
+                                  "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "targetResourceType": "[parameters('Alert').properties.metricNamespace]",
+                                "targetResourceRegion": "[parameters('Location')]",
+                                "actions": [
+                                  {
+                                    "actionGroupId": "[parameters('ActionGroupId')]",
+                                    "webHookProperties": {}
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       }
                     },
                     {
@@ -4069,49 +4379,299 @@
                         "name": "logqueryAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Log')]",
-                      "type": "Microsoft.Insights/scheduledQueryRules",
-                      "apiVersion": "2022-08-01-preview",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment')))]",
-                      "location": "[parameters('Location')]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), not(equals(parameters('LogAlertType'), 'Service')))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuery-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "actions": {
-                          "actionGroups": [
-                            "[parameters('ActionGroupId')]"
-                          ]
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "criteria": {
-                          "allOf": [
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
                             {
-                              "dimensions": "[parameters('AMBAalerts')[copyIndex()].properties.dimensions]",
-                              "failingPeriods": "[parameters('AMBAalerts')[copyIndex()].properties.failingPeriods]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].name]",
-                              "metricMeasureColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'metricMeasureColumn'), parameters('AMBAalerts')[copyIndex()].properties.metricMeasureColumn, null())]",
-                              "resourceIdColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'resourceIdColumn'), parameters('AMBAalerts')[copyIndex()].properties.resourceIdColumn, null())]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "query": "[parameters('AMBAalerts')[copyIndex()].properties.query]",
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]"
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
                             }
                           ]
+                        }
+                      }
+                    },
+                    {
+                      "copy": {
+                        "name": "logqueryAlertsSvcHlth",
+                        "count": "[length(parameters('AMBAalerts'))]"
+                      },
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), equals(parameters('LogAlertType'), 'Service'))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuerySvcHlth-{0}', guid(parameters('AMBAalerts')[copyIndex()].description, subscription().id))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "ruleResolveConfiguration": {
-                          "autoResolved": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolve]",
-                          "timeToResolve": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolveTime]"
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
                         },
-                        "scopes": [
-                          "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                        ],
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "targetResourceTypes": [
-                          "microsoft.operationalinsights/workspaces"
-                        ],
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]"
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
+                            }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -4177,7 +4737,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.28.1.47646",
-                      "templateHash": "11222782609573944328"
+                      "templateHash": "10753960737872147634"
                     }
                   },
                   "parameters": {
@@ -4205,6 +4765,10 @@
                     "Location": {
                       "type": "string"
                     },
+                    "LogAlertType": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
                     "LogAnalyticsWorkspaceResourceId": {
                       "type": "string"
                     },
@@ -4221,42 +4785,142 @@
                         "name": "metricAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric'), and(not(contains(parameters('AMBAalerts')[copyIndex()].name, 'blobServices')), not(contains(parameters('AMBAalerts')[copyIndex()].name, 'Queue'))))]",
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), if(contains(parameters('AMBAalerts')[copyIndex()].name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment'))))]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
-                      "location": "global",
+                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric')]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsMetric-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "scopes": "[if(equals(parameters('AMBAalerts')[copyIndex()].properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "name": "Metric1",
-                              "metricNamespace": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].properties.metricName]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]",
-                              "criterionType": "[parameters('AMBAalerts')[copyIndex()].properties.criterionType]"
-                            }
-                          ],
-                          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "targetResourceType": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                        "targetResourceRegion": "[parameters('Location')]",
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupId')]",
-                            "webHookProperties": {}
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          },
+                          "MetricScope": {
+                            "value": "[parameters('MetricScope')]"
                           }
-                        ]
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "12929944027502652437"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "MetricScope": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[join(variables('AlertReferences'), '\n')]",
+                            "Description": "[format('{0}{1}\nResources:\n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew'))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/metricAlerts",
+                              "apiVersion": "2018-03-01",
+                              "name": "[variables('Name')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
+                              "location": "global",
+                              "properties": {
+                                "description": "[variables('Description')]",
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "scopes": "[if(equals(parameters('Alert').properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "windowSize": "[parameters('Alert').properties.windowSize]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "name": "Metric1",
+                                      "metricNamespace": "[parameters('Alert').properties.metricNamespace]",
+                                      "metricName": "[parameters('Alert').properties.metricName]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]",
+                                      "criterionType": "[parameters('Alert').properties.criterionType]"
+                                    }
+                                  ],
+                                  "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "targetResourceType": "[parameters('Alert').properties.metricNamespace]",
+                                "targetResourceRegion": "[parameters('Location')]",
+                                "actions": [
+                                  {
+                                    "actionGroupId": "[parameters('ActionGroupId')]",
+                                    "webHookProperties": {}
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       }
                     },
                     {
@@ -4264,49 +4928,299 @@
                         "name": "logqueryAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Log')]",
-                      "type": "Microsoft.Insights/scheduledQueryRules",
-                      "apiVersion": "2022-08-01-preview",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment')))]",
-                      "location": "[parameters('Location')]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), not(equals(parameters('LogAlertType'), 'Service')))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuery-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "actions": {
-                          "actionGroups": [
-                            "[parameters('ActionGroupId')]"
-                          ]
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "criteria": {
-                          "allOf": [
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
                             {
-                              "dimensions": "[parameters('AMBAalerts')[copyIndex()].properties.dimensions]",
-                              "failingPeriods": "[parameters('AMBAalerts')[copyIndex()].properties.failingPeriods]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].name]",
-                              "metricMeasureColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'metricMeasureColumn'), parameters('AMBAalerts')[copyIndex()].properties.metricMeasureColumn, null())]",
-                              "resourceIdColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'resourceIdColumn'), parameters('AMBAalerts')[copyIndex()].properties.resourceIdColumn, null())]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "query": "[parameters('AMBAalerts')[copyIndex()].properties.query]",
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]"
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
                             }
                           ]
+                        }
+                      }
+                    },
+                    {
+                      "copy": {
+                        "name": "logqueryAlertsSvcHlth",
+                        "count": "[length(parameters('AMBAalerts'))]"
+                      },
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), equals(parameters('LogAlertType'), 'Service'))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuerySvcHlth-{0}', guid(parameters('AMBAalerts')[copyIndex()].description, subscription().id))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "ruleResolveConfiguration": {
-                          "autoResolved": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolve]",
-                          "timeToResolve": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolveTime]"
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
                         },
-                        "scopes": [
-                          "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                        ],
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "targetResourceTypes": [
-                          "microsoft.operationalinsights/workspaces"
-                        ],
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]"
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
+                            }
+                          ]
+                        }
                       }
                     }
                   ]
@@ -4367,7 +5281,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.28.1.47646",
-                      "templateHash": "11222782609573944328"
+                      "templateHash": "10753960737872147634"
                     }
                   },
                   "parameters": {
@@ -4395,195 +5309,9 @@
                     "Location": {
                       "type": "string"
                     },
-                    "LogAnalyticsWorkspaceResourceId": {
-                      "type": "string"
-                    },
-                    "Tags": {
-                      "type": "object"
-                    },
-                    "MetricScope": {
-                      "type": "string"
-                    }
-                  },
-                  "resources": [
-                    {
-                      "copy": {
-                        "name": "metricAlerts",
-                        "count": "[length(parameters('AMBAalerts'))]"
-                      },
-                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric'), and(not(contains(parameters('AMBAalerts')[copyIndex()].name, 'blobServices')), not(contains(parameters('AMBAalerts')[copyIndex()].name, 'Queue'))))]",
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), if(contains(parameters('AMBAalerts')[copyIndex()].name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment'))))]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
-                      "location": "global",
-                      "properties": {
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "scopes": "[if(equals(parameters('AMBAalerts')[copyIndex()].properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "name": "Metric1",
-                              "metricNamespace": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].properties.metricName]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]",
-                              "criterionType": "[parameters('AMBAalerts')[copyIndex()].properties.criterionType]"
-                            }
-                          ],
-                          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
-                        },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "targetResourceType": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                        "targetResourceRegion": "[parameters('Location')]",
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupId')]",
-                            "webHookProperties": {}
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "copy": {
-                        "name": "logqueryAlerts",
-                        "count": "[length(parameters('AMBAalerts'))]"
-                      },
-                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Log')]",
-                      "type": "Microsoft.Insights/scheduledQueryRules",
-                      "apiVersion": "2022-08-01-preview",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment')))]",
-                      "location": "[parameters('Location')]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
-                      "properties": {
-                        "actions": {
-                          "actionGroups": [
-                            "[parameters('ActionGroupId')]"
-                          ]
-                        },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "dimensions": "[parameters('AMBAalerts')[copyIndex()].properties.dimensions]",
-                              "failingPeriods": "[parameters('AMBAalerts')[copyIndex()].properties.failingPeriods]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].name]",
-                              "metricMeasureColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'metricMeasureColumn'), parameters('AMBAalerts')[copyIndex()].properties.metricMeasureColumn, null())]",
-                              "resourceIdColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'resourceIdColumn'), parameters('AMBAalerts')[copyIndex()].properties.resourceIdColumn, null())]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "query": "[parameters('AMBAalerts')[copyIndex()].properties.query]",
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]"
-                            }
-                          ]
-                        },
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "ruleResolveConfiguration": {
-                          "autoResolved": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolve]",
-                          "timeToResolve": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolveTime]"
-                        },
-                        "scopes": [
-                          "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                        ],
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "targetResourceTypes": [
-                          "microsoft.operationalinsights/workspaces"
-                        ],
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]"
-                      }
-                    }
-                  ]
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Insights/actionGroups', parameters('ActionGroupName'))]"
-              ]
-            },
-            {
-              "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
-              "name": "lnk_AlertsSvcHlth",
-              "properties": {
-                "expressionEvaluationOptions": {
-                  "scope": "inner"
-                },
-                "mode": "Incremental",
-                "parameters": {
-                  "AlertDescriptionHeader": {
-                    "value": "[parameters('AlertDescriptionHeader')]"
-                  },
-                  "AlertNamePrefix": {
-                    "value": "[format('{0}-SvcHealth', parameters('AlertNamePrefix'))]"
-                  },
-                  "AMBAalerts": {
-                    "value": "[parameters('AMBAalertsSvcHealth')]"
-                  },
-                  "AutoMitigate": {
-                    "value": "[parameters('AutoResolveAlert')]"
-                  },
-                  "ActionGroupId": {
-                    "value": "[resourceId('Microsoft.Insights/actionGroups', parameters('ActionGroupName'))]"
-                  },
-                  "Environment": {
-                    "value": "[parameters('Environment')]"
-                  },
-                  "Location": {
-                    "value": "[parameters('Location')]"
-                  },
-                  "LogAnalyticsWorkspaceResourceId": {
-                    "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                  },
-                  "SetEnabled": {
-                    "value": "[parameters('SetEnabled')]"
-                  },
-                  "Tags": {
-                    "value": "[parameters('Tags')]"
-                  },
-                  "MetricScope": {
-                    "value": "[variables('SubscriptionId')]"
-                  }
-                },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "metadata": {
-                    "_generator": {
-                      "name": "bicep",
-                      "version": "0.28.1.47646",
-                      "templateHash": "11222782609573944328"
-                    }
-                  },
-                  "parameters": {
-                    "AutoMitigate": {
-                      "type": "bool"
-                    },
-                    "AMBAalerts": {
-                      "type": "array"
-                    },
-                    "AlertNamePrefix": {
-                      "type": "string"
-                    },
-                    "AlertDescriptionHeader": {
-                      "type": "string"
-                    },
-                    "ActionGroupId": {
-                      "type": "string"
-                    },
-                    "SetEnabled": {
-                      "type": "bool"
-                    },
-                    "Environment": {
-                      "type": "string"
-                    },
-                    "Location": {
-                      "type": "string"
+                    "LogAlertType": {
+                      "type": "string",
+                      "defaultValue": ""
                     },
                     "LogAnalyticsWorkspaceResourceId": {
                       "type": "string"
@@ -4601,42 +5329,142 @@
                         "name": "metricAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric'), and(not(contains(parameters('AMBAalerts')[copyIndex()].name, 'blobServices')), not(contains(parameters('AMBAalerts')[copyIndex()].name, 'Queue'))))]",
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), if(contains(parameters('AMBAalerts')[copyIndex()].name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment'))))]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
-                      "location": "global",
+                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Metric')]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsMetric-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "scopes": "[if(equals(parameters('AMBAalerts')[copyIndex()].properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]",
-                        "criteria": {
-                          "allOf": [
-                            {
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "name": "Metric1",
-                              "metricNamespace": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].properties.metricName]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]",
-                              "criterionType": "[parameters('AMBAalerts')[copyIndex()].properties.criterionType]"
-                            }
-                          ],
-                          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "targetResourceType": "[parameters('AMBAalerts')[copyIndex()].properties.metricNamespace]",
-                        "targetResourceRegion": "[parameters('Location')]",
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupId')]",
-                            "webHookProperties": {}
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          },
+                          "MetricScope": {
+                            "value": "[parameters('MetricScope')]"
                           }
-                        ]
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "12929944027502652437"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "MetricScope": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[join(variables('AlertReferences'), '\n')]",
+                            "Description": "[format('{0}{1}\nResources:\n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew'))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/metricAlerts",
+                              "apiVersion": "2018-03-01",
+                              "name": "[variables('Name')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/metricAlerts'), parameters('Tags')['Microsoft.Insights/metricAlerts'], createObject())]",
+                              "location": "global",
+                              "properties": {
+                                "description": "[variables('Description')]",
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "scopes": "[if(equals(parameters('Alert').properties.metricNamespace, 'Microsoft.Storage/storageAccounts/fileServices'), createArray(format('{0}/fileServices/default', parameters('MetricScope'))), createArray(parameters('MetricScope')))]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "windowSize": "[parameters('Alert').properties.windowSize]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "name": "Metric1",
+                                      "metricNamespace": "[parameters('Alert').properties.metricNamespace]",
+                                      "metricName": "[parameters('Alert').properties.metricName]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]",
+                                      "criterionType": "[parameters('Alert').properties.criterionType]"
+                                    }
+                                  ],
+                                  "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "targetResourceType": "[parameters('Alert').properties.metricNamespace]",
+                                "targetResourceRegion": "[parameters('Location')]",
+                                "actions": [
+                                  {
+                                    "actionGroupId": "[parameters('ActionGroupId')]",
+                                    "webHookProperties": {}
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       }
                     },
                     {
@@ -4644,49 +5472,299 @@
                         "name": "logqueryAlerts",
                         "count": "[length(parameters('AMBAalerts'))]"
                       },
-                      "condition": "[equals(parameters('AMBAalerts')[copyIndex()].type, 'Log')]",
-                      "type": "Microsoft.Insights/scheduledQueryRules",
-                      "apiVersion": "2022-08-01-preview",
-                      "name": "[if(contains(parameters('AMBAalerts')[copyIndex()].name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('AMBAalerts')[copyIndex()].name, '/', ' per '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('AMBAalerts')[copyIndex()].name, parameters('Environment')))]",
-                      "location": "[parameters('Location')]",
-                      "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), not(equals(parameters('LogAlertType'), 'Service')))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuery-{0}', string(parameters('AMBAalerts')[copyIndex()].guid))]",
                       "properties": {
-                        "actions": {
-                          "actionGroups": [
-                            "[parameters('ActionGroupId')]"
-                          ]
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "autoMitigate": "[parameters('AutoMitigate')]",
-                        "criteria": {
-                          "allOf": [
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
+                        },
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
                             {
-                              "dimensions": "[parameters('AMBAalerts')[copyIndex()].properties.dimensions]",
-                              "failingPeriods": "[parameters('AMBAalerts')[copyIndex()].properties.failingPeriods]",
-                              "metricName": "[parameters('AMBAalerts')[copyIndex()].name]",
-                              "metricMeasureColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'metricMeasureColumn'), parameters('AMBAalerts')[copyIndex()].properties.metricMeasureColumn, null())]",
-                              "resourceIdColumn": "[if(contains(parameters('AMBAalerts')[copyIndex()].properties, 'resourceIdColumn'), parameters('AMBAalerts')[copyIndex()].properties.resourceIdColumn, null())]",
-                              "operator": "[parameters('AMBAalerts')[copyIndex()].properties.operator]",
-                              "query": "[parameters('AMBAalerts')[copyIndex()].properties.query]",
-                              "threshold": "[parameters('AMBAalerts')[copyIndex()].properties.threshold]",
-                              "timeAggregation": "[parameters('AMBAalerts')[copyIndex()].properties.timeAggregation]"
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
                             }
                           ]
+                        }
+                      }
+                    },
+                    {
+                      "copy": {
+                        "name": "logqueryAlertsSvcHlth",
+                        "count": "[length(parameters('AMBAalerts'))]"
+                      },
+                      "condition": "[and(equals(parameters('AMBAalerts')[copyIndex()].type, 'Log'), equals(parameters('LogAlertType'), 'Service'))]",
+                      "type": "Microsoft.Resources/deployments",
+                      "apiVersion": "2022-09-01",
+                      "name": "[format('linked_alertsLogQuerySvcHlth-{0}', guid(parameters('AMBAalerts')[copyIndex()].description, subscription().id))]",
+                      "properties": {
+                        "expressionEvaluationOptions": {
+                          "scope": "inner"
                         },
-                        "description": "[format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('AMBAalerts')[copyIndex()].description)]",
-                        "enabled": "[parameters('SetEnabled')]",
-                        "evaluationFrequency": "[parameters('AMBAalerts')[copyIndex()].properties.evaluationFrequency]",
-                        "ruleResolveConfiguration": {
-                          "autoResolved": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolve]",
-                          "timeToResolve": "[parameters('AMBAalerts')[copyIndex()].properties.autoResolveTime]"
+                        "mode": "Incremental",
+                        "parameters": {
+                          "AutoMitigate": {
+                            "value": "[parameters('AutoMitigate')]"
+                          },
+                          "Alert": {
+                            "value": "[parameters('AMBAalerts')[copyIndex()]]"
+                          },
+                          "AlertNamePrefix": {
+                            "value": "[parameters('AlertNamePrefix')]"
+                          },
+                          "AlertDescriptionHeader": {
+                            "value": "[parameters('AlertDescriptionHeader')]"
+                          },
+                          "ActionGroupId": {
+                            "value": "[parameters('ActionGroupId')]"
+                          },
+                          "SetEnabled": {
+                            "value": "[parameters('SetEnabled')]"
+                          },
+                          "Environment": {
+                            "value": "[parameters('Environment')]"
+                          },
+                          "Location": {
+                            "value": "[parameters('Location')]"
+                          },
+                          "LogAnalyticsWorkspaceResourceId": {
+                            "value": "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                          },
+                          "Tags": {
+                            "value": "[parameters('Tags')]"
+                          }
                         },
-                        "scopes": [
-                          "[parameters('LogAnalyticsWorkspaceResourceId')]"
-                        ],
-                        "severity": "[parameters('AMBAalerts')[copyIndex()].properties.severity]",
-                        "targetResourceTypes": [
-                          "microsoft.operationalinsights/workspaces"
-                        ],
-                        "windowSize": "[parameters('AMBAalerts')[copyIndex()].properties.windowSize]"
+                        "template": {
+                          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                          "contentVersion": "1.0.0.0",
+                          "metadata": {
+                            "_generator": {
+                              "name": "bicep",
+                              "version": "0.28.1.47646",
+                              "templateHash": "15270322453823105972"
+                            }
+                          },
+                          "parameters": {
+                            "AutoMitigate": {
+                              "type": "bool"
+                            },
+                            "Alert": {
+                              "type": "object"
+                            },
+                            "AlertNamePrefix": {
+                              "type": "string"
+                            },
+                            "AlertDescriptionHeader": {
+                              "type": "string"
+                            },
+                            "ActionGroupId": {
+                              "type": "string"
+                            },
+                            "SetEnabled": {
+                              "type": "bool"
+                            },
+                            "Environment": {
+                              "type": "string"
+                            },
+                            "Location": {
+                              "type": "string"
+                            },
+                            "Tags": {
+                              "type": "object"
+                            },
+                            "LogAnalyticsWorkspaceResourceId": {
+                              "type": "string"
+                            }
+                          },
+                          "variables": {
+                            "copy": [
+                              {
+                                "name": "AlertReferences",
+                                "count": "[length(parameters('Alert').references)]",
+                                "input": "[format('{0} - {1}', parameters('Alert').references[copyIndex('AlertReferences')].name, parameters('Alert').references[copyIndex('AlertReferences')].url)]"
+                              }
+                            ],
+                            "AlertReferencesNew": "[if(not(equals(variables('AlertReferences'), null())), join(variables('AlertReferences'), '\n'), null())]",
+                            "Description": "[if(not(equals(variables('AlertReferencesNew'), null())), format('{0}{1}\nResources: \n{2}', parameters('AlertDescriptionHeader'), parameters('Alert').description, variables('AlertReferencesNew')), format('{0}{1}', parameters('AlertDescriptionHeader'), parameters('Alert').description))]",
+                            "Name": "[if(contains(parameters('Alert').name, '/'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '/', ' per '), parameters('Environment')), if(contains(parameters('Alert').name, '%'), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), replace(parameters('Alert').name, '%', ' percent '), parameters('Environment')), format('{0}-{1}-{2}', parameters('AlertNamePrefix'), parameters('Alert').name, parameters('Environment'))))]"
+                          },
+                          "resources": [
+                            {
+                              "type": "Microsoft.Insights/scheduledQueryRules",
+                              "apiVersion": "2022-08-01-preview",
+                              "name": "[variables('Name')]",
+                              "location": "[parameters('Location')]",
+                              "tags": "[if(contains(parameters('Tags'), 'Microsoft.Insights/scheduledQueryRules'), parameters('Tags')['Microsoft.Insights/scheduledQueryRules'], createObject())]",
+                              "properties": {
+                                "actions": {
+                                  "actionGroups": [
+                                    "[parameters('ActionGroupId')]"
+                                  ]
+                                },
+                                "autoMitigate": "[parameters('AutoMitigate')]",
+                                "criteria": {
+                                  "allOf": [
+                                    {
+                                      "dimensions": "[parameters('Alert').properties.dimensions]",
+                                      "failingPeriods": "[parameters('Alert').properties.failingPeriods]",
+                                      "metricName": "[parameters('Alert').name]",
+                                      "metricMeasureColumn": "[if(contains(parameters('Alert').properties, 'metricMeasureColumn'), parameters('Alert').properties.metricMeasureColumn, null())]",
+                                      "resourceIdColumn": "[if(contains(parameters('Alert').properties, 'resourceIdColumn'), parameters('Alert').properties.resourceIdColumn, null())]",
+                                      "operator": "[parameters('Alert').properties.operator]",
+                                      "query": "[parameters('Alert').properties.query]",
+                                      "threshold": "[parameters('Alert').properties.threshold]",
+                                      "timeAggregation": "[parameters('Alert').properties.timeAggregation]"
+                                    }
+                                  ]
+                                },
+                                "description": "[variables('Description')]",
+                                "enabled": "[parameters('SetEnabled')]",
+                                "evaluationFrequency": "[parameters('Alert').properties.evaluationFrequency]",
+                                "ruleResolveConfiguration": {
+                                  "autoResolved": "[parameters('Alert').properties.autoResolve]",
+                                  "timeToResolve": "[parameters('Alert').properties.autoResolveTime]"
+                                },
+                                "scopes": [
+                                  "[parameters('LogAnalyticsWorkspaceResourceId')]"
+                                ],
+                                "severity": "[parameters('Alert').properties.severity]",
+                                "targetResourceTypes": [
+                                  "microsoft.operationalinsights/workspaces"
+                                ],
+                                "windowSize": "[parameters('Alert').properties.windowSize]"
+                              }
+                            }
+                          ]
+                        }
                       }
                     }
                   ]

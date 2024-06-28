@@ -1,0 +1,402 @@
+[
+    {
+        "name": "Availability",
+        "description": "The percentage of availability for the storage service or the specified API operation. Availability is calculated by taking the TotalBillableRequests value and dividing it by the number of applicable requests, including those that produced unexpected errors. All unexpected errors result in reduced availability for the storage service or the specified API operation.",
+        "type": "Metric",
+        "verified": true,
+        "visible": true,
+        "tags": [
+            "avd",
+            "hpc",
+            "alz"
+        ],
+        "properties": {
+            "metricName": "Availability",
+            "metricNamespace": "Microsoft.Storage/storageAccounts",
+            "severity": 1,
+            "windowSize": "PT5M",
+            "evaluationFrequency": "PT5M",
+            "timeAggregation": "Average",
+            "operator": "LessThan",
+            "threshold": 100,
+            "criterionType": "StaticThresholdCriterion",
+            "autoMitigate": false
+        },
+        "references": [
+            {
+                "name": "Monitoring Availability",
+                "url": "https://learn.microsoft.com/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability"
+            },
+            {
+                "name": "Supported metrics for Microsoft.Storage/storageAccounts",
+                "url": "https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics"
+            }
+        ],
+        "deployments": [
+            {
+                "name": "Deploy SA Availability Alert",
+                "template": "Deploy-SA-Availability-Alert.json",
+                "type": "Policy",
+                "tags": [
+                    "alz"
+                ],
+                "properties": {
+                    "scope": "Resource",
+                    "multiResource": false
+                }
+            }
+        ],
+        "guid": "b1a4849b-78a8-437f-8113-7c6f2dc34927"
+    },
+    {
+        "name": "Throttling",
+        "description": "The storage account will be throttled if throughput exceeds the account's tier limit. Increasing the file share or storage tier may be necessary.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "hpc",
+            "alz"
+        ],
+        "properties": {
+            "metricName": "Transactions",
+            "dimensions": [
+                {
+                    "name": "ResponseType",
+                    "operator": "Include",
+                    "values": [
+                        "SuccessWithThrottling SuccessWithShareIopsThrottling ClientShareIopsThrottlingError"
+                    ]
+                },
+                {
+                    "name": "FileShare",
+                    "operator": "Include",
+                    "values": [
+                        "SuccessWithShareEgressThrottling SuccessWithShareIngressThrottling SuccessWithShareIopsThrottling ClientShareEgressThrottlingError ClientShareIngressThrottlingError ClientShareIopsThrottlingError"
+                    ]
+                }
+            ],
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 2,
+            "windowSize": "PT15M",
+            "evaluationFrequency": "PT5M",
+            "timeAggregation": "Total",
+            "operator": "GreaterThanOrEqual",
+            "threshold": 1,
+            "criterionType": "StaticThresholdCriterion",
+            "autoMitigate": false
+        },
+        "references": [
+            {
+                "name": "High latency, low throughput, or low IOPS",
+                "url": "https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/files-troubleshoot-performance?tabs=windows#high-latency-low-throughput-or-low-iops"
+            },
+            {
+                "name": "Azure Files monitoring data reference",
+                "url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-monitoring-reference#metrics"
+            }
+        ],
+        "deployments": [
+            {
+                "name": "Deploy SA Throttling Alert",
+                "template": "Deploy-SA-Throttling-Alert.json",
+                "type": "Policy",
+                "tags": [
+                    "alz"
+                ],
+                "properties": {
+                    "scope": "Resource",
+                    "multiResource": false
+                }
+            }
+        ],
+        "guid": "5e544473-d84f-427d-869d-9d982619e4cb"
+    },
+    null,
+    null,
+    {
+        "name": "UsedCapacity",
+        "description": "The amount of storage used by the storage account. For standard storage accounts, it's the sum of capacity used by blob, table, file, and queue. For premium storage accounts and Blob storage accounts, it is the same as BlobCapacity or FileCapacity.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-42019",
+            "hpc",
+            "auto-generated",
+            "agc-35128"
+        ],
+        "properties": {
+            "metricName": "UsedCapacity",
+            "metricNamespace": "Microsoft.Storage/storageAccounts",
+            "severity": 3,
+            "windowSize": "PT1H",
+            "evaluationFrequency": "PT1H",
+            "timeAggregation": "Average",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 2251800000000000
+        },
+        "references": [
+            {
+                "name": "Account Level Metrics",
+                "url": "https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics"
+            },
+            {
+                "name": "Azure Storage Metric - Used Capacity",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#account-level"
+            }
+        ],
+        "guid": "b663a689-6db8-467d-8b5d-8cd34afe4b0e"
+    },
+    {
+        "name": "Egress",
+        "description": "The amount of egress data. This number includes egress to external client from Azure Storage as well as egress within Azure. As a result, this number does not reflect billable egress.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-3835",
+            "hpc",
+            "auto-generated",
+            "agc-2980"
+        ],
+        "properties": {
+            "metricName": "Egress",
+            "metricNamespace": "Microsoft.Storage/storageAccounts",
+            "severity": 2,
+            "windowSize": "PT5M",
+            "evaluationFrequency": "PT5M",
+            "timeAggregation": "Total",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 60000000
+        },
+        "references": [
+            {
+                "name": "Transaction Metrics",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics"
+            },
+            {
+                "name": "Storage Account Metric Dimensions (all storage)",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions"
+            }
+        ],
+        "guid": "eb186756-b63b-408a-bbaf-ac94c1010287"
+    },
+    {
+        "name": "Ingress",
+        "description": "The amount of ingress data, in bytes. This number includes ingress from an external client into Azure Storage as well as ingress within Azure.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-2468",
+            "hpc",
+            "auto-generated",
+            "agc-2078"
+        ],
+        "properties": {
+            "metricName": "Ingress",
+            "metricNamespace": "Microsoft.Storage/storageAccounts",
+            "severity": 3,
+            "windowSize": "PT5M",
+            "evaluationFrequency": "PT5M",
+            "timeAggregation": "Total",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 1073741824
+        },
+        "references": [
+            {
+                "name": "Transaction Metrics",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics"
+            },
+            {
+                "name": "Storage Account Metric Dimensions (all storage)",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions"
+            }
+        ],
+        "guid": "5d872cb4-7f71-4275-81eb-98c968c0cadd"
+    },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {
+        "name": "fileServices - FileCapacity",
+        "description": "The amount of File storage used by the storage account.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-8269"
+        ],
+        "properties": {
+            "metricName": "FileCapacity",
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 2,
+            "windowSize": "PT1H",
+            "evaluationFrequency": "PT15M",
+            "timeAggregation": "Average",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 96636764160
+        },
+        "references": [
+            {
+                "name": "File Storage Metrics",
+                "url": "https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-scenarios#file-storage-metrics"
+            }
+        ],
+        "guid": "26e09eae-c784-4e8f-a225-d3f13efff76f"
+    },
+    {
+        "name": "fileServices - Transactions",
+        "description": "The number of requests made to a storage service or the specified API operation. This number includes successful and failed requests, as well as requests which produced errors. Use ResponseType dimension for the number of different type of response.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-1467",
+            "hpc",
+            "auto-generated",
+            "agc-1507"
+        ],
+        "properties": {
+            "metricName": "Transactions",
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 3,
+            "windowSize": "PT5M",
+            "evaluationFrequency": "PT1M",
+            "timeAggregation": "Total",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "dimensions": [
+                {
+                    "operator": "include",
+                    "name": "responsetype",
+                    "values": [
+                        "success"
+                    ]
+                },
+                {
+                    "operator": "include",
+                    "name": "authentication",
+                    "values": [
+                        "anonymous"
+                    ]
+                }
+            ],
+            "threshold": 10
+        },
+        "references": [
+            {
+                "name": "Identify storage accounts with no or low use",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#identify-storage-accounts-with-no-or-low-use"
+            },
+            {
+                "name": "Monitor the use of a container",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container"
+            },
+            {
+                "name": "Storage Transaction Metrics",
+                "url": "https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics"
+            }
+        ],
+        "guid": "c81d3e6c-5539-42ad-a95f-9bba504d91f0"
+    },
+    {
+        "name": "fileServices - FileShareSnapshotCount",
+        "description": "The number of snapshots present on the share in storage account's Files Service.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-617"
+        ],
+        "properties": {
+            "metricName": "FileShareSnapshotCount",
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 3,
+            "windowSize": "PT1H",
+            "evaluationFrequency": "PT15M",
+            "timeAggregation": "Average",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 190
+        },
+        "references": [
+            {
+                "name": "Azure Files monitoring data reference",
+                "url": "https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-reference#azure-files"
+            }
+        ],
+        "guid": "8cbe449d-9264-4ae1-8221-5d97989005a8"
+    },
+    {
+        "name": "fileServices - Availability",
+        "description": "The percentage of availability for the storage service or the specified API operation. Availability is calculated by taking the TotalBillableRequests value and dividing it by the number of applicable requests, including those that produced unexpected errors. All unexpected errors result in reduced availability for the storage service or the specified API operation.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-585"
+        ],
+        "properties": {
+            "metricName": "Availability",
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 3,
+            "windowSize": "PT5M",
+            "evaluationFrequency": "PT1M",
+            "timeAggregation": "Average",
+            "operator": "LessThanOrEqual",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 99.9
+        },
+        "references": "",
+        "guid": "45fef979-c27e-425a-a6c3-e5bd28b1eb86"
+    },
+    {
+        "name": "fileServices - FileShareCapacityQuota",
+        "description": "The upper limit on the amount of storage that can be used by Azure Files Service in bytes.",
+        "type": "Metric",
+        "verified": false,
+        "visible": true,
+        "tags": [
+            "avd",
+            "auto-generated",
+            "agc-578"
+        ],
+        "properties": {
+            "metricName": "FileShareCapacityQuota",
+            "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
+            "severity": 4,
+            "windowSize": "PT1H",
+            "evaluationFrequency": "PT5M",
+            "timeAggregation": "Average",
+            "operator": "GreaterThan",
+            "criterionType": "StaticThresholdCriterion",
+            "threshold": 5222680231936
+        },
+        "references": "",
+        "guid": "8660f357-83f9-4719-bdf3-bae57af2d967"
+    }
+]
