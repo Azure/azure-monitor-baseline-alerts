@@ -14,7 +14,13 @@ Initial relocation from the Azure AVD Accelerator Brownfield with AVD specific A
 - Session Host monitoring both on performance, AVD agent health, storage, and fslogix profiles
 
 ### Bug fixes
-No new bug fixes at this time.
+#### ISSUE #221  
+(Fixed on 6/28/2024)  
 
+Storage calculation script in the runbook which was yielding a much higher remaining value than truly existed. Values were in the 99.xx% range vs actual for remaining meaning the alert may never trigger when remaining storage is truly low.  
 
+Runbook: AvdStorageLogData  
+Script: Get-StorAcctInfo.ps1 line 46  
 
+Was --- $RemainingPercent = 100 - ($shareUsageInGB / $shareQuota)  
+New --- $RemainingPercent = 100 - ($shareUsageInGB / $shareQuota * 100)  
