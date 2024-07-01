@@ -8,6 +8,45 @@ For information on what's new please refer to the [Releases](https://github.com/
 
 To update your current deployment with the content from the latest release, please refer to the [Update to new releases](../UpdateToNewReleases) page.
 
+## 2024-06-05
+
+### New features
+
+- Added new PIDs for different additional deployment methods. Refer to [Telemetry](../Telemetry) for more information.
+- Added new initiative to monitor Azure Arc-enabled Virtual Machines. [Alerting-HybridVM](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json)
+
+### Bug fixes
+
+- Changes the value of field minFailingPeriodsToAlert and numberOfEvaluationPeriods in the existenceCondition for the above alerts from 2 to 4 to fix the compliance evaluation issue.
+- Changes the value of timeAggregation to Average for both Deploy AGW BackendLastByteResponseTime and Deploy AGW ApplicationGatewayTotalTime policy definitions. [Issue #194](https://github.com/Azure/azure-monitor-baseline-alerts/issues/194)
+- Fixing case sensitive parameters [Issue #185](https://github.com/Azure/azure-monitor-baseline-alerts/issues/185)
+
+### Documentation updates
+
+- Updated the Deploy only Service Health Alert documentation. Addresses issues with using json-strings in cloud shell.
+
+## 2024-04-12
+
+### New features
+
+- Updated Existence Condition to detect and remediate configuration drift. The following parameters were added to the Existence Condition of the policies:
+  - Static alerts: EvaluationFrequency, WindowSize, Threshold, Severity, Operator, autoMitigate
+  - Dynamic alerts: alertSensitivity, numberOfEvaluationPeriods, minFailingPeriodsToAlert
+- Added a suppression Alert Processing Rule, deployed as part of the notification Assets policy. Refer to [Temporarily disabling notifications](../Temporarily-disabling-notifications) for more details.
+- Supplying an email address for the Action Group is no longer mandatory.
+- Bring your own Action Group and/or Alert Processing Rules. This feature  will allow brownfield customers to use existing Action Groups and Alert Processing Rules. Please refer to [Bring Your Own Notifications (BYON)](../Bring-your-own-Notifications) for more details.
+
+### Bug fixes
+
+- Fixed operator for `SNATPortUtilization` for Azure Firewall
+- Corrected the name for the Deploy Activity Log Storage Account Delete Policy
+
+### Documentation updates
+
+- Updated deployment documentation to use the latest approved release.
+- Updated the Deploy only Service Health Alert documentation.
+- Updated the AMBA-ALZ Diagrams to include the new notification assets initiative and Action group options. [AMBA-Diagram](../../media/AMBA-Diagrams.vsdx)
+
 ## 2024-03-01
 
 ### New features
