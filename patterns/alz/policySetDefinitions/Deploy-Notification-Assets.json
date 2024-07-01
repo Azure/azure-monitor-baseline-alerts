@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
     "description": "Initiative to deploy AMBA Notification Assets",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -48,6 +48,27 @@
           "description": "Email addresses to send alerts to"
         },
         "defaultValue": ""
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -165,6 +186,12 @@
           },
           "BYOAlertProcessingRule": {
             "value": "[[parameters('BYOAlertProcessingRule')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -180,6 +207,12 @@
           },
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

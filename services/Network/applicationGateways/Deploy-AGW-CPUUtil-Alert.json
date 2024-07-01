@@ -8,8 +8,8 @@
     "displayName": "Deploy AGW CPU Utilization Alert",
     "description": "Policy to audit/deploy Azure Application Gateway CPU Utilization Alert",
     "metadata": {
-      "version": "1.1.1",
-      "category": "Networking",
+      "version": "1.2.0",
+      "Category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
     },
@@ -106,13 +106,26 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -130,8 +143,8 @@
             ]
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },

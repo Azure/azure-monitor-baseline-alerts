@@ -16,7 +16,7 @@ With a **centralized** approach to alerting a central Action Group is used for a
 
 Metric alerts are deployed with resources (same resource group) and platform alerts like Service Health / Activity are created in a dedicated resource group, in a subscription typically located in the Management platform management group. A single Alert Action Group in a subscription in the Management platform management group is configured with a central alerting email address, and Alert Processing Rules enabling filters and connecting alerts to the Alert Action Group.
 
-As an example in the context of ALZ, a single centralized action group is deployed in the "AlzMonitoring-RG" resource group in a subscription in the Management platform management group.
+As an example in the context of ALZ, a single centralized action group is deployed in the "rg-amba-monitoring-001" resource group in a subscription in the Management platform management group.
 
 ### Decentralized
 
