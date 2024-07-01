@@ -41,6 +41,27 @@
           "description": "Location of the resource group"
         }
       },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
       "ResHlthUnhealthyAlertState": {
         "type": "string",
         "defaultValue": "true",
@@ -139,14 +160,6 @@
         "metadata": {
           "displayName": "Service Health Security Advisory Alert Policy Effect",
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
-        }
-      },
-      "MonitorDisable": {
-        "type": "string",
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "displayName": "Monitoring disabled",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         }
       },
       "ALZMonitorActionGroupEmail": {
@@ -273,6 +286,12 @@
           },
           "BYOAlertProcessingRule": {
             "value": "[[parameters('BYOAlertProcessingRule')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -298,8 +317,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -328,8 +350,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -358,8 +383,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -388,8 +416,11 @@
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -418,8 +449,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

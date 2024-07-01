@@ -8,7 +8,7 @@
     "displayName": "Deploy Hybrid VM HeartBeat Alert",
     "description": "Policy to audit/deploy VM HeartBeat Alert for VMs in the resource group",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.0.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -37,14 +37,14 @@
         "metadata": {
           "displayName": "Operator"
         },
-        "allowedValues": [
+        "allowedvalues": [
           "Equals",
           "GreaterThan",
           "GreaterThanOrEqual",
           "LessThan",
           "LessThanOrEqual"
         ],
-        "defaultValue": "GreaterThan"
+        "defaultvalue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -58,7 +58,7 @@
           "Minimum",
           "Total"
         ],
-        "defaultValue": "Average"
+        "defaultvalue": "Average"
       },
       "windowSize": {
         "type": "String",
@@ -159,9 +159,22 @@
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -173,7 +186,7 @@
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
