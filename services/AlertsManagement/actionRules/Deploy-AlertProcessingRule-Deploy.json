@@ -68,20 +68,20 @@
         "defaultValue": ""
       },
       "ALZArmRoleId": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Arm Role Id",
-          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+          "displayName": "Arm Role Ids",
+          "description": "Arm Built-in Role Ids for action group to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZEventHubResourceId": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Event Hub resource id",
-          "description": "Event Hub resource id for action group to send alerts to"
+          "displayName": "Event Hub resource Ids",
+          "description": "Event Hub resource Ids for action group to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZWebhookServiceUri": {
         "type": "String",
@@ -108,12 +108,12 @@
         "defaultValue": ""
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "BYOAlertProcessingRule": {
         "type": "String",
@@ -207,10 +207,10 @@
                     "type": "String"
                   },
                   "ALZArmRoleId": {
-                    "type": "string"
+                    "type": "array"
                   },
                   "ALZEventHubResourceId": {
-                    "type": "string"
+                    "type": "array"
                   },
                   "ALZWebhookServiceUri": {
                     "type": "string"
@@ -222,18 +222,15 @@
                     "type": "String"
                   },
                   "BYOActionGroup": {
-                    "type": "String"
+                    "type": "array"
                   },
                   "BYOAlertProcessingRule": {
                     "type": "String"
                   }
                 },
                 "variables": {
-                  "varBYOAGs": "[[split(parameters('BYOActionGroup'), ',')]",
                   "varBYOAlertProcessingRule": "[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]",
                   "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]",
-                  "varALZArmRoleId": "[[array(split(parameters('ALZArmRoleId'),','))]",
-                  "varALZEventHubResourceId": "[[array(split(parameters('ALZEventHubResourceId'),','))]",
                   "varALZWebhookServiceUri": "[[array(split(parameters('ALZWebhookServiceUri'),','))]",
                   "varLogicAppReceivers": [
                     {
@@ -265,23 +262,23 @@
                     },
                     {
                       "name": "varArmRoleReceivers",
-                      "count": "[[length(variables('varALZArmRoleId'))]",
+                      "count": "[[length(parameters('ALZArmRoleId'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzARM-', indexOf(variables('varALZArmRoleId'), variables('varALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
-                        "roleId": "[[trim(variables('varALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
+                        "name": "[[concat('AlzARM-', indexOf(parameters('ALZArmRoleId'), parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
+                        "roleId": "[[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
                         "useCommonSchema": true
                       }
                     },
                     {
                       "name": "varEventHubReceivers",
-                      "count": "[[length(variables('varALZEventHubResourceId'))]",
+                      "count": "[[length(parameters('ALZEventHubResourceId'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzEH-', indexOf(variables('varALZEventHubResourceId'), variables('varALZEventHubResourceId')[copyIndex('varEventHubReceivers')]))]",
-                        "subscriptionId": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(variables('varALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[2])]",
-                        "eventHubNameSpace": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(variables('varALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[8])]",
-                        "eventHubName": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(variables('varALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[10])]",
+                        "name": "[[concat('AlzEH-', indexOf(parameters('ALZEventHubResourceId'), parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]))]",
+                        "subscriptionId": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[2])]",
+                        "eventHubNameSpace": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[8])]",
+                        "eventHubName": "[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[10])]",
                         "useCommonAlertSchema": true,
                         "tenantId": "[[subscription().tenantId]"
                       }
@@ -302,9 +299,9 @@
                     },
                     {
                       "name": "varAGIds",
-                      "count": "[[length(variables('varBYOAGs'))]",
+                      "count": "[[length(parameters('BYOActionGroup'))]",
                       "mode": "serial",
-                      "input": "[[trim(variables('varBYOAGs')[copyIndex('varAGIds')])]"
+                      "input": "[[trim(parameters('BYOActionGroup')[copyIndex('varAGIds')])]"
                     }
                   ]
                 },
@@ -343,10 +340,10 @@
                             "type": "string"
                           },
                           "ALZArmRoleId": {
-                            "type": "string"
+                            "type": "array"
                           },
                           "ALZEventHubResourceId": {
-                            "type": "string"
+                            "type": "array"
                           },
                           "ALZWebhookServiceUri": {
                             "type": "string"
@@ -358,7 +355,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "string"
+                            "type": "array"
                           },
                           "BYOAlertProcessingRule": {
                             "type": "string"

@@ -89,12 +89,12 @@
         ]
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
         },
-        "defaultValue": ""
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -153,12 +153,12 @@
                             "anyOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                                "in": "[[parameters('BYOActionGroup')]"
                               }
                             ]
                           }
                         },
-                        "equals": 1
+                        "greaterOrEquals": 1
                       }
                     ]
                   }
@@ -209,18 +209,17 @@
                     "type": "string"
                   },
                   "BYOActionGroup": {
-                    "type": "String"
+                    "type": "array"
                   }
                 },
                 "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
                   "copy": [
                     {
                       "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "count": "[[length(parameters('BYOActionGroup'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
                       }
                     }
                   ]
@@ -254,7 +253,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "String"
+                            "type": "array"
                           }
                         },
                         "variables": {},

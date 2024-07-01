@@ -204,60 +204,70 @@
         },
         "ALZMonitorActionGroupEmail": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the email address for the action group used for monitoring."
             }
         },
         "ALZLogicappResourceId": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the resource id of the logic app used for monitoring."
             }
         },
         "ALZLogicappCallbackUrl": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the callback url of the logic app used for monitoring."
             }
         },
         "ALZArmRoleId": {
-            "type": "string",
+            "type": "array",
+            "defaultValue": [],
             "metadata": {
                 "description": "Provide the role id used for monitoring."
             }
         },
         "ALZEventHubResourceId": {
-            "type": "string",
+            "type": "array",
+            "defaultValue": [],
             "metadata": {
                 "description": "Provide the resource id of the event hub used for monitoring."
             }
         },
         "ALZWebhookServiceUri": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the service uri of the webhook used for monitoring."
             }
         },
         "ALZFunctionResourceId": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the resource id of the function used for monitoring."
             }
         },
         "ALZFunctionTriggerUrl": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the trigger url of the function used for monitoring."
             }
         },
         "BYOActionGroup": {
-            "type": "string",
+            "type": "array",
+            "defaultValue": [],
             "metadata": {
                 "description": "Provide the action group used for monitoring."
             }
         },
         "BYOAlertProcessingRule": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Provide the alert processing rule used for monitoring."
             }
@@ -301,6 +311,17 @@
         "policyAssignmentParametersServiceHealth": {
             "type": "object",
             "defaultValue": {}
+        },
+        "deployAMBAPortalAccelerator": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more."
+            }
         }
     },
     "variables": {
@@ -408,7 +429,8 @@
             "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-Notification-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "AMBAResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
             "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
-            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]"
+            "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]",
+            "pidCuaAMBAAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAMBAAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
@@ -417,6 +439,7 @@
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
         "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
+        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76",
         "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e"
     },
     "resources": [
@@ -805,9 +828,24 @@
         },
         // Deploying general telemetry if not opted out
         {
-            "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployAMBAPortalAccelerator'), 'No'))]",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').pidCuaDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployAMBAPortalAccelerator'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName]",
             "location": "[deployment().location]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
