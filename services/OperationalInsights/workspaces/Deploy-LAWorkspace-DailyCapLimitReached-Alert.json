@@ -242,7 +242,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | project TimeGenerated, WorkspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where arse_json(tostring(tags.{0})) in~ (\"{1}\")); let workspaceResources = (arg(\"\").resources| where type =~ \"Microsoft.OperationalInsights/workspaces\"| project id, customerId = tostring(properties.customerId), workspaceName = tostring(name));Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | join hint.remote=left kind=innerunique workspaceResources on $left.TenantId == $right.customerId | project TimeGenerated, WorkspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -347,12 +347,20 @@
                       "criteria": {
                         "allOf": [
                           {
-                            "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | project TimeGenerated, WorkspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
+                            "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where arse_json(tostring(tags.{0})) in~ (\"{1}\")); let workspaceResources = (arg(\"\").resources| where type =~ \"Microsoft.OperationalInsights/workspaces\"| project id, customerId = tostring(properties.customerId), workspaceName = tostring(name));Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | join hint.remote=left kind=innerunique workspaceResources on $left.TenantId == $right.customerId | project TimeGenerated, WorkspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                             "threshold": "[[parameters('threshold')]",
                             "operator": "[[parameters('operator')]",
-                            "resourceIdColumn": "_ResourceId",
+                            "dimensions": [
+                              {
+                                "name": "workspaceName",
+                                "operator": "Include",
+                                "values": [
+                                  "*"
+                                ]
+                              }
+                            ],
+                            "resourceIdColumn": "id",
                             "timeAggregation": "[[parameters('timeAggregation')]",
-                            "dimensions": [],
                             "failingPeriods": {
                               "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
                               "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
