@@ -275,6 +275,13 @@
                       "description": "Resource ID of the resource emitting the metric that will be used for the comparison"
                     }
                   },
+                  "resourceLocation": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "resourceLocation",
+                      "description": "Location of the resource"
+                    }
+                  },
                   "UAMIResourceId": {
                     "type": "string"
                   },
@@ -320,8 +327,8 @@
                   {
                     "type": "Microsoft.Insights/scheduledQueryRules",
                     "apiVersion": "2022-08-01-preview",
-                    "name": "[[concat(subscription().displayName, '-DailyCapLimitReachedAlert')]",
-                    "location": "global",
+                    "name": "[[concat(parameters('resourceName'), '-DailyCapLimitReachedAlert')]",
+                    "location": "[[parameters('resourceLocation')]",
                     "identity": {
                       "type": "UserAssigned",
                       "userAssignedIdentities": {
@@ -332,7 +339,7 @@
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "displayName": "[[concat(subscription().displayName, '-DailyCapLimitReachedAlert')]",
+                      "displayName": "[[concat(parameters('resourceName'), '-DailyCapLimitReachedAlert')]",
                       "description": "Log Alert for Daily Cap Limit Reached",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
@@ -409,6 +416,9 @@
                 },
                 "resourceId": {
                   "value": "[[field('id')]"
+                },
+                "resourceLocation": {
+                  "value": "[[field('location')]"
                 },
                 "UAMIResourceId": {
                   "value": "[[parameters('UAMIResourceId')]"
