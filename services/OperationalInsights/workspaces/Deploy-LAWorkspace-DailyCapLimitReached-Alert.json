@@ -198,11 +198,11 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[parameters('resourceName'), '-DailyCapLimitReachedAlert')]"
+                "equals": "[[concat(parameters('resourceName'), '-DailyCapLimitReachedAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
-                "equals": "[[subscription().id]"
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', field('fullName'))]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/enabled",
