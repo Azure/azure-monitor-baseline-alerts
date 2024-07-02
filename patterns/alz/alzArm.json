@@ -389,7 +389,7 @@
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersLandingZone": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'), variables('uamiParameters'))]",
-        "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'))]",
+        "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('notificationAssetParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
         "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'))]",
         "policyAssignmentParametersHybridVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersHybridVM'), variables('uamiParameters'))]",
@@ -745,7 +745,7 @@
                 }
             }
         },
-        // Assigning AMBA management PolicySet to the management management group if condition is true
+        // Assigning AMBA management PolicySet to the Management management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAManagement'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -828,24 +828,9 @@
         },
         // Deploying general telemetry if not opted out
         {
-            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployAMBAPortalAccelerator'), 'No'))]",
+            "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
             "apiVersion": "2020-06-01",
-            "name": "[variables('deploymentNames').pidCuaDeploymentName]",
-            "location": "[deployment().location]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": []
-                }
-            }
-        },
-        {
-            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployAMBAPortalAccelerator'), 'Yes'))]",
-            "apiVersion": "2020-06-01",
-            "name": "[variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName]",
+            "name": "[if(equals(parameters('deployAMBAPortalAccelerator'), 'No'),variables('deploymentNames').pidCuaDeploymentName, variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName)]",
             "location": "[deployment().location]",
             "type": "Microsoft.Resources/deployments",
             "properties": {

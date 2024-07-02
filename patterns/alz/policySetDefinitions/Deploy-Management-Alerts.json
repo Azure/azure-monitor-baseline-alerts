@@ -62,6 +62,14 @@
           "Sandbox"
         ]
       },
+      "UAMIResourceId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The resource Id of the user assigned managed identity.",
+          "displayName": "User Assigned managed Identity resource Id."
+        }
+      },
       "AATotalJobAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -286,6 +294,129 @@
           "displayName": "Activity Log Alert Key Regen Alert State",
           "description": "Alert state for the alert"
         }
+      },
+      "LAWDailyCapLimitSeverity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Severity",
+          "description": "Severity of the Alert"
+        },
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitOperator": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Operator"
+        },
+        "allowedValues": [
+          "GreaterThan",
+          "GreaterThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan"
+      },
+      "LAWDailyCapLimitTimeAggregation": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert TimeAggregation"
+        },
+        "allowedValues": [
+          "Count"
+        ],
+        "defaultValue": "Count"
+      },
+      "LAWDailyCapLimitWindowSize": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Window Size",
+          "description": "Window size for the alert"
+        },
+        "allowedValues": [
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "PT24H"
+        ],
+        "defaultValue": "PT15M"
+      },
+      "LAWDailyCapLimitEvaluationFrequency": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        },
+        "allowedValues": [
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M"
+      },
+      "LAWDailyCapLimitAutoMitigate": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "LAWDailyCapLimitThreshold": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Threshold",
+          "description": "Threshold for the alert"
+        },
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
+      "LAWDailyCapLimitAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "ALog Analytics Workspace Daily Cap Limit Reached Alert State",
+          "description": "Alert state for the alert"
+        }
       }
     },
     "policyDefinitions": [
@@ -334,6 +465,54 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LAWorkspaceDailyCapLimitReached",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
+        "parameters": {
+          "UAMIResourceId": {
+            "value": "[[parameters('UAMIResourceId')]"
+          },
+          "severity": {
+            "value": "[[parameters('LAWDailyCapLimitSeverity')]"
+          },
+          "operator": {
+            "value": "[[parameters('LAWDailyCapLimitOperator')]"
+          },
+          "timeAggregation": {
+            "value": "[[parameters('LAWDailyCapLimitTimeAggregation')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LAWDailyCapLimitWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LAWDailyCapLimitEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('LAWDailyCapLimitAutoMitigate')]"
+          },
+          "threshold": {
+            "value": "[[parameters('LAWDailyCapLimitThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('LAWDailyCapLimitFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('LAWDailyCapLimitEvaluationPeriods')]"
+          },
+          "effect": {
+            "value": "[[parameters('LAWDailyCapLimitPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LAWDailyCapLimitAlertState')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
