@@ -64,7 +64,7 @@ The [conditional deployment behavior](../alz/Bring-your-own-Managed-Identity.md#
 Should customers decide to switch, it will be enough to:
 
 - Change the values in the parameter file to match one of the two scenarios previously discussed
-- redeploy the AMBA-ALZ pattern
+- Redeploy the AMBA-ALZ pattern
 - run the remediation for the [Deploy Azure Monitor Baseline Alerts for Hybrid VMs](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json) policy initiative as documented at [Remediate Policies](../deploy/Remediate-Policies)
 
 The code will reconfigure the necessary alerts to use either the customer's provided UAMI or the new one created during the deployment.
