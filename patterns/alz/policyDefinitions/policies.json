@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.19.5.34762",
-      "templateHash": "18412973714256783697"
+      "templateHash": "12474503749714573881"
     }
   },
   "parameters": {
@@ -5568,7 +5568,7 @@
         "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone",
         "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
         "metadata": {
-          "version": "1.1.0",
+          "version": "1.2.0",
           "category": "Monitoring",
           "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
           "alzCloudEnvironments": [
@@ -9364,6 +9364,14 @@
               "description": "Alert state for the alert"
             }
           },
+          "WSFCPUPercentageThreshold": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "WSF CPU Percentage Threshold",
+              "description": "Threshold for the alert"
+            }
+          },
           "WSFMemoryPercentageAlertSeverity": {
             "type": "String",
             "defaultValue": "2",
@@ -9430,6 +9438,14 @@
             "metadata": {
               "displayName": "WSF Memory Percentage Alert State",
               "description": "Alert state for the alert"
+            }
+          },
+          "WSFMemoryPercentageThreshold": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "WSF Memory Percentage Threshold",
+              "description": "Threshold for the alert"
             }
           },
           "WSFDiskQueueLengthAlertSeverity": {
@@ -11252,6 +11268,9 @@
               "enabled": {
                 "value": "[[[parameters('WSFCPUPercentageAlertState')]"
               },
+              "threshold": {
+                "value": "[[[parameters('WSFCPUPercentageThreshold']"
+              },
               "MonitorDisableTagName": {
                 "value": "[[[parameters('ALZMonitorDisableTagName')]"
               },
@@ -11278,6 +11297,9 @@
               },
               "enabled": {
                 "value": "[[[parameters('WSFMemoryPercentageAlertState')]"
+              },
+              "threshold": {
+                "value": "[[[parameters('WSFMemoryPercentageThreshold']"
               },
               "MonitorDisableTagName": {
                 "value": "[[[parameters('ALZMonitorDisableTagName')]"
