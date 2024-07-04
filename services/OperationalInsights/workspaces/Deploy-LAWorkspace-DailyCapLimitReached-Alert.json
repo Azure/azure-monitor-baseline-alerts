@@ -38,7 +38,7 @@
           "3",
           "4"
         ],
-        "defaultValue": "1"
+        "defaultValue": "2"
       },
       "operator": {
         "type": "String",
@@ -70,11 +70,16 @@
         "allowedValues": [
           "PT1M",
           "PT5M",
+          "PT10M",
           "PT15M",
           "PT30M",
+          "PT45M",
           "PT1H",
+          "PT2H",
+          "PT3H",
+          "PT4H",
+          "PT5H",
           "PT6H",
-          "PT12H",
           "P1D"
         ],
         "defaultValue": "P1D"
@@ -88,11 +93,19 @@
         "allowedValues": [
           "PT1M",
           "PT5M",
+          "PT10M",
           "PT15M",
           "PT30M",
-          "PT1H"
+          "PT45M",
+          "PT1H",
+          "PT2H",
+          "PT3H",
+          "PT4H",
+          "PT5H",
+          "PT6H",
+          "P1D"
         ],
-        "defaultValue": "PT5M"
+        "defaultValue": "PT1H"
       },
       "autoMitigate": {
         "type": "String",
@@ -244,7 +257,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let workspaceResources = (arg(\"\").resources| where type =~ \"Microsoft.OperationalInsights/workspaces\" | project id, customerId = tostring(properties.customerId), workspaceName = tostring(name)); Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | summarize arg_max(TimeGenerated, *) by TenantId | join hint.remote=left kind=inner workspaceResources on $left.TenantId == $right.customerId | project TimeGenerated, id, workspaceName, workspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project tostring(properties.customerId), tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let workspaceResources = (arg(\"\").resources| where type =~ \"Microsoft.OperationalInsights/workspaces\" | project id, customerId = tostring(properties.customerId), workspaceName = tostring(name)); Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has \"OverQuota\" | where TimeGenerated between(startofday(now()) .. endofday(now())) | join hint.remote=left kind=inner workspaceResources on $left.TenantId == $right.customerId | project TimeGenerated, id, workspaceName, workspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
