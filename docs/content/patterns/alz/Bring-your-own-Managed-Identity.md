@@ -63,7 +63,7 @@ We're planning to use this feature more in the future and to include it as part 
 The [conditional deployment behavior](../alz/Bring-your-own-Managed-Identity.md#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from a new created UAMI to an existing one and viceversa.
 Should customers decide to switch, it will be enough to:
 
-- change the values in the parameter file to match one of the two scenarios previously discussed
+- Change the values in the parameter file to match one of the two scenarios previously discussed
 - redeploy the AMBA-ALZ pattern
 - run the remediation for the [Deploy Azure Monitor Baseline Alerts for Hybrid VMs](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json) policy initiative as documented at [Remediate Policies](../deploy/Remediate-Policies)
 
