@@ -62,6 +62,19 @@
         ],
         "defaultValue": "PT1M"
       },
+      "alertSensitivity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Alert Sensitivity",
+          "description": "Alert Sensitivity for the alert"
+        },
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "defaultValue": "Medium"
+      },
       "autoMitigate": {
         "type": "String",
         "metadata": {
@@ -213,6 +226,9 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
+                  "alertSensitivity": {
+                    "type": "String"
+                  },
                   "autoMitigate": {
                     "type": "String"
                   },
@@ -246,7 +262,7 @@
                             "metricNamespace": "Microsoft.Network/applicationgateways",
                             "metricName": "FailedRequests",
                             "operator": "GreaterThan",
-                            "alertSensitivity": "Medium",
+                            "alertSensitivity": "[[parameters('alertSensitivity')]",
                             "failingPeriods": {
                               "minFailingPeriodsToAlert": 2,
                               "numberOfEvaluationPeriods": 2
@@ -267,6 +283,9 @@
                         },
                         "evaluationFrequency": {
                           "value": "[[parameters('evaluationFrequency')]"
+                        },
+                        "alertSensitivity": {
+                          "value": "[[parameters('alertSensitivity')]"
                         },
                         "autoMitigate": {
                           "value": "[[parameters('autoMitigate')]"
@@ -294,6 +313,9 @@
                 },
                 "evaluationFrequency": {
                   "value": "[[parameters('evaluationFrequency')]"
+                },
+                "alertSensitivity": {
+                  "value": "[[parameters('alertSensitivity')]"
                 },
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
