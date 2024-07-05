@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
     "metadata": {
-      "version": "1.0.7",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -2576,6 +2576,19 @@
           "description": "Severity of the alert"
         }
       },
+      "AGWApplicationGatewayTotalTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
       "AGWApplicationGatewayTotalTimeWindowSize": {
         "type": "string",
         "defaultValue": "PT5M",
@@ -2642,6 +2655,19 @@
         "metadata": {
           "displayName": "AGW Backend Last Byte Response Time Alert Severity",
           "description": "Severity of the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Severity of the alert"
         }
       },
       "AGWBackendLastByteResponseTimeWindowSize": {
@@ -2916,6 +2942,19 @@
           "description": "Severity of the alert"
         }
       },
+      "AGWFailedRequestsAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
       "AGWFailedRequestsWindowSize": {
         "type": "string",
         "defaultValue": "PT5M",
@@ -2982,6 +3021,19 @@
         "metadata": {
           "displayName": "AGW Response Status Alert Severity",
           "description": "Severity of the alert"
+        }
+      },
+      "AGWResponseStatusAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
         }
       },
       "AGWResponseStatusWindowSize": {
@@ -5076,6 +5128,9 @@
           "severity": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
           },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSensitivity')]"
+          },
           "windowSize": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeWindowSize')]"
           },
@@ -5096,6 +5151,9 @@
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSensitivity')]"
           },
           "windowSize": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeWindowSize')]"
@@ -5181,6 +5239,9 @@
           "severity": {
             "value": "[[parameters('AGWFailedRequestsAlertSeverity')]"
           },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWFailedRequestsAlertSensitivity')]"
+          },
           "windowSize": {
             "value": "[[parameters('AGWFailedRequestsWindowSize')]"
           },
@@ -5201,6 +5262,9 @@
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWResponseStatusAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWResponseStatusAlertSensitivity')]"
           },
           "windowSize": {
             "value": "[[parameters('AGWResponseStatusWindowSize')]"
