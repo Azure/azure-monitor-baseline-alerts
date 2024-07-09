@@ -92,11 +92,15 @@ The PolicyEffect parameter is used for the configuration of the effect of the Po
 
 ## MonitorDisable parameter
 
-It´s also possible to exclude certain resources from being monitored. You may not want to monitor pre-production or dev environments. The MonitorDisable parameter contains the Tag name to determine whether a resource should be included. By default, creating the tag MonitorDisable with value "true" will prevent deployment of alert rules on those resources. This is easily adjusted to use existing tags, for example you could configure the parameter with the tag name "Environment" and tell it to deploy only if the tag value equals "prod", or when the tag isnt equal to "dev". Currently only the tag name is a parameter, other changes require minor changes in the code.
+It´s also possible to exclude certain resources from being monitored. You may not want to monitor pre-production or dev environments. The MonitorDisable parameter contains the tag name and tag value to determine whether a resource should be included. By default, creating the tag MonitorDisable with value "true" will prevent deployment of alert rules on those resources. This can be easily adjusted to use existing tags and tag values. For example you could configure the parameters with the tag name ***Environment*** and tag value of ***Production*** or ***Test*** or ***Sandbox*** or all of them to exclude resources in these environments (see the sample parameter screenshot).
+
+![MonitorDisable* parameters](../media/MonitorDisableParams.png)
+
+This will deploy policy definitions which will only be evaluated and remediated if the tag value(s) are not included in the list you provided.
 
 ### How it works
 
-The policyRule only continues if "allOff" is true. Meaning, the deployment will continue as long as the MonitorDisable tag doesn't exist or doesn't hold the value "true". When the tag holds "true", the "allOff" will return "false" as "notEquals": "true" is no longer satisfied, causing the deployment to stop
+The policyRule only continues if "allOff" is true. Meaning, the deployment will continue as long as the MonitorDisableTagName tag doesn't exist or doesn't hold the any of the values listed in the MonitorDisableTagValues parameter. When the tag holds one of the configured values, the "allOff" will return "false" as *"notIn": "[[parameters('MonitorDisableTagValues')]"* is no longer satisfied, causing the evaluation and hence the remediation to stop.
 
 ```json
     "policyRule": {
@@ -107,9 +111,14 @@ The policyRule only continues if "allOff" is true. Meaning, the deployment will 
             "equals": "Microsoft.Automation/automationAccounts"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
-      }
+      },
 ```
+
+Given the different resource scope that this method can be applied to, we made it working a little bit different when it comes to log-based alerts. For instance, the virtual machine alerts are scoped to subscription and tagging the subcription would result in disabling all the policies targeted at it.
+For this reason, and thanks to the new **Bring Your Own User Assigned Managed Identity (BYO UAMI)*** included in the [2024-06-05](../../Whats-New#2024-06-05) release and to the ability to query Azure resource Graph using Azure Monitor (see [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now possible to disable individual alerts for both Azure and hybrid virtual machines after they are created. We got requests to stop alerting fro virtual machines that were off for maintenance and this enhancement came up just in time.
+
+Should you need to disable the alerts for your virtual machines after they are created, just make sure you tag the relevant resources accordingly. The alert queries have been modified to look at resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If the resource contains the given tag name and tag value, it is made part of an exclusion list, so alerts will not be generated for them. This behavior allows you to dinamically and rapidly exclude the necessary resources from being alerted without the need of deleteing the alert, tag the resource and run the remediation again.

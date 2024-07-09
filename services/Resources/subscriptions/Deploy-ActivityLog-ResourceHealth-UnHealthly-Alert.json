@@ -8,7 +8,7 @@
     "displayName": "Deploy Resource Health Unhealthy Alert",
     "description": "Policy to Deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -67,21 +67,34 @@
         ],
         "defaultValue": "disabled"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Monitoring disabled",
+          "displayName": "ALZ Monitoring disabled tag name",
           "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
       },
-      "BYOActionGroup": {
-        "type": "String",
+      "MonitorDisableTagValues": {
+        "type": "Array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
-        "defaultValue": ""
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
+      "BYOActionGroup": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
+        },
+        "defaultValue": []
       }
     },
     "policyRule": {
@@ -92,8 +105,8 @@
             "equals": "Microsoft.Resources/subscriptions"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -104,7 +117,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -140,12 +153,12 @@
                             "anyOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "contains": "[[split(trim(parameters('BYOActionGroup')),',')[0]]"
+                                "in": "[[parameters('BYOActionGroup')]"
                               }
                             ]
                           }
                         },
-                        "equals": 1
+                        "greaterOrEquals": 1
                       }
                     ]
                   }
@@ -196,18 +209,17 @@
                     "type": "string"
                   },
                   "BYOActionGroup": {
-                    "type": "String"
+                    "type": "array"
                   }
                 },
                 "variables": {
-                  "varBYOActionGroups": "[[split(parameters('BYOActionGroup'), ',')]",
                   "copy": [
                     {
                       "name": "varActionGroupIds",
-                      "count": "[[length(variables('varBYOActionGroups'))]",
+                      "count": "[[length(parameters('BYOActionGroup'))]",
                       "mode": "serial",
                       "input": {
-                        "actionGroupId": "[[trim(variables('varBYOActionGroups')[copyIndex('varActionGroupIds')])]"
+                        "actionGroupId": "[[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
                       }
                     }
                   ]
@@ -241,7 +253,7 @@
                             "type": "string"
                           },
                           "BYOActionGroup": {
-                            "type": "String"
+                            "type": "array"
                           }
                         },
                         "variables": {},

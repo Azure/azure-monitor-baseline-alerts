@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Management",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ Management management group",
     "metadata": {
-      "version": "1.0.3",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -39,6 +39,50 @@
         "metadata": {
           "displayName": "ALZ Monitoring Resource Group Location",
           "description": "Location of the resource group"
+        }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
+      "ALZUserAssignedManagedIdentityName": {
+        "type": "string",
+        "defaultValue": "id-AMBA-ARG-Reader-001",
+        "metadata": {
+          "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
+          "displayName": "Name of the user assigned managed identity to be created."
+        }
+      },
+      "ALZManagementSubscriptionId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
+        }
+      },
+      "BYOUserAssignedManagedIdentityResourceId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The resource Id of the user assigned managed identity provided by the customer.",
+          "displayName": "Customer defined User Assigned managed Identity resource Id."
         }
       },
       "AATotalJobAlertSeverity": {
@@ -226,12 +270,36 @@
           "description": "Alert state for the alert"
         }
       },
+      "activityLAWDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Activity Log Alert Delete Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
       "activityLAWDeleteAlertState": {
         "type": "string",
         "defaultValue": "true",
         "metadata": {
           "displayName": "Activity Log Alert Delete Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "activityLAWKeyRegenPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "LAW Key Regen Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
         }
       },
       "activityLAWKeyRegenAlertState": {
@@ -241,6 +309,143 @@
           "displayName": "Activity Log Alert Key Regen Alert State",
           "description": "Alert state for the alert"
         }
+      },
+      "LAWDailyCapLimitSeverity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Severity",
+          "description": "Severity of the Alert"
+        },
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2"
+      },
+      "LAWDailyCapLimitOperator": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Operator"
+        },
+        "allowedValues": [
+          "GreaterThan",
+          "GreaterThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan"
+      },
+      "LAWDailyCapLimitTimeAggregation": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert TimeAggregation"
+        },
+        "allowedValues": [
+          "Count"
+        ],
+        "defaultValue": "Count"
+      },
+      "LAWDailyCapLimitWindowSize": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Window Size",
+          "description": "Window size for the alert"
+        },
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT10M",
+          "PT15M",
+          "PT30M",
+          "PT45M",
+          "PT1H",
+          "PT2H",
+          "PT3H",
+          "PT4H",
+          "PT5H",
+          "PT6H",
+          "P1D"
+        ],
+        "defaultValue": "P1D"
+      },
+      "LAWDailyCapLimitEvaluationFrequency": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        },
+        "allowedValues": [
+          "PT5M",
+          "PT10M",
+          "PT15M",
+          "PT30M",
+          "PT45M",
+          "PT1H",
+          "PT2H",
+          "PT3H",
+          "PT4H",
+          "PT5H",
+          "PT6H",
+          "P1D"
+        ],
+        "defaultValue": "PT1H"
+      },
+      "LAWDailyCapLimitAutoMitigate": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "LAWDailyCapLimitThreshold": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Threshold",
+          "description": "Threshold for the alert"
+        },
+        "defaultValue": "0"
+      },
+      "LAWDailyCapLimitFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "1"
+      },
+      "LAWDailyCapLimitPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+        }
+      },
+      "LAWDailyCapLimitAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "ALog Analytics Workspace Daily Cap Limit Reached Alert State",
+          "description": "Alert state for the alert"
+        }
       }
     },
     "policyDefinitions": [
@@ -248,6 +453,9 @@
         "policyDefinitionReferenceId": "ALZ_activityLAWDelete",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
         "parameters": {
+          "effect": {
+            "value": "[[parameters('activityLAWDeletePolicyEffect')]"
+          },
           "enabled": {
             "value": "[[parameters('activityLAWDeleteAlertState')]"
           },
@@ -259,6 +467,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -266,6 +480,9 @@
         "policyDefinitionReferenceId": "ALZ_activityLAWKeyRegen",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
         "parameters": {
+          "effect": {
+            "value": "[[parameters('activityLAWKeyRegenPolicyEffect')]"
+          },
           "enabled": {
             "value": "[[parameters('activityLAWKeyRegenAlertState')]"
           },
@@ -277,6 +494,60 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LAWorkspaceDailyCapLimitReached",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
+        "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
+          "severity": {
+            "value": "[[parameters('LAWDailyCapLimitSeverity')]"
+          },
+          "operator": {
+            "value": "[[parameters('LAWDailyCapLimitOperator')]"
+          },
+          "timeAggregation": {
+            "value": "[[parameters('LAWDailyCapLimitTimeAggregation')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LAWDailyCapLimitWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LAWDailyCapLimitEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('LAWDailyCapLimitAutoMitigate')]"
+          },
+          "threshold": {
+            "value": "[[parameters('LAWDailyCapLimitThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('LAWDailyCapLimitFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('LAWDailyCapLimitEvaluationPeriods')]"
+          },
+          "effect": {
+            "value": "[[parameters('LAWDailyCapLimitPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LAWDailyCapLimitAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -301,6 +572,12 @@
           },
           "threshold": {
             "value": "[[parameters('AATotalJobAlertThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -310,6 +587,12 @@
         "parameters": {
           "effect": {
             "value": "[[parameters('RVBackupHealthMonitorPolicyEffect')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -334,6 +617,12 @@
           },
           "threshold": {
             "value": "[[parameters('StorageAccountAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -355,6 +644,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

@@ -8,6 +8,10 @@ weight: 80
 >
 > No but you will need to be using Azure Management groups and for now our focus is on the resources frequently deployed as part of Azure Landing Zone deployments.
 
+> ## Can I deploy to Tenant Root Group ?
+> 
+> While it´s recommended to implement the alert policies and initiatives to an ALZ Management Group hierarchy, it is not a technical requirement. However, please avoid Tenant Root Group assignments, to minimize debugging inherited policies at lower-level mangement groups, see [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups). 
+
 > ## Do I need to deploy to each region that I want to monitor?
 >
 > No, deploying to multiple regions is not necessary. The definitions and assignments are scoped to a management group and are not region specific.

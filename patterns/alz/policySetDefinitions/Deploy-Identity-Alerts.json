@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Identity",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ Identity management group",
     "metadata": {
-      "version": "1.0.3",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -40,6 +40,27 @@
           "displayName": "ALZ Monitor Resource Group Location",
           "description": "Location of the resource group where the alerting resources will be deployed"
         }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       },
       "KVRequestAlertSeverity": {
         "type": "String",
@@ -344,6 +365,18 @@
           "displayName": "Activity Log KeyVault Delete Alert State",
           "description": "State of the alert, true will enable the alert, false will disable the alert"
         }
+      },
+      "activityKVDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Delete Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
       }
     },
     "policyDefinitions": [
@@ -365,6 +398,12 @@
           },
           "enabled": {
             "value": "[[parameters('KVRequestAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -389,6 +428,12 @@
           },
           "threshold": {
             "value": "[[parameters('KVAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -413,6 +458,12 @@
           },
           "threshold": {
             "value": "[[parameters('KvLatencyAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -437,6 +488,12 @@
           },
           "threshold": {
             "value": "[[parameters('KVCapacityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -444,6 +501,9 @@
         "policyDefinitionReferenceId": "ALZ_activityKVDelete",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
         "parameters": {
+          "effect": {
+            "value": "[[parameters('activityKVDeletePolicyEffect')]"
+          },
           "enabled": {
             "value": "[[parameters('activityKVDeleteAlertState')]"
           },
@@ -455,6 +515,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }
