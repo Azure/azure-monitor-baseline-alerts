@@ -2,10 +2,6 @@
 @minLength(1)
 param alertName string
 
-@description('Location of the alert')
-@minLength(1)
-param location string
-
 @description('Description of alert')
 param alertDescription string = '##DESCRIPTION##'
 
@@ -119,7 +115,7 @@ param telemetryOptOut string = 'No'
 
 resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
   name: alertName
-  location: location
+  location: resourceGroup().location
   tags: {
     _deployed_by_amba: 'true'
   }

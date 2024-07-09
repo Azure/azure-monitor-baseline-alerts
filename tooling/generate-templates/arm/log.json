@@ -9,13 +9,6 @@
         "description": "Name of the alert"
       }
     },
-    "location": {
-      "type": "string",
-      "minLength": 1,
-      "metadata": {
-        "description": "Location of the alert"
-      }
-    },
     "alertDescription": {
       "type": "string",
       "defaultValue": "##DESCRIPTION##",
@@ -210,7 +203,7 @@
       "type": "Microsoft.Insights/scheduledQueryRules",
       "apiVersion": "2021-08-01",
       "name": "[parameters('alertName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "_deployed_by_amba": true
       },
@@ -229,9 +222,7 @@
               "query": "[parameters('query')]",
               "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
               "resourceIdColumn": "[parameters('resourceIdColumn')]",
-              "dimensions": [
-                ##DIMENSIONS##
-              ],
+              "dimensions": ##DIMENSIONS##,
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
               "timeAggregation": "[parameters('timeAggregation')]",
