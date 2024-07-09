@@ -87,11 +87,12 @@ def main():
       os.makedirs(os.path.join(args.output, category, resourceType, "templates", "arm"), exist_ok=True)
       os.makedirs(os.path.join(args.output, category, resourceType, "templates", "bicep"), exist_ok=True)
 
-      # Remove all files in arm and bicep directories
+      # Remove all files in arm directories
       for root, dirs, files in os.walk(os.path.join(args.output, category, resourceType, "templates", "arm")):
         for file in files:
           os.remove(os.path.join(root, file))
 
+      # Remove all files in bicep directories
       for root, dirs, files in os.walk(os.path.join(args.output, category, resourceType, "templates", "bicep")):
         for file in files:
           os.remove(os.path.join(root, file))
