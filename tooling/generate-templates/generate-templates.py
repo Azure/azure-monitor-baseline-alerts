@@ -2,13 +2,12 @@ import os
 import yaml
 import json
 import argparse
-import datetime
 
 # Parse command line arguments
 def parseArguments():
   parser = argparse.ArgumentParser(description='This script will generate ARM and Bicep templates for each alert.')
   parser.add_argument('-p', '--path', type=str, required=False, metavar='path', help='Path to services directory', default='../../services')
-  parser.add_argument('-o', '--output', type=str, required=False, metavar='output', help='Path to output directory', default='../../artifacts/templates')
+  parser.add_argument('-o', '--output', type=str, required=False, metavar='output', help='Path to output directory', default='../../services')
   parser.add_argument('-t', '--telemetry_pid', type=str, required=False, metavar='telemetry_pid', help='Telemetry PID', default='pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d')
   args = parser.parse_args()
 
@@ -76,27 +75,33 @@ def main():
   arm, bicep = readTemplates()
 
   import datetime
-
-  # Get the current timestamp
-  timestamp = datetime.datetime.now()
-
-  # Format it as a string
-  formatted_timestamp = timestamp.strftime("%Y%m%d%H%M%S")
+  import re
 
   # Create the output directory if it doesn't exist
   os.makedirs(args.output, exist_ok=True)
 
-  # Write timestamp to a file
-  with open(os.path.join(args.output, 'latest_version.txt'), 'w') as f:
-    f.write(formatted_timestamp)
-
   for category in data:
     for resourceType in data[category]:
-      # create directory based on resourceType if it doesn't exist
-      os.makedirs(os.path.join(args.output, formatted_timestamp, category, resourceType), exist_ok=True)
+
+      # create directories based on template types if it doesn't exist
+      os.makedirs(os.path.join(args.output, category, resourceType, "templates", "arm"), exist_ok=True)
+      os.makedirs(os.path.join(args.output, category, resourceType, "templates", "bicep"), exist_ok=True)
+
+      # Remove all files in arm and bicep directories
+      for root, dirs, files in os.walk(os.path.join(args.output, category, resourceType, "templates", "arm")):
+        for file in files:
+          os.remove(os.path.join(root, file))
+
+      for root, dirs, files in os.walk(os.path.join(args.output, category, resourceType, "templates", "bicep")):
+        for file in files:
+          os.remove(os.path.join(root, file))
+
+      alert_file_names = []
 
       for alert in data[category][resourceType]:
         arm_template_type = ""
+        alert_file_name = re.sub(r'[^a-zA-Z0-9-]', '', alert['name']) + '_' + alert['guid']
+
         if alert["type"] == "Metric":
           if 'criterionType' in alert["properties"]:
             if alert["properties"]["criterionType"] == "StaticThresholdCriterion":
@@ -157,6 +162,13 @@ def main():
           else:
             arm_template = arm_template.replace("##QUERY##", "")
             bicep_template = bicep_template.replace("##QUERY##", "")
+
+          if 'metricName' in alert["properties"] and alert["properties"]["metricName"]:
+            arm_template = arm_template.replace("##METRIC_NAME##", alert["properties"]["metricName"])
+            bicep_template = bicep_template.replace("##METRIC_NAME##", alert["properties"]["metricName"])
+          else:
+            arm_template = arm_template.replace("##METRIC_NAME##", "")
+            bicep_template = bicep_template.replace("##METRIC_NAME##", "")
 
           if 'metricMeasureColumn' in alert["properties"] and alert["properties"]["metricMeasureColumn"]:
             arm_template = arm_template.replace("##METRIC_MEASURE_COLUMN##", alert["properties"]["metricMeasureColumn"])
@@ -220,13 +232,6 @@ def main():
           else:
             arm_template = arm_template.replace("##EVALUATION_FREQUENCY##", "")
             bicep_template = bicep_template.replace("##EVALUATION_FREQUENCY##", "")
-
-          if 'metricName' in alert["properties"] and alert["properties"]["metricName"]:
-            arm_template = arm_template.replace("##METRIC_NAME##", alert["properties"]["metricName"])
-            bicep_template = bicep_template.replace("##METRIC_NAME##", alert["properties"]["metricName"])
-          else:
-            arm_template = arm_template.replace("##METRIC_NAME##", "")
-            bicep_template = bicep_template.replace("##METRIC_NAME##", "")
 
           if 'dimensions' in alert["properties"] and "dimensions" in alert["properties"]:
             arm_template = arm_template.replace("##DIMENSIONS##", json.dumps(alert["properties"]["dimensions"]))
@@ -324,12 +329,18 @@ def main():
             arm_template = arm_template.replace("##INCIDENT_TYPE##", "")
             bicep_template = bicep_template.replace("##INCIDENT_TYPE##", "")
 
-          # Save the ARM template
-          with open(os.path.join(args.output, formatted_timestamp, category, resourceType, alert['guid'] + '.json'), 'w') as f:
+          # Check if alert name already exists
+          if alert_file_name in alert_file_names:
+            # raise an Exception
+            raise Exception(f"Alert name {alert_file_name} already exists in the list of alerts for {category}/{resourceType}")
+          else:
+            alert_file_names.append(alert_file_name)
+
+          with open(os.path.join(args.output, category, resourceType, "templates", "arm", alert_file_name + '.json'), 'w') as f:
             f.write(arm_template)
 
           # Save the Bicep template
-          with open(os.path.join(args.output, formatted_timestamp, category, resourceType, alert['guid'] + '.bicep'), 'w') as f:
+          with open(os.path.join(args.output, category, resourceType, "templates", "bicep", alert_file_name + '.bicep'), 'w') as f:
             f.write(bicep_template)
 
 if __name__ == '__main__':

@@ -28,6 +28,8 @@ def main():
 
   dir = args.amba_dir
 
+  numResourceTypes = 0
+  numAlerts = 0
   # Walk the directory structure and find all alerts.yaml files
   for subdir, dirs, files in os.walk(dir):
     for file in files:
@@ -36,36 +38,27 @@ def main():
 
       with open(os.path.join(subdir, file), "r+") as f:
 
+        resourceType = os.path.basename(subdir)
+        resouceCategory = os.path.basename(os.path.dirname(subdir))
+
         alerts = []
         try:
           alerts = yaml.load(f, Loader=yaml.FullLoader)
         except:
           continue
 
-        resourceType = os.path.basename(subdir)
-        resouceCategory = os.path.basename(os.path.dirname(subdir))
-
         if alerts:
-          duplicate_alerts = []
-          metric_names = set()
-          for alert in alerts:
-            # skip if type is not Metric
-            if alert.get("type") != "Metric":
-              continue
+          numAlerts += len(alerts)
+          numResourceTypes += 1
 
-            metric_name = alert["properties"]["metricName"]
-            if metric_name in metric_names:
-              duplicate_alerts.append(alert)
-            else:
-              metric_names.add(metric_name)
+          print(f"{resouceCategory} - {resourceType} - # of alerts: {len(alerts)}")
 
-          if duplicate_alerts:
-            for alert in duplicate_alerts:
-              # Print the alert category, type, name, and metric name
-              print(f"{resouceCategory} {resourceType} {alert.get('name')} {alert.get('properties', {}).get('metricName')}")
 
       # write yaml file
       #outputToYamlFile(alerts, os.path.join(subdir, file))
+
+  # Print out the results
+  print(f"Found {numResourceTypes} resource types with {numAlerts} alerts.")
 
 if __name__ == "__main__":
   main()

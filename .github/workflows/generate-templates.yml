@@ -1,0 +1,53 @@
+# Workflow for generating (arm/bicep/etc) templates for each alert
+name: Generaate Templates
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'services/**/alerts.yaml'
+      - 'tooling/generate-templates/**'
+
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  update-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' # install the python version needed
+
+      - name: Install Python Packages
+        run: |
+          python -m pip install --upgrade pip
+        working-directory: tooling
+
+      - name: Generate Templates
+        run: |
+          pip install -r requirements.txt
+          python generate-templates.py --path ../../services --output ../../artifacts/templates
+        working-directory: tooling/generate-templates
