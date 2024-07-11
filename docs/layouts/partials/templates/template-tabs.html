@@ -1,8 +1,9 @@
 {{ $category := .category }}
 {{ $type := .type }}
-{{ $filename := printf "%s.json" .alert.guid | printf "%s"}}
-{{ $version := readFile "artifacts/templates/latest_version.txt" }}
-{{ $file := path.Join "artifacts/templates" $version $category $type $filename }}
+{{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
+{{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
+{{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -45,8 +46,8 @@
     Bicep
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ $filename := printf "%s.bicep" .alert.guid | printf "%s"}}
-    {{ $file := path.Join "artifacts/templates" $version $category $type $filename }}
+    {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
+    {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
     {{ $data := readFile $file }}
     {{ highlight $data "bicep" }}
   </div>
