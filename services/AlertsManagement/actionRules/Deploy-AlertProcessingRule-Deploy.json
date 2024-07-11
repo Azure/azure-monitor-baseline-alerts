@@ -44,12 +44,12 @@
         "defaultValue": "centralus"
       },
       "ALZMonitorActionGroupEmail": {
-        "type": "String",
+        "type": "Array",
         "metadata": {
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -84,12 +84,12 @@
         "defaultValue": []
       },
       "ALZWebhookServiceUri": {
-        "type": "String",
+        "type": "Array",
         "metadata": {
-          "displayName": "Webhook Service Uri",
-          "description": "Indicates the service uri of the webhook to send alerts to"
+          "displayName": "Webhook Service Uri(s)",
+          "description": "Indicates the service uri(s) of the webhook to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZFunctionResourceId": {
         "type": "String",
@@ -198,7 +198,7 @@
                     "type": "string"
                   },
                   "ALZMonitorActionGroupEmail": {
-                    "type": "string"
+                    "type": "Array"
                   },
                   "ALZLogicappResourceId": {
                     "type": "string"
@@ -213,7 +213,7 @@
                     "type": "array"
                   },
                   "ALZWebhookServiceUri": {
-                    "type": "string"
+                    "type": "Array"
                   },
                   "ALZFunctionResourceId": {
                     "type": "string"
@@ -230,8 +230,6 @@
                 },
                 "variables": {
                   "varBYOAlertProcessingRule": "[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]",
-                  "varALZMonitorActionGroupEmail": "[[array(split(parameters('ALZMonitorActionGroupEmail'),','))]",
-                  "varALZWebhookServiceUri": "[[array(split(parameters('ALZWebhookServiceUri'),','))]",
                   "varLogicAppReceivers": [
                     {
                       "name": "AlzLA-0",
@@ -252,11 +250,11 @@
                   "copy": [
                     {
                       "name": "varEmailReceivers",
-                      "count": "[[length(variables('varALZMonitorActionGroupEmail'))]",
+                      "count": "[[length(parameters('ALZMonitorActionGroupEmail'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzMail-', indexOf(variables('varALZMonitorActionGroupEmail'), variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
-                        "emailAddress": "[[trim(variables('varALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
+                        "name": "[[concat('AlzMail-', indexOf(parameters('ALZMonitorActionGroupEmail'), parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
+                        "emailAddress": "[[trim(parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
                         "useCommonSchema": true
                       }
                     },
@@ -285,13 +283,13 @@
                     },
                     {
                       "name": "varWebhookReceivers",
-                      "count": "[[length(variables('varALZWebhookServiceUri'))]",
+                      "count": "[[length(parameters('ALZWebhookServiceUri'))]",
                       "mode": "serial",
                       "input": {
-                        "name": "[[concat('AlzWh-', indexOf(variables('varALZWebhookServiceUri'), variables('varALZWebhookServiceUri')[copyIndex('varWebhookReceivers')]))]",
+                        "name": "[[concat('AlzWh-', indexOf(parameters('ALZWebhookServiceUri'), parameters('ALZWebhookServiceUri')[copyIndex('varWebhookReceivers')]))]",
                         "identifierUri": "null()",
                         "objectId": "null()",
-                        "serviceUri": "[[trim(variables('varALZWebhookServiceUri')[copyIndex('varWebhookReceivers')])]",
+                        "serviceUri": "[[trim(parameters('ALZWebhookServiceUri')[copyIndex('varWebhookReceivers')])]",
                         "useCommonAlertSchema": true,
                         "tenantId": "null()",
                         "useAadAuth": "false"
@@ -331,7 +329,7 @@
                             "type": "string"
                           },
                           "ALZMonitorActionGroupEmail": {
-                            "type": "string"
+                            "type": "Array"
                           },
                           "ALZLogicappResourceId": {
                             "type": "string"
@@ -346,7 +344,7 @@
                             "type": "array"
                           },
                           "ALZWebhookServiceUri": {
-                            "type": "string"
+                            "type": "Array"
                           },
                           "ALZFunctionResourceId": {
                             "type": "string"
