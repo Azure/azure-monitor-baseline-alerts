@@ -322,6 +322,17 @@
             "metadata": {
                 "description": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more."
             }
+        },
+        "deployALZPortalAccelerator": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more."
+            }
         }
     },
     "variables": {
@@ -439,8 +450,8 @@
         "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
         "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
-        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76",
-        "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e"
+        "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e",
+        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76"
     },
     "resources": [
         // Creating resource group in the Management subscription.
@@ -826,9 +837,9 @@
                 }
             }
         },
-        // Deploying general telemetry if not opted out
+        // Deploying general telemetry if not opted out and not deploying from ALZ Portal Accelerator
         {
-            "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployALZPortalAccelerator'), 'No'))]",
             "apiVersion": "2020-06-01",
             "name": "[if(equals(parameters('deployAMBAPortalAccelerator'), 'No'),variables('deploymentNames').pidCuaDeploymentName, variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName)]",
             "location": "[deployment().location]",
