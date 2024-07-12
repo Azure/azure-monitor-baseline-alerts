@@ -441,8 +441,7 @@
             "AMBAResourceGroupDeploymentName": "[take(concat('amba-rg', variables('deploymentSuffix')), 64)]",
             "AMBAUserAssignedManagedIdentityDeploymentName": "[take(concat('amba-Uami', variables('deploymentSuffix')), 64)]",
             "AMBAUamiRoleAssignmentDeploymentName": "[take(concat('amba-ra', variables('deploymentSuffix')), 64)]",
-            "pidCuaAMBAAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAMBAAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-            "pidCuaAlzPortalAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAlzPortalAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
+            "pidCuaAMBAAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAMBAAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
@@ -452,8 +451,7 @@
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
         "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
         "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e",
-        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76",
-        "cuaidAlzPortalAccelerator": "5f0e5693-3998-4ae2-8115-ee96e38dac62	"
+        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76"
     },
     "resources": [
         // Creating resource group in the Management subscription.
@@ -839,11 +837,11 @@
                 }
             }
         },
-        // Deploying general telemetry if not opted out
+        // Deploying general telemetry if not opted out and not deploying from ALZ Portal Accelerator
         {
-            "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('deployALZPortalAccelerator'), 'No'))]",
             "apiVersion": "2020-06-01",
-            "name": "[if(equals(parameters('deployAMBAPortalAccelerator'), 'No'), if(equals(parameters('deployALZPortalAccelerator'), 'No'), variables('deploymentNames').pidCuaDeploymentName, variables('deploymentNames').pidCuaAlzPortalAcceleratorDeploymentName), variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName)]",
+            "name": "[if(equals(parameters('deployAMBAPortalAccelerator'), 'No'),variables('deploymentNames').pidCuaDeploymentName, variables('deploymentNames').pidCuaAMBAAcceleratorDeploymentName)]",
             "location": "[deployment().location]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
