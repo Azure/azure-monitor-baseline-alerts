@@ -67,21 +67,74 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in LandingZoneHybrid policy definitions only
-    //loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-AvailableMemory-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskSpace-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeat-Alert.json')
-    //loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeatAlertRG.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkIn-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkOut-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskSpace-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentCPU-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json')
+    // Used in Connectivity Policy Set Definition
+    loadTextContent('../../../services/Network/azureFirewalls/Deploy-ActivityLog-AzureFirewall-Del.json')
+    loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
+    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json')
+    loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
+    loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-BGPAvailability-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsOut-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-BitsInPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-BitsOutPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-CPUUtilization-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsInPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-BitsOutPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-LineProtocol-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelHigh-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelLow-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelHigh-Alert.json')
+    loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelLow-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGBitsPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGCPUUtilization-Alert.json')
+    loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-CapacityUtilization-Alert.json')
+    loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-QueryVolume-Alert.json')
+    loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-RecordSetCapacity-Alert.json')
+    loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-RegistrationCapacityUtilization-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-BandwidthUtilization-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Egress-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-EgressPacketDropCount-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-EgressPacketDropMismatch-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Ingress-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropCount-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropMismatch-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-BandwidthUtilization-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-BGPPeerStatus-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-Egress-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-EgressPacketDropCount-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-EgressPacketDropMismatch-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-Ingress-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropCount-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropMismatch-Alert.json')
+    // Used in Load balancing Policy Set Definition
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-ApplicationGatewayTotalTime-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-BackendLastByteResponseTime-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-CapacityUnits-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-ComputeUnits-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-CPUUtil-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-FailedRequests-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-ResponseStatus-Alert.json')
+    loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-UnhealthyHostCount-Alert.json')
+    loadTextContent('../../../services/Network/trafficmanagerprofiles/Deploy-TM-EndpointHealth-Alert.json')
+    loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendHealth-Alert.json')
+    loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendRequestLatency-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginHealthPercentage-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginLatency-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage4XX-Alert.json')
+    loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage5XX-Alert.json')
+    // Used in both Connectivity and Load balancing Policy Set Definitions
+    loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-DatapathAvailability-Alert.json')
+    loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-GlobalBackendAvailability-Alert.json')
+    loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-HealthProbeStatus-Alert.json')
+    loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-UsedSNATPorts-Alert.json')
+    loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-BytesInDDOSAttack-Alert.json')
+    loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-DDOSAttack-Alert.json')
+    loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-PacketsInDDOS-Alert.json')
+    loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-VIPAvailability-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworks/Deploy-VNET-DDOSAttack-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
@@ -93,9 +146,7 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: [
-    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
-  ]
+  All: []
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []
