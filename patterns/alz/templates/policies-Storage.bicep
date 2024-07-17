@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in both LandingZone and Management Policy Set Definitions
+    // Used in both Storage and Management Policy Set Definitions
     loadTextContent('../../../services/storage/StorageAccounts/Deploy-SA-Availability-Alert.json')
     loadTextContent('../../../services/storage/StorageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json')
   ]
@@ -81,7 +81,9 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: []
+  All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-Storage-Alerts.json'))
+  ]
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

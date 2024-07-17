@@ -67,18 +67,8 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in VM Policy Set Definition
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-HeartBeat-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-NetworkIn-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-NetworkOut-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskSpace-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentCPU-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentMemory-Alert.json')
+    // Used in Management Policy Set Definition only
+    loadTextContent('../../../services/Automation/automationAccounts/Deploy-AA-TotalJob-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
@@ -90,9 +80,7 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: [
-    string(loadJsonContent('../policySetDefinitions/Deploy-VM-Alerts.json'))
-  ]
+  All: []
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

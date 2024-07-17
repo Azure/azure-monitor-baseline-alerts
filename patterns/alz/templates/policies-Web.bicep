@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in LandingZone Policy Set Definitions
+    // Used in Web Policy Set Definition
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-CPUPercentage-Alert.json')
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-DiskQueueLength-Alert.json')
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-HttpQueueLength-Alert.json')
@@ -83,7 +83,9 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: []
+  All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-Web-Alerts.json'))
+  ]
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

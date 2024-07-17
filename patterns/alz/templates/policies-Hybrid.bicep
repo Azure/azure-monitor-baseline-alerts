@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in Hybrid Policy Set Definitions only
+    // Used in HybridVM Policy Set Definition
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json')
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskSpace-Alert.json')
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json')
@@ -81,7 +81,9 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json')
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json')
   ]
-  AzureCloud: []
+  AzureCloud: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
+  ]
   AzureChinaCloud: []
   AzureUSGovernment: []
 }
