@@ -1800,12 +1800,27 @@
           "description": "Alert state for the alert, true will enable the alert, false will disable the alert"
         }
       },
-      "HybridVMDisconnectedAlertDaysThreshold": {
+      "HybridVMDisconnectedAlertThreshold": {
         "type": "string",
-        "defaultValue": "1",
+        "defaultValue": "10m",
+        "allowedValues": [
+          "5m",
+          "10m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "3h",
+          "6h",
+          "12h",
+          "1d",
+          "2d",
+          "3d",
+          "7d"
+        ],
         "metadata": {
-          "displayName": "Hybrid VM Disconnected Days Threshold",
-          "description": "Threshold in days for the Hybrid VM Disconnected alert"
+          "displayName": "Hybrid VM Disconnected Threshold (expressed in timespan)",
+          "description": "Threshold in timespan value for the Hybrid VM Disconnected alert"
         }
       },
       "HybridVMDisconnectedAlertOperator": {
@@ -2581,7 +2596,7 @@
             "value": "[[parameters('HybridVMDisconnectedAlertState')]"
           },
           "threshold": {
-            "value": "[[parameters('HybridVMDisconnectedAlertDaysThreshold')]"
+            "value": "[[parameters('HybridVMDisconnectedAlertThreshold')]"
           },
           "operator": {
             "value": "[[parameters('HybridVMDisconnectedAlertOperator')]"
