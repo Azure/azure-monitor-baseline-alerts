@@ -73,17 +73,6 @@
                 "description": "Assign Identity initiative"
             }
         },
-        "enableAMBALandingZone": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Landing zone initiative"
-            }
-        },
         "enableAMBAManagement": {
             "type": "string",
             "defaultValue": "Yes",
@@ -126,6 +115,83 @@
             ],
             "metadata": {
                 "description": "Assign HybridVM initiative"
+            }
+        },
+        "enableAMBAKeyManagement": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Key Management initiative"
+            }
+        },
+        "enableAMBALoadBalancing": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Load Balancing initiative"
+            }
+        },
+        "enableAMBANetworkChanges": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Network Changes initiative"
+            }
+        },
+        "enableAMBARecoveryServices": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Recovery Services initiative"
+            }
+        },
+        "enableAMBAStorage": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Storage initiative"
+            }
+        },
+        "enableAMBAVM": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign VM initiative"
+            }
+        },
+        "enableAMBAWeb": {
+            "type": "string",
+            "defaultValue": "Yes",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ],
+            "metadata": {
+                "description": "Assign Web initiative"
             }
         },
         "bringYourOwnUserAssignedManagedIdentity": {
@@ -297,10 +363,6 @@
             "type": "object",
             "defaultValue": {}
         },
-        "policyAssignmentParametersLandingZone": {
-            "type": "object",
-            "defaultValue": {}
-        },
         "policyAssignmentParametersHybridVM": {
             "type": "object",
             "defaultValue": {}
@@ -401,7 +463,6 @@
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
-        "policyAssignmentParametersLandingZone": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersLandingZone'), variables('uamiParameters'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
         "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'))]",
@@ -422,7 +483,6 @@
             "policySetDefinitions": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets.json')]",
             "AMBAConnectivityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment.json')]",
             "AMBAIdentityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-IdentityAssignment.json')]",
-            "AMBALandingZoneInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-LandingZoneAssignment.json')]",
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
             "AMBANotificationAssetsInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-NotificationAssetsAssignment.json')]",
@@ -450,7 +510,6 @@
             "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
-            "AMBALandingZoneDeploymentName": "[take(concat('amba-LandingZone', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentName": "[take(concat('amba-HybridVM', variables('deploymentSuffix')), 64)]",
             "AMBAManagementDeploymentName": "[take(concat('amba-Management', variables('deploymentSuffix')), 64)]",
             "AMBAServiceHealthDeploymentName": "[take(concat('amba-ServiceHealth', variables('deploymentSuffix')), 64)]",
@@ -459,21 +518,34 @@
             "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity-', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaIdentityDeploymentName": "[take(concat('amba-pid-Identity-', variables('cuaidIdentity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaManagementDeploymentName": "[take(concat('amba-pid-Management-', variables('cuaidManagement'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-            "pidCuaLandingZoneDeploymentName": "[take(concat('amba-pid-LZ', variables('cuaidLandingZone'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaHybridVMDeploymentName": "[take(concat('amba-pid-Hybrid-', variables('cuaidHybridVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaServiceHealthDeploymentName": "[take(concat('amba-pid-SH-', variables('cuaidServiceHealth'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaNotificationAssetsDeploymentName": "[take(concat('amba-pid-Notification-', variables('cuaidNotificationAssets'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-            "pidCuaAMBAAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAMBAAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
+            "pidCuaAMBAAcceleratorDeploymentName": "[take(concat('amba-pid-', variables('cuaidAMBAAccelerator'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaKeyManagementDeploymentName": "[take(concat('amba-pid-KeyManagement-', variables('cuaidKeyManagement'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaLoadBalancingDeploymentName": "[take(concat('amba-pid-LoadBalancing-', variables('cuaidLoadBalancing'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaNetworkChangesDeploymentName": "[take(concat('amba-pid-NetworkChanges-', variables('cuaidNetworkChanges'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaRecoveryServicesDeploymentName": "[take(concat('amba-pid-RecoveryServices-', variables('cuaidRecoveryServices'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaStorageDeploymentName": "[take(concat('amba-pid-Storage-', variables('cuaidStorage'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaVMDeploymentName": "[take(concat('amba-pid-VM-', variables('cuaidVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+            "pidCuaWebDeploymentName": "[take(concat('amba-pid-Web-', variables('cuaidWeb'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
         },
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
         "cuaidIdentity": "8d257c20-97bf-4d14-acb3-38dd1436d13a",
         "cuaidManagement": "d87415c4-01ef-4667-af89-0b5adc14af1b",
-        "cuaidLandingZone": "7bcfc615-be78-43da-b81d-98959a9465a5",
         "cuaidServiceHealth": "860d2afd-b71e-452f-9d3a-e56196cba570",
         "cuaidNotificationAssets": "eabaaf0b-eed4-48a9-9f91-4f7e431ba807",
         "cuaidHybridVM": "b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e",
-        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76"
+        "cuaidAMBAAccelerator": "dddb1f42-f9d8-48e3-9e6b-f1ce3e9c2c76",
+        "cuaidKeyManagement": "65cb78a2-0744-4785-9093-aeb772ecdd7b",
+        "cuaidLoadBalancing": "5156f7d1-8543-49c0-ac09-76db1170d42a",
+        "cuaidNetworkChanges": "e61a27ea-ed9e-496e-8fd2-489bfa3b6e4f",
+        "cuaidRecoveryServices": "b45e8b7b-e0a2-4af4-b3af-8b2af4020dcc",
+        "cuaidStorage": "c0eb5ea9-033b-4c1b-be71-b3088e7a2e2b",
+        "cuaidVM": "3ace674d-9502-4f4a-98ba-a2277c01ccf8",
+        "cuaidWeb": "a80aedbd-3157-4335-94c7-7e7db459a647"
+
     },
     "resources": [
         // MARK: Deploy RG
@@ -1124,22 +1196,6 @@
                 }
             }
         },
-        // Deploying landing zone PolicySet telemetry if not opted out
-        {
-            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBALandingZone'), 'Yes'))]",
-            "apiVersion": "2020-06-01",
-            "name": "[variables('deploymentNames').pidCuaLandingZoneDeploymentName]",
-            "location": "[deployment().location]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "resources": []
-                }
-            }
-        },
         // Deploying HybridVM PolicySet telemetry if not opted out
         {
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAHybridVM'), 'Yes'))]",
@@ -1177,6 +1233,118 @@
             "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBANotificationAssets'), 'Yes'))]",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').pidCuaNotificationAssetsDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Key Management PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAKeyManagement'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaKeyManagementDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Load Balancing PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBALoadBalancing'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaLoadBalancingDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Network Changes PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBANetworkChanges'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaNetworkChangesDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Recovery Services PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBARecoveryServices'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaRecoveryServicesDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Storage PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAStorage'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaStorageDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying VM PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAVM'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaVMDeploymentName]",
+            "location": "[deployment().location]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": []
+                }
+            }
+        },
+        // Deploying Web PolicySet telemetry if not opted out
+        {
+            "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAWeb'), 'Yes'))]",
+            "apiVersion": "2020-06-01",
+            "name": "[variables('deploymentNames').pidCuaWebDeploymentName]",
             "location": "[deployment().location]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
