@@ -103,7 +103,7 @@ To recognize the deployment names belonging to AMBA, select those deployments wh
 If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 
 >{{< /hint >}}
->
+
 >## Failed to deploy action group(s) and/or alert processing rule(s)
 >
 >The following remediation tasks are failing for one or more resource when the subscription name is used as part of the resource name and contains invalid characters:
