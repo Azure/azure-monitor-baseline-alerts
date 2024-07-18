@@ -81,9 +81,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json')
     loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json')
   ]
-  AzureCloud: [
-    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
-  ]
+  AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []
 }
