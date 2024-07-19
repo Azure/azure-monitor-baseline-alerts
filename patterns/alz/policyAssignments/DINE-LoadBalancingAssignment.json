@@ -27,12 +27,12 @@
     },
     "variables": {
         "policyDefinitions": {
-            "deployAMBAServiceHealth": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ServiceHealth')]"
+            "deployAMBALoadBalancing": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-LoadBalancing')]"
         },
         "policyAssignmentNames": {
-            "ambaServiceHealth": "Deploy-AMBA-SvcHealth",
-            "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health.",
-            "displayName": "Deploy Azure Monitor Baseline Alerts for Service Health"
+            "ambaLoadBalancing": "Deploy-AMBA-LoadBalance",
+            "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.",
+            "displayName": "Deploy Azure Monitor Baseline Alerts for Load Balancing"
         },
         "nonComplianceMessage": {
             "message": "Alerting {enforcementMode} be deployed to Azure services.",
@@ -41,14 +41,14 @@
         },
         "rbacContributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
         "roleAssignmentNames": {
-            "deployAMBAServiceHealth": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaServiceHealth))]"
+            "deployAMBALoadBalancing": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaLoadBalancing))]"
         }
     },
     "resources": [
         {
             "type": "Microsoft.Authorization/policyAssignments",
             "apiVersion": "2020-09-01",
-            "name": "[variables('policyAssignmentNames').ambaServiceHealth]",
+            "name": "[variables('policyAssignmentNames').ambaLoadBalancing]",
             "location": "[deployment().location]",
             "identity": {
                 "type": "SystemAssigned"
@@ -56,7 +56,7 @@
             "properties": {
                 "description": "[variables('policyAssignmentNames').description]",
                 "displayName": "[variables('policyAssignmentNames').displayName]",
-                "policyDefinitionId": "[variables('policyDefinitions').deployAMBAServiceHealth]",
+                "policyDefinitionId": "[variables('policyDefinitions').deployAMBALoadBalancing]",
                 "enforcementMode": "[parameters('enforcementMode')]",
                 "nonComplianceMessages": [
                     {
@@ -72,14 +72,14 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2022-04-01",
-            "name": "[variables('roleAssignmentNames').deployAMBAServiceHealth]",
+            "name": "[variables('roleAssignmentNames').deployAMBALoadBalancing]",
             "dependsOn": [
-                "[variables('policyAssignmentNames').ambaServiceHealth]"
+                "[variables('policyAssignmentNames').ambaLoadBalancing]"
             ],
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacContributor'))]",
-                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaServiceHealth), '2019-09-01', 'Full' ).identity.principalId)]",
+                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaLoadBalancing), '2019-09-01', 'Full' ).identity.principalId)]",
                 "description": "_deployed_by_amba"
             }
         }

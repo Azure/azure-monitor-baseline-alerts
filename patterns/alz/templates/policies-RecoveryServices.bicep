@@ -67,9 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in Management Policy Set Definition only
-    loadTextContent('../../../services/Automation/automationAccounts/Deploy-AA-TotalJob-Alert.json')
-    // Used in both LandingZone and Management policy definitions
+    // Used in both RecoverySwervices and Management Policy Set Definitions
     loadTextContent('../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json')
   ]
   AzureCloud: []
@@ -82,7 +80,9 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: []
+  All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-RecoveryServices-Alerts.json'))
+  ]
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

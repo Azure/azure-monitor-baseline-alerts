@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in both Identity and LandingZone Policy Set Definitions
+    // Used in both Identity and KeyManagement Policy Set Definitions
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json')
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Capacity-Alert.json')
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json')
@@ -84,7 +84,10 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: []
+  All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-KeyManagement-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
+  ]
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

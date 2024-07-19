@@ -69,9 +69,6 @@ var loadPolicyDefinitions = {
   All: [
     // Used in Connectivity Policy Set Definition
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-ActivityLog-AzureFirewall-Del.json')
-    loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
-    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
-    loadTextContent('../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
     loadTextContent('../../../services/Network/expressRouteCircuits/Deploy-ERCIR-ARPAvailability-Alert.json')
@@ -88,12 +85,12 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelLow-Alert.json')
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelHigh-Alert.json')
     loadTextContent('../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelLow-Alert.json')
-    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGBitsPerSecond-Alert.json')
-    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGCPUUtilization-Alert.json')
     loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-CapacityUtilization-Alert.json')
     loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-QueryVolume-Alert.json')
     loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-RecordSetCapacity-Alert.json')
     loadTextContent('../../../services/Network/privateDnsZones/Deploy-PDNSZ-RegistrationCapacityUtilization-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGBitsPerSecond-Alert.json')
+    loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-ERGCPUUtilization-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-BandwidthUtilization-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Egress-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-EgressPacketDropCount-Alert.json')
@@ -101,6 +98,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Ingress-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropCount-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworkGateways/Deploy-VNETG-IngressPacketDropMismatch-Alert.json')
+    loadTextContent('../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-BandwidthUtilization-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-BGPPeerStatus-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-Egress-Alert.json')
@@ -109,7 +107,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-Ingress-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropCount-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropMismatch-Alert.json')
-    // Used in Load balancing Policy Set Definition
+    // Used in LoadBalancing Policy Set Definition
     loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-ApplicationGatewayTotalTime-Alert.json')
     loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-BackendLastByteResponseTime-Alert.json')
     loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-CapacityUnits-Alert.json')
@@ -125,7 +123,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginLatency-Alert.json')
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage4XX-Alert.json')
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage5XX-Alert.json')
-    // Used in both Connectivity and Load balancing Policy Set Definitions
+    // Used in both Connectivity and LoadBalancing Policy Set Definitions
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-DatapathAvailability-Alert.json')
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-GlobalBackendAvailability-Alert.json')
     loadTextContent('../../../services/Network/loadBalancers/Deploy-LB-HealthProbeStatus-Alert.json')
@@ -135,6 +133,9 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-PacketsInDDOS-Alert.json')
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-VIPAvailability-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworks/Deploy-VNET-DDOSAttack-Alert.json')
+    // Used in both Connectivity and NetworkChanges Policy Set Definitions
+    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
+    loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
@@ -146,7 +147,11 @@ var loadPolicyDefinitions = {
 // We use loadTextContent instead of loadJsonContent as this allows us to perform string replacement operations against the imported templates.
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
-  All: []
+  All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-LoadBalancing-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-NetworkChanges-Alerts.json'))
+  ]
   AzureCloud: []
   AzureChinaCloud: []
   AzureUSGovernment: []

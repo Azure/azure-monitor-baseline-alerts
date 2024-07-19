@@ -27,12 +27,12 @@
     },
     "variables": {
         "policyDefinitions": {
-            "deployAMBALandingZone": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-LandingZone')]"
+            "deployAMBANetworkChanges": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-NetworkChanges')]"
         },
         "policyAssignmentNames": {
-            "ambaLandingZone": "Deploy-AMBA-LandingZone",
-            "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
-            "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone"
+            "ambaNetworkChanges": "Deploy-AMBA-NetworkChang",
+            "description": "This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups.",
+            "displayName": "Deploy Azure Monitor Baseline Alerts for Changes in Network Routing and Security"
         },
         "nonComplianceMessage": {
             "message": "Alerting {enforcementMode} be deployed to Azure services.",
@@ -41,14 +41,14 @@
         },
         "rbacContributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
         "roleAssignmentNames": {
-            "deployAMBALandingZone": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaLandingZone))]"
+            "deployAMBANetworkChanges": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaNetworkChanges))]"
         }
     },
     "resources": [
         {
             "type": "Microsoft.Authorization/policyAssignments",
             "apiVersion": "2020-09-01",
-            "name": "[variables('policyAssignmentNames').ambaLandingZone]",
+            "name": "[variables('policyAssignmentNames').ambaNetworkChanges]",
             "location": "[deployment().location]",
             "identity": {
                 "type": "SystemAssigned"
@@ -56,7 +56,7 @@
             "properties": {
                 "description": "[variables('policyAssignmentNames').description]",
                 "displayName": "[variables('policyAssignmentNames').displayName]",
-                "policyDefinitionId": "[variables('policyDefinitions').deployAMBALandingZone]",
+                "policyDefinitionId": "[variables('policyDefinitions').deployAMBANetworkChanges]",
                 "enforcementMode": "[parameters('enforcementMode')]",
                 "nonComplianceMessages": [
                     {
@@ -72,14 +72,14 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2022-04-01",
-            "name": "[variables('roleAssignmentNames').deployAMBALandingZone]",
+            "name": "[variables('roleAssignmentNames').deployAMBANetworkChanges]",
             "dependsOn": [
-                "[variables('policyAssignmentNames').ambaLandingZone]"
+                "[variables('policyAssignmentNames').ambaNetworkChanges]"
             ],
             "properties": {
                 "principalType": "ServicePrincipal",
                 "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacContributor'))]",
-                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaLandingZone), '2019-09-01', 'Full' ).identity.principalId)]",
+                "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaNetworkChanges), '2019-09-01', 'Full' ).identity.principalId)]",
                 "description": "_deployed_by_amba"
             }
         }
