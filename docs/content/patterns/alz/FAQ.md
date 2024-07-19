@@ -69,3 +69,17 @@ Whilst it is not anticipated that the solution will incur significant costs, it 
 >## Can I deploy a local template by using -TemplateFile
 >
 >No, it´s not possible to use the -TemplateFile parameter as the ARM template uses linked templates. When referencing a linked template, the value of URI can't be a local file or a file that is only available on your local network. Azure Resource Manager must be able to access the template. This means they must be referenced using a URL which can be accessed from Azure (e.g. via a public GitHub repository)
+
+>## What characters can I use when creating Azure resources or renaming Azure subscriptions?
+>
+>Not all the characters can be used when creating an Azure resource or renaming an Azure subscription. A list of supported characters for any resource can be found on the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) public documentation page. As an example that you can find in the referenced documentation, the alert suppression rules only allow alphanumerics, underscores, and hyphens as valid characters and at the beginning of the same page, alphanumeric is referring to:
+>
+>- ***a*** through ***z*** (lowercase letters)
+>- ***A*** through ***Z*** (uppercase letters)
+>- ***0*** through ***9*** (numbers)
+>
+>Creating an Azure resource or renaming a subscription using unsupported characters can hinder to one or more of the following problem:
+>
+>- Resource creation will fail
+>- Action group and/or Alert Processing Rules deployment will fail. Specifically to AMBA we have this one documented in the specific [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) article included in the [Known Issues](../Known-Issues)
+>- Action group editing will result in Azure portal page error. Specifically to AMBA we have this one documented in the specific  [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) article included in the [Known Issues](../Known-Issues)

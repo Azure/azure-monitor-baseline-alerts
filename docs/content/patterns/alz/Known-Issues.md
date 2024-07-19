@@ -123,9 +123,9 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 >
 >Rename the subscription to avoid invalid characters. A list of supported characters for any resource can be found on the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) public documentation page. As an example that you can find in the referenced documentation, the alert suppression rules only allow alphanumerics, underscores, and hyphens as valid characters and at the beginning of the same page, alphanumeric is referring to:
 >
->- a through z (lowercase letters)
->- A through Z (uppercase letters)
->- 0 through 9 (numbers)
+>- ***a*** through ***z*** (lowercase letters)
+>- ***A*** through ***Z*** (uppercase letters)
+>- ***0*** through ***9*** (numbers)
 >
 >After the subscription is renamed correctly, run the remediation
 
@@ -147,8 +147,8 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 >
 >Rename the subscription to avoid invalid characters. A list of supported characters for any resource can be found on the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) public documentation page. As an example that you can find in the referenced documentation, the alert suppression rules only allow alphanumerics, underscores, and hyphens as valid characters and at the beginning of the same page, alphanumeric is referring to:
 >
->- a through z (lowercase letters)
->- A through Z (uppercase letters)
->- 0 through 9 (numbers)
+>- ***a*** through ***z*** (lowercase letters)
+>- ***A*** through ***Z*** (uppercase letters)
+>- ***0*** through ***9*** (numbers)
 >
 >After the subscription is renamed correctly, remove the existing action groups (those whose name starts with either ***ag-AMBA-*** or ***ag-AMBA-SH-***) and run the remediation.
