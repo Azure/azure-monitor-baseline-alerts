@@ -68,8 +68,8 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 var loadPolicyDefinitions = {
   All: [
     // Used in both Storage and Management Policy Set Definitions
-    loadTextContent('../../../services/Storage/StorageAccounts/Deploy-SA-Availability-Alert.json')
-    loadTextContent('../../../services/Storage/StorageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json')
+    loadTextContent('../../../services/Storage/storageAccounts/Deploy-SA-Availability-Alert.json')
+    loadTextContent('../../../services/Storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
