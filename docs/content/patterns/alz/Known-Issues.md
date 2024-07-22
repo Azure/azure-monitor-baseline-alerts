@@ -108,6 +108,26 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 
 >{{< /hint >}}
 
+>## Failed to deploy because of 'location' property not specified
+>
+>### Error includes
+>
+>The error can be presented with one of the two following messages:
+>
+>- *{"code": "InvalidDeployment", "message": "The 'location' property must be specified for 'amba-id-amba-prod-001'. Please see https://aka.ms/arm-deployment-subscription for usage details."}*
+>
+>- *InvalidDeployment - Long running operation failed with status 'Failed'. Additional Info:'The 'location' property must be specified for 'amba-id-amba-prod-001'. Please see https://aka.ms/arm-deployment-subscription for usage details.'*
+>
+>### Cause
+>
+>The new [Bring Your Own User Assigned Managed Identity (BYO UAMI)](../Bring-your-own-Managed-Identity) allows you to either use an existing User Assigned Managed Identity (UAMI) or to create a new one in the management subscription automatically assigning the Monitoring reader role to it at the parent pseudo root Management Group. If you opted for creating a new UAMI, the management subscription id is needed.
+>
+>### Resolution
+>
+>Set the parameter for the management subscription id correctly in the parameter file:
+>
+>![New UAMI deployed by the template](../media/alz-UAMI-Param-Example-2.png)
+
 >## Failed to deploy action group(s) and/or alert processing rule(s)
 >
 >The following remediation tasks are failing for one or more resource when the subscription name is used as part of the resource name and contains invalid characters:
