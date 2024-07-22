@@ -8,15 +8,11 @@ weight: 100
 
 ### Error includes
 
-The error can be presented with one of the two following messages:
-
-- *failed to resolve table or column expression named*
-
-- *{"code": "BadRequest", "message": "{\r\n "error": {\r\n "code": "DraftClientException",\r\n "message": "The request had some invalid properties Activity D: 3332f9c0-b4d4-464b-8ec4-44a670ba745b."\r\n }\r\n}"}*
+*failed to resolve table or column expression named*
 
 ### Cause
 
-The underlying data isn't present in the Log Analytics table or there's no virtual machine associated to any VM Insights data collection rule.
+The underlying data is not present in the Log Analytics table.
 
 ### Resolution
 
@@ -30,7 +26,7 @@ Deployment of AMBA fails when there are orphaned role assignments.
 
 *"error": { </br>
 &emsp;"code": "RoleAssignmentUpdateNotPermitted", </br>
-&emsp;"message": "Tenant ID, application ID, principal ID, and scope aren't allowed to be updated." </br>
+&emsp;"message": "Tenant ID, application ID, principal ID, and scope are not allowed to be updated." </br>
 &emsp;}*
 
 ### Cause
@@ -52,12 +48,12 @@ When a role or a role assignment is removed, some orphaned object can still appe
 
 ### Cause
 
-A deployment has been performed using one region, for example "uksouth", and when you try to deploy again to the same scope but to a different region you'll receive an error. This happens even when a cleanup has been performed (see [Cleaning up a Deployment](../Cleaning-up-a-Deployment) for more details). This is because deployment entries still exist from the previous operation, so a region conflict is detected blocking you to run another deployment using a different region.
+A deployment has been performed using one region, for example "uksouth", and when you try to deploy again to the same scope but to a different region you will receive an error. This happens even when a cleanup has been performed (see [Cleaning up a Deployment](../Cleaning-up-a-Deployment) for more details). This is because deployment entries still exist from the previous operation, so a region conflict is detected blocking you to run another deployment using a different region.
 
 ### Resolution
-Situation 1: You're trying to deploy to a region different from the one used in previous deployment. Deploying to the same scope in a different region isn't necessary. The definitions and assignments are scoped to a management group and aren't region-specific. No action is required.
+Situation 1: You are trying to deploy to a region different from the one used in previous deployment. Deploying to the same scope in a different region is not necessary. The definitions and assignments are scoped to a management group and are not region-specific. No action is required.
 
-Situation 2: You cleaned up a previous implementation and want to deploy again to a different region. To resolve this issue, follow the following steps:
+Situation 2: You cleaned up a previous implementation and want to deploy again to a different region. To resolve this issue, follow the steps below:
 
 1. Navigate to ***Management Groups***
 2. Select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
@@ -87,7 +83,7 @@ If you deployed AMBA just one time, you have 14 deployment instances
 The limit of 800 deployment for the given management group scope has been reached. More information can be found at [Management group limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#management-group-limits)
 
 ### Resolution
-To resolve this issue, follow the following steps:
+To resolve this issue, follow the steps below:
 
 1. Navigate to ***Management Groups***
 2. Select the management group (corresponding to the value entered for the *enterpriseScaleCompanyPrefix* during the deployment) were AMBA deployment was targeted to
@@ -105,23 +101,3 @@ To recognize the deployment names belonging to AMBA, select those deployments wh
 If you deployed AMBA just one time, you have 14 deployment instances
 
 {{< /hint >}}
-
-## Failed to deploy because of 'location' property not specified
-
-### Error includes
-
-The error can be presented with one of the two following messages:
-
-- *{"code": "InvalidDeployment", "message": "The 'location' property must be specified for 'amba-id-amba-prod-001'. Please see https://aka.ms/arm-deployment-subscription for usage details."}*
-
-- *InvalidDeployment - Long running operation failed with status 'Failed'. Additional Info:'The 'location' property must be specified for 'amba-id-amba-prod-001'. Please see https://aka.ms/arm-deployment-subscription for usage details.'*
-
-### Cause
-
-The new [Bring Your Own User Assigned Managed Identity (BYO UAMI)](../Bring-your-own-Managed-Identity) allows you to either use an existing User Assigned Managed Identity (UAMI) or to create a new one in the management subscription automatically assigning the Monitoring reader role to it at the parent pseudo root Management Group. If you opted for creating a new UAMI, the management subscription id is needed.
-
-### Resolution
-
-Set the parameter for the management subscription id correctly in the parameter file:
-
-![New UAMI deployed by the template](../media/alz-UAMI-Param-Example-2.png)
