@@ -39,12 +39,6 @@
             },
             "defaultValue": "[parameters('scope')]"
         },
-        "userAssignedIdentityResourceId": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the resourceId of the user assigned managed identity"
-            }
-        },
         "bringYourOwnUserAssignedManagedIdentity": {
             "type": "string",
             "defaultValue": "No",
@@ -122,7 +116,7 @@
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2022-04-01",
             "name": "[variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator]",
-            "scope": "[parameters('userAssignedIdentityResourceId')]",
+            "scope": "[tenantResourceId('Microsoft.Management/managementGroups/', parameters('uamiScope'))]",
             "dependsOn": [
                 "[variables('policyAssignmentNames').ambaVM]"
             ],
