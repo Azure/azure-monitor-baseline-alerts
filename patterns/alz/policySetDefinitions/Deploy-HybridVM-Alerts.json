@@ -1189,13 +1189,9 @@
       },
       "HybridVMPercentMemoryOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent Memory Operator",
@@ -1204,17 +1200,21 @@
       },
       "HybridVMPercentMemoryTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent Memory Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "HybridVMPercentMemoryFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "Hybrid VM Percent Memory Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "HybridVMDataDiskSpaceAlertSeverity": {
@@ -2287,6 +2287,9 @@
           },
           "timeAggregation": {
             "value": "[[parameters('HybridVMPercentMemoryTimeAggregation')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('HybridVMPercentMemoryFailingPeriods')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
