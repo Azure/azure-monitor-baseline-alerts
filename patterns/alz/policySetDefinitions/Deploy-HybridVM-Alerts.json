@@ -1061,11 +1061,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent CPU Operator",
@@ -1074,17 +1070,21 @@
       },
       "HybridVMPercentCPUTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent CPU Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "HybridVMPercentCPUFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "Hybrid VM Percent CPU Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "HybridVMPercentMemoryAlertSeverity": {
@@ -2227,6 +2227,9 @@
           },
           "timeAggregation": {
             "value": "[[parameters('HybridVMPercentCPUTimeAggregation')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('HybridVMPercentCPUFailingPeriods')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
