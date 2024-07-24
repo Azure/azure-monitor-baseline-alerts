@@ -23,7 +23,10 @@ The deployment template has conditions that controls what is being deployed acco
 A. ***Customers want to use existing UAMI.*** In this scenario the deployment will:
 
 {{< hint type=Important >}}
-When using an existing UAMI provided by the customer, the customer has to grant the UAMI the ***Monitoring Reader*** role at the pseudo root Management Group level <ins>**before running the deployment.**</ins>
+Before executing the deployment, ensure that the existing UAMI is assigned the ***Monitoring Reader*** role at the pseudo root Management Group.
+
+It is probable that the UAMI you provide is located within the Management subscription beneath the Platform management group, whereas the Policy Assignment resides at the LandingZones management group. In this case, for the deployIfNotExists policies to have permission to assign the UAMI to the scheduled query rule, the ***Managed Identity Operator*** role must be granted to the system Managed Identity of the Initiative Assignment (```Deploy-AMBA-VM``` for the Virtual machine initiative, ```Deploy-AMBA-HybridVM``` for the Arc-enabled Servers initiative) at the UAMI scope.
+
 {{< /hint >}}
 
 - Not deploy any UAMI
