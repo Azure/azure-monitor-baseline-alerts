@@ -1088,7 +1088,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('managementManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "ambaPolicyCompletion"
+                "ambaPolicyCompletion",
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1099,6 +1100,12 @@
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersManagement')]"
@@ -1169,7 +1176,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "ambaPolicyCompletion"
+                "ambaPolicyCompletion",
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1180,6 +1188,15 @@
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('LandingZoneManagementGroup')]"
+                    },
+                    "uamiScope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersHybridVM')]"
@@ -1331,7 +1348,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "ambaPolicyCompletion"
+                "ambaPolicyCompletion",
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1342,6 +1360,15 @@
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('LandingZoneManagementGroup')]"
+                    },
+                    "uamiScope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersVM')]"
