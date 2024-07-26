@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.19.5.34762",
-      "templateHash": "8222403546570161138"
+      "templateHash": "4392001307291885920"
     }
   },
   "parameters": {
@@ -335,6 +335,14 @@
             "metadata": {
               "displayName": "VM Heart Beat RG Computers To Include",
               "description": "Computers To Include for the alert"
+            }
+          },
+          "VMHeartBeatRGFailingPeriods": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+              "displayName": "VM Heart Beat RG Failing Periods",
+              "description": "Failing Periods for the alert"
             }
           },
           "VMNetworkInAlertSeverity": {
@@ -1830,6 +1838,9 @@
               },
               "computersToInclude": {
                 "value": "[[[parameters('VMHeartBeatRGComputersToInclude')]"
+              },
+              "failingPeriods": {
+                "value": "[[[parameters('VMHeartBeatRGFailingPeriods')]"
               }
             }
           },
@@ -2174,7 +2185,7 @@
                 "value": "[[[parameters('VMPercentCPUTimeAggregation')]"
               },
               "failingPeriods": {
-                "value": "[[[parameters('VMDataDiskSpaceFailingPeriods')]"
+                "value": "[[[parameters('VMPercentCPUFailingPeriods')]"
               },
               "alertResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"

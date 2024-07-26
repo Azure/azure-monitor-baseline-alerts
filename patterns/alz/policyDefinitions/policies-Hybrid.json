@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.19.5.34762",
-      "templateHash": "493156260262817628"
+      "templateHash": "17696396424866457101"
     }
   },
   "parameters": {
@@ -336,6 +336,14 @@
             "metadata": {
               "displayName": "Hybrid VM Heart Beat RG Computers To Include",
               "description": "Computers To Include for the alert"
+            }
+          },
+          "HybridVMHeartBeatRGFailingPeriods": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+              "displayName": "HybridVM Heart Beat RG Failing Periods",
+              "description": "Failing Periods for the alert"
             }
           },
           "HybridVMNetworkInAlertSeverity": {
@@ -1970,6 +1978,9 @@
               },
               "computersToInclude": {
                 "value": "[[[parameters('HybridVMHeartBeatRGComputersToInclude')]"
+              },
+              "failingPeriods": {
+                "value": "[[[parameters('HybridVMHeartBeatRGFailingPeriods')]"
               },
               "MonitorDisableTagName": {
                 "value": "[[[parameters('ALZMonitorDisableTagName')]"

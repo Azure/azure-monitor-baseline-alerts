@@ -217,6 +217,14 @@
           "description": "Computers To Include for the alert"
         }
       },
+      "VMHeartBeatRGFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "VM Heart Beat RG Failing Periods",
+          "description": "Failing Periods for the alert"
+        }
+      },
       "VMNetworkInAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1710,6 +1718,9 @@
           },
           "computersToInclude": {
             "value": "[[parameters('VMHeartBeatRGComputersToInclude')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VMHeartBeatRGFailingPeriods')]"
           }
         }
       },
@@ -2054,7 +2065,7 @@
             "value": "[[parameters('VMPercentCPUTimeAggregation')]"
           },
           "failingPeriods": {
-            "value": "[[parameters('VMDataDiskSpaceFailingPeriods')]"
+            "value": "[[parameters('VMPercentCPUFailingPeriods')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.19.5.34762",
-      "templateHash": "15370806145395680561"
+      "templateHash": "14564483326806725759"
     }
   },
   "parameters": {
@@ -1089,6 +1089,14 @@
             "metadata": {
               "displayName": "VM Heart Beat RG Time Aggregation",
               "description": "Time Aggregation for the alert"
+            }
+          },
+          "VMHeartBeatRGFailingPeriods": {
+            "type": "string",
+            "defaultValue": "1",
+            "metadata": {
+              "displayName": "VM Heart Beat RG Failing Periods",
+              "description": "Failing Periods for the alert"
             }
           },
           "VMNetworkInAlertSeverity": {
@@ -4501,6 +4509,9 @@
               },
               "timeAggregation": {
                 "value": "[[[parameters('VMHeartBeatRGTimeAggregation')]"
+              },
+              "failingPeriods": {
+                "value": "[[[parameters('VMHeartBeatRGFailingPeriods')]"
               }
             }
           },
@@ -4827,7 +4838,7 @@
                 "value": "[[[parameters('VMPercentCPUTimeAggregation')]"
               },
               "failingPeriods": {
-                "value": "[[[parameters('VMDataDiskSpaceFailingPeriods')]"
+                "value": "[[[parameters('VMPercentCPUFailingPeriods')]"
               },
               "alertResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"
