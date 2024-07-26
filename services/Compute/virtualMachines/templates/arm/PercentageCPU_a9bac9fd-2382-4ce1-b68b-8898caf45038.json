@@ -1,0 +1,199 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "alertName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the alert"
+      }
+    },
+    "alertDescription": {
+      "type": "string",
+      "defaultValue": "The percentage of allocated compute units that are currently in use by the Virtual Machine(s)",
+      "metadata": {
+        "description": "Description of alert"
+      }
+    },
+    "targetResourceId": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "List of Azure resource Ids seperated by a comma. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
+      }
+    },
+    "targetResourceRegion": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure region in which target resources to be monitored are in (without spaces). For example: EastUS"
+      }
+    },
+    "targetResourceType": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Resource type of target resources to be monitored."
+      }
+    },
+    "isEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether the alert is enabled"
+      }
+    },
+    "alertSeverity": {
+      "type": "int",
+      "defaultValue": 3,
+      "allowedValues": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "metadata": {
+        "description": "Severity of alert {0,1,2,3,4}"
+      }
+    },
+    "operator": {
+      "type": "string",
+      "defaultValue": "GreaterThan",
+      "allowedValues": [
+        "Equals",
+        "GreaterThan",
+        "GreaterThanOrEqual",
+        "LessThan",
+        "LessThanOrEqual"
+      ],
+      "metadata": {
+        "description": "Operator comparing the current value with the threshold value."
+      }
+    },
+    "threshold": {
+      "type": "string",
+      "defaultValue": "80",
+      "metadata": {
+        "description": "The threshold value at which the alert is activated."
+      }
+    },
+    "timeAggregation": {
+      "type": "string",
+      "defaultValue": "Average",
+      "allowedValues": [
+        "Average",
+        "Minimum",
+        "Maximum",
+        "Total",
+        "Count"
+      ],
+      "metadata": {
+        "description": "How the data that is collected should be combined over time."
+      }
+    },
+    "windowSize": {
+      "type": "string",
+      "defaultValue": "PT5M",
+      "allowedValues": [
+        "PT1M",
+        "PT5M",
+        "PT15M",
+        "PT30M",
+        "PT1H",
+        "PT6H",
+        "PT12H",
+        "PT24H",
+        "PT1D"
+      ],
+      "metadata": {
+        "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
+      }
+    },
+    "evaluationFrequency": {
+      "type": "string",
+      "defaultValue": "PT5M",
+      "allowedValues": [
+        "PT1M",
+        "PT5M",
+        "PT15M",
+        "PT30M",
+        "PT1H"
+      ],
+      "metadata": {
+        "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
+      }
+    },
+    "currentDateTimeUtcNow": {
+      "type": "string",
+      "defaultValue": "[utcNow()]",
+      "metadata": {
+          "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+          "Yes",
+          "No"
+      ],
+      "metadata": {
+          "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/metricAlerts",
+      "apiVersion": "2018-03-01",
+      "name": "[parameters('alertName')]",
+      "location": "global",
+      "tags": {
+        "_deployed_by_amba": true
+      },
+      "properties": {
+        "description": "[parameters('alertDescription')]",
+        "scopes": "[variables('varTargetResourceId')]",
+        "targetResourceType": "[parameters('targetResourceType')]",
+        "targetResourceRegion": "[parameters('targetResourceRegion')]",
+        "severity": "[parameters('alertSeverity')]",
+        "enabled": "[parameters('isEnabled')]",
+        "evaluationFrequency": "[parameters('evaluationFrequency')]",
+        "windowSize": "[parameters('windowSize')]",
+        "criteria": {
+          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+          "allOf": [
+            {
+              "name": "1st criterion",
+              "metricName": "Percentage CPU",
+              "dimensions": [],
+              "operator": "[parameters('operator')]",
+              "threshold": "[parameters('threshold')]",
+              "timeAggregation": "[parameters('timeAggregation')]",
+              "criterionType": "StaticThresholdCriterion"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('pidDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "resources": []
+          }
+      }
+    }
+  ]
+}

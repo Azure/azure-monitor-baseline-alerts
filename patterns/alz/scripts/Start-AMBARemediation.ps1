@@ -1,24 +1,51 @@
 <#
-This script is used to trigger remediation on a specific policy or policy set at management group scope.
-It first calls the Azure REST API to get the policy assignments in the management group scope, then it iterates through the policy assignments, checking by name whether it's a policy set or an individual policy.
-Depending on the result the script will either enumerate the policy set and trigger remediation for each individual policy in the set or trigger remediation for the individual policy.
+    .SYNOPSIS
+    Remediates Azure Policy Assignments
 
-Examples:
-  #Modify the following variables to match your environment
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
-  $identityManagementGroup = "The management group id for Identity"
-  $managementManagementGroup = "The management group id for Management"
-  $connectivityManagementGroup = "The management group id for Connectivity"
-  $LZManagementGroup="The management group id for Landing Zones"
+    .DESCRIPTION
+    This script is used to trigger remediation on a specific policy or policy set at management group scope.
+    It first calls the Azure REST API to get the policy assignments in the management group scope, then it iterates through the policy assignments, checking by name whether it's a policy set or an individual policy.
+    Depending on the result the script will either enumerate the policy set and trigger remediation for each individual policy in the set or trigger remediation for the individual policy.
 
-  #Run the following commands to initiate remediation
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LandingZone
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+    .PARAMETER managementGroupName
+    The management group name where the policy assignments are located.
+
+    .PARAMETER policyName
+    The name of the policy or policy set to remediate.
+
+    .EXAMPLE
+    Modify the following variables to match your environment:
+
+    $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+    $identityManagementGroup = "The management group id for Identity"
+    $managementManagementGroup = "The management group id for Management"
+    $connectivityManagementGroup = "The management group id for Connectivity"
+    $LZManagementGroup = "The management group id for Landing Zones"
+
+    Run the following commands to initiate remediation:
+
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Storage
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-VM
+    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Web
+
+    .LINK
+    https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/deploy/Remediate-Policies/
 #>
+
+# The following SuppressMessageAttribute entries are used to surpress PSScriptAnalyzer tests against known exceptions as per:
+# https://github.com/powershell/psscriptanalyzer#suppressing-rules
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False positive')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False positive')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Justification = 'Approved verbs are not available for this scenario')]
 
 Param(
     [Parameter(Mandatory = $true)] [string] $managementGroupName,
@@ -85,24 +112,24 @@ function Get-PolicyType {
             Enumerate-Policy -managementGroupName $managementGroupName -policyAssignmentObject $PSItem
         }
         Else {
-          # Getting parent initiative for unassigned individual policies
-          If($initiatives) {
-            $parentInitiative = $initiatives.value | Where-Object {($_.properties.policyType -eq 'Custom') -and ($_.properties.metadata -like '*_deployed_by_amba*')} | Where-Object {$_.properties.policyDefinitions.policyDefinitionReferenceId -eq $policyname}
+            # Getting parent initiative for unassigned individual policies
+            If ($initiatives) {
+                $parentInitiative = $initiatives.value | Where-Object { ($_.properties.policyType -eq 'Custom') -and ($_.properties.metadata -like '*_deployed_by_amba*') } | Where-Object { $_.properties.policyDefinitions.policyDefinitionReferenceId -eq $policyname }
 
-            # Getting the assignment of the parent initiative
-            If($parentInitiative) {
-              If($($PSItem.properties.policyDefinitionId) -match "/providers/Microsoft.Authorization/policySetDefinitions/$($parentInitiative.name)") {
-                # Invoking policy remediation
-                $assignmentFound = $true
-                Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $PSItem.name -polassignId $PSItem.id -policyDefinitionReferenceId $policyName
-              }
+                # Getting the assignment of the parent initiative
+                If ($parentInitiative) {
+                    If ($($PSItem.properties.policyDefinitionId) -match "/providers/Microsoft.Authorization/policySetDefinitions/$($parentInitiative.name)") {
+                        # Invoking policy remediation
+                        $assignmentFound = $true
+                        Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $PSItem.name -polassignId $PSItem.id -policyDefinitionReferenceId $policyName
+                    }
+                }
             }
-          }
         }
     }
 
     #if no policy assignments were found for the specified policy name, throw an error
-    If(!$assignmentFound) {
+    If (!$assignmentFound) {
         throw "No policy assignments found for policy $policyName at management group scope $managementGroupName"
     }
 }
@@ -145,19 +172,17 @@ function Enumerate-Policy {
     Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $name -polassignId $polassignId
 }
 
-
-
 #Main script
 
 # If remediating the Alerting-ServiceHealth initiative, we will remediate the ALZ_ServiceHealth_ActionGroups first,
 # wait for 5 minutes and then remediate the entire Alerting-ServiceHealth initiative.
-If($policyName -eq 'Alerting-ServiceHealth') {
-  Get-PolicyType -managementGroupName $managementGroupName -policyName 'ALZ_ServiceHealth_ActionGroups'
-  Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
-  Start-Sleep -Seconds 360
-  Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
+If ($policyName -eq 'Alerting-ServiceHealth') {
+    Get-PolicyType -managementGroupName $managementGroupName -policyName 'ALZ_ServiceHealth_ActionGroups'
+    Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
+    Start-Sleep -Seconds 360
+    Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
 }
 # Otherwise we just remediate everything passed in
 Else {
-  Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
+    Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
 }
