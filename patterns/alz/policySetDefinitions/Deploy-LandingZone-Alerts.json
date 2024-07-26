@@ -43,50 +43,6 @@
           "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
         }
       },
-      "ALZMonitorDisableTagName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
-        },
-        "defaultValue": "MonitorDisable"
-      },
-      "ALZMonitorDisableTagValues": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "ALZ Monitoring disabled tag values(s)",
-          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
-        },
-        "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
-          "Sandbox"
-        ]
-      },
-      "ALZUserAssignedManagedIdentityName": {
-        "type": "string",
-        "defaultValue": "id-AMBA-ARG-Reader-001",
-        "metadata": {
-          "description": "The name of the user assigned managed identity to be created for monitoring purpose.",
-          "displayName": "Name of the user assigned managed identity to be created."
-        }
-      },
-      "ALZManagementSubscriptionId": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-          "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
-        }
-      },
-      "BYOUserAssignedManagedIdentityResourceId": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-          "description": "The resource Id of the user assigned managed identity provided by the customer.",
-          "displayName": "Customer defined User Assigned managed Identity resource Id."
-        }
-      },
       "KVRequestAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -389,18 +345,6 @@
         "metadata": {
           "displayName": "Activity Key Vault Delete Alert State",
           "description": "Alert state for the alert"
-        }
-      },
-      "activityKVDeletePolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Key Vault Delete Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
       "StorageAccountAvailabilityAlertSeverity": {
@@ -892,36 +836,12 @@
           "description": "Threshold for the alert"
         }
       },
-      "activityNSGDeletePolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Activity NSG Delete Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
-        }
-      },
       "activityNSGDeleteAlertState": {
         "type": "string",
         "defaultValue": "true",
         "metadata": {
           "displayName": "Activity NSG Delete Alert State",
           "description": "Alert state for the alert"
-        }
-      },
-      "activityUDRUpdatePolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Activity UDR Update Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
         }
       },
       "activityUDRUpdateAlertState": {
@@ -1060,16 +980,6 @@
         "metadata": {
           "displayName": "VM Heart Beat RG Time Aggregation",
           "description": "Time Aggregation for the alert"
-        }
-      },
-      "VMHeartBeatRGComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Heart Beat RG Computers To Include",
-          "description": "Computers To Include for the alert"
         }
       },
       "VMNetworkInAlertSeverity": {
@@ -2256,16 +2166,6 @@
         "metadata": {
           "displayName": "VM Data Disk Space Failing Periods",
           "description": "Failing Periods for the alert"
-        }
-      },
-      "VMDataDiskSpaceComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Data Disk Space Computers To Include",
-          "description": "Computers To Include for the alert"
         }
       },
       "VMDataDiskReadLatencyAlertSeverity": {
@@ -3856,14 +3756,6 @@
           "description": "Alert state for the alert"
         }
       },
-      "WSFCPUPercentageThreshold": {
-        "type": "string",
-        "defaultValue": "90",
-        "metadata": {
-          "displayName": "WSF CPU Percentage Threshold",
-          "description": "Threshold for the alert"
-        }
-      },
       "WSFMemoryPercentageAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -3930,14 +3822,6 @@
         "metadata": {
           "displayName": "WSF Memory Percentage Alert State",
           "description": "Alert state for the alert"
-        }
-      },
-      "WSFMemoryPercentageThreshold": {
-        "type": "string",
-        "defaultValue": "85",
-        "metadata": {
-          "displayName": "WSF Memory Percentage Threshold",
-          "description": "Threshold for the alert"
         }
       },
       "WSFDiskQueueLengthAlertSeverity": {
@@ -4232,12 +4116,6 @@
           },
           "enabled": {
             "value": "[[parameters('KVRequestAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4262,12 +4140,6 @@
           },
           "threshold": {
             "value": "[[parameters('KVAvailabilityThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4292,12 +4164,6 @@
           },
           "threshold": {
             "value": "[[parameters('KvLatencyAvailabilityThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4322,12 +4188,6 @@
           },
           "threshold": {
             "value": "[[parameters('KVCapacityThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4346,15 +4206,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "effect": {
-            "value": "[[parameters('activityKVDeletePolicyEffect')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4379,12 +4230,6 @@
           },
           "threshold": {
             "value": "[[parameters('StorageAccountAvailabilityThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4406,12 +4251,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4436,12 +4275,6 @@
           },
           "threshold": {
             "value": "[[parameters('PIPBytesInDDoSThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4466,12 +4299,6 @@
           },
           "threshold": {
             "value": "[[parameters('PIPDDoSAttackThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4496,12 +4323,6 @@
           },
           "threshold": {
             "value": "[[parameters('PIPPacketsInDDoSThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4526,12 +4347,6 @@
           },
           "threshold": {
             "value": "[[parameters('PIPVIPAvailabilityThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4539,9 +4354,6 @@
         "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
         "parameters": {
-          "effect": {
-            "value": "[[parameters('activityNSGDeletePolicyEffect')]"
-          },
           "enabled": {
             "value": "[[parameters('activityNSGDeleteAlertState')]"
           },
@@ -4553,12 +4365,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4566,9 +4372,6 @@
         "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
         "parameters": {
-          "effect": {
-            "value": "[[parameters('activityUDRUpdatePolicyEffect')]"
-          },
           "enabled": {
             "value": "[[parameters('activityUDRUpdateAlertState')]"
           },
@@ -4580,12 +4383,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4595,12 +4392,6 @@
         "parameters": {
           "effect": {
             "value": "[[parameters('RVBackupHealthMonitorPolicyEffect')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4625,12 +4416,6 @@
           },
           "threshold": {
             "value": "[[parameters('VNETDDOSAttackThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -4638,9 +4423,6 @@
         "policyDefinitionReferenceId": "ALZ_VMHeartBeatRG",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -4682,9 +4464,6 @@
           },
           "timeAggregation": {
             "value": "[[parameters('VMHeartBeatRGTimeAggregation')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('VMHeartBeatRGComputersToInclude')]"
           }
         }
       },
@@ -4692,9 +4471,6 @@
         "policyDefinitionReferenceId": "ALZ_VMNetworkIn",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMNetworkInAlertSeverity')]"
           },
@@ -4752,9 +4528,6 @@
         "policyDefinitionReferenceId": "ALZ_VMNetworkOut",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMNetworkOutAlertSeverity')]"
           },
@@ -4812,9 +4585,6 @@
         "policyDefinitionReferenceId": "ALZ_VMOSDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMOSDiskReadLatencyAlertSeverity')]"
           },
@@ -4872,9 +4642,6 @@
         "policyDefinitionReferenceId": "ALZ_VMOSDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMOSDiskWriteLatencyAlertSeverity')]"
           },
@@ -4932,9 +4699,6 @@
         "policyDefinitionReferenceId": "ALZ_VMOSDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMOSDiskSpaceAlertSeverity')]"
           },
@@ -4992,9 +4756,6 @@
         "policyDefinitionReferenceId": "ALZ_VMPercentCPU",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMPercentCPUAlertSeverity')]"
           },
@@ -5036,12 +4797,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5049,9 +4804,6 @@
         "policyDefinitionReferenceId": "ALZ_VMPercentMemory",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMPercentMemoryAlertSeverity')]"
           },
@@ -5100,9 +4852,6 @@
         "policyDefinitionReferenceId": "ALZ_VMDataDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMDataDiskSpaceAlertSeverity')]"
           },
@@ -5142,9 +4891,6 @@
           "evaluationPeriods": {
             "value": "[[parameters('VMDataDiskSpaceEvaluationPeriods')]"
           },
-          "computersToInclude": {
-            "value": "[[parameters('VMDataDiskSpaceComputersToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -5160,9 +4906,6 @@
         "policyDefinitionReferenceId": "ALZ_VMDataDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMDataDiskReadLatencyAlertSeverity')]"
           },
@@ -5213,12 +4956,6 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5226,9 +4963,6 @@
         "policyDefinitionReferenceId": "ALZ_VMDataDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
         "parameters": {
-          "UAMIResourceId": {
-            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
-          },
           "severity": {
             "value": "[[parameters('VMDataDiskWriteLatencyAlertSeverity')]"
           },
@@ -5303,12 +5037,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5333,12 +5061,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5360,12 +5082,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWCapacityUnitsAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5387,12 +5103,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWComputeUnitsAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5414,12 +5124,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWCPUUtilAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5444,12 +5148,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWFailedRequestsAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5474,12 +5172,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWResponseStatusAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5501,12 +5193,6 @@
           },
           "enabled": {
             "value": "[[parameters('AGWUnhealthyHostCountAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5528,12 +5214,6 @@
           },
           "enabled": {
             "value": "[[parameters('LBDataPathAvailabilityAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5555,12 +5235,6 @@
           },
           "enabled": {
             "value": "[[parameters('LBGlobalBackendAvailabilityAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5582,12 +5256,6 @@
           },
           "enabled": {
             "value": "[[parameters('LBHealthProbeStatusAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5609,12 +5277,6 @@
           },
           "enabled": {
             "value": "[[parameters('LBUsedSNATPortsAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5636,12 +5298,6 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPOriginHealthPercentageAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5663,12 +5319,6 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPOriginLatencyAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5690,12 +5340,6 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPPercentage4XXAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5717,12 +5361,6 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPPercentage5XXAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5744,12 +5382,6 @@
           },
           "enabled": {
             "value": "[[parameters('TMEndpointHealthAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5771,15 +5403,6 @@
           },
           "enabled": {
             "value": "[[parameters('WSFCPUPercentageAlertState')]"
-          },
-          "threshold": {
-            "value": "[[parameters('WSFCPUPercentageThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5801,15 +5424,6 @@
           },
           "enabled": {
             "value": "[[parameters('WSFMemoryPercentageAlertState')]"
-          },
-          "threshold": {
-            "value": "[[parameters('WSFMemoryPercentageThreshold')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5831,12 +5445,6 @@
           },
           "enabled": {
             "value": "[[parameters('WSFDiskQueueLengthAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5858,12 +5466,6 @@
           },
           "enabled": {
             "value": "[[parameters('WSFHttpQueueLengthAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5885,12 +5487,6 @@
           },
           "enabled": {
             "value": "[[parameters('FDBackendHealthAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -5912,12 +5508,6 @@
           },
           "enabled": {
             "value": "[[parameters('FDBackendRequestLatencyAlertState')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }
