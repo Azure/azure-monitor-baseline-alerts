@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.18.4.5664",
-      "templateHash": "11014040661389835050"
+      "version": "0.29.45.22436",
+      "templateHash": "10678133327431794523"
     }
   },
   "parameters": {
@@ -13,8 +13,8 @@
       "type": "string",
       "defaultValue": "alz",
       "metadata": {
-        "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"",
-        "message": "The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!"
+        "message": "The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!",
+        "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\""
       }
     },
     "location": {
@@ -120,7 +120,10 @@
     "$fxv#2": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_KeyVault_Latency_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Key Vault Latency Alert\",\r\n    \"description\": \"Policy to audit/deploy KeyVault Latency Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.2.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"severity\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Severity\",\r\n          \"description\": \"Severity of the Alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"0\",\r\n          \"1\",\r\n          \"2\",\r\n          \"3\",\r\n          \"4\"\r\n        ],\r\n        \"defaultValue\": \"3\"\r\n      },\r\n      \"windowSize\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Window Size\",\r\n          \"description\": \"Window size for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\",\r\n          \"PT6H\",\r\n          \"PT12H\",\r\n          \"P1D\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"evaluationFrequency\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Evaluation Frequency\",\r\n          \"description\": \"Evaluation frequency for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"autoMitigate\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Auto Mitigate\",\r\n          \"description\": \"Auto Mitigate for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"threshold\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Threshold\",\r\n          \"description\": \"Threshold for the alert\"\r\n        },\r\n        \"defaultValue\": \"1000\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"disabled\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"microsoft.keyvault/vaults\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/metricAlerts\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace\",\r\n                \"equals\": \"microsoft.keyvault/vaults\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName\",\r\n                \"equals\": \"ServiceApiLatency\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/scopes[*]\",\r\n                \"equals\": \"[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/vaults/', field('fullName'))]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/evaluationFrequency\",\r\n                \"equals\": \"[[parameters('evaluationFrequency')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/windowSize\",\r\n                \"equals\": \"[[parameters('windowSize')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/severity\",\r\n                \"equals\": \"[[parameters('severity')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/autoMitigate\",\r\n                \"equals\": \"[[parameters('autoMitigate')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation\",\r\n                \"equals\": \"Average\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator\",\r\n                \"equals\": \"GreaterThan\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold\",\r\n                \"equals\": \"[[parameters('threshold')]\"\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"resourceName\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceName\",\r\n                      \"description\": \"Name of the resource\"\r\n                    }\r\n                  },\r\n                  \"resourceId\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceId\",\r\n                      \"description\": \"Resource ID of the resource emitting the metric that will be used for the comparison\"\r\n                    }\r\n                  },\r\n                  \"severity\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"windowSize\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"evaluationFrequency\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"autoMitigate\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"threshold\": {\r\n                    \"type\": \"String\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Insights/metricAlerts\",\r\n                    \"apiVersion\": \"2018-03-01\",\r\n                    \"name\": \"[[concat(parameters('resourceName'), '-LatencyAlert')]\",\r\n                    \"location\": \"global\",\r\n                    \"tags\": {\r\n                      \"_deployed_by_amba\": true\r\n                    },\r\n                    \"properties\": {\r\n                      \"description\": \"Metric Alert for KeyVault Latency\",\r\n                      \"severity\": \"[[parameters('severity')]\",\r\n                      \"enabled\": \"[[parameters('enabled')]\",\r\n                      \"scopes\": [\r\n                        \"[[parameters('resourceId')]\"\r\n                      ],\r\n                      \"evaluationFrequency\": \"[[parameters('evaluationFrequency')]\",\r\n                      \"windowSize\": \"[[parameters('windowSize')]\",\r\n                      \"criteria\": {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"name\": \"ServiceApiLatency\",\r\n                            \"metricNamespace\": \"microsoft.keyvault/vaults\",\r\n                            \"metricName\": \"ServiceApiLatency\",\r\n                            \"operator\": \"GreaterThan\",\r\n                            \"threshold\": \"[[parameters('threshold')]\",\r\n                            \"timeAggregation\": \"Average\",\r\n                            \"criterionType\": \"StaticThresholdCriterion\"\r\n                          }\r\n                        ],\r\n                        \"odata.type\": \"Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria\"\r\n                      },\r\n                      \"autoMitigate\": \"[[parameters('autoMitigate')]\",\r\n                      \"parameters\": {\r\n                        \"severity\": {\r\n                          \"value\": \"[[parameters('severity')]\"\r\n                        },\r\n                        \"windowSize\": {\r\n                          \"value\": \"[[parameters('windowSize')]\"\r\n                        },\r\n                        \"evaluationFrequency\": {\r\n                          \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                        },\r\n                        \"autoMitigate\": {\r\n                          \"value\": \"[[parameters('autoMitigate')]\"\r\n                        },\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        },\r\n                        \"threshold\": {\r\n                          \"value\": \"[[parameters('threshold')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"resourceName\": {\r\n                  \"value\": \"[[field('name')]\"\r\n                },\r\n                \"resourceId\": {\r\n                  \"value\": \"[[field('id')]\"\r\n                },\r\n                \"severity\": {\r\n                  \"value\": \"[[parameters('severity')]\"\r\n                },\r\n                \"windowSize\": {\r\n                  \"value\": \"[[parameters('windowSize')]\"\r\n                },\r\n                \"evaluationFrequency\": {\r\n                  \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                },\r\n                \"autoMitigate\": {\r\n                  \"value\": \"[[parameters('autoMitigate')]\"\r\n                },\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                },\r\n                \"threshold\": {\r\n                  \"value\": \"[[parameters('threshold')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
     "$fxv#3": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_KeyVault_Requests_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Key Vault Requests Alert\",\r\n    \"description\": \"Policy to audit/deploy KeyVault Requests Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.3.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"severity\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Severity\",\r\n          \"description\": \"Severity of the Alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"0\",\r\n          \"1\",\r\n          \"2\",\r\n          \"3\",\r\n          \"4\"\r\n        ],\r\n        \"defaultValue\": \"2\"\r\n      },\r\n      \"windowSize\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Window Size\",\r\n          \"description\": \"Window size for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\",\r\n          \"PT6H\",\r\n          \"PT12H\",\r\n          \"P1D\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"evaluationFrequency\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Evaluation Frequency\",\r\n          \"description\": \"Evaluation frequency for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"autoMitigate\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Auto Mitigate\",\r\n          \"description\": \"Auto Mitigate for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"disabled\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"microsoft.keyvault/vaults\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/metricAlerts\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace\",\r\n                \"equals\": \"microsoft.keyvault/vaults\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName\",\r\n                \"equals\": \"ServiceApiResult\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/scopes[*]\",\r\n                \"equals\": \"[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/vaults/', field('fullName'))]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/evaluationFrequency\",\r\n                \"equals\": \"[[parameters('evaluationFrequency')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/windowSize\",\r\n                \"equals\": \"[[parameters('windowSize')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/severity\",\r\n                \"equals\": \"[[parameters('severity')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/autoMitigate\",\r\n                \"equals\": \"[[parameters('autoMitigate')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation\",\r\n                \"equals\": \"Average\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator\",\r\n                \"equals\": \"GreaterThan\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity\",\r\n                \"equals\": \"Medium\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert\",\r\n                \"equals\": 4\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods\",\r\n                \"equals\": 4\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"resourceName\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceName\",\r\n                      \"description\": \"Name of the resource\"\r\n                    }\r\n                  },\r\n                  \"resourceId\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceId\",\r\n                      \"description\": \"Resource ID of the resource emitting the metric that will be used for the comparison\"\r\n                    }\r\n                  },\r\n                  \"severity\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"windowSize\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"evaluationFrequency\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"autoMitigate\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"String\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Insights/metricAlerts\",\r\n                    \"apiVersion\": \"2018-03-01\",\r\n                    \"name\": \"[[concat(parameters('resourceName'), '-RequestsAlert')]\",\r\n                    \"location\": \"global\",\r\n                    \"tags\": {\r\n                      \"_deployed_by_amba\": true\r\n                    },\r\n                    \"properties\": {\r\n                      \"description\": \"Metric Alert for KeyVault Requests\",\r\n                      \"severity\": \"[[parameters('severity')]\",\r\n                      \"enabled\": \"[[parameters('enabled')]\",\r\n                      \"scopes\": [\r\n                        \"[[parameters('resourceId')]\"\r\n                      ],\r\n                      \"evaluationFrequency\": \"[[parameters('evaluationFrequency')]\",\r\n                      \"windowSize\": \"[[parameters('windowSize')]\",\r\n                      \"criteria\": {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"alertSensitivity\": \"Medium\",\r\n                            \"failingPeriods\": {\r\n                              \"numberOfEvaluationPeriods\": 4,\r\n                              \"minFailingPeriodsToAlert\": 4\r\n                            },\r\n                            \"name\": \"ServiceApiResult\",\r\n                            \"metricNamespace\": \"microsoft.keyvault/vaults\",\r\n                            \"metricName\": \"ServiceApiResult\",\r\n                            \"operator\": \"GreaterThan\",\r\n                            \"timeAggregation\": \"Average\",\r\n                            \"criterionType\": \"DynamicThresholdCriterion\"\r\n                          }\r\n                        ],\r\n                        \"odata.type\": \"Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria\"\r\n                      },\r\n                      \"autoMitigate\": \"[[parameters('autoMitigate')]\",\r\n                      \"parameters\": {\r\n                        \"severity\": {\r\n                          \"value\": \"[[parameters('severity')]\"\r\n                        },\r\n                        \"windowSize\": {\r\n                          \"value\": \"[[parameters('windowSize')]\"\r\n                        },\r\n                        \"evaluationFrequency\": {\r\n                          \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                        },\r\n                        \"autoMitigate\": {\r\n                          \"value\": \"[[parameters('autoMitigate')]\"\r\n                        },\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"resourceName\": {\r\n                  \"value\": \"[[field('name')]\"\r\n                },\r\n                \"resourceId\": {\r\n                  \"value\": \"[[field('id')]\"\r\n                },\r\n                \"severity\": {\r\n                  \"value\": \"[[parameters('severity')]\"\r\n                },\r\n                \"windowSize\": {\r\n                  \"value\": \"[[parameters('windowSize')]\"\r\n                },\r\n                \"evaluationFrequency\": {\r\n                  \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                },\r\n                \"autoMitigate\": {\r\n                  \"value\": \"[[parameters('autoMitigate')]\"\r\n                },\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
     "$fxv#4": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_activitylog_KeyVault_Delete\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Activity Log Key Vault Delete Alert\",\r\n    \"description\": \"Policy to Deploy Activity Log Key Vault Delete Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.1.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"alertResourceGroupName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Name\",\r\n          \"description\": \"Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": \"rg-amba-monitoring-001\"\r\n      },\r\n      \"alertResourceGroupTags\": {\r\n        \"type\": \"Object\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Tags\",\r\n          \"description\": \"Tags on the Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": {\r\n          \"_deployed_by_amba\": true\r\n        }\r\n      },\r\n      \"alertResourceGroupLocation\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Location\",\r\n          \"description\": \"Location of the Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": \"centralus\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"deployIfNotExists\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name to disable monitoring. Set to true if monitoring should be disabled\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"microsoft.keyvault/vaults\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/activityLogAlerts\",\r\n          \"name\": \"ActivityKeyVaultDelete\",\r\n          \"existenceScope\": \"resourcegroup\",\r\n          \"resourceGroupName\": \"[[parameters('alertResourceGroupName')]\",\r\n          \"deploymentScope\": \"subscription\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/ActivityLogAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"count\": {\r\n                  \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]\",\r\n                  \"where\": {\r\n                    \"anyOf\": [\r\n                      {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field\",\r\n                            \"equals\": \"category\"\r\n                          },\r\n                          {\r\n                            \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals\",\r\n                            \"equals\": \"Administrative\"\r\n                          }\r\n                        ]\r\n                      },\r\n                      {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"field\": \"microsoft.insights/activityLogAlerts/condition.allOf[*].field\",\r\n                            \"equals\": \"operationName\"\r\n                          },\r\n                          {\r\n                            \"field\": \"microsoft.insights/activityLogAlerts/condition.allOf[*].equals\",\r\n                            \"equals\": \"Microsoft.KeyVault/vaults/delete\"\r\n                          }\r\n                        ]\r\n                      }\r\n                    ]\r\n                  }\r\n                },\r\n                \"equals\": 2\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"location\": \"northeurope\",\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"alertResourceGroupName\": {\r\n                    \"type\": \"string\"\r\n                  },\r\n                  \"alertResourceGroupTags\": {\r\n                    \"type\": \"object\"\r\n                  },\r\n                  \"alertResourceGroupLocation\": {\r\n                    \"type\": \"string\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"string\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Resources/resourceGroups\",\r\n                    \"apiVersion\": \"2021-04-01\",\r\n                    \"name\": \"[[parameters('alertResourceGroupName')]\",\r\n                    \"location\": \"[[parameters('alertResourceGroupLocation')]\",\r\n                    \"tags\": \"[[parameters('alertResourceGroupTags')]\"\r\n                  },\r\n                  {\r\n                    \"type\": \"Microsoft.Resources/deployments\",\r\n                    \"apiVersion\": \"2019-10-01\",\r\n                    \"name\": \"ActivityKeyVaultDelete\",\r\n                    \"resourceGroup\": \"[[parameters('alertResourceGroupName')]\",\r\n                    \"dependsOn\": [\r\n                      \"[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]\"\r\n                    ],\r\n                    \"properties\": {\r\n                      \"mode\": \"Incremental\",\r\n                      \"template\": {\r\n                        \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                        \"contentVersion\": \"1.0.0.0\",\r\n                        \"parameters\": {\r\n                          \"enabled\": {\r\n                            \"type\": \"string\"\r\n                          },\r\n                          \"alertResourceGroupName\": {\r\n                            \"type\": \"string\"\r\n                          }\r\n                        },\r\n                        \"variables\": {},\r\n                        \"resources\": [\r\n                          {\r\n                            \"type\": \"microsoft.insights/activityLogAlerts\",\r\n                            \"apiVersion\": \"2020-10-01\",\r\n                            \"name\": \"ActivityKeyVaultDelete\",\r\n                            \"location\": \"global\",\r\n                            \"tags\": {\r\n                              \"_deployed_by_amba\": true\r\n                            },\r\n                            \"properties\": {\r\n                              \"description\": \"Activity Log Key Vault Delete\",\r\n                              \"enabled\": \"[[parameters('enabled')]\",\r\n                              \"scopes\": [\r\n                                \"[[subscription().id]\"\r\n                              ],\r\n                              \"condition\": {\r\n                                \"allOf\": [\r\n                                  {\r\n                                    \"field\": \"category\",\r\n                                    \"equals\": \"Administrative\"\r\n                                  },\r\n                                  {\r\n                                    \"field\": \"operationName\",\r\n                                    \"equals\": \"Microsoft.KeyVault/vaults/delete\"\r\n                                  },\r\n                                  {\r\n                                    \"field\": \"status\",\r\n                                    \"containsAny\": [\r\n                                      \"succeeded\"\r\n                                    ]\r\n                                  }\r\n                                ]\r\n                              },\r\n                              \"parameters\": {\r\n                                \"enabled\": {\r\n                                  \"value\": \"[[parameters('enabled')]\"\r\n                                }\r\n                              }\r\n                            }\r\n                          }\r\n                        ]\r\n                      },\r\n                      \"parameters\": {\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        },\r\n                        \"alertResourceGroupName\": {\r\n                          \"value\": \"[[parameters('alertResourceGroupName')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                },\r\n                \"alertResourceGroupName\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupName')]\"\r\n                },\r\n                \"alertResourceGroupTags\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupTags')]\"\r\n                },\r\n                \"alertResourceGroupLocation\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupLocation')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
-    "$fxv#5": {
+    "$fxv#5": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_ActivityLog_ManagedHSMs_Delete\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Activity Log Managed HSMs Delete Alert\",\r\n    \"description\": \"Policy to Deploy Activity Log Managed HSMs Delete Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.0.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"alertResourceGroupName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Name\",\r\n          \"description\": \"Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": \"rg-amba-monitoring-001\"\r\n      },\r\n      \"alertResourceGroupTags\": {\r\n        \"type\": \"Object\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Tags\",\r\n          \"description\": \"Tags on the Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": {\r\n          \"_deployed_by_amba\": true\r\n        }\r\n      },\r\n      \"alertResourceGroupLocation\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Resource Group Location\",\r\n          \"description\": \"Location of the Resource group the alert is placed in\"\r\n        },\r\n        \"defaultValue\": \"centralus\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"deployIfNotExists\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"microsoft.keyvault/managedHSMs\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/activityLogAlerts\",\r\n          \"name\": \"ActivityManagedHSMDelete\",\r\n          \"existenceScope\": \"resourcegroup\",\r\n          \"resourceGroupName\": \"[[parameters('alertResourceGroupName')]\",\r\n          \"deploymentScope\": \"subscription\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/ActivityLogAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"count\": {\r\n                  \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]\",\r\n                  \"where\": {\r\n                    \"anyOf\": [\r\n                      {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field\",\r\n                            \"equals\": \"category\"\r\n                          },\r\n                          {\r\n                            \"field\": \"Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals\",\r\n                            \"equals\": \"Administrative\"\r\n                          }\r\n                        ]\r\n                      },\r\n                      {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"field\": \"microsoft.insights/activityLogAlerts/condition.allOf[*].field\",\r\n                            \"equals\": \"operationName\"\r\n                          },\r\n                          {\r\n                            \"field\": \"microsoft.insights/activityLogAlerts/condition.allOf[*].equals\",\r\n                            \"equals\": \"Microsoft.KeyVault/ManagedHSMs/delete\"\r\n                          }\r\n                        ]\r\n                      }\r\n                    ]\r\n                  }\r\n                },\r\n                \"equals\": 2\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"location\": \"northeurope\",\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"alertResourceGroupName\": {\r\n                    \"type\": \"string\"\r\n                  },\r\n                  \"alertResourceGroupTags\": {\r\n                    \"type\": \"object\"\r\n                  },\r\n                  \"alertResourceGroupLocation\": {\r\n                    \"type\": \"string\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"string\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Resources/resourceGroups\",\r\n                    \"apiVersion\": \"2021-04-01\",\r\n                    \"name\": \"[[parameters('alertResourceGroupName')]\",\r\n                    \"location\": \"[[parameters('alertResourceGroupLocation')]\",\r\n                    \"tags\": \"[[parameters('alertResourceGroupTags')]\"\r\n                  },\r\n                  {\r\n                    \"type\": \"Microsoft.Resources/deployments\",\r\n                    \"apiVersion\": \"2019-10-01\",\r\n                    \"name\": \"ActivityManagedHSMDelete\",\r\n                    \"resourceGroup\": \"[[parameters('alertResourceGroupName')]\",\r\n                    \"dependsOn\": [\r\n                      \"[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]\"\r\n                    ],\r\n                    \"properties\": {\r\n                      \"mode\": \"Incremental\",\r\n                      \"template\": {\r\n                        \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                        \"contentVersion\": \"1.0.0.0\",\r\n                        \"parameters\": {\r\n                          \"enabled\": {\r\n                            \"type\": \"string\"\r\n                          },\r\n                          \"alertResourceGroupName\": {\r\n                            \"type\": \"string\"\r\n                          }\r\n                        },\r\n                        \"variables\": {},\r\n                        \"resources\": [\r\n                          {\r\n                            \"type\": \"microsoft.insights/activityLogAlerts\",\r\n                            \"apiVersion\": \"2020-10-01\",\r\n                            \"name\": \"ActivityManagedHSMDelete\",\r\n                            \"location\": \"global\",\r\n                            \"tags\": {\r\n                              \"_deployed_by_amba\": true\r\n                            },\r\n                            \"properties\": {\r\n                              \"description\": \"Activity Log Managed HSM Delete\",\r\n                              \"enabled\": \"[[parameters('enabled')]\",\r\n                              \"scopes\": [\r\n                                \"[[subscription().id]\"\r\n                              ],\r\n                              \"condition\": {\r\n                                \"allOf\": [\r\n                                  {\r\n                                    \"field\": \"category\",\r\n                                    \"equals\": \"Administrative\"\r\n                                  },\r\n                                  {\r\n                                    \"field\": \"operationName\",\r\n                                    \"equals\": \"Microsoft.KeyVault/managedHSMs/delete\"\r\n                                  },\r\n                                  {\r\n                                    \"field\": \"status\",\r\n                                    \"containsAny\": [\r\n                                      \"succeeded\"\r\n                                    ]\r\n                                  }\r\n                                ]\r\n                              },\r\n                              \"parameters\": {\r\n                                \"enabled\": {\r\n                                  \"value\": \"[[parameters('enabled')]\"\r\n                                }\r\n                              }\r\n                            }\r\n                          }\r\n                        ]\r\n                      },\r\n                      \"parameters\": {\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        },\r\n                        \"alertResourceGroupName\": {\r\n                          \"value\": \"[[parameters('alertResourceGroupName')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                },\r\n                \"alertResourceGroupName\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupName')]\"\r\n                },\r\n                \"alertResourceGroupTags\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupTags')]\"\r\n                },\r\n                \"alertResourceGroupLocation\": {\r\n                  \"value\": \"[[parameters('alertResourceGroupLocation')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+    "$fxv#6": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_ManagedHSMs_Availability_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Managed HSMs Availability Alert\",\r\n    \"description\": \"Policy to audit/deploy Managed HSMs Availability Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.0.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"severity\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Severity\",\r\n          \"description\": \"Severity of the Alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"0\",\r\n          \"1\",\r\n          \"2\",\r\n          \"3\",\r\n          \"4\"\r\n        ],\r\n        \"defaultValue\": \"1\"\r\n      },\r\n      \"windowSize\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Window Size\",\r\n          \"description\": \"Window size for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\",\r\n          \"PT6H\",\r\n          \"PT12H\",\r\n          \"P1D\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"evaluationFrequency\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Evaluation Frequency\",\r\n          \"description\": \"Evaluation frequency for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\"\r\n        ],\r\n        \"defaultValue\": \"PT1M\"\r\n      },\r\n      \"autoMitigate\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Auto Mitigate\",\r\n          \"description\": \"Auto Mitigate for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"threshold\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Threshold\",\r\n          \"description\": \"Threshold for the alert\"\r\n        },\r\n        \"defaultValue\": \"90\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"disabled\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n              \"equals\": \"microsoft.keyvault/managedHSMs\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/metricAlerts\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace\",\r\n                \"equals\": \"Microsoft.KeyVault/ManagedHSMs\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName\",\r\n                \"equals\": \"Availability\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/scopes[*]\",\r\n                \"equals\": \"[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/managedHSMs/', field('fullName'))]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/evaluationFrequency\",\r\n                \"equals\": \"[[parameters('evaluationFrequency')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/windowSize\",\r\n                \"equals\": \"[[parameters('windowSize')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/severity\",\r\n                \"equals\": \"[[parameters('severity')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/autoMitigate\",\r\n                \"equals\": \"[[parameters('autoMitigate')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation\",\r\n                \"equals\": \"Average\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator\",\r\n                \"equals\": \"LessThan\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold\",\r\n                \"equals\": \"[[parameters('threshold')]\"\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"resourceName\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceName\",\r\n                      \"description\": \"Name of the resource\"\r\n                    }\r\n                  },\r\n                  \"resourceId\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceId\",\r\n                      \"description\": \"Resource ID of the resource emitting the metric that will be used for the comparison\"\r\n                    }\r\n                  },\r\n                  \"severity\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"windowSize\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"evaluationFrequency\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"autoMitigate\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"threshold\": {\r\n                    \"type\": \"String\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Insights/metricAlerts\",\r\n                    \"apiVersion\": \"2018-03-01\",\r\n                    \"name\": \"[[concat(parameters('resourceName'), '-Availability')]\",\r\n                    \"location\": \"global\",\r\n                    \"tags\": {\r\n                      \"_deployed_by_amba\": true\r\n                    },\r\n                    \"properties\": {\r\n                      \"description\": \"Metric Alert for ManagedHSM Availability\",\r\n                      \"severity\": \"[[parameters('severity')]\",\r\n                      \"enabled\": \"[[parameters('enabled')]\",\r\n                      \"scopes\": [\r\n                        \"[[parameters('resourceId')]\"\r\n                      ],\r\n                      \"evaluationFrequency\": \"[[parameters('evaluationFrequency')]\",\r\n                      \"windowSize\": \"[[parameters('windowSize')]\",\r\n                      \"criteria\": {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"name\": \"Availability\",\r\n                            \"metricNamespace\": \"microsoft.keyvault/managedHSMs\",\r\n                            \"metricName\": \"Availability\",\r\n                            \"operator\": \"LessThan\",\r\n                            \"threshold\": \"[[parameters('threshold')]\",\r\n                            \"timeAggregation\": \"Average\",\r\n                            \"criterionType\": \"StaticThresholdCriterion\"\r\n                          }\r\n                        ],\r\n                        \"odata.type\": \"Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria\"\r\n                      },\r\n                      \"autoMitigate\": \"[[parameters('autoMitigate')]\",\r\n                      \"parameters\": {\r\n                        \"severity\": {\r\n                          \"value\": \"[[parameters('severity')]\"\r\n                        },\r\n                        \"windowSize\": {\r\n                          \"value\": \"[[parameters('windowSize')]\"\r\n                        },\r\n                        \"evaluationFrequency\": {\r\n                          \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                        },\r\n                        \"autoMitigate\": {\r\n                          \"value\": \"[[parameters('autoMitigate')]\"\r\n                        },\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        },\r\n                        \"threshold\": {\r\n                          \"value\": \"[[parameters('threshold')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"resourceName\": {\r\n                  \"value\": \"[[field('name')]\"\r\n                },\r\n                \"resourceId\": {\r\n                  \"value\": \"[[field('id')]\"\r\n                },\r\n                \"severity\": {\r\n                  \"value\": \"[[parameters('severity')]\"\r\n                },\r\n                \"windowSize\": {\r\n                  \"value\": \"[[parameters('windowSize')]\"\r\n                },\r\n                \"evaluationFrequency\": {\r\n                  \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                },\r\n                \"autoMitigate\": {\r\n                  \"value\": \"[[parameters('autoMitigate')]\"\r\n                },\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                },\r\n                \"threshold\": {\r\n                  \"value\": \"[[parameters('threshold')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+    "$fxv#7": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_ManagedHSMs_Latency_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Managed HSMs Latency Alert\",\r\n    \"description\": \"Policy to audit/deploy Managed HSMs Latency Alert\",\r\n    \"metadata\": {\r\n      \"version\": \"1.1.0\",\r\n      \"category\": \"Key Vault\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"severity\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Severity\",\r\n          \"description\": \"Severity of the Alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"0\",\r\n          \"1\",\r\n          \"2\",\r\n          \"3\",\r\n          \"4\"\r\n        ],\r\n        \"defaultValue\": \"3\"\r\n      },\r\n      \"windowSize\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Window Size\",\r\n          \"description\": \"Window size for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\",\r\n          \"PT6H\",\r\n          \"PT12H\",\r\n          \"P1D\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"evaluationFrequency\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Evaluation Frequency\",\r\n          \"description\": \"Evaluation frequency for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"PT1M\",\r\n          \"PT5M\",\r\n          \"PT15M\",\r\n          \"PT30M\",\r\n          \"PT1H\"\r\n        ],\r\n        \"defaultValue\": \"PT5M\"\r\n      },\r\n      \"autoMitigate\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Auto Mitigate\",\r\n          \"description\": \"Auto Mitigate for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"enabled\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Alert State\",\r\n          \"description\": \"Alert state for the alert\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"true\",\r\n          \"false\"\r\n        ],\r\n        \"defaultValue\": \"true\"\r\n      },\r\n      \"threshold\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Threshold\",\r\n          \"description\": \"Threshold for the alert\"\r\n        },\r\n        \"defaultValue\": \"1000\"\r\n      },\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"deployIfNotExists\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"disabled\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"microsoft.keyvault/managedHSMs\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\r\n          ],\r\n          \"type\": \"Microsoft.Insights/metricAlerts\",\r\n          \"existenceCondition\": {\r\n            \"allOf\": [\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace\",\r\n                \"equals\": \"Microsoft.KeyVault/managedHSMs\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName\",\r\n                \"equals\": \"ServiceApiLatency\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/scopes[*]\",\r\n                \"equals\": \"[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/managedHSMs', field('fullName'))]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/enabled\",\r\n                \"equals\": \"[[parameters('enabled')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/evaluationFrequency\",\r\n                \"equals\": \"[[parameters('evaluationFrequency')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/windowSize\",\r\n                \"equals\": \"[[parameters('windowSize')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricalerts/severity\",\r\n                \"equals\": \"[[parameters('severity')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/autoMitigate\",\r\n                \"equals\": \"[[parameters('autoMitigate')]\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation\",\r\n                \"equals\": \"Average\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator\",\r\n                \"equals\": \"GreaterThan\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold\",\r\n                \"equals\": \"[[parameters('threshold')]\"\r\n              }\r\n            ]\r\n          },\r\n          \"deployment\": {\r\n            \"properties\": {\r\n              \"mode\": \"incremental\",\r\n              \"template\": {\r\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\r\n                \"contentVersion\": \"1.0.0.0\",\r\n                \"parameters\": {\r\n                  \"resourceName\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceName\",\r\n                      \"description\": \"Name of the resource\"\r\n                    }\r\n                  },\r\n                  \"resourceId\": {\r\n                    \"type\": \"String\",\r\n                    \"metadata\": {\r\n                      \"displayName\": \"resourceId\",\r\n                      \"description\": \"Resource ID of the resource emitting the metric that will be used for the comparison\"\r\n                    }\r\n                  },\r\n                  \"severity\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"windowSize\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"evaluationFrequency\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"autoMitigate\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"enabled\": {\r\n                    \"type\": \"String\"\r\n                  },\r\n                  \"threshold\": {\r\n                    \"type\": \"String\"\r\n                  }\r\n                },\r\n                \"variables\": {},\r\n                \"resources\": [\r\n                  {\r\n                    \"type\": \"Microsoft.Insights/metricAlerts\",\r\n                    \"apiVersion\": \"2018-03-01\",\r\n                    \"name\": \"[[concat(parameters('resourceName'), '-LatencyAlert')]\",\r\n                    \"location\": \"global\",\r\n                    \"tags\": {\r\n                      \"_deployed_by_amba\": true\r\n                    },\r\n                    \"properties\": {\r\n                      \"description\": \"Metric Alert for ManagedHSM Latency\",\r\n                      \"severity\": \"[[parameters('severity')]\",\r\n                      \"enabled\": \"[[parameters('enabled')]\",\r\n                      \"scopes\": [\r\n                        \"[[parameters('resourceId')]\"\r\n                      ],\r\n                      \"evaluationFrequency\": \"[[parameters('evaluationFrequency')]\",\r\n                      \"windowSize\": \"[[parameters('windowSize')]\",\r\n                      \"criteria\": {\r\n                        \"allOf\": [\r\n                          {\r\n                            \"name\": \"ServiceApiLatency\",\r\n                            \"metricNamespace\": \"Microsoft.KeyVault/managedHSMs\",\r\n                            \"metricName\": \"ServiceApiLatency\",\r\n                            \"operator\": \"GreaterThan\",\r\n                            \"threshold\": \"[[parameters('threshold')]\",\r\n                            \"timeAggregation\": \"Average\",\r\n                            \"criterionType\": \"StaticThresholdCriterion\"\r\n                          }\r\n                        ],\r\n                        \"odata.type\": \"Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria\"\r\n                      },\r\n                      \"autoMitigate\": \"[[parameters('autoMitigate')]\",\r\n                      \"parameters\": {\r\n                        \"severity\": {\r\n                          \"value\": \"[[parameters('severity')]\"\r\n                        },\r\n                        \"windowSize\": {\r\n                          \"value\": \"[[parameters('windowSize')]\"\r\n                        },\r\n                        \"evaluationFrequency\": {\r\n                          \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                        },\r\n                        \"autoMitigate\": {\r\n                          \"value\": \"[[parameters('autoMitigate')]\"\r\n                        },\r\n                        \"enabled\": {\r\n                          \"value\": \"[[parameters('enabled')]\"\r\n                        },\r\n                        \"threshold\": {\r\n                          \"value\": \"[[parameters('threshold')]\"\r\n                        }\r\n                      }\r\n                    }\r\n                  }\r\n                ]\r\n              },\r\n              \"parameters\": {\r\n                \"resourceName\": {\r\n                  \"value\": \"[[field('name')]\"\r\n                },\r\n                \"resourceId\": {\r\n                  \"value\": \"[[field('id')]\"\r\n                },\r\n                \"severity\": {\r\n                  \"value\": \"[[parameters('severity')]\"\r\n                },\r\n                \"windowSize\": {\r\n                  \"value\": \"[[parameters('windowSize')]\"\r\n                },\r\n                \"evaluationFrequency\": {\r\n                  \"value\": \"[[parameters('evaluationFrequency')]\"\r\n                },\r\n                \"autoMitigate\": {\r\n                  \"value\": \"[[parameters('autoMitigate')]\"\r\n                },\r\n                \"enabled\": {\r\n                  \"value\": \"[[parameters('enabled')]\"\r\n                },\r\n                \"threshold\": {\r\n                  \"value\": \"[[parameters('threshold')]\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+    "$fxv#8": {
       "type": "Microsoft.Authorization/policySetDefinitions",
       "apiVersion": "2021-06-01",
       "name": "Alerting-KeyManagement",
@@ -499,6 +502,178 @@
               "displayName": "Key Vault Delete Policy Effect",
               "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
             }
+          },
+          "HSMsAvailabilityAlertSeverity": {
+            "type": "String",
+            "defaultValue": "1",
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Alert Severity",
+              "description": "Severity of the alert for Key Vault Managed HSMs Availability"
+            }
+          },
+          "HSMsAvailabilityWindowSize": {
+            "type": "string",
+            "defaultValue": "PT1M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H",
+              "PT6H",
+              "PT12H",
+              "P1D"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Window Size",
+              "description": "Window size for the alert"
+            }
+          },
+          "HSMsAvailabilityEvaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT1M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Evaluation Frequency",
+              "description": "Evaluation frequency for the alert"
+            }
+          },
+          "HSMsAvailabilityPolicyEffect": {
+            "type": "string",
+            "defaultValue": "disabled",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
+          },
+          "HSMsAvailabilityAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "HSMsAvailabilityThreshold": {
+            "type": "string",
+            "defaultValue": "20",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Threshold",
+              "description": "Threshold for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityAlertSeverity": {
+            "type": "String",
+            "defaultValue": "3",
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Alert Severity",
+              "description": "Severity of the alert for Key Vault Managed HSMs Latency Availability"
+            }
+          },
+          "HSMsLatencyAvailabilityWindowSize": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H",
+              "PT6H",
+              "PT12H",
+              "P1D"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Window Size",
+              "description": "Window size for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityEvaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Evaluation Frequency",
+              "description": "Evaluation frequency for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityPolicyEffect": {
+            "type": "string",
+            "defaultValue": "disabled",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
+          },
+          "HSMsLatencyAvailabilityAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityThreshold": {
+            "type": "string",
+            "defaultValue": "1000",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Threshold",
+              "description": "Threshold for the alert"
+            }
+          },
+          "activityHSMsDeleteAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Activity Key Vault Managed HSMs Delete Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "activityHSMsDeletePolicyEffect": {
+            "type": "string",
+            "defaultValue": "deployIfNotExists",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Delete Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
           }
         },
         "policyDefinitions": [
@@ -645,13 +820,100 @@
                 "value": "[[[parameters('ALZMonitorDisableTagValues')]"
               }
             }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_ManagedHSMsAvailability",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
+            "parameters": {
+              "severity": {
+                "value": "[[[parameters('HSMsAvailabilityAlertSeverity')]"
+              },
+              "windowSize": {
+                "value": "[[[parameters('HSMsAvailabilityWindowSize')]"
+              },
+              "evaluationFrequency": {
+                "value": "[[[parameters('HSMsAvailabilityEvaluationFrequency')]"
+              },
+              "effect": {
+                "value": "[[[parameters('HSMsAvailabilityPolicyEffect')]"
+              },
+              "enabled": {
+                "value": "[[[parameters('HSMsAvailabilityAlertState')]"
+              },
+              "threshold": {
+                "value": "[[[parameters('HSMsAvailabilityThreshold')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_ManagedHSMsLatencyAvailability",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
+            "parameters": {
+              "severity": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityAlertSeverity')]"
+              },
+              "windowSize": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityWindowSize')]"
+              },
+              "evaluationFrequency": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityEvaluationFrequency')]"
+              },
+              "effect": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityPolicyEffect')]"
+              },
+              "enabled": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityAlertState')]"
+              },
+              "threshold": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityThreshold')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_activityManagedHSMsDelete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
+            "parameters": {
+              "enabled": {
+                "value": "[[[parameters('activityHSMsDeleteAlertState')]"
+              },
+              "alertResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "alertResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "alertResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+              },
+              "effect": {
+                "value": "[[[parameters('activityHSMsDeletePolicyEffect')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
           }
         ],
         "policyType": "Custom",
         "policyDefinitionGroups": null
       }
     },
-    "$fxv#6": {
+    "$fxv#9": {
       "type": "Microsoft.Authorization/policySetDefinitions",
       "apiVersion": "2021-06-01",
       "name": "Alerting-Identity",
@@ -1030,6 +1292,178 @@
               "displayName": "Key Vault Delete Policy Effect",
               "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
             }
+          },
+          "HSMsAvailabilityAlertSeverity": {
+            "type": "String",
+            "defaultValue": "1",
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Alert Severity",
+              "description": "Severity of the alert for Key Vault Managed HSMs Availability"
+            }
+          },
+          "HSMsAvailabilityWindowSize": {
+            "type": "string",
+            "defaultValue": "PT1M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H",
+              "PT6H",
+              "PT12H",
+              "P1D"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Window Size",
+              "description": "Window size for the alert"
+            }
+          },
+          "HSMsAvailabilityEvaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT1M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Evaluation Frequency",
+              "description": "Evaluation frequency for the alert"
+            }
+          },
+          "HSMsAvailabilityPolicyEffect": {
+            "type": "string",
+            "defaultValue": "disabled",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
+          },
+          "HSMsAvailabilityAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "HSMsAvailabilityThreshold": {
+            "type": "string",
+            "defaultValue": "20",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Availability Threshold",
+              "description": "Threshold for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityAlertSeverity": {
+            "type": "String",
+            "defaultValue": "3",
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Alert Severity",
+              "description": "Severity of the alert for Key Vault Managed HSMs Latency Availability"
+            }
+          },
+          "HSMsLatencyAvailabilityWindowSize": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H",
+              "PT6H",
+              "PT12H",
+              "P1D"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Window Size",
+              "description": "Window size for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityEvaluationFrequency": {
+            "type": "string",
+            "defaultValue": "PT5M",
+            "allowedValues": [
+              "PT1M",
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Evaluation Frequency",
+              "description": "Evaluation frequency for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityPolicyEffect": {
+            "type": "string",
+            "defaultValue": "disabled",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
+          },
+          "HSMsLatencyAvailabilityAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "HSMsLatencyAvailabilityThreshold": {
+            "type": "string",
+            "defaultValue": "1000",
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Latency Availability Threshold",
+              "description": "Threshold for the alert"
+            }
+          },
+          "activityHSMsDeleteAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Activity Key Vault Managed HSMs Delete Alert State",
+              "description": "Alert state for the alert"
+            }
+          },
+          "activityHSMsDeletePolicyEffect": {
+            "type": "string",
+            "defaultValue": "deployIfNotExists",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Key Vault Managed HSMs Delete Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+            }
           }
         },
         "policyDefinitions": [
@@ -1176,6 +1610,93 @@
                 "value": "[[[parameters('ALZMonitorDisableTagValues')]"
               }
             }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_ManagedHSMsAvailability",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
+            "parameters": {
+              "severity": {
+                "value": "[[[parameters('HSMsAvailabilityAlertSeverity')]"
+              },
+              "windowSize": {
+                "value": "[[[parameters('HSMsAvailabilityWindowSize')]"
+              },
+              "evaluationFrequency": {
+                "value": "[[[parameters('HSMsAvailabilityEvaluationFrequency')]"
+              },
+              "effect": {
+                "value": "[[[parameters('HSMsAvailabilityPolicyEffect')]"
+              },
+              "enabled": {
+                "value": "[[[parameters('HSMsAvailabilityAlertState')]"
+              },
+              "threshold": {
+                "value": "[[[parameters('HSMsAvailabilityThreshold')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_ManagedHSMsLatencyAvailability",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
+            "parameters": {
+              "severity": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityAlertSeverity')]"
+              },
+              "windowSize": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityWindowSize')]"
+              },
+              "evaluationFrequency": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityEvaluationFrequency')]"
+              },
+              "effect": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityPolicyEffect')]"
+              },
+              "enabled": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityAlertState')]"
+              },
+              "threshold": {
+                "value": "[[[parameters('HSMsLatencyAvailabilityThreshold')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_activityManagedHSMsDelete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
+            "parameters": {
+              "enabled": {
+                "value": "[[[parameters('activityHSMsDeleteAlertState')]"
+              },
+              "alertResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "alertResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "alertResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+              },
+              "effect": {
+                "value": "[[[parameters('activityHSMsDeletePolicyEffect')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
           }
         ],
         "policyType": "Custom",
@@ -1205,7 +1726,10 @@
         "[variables('$fxv#1')]",
         "[variables('$fxv#2')]",
         "[variables('$fxv#3')]",
-        "[variables('$fxv#4')]"
+        "[variables('$fxv#4')]",
+        "[variables('$fxv#5')]",
+        "[variables('$fxv#6')]",
+        "[variables('$fxv#7')]"
       ],
       "AzureCloud": [],
       "AzureChinaCloud": [],
@@ -1213,8 +1737,8 @@
     },
     "loadPolicySetDefinitions": {
       "All": [
-        "[string(variables('$fxv#5'))]",
-        "[string(variables('$fxv#6'))]"
+        "[string(variables('$fxv#8'))]",
+        "[string(variables('$fxv#9'))]"
       ],
       "AzureCloud": [],
       "AzureChinaCloud": [],

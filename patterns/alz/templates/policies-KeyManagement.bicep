@@ -73,6 +73,10 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Latency-Alert.json')
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json')
     loadTextContent('../../../services/KeyVault/vaults/Deploy-ActivityLog-KeyVault-Del.json')
+
+    loadTextContent('../../../services/KeyVault/managedHSMs/Deploy-ActivityLog-HSMs-Del.json')
+    loadTextContent('../../../services/KeyVault/managedHSMs/Deploy-HSMs-Availability-Alert.json')
+    loadTextContent('../../../services/KeyVault/managedHSMs/Deploy-HSMs-Latency-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
