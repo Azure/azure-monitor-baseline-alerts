@@ -199,7 +199,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -269,7 +269,7 @@
                             "metricNamespace": "Microsoft.Network/virtualNetworkGateways",
                             "metricName": "TunnelAverageBandwidth",
                             "operator": "LessThan",
-                            "threshold": "[[parameters('threshold')]",
+                            "threshold": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]",
                             "timeAggregation": "Average",
                             "criterionType": "StaticThresholdCriterion"
                           }
