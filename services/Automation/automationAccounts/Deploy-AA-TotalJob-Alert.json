@@ -195,7 +195,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-TotalJob-threshold-override_'), field('tags._amba-TotalJob-threshold-override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -329,7 +329,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-TotalJob-threshold-override_'), field('tags._amba-TotalJob-threshold-override_'), parameters('threshold'))]"
                 }
               }
             }
