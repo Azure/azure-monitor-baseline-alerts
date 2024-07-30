@@ -258,7 +258,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ServiceHealthMaintenance",
+                    "name": "ServiceHealthPlannedMaintenance",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
@@ -288,7 +288,7 @@
                             "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ServiceHealthPlannedMaintenance",
+                            "name": "[[concat(subscription().displayName, '-ServiceHealthPlannedMaintenance')]",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true

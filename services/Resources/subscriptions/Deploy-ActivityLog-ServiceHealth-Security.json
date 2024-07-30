@@ -258,7 +258,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ServiceSecurityIncident",
+                    "name": "ServiceHealthSecurityIncident",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
@@ -288,7 +288,7 @@
                             "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ServiceHealthSecurityIncident",
+                            "name": "[[concat(subscription().displayName, '-ServiceHealthSecurityIncident')]",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
