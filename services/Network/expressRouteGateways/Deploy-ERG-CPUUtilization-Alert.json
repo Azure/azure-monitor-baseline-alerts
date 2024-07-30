@@ -195,7 +195,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-ExpressRouteGatewayCpuUtilization-threshold-Override_'), field('tags._amba-ExpressRouteGatewayCpuUtilization-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -320,7 +320,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-ExpressRouteGatewayCpuUtilization-threshold-Override_'), field('tags._amba-ExpressRouteGatewayCpuUtilization-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }
