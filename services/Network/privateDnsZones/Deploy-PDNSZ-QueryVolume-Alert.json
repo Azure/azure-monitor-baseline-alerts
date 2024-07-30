@@ -195,7 +195,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-QueryVolume-threshold-Override_'), field('tags._amba-QueryVolume-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -244,7 +244,7 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-QueryVolumeAlert')]",
+                  "name": "[[concat(parameters('resourceName'), '-QueryVolumeAlert')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
@@ -320,7 +320,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-QueryVolume-threshold-Override_'), field('tags._amba-QueryVolume-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

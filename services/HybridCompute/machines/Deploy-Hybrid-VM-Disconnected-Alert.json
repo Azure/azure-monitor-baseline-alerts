@@ -82,10 +82,6 @@
           "displayName": "TimeAggregation"
         },
         "allowedValues": [
-          "Average",
-          "Maximum",
-          "Minimum",
-          "Total",
           "Count"
         ],
         "defaultValue": "Count"
@@ -109,10 +105,17 @@
           "description": "Evaluation frequency for the alert"
         },
         "allowedValues": [
+          "PT5M",
+          "PT10M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT2H",
+          "PT6H",
           "PT12H",
           "P1D"
         ],
-        "defaultValue": "P1D"
+        "defaultValue": "PT10M"
       },
       "autoMitigate": {
         "type": "String",
@@ -238,7 +241,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-HybridVMDisconnected')]"
+                "equals": "[[concat(subscription().displayName, '-HybridVMDisconnectedAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
@@ -265,10 +268,6 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
-                "equals": 0
-              },
-              {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
                 "equals": "[[parameters('operator')]"
               },
@@ -286,7 +285,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+                "equals": "[[format('let policyThresholdString = \"{2}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend appliedThresholdString = iif(tags contains \"_amba-Disconnected-threshold-override_\", tostring(tags.[\"_amba-Disconnected-threshold-override_\"]), policyThresholdString) | extend appliedThreshold = totimespan(appliedThresholdString) | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate >= ago(appliedThreshold) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -392,7 +391,7 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-HybridVMDisconnected')]",
+                            "name": "[[concat(subscription().displayName, '-HybridVMDisconnectedAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "identity": {
                               "type": "UserAssigned",
@@ -404,7 +403,7 @@
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-HybridVMDisconnected')]",
+                              "displayName": "[[concat(subscription().displayName, '-HybridVMDisconnectedAlert')]",
                               "description": "Hybrid VM in disconnected state. Not being connected, prevents extensions to be correctly managed from the portal and Azure policies to be correctly applied. Ensure that both server the specific service (Azure Hybrid Instance Metadata Service on Windows or azcmagent on Linux) are running.",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
@@ -419,7 +418,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago({2}) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                                    "query": "[[format('let policyThresholdString = \"{2}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.{0})) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend appliedThresholdString = iif(tags contains \"_amba-Disconnected-threshold-override_\", tostring(tags.[\"_amba-Disconnected-threshold-override_\"]), policyThresholdString) | extend appliedThreshold = totimespan(appliedThresholdString) | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(appliedThreshold) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
                                     "resourceIdColumn": "id",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
