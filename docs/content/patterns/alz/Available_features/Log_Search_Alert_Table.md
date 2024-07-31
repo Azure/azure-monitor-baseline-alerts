@@ -1,3 +1,8 @@
+---
+title: Log-search alert table
+geekdocHidden: true
+---
+
 | Resource Type | Alert Name | Alert Type | Override Tag name |
 | ------------- | ---------- | ---------- | ----------------- |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHighDataDiskReadLatencyAlert | _Log search_ | ***\_amba-ReadLatencyMs-Data-threshold-override\_*** |

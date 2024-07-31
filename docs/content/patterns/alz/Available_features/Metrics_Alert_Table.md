@@ -1,3 +1,8 @@
+---
+title: Metrics alert table
+geekdocHidden: true
+---
+
 | Resource Type | Alert Name | Alert Type | Override Tag name |
 | ------------- | ---------- | ---------- | ----------------- |
 | Virtual machine | *```resourceName```*-AvailableMemoryAlert | Metrics | ***\_amba-AvailableMemoryBytes-threshold-override\_*** |
@@ -77,7 +82,6 @@
 | VPN Gateway | *```resourceName```*-TunnelIngressPacketDropTSMismatchAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> |
 | Log Analytics workspace | ActivityLAWorkspaceDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
 | Log Analytics workspace | ActivityLAWorkspaceRegenKey | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
-| Recovery Services vault | RSV BackupHealth | ??? | Not available
 | Subscription | ResourceHealthUnhealthyAlert | Resource health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
 | Subscription | ServiceHealthHealth | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
 | Subscription | ServiceHealthIncident | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
