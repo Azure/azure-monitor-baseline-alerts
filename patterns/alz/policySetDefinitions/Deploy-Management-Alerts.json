@@ -552,6 +552,54 @@
         }
       },
       {
+        "policyDefinitionReferenceId": "ALZ_AppInsightsThrottlingLimitReached_Alert",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_ApplicationInsightsTrottlingLimitReached_Alert",
+        "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
+          "severity": {
+            "value": "[[parameters('AppInsightsThrottlingLimitSeverity')]"
+          },
+          "operator": {
+            "value": "[[parameters('AppInsightsThrottlingLimitOperator')]"
+          },
+          "timeAggregation": {
+            "value": "[[parameters('LAppInsightsThrottlingLimitTimeAggregation')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LAppInsightsThrottlingLimitWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AppInsightsThrottlingLimittEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('AppInsightsThrottlingLimitAutoMitigate')]"
+          },
+          "threshold": {
+            "value": "[[parameters('AppInsightsThrottlingLimitThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('AppInsightsThrottlingLimitFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AppInsightsThrottlingLimitEvaluationPeriods')]"
+          },
+          "effect": {
+            "value": "[[parameters('AppInsightsThrottlingLimitPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AppInsightsThrottlingLimitAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
         "policyDefinitionReferenceId": "ALZ_AATotalJob",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AA_TotalJob_Alert",
         "parameters": {
