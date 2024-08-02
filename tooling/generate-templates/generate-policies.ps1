@@ -33,7 +33,7 @@ process {
         # Process each alert in the yaml file
         foreach ($alert in $alertJsonObject) {
             $policyPathName = $_.FullName -replace "alerts.yaml", ""
-            $policyFileName = "$($alert.properties.metricName)" -replace "[^a-zA-Z_]", ""
+            $policyFileName = $alert.name -replace "[^a-zA-Z0-9-]", ""
             $policyDirectory = "$($policyPathName)templates\policy"
             # Check if the alert has a deployment template and has a deployment tag of "alz"
             if ((Test-Path -Path "$($policyPathName)$($alert.deployments.template)") -and $alert.deployments.tags -eq "alz") {
@@ -41,7 +41,7 @@ process {
                     New-Item -ItemType Directory -Path $policyDirectory -Force
                 }
                 if ($policyFileName -eq "") {
-                    $policyFileName = $alert.name -replace "[^a-zA-Z_]", ""
+                    $policyFileName = $alert.name -replace "[^a-zA-Z0-9-]", ""
                 }
                 # Copy the deployment template to the policy directory
                 Copy-Item -Path "$($policyPathName)$($alert.deployments.template)" -Destination "$($policyPathName)templates\policy\$($policyFileName)_$($alert.guid).json"
@@ -102,7 +102,7 @@ process {
                     New-Item -ItemType Directory -Path $policyDirectory -Force
                 }
                 if ($policyFileName -eq "") {
-                    $policyFileName = $alert.name -replace "[^a-zA-Z_]", ""
+                    $policyFileName = $alert.name -replace "[^a-zA-Z0-9-]", ""
                 }
                 # Write the policy template to a file
                 Out-File -FilePath "$($policyPathName)templates\policy\$($policyFileName)_$($alert.guid).json" -InputObject $alertTemplate
