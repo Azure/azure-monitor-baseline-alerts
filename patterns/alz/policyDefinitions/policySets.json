@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.29.47.4906",
-      "templateHash": "1243149162579166610"
+      "templateHash": "15071768939263808908"
     }
   },
   "parameters": {
@@ -6152,6 +6152,26 @@
               "displayName": "AApplication Insights Throttling Limit Reached Alert State",
               "description": "Alert state for the alert"
             }
+          },
+          "activityAppInsightsDeletePolicyEffect": {
+            "type": "string",
+            "defaultValue": "deployIfNotExists",
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Activity Log Application Insights Alert Delete Policy Effect",
+              "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+            }
+          },
+          "activityAppInsightsDeleteAlertState": {
+            "type": "string",
+            "defaultValue": "true",
+            "metadata": {
+              "displayName": "Activity Log Application Insights Alert Delete Alert State",
+              "description": "Alert state for the alert"
+            }
           }
         },
         "policyDefinitions": [
@@ -6296,6 +6316,33 @@
               },
               "enabled": {
                 "value": "[[[parameters('AppInsightsThrottlingLimitAlertState')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_activityAppInsightsDelete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_AppInsights_Delete",
+            "parameters": {
+              "effect": {
+                "value": "[[[parameters('activityAppInsightsDeletePolicyEffect')]"
+              },
+              "enabled": {
+                "value": "[[[parameters('activityAppInsightsDeleteAlertState')]"
+              },
+              "alertResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "alertResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "alertResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
               },
               "MonitorDisableTagName": {
                 "value": "[[[parameters('ALZMonitorDisableTagName')]"
