@@ -1,0 +1,333 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "name": "04f64694-48a2-48ee-9455-ccce8e59b66f",
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Deploy OperationalInsights workspaces Average_% Used Swap Space Alert",
+    "description": "Policy to Audit/Deploy OperationalInsights workspaces Average_% Used Swap Space Alert",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "OperationalInsights",
+      "preview": true,
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "_deployed_by_amba": "True"
+    },
+    "parameters": {
+      "severity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Severity",
+          "description": "Severity of the Alert"
+        },
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1"
+      },
+      "windowSize": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Window Size",
+          "description": "Window size for the alert"
+        },
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT1H"
+      },
+      "evaluationFrequency": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        },
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT15M"
+      },
+      "autoMitigate": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "enabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Alert State",
+          "description": "Alert state for the alert"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
+      "threshold": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Threshold",
+          "description": "Threshold for the alert"
+        },
+        "defaultValue": "50"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Effect of the policy"
+        },
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.OperationalInsights/workspaces"
+          },
+          {
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[[parameters('effect')]",
+        "details": {
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "type": "Microsoft.Insights/metricAlerts",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "Microsoft.OperationalInsights/workspaces"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "Average_% Used Swap Space"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', field('fullName'))]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/enabled",
+                "equals": "[[parameters('enabled')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/evaluationFrequency",
+                "equals": "[[parameters('evaluationFrequency')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/windowSize",
+                "equals": "[[parameters('windowSize')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricalerts/severity",
+                "equals": "[[parameters('severity')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/autoMitigate",
+                "equals": "[[parameters('autoMitigate')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                "equals": "Average"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
+                "equals": "GreaterThan"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
+                "equals": "[[if(contains(field('tags'), '_amba-Average_% Used Swap Space-threshold-Override_'), field('tags._amba-Average_% Used Swap Space-threshold-Override_'), parameters('threshold'))]"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "resourceName": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "resourceName",
+                      "description": "Name of the resource"
+                    }
+                  },
+                  "resourceId": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "resourceId",
+                      "description": "Resource ID of the resource emitting the metric that will be used for the comparison"
+                    }
+                  },
+                  "severity": {
+                    "type": "String"
+                  },
+                  "windowSize": {
+                    "type": "String"
+                  },
+                  "evaluationFrequency": {
+                    "type": "String"
+                  },
+                  "autoMitigate": {
+                    "type": "String"
+                  },
+                  "enabled": {
+                    "type": "String"
+                  },
+                  "threshold": {
+                    "type": "String"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "Microsoft.Insights/metricAlerts",
+                    "apiVersion": "2018-03-01",
+                    "name": "[[concat(parameters('resourceName'), '-Average_% Used Swap Space')]",
+                    "location": "global",
+                    "tags": {
+                      "_deployed_by_amba": true
+                    },
+                    "properties": {
+                      "description": "Metric Alert for OperationalInsights workspaces Average_% Used Swap Space",
+                      "severity": "[[parameters('severity')]",
+                      "enabled": "[[parameters('enabled')]",
+                      "scopes": [
+                        "[[parameters('resourceId')]"
+                      ],
+                      "evaluationFrequency": "[[parameters('evaluationFrequency')]",
+                      "windowSize": "[[parameters('windowSize')]",
+                      "criteria": {
+                        "allOf": [
+                          {
+                            "name": "Average_% Used Swap Space",
+                            "metricNamespace": "Microsoft.OperationalInsights/workspaces",
+                            "metricName": "Average_% Used Swap Space",
+                            "operator": "GreaterThan",
+                            "threshold": "[[parameters('threshold')]",
+                            "timeAggregation": "Average",
+                            "criterionType": "StaticThresholdCriterion"
+                          }
+                        ],
+                        "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                      },
+                      "autoMitigate": "[[parameters('autoMitigate')]",
+                      "parameters": {
+                        "severity": {
+                          "value": "[[parameters('severity')]"
+                        },
+                        "windowSize": {
+                          "value": "[[parameters('windowSize')]"
+                        },
+                        "evaluationFrequency": {
+                          "value": "[[parameters('evaluationFrequency')]"
+                        },
+                        "autoMitigate": {
+                          "value": "[[parameters('autoMitigate')]"
+                        },
+                        "enabled": {
+                          "value": "[[parameters('enabled')]"
+                        },
+                        "threshold": {
+                          "value": "[[parameters('threshold')]"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "resourceName": {
+                  "value": "[[field('name')]"
+                },
+                "resourceId": {
+                  "value": "[[field('id')]"
+                },
+                "severity": {
+                  "value": "[[parameters('severity')]"
+                },
+                "windowSize": {
+                  "value": "[[parameters('windowSize')]"
+                },
+                "evaluationFrequency": {
+                  "value": "[[parameters('evaluationFrequency')]"
+                },
+                "autoMitigate": {
+                  "value": "[[parameters('autoMitigate')]"
+                },
+                "enabled": {
+                  "value": "[[parameters('enabled')]"
+                },
+                "threshold": {
+                  "value": "[[if(contains(field('tags'), '_amba-Average_% Used Swap Space-threshold-Override_'), field('tags._amba-Average_% Used Swap Space-threshold-Override_'), parameters('threshold'))]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
