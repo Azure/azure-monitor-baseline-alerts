@@ -4176,6 +4176,74 @@
           "displayName": "FD Backend Request Latency Alert State",
           "description": "Alert state for the alert"
         }
+      },
+      "LogicWorkflowRunFailedAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "Logic App Workflow Runs Failed Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "LogicWorkflowRunFailedWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "Logic App Workflow Runs Failed Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "LogicWorkflowRunFailedEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "Logic App Workflow Runs Failed Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "LogicWorkflowRunFailedPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Logic App Workflow Runs Failed Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "LogicWorkflowRunFailedAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Logic App Workflow Runs Failed Alert State",
+          "description": "Alert state for the alert"
+        }
       }
     },
     "policyDefinitions": [
@@ -5613,6 +5681,27 @@
           },
           "enabled": {
             "value": "[[parameters('FDBackendRequestLatencyAlertState')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LogicWorkflowRunFailed",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Workflow_RunsFailed_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('LogicWorkflowRunFailedAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LogicWorkflowRunFailedWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LogicWorkflowRunFailedEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('LogicWorkflowRunFailedPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LogicWorkflowRunFailedAlertState')]"
           }
         }
       }

@@ -1,6 +1,8 @@
 targetScope = 'managementGroup'
 
-@metadata({ message: 'The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!' })
+@metadata({
+  message: 'The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!'
+})
 @description('Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = "alz"')
 param topLevelManagementGroupPrefix string = 'alz'
 
@@ -143,6 +145,7 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/trafficmanagerprofiles/Deploy-TM-EndpointHealth-Alert.json')
     loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendHealth-Alert.json')
     loadTextContent('../../../services/Network/frontdoors/Deploy-FD-BackendRequestLatency-Alert.json')
+    loadTextContent('../../../services/Logic/workflows/Deploy-Workflow-RunsFailed-Alert.json')
 
     // Used in both Identity and LandingZone policy definitions
     loadTextContent('../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json')
@@ -226,16 +229,48 @@ var loadPolicySetDefinitions = {
 
 // The following vars are used to manipulate the imported Policy Definitions to replace deployment location values
 // Needs a double replace to handle updates in both templates for All clouds, and localized templates
-var processPolicyDefinitionsAll = [for content in loadPolicyDefinitions.All: replace(replace(content, templateVars.defaultDeploymentLocation, deploymentLocation), templateVars.localizedDeploymentLocation, deploymentLocation)]
-var processPolicyDefinitionsAzureCloud = [for content in loadPolicyDefinitions.AzureCloud: replace(replace(content, templateVars.defaultDeploymentLocation, deploymentLocation), templateVars.localizedDeploymentLocation, deploymentLocation)]
-var processPolicyDefinitionsAzureChinaCloud = [for content in loadPolicyDefinitions.AzureChinaCloud: replace(replace(content, templateVars.defaultDeploymentLocation, deploymentLocation), templateVars.localizedDeploymentLocation, deploymentLocation)]
-var processPolicyDefinitionsAzureUSGovernment = [for content in loadPolicyDefinitions.AzureUSGovernment: replace(replace(content, templateVars.defaultDeploymentLocation, deploymentLocation), templateVars.localizedDeploymentLocation, deploymentLocation)]
+var processPolicyDefinitionsAll = [
+  for content in loadPolicyDefinitions.All: replace(
+    replace(content, templateVars.defaultDeploymentLocation, deploymentLocation),
+    templateVars.localizedDeploymentLocation,
+    deploymentLocation
+  )
+]
+var processPolicyDefinitionsAzureCloud = [
+  for content in loadPolicyDefinitions.AzureCloud: replace(
+    replace(content, templateVars.defaultDeploymentLocation, deploymentLocation),
+    templateVars.localizedDeploymentLocation,
+    deploymentLocation
+  )
+]
+var processPolicyDefinitionsAzureChinaCloud = [
+  for content in loadPolicyDefinitions.AzureChinaCloud: replace(
+    replace(content, templateVars.defaultDeploymentLocation, deploymentLocation),
+    templateVars.localizedDeploymentLocation,
+    deploymentLocation
+  )
+]
+var processPolicyDefinitionsAzureUSGovernment = [
+  for content in loadPolicyDefinitions.AzureUSGovernment: replace(
+    replace(content, templateVars.defaultDeploymentLocation, deploymentLocation),
+    templateVars.localizedDeploymentLocation,
+    deploymentLocation
+  )
+]
 
 // The following vars are used to manipulate the imported Policy Set Definitions to replace Policy Definition scope values
-var processPolicySetDefinitionsAll = [for content in loadPolicySetDefinitions.All: replace(content, templateVars.scope, scope)]
-var processPolicySetDefinitionsAzureCloud = [for content in loadPolicySetDefinitions.AzureCloud: replace(content, templateVars.scope, scope)]
-var processPolicySetDefinitionsAzureChinaCloud = [for content in loadPolicySetDefinitions.AzureChinaCloud: replace(content, templateVars.scope, scope)]
-var processPolicySetDefinitionsAzureUSGovernment = [for content in loadPolicySetDefinitions.AzureUSGovernment: replace(content, templateVars.scope, scope)]
+var processPolicySetDefinitionsAll = [
+  for content in loadPolicySetDefinitions.All: replace(content, templateVars.scope, scope)
+]
+var processPolicySetDefinitionsAzureCloud = [
+  for content in loadPolicySetDefinitions.AzureCloud: replace(content, templateVars.scope, scope)
+]
+var processPolicySetDefinitionsAzureChinaCloud = [
+  for content in loadPolicySetDefinitions.AzureChinaCloud: replace(content, templateVars.scope, scope)
+]
+var processPolicySetDefinitionsAzureUSGovernment = [
+  for content in loadPolicySetDefinitions.AzureUSGovernment: replace(content, templateVars.scope, scope)
+]
 
 // The following vars are used to convert the imported Policy Definitions into objects from JSON
 var policyDefinitionsAll = [for content in processPolicyDefinitionsAll: json(content)]
@@ -274,36 +309,40 @@ var policyDefinitions = concat(policyDefinitionsByCloudType.All, policyDefinitio
 var policySetDefinitions = concat(policySetDefinitionsByCloudType.All, policySetDefinitionsByCloudType[cloudEnv])
 
 // Create the Policy Definitions as needed for the target cloud environment
-resource PolicyDefinitions 'Microsoft.Authorization/policyDefinitions@2020-09-01' = [for policy in policyDefinitions: {
-  name: policy.name
-  properties: {
-    description: policy.properties.description
-    displayName: policy.properties.displayName
-    metadata: policy.properties.metadata
-    mode: policy.properties.mode
-    parameters: policy.properties.parameters
-    policyType: policy.properties.policyType
-    policyRule: policy.properties.policyRule
+resource PolicyDefinitions 'Microsoft.Authorization/policyDefinitions@2020-09-01' = [
+  for policy in policyDefinitions: {
+    name: policy.name
+    properties: {
+      description: policy.properties.description
+      displayName: policy.properties.displayName
+      metadata: policy.properties.metadata
+      mode: policy.properties.mode
+      parameters: policy.properties.parameters
+      policyType: policy.properties.policyType
+      policyRule: policy.properties.policyRule
+    }
   }
-}]
+]
 
 // Create the Policy Definitions as needed for the target cloud environment
 // Depends on Policy Definitons to ensure they exist before creating dependent Policy Set Definitions (Initiatives)
-resource PolicySetDefinitions 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = [for policy in policySetDefinitions: {
-  dependsOn: [
-    PolicyDefinitions
-  ]
-  name: policy.name
-  properties: {
-    description: policy.properties.description
-    displayName: policy.properties.displayName
-    metadata: policy.properties.metadata
-    parameters: policy.properties.parameters
-    policyType: policy.properties.policyType
-    policyDefinitions: policy.properties.policyDefinitions
-    policyDefinitionGroups: policy.properties.policyDefinitionGroups
+resource PolicySetDefinitions 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = [
+  for policy in policySetDefinitions: {
+    dependsOn: [
+      PolicyDefinitions
+    ]
+    name: policy.name
+    properties: {
+      description: policy.properties.description
+      displayName: policy.properties.displayName
+      metadata: policy.properties.metadata
+      parameters: policy.properties.parameters
+      policyType: policy.properties.policyType
+      policyDefinitions: policy.properties.policyDefinitions
+      policyDefinitionGroups: policy.properties.policyDefinitionGroups
+    }
   }
-}]
+]
 
 output policyDefinitionNames array = [for policy in policyDefinitions: policy.name]
 output policySetDefinitionNames array = [for policy in policySetDefinitions: policy.name]
