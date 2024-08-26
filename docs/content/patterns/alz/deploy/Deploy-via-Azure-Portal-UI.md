@@ -65,6 +65,14 @@ For ease of deployment and maintenance we have kept the same variables.
 For ease of deployment and maintenance we have kept the same variables.
 {{< /hint >}}
 
+- Change the value of _```Enable AMBA Hybrid VM```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.
+- Change the value of _```Enable AMBA Key Management```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM.
+- Change the value of _```Enable AMBA Load Balancing```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.
+- Change the value of _```Enable AMBA Network Changes```_ to _```Yes```_ This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups.
+- Change the value of _```Enable AMBA Recovery Services```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery.
+- Change the value of _```Enable AMBA Storage```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts.
+- Change the value of _```Enable AMBA VM```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.
+- Change the value of _```Enable AMBA Web```_ to _```Yes```_ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services.
 - Change the value of _```Enable AMBA notification assets```_ to _```Yes```_ In this scenario, the deployment will Deploy notification assets for Service Health alerts and wide notifications.
 - Change the value of _```Enable AMBA Service Health```_ to _```Yes```_ In this scenario, the deployment will assign the Service Health Policy Set Definition.
 
