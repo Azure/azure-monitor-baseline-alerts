@@ -1,12 +1,12 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_AppInsightsTrottlingLimit_Alert",
+  "name": "Deploy_AppInsightsThrottlingLimit_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Application Insights Trottling Limit Reached Alert",
-    "description": "Policy to audit/deploy Application Insights Trottling Limit Reached Alert",
+    "displayName": "Deploy Application Insights Throttling Limit Reached Alert",
+    "description": "Policy to audit/deploy Application Insights Throttling Limit Reached Alert",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring",
@@ -193,7 +193,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.OperationalInsights/workspaces"
+            "equals": "Microsoft.Insights/components"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -212,7 +212,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', field('fullName'))]"
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Insights/components/', field('fullName'))]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/enabled",
@@ -256,7 +256,8 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project customerId = tostring(properties.customerId)); let workspaceResources = (arg(\"\").resources | where type =~ \"Microsoft.OperationalInsights/workspaces\" | project id, customerId = tostring(properties.customerId), workspaceName = tostring(name)); Operation | where TenantId !in~ (excludedResources) | where OperationCategory == \"Data Collection Status\" | where Detail has_any(\"RespectQuota\", \"OverQuota\") | summarize arg_max(TimeGenerated, *) by TenantId | where Detail has \"OverQuota\" | join hint.remote=left kind=inner workspaceResources on $left.TenantId == $right.customerId | project TimeGenerated, id, workspaceName, workspaceId = TenantId, Detail', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
+                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | where numOfEvents > {2} | join hint.remote=left kind=inner appInsightsResources on _Resourceid | project TimeGenerated, _Resourceid, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -337,7 +338,7 @@
                   {
                     "type": "Microsoft.Insights/scheduledQueryRules",
                     "apiVersion": "2022-08-01-preview",
-                    "name": "[[concat(parameters('resourceName'), '-DApplicationInsightsThrottlingLimitReachedAlert')]",
+                    "name": "[[concat(parameters('resourceName'), '-ApplicationInsightsThrottlingLimitReachedAlert')]",
                     "location": "[[parameters('resourceLocation')]",
                     "identity": {
                       "type": "UserAssigned",
@@ -349,20 +350,20 @@
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "displayName": "[[concat(parameters('resourceName'), '-ApplicationInsightsThrottlingLimitReachedAlert')]",
+                      "displayName": "[[concat(parameters('resourceName'), '-Application Insights Throttling Limit Reached')]",
                       "description": "Log Alert for Application Insights Throttling Limit Reached",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [
-                        "[[parameters('resourceId')]"
+                        "[[reference(parameters('resourceId'),'2020-02-02'), WorkspaceResourceId]"
                       ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
                         "allOf": [
                           {
-                            "query": "[systemEvents | summarize sum(toint(measurements[\"BillingTelemetryCount\"])) by type, bin(timestamp, 1h)",
-                            "threshold": "[[parameters('threshold')]",
+                            "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | where numOfEvents > {2} | join hint.remote=left kind=inner appInsightsResources on _Resourceid | project TimeGenerated, _Resourceid, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                            "threshold": 0,
                             "operator": "[[parameters('operator')]",
                             "dimensions": [
                               {
