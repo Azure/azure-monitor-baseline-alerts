@@ -211,10 +211,6 @@
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Insights/components/', field('fullName'))]"
-              },
-              {
                 "field": "Microsoft.Insights/scheduledQueryRules/enabled",
                 "equals": "[[parameters('enabled')]"
               },
@@ -236,7 +232,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": 0
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
@@ -256,8 +252,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | where numOfEvents > {2} | join hint.remote=left kind=inner appInsightsResources on _Resourceid | project TimeGenerated, _Resourceid, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
-
+                "equals": "[[format('let policyThresholdString = \"{2}\"; let overridenResource = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-Throttling-Data-threshold-override_\"); let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-Throttling-Data-threshold-override_\", tags.[\"_amba-Throttling-Data-threshold-override_\"], policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where numOfEvents > appliedThreshold | join hint.remote=left kind=inner appInsightsResources on _ResourceId | project TimeGenerated, _ResourceId, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -355,26 +350,26 @@
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [
-                        "[[reference(parameters('resourceId'),'2020-02-02'), WorkspaceResourceId]"
+                        "[[reference(parameters('resourceId'),'2020-02-02').WorkspaceResourceId]"
                       ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
                         "allOf": [
                           {
-                            "query": "[[format('let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | where numOfEvents > {2} | join hint.remote=left kind=inner appInsightsResources on _Resourceid | project TimeGenerated, _Resourceid, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                            "query": "[[format('let policyThresholdString = \"{2}\"; let overridenResource = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-Throttling-Data-threshold-override_\"); let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | where parse_json(tostring(tags.{0})) in~ (\"{1}\") | project _ResourceId = tolower(id)); let appInsightsResources = (arg(\"\").resources | where type =~ \"Microsoft.Insights/components\" | project _ResourceId = tolower(id), name); AppSystemEvents | where _ResourceId !in~ (excludedResources) | summarize numOfEvents = sum(toint(Measurements[\"BillingTelemetryCount\"])) by _ResourceId, Type, bin(TimeGenerated, 1h) | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-Throttling-Data-threshold-override_\", tags.[\"_amba-Throttling-Data-threshold-override_\"], policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where numOfEvents > appliedThreshold | join hint.remote=left kind=inner appInsightsResources on _ResourceId | project TimeGenerated, _ResourceId, name, numOfEvents', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
                             "threshold": 0,
                             "operator": "[[parameters('operator')]",
                             "dimensions": [
                               {
-                                "name": "workspaceName",
+                                "name": "name",
                                 "operator": "Include",
                                 "values": [
                                   "*"
                                 ]
                               }
                             ],
-                            "resourceIdColumn": "id",
+                            "resourceIdColumn": "_ResourceId",
                             "timeAggregation": "[[parameters('timeAggregation')]",
                             "failingPeriods": {
                               "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
