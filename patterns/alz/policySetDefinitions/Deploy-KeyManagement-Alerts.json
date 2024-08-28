@@ -377,6 +377,178 @@
           "displayName": "Key Vault Delete Policy Effect",
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
+      },
+      "HSMsAvailabilityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Alert Severity",
+          "description": "Severity of the alert for Key Vault Managed HSMs Availability"
+        }
+      },
+      "HSMsAvailabilityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "HSMsAvailabilityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "HSMsAvailabilityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "HSMsAvailabilityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "HSMsAvailabilityThreshold": {
+        "type": "string",
+        "defaultValue": "20",
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Availability Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "HSMsLatencyAvailabilityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Alert Severity",
+          "description": "Severity of the alert for Key Vault Managed HSMs Latency Availability"
+        }
+      },
+      "HSMsLatencyAvailabilityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "HSMsLatencyAvailabilityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "HSMsLatencyAvailabilityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "HSMsLatencyAvailabilityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "HSMsLatencyAvailabilityThreshold": {
+        "type": "string",
+        "defaultValue": "1000",
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Latency Availability Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "activityHSMsDeleteAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "Activity Key Vault Managed HSMs Delete Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "activityHSMsDeletePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Key Vault Managed HSMs Delete Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
       }
     },
     "policyDefinitions": [
@@ -515,6 +687,93 @@
           },
           "effect": {
             "value": "[[parameters('activityKVDeletePolicyEffect')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_ManagedHSMsAvailability",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('HSMsAvailabilityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('HSMsAvailabilityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('HSMsAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('HSMsAvailabilityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('HSMsAvailabilityAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('HSMsAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_ManagedHSMsLatencyAvailability",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('HSMsLatencyAvailabilityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('HSMsLatencyAvailabilityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('HSMsLatencyAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('HSMsLatencyAvailabilityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('HSMsLatencyAvailabilityAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('HSMsLatencyAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityManagedHSMsDelete",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
+        "parameters": {
+          "enabled": {
+            "value": "[[parameters('activityHSMsDeleteAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[[parameters('activityHSMsDeletePolicyEffect')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
