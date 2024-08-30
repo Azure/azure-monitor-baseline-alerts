@@ -1,7 +1,7 @@
 ---
 title: What´s new
 geekdocCollapseSection: true
-weight: 10
+weight: 09
 ---
 
 For information on what's new please refer to the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
