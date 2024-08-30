@@ -64,8 +64,8 @@
               "name": "getLocations",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
-                  "method": "GET",
-                  "path": "locations?api-version=2019-11-01"
+                "method": "GET",
+                "path": "locations?api-version=2019-11-01"
               }
             },
             {
@@ -76,11 +76,11 @@
               "toolTip": "Specify the location for said resource group",
               "defaultValue": "[steps('basics').resourceScope.location.displayName]",
               "constraints": {
-                  "allowedValues": "[map(steps('basics').getLocations.value,(item) => parse(concat('{\"label\":\"',item.displayName,'\",\"value\":\"',item.name,'\"}')))]",
-                  "required": true
+                "allowedValues": "[map(steps('basics').getLocations.value,(item) => parse(concat('{\"label\":\"',item.displayName,'\",\"value\":\"',item.name,'\"}')))]",
+                "required": true
               },
               "visible": true
-          },
+            },
             {
               "name": "bringYourOwnUserAssignedManagedIdentity",
               "type": "Microsoft.Common.DropDown",
@@ -184,39 +184,39 @@
               "type": "Microsoft.Common.Section",
               "label": "Telemetry Tracking Using Customer Usage Attribution (PID)",
               "elements": [
-                  {
-                      "name": "cuaSettingsInfo",
-                      "type": "Microsoft.Common.InfoBox",
-                      "visible": true,
-                      "options": {
-                          "text": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more.",
-                          "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
-                          "style": "Info"
-                      }
-                  },
-                  {
-                      "name": "telemetryOptOut",
-                      "type": "Microsoft.Common.OptionsGroup",
-                      "visible": true,
-                      "label": "Customer Usage Selection Options",
-                      "defaultValue": "Enabled",
-                      "constraints": {
-                          "allowedValues": [
-                              {
-                                  "label": "Enabled",
-                                  "value": "No"
-                              },
-                              {
-                                  "label": "Disabled",
-                                  "value": "Yes"
-                              }
-                          ],
-                          "required": true
-                      }
+                {
+                  "name": "cuaSettingsInfo",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                    "text": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more.",
+                    "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+                    "style": "Info"
                   }
+                },
+                {
+                  "name": "telemetryOptOut",
+                  "type": "Microsoft.Common.OptionsGroup",
+                  "visible": true,
+                  "label": "Customer Usage Selection Options",
+                  "defaultValue": "Enabled",
+                  "constraints": {
+                    "allowedValues": [
+                      {
+                        "label": "Enabled",
+                        "value": "No"
+                      },
+                      {
+                        "label": "Disabled",
+                        "value": "Yes"
+                      }
+                    ],
+                    "required": true
+                  }
+                }
               ],
               "visible": true
-          }
+            }
           ]
         },
         {
@@ -580,7 +580,7 @@
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
-                "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
             },
             {
               "name": "enableAMBAServiceHealth",
@@ -941,7 +941,7 @@
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
-        "LandingZoneManagementGroup": "[if(steps('Configuration').LandingZoneManagementGroup, steps('Configuration').LandingZoneManagementGroup, 'contoso-landingzones')]",
+        "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
         "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule.id]",
         "deployAMBAPortalAccelerator": "Yes",
