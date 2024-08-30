@@ -49,7 +49,7 @@ To update your current deployment with the content from the latest release, plea
 - New guidance for bringing you own Managed Identity. [Bring Your Own User Assigned Managed Identity](../Available_features/Bring-Your-Own-User-Assigned-Managed-Identity)
 - Update the Policy Initiatives documentation to include the Policy Reference ID and update the Policy Name column to use the display name of all the policies. [Policy Initiatives](../Policy-Initiatives)
 
-## Tools
+### Tools
 
 - **Automation**: New workflow that automates the process of creating ARM templates for Azure Policies/ PolicySets. The workflow is triggered by a pull request event and uses a bicep build to generate the templates.
 
