@@ -7,7 +7,7 @@ geekdocHidden: true
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-08-30/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-09-02/patterns/alz/alzArm.param.json)
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
