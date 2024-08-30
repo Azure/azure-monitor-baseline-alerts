@@ -770,7 +770,7 @@
                 "method": "POST",
                 "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "resources | where type =~ 'microsoft.logic/workflows' | project label=tostring(name), description=id, value=id | order by label asc"
+                  "query": "resources | where type =~ 'microsoft.logic/workflows' or (type =~ 'Microsoft.Web/sites' and kind =~ 'functionapp,workflowapp') | project label=tostring(name), description=id, value=id | order by label asc"
                 }
               }
             },
