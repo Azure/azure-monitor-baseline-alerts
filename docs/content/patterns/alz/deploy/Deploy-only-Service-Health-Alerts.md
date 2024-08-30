@@ -4,10 +4,6 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
-{{< hint type=Important >}}
-Updating from the _**preview**_ version isn't supported. If you deployed the _**preview**_ version, proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
-{{< /hint >}}
-
 The following guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When you deploy one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Policy Set Definitions in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
 
 1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Policy Set Definition.

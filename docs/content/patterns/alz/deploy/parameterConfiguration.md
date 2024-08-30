@@ -2,9 +2,6 @@
 title: Parameter configuration
 geekdocHidden: true
 ---
-{{< hint type=Important >}}
-Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
-{{< /hint >}}
 
 ## 1. Parameter configuration
 
