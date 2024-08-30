@@ -96,11 +96,11 @@ While it's technically possible to not add any notification information (no emai
     ![Get function URL](../../media/AMBA-FunctionAppTriggerUrl.png)
 
   {{< hint type=note >}}
-  It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
+  It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as an array. Example:
 
-  action1@contoso.com , action2@contoso.com , action3@contoso.com
+  `["action1@contoso.com","action2@contoso.com","action3@contoso.com"]`
 
-  https://webhookUri1.webhook.com, http://webhookUri2.webhook.com
+  `["https://webhookUri1.webhook.com","http://webhookUri2.webhook.com"]`
 
   {{< /hint >}}
 
