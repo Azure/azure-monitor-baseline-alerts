@@ -7,6 +7,8 @@ weight: 10
 
 ## Overview
 
+AMBA for ALZ is a best practice collection of alerts for resources commonly deployed into Azure landing zones and demonstrates how to deploy alerts at scale using Azure Policy.
+
 One of the most common questions faced when working with customers is, "What should we monitor in Azure?" and "What thresholds should we configure our alerts for?"
 
 There isn't definitive list of what you should monitor when you deploy something to Azure because "it depends", on what services you're using and how the services are used, which will in turn dictate what you should monitor and what thresholds the metrics you do decide to collect are and what errors you should alert on in logs.
