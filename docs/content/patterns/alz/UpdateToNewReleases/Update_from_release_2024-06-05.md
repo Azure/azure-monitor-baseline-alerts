@@ -23,7 +23,7 @@ To run the script, complete the following steps:
 
   1. Open PowerShell
   2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph` (if not present)
-  3. Change directories to the location of the **Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1** script
+  3. Change directory to `patterns\alz\scripts`, there you find the **Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1** script
   4. Configure the ***$pseudoRootManagementGroup*** variable using the following command:
 
   ```powershell
@@ -40,12 +40,6 @@ To run the script, complete the following steps:
 
   ```powershell
   ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
-  ```
-
-  **Show output of what would happen if deletes executed:**
-
-  ```powershell
-  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
   **Delete policy definitions, policy set definitions, policy assignments and role assignments resources deployed by the AMBA-ALZ pattern without prompting for confirmation:**
