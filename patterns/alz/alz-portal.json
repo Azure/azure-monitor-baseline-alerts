@@ -697,13 +697,14 @@
               "name": "ALZMonitorActionGroupEmail",
               "type": "Microsoft.Common.TextBox",
               "label": "Email contact for action group notifications",
-              "toolTip": "Provide Email address to get email notifications from alerts.",
+              "toolTip": "Provide the email address(es) for the action group used for monitoring.",
               "visible": "[equals(steps('Notification').NotificationOption,'No')]",
-              "defaultValue": [],
+              "defaultValue": "[[]",
               "constraints": {
                 "required": false,
                 "regex": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
-                "validationMessage": "Please provide a valid email"
+                "validationMessage": "Please provide a valid email",
+                "validations": []
               }
             },
             {
@@ -712,11 +713,12 @@
               "label": "Webhook Service Uri",
               "toolTip": "The URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.",
               "visible": "[equals(steps('Notification').NotificationOption,'No')]",
-              "defaultValue": [],
+              "defaultValue": "[[]",
               "constraints": {
                 "required": false,
                 "regex": "",
-                "validationMessage": ""
+                "validationMessage": "",
+                "validations": []
               }
             },
             {
