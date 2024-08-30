@@ -569,6 +569,20 @@
               "visible": true
             },
             {
+              "name": "LandingZoneManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Landing Zone Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+                "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
+            },
+            {
               "name": "enableAMBAServiceHealth",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Service Health",
@@ -927,6 +941,7 @@
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
+        "LandingZoneManagementGroup": "[if(steps('Configuration').LandingZoneManagementGroup), steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones']",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
         "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule.id]",
         "deployAMBAPortalAccelerator": "Yes",
