@@ -62,7 +62,7 @@ param resourceIdColumn string = '_ResourceId'
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 30
+param threshold int = 25
 
 @description('The number of periods to check in the alert evaluation.')
 param numberOfEvaluationPeriods int = 1

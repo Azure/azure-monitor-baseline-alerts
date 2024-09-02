@@ -43,7 +43,7 @@ param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = 'InsightsMetrics| where Origin == "vm.azm.ms" | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs" | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk '
+param query string = 'InsightsMetrics| where Origin == "vm.azm.ms" | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs" | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"]) | where Disk in (\'C:\',\'/\') | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk '
 
 @description('Name of the measure column used in the alert evaluation.')
 param metricMeasureColumn string = 'AggregatedValue'
@@ -62,7 +62,7 @@ param resourceIdColumn string = '_ResourceId'
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 50
+param threshold int = 25
 
 @description('The number of periods to check in the alert evaluation.')
 param numberOfEvaluationPeriods int = 1
