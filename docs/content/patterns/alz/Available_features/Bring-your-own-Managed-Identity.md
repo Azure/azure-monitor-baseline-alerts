@@ -1,12 +1,12 @@
 ---
-title: Bring Your Own User Assigned Managed Identity (BYO UAMI)
+title: Bring Your Own User Assigned Managed Identity
 geekdocCollapseSection: true
-weight: 62
+weight: 95
 ---
 
 # Overview
 
-The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, available with release [2024-06-05](../Whats-New#2024-06-05), allows both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during the deployment of AMBA-ALZ. It also allows Brownfield customers, who deployed the ALZ pattern when this feature wasn't available, to use any existing one by configuring a couple of parameters. Thanks to this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language. Log-based search alerts can now be enhanced to include ARG queries looking at resource tags.
+The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, available with release [2024-06-05](../../Whats-New#2024-06-05), allows both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during or after the deployment of AMBA-ALZ. It also allows Brownfield customers, who deployed the ALZ pattern when this feature wasn't available, to use any existing one by configuring a couple of parameters. Thanks to this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language. Log-based search alerts can now be enhanced to include ARG queries looking at resource tags.
 
 # How this feature works
 
@@ -23,7 +23,10 @@ The deployment template has conditions that controls what is being deployed acco
 A. ***Customers want to use existing UAMI.*** In this scenario the deployment will:
 
 {{< hint type=Important >}}
-When using an existing UAMI provided by the customer, the customer has to grant the UAMI the ***Monitoring Reader*** role at the pseudo root Management Group level <ins>**before running the deployment.**</ins>
+Before executing the deployment, ensure that the existing UAMI is assigned the ***Monitoring Reader*** role at the pseudo root Management Group.
+
+It is probable that the UAMI you provide is located within the Management subscription beneath the Platform management group, whereas the Policy Assignment resides at the LandingZones management group. In this case, for the deployIfNotExists policies to have permission to assign the UAMI to the scheduled query rule, the ***Managed Identity Operator*** role must be granted to the system Managed Identity of the Initiative Assignment (```Deploy-AMBA-VM``` for the Virtual machine initiative, ```Deploy-AMBA-HybridVM``` for the Arc-enabled Servers initiative) at the UAMI scope.
+
 {{< /hint >}}
 
 - Not deploy any UAMI
@@ -32,7 +35,7 @@ When using an existing UAMI provided by the customer, the customer has to grant 
 
 Here's a sample extract of the parameter file with the relevant parameter configuration for this scenario:
 
-  ![Customer defined UAMI](../media/alz-UAMI-Param-Example-1.png)
+  ![Customer defined UAMI](../../media/alz-UAMI-Param-Example-1.png)
 
 B. ***Customers does not have an existing UAMI and want AMBA-ALZ to create a new one.*** In this scenario the deployment will:
 
@@ -46,13 +49,13 @@ When a new UAMI is created by the deployment template, the ***Monitoring Reader*
 
 Here's a sample extract of the parameter file with the relevant parameter configuration for this scenario:
 
-  ![New UAMI deployed by the template](../media/alz-UAMI-Param-Example-2.png)
+  ![New UAMI deployed by the template](../../media/alz-UAMI-Param-Example-2.png)
 
 ## Where is it used
 
 This new feature is used in Log-search based alerts. At the moment of this release, there's one alert using it. The alert is part of the new ***Deploy Azure Monitor Vaseline Alerts for Hybrid VMs*** policySet added to monitor hybrid virtual machine.
 
-![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../media/deploy-HybridVM-Alerts.png)
+![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
 
 {{< hint type=Info >}}
 We're planning to use this feature more in the future and to include it as part of other alerts.
@@ -60,11 +63,11 @@ We're planning to use this feature more in the future and to include it as part 
 
 ## Switching between BYO UAMI and new UAMI
 
-The [conditional deployment behavior](../alz/Bring-your-own-Managed-Identity.md#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from a new created UAMI to an existing one and viceversa.
+The [conditional deployment behavior](../../Available_features/Bring-your-own-Managed-Identity#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from a new created UAMI to an existing one and viceversa.
 Should customers decide to switch, it will be enough to:
 
 - Change the values in the parameter file to match one of the two scenarios previously discussed
 - Redeploy the AMBA-ALZ pattern
-- Run the remediation for the [Deploy Azure Monitor Baseline Alerts for Hybrid VMs](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json) policy initiative as documented at [Remediate Policies](../deploy/Remediate-Policies)
+- Run the remediation for the [Deploy Azure Monitor Baseline Alerts for Hybrid VMs](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json) policy initiative as documented at [Remediate Policies](../../deploy/Remediate-Policies)
 
 The code will reconfigure the necessary alerts to use either the customer's provided UAMI or the new one created during the deployment.

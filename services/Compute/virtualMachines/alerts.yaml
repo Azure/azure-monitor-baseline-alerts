@@ -45,7 +45,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -163,7 +163,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -397,7 +397,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 30
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -419,6 +419,8 @@
       | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
 
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk
@@ -477,6 +479,8 @@
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
 
+      | where Disk in (''C:'',''/'')
+
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk
 
@@ -511,7 +515,7 @@
     timeAggregation: Average
     windowSize: PT15M
     evaluationFrequency: PT5M
-    threshold: 50
+    threshold: 25
     metricMeasureColumn: AggregatedValue
     resouceIdColumn: _ResourceId
     dimensions:
@@ -531,6 +535,8 @@
       | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
 
       | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+
+      | where Disk in (''C:'',''/'')
 
       | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer,
       _ResourceId, Disk

@@ -4,10 +4,6 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
-{{< hint type=Important >}}
-Updating from the _**preview**_ version isn't supported. If you deployed the _**preview**_ version, proceed with [Moving from preview to GA](../../Moving-from-preview-to-GA) before continuing.
-{{< /hint >}}
-
 The following guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When you deploy one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Policy Set Definitions in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
 
 1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Policy Set Definition.
@@ -23,7 +19,7 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-08-30/patterns/alz/alzArm.param.json)
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
@@ -190,7 +186,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-03-01/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-08-30/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>

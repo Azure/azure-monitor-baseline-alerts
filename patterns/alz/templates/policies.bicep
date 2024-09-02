@@ -127,12 +127,12 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-OriginLatency-Alert.json')
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage4XX-Alert.json')
     loadTextContent('../../../services/Cdn/profiles/Deploy-CDNP-Percentage5XX-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-AvailableMemory-Alert.json')
+    //loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-AvailableMemory-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-DataDiskWriteLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-HeartBeat-Alert.json')
-    loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-HeartBeatAlertRG.json')
+    //loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-HeartBeatAlertRG.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-NetworkIn-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-NetworkOut-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskReadLatency-Alert.json')
@@ -162,26 +162,11 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/publicIPAddresses/Deploy-PIP-VIPAvailability-Alert.json')
     loadTextContent('../../../services/Network/virtualNetworks/Deploy-VNET-DDOSAttack-Alert.json')
 
-    // Used in LandingZoneHybrid policy definitions only
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-AvailableMemory-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskSpace-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeat-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeatAlertRG.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkIn-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkOut-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskReadLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskSpace-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-OSDiskWriteLatency-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentCPU-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-PercentMemory-Alert.json')
-    loadTextContent('../../../services/HybridCompute/machines/Deploy-Hybrid-VM-Disconnected-Alert.json')
-
     // Used in Management policy definitions only
     loadTextContent('../../../services/Automation/automationAccounts/Deploy-AA-TotalJob-Alert.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json')
+    loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-LAWorkspace-DailyCapLimitReached-Alert.json')
 
     // Used in both LandingZone and Management policy definitions
     loadTextContent('../../../services/storage/storageAccounts/Deploy-SA-Availability-Alert.json')
@@ -217,7 +202,6 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Notification-Assets.json'))
-    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []

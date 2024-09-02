@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    This script cleans up the resources deployed by the ALZ-Monitor automation, including alerts, policy assignments, policy definitions, and policy assignment role assignments.
+    This script cleans up the resources deployed by the ALZ-Monitor automation, including alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments.
 .DESCRIPTION
 
 .NOTES

@@ -4,9 +4,9 @@
   "name": "Alerting-HybridVM",
   "properties": {
     "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid VMs",
-    "description": "Initiative to deploy AMBA Hybrid VM alerts",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.",
     "metadata": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -40,6 +40,27 @@
           "displayName": "ALZ Monitor Resource Group Location",
           "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
         }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       },
       "ALZUserAssignedManagedIdentityName": {
         "type": "string",
@@ -168,11 +189,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Heart Beat RG Operator",
@@ -181,17 +198,31 @@
       },
       "HybridVMHeartBeatRGTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Heart Beat RG Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "HybridVMHeartBeatRGComputersToInclude": {
+        "type": "array",
+        "defaultValue": [
+          "*"
+        ],
+        "metadata": {
+          "displayName": "Hybrid VM Heart Beat RG Computers To Include",
+          "description": "Computers To Include for the alert"
+        }
+      },
+      "HybridVMHeartBeatRGFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "HybridVM Heart Beat RG Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "HybridVMNetworkInAlertSeverity": {
@@ -298,11 +329,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Network In Operator",
@@ -311,13 +338,9 @@
       },
       "HybridVMNetworkInTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Network In Time Aggregation",
@@ -348,16 +371,6 @@
         "metadata": {
           "displayName": "Hybrid VM Network In Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMNetworkInNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network In Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
         }
       },
       "HybridVMNetworkOutAlertSeverity": {
@@ -464,11 +477,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Network Out Operator",
@@ -477,13 +486,9 @@
       },
       "HybridVMNetworkOutTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Network Out Time Aggregation",
@@ -514,16 +519,6 @@
         "metadata": {
           "displayName": "Hybrid VM Network Out Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMNetworkOutNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network Out Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
         }
       },
       "HybridVMOSDiskReadLatencyAlertSeverity": {
@@ -630,11 +625,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Read Latency Operator",
@@ -643,13 +634,9 @@
       },
       "HybridVMOSDiskReadLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Read Latency Time Aggregation",
@@ -680,17 +667,6 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Read Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMOSDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMOSDiskWriteLatencyAlertSeverity": {
@@ -797,11 +773,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Write Latency Operator",
@@ -810,13 +782,9 @@
       },
       "HybridVMOSDiskWriteLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Write Latency Time Aggregation",
@@ -847,17 +815,6 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Write Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMOSDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMOSDiskSpaceAlertSeverity": {
@@ -962,13 +919,9 @@
       },
       "HybridVMOSDiskSpaceOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Space Operator",
@@ -977,13 +930,9 @@
       },
       "HybridVMOSDiskSpaceTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM OS Disk Space Time Aggregation",
@@ -1014,17 +963,6 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Space Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMOSDiskSpaceDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMPercentCPUAlertSeverity": {
@@ -1131,11 +1069,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent CPU Operator",
@@ -1144,17 +1078,21 @@
       },
       "HybridVMPercentCPUTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent CPU Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "HybridVMPercentCPUFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "Hybrid VM Percent CPU Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "HybridVMPercentMemoryAlertSeverity": {
@@ -1259,13 +1197,9 @@
       },
       "HybridVMPercentMemoryOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent Memory Operator",
@@ -1274,17 +1208,21 @@
       },
       "HybridVMPercentMemoryTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Percent Memory Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "HybridVMPercentMemoryFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "Hybrid VM Percent Memory Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "HybridVMDataDiskSpaceAlertSeverity": {
@@ -1389,13 +1327,9 @@
       },
       "HybridVMDataDiskSpaceOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Space Operator",
@@ -1404,13 +1338,9 @@
       },
       "HybridVMDataDiskSpaceTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Space Time Aggregation",
@@ -1433,14 +1363,14 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMDataDiskSpaceDisksToInclude": {
+      "HybridVMDataDiskSpaceComputersToInclude": {
         "type": "array",
         "defaultValue": [
           "*"
         ],
         "metadata": {
-          "displayName": "Hybrid VM Data Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
+          "displayName": "Hybrid VM Data Disk Space Computers To Include",
+          "description": "Computers To Include for the alert"
         }
       },
       "HybridVMDataDiskReadLatencyAlertSeverity": {
@@ -1547,11 +1477,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Read Latency Operator",
@@ -1560,13 +1486,9 @@
       },
       "HybridVMDataDiskReadLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Read Latency Time Aggregation",
@@ -1597,16 +1519,6 @@
         "metadata": {
           "displayName": "Hybrid VM Data Disk Read Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "HybridVMDataDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "HybridVMDataDiskWriteLatencyAlertSeverity": {
@@ -1713,11 +1625,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Write Latency Operator",
@@ -1726,13 +1634,9 @@
       },
       "HybridVMDataDiskWriteLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "Hybrid VM Data Disk Write Latency Time Aggregation",
@@ -1765,16 +1669,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "HybridVMDataDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "HybridVMDisconnectedAlertSeverity": {
         "type": "String",
         "defaultValue": "1",
@@ -1804,8 +1698,15 @@
       },
       "HybridVMDisconnectedAlertEvaluationFrequency": {
         "type": "string",
-        "defaultValue": "P1D",
+        "defaultValue": "PT10M",
         "allowedValues": [
+          "PT5M",
+          "PT10M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT2H",
+          "PT6H",
           "PT12H",
           "P1D"
         ],
@@ -1842,20 +1743,34 @@
           "description": "Alert state for the alert, true will enable the alert, false will disable the alert"
         }
       },
-      "HybridVMDisconnectedAlertDaysThreshold": {
+      "HybridVMDisconnectedAlertThreshold": {
         "type": "string",
-        "defaultValue": "45",
+        "defaultValue": "10m",
+        "allowedValues": [
+          "5m",
+          "10m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "3h",
+          "6h",
+          "12h",
+          "1d",
+          "2d",
+          "3d",
+          "7d"
+        ],
         "metadata": {
-          "displayName": "Hybrid VM Disconnected Days Threshold",
-          "description": "Threshold in days for the Hybrid VM Disconnected alert"
+          "displayName": "Hybrid VM Disconnected Threshold (expressed in timespan)",
+          "description": "Threshold in timespan value for the Hybrid VM Disconnected alert"
         }
       },
       "HybridVMDisconnectedAlertOperator": {
         "type": "string",
-        "defaultValue": "GreaterThanOrEqual",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "GreaterThan",
-          "GreaterThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "Hybrid VM Disconnected Operator",
@@ -1864,12 +1779,8 @@
       },
       "HybridVMDisconnectedAlertTimeAggregation": {
         "type": "string",
-        "defaultValue": "Minimum",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Maximum",
-          "Minimum",
-          "Total",
           "Count"
         ],
         "metadata": {
@@ -1899,6 +1810,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMHeartBeatRG",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_HeartBeat_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -1940,6 +1854,18 @@
           },
           "timeAggregation": {
             "value": "[[parameters('HybridVMHeartBeatRGTimeAggregation')]"
+          },
+          "computersToInclude": {
+            "value": "[[parameters('HybridVMHeartBeatRGComputersToInclude')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('HybridVMHeartBeatRGFailingPeriods')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -1947,6 +1873,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMNetworkIn",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkIn_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMNetworkInAlertSeverity')]"
           },
@@ -1989,9 +1918,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMNetworkInComputersToInclude')]"
           },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('HybridVMNetworkInNetworkInterfaceToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2000,6 +1926,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2007,6 +1939,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMNetworkOut",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkOut_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMNetworkOutAlertSeverity')]"
           },
@@ -2049,9 +1984,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMNetworkOutComputersToInclude')]"
           },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('HybridVMNetworkOutNetworkInterfaceToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2060,6 +1992,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2067,6 +2005,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskreadLatency_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyAlertSeverity')]"
           },
@@ -2109,9 +2050,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskReadLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2120,6 +2058,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2127,6 +2071,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskwriteLatency_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyAlertSeverity')]"
           },
@@ -2169,9 +2116,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2180,6 +2124,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2187,6 +2137,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskSpace_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMOSDiskSpaceAlertSeverity')]"
           },
@@ -2229,9 +2182,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMOSDiskSpaceComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMOSDiskSpaceDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2240,6 +2190,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2247,6 +2203,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMPercentCPU",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_CPU_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMPercentCPUAlertSeverity')]"
           },
@@ -2280,6 +2239,9 @@
           "timeAggregation": {
             "value": "[[parameters('HybridVMPercentCPUTimeAggregation')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('HybridVMPercentCPUFailingPeriods')]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2288,6 +2250,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2295,6 +2263,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMPercentMemory",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Memory_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMPercentMemoryAlertSeverity')]"
           },
@@ -2328,6 +2299,9 @@
           "timeAggregation": {
             "value": "[[parameters('HybridVMPercentMemoryTimeAggregation')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('HybridVMPercentMemoryFailingPeriods')]"
+          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2336,6 +2310,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2343,6 +2323,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskSpace",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskSpace_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskSpaceAlertSeverity')]"
           },
@@ -2382,8 +2365,8 @@
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMDataDiskSpaceEvaluationPeriods')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskSpaceDisksToInclude')]"
+          "computersToInclude": {
+            "value": "[[parameters('HybridVMDataDiskSpaceComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2393,6 +2376,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2400,6 +2389,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskReadLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskReadLatency_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyAlertSeverity')]"
           },
@@ -2442,9 +2434,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskReadLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2453,6 +2442,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2460,6 +2455,9 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskWriteLatency",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskWriteLatency_Alert",
         "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
           "severity": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyAlertSeverity')]"
           },
@@ -2502,9 +2500,6 @@
           "computersToInclude": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('HybridVMDataDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -2513,6 +2508,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -2520,14 +2521,8 @@
         "policyDefinitionReferenceId": "ALZ_HybridVMDisconnected",
         "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
         "parameters": {
-          "userAssignedManagedIdentityName": {
-            "value": "[[parameters('ALZUserAssignedManagedIdentityName')]"
-          },
-          "managementSubscriptionId": {
-            "value": "[[parameters('ALZManagementSubscriptionId')]"
-          },
-          "BYOUserAssignedManagedIdentityResourceId": {
-            "value": "[[parameters('BYOUserAssignedManagedIdentityResourceId')]"
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "severity": {
             "value": "[[parameters('HybridVMDisconnectedAlertSeverity')]"
@@ -2548,7 +2543,7 @@
             "value": "[[parameters('HybridVMDisconnectedAlertState')]"
           },
           "threshold": {
-            "value": "[[parameters('HybridVMDisconnectedAlertDaysThreshold')]"
+            "value": "[[parameters('HybridVMDisconnectedAlertThreshold')]"
           },
           "operator": {
             "value": "[[parameters('HybridVMDisconnectedAlertOperator')]"
@@ -2570,6 +2565,12 @@
           },
           "alertResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

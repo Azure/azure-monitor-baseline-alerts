@@ -8,7 +8,7 @@
     "displayName": "Deploy Activity Log Storage Account Delete Alert",
     "description": "Policy to Deploy Activity Log Storage Account Delete Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -67,13 +67,26 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Monitoring disabled",
+          "displayName": "ALZ Monitoring disabled tag name",
           "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -84,8 +97,8 @@
             "equals": "Microsoft.Storage/storageAccounts"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },

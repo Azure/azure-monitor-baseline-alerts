@@ -1,0 +1,2444 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "name": "Alerting-LoadBalancing",
+  "properties": {
+    "displayName": "Deploy Azure Monitor Baseline Alerts for Load Balancing",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Monitoring",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "_deployed_by_amba": true
+    },
+    "parameters": {
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
+      "PIPDDoSAttackAlertSeverity": {
+        "type": "String",
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "PIP DDoS Attack Alert Severity",
+          "description": "Severity of the alert for PIP DDoS Attack"
+        }
+      },
+      "PIPDDoSAttackWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "PIP DDoS Attack Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "PIPDDoSAttackEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "PIP DDoS Attack Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "PIPDDoSAttackPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "PIP DDoS Attack Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "PIPDDoSAttackAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "PIP DDoS Attack Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "PIPDDoSAttackThreshold": {
+        "type": "string",
+        "defaultValue": "0",
+        "metadata": {
+          "displayName": "PIP DDoS Attack Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "PIPPacketsInDDoSAlertSeverity": {
+        "type": "String",
+        "defaultValue": "4",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Alert Severity",
+          "description": "Severity of the alert for PIP Packets In DDoS"
+        }
+      },
+      "PIPPacketsInDDoSWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "PIPPacketsInDDoSEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "PIPPacketsInDDoSPolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "PIPPacketsInDDoSAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "PIPPacketsInDDoSThreshold": {
+        "type": "string",
+        "defaultValue": "40000",
+        "metadata": {
+          "displayName": "PIP Packets In DDoS Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "PIPVIPAvailabilityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "PIP VIP Availability Alert Severity",
+          "description": "Severity of the alert for PIP VIP Availability"
+        }
+      },
+      "PIPVIPAvailabilityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "PIP VIP Availability Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "PIPVIPAvailabilityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "PIP VIP Availability Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "PIPVIPAvailabilityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "PIP VIP Availability Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "PIPVIPAvailabilityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "PIP VIP Availability Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "PIPVIPAvailabilityThreshold": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "PIP VIP Availability Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "PIPBytesInDDoSAlertSeverity": {
+        "type": "String",
+        "defaultValue": "4",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Alert Severity",
+          "description": "Severity of the alert for PIP Bytes In DDoS"
+        }
+      },
+      "PIPBytesInDDoSWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "PIPBytesInDDoSEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "PIPBytesInDDoSPolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "PIPBytesInDDoSAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "PIPBytesInDDoSThreshold": {
+        "type": "string",
+        "defaultValue": "8000000",
+        "metadata": {
+          "displayName": "PIP Bytes In DDoS Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "VNETDDOSAttackAlertSeverity": {
+        "type": "String",
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "VNET DDoS Attack Alert Severity",
+          "description": "Severity of the alert for VNET DDoS Attack"
+        }
+      },
+      "VNETDDOSAttackWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "VNET DDoS Attack Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "VNETDDOSAttackEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "VNET DDoS Attack Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "VNETDDOSAttackPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "VNET DDoS Attack Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "VNETDDOSAttackAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "VNET DDoS Attack Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "VNETDDOSAttackThreshold": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "VNET DDoS Attack Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Total Time Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Severity of the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWCapacityUnitsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Capacity Units Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWCapacityUnitsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Capacity Units Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWCapacityUnitsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Capacity Units Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWCapacityUnitsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Capacity Units Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWCapacityUnitsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Capacity Units Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWComputeUnitsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Compute Units Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWComputeUnitsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Compute Units Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWComputeUnitsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Compute Units Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWComputeUnitsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Compute Units Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWComputeUnitsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Compute Units Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWCPUUtilAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW CPU Util Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWCPUUtilWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW CPU Util Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWCPUUtilEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW CPU Util Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWCPUUtilPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW CPU Util Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWCPUUtilAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW CPU Util Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWFailedRequestsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWFailedRequestsAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
+      "AGWFailedRequestsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWFailedRequestsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWFailedRequestsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWFailedRequestsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Failed Requests Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWResponseStatusAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWResponseStatusAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
+      "AGWResponseStatusWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWResponseStatusEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWResponseStatusPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWResponseStatusAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Response Status Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "AGWUnhealthyHostCountAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "AGWUnhealthyHostCountWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "AGWUnhealthyHostCountEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "AGWUnhealthyHostCountPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "AGWUnhealthyHostCountAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "LBDatapathAvailabilityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "0",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "LB Data path Availability Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "LBDatapathAvailabilityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "LB Data path Availability Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "LBDatapathAvailabilityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "LB Data path Availability Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "LBDatapathAvailabilityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "LB Data path Availability Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "LBDatapathAvailabilityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "LB Data path Availability Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "LBGlobalBackendAvailabilityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "0",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "LB Global Backend Availability Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "LBGlobalBackendAvailabilityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "LB Global Backend Availability Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "LBGlobalBackendAvailabilityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "LB Global Backend Availability Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "LBGlobalBackendAvailabilityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "LB Global Backend Availability Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "LBGlobalBackendAvailabilityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "LB Global Backend Availability Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "LBHealthProbeStatusAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "LB Health Probe Status Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "LBHealthProbeStatusWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "LB Health Probe Status Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "LBHealthProbeStatusEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "LB Health Probe Status Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "LBHealthProbeStatusPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "LB Health Probe Status Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "LBHealthProbeStatusAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "LB Health Probe Status Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "LBUsedSNATPortsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "1",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "LB Used SNAT Ports Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "LBUsedSNATPortsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "LB Used SNAT Ports Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "LBUsedSNATPortsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "LB Used SNAT Ports Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "LBUsedSNATPortsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "LB Used SNAT Ports Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "LBUsedSNATPortsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "LB Used SNAT Ports Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "CDNPOriginHealthPercentageAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Health Percentage Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "CDNPOriginHealthPercentageWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Health Percentage Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "CDNPOriginHealthPercentageEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Health Percentage Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "CDNPOriginHealthPercentagePolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Health Percentage Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "CDNPOriginHealthPercentageAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "CDN Origin Health Percentage Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "CDNPOriginLatencyAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Latancy Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "CDNPOriginLatencyWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Latency Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "CDNPOriginLatencyEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Latency Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "CDNPOriginLatencyPolicyEffect": {
+        "type": "string",
+        "defaultValue": "disabled",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "CDN Origin Latency Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "CDNPOriginLatencyAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "CDN Origin Latency Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "CDNPPercentage4XXAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "CDNPPercentage4XXWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "CDNPPercentage4XXEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "CDNPPercentage4XXPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "CDNPPercentage4XXAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "CDNPPercentage5XXAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "CDNPPercentage5XXWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "CDNPPercentage5XXEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "CDNPPercentage5XXPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "CDNPPercentage5XXAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "TMEndpointHealthAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "TM Enpoint Health Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "TMEndpointHealthWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "TM Enpoint Health Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "TMEndpointHealthEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "TM Enpoint Health Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "TMEndpointHealthPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "TM Enpoint Health Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "TMEndpointHealthAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "TM Enpoint Health Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "FDBackendHealthAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "FDBackendHealthWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "FDBackendHealthEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "FDBackendHealthPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Health Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "FDBackendHealthAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "FD Backend Health Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "FDBackendRequestLatencyAlertSeverity": {
+        "type": "String",
+        "defaultValue": "2",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Alert Severity",
+          "description": "Severity of the alert"
+        }
+      },
+      "FDBackendRequestLatencyWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "FDBackendRequestLatencyEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "FDBackendRequestLatencyPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "FD Backend Request Latency Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist, disabled will not deploy the alert"
+        }
+      },
+      "FDBackendRequestLatencyAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "FD Backend Request Latency Alert State",
+          "description": "Alert state for the alert"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoS",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('PIPBytesInDDoSAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('PIPBytesInDDoSWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('PIPBytesInDDoSEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('PIPBytesInDDoSPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('PIPBytesInDDoSAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('PIPBytesInDDoSThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('PIPDDoSAttackAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('PIPDDoSAttackWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('PIPDDoSAttackEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('PIPDDoSAttackPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('PIPDDoSAttackAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('PIPDDoSAttackThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('PIPPacketsInDDoSAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('PIPPacketsInDDoSWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('PIPPacketsInDDoSEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('PIPPacketsInDDoSPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('PIPPacketsInDDoSAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('PIPPacketsInDDoSThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('PIPVIPAvailabilityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('PIPVIPAvailabilityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('PIPVIPAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('PIPVIPAvailabilityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('PIPVIPAvailabilityAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('PIPVIPAvailabilityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('VNETDDOSAttackAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('VNETDDOSAttackWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('VNETDDOSAttackEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('VNETDDOSAttackPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('VNETDDOSAttackAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('VNETDDOSAttackThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWTotalTime",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSensitivity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWBackendLastByteResponseTime",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSensitivity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWCapacityUnits",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWCapacityUnitsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWCapacityUnitsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWCapacityUnitsEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWCapacityUnitsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWCapacityUnitsAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWComputeUnits",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWComputeUnitsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWComputeUnitsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWComputeUnitsEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWComputeUnitsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWComputeUnitsAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWCPUUtilization",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWCPUUtilAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWCPUUtilWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWCPUUtilEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWCPUUtilPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWCPUUtilAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWFailedRequests",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWFailedRequestsAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWFailedRequestsAlertSensitivity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWFailedRequestsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWFailedRequestsEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWFailedRequestsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWFailedRequestsAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWResponseStatus",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWResponseStatusAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWResponseStatusAlertSensitivity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWResponseStatusWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWResponseStatusEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWResponseStatusPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWResponseStatusAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AGWUnhealthyHostCount",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('AGWUnhealthyHostCountAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AGWUnhealthyHostCountWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AGWUnhealthyHostCountEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('AGWUnhealthyHostCountPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AGWUnhealthyHostCountAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LBDataPathAvailability",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('LBDataPathAvailabilityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LBDataPathAvailabilityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LBDataPathAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('LBDataPathAvailabilityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LBDataPathAvailabilityAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LBGlobalBackendAvailability",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('LBGlobalBackendAvailabilityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LBGlobalBackendAvailabilityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LBGlobalBackendAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('LBGlobalBackendAvailabilityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LBGlobalBackendAvailabilityAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LBHealthProbeStatus",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('LBHealthProbeStatusAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LBHealthProbeStatusWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LBHealthProbeStatusEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('LBHealthProbeStatusPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LBHealthProbeStatusAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_LBUsedSNATPorts",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('LBUsedSNATPortsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('LBUsedSNATPortsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('LBUsedSNATPortsEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('LBUsedSNATPortsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('LBUsedSNATPortsAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_CDNPOriginHealthPercentage",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('CDNPOriginHealthPercentageAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('CDNPOriginHealthPercentageWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('CDNPOriginHealthPercentageEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('CDNPOriginHealthPercentagePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('CDNPOriginHealthPercentageAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_CDNPOriginLatency",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('CDNPOriginLatencyAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('CDNPOriginLatencyWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('CDNPOriginLatencyEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('CDNPOriginLatencyPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('CDNPOriginLatencyAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_CDNPPercentage4XX",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('CDNPPercentage4XXAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('CDNPPercentage4XXWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('CDNPPercentage4XXEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('CDNPPercentage4XXPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('CDNPPercentage4XXAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_CDNPPercentage5XX",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('CDNPPercentage5XXAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('CDNPPercentage5XXWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('CDNPPercentage5XXEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('CDNPPercentage5XXPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('CDNPPercentage5XXAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_TMEndpointHealth",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('TMEndpointHealthAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('TMEndpointHealthWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('TMEndpointHealthEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('TMEndpointHealthPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('TMEndpointHealthAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_FDBackendHealth",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('FDBackendHealthAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('FDBackendHealthWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('FDBackendHealthEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('FDBackendHealthPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('FDBackendHealthAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_FDBackendRequestLatency",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('FDBackendRequestLatencyAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('FDBackendRequestLatencyWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('FDBackendRequestLatencyEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[[parameters('FDBackendRequestLatencyPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('FDBackendRequestLatencyAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      }
+    ],
+    "policyType": "Custom",
+    "policyDefinitionGroups": null
+  }
+}

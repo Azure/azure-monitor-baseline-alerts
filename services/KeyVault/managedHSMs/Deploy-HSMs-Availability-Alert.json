@@ -1,15 +1,15 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_Hybrid_VM_AvailableMemory_Alert",
+  "name": "Deploy_ManagedHSMs_Availability_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Hybrid VM Available Memory Alert",
-    "description": "Policy to audit/deploy VM Available Memory Alert",
+    "displayName": "Deploy Managed HSMs Availability Alert",
+    "description": "Policy to audit/deploy Managed HSMs Availability Alert",
     "metadata": {
       "version": "1.0.0",
-      "category": "Hybrid Compute",
+      "category": "Key Vault",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -30,7 +30,7 @@
           "3",
           "4"
         ],
-        "defaultValue": "2"
+        "defaultValue": "1"
       },
       "windowSize": {
         "type": "String",
@@ -63,7 +63,7 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M"
+        "defaultValue": "PT1M"
       },
       "autoMitigate": {
         "type": "String",
@@ -95,7 +95,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "1000"
+        "defaultValue": "90"
       },
       "effect": {
         "type": "String",
@@ -109,13 +109,26 @@
         ],
         "defaultValue": "disabled"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -123,11 +136,11 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.HybridCompute/machines"
+            "equals": "microsoft.keyvault/managedHSMs"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -141,16 +154,16 @@
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                "equals": "Microsoft.HybridCompute/machines"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "Microsoft.KeyVault/ManagedHSMs"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
-                "equals": "Available Memory Bytes"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "Availability"
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/', field('fullName'))]"
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/managedHSMs/', field('fullName'))]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -177,12 +190,12 @@
                 "equals": "Average"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].operator",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                 "equals": "LessThan"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
+                "equals": "[[if(contains(field('tags'), '_amba-Availability-threshold-Override_'), field('tags._amba-Availability-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -231,13 +244,13 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-AvailableMemoryAlert')]",
+                    "name": "[[concat(parameters('resourceName'), '-Availability')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "description": "Metric Alert for Virtual Machine Available Memory (MBytes)",
+                      "description": "Metric Alert for ManagedHSM Availability",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [
@@ -248,9 +261,9 @@
                       "criteria": {
                         "allOf": [
                           {
-                            "name": "Average_AvailableMBytes",
-                            "metricNamespace": "Microsoft.HybridCompute/machines",
-                            "metricName": "Available Memory Bytes",
+                            "name": "Availability",
+                            "metricNamespace": "microsoft.keyvault/managedHSMs",
+                            "metricName": "Availability",
                             "operator": "LessThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
@@ -307,7 +320,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-Availability-threshold-Override_'), field('tags._amba-Availability-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

@@ -1,0 +1,449 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.29.47.4906",
+      "templateHash": "12245342858017362291"
+    }
+  },
+  "parameters": {
+    "topLevelManagementGroupPrefix": {
+      "type": "string",
+      "defaultValue": "alz",
+      "metadata": {
+        "message": "The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!",
+        "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\""
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[deployment().location]",
+      "metadata": {
+        "description": "Optionally set the deployment location for policies with Deploy If Not Exists effect. DEFAULT VALUE = \"deployment().location\""
+      }
+    },
+    "scope": {
+      "type": "string",
+      "defaultValue": "[tenantResourceId('Microsoft.Management/managementGroups', parameters('topLevelManagementGroupPrefix'))]",
+      "metadata": {
+        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Management/managementGroups/id'. DEFAULT VALUE = '/providers/Microsoft.Management/managementGroups/${topLevelManagementGroupPrefix}'"
+      }
+    }
+  },
+  "variables": {
+    "copy": [
+      {
+        "name": "processPolicyDefinitionsAll",
+        "count": "[length(variables('loadPolicyDefinitions').All)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').All[copyIndex('processPolicyDefinitionsAll')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureCloud",
+        "count": "[length(variables('loadPolicyDefinitions').AzureCloud)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureCloud[copyIndex('processPolicyDefinitionsAzureCloud')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureChinaCloud",
+        "count": "[length(variables('loadPolicyDefinitions').AzureChinaCloud)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureChinaCloud[copyIndex('processPolicyDefinitionsAzureChinaCloud')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureUSGovernment",
+        "count": "[length(variables('loadPolicyDefinitions').AzureUSGovernment)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureUSGovernment[copyIndex('processPolicyDefinitionsAzureUSGovernment')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAll",
+        "count": "[length(variables('loadPolicySetDefinitions').All)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').All[copyIndex('processPolicySetDefinitionsAll')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureCloud",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureCloud)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureCloud[copyIndex('processPolicySetDefinitionsAzureCloud')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureChinaCloud",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureChinaCloud)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureChinaCloud[copyIndex('processPolicySetDefinitionsAzureChinaCloud')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureUSGovernment",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureUSGovernment)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureUSGovernment[copyIndex('processPolicySetDefinitionsAzureUSGovernment')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "policyDefinitionsAll",
+        "count": "[length(variables('processPolicyDefinitionsAll'))]",
+        "input": "[json(variables('processPolicyDefinitionsAll')[copyIndex('policyDefinitionsAll')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureCloud",
+        "count": "[length(variables('processPolicyDefinitionsAzureCloud'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureCloud')[copyIndex('policyDefinitionsAzureCloud')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureChinaCloud",
+        "count": "[length(variables('processPolicyDefinitionsAzureChinaCloud'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureChinaCloud')[copyIndex('policyDefinitionsAzureChinaCloud')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureUSGovernment",
+        "count": "[length(variables('processPolicyDefinitionsAzureUSGovernment'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureUSGovernment')[copyIndex('policyDefinitionsAzureUSGovernment')])]"
+      },
+      {
+        "name": "policySetDefinitionsAll",
+        "count": "[length(variables('processPolicySetDefinitionsAll'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAll')[copyIndex('policySetDefinitionsAll')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureCloud",
+        "count": "[length(variables('processPolicySetDefinitionsAzureCloud'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureCloud')[copyIndex('policySetDefinitionsAzureCloud')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureChinaCloud",
+        "count": "[length(variables('processPolicySetDefinitionsAzureChinaCloud'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureChinaCloud')[copyIndex('policySetDefinitionsAzureChinaCloud')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureUSGovernment",
+        "count": "[length(variables('processPolicySetDefinitionsAzureUSGovernment'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureUSGovernment')[copyIndex('policySetDefinitionsAzureUSGovernment')])]"
+      }
+    ],
+    "$fxv#0": "{\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\n  \"apiVersion\": \"2021-06-01\",\n  \"name\": \"Deploy_AlertProcessing_Rule\",\n  \"properties\": {\n    \"policyType\": \"Custom\",\n    \"mode\": \"All\",\n    \"displayName\": \"Deploy AMBA Notification Assets\",\n    \"description\": \"Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts\",\n    \"metadata\": {\n      \"version\": \"1.3.0\",\n      \"category\": \"Monitoring\",\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\n      \"alzCloudEnvironments\": [\n        \"AzureCloud\"\n      ],\n      \"_deployed_by_amba\": \"True\"\n    },\n    \"parameters\": {\n      \"ALZMonitorResourceGroupName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Name\",\n          \"description\": \"Resource group the alert is placed in\"\n        },\n        \"defaultValue\": \"rg-amba-monitoring-001\"\n      },\n      \"ALZMonitorResourceGroupTags\": {\n        \"type\": \"Object\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Tags\",\n          \"description\": \"Tags on the Resource group the alert is placed in\"\n        },\n        \"defaultValue\": {\n          \"_deployed_by_amba\": true\n        }\n      },\n      \"ALZMonitorResourceGroupLocation\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Location\",\n          \"description\": \"Location of the Resource group the alert is placed in\"\n        },\n        \"defaultValue\": \"centralus\"\n      },\n      \"ALZMonitorActionGroupEmail\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n          \"displayName\": \"Action Group Email Addresses\",\n          \"description\": \"Email addresses to send alerts to\"\n        },\n        \"defaultValue\": []\n      },\n      \"ALZLogicappResourceId\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Logic App Resource Id\",\n          \"description\": \"Logic App Resource Id for Action Group to send alerts to\"\n        },\n        \"defaultValue\": \"\"\n      },\n      \"ALZLogicappCallbackUrl\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Logic App Callback URL\",\n          \"description\": \"Callback URL that triggers the Logic App\"\n        },\n        \"defaultValue\": \"\"\n      },\n      \"ALZArmRoleId\": {\n        \"type\": \"array\",\n        \"metadata\": {\n          \"displayName\": \"Arm Role Ids\",\n          \"description\": \"Arm Built-in Role Ids for action group to send alerts to\"\n        },\n        \"defaultValue\": []\n      },\n      \"ALZEventHubResourceId\": {\n        \"type\": \"array\",\n        \"metadata\": {\n          \"displayName\": \"Event Hub resource Ids\",\n          \"description\": \"Event Hub resource Ids for action group to send alerts to\"\n        },\n        \"defaultValue\": []\n      },\n      \"ALZWebhookServiceUri\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n          \"displayName\": \"Webhook Service Uri(s)\",\n          \"description\": \"Indicates the service uri(s) of the webhook to send alerts to\"\n        },\n        \"defaultValue\": []\n      },\n      \"ALZFunctionResourceId\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Function Resource Id\",\n          \"description\": \"Function Resource Id for Action Group to send alerts to\"\n        },\n        \"defaultValue\": \"\"\n      },\n      \"ALZFunctionTriggerUrl\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Function Trigger URL\",\n          \"description\": \"URL that triggers the Function\"\n        },\n        \"defaultValue\": \"\"\n      },\n      \"BYOActionGroup\": {\n        \"type\": \"array\",\n        \"metadata\": {\n          \"displayName\": \"Customer defined Action Group Resource IDs\",\n          \"description\": \"The Resource IDs of existing Action Groups currently deployed in the environment.\"\n        },\n        \"defaultValue\": []\n      },\n      \"BYOAlertProcessingRule\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Customer defined Alert Processing Rule Resource ID\",\n          \"description\": \"The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment\"\n        },\n        \"defaultValue\": \"\"\n      },\n      \"MonitorDisableTagName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\n          \"description\": \"Tag name to disable monitoring. Set to true if monitoring should be disabled\"\n        },\n        \"defaultValue\": \"MonitorDisable\"\n      },\n      \"MonitorDisableTagValues\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\n        },\n        \"defaultValue\": [\n          \"true\",\n          \"Test\",\n          \"Dev\",\n          \"Sandbox\"\n        ]\n      }\n    },\n    \"policyRule\": {\n      \"if\": {\n        \"allOf\": [\n          {\n            \"field\": \"type\",\n            \"equals\": \"Microsoft.Resources/subscriptions\"\n          },\n          {\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\n          },\n          {\n            \"value\": \"[[empty(parameters('BYOAlertProcessingRule'))]\",\n            \"equals\": \"true\"\n          }\n        ]\n      },\n      \"then\": {\n        \"effect\": \"deployIfNotExists\",\n        \"details\": {\n          \"roleDefinitionIds\": [\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\n          ],\n          \"type\": \"Microsoft.AlertsManagement/actionRules\",\n          \"existenceScope\": \"resourceGroup\",\n          \"resourceGroupName\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n          \"deploymentScope\": \"subscription\",\n          \"existenceCondition\": {\n            \"allOf\": [\n              {\n                \"field\": \"Microsoft.AlertsManagement/actionRules/description\",\n                \"equals\": \"AMBA Notification Assets - Alert Processing Rule for Subscription\"\n              }\n            ]\n          },\n          \"deployment\": {\n            \"location\": \"northeurope\",\n            \"properties\": {\n              \"mode\": \"incremental\",\n              \"template\": {\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\n                \"contentVersion\": \"1.0.0.0\",\n                \"parameters\": {\n                  \"ALZMonitorResourceGroupName\": {\n                    \"type\": \"string\"\n                  },\n                  \"ALZMonitorResourceGroupTags\": {\n                    \"type\": \"object\"\n                  },\n                  \"ALZMonitorResourceGroupLocation\": {\n                    \"type\": \"string\"\n                  },\n                  \"ALZMonitorActionGroupEmail\": {\n                    \"type\": \"Array\"\n                  },\n                  \"ALZLogicappResourceId\": {\n                    \"type\": \"string\"\n                  },\n                  \"ALZLogicappCallbackUrl\": {\n                    \"type\": \"String\"\n                  },\n                  \"ALZArmRoleId\": {\n                    \"type\": \"array\"\n                  },\n                  \"ALZEventHubResourceId\": {\n                    \"type\": \"array\"\n                  },\n                  \"ALZWebhookServiceUri\": {\n                    \"type\": \"Array\"\n                  },\n                  \"ALZFunctionResourceId\": {\n                    \"type\": \"string\"\n                  },\n                  \"ALZFunctionTriggerUrl\": {\n                    \"type\": \"String\"\n                  },\n                  \"BYOActionGroup\": {\n                    \"type\": \"array\"\n                  },\n                  \"BYOAlertProcessingRule\": {\n                    \"type\": \"String\"\n                  }\n                },\n                \"variables\": {\n                  \"varBYOAlertProcessingRule\": \"[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]\",\n                  \"varLogicAppReceivers\": [\n                    {\n                      \"name\": \"AlzLA-0\",\n                      \"resourceId\": \"[[if(empty(parameters('ALZLogicappResourceId')), null(), trim(parameters('ALZLogicappResourceId')))]\",\n                      \"callbackUrl\": \"[[if(empty(parameters('ALZLogicappCallbackUrl')), null(), trim(parameters('ALZLogicappCallbackUrl')))]\",\n                      \"useCommonSchema\": true\n                    }\n                  ],\n                  \"varAzureFunctionReceivers\": [\n                    {\n                      \"name\": \"AlzFa-0\",\n                      \"functionAppResourceId\": \"[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]\",\n                      \"functionName\": \"[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/')[10])]\",\n                      \"httpTriggerUrl\": \"[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]\",\n                      \"useCommonAlertSchema\": true\n                    }\n                  ],\n                  \"copy\": [\n                    {\n                      \"name\": \"varEmailReceivers\",\n                      \"count\": \"[[length(parameters('ALZMonitorActionGroupEmail'))]\",\n                      \"mode\": \"serial\",\n                      \"input\": {\n                        \"name\": \"[[concat('AlzMail-', indexOf(parameters('ALZMonitorActionGroupEmail'), parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]\",\n                        \"emailAddress\": \"[[trim(parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]\",\n                        \"useCommonSchema\": true\n                      }\n                    },\n                    {\n                      \"name\": \"varArmRoleReceivers\",\n                      \"count\": \"[[length(parameters('ALZArmRoleId'))]\",\n                      \"mode\": \"serial\",\n                      \"input\": {\n                        \"name\": \"[[concat('AlzARM-', indexOf(parameters('ALZArmRoleId'), parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]\",\n                        \"roleId\": \"[[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]\",\n                        \"useCommonSchema\": true\n                      }\n                    },\n                    {\n                      \"name\": \"varEventHubReceivers\",\n                      \"count\": \"[[length(parameters('ALZEventHubResourceId'))]\",\n                      \"mode\": \"serial\",\n                      \"input\": {\n                        \"name\": \"[[concat('AlzEH-', indexOf(parameters('ALZEventHubResourceId'), parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]))]\",\n                        \"subscriptionId\": \"[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[2])]\",\n                        \"eventHubNameSpace\": \"[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[8])]\",\n                        \"eventHubName\": \"[[if(empty(parameters('ALZEventHubResourceId')), null(), split(trim(parameters('ALZEventHubResourceId')[copyIndex('varEventHubReceivers')]),'/')[10])]\",\n                        \"useCommonAlertSchema\": true,\n                        \"tenantId\": \"[[subscription().tenantId]\"\n                      }\n                    },\n                    {\n                      \"name\": \"varWebhookReceivers\",\n                      \"count\": \"[[length(parameters('ALZWebhookServiceUri'))]\",\n                      \"mode\": \"serial\",\n                      \"input\": {\n                        \"name\": \"[[concat('AlzWh-', indexOf(parameters('ALZWebhookServiceUri'), parameters('ALZWebhookServiceUri')[copyIndex('varWebhookReceivers')]))]\",\n                        \"identifierUri\": \"null()\",\n                        \"objectId\": \"null()\",\n                        \"serviceUri\": \"[[trim(parameters('ALZWebhookServiceUri')[copyIndex('varWebhookReceivers')])]\",\n                        \"useCommonAlertSchema\": true,\n                        \"tenantId\": \"null()\",\n                        \"useAadAuth\": \"false\"\n                      }\n                    },\n                    {\n                      \"name\": \"varAGIds\",\n                      \"count\": \"[[length(parameters('BYOActionGroup'))]\",\n                      \"mode\": \"serial\",\n                      \"input\": \"[[trim(parameters('BYOActionGroup')[copyIndex('varAGIds')])]\"\n                    }\n                  ]\n                },\n                \"resources\": [\n                  {\n                    \"type\": \"Microsoft.Resources/resourceGroups\",\n                    \"apiVersion\": \"2021-04-01\",\n                    \"name\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n                    \"location\": \"[[parameters('ALZMonitorResourceGroupLocation')]\",\n                    \"tags\": \"[[parameters('ALZMonitorResourceGroupTags')]\"\n                  },\n                  {\n                    \"type\": \"Microsoft.Resources/deployments\",\n                    \"apiVersion\": \"2019-10-01\",\n                    \"name\": \"ActionGroupDeployment\",\n                    \"resourceGroup\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n                    \"dependsOn\": [\n                      \"[[concat('Microsoft.Resources/resourceGroups/', parameters('ALZMonitorResourceGroupName'))]\"\n                    ],\n                    \"properties\": {\n                      \"mode\": \"Incremental\",\n                      \"template\": {\n                        \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\n                        \"contentVersion\": \"1.0.0.0\",\n                        \"parameters\": {\n                          \"ALZMonitorResourceGroupName\": {\n                            \"type\": \"string\"\n                          },\n                          \"ALZMonitorActionGroupEmail\": {\n                            \"type\": \"Array\"\n                          },\n                          \"ALZLogicappResourceId\": {\n                            \"type\": \"string\"\n                          },\n                          \"ALZLogicappCallbackUrl\": {\n                            \"type\": \"string\"\n                          },\n                          \"ALZArmRoleId\": {\n                            \"type\": \"array\"\n                          },\n                          \"ALZEventHubResourceId\": {\n                            \"type\": \"array\"\n                          },\n                          \"ALZWebhookServiceUri\": {\n                            \"type\": \"Array\"\n                          },\n                          \"ALZFunctionResourceId\": {\n                            \"type\": \"string\"\n                          },\n                          \"ALZFunctionTriggerUrl\": {\n                            \"type\": \"string\"\n                          },\n                          \"BYOActionGroup\": {\n                            \"type\": \"array\"\n                          },\n                          \"BYOAlertProcessingRule\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"variables\": {},\n                        \"resources\": [\n                          {\n                            \"condition\": \"[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]\",\n                            \"type\": \"Microsoft.Insights/actionGroups\",\n                            \"apiVersion\": \"2023-01-01\",\n                            \"name\": \"[[concat('ag-AMBA-', subscription().displayName, '-001')]\",\n                            \"location\": \"Global\",\n                            \"tags\": {\n                              \"_deployed_by_amba\": true\n                            },\n                            \"properties\": {\n                              \"groupShortName\": \"ActGrp\",\n                              \"enabled\": true,\n                              \"emailReceivers\": \"[[if(empty(parameters('ALZMonitorActionGroupEmail')), null(), variables('varEmailReceivers'))]\",\n                              \"armRoleReceivers\": \"[[if(empty(parameters('ALZArmRoleId')), null(), variables('varArmRoleReceivers'))]\",\n                              \"logicAppReceivers\": \"[[if(empty(parameters('ALZLogicappResourceId')), null(), variables('varLogicAppReceivers'))]\",\n                              \"eventHubReceivers\": \"[[if(empty(parameters('ALZEventHubResourceId')), null(), variables('varEventHubReceivers'))]\",\n                              \"webhookReceivers\": \"[[if(empty(parameters('ALZWebhookServiceUri')), null(), variables('varWebhookReceivers'))]\",\n                              \"azureFunctionReceivers\": \"[[if(empty(parameters('ALZFunctionResourceId')), null(), variables('varAzureFunctionReceivers'))]\"\n                            }\n                          },\n                          {\n                            \"condition\": \"[[empty(parameters('BYOAlertProcessingRule'))]\",\n                            \"type\": \"Microsoft.AlertsManagement/actionRules\",\n                            \"apiVersion\": \"2021-08-08\",\n                            \"name\": \"[[concat('apr-AMBA-',subscription().displayName, '-001')]\",\n                            \"location\": \"Global\",\n                            \"dependsOn\": [\n                              \"[[concat('ag-AMBA-', subscription().displayName, '-001')]\"\n                            ],\n                            \"tags\": {\n                              \"_deployed_by_amba\": true\n                            },\n                            \"properties\": {\n                              \"scopes\": [\n                                \"[[subscription().Id]\"\n                              ],\n                              \"description\": \"AMBA Notification Assets - Alert Processing Rule for Subscription\",\n                              \"enabled\": true,\n                              \"actions\": [\n                                {\n                                  \"actiongroupIds\": \"[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')), variables('varAGIds'))]\",\n                                  \"actionType\": \"AddActionGroups\"\n                                }\n                              ]\n                            }\n                          }\n                        ]\n                      },\n                      \"parameters\": {\n                        \"ALZMonitorResourceGroupName\": {\n                          \"value\": \"[[parameters('ALZMonitorResourceGroupName')]\"\n                        },\n                        \"ALZMonitorActionGroupEmail\": {\n                          \"value\": \"[[parameters('ALZMonitorActionGroupEmail')]\"\n                        },\n                        \"ALZLogicappResourceId\": {\n                          \"value\": \"[[parameters('ALZLogicappResourceId')]\"\n                        },\n                        \"ALZLogicappCallbackUrl\": {\n                          \"value\": \"[[parameters('ALZLogicappCallbackUrl')]\"\n                        },\n                        \"ALZArmRoleId\": {\n                          \"value\": \"[[parameters('ALZArmRoleId')]\"\n                        },\n                        \"ALZEventHubResourceId\": {\n                          \"value\": \"[[parameters('ALZEventHubResourceId')]\"\n                        },\n                        \"ALZWebhookServiceUri\": {\n                          \"value\": \"[[parameters('ALZWebhookServiceUri')]\"\n                        },\n                        \"ALZFunctionResourceId\": {\n                          \"value\": \"[[parameters('ALZFunctionResourceId')]\"\n                        },\n                        \"ALZFunctionTriggerUrl\": {\n                          \"value\": \"[[parameters('ALZFunctionTriggerUrl')]\"\n                        },\n                        \"BYOActionGroup\": {\n                          \"value\": \"[[parameters('BYOActionGroup')]\"\n                        },\n                        \"BYOAlertProcessingRule\": {\n                          \"value\": \"[[parameters('BYOAlertProcessingRule')]\"\n                        }\n                      }\n                    }\n                  }\n                ]\n              },\n              \"parameters\": {\n                \"ALZMonitorResourceGroupName\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupName')]\"\n                },\n                \"ALZMonitorResourceGroupTags\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupTags')]\"\n                },\n                \"ALZMonitorResourceGroupLocation\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupLocation')]\"\n                },\n                \"ALZMonitorActionGroupEmail\": {\n                  \"value\": \"[[parameters('ALZMonitorActionGroupEmail')]\"\n                },\n                \"ALZLogicappResourceId\": {\n                  \"value\": \"[[parameters('ALZLogicappResourceId')]\"\n                },\n                \"ALZLogicappCallbackUrl\": {\n                  \"value\": \"[[parameters('ALZLogicappCallbackUrl')]\"\n                },\n                \"ALZArmRoleId\": {\n                  \"value\": \"[[parameters('ALZArmRoleId')]\"\n                },\n                \"ALZEventHubResourceId\": {\n                  \"value\": \"[[parameters('ALZEventHubResourceId')]\"\n                },\n                \"ALZWebhookServiceUri\": {\n                  \"value\": \"[[parameters('ALZWebhookServiceUri')]\"\n                },\n                \"ALZFunctionResourceId\": {\n                  \"value\": \"[[parameters('ALZFunctionResourceId')]\"\n                },\n                \"ALZFunctionTriggerUrl\": {\n                  \"value\": \"[[parameters('ALZFunctionTriggerUrl')]\"\n                },\n                \"BYOActionGroup\": {\n                  \"value\": \"[[parameters('BYOActionGroup')]\"\n                },\n                \"BYOAlertProcessingRule\": {\n                  \"value\": \"[[parameters('BYOAlertProcessingRule')]\"\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    "$fxv#1": "{\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\n  \"apiVersion\": \"2021-06-01\",\n  \"name\": \"Deploy_Suppression_AlertProcessing_Rule\",\n  \"properties\": {\n    \"policyType\": \"Custom\",\n    \"mode\": \"All\",\n    \"displayName\": \"Deploy AMBA Notification Suppression Asset\",\n    \"description\": \"Policy to deploy empty and disabled suppression Alert Processing Rule for all AMBA alerts\",\n    \"metadata\": {\n      \"version\": \"1.1.0\",\n      \"category\": \"Monitoring\",\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\n      \"alzCloudEnvironments\": [\n        \"AzureCloud\"\n      ],\n      \"_deployed_by_amba\": \"True\"\n    },\n    \"parameters\": {\n      \"ALZMonitorResourceGroupName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Name\",\n          \"description\": \"Resource group the alert is placed in\"\n        },\n        \"defaultValue\": \"rg-amba-monitoring-001\"\n      },\n      \"ALZMonitorResourceGroupTags\": {\n        \"type\": \"Object\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Tags\",\n          \"description\": \"Tags on the Resource group the alert is placed in\"\n        },\n        \"defaultValue\": {\n          \"_deployed_by_amba\": true\n        }\n      },\n      \"ALZMonitorResourceGroupLocation\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"Resource Group Location\",\n          \"description\": \"Location of the Resource group the alert is placed in\"\n        },\n        \"defaultValue\": \"centralus\"\n      },\n      \"MonitorDisableTagName\": {\n        \"type\": \"String\",\n        \"metadata\": {\n          \"displayName\": \"ALZ Monitoring disabled tag name\",\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\n        },\n        \"defaultValue\": \"MonitorDisable\"\n      },\n      \"MonitorDisableTagValues\": {\n        \"type\": \"Array\",\n        \"metadata\": {\n          \"displayName\": \"ALZ Monitoring disabled tag values(s)\",\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\n        },\n        \"defaultValue\": [\n          \"true\",\n          \"Test\",\n          \"Dev\",\n          \"Sandbox\"\n        ]\n      }\n    },\n    \"policyRule\": {\n      \"if\": {\n        \"allOf\": [\n          {\n            \"field\": \"type\",\n            \"equals\": \"Microsoft.Resources/subscriptions\"\n          },\n          {\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\n          }\n        ]\n      },\n      \"then\": {\n        \"effect\": \"deployIfNotExists\",\n        \"details\": {\n          \"roleDefinitionIds\": [\n            \"/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c\"\n          ],\n          \"type\": \"Microsoft.AlertsManagement/actionRules\",\n          \"existenceScope\": \"resourceGroup\",\n          \"resourceGroupName\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n          \"deploymentScope\": \"subscription\",\n          \"existenceCondition\": {\n            \"allOf\": [\n              {\n                \"field\": \"Microsoft.AlertsManagement/actionRules/description\",\n                \"equals\": \"AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription\"\n              }\n            ]\n          },\n          \"deployment\": {\n            \"location\": \"northeurope\",\n            \"properties\": {\n              \"mode\": \"incremental\",\n              \"template\": {\n                \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\n                \"contentVersion\": \"1.0.0.0\",\n                \"parameters\": {\n                  \"ALZMonitorResourceGroupName\": {\n                    \"type\": \"string\"\n                  },\n                  \"ALZMonitorResourceGroupTags\": {\n                    \"type\": \"object\"\n                  },\n                  \"ALZMonitorResourceGroupLocation\": {\n                    \"type\": \"string\"\n                  }\n                },\n                \"variables\": {},\n                \"resources\": [\n                  {\n                    \"type\": \"Microsoft.Resources/resourceGroups\",\n                    \"apiVersion\": \"2021-04-01\",\n                    \"name\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n                    \"location\": \"[[parameters('ALZMonitorResourceGroupLocation')]\",\n                    \"tags\": \"[[parameters('ALZMonitorResourceGroupTags')]\"\n                  },\n                  {\n                    \"type\": \"Microsoft.Resources/deployments\",\n                    \"apiVersion\": \"2019-10-01\",\n                    \"name\": \"SuppressionRuleDeployment\",\n                    \"resourceGroup\": \"[[parameters('ALZMonitorResourceGroupName')]\",\n                    \"dependsOn\": [\n                      \"[[concat('Microsoft.Resources/resourceGroups/', parameters('ALZMonitorResourceGroupName'))]\"\n                    ],\n                    \"properties\": {\n                      \"mode\": \"Incremental\",\n                      \"template\": {\n                        \"$schema\": \"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\n                        \"contentVersion\": \"1.0.0.0\",\n                        \"parameters\": {\n                          \"ALZMonitorResourceGroupName\": {\n                            \"type\": \"string\"\n                          }\n                        },\n                        \"variables\": {},\n                        \"resources\": [\n                          {\n                            \"type\": \"Microsoft.AlertsManagement/actionRules\",\n                            \"apiVersion\": \"2021-08-08\",\n                            \"name\": \"[[concat('apr-AMBA-',subscription().displayName, '-002')]\",\n                            \"location\": \"Global\",\n                            \"dependsOn\": [],\n                            \"tags\": {\n                              \"_deployed_by_amba\": true\n                            },\n                            \"properties\": {\n                              \"scopes\": [\n                                \"[[subscription().Id]\"\n                              ],\n                              \"description\": \"AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription\",\n                              \"enabled\": false,\n                              \"actions\": [\n                                {\n                                  \"actionType\": \"RemoveAllActionGroups\"\n                                }\n                              ]\n                            }\n                          }\n                        ]\n                      },\n                      \"parameters\": {\n                        \"ALZMonitorResourceGroupName\": {\n                          \"value\": \"[[parameters('ALZMonitorResourceGroupName')]\"\n                        }\n                      }\n                    }\n                  }\n                ]\n              },\n              \"parameters\": {\n                \"ALZMonitorResourceGroupName\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupName')]\"\n                },\n                \"ALZMonitorResourceGroupTags\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupTags')]\"\n                },\n                \"ALZMonitorResourceGroupLocation\": {\n                  \"value\": \"[[parameters('ALZMonitorResourceGroupLocation')]\"\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+    "$fxv#2": {
+      "type": "Microsoft.Authorization/policySetDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "Notification-Assets",
+      "properties": {
+        "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
+        "description": "This initiative deploys Notification Assets for Azure Monitor Baseline Alerts. This includes the setup of an Alert Processing Rule and an Action Group to manage notifications and actions, along with a Notification Suppression Rule to manage alert notifications, as well as a Notification Suppression Rule to control alert notifications.",
+        "metadata": {
+          "version": "1.3.0",
+          "category": "Monitoring",
+          "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "alzCloudEnvironments": [
+            "AzureCloud"
+          ],
+          "_deployed_by_amba": true
+        },
+        "parameters": {
+          "ALZMonitorResourceGroupName": {
+            "type": "String",
+            "defaultValue": "ALZ-Monitoring-RG",
+            "metadata": {
+              "displayName": "Resource Group Name",
+              "description": "Name of the resource group to deploy the alerts to"
+            }
+          },
+          "ALZMonitorResourceGroupTags": {
+            "type": "Object",
+            "defaultValue": {
+              "_deployed_by_alz_monitor": true
+            },
+            "metadata": {
+              "displayName": "Resource Group Tags",
+              "description": "Tags to apply to the resource group"
+            }
+          },
+          "ALZMonitorResourceGroupLocation": {
+            "type": "String",
+            "defaultValue": "centralus",
+            "metadata": {
+              "displayName": "Resource Group Location",
+              "description": "Location of the resource group"
+            }
+          },
+          "ALZMonitorActionGroupEmail": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "Action Group Email Addresses",
+              "description": "Email addresses to send alerts to"
+            },
+            "defaultValue": []
+          },
+          "ALZMonitorDisableTagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "ALZ Monitoring disabled tag name",
+              "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": "MonitorDisable"
+          },
+          "ALZMonitorDisableTagValues": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "ALZ Monitoring disabled tag values(s)",
+              "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": [
+              "true",
+              "Test",
+              "Dev",
+              "Sandbox"
+            ]
+          },
+          "ALZLogicappResourceId": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Logic App Resource Id",
+              "description": "Logic App Resource Id for Action Group to send alerts to"
+            },
+            "defaultValue": ""
+          },
+          "ALZLogicappCallbackUrl": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Logic App Callback URL",
+              "description": "Callback URL that triggers the Logic App"
+            },
+            "defaultValue": ""
+          },
+          "ALZArmRoleId": {
+            "type": "array",
+            "metadata": {
+              "displayName": "Arm Role Ids",
+              "description": "Arm Built-in Role Ids for action group to send alerts to"
+            },
+            "defaultValue": []
+          },
+          "ALZEventHubResourceId": {
+            "type": "array",
+            "metadata": {
+              "displayName": "Event Hub resource Ids",
+              "description": "Event Hub resource Ids for action group to send alerts to"
+            },
+            "defaultValue": []
+          },
+          "ALZWebhookServiceUri": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "Webhook Service Uri(s)",
+              "description": "Indicates the service uri(s) of the webhook to send alerts to"
+            },
+            "defaultValue": []
+          },
+          "ALZFunctionResourceId": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Function Resource Id",
+              "description": "Function Resource Id for Action Group to send alerts to"
+            },
+            "defaultValue": ""
+          },
+          "ALZFunctionTriggerUrl": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Function Trigger URL",
+              "description": "URL that triggers the Function"
+            },
+            "defaultValue": ""
+          },
+          "BYOActionGroup": {
+            "type": "array",
+            "metadata": {
+              "displayName": "Customer defined Action Group Resource IDs",
+              "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
+            },
+            "defaultValue": []
+          },
+          "BYOAlertProcessingRule": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Customer defined Alert Processing Rule Resource ID",
+              "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
+            },
+            "defaultValue": ""
+          }
+        },
+        "policyDefinitions": [
+          {
+            "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule",
+            "parameters": {
+              "ALZMonitorResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "ALZMonitorResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "ALZMonitorResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+              },
+              "ALZMonitorActionGroupEmail": {
+                "value": "[[[parameters('ALZMonitorActionGroupEmail')]"
+              },
+              "ALZLogicappResourceId": {
+                "value": "[[[parameters('ALZLogicappResourceId')]"
+              },
+              "ALZLogicappCallbackUrl": {
+                "value": "[[[parameters('ALZLogicappCallbackUrl')]"
+              },
+              "ALZArmRoleId": {
+                "value": "[[[parameters('ALZArmRoleId')]"
+              },
+              "ALZEventHubResourceId": {
+                "value": "[[[parameters('ALZEventHubResourceId')]"
+              },
+              "ALZWebhookServiceUri": {
+                "value": "[[[parameters('ALZWebhookServiceUri')]"
+              },
+              "ALZFunctionResourceId": {
+                "value": "[[[parameters('ALZFunctionResourceId')]"
+              },
+              "ALZFunctionTriggerUrl": {
+                "value": "[[[parameters('ALZFunctionTriggerUrl')]"
+              },
+              "BYOActionGroup": {
+                "value": "[[[parameters('BYOActionGroup')]"
+              },
+              "BYOAlertProcessingRule": {
+                "value": "[[[parameters('BYOAlertProcessingRule')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_Suppression_AlertProcessing_Rule",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Suppression_AlertProcessing_Rule",
+            "parameters": {
+              "ALZMonitorResourceGroupName": {
+                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+              },
+              "ALZMonitorResourceGroupTags": {
+                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+              },
+              "ALZMonitorResourceGroupLocation": {
+                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          }
+        ],
+        "policyType": "Custom",
+        "policyDefinitionGroups": null
+      }
+    },
+    "cloudEnv": "[environment().name]",
+    "defaultDeploymentLocationByCloudType": {
+      "AzureCloud": "northeurope",
+      "AzureChinaCloud": "chinaeast2",
+      "AzureUSGovernment": "usgovvirginia"
+    },
+    "templateVars": {
+      "scope": "/providers/Microsoft.Management/managementGroups/contoso",
+      "defaultDeploymentLocation": "\"location\": \"northeurope\"",
+      "localizedDeploymentLocation": "[format('\"location\": \"{0}\"', variables('defaultDeploymentLocationByCloudType')[variables('cloudEnv')])]"
+    },
+    "targetDeploymentLocationByCloudType": {
+      "AzureCloud": "[coalesce(parameters('location'), 'northeurope')]",
+      "AzureChinaCloud": "[coalesce(parameters('location'), 'chinaeast2')]",
+      "AzureUSGovernment": "[coalesce(parameters('location'), 'usgovvirginia')]"
+    },
+    "deploymentLocation": "[format('\"location\": \"{0}\"', variables('targetDeploymentLocationByCloudType')[variables('cloudEnv')])]",
+    "loadPolicyDefinitions": {
+      "All": [
+        "[variables('$fxv#0')]",
+        "[variables('$fxv#1')]"
+      ],
+      "AzureCloud": [],
+      "AzureChinaCloud": [],
+      "AzureUSGovernment": []
+    },
+    "loadPolicySetDefinitions": {
+      "All": [
+        "[string(variables('$fxv#2'))]"
+      ],
+      "AzureCloud": [],
+      "AzureChinaCloud": [],
+      "AzureUSGovernment": []
+    },
+    "policyDefinitionsByCloudType": {
+      "All": "[variables('policyDefinitionsAll')]",
+      "AzureCloud": "[variables('policyDefinitionsAzureCloud')]",
+      "AzureChinaCloud": "[variables('policyDefinitionsAzureChinaCloud')]",
+      "AzureUSGovernment": "[variables('policyDefinitionsAzureUSGovernment')]"
+    },
+    "policySetDefinitionsByCloudType": {
+      "All": "[variables('policySetDefinitionsAll')]",
+      "AzureCloud": "[variables('policySetDefinitionsAzureCloud')]",
+      "AzureChinaCloud": "[variables('policySetDefinitionsAzureChinaCloud')]",
+      "AzureUSGovernment": "[variables('policySetDefinitionsAzureUSGovernment')]"
+    },
+    "policyDefinitions": "[concat(variables('policyDefinitionsByCloudType').All, variables('policyDefinitionsByCloudType')[variables('cloudEnv')])]",
+    "policySetDefinitions": "[concat(variables('policySetDefinitionsByCloudType').All, variables('policySetDefinitionsByCloudType')[variables('cloudEnv')])]"
+  },
+  "resources": [
+    {
+      "copy": {
+        "name": "PolicyDefinitions",
+        "count": "[length(variables('policyDefinitions'))]"
+      },
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policyDefinitions')[copyIndex()].name]",
+      "properties": {
+        "description": "[variables('policyDefinitions')[copyIndex()].properties.description]",
+        "displayName": "[variables('policyDefinitions')[copyIndex()].properties.displayName]",
+        "metadata": "[variables('policyDefinitions')[copyIndex()].properties.metadata]",
+        "mode": "[variables('policyDefinitions')[copyIndex()].properties.mode]",
+        "parameters": "[variables('policyDefinitions')[copyIndex()].properties.parameters]",
+        "policyType": "[variables('policyDefinitions')[copyIndex()].properties.policyType]",
+        "policyRule": "[variables('policyDefinitions')[copyIndex()].properties.policyRule]"
+      }
+    },
+    {
+      "copy": {
+        "name": "PolicySetDefinitions",
+        "count": "[length(variables('policySetDefinitions'))]"
+      },
+      "type": "Microsoft.Authorization/policySetDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policySetDefinitions')[copyIndex()].name]",
+      "properties": {
+        "description": "[variables('policySetDefinitions')[copyIndex()].properties.description]",
+        "displayName": "[variables('policySetDefinitions')[copyIndex()].properties.displayName]",
+        "metadata": "[variables('policySetDefinitions')[copyIndex()].properties.metadata]",
+        "parameters": "[variables('policySetDefinitions')[copyIndex()].properties.parameters]",
+        "policyType": "[variables('policySetDefinitions')[copyIndex()].properties.policyType]",
+        "policyDefinitions": "[variables('policySetDefinitions')[copyIndex()].properties.policyDefinitions]",
+        "policyDefinitionGroups": "[variables('policySetDefinitions')[copyIndex()].properties.policyDefinitionGroups]"
+      },
+      "dependsOn": [
+        "PolicyDefinitions"
+      ]
+    }
+  ],
+  "outputs": {
+    "policyDefinitionNames": {
+      "type": "array",
+      "copy": {
+        "count": "[length(variables('policyDefinitions'))]",
+        "input": "[variables('policyDefinitions')[copyIndex()].name]"
+      }
+    },
+    "policySetDefinitionNames": {
+      "type": "array",
+      "copy": {
+        "count": "[length(variables('policySetDefinitions'))]",
+        "input": "[variables('policySetDefinitions')[copyIndex()].name]"
+      }
+    }
+  }
+}

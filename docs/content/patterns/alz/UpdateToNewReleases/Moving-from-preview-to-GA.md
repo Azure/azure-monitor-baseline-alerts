@@ -1,7 +1,7 @@
 ---
 title: Moving from preview to GA
 geekdocCollapseSection: true
-weight: 70
+weight: 101
 ---
 
 When moving from the preview version to GA, it is required to remove everything deployed by the ALZ Monitor solution. The instructions below detail execution of a PowerShell script to delete all resources deployed, including:

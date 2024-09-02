@@ -1,12 +1,12 @@
 ---
-title: Bring Your Own Notifications (BYON)
+title: Bring Your Own Notifications
 geekdocCollapseSection: true
-weight: 61
+weight: 100
 ---
 
 # Overview
 
-The ***Bring Your Own Notifications*** (BYON) feature, available with release [2024-04-12](../Whats-New#2024-04-12), allows brownfield customers to use their existing Action Groups (also known as AGs) and Alert Processing Rule (also known as APR) not forcing the use of notification assets deployed by both the [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative and the [Deploy Service Health Action Group](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) policy definition present in the ALZ pattern. It also allows Brownfield customer who deployed the ALZ pattern when this feature wasn't available, to switch to it.
+The ***Bring Your Own Notifications*** (BYON) feature, available with release [2024-04-12](../../Whats-New#2024-04-12), allows brownfield customers to use their existing Action Groups (also known as AGs) and Alert Processing Rule (also known as APR) not forcing the use of notification assets deployed by both the [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative and the [Deploy Service Health Action Group](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) policy definition present in the ALZ pattern. It also allows Brownfield customer who deployed the ALZ pattern when this feature wasn't available, to switch to it.
 
 # How this feature works
 
@@ -14,11 +14,11 @@ The BYON feature works by setting the necessary parameter values before running 
 
 Should Brownfield customers decide to use their own notification assets, it will be sufficient to enter the _AG resource IDs_ (separated by comma) and the _APR resource ID_ values in the respective parameters ***BYOActionGroup*** and ***BYOAlertProcessingRule***, leaving the ***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId*** and ***ALZFunctionTriggerUrl*** <ins>***with no values***</ins>:
 
-  ![policyAssignmentParametersBYON section](../../alz/media/BYON_Params.png)
+  ![policyAssignmentParametersBYON section](../../media/BYON_Params.png)
 
 Differently if they decide to use the assets provided by AMBA or if they're Greenfield customers, they'll just leave the ***BYOActionGroup*** and ***BYOAlertProcessingRule*** parameters with no values and populate all the others (***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId*** and ***ALZFunctionTriggerUrl***):
 
-![policyAssignmentParametersNotificationAssets section](../../alz/media/NotificationAssets_Params.png)
+![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params.png)
 
 ## Conditional deployment behavior
 
@@ -32,7 +32,7 @@ A. ***Use your own AGs with the AMBA APR***. In this scenario, the deployment wi
 
 Here's an example of the parameter file with the relevant sections populated for this scenario:
 
-![policyAssignmentParametersBYON section](../../alz/media/BYON_Params_2.png)
+![policyAssignmentParametersBYON section](../../media/BYON_Params_2.png)
 
 B. ***Use your own AGs and APR***. In this scenario, the deployment will:
 
@@ -41,7 +41,7 @@ B. ***Use your own AGs and APR***. In this scenario, the deployment will:
 
 Here's an example of the parameter file with the relevant sections populated for this scenario:
 
-![policyAssignmentParametersBYON section](../../alz/media/BYON_Params_3.png)
+![policyAssignmentParametersBYON section](../../media/BYON_Params_3.png)
 
 C. ***Use AMBA notification assets***. In this scenario, the deployment will:
 
@@ -49,11 +49,12 @@ C. ***Use AMBA notification assets***. In this scenario, the deployment will:
 
 Here's an example of the parameter file with the relevant sections populated for this scenario:
 
-![policyAssignmentParametersNotificationAssets section](../../alz/media/NotificationAssets_Params_2.png)
+![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
 
 ## Switching between BYON and Notification Assets
 
-The [conditional deployment behavior](../../alz/Bring-your-own-Notifications#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from the initial notification assets scenario (the only one available until release [2024-03-01](../../alz/Whats-New#2024-03-01)) to the new BYON after deployment and viceversa.
+The [conditional deployment behavior](../../Bring-your-own-Notifications#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from the initial notification assets scenario (the only one available until release [2024-03-01](../../Whats-New#2024-03-01)) to the new BYON after deployment and viceversa.
+
 Should customers decide to switch, it will be enough to:
 
 - change the values in the parameter file to match one of the three cases previously discussed
