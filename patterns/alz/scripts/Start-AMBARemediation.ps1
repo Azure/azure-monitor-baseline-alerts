@@ -151,6 +151,12 @@ function Enumerate-PolicySet {
     $policySet
     $policies = $policySet.properties.policyDefinitions
     #iterate through the policies in the policy set
+    If ($policyAssignmentObject.properties.policyDefinitionId -match "/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ServiceHealth") {
+        $policyDefinitionReferenceId = "Deploy_ServiceHealth_ActionGroups"
+        Start-PolicyRemediation -managementGroupName $managementGroupName -policyAssignmentName $name -polassignId $polassignId -policyDefinitionReferenceId $policyDefinitionReferenceId
+        Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
+        Start-Sleep -Seconds 360
+    }
     Foreach ($policy in $policies) {
         $policyDefinitionId = $policy.policyDefinitionId
         $policyDefinitionReferenceId = $policy.policyDefinitionReferenceId
@@ -173,16 +179,4 @@ function Enumerate-Policy {
 }
 
 #Main script
-
-# If remediating the Alerting-ServiceHealth initiative, we will remediate the ALZ_ServiceHealth_ActionGroups first,
-# wait for 5 minutes and then remediate the entire Alerting-ServiceHealth initiative.
-If ($policyName -eq 'Alerting-ServiceHealth') {
-    Get-PolicyType -managementGroupName $managementGroupName -policyName 'ALZ_ServiceHealth_ActionGroups'
-    Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
-    Start-Sleep -Seconds 360
-    Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
-}
-# Otherwise we just remediate everything passed in
-Else {
-    Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName
-}
+Get-PolicyType -managementGroupName $managementGroupName -policyName $policyName

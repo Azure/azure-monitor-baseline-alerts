@@ -14,7 +14,7 @@ As an example you may want to change alert thresholds for one or more metric ale
 
 ### Parameter file
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-08-30/patterns/alz/alzArm.param.json)
 
 ### Applying changes to the parameter file
 

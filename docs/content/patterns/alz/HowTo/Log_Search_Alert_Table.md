@@ -28,4 +28,4 @@ geekdocHidden: true
 | Virtual machine | *```subscription().displayName```*-VMHighOSDiskWriteLatencyAlert | _Log search_ | ***\_amba-WriteLatencyMs-OS-threshold-override\_*** |
 | Virtual machine | *```subscription().displayName```*-VMHighCPUAlert | _Log search_ | ***\_amba-UtilizationPercentage-threshold-override\_*** |
 | Virtual machine | *```subscription().displayName```*-VMLowMemoryAlert | _Log search_ | ***\_amba-AvailableMemoryPercentage-threshold-override\_*** |
-| Virtual machine | *```resourceName```*-DailyCapLimitReachedAlert | _Log search_ |	***Not available since threshold will always be ```0```*** |
+| Log Analytics workspace | *```resourceName```*-DailyCapLimitReachedAlert | _Log search_ |	***Not available since threshold will always be ```0```*** |

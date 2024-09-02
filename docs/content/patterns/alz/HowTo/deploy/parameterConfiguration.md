@@ -2,15 +2,18 @@
 title: Parameter configuration
 geekdocHidden: true
 ---
+<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/parameterConfiguration.md
 {{< hint type=Important >}}
 Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
+=======
+>>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/parameterConfiguration.md
 
 ## 1. Parameter configuration
 
 To start, you can either download a copy of the parameter file or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-09-02/patterns/alz/alzArm.param.json)
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
