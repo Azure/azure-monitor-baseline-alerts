@@ -8,7 +8,7 @@ For information on what's new please refer to the [Releases](https://github.com/
 
 To update your current deployment with the content from the latest release, please refer to the [Update to new releases](../UpdateToNewReleases) page.
 
-## 2024-08-30
+## 2024-09-02
 
 ### New features
 
