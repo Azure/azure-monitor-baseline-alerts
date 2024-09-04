@@ -197,6 +197,7 @@ If (($alertResourceIds.count -gt 0) -or ($policyAssignmentIds.count -gt 0) -or (
             $alertResourceIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
         }
         <#
+        ### Leave this in place incase we decide to remove the rg later on
         # delete resource groups
         If ($resourceGroupIds.count -gt 0) {
             Write-Host "-- Deleting resource groups ..."
@@ -231,7 +232,7 @@ If (($alertResourceIds.count -gt 0) -or ($policyAssignmentIds.count -gt 0) -or (
         # delete user assigned managed identities
         If ($UamiIds.count -gt 0) {
             Write-Host "-- Deleting user assigned managed identities ..."
-            $UamiIds | Select-Object -Property resourceGroup, name | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -Confirm:$false | Out-Null }
+            $UamiIds | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -SubscriptionId $_.subscriptionId -Confirm:$false }
         }
 
         # delete alert processing rules
