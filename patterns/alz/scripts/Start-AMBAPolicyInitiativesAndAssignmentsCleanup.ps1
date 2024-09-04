@@ -1,6 +1,17 @@
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 <#
 .SYNOPSIS
-    This script cleans up the policy assignments, policy initiatives, policy definitions and policy assignment role assignments previously deployed.
+    This script cleans up the policy assignments, policy initiatives, policy definitions and policy role assignments previously deployed.
 .DESCRIPTION
 
 .NOTES
@@ -11,20 +22,21 @@
     The Role Assignments associated with Policy assignment identities and including _deployed_by_amba in the description field will also be deleted.
 
     This script leverages the Azure Resource Graph to find object to delete. Note that the Resource Graph lags behind ARM by a couple minutes.
+
 .LINK
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
-    # generate a list of the resource IDs which would be deleted by this script
-
-.EXAMPLE
     ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
-    # show output of what would happen if deletes executed
+    # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -Force
-    # delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso
+    # execute the script and will ask for confirmation before taking the configured action.
+
+.EXAMPLE
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -Confirm:$false
+    # execute the script without asking for confirmation before taking the configured action.
 #>
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -32,15 +44,7 @@ param(
     # the pseudo managemnt group to start from
     [Parameter(Mandatory = $True,
         ValueFromPipeline = $false)]
-    [string]$pseudoRootManagementGroup,
-    # output a list of the resources to be deleted
-    [Parameter(Mandatory = $False,
-        ValueFromPipeline = $false)]
-    [switch]$reportOnly,
-    # if not specified, delete will prompt for confirmation
-    [Parameter(Mandatory = $False,
-        ValueFromPipeline = $false)]
-    [switch]$force
+        [string]$pseudoRootManagementGroup
 )
 
 Function Search-AzGraphRecursive {
@@ -132,69 +136,59 @@ foreach ($mg in $allMgs) {
     Iterate-ManagementGroups $mg
 }
 
-Write-Host "Found '$($managementGroups.Count)' management groups to query for ALZ-Monitor resources."
+Write-Host "Found '$($managementGroups.Count)' management groups(s) (including the parent one) which are part of the '$pseudoRootManagementGroup' management group hierarchy, to be queried for policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ."
 
 If ($managementGroups.count -eq 0) {
-    Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources."
+    Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively query policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ."
 }
 
 # get policy assignments to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_amba =~ 'true'"
 $policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted."
+Write-Host "- Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted."
 
 # get policy set definitions to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policysetdefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
 $policySetDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted."
+Write-Host "- Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get policy definitions to delete
 $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
 $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-Write-Host "Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
+Write-Host "- Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
 # get role assignments to delete
 $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
 $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-Write-Host "Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted."
+Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted."
 
-If (!$reportOnly.IsPresent) {
+If (($policyAssignmentIds.count -gt 0) -or ($policySetDefinitionIds.count -gt 0) -or ($policyDefinitionIds.count -gt 0) -or ($roleAssignments.count -gt 0)) {
+    If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
-    Write-Warning "This script will delete the resources discovered above."
-
-    If (!$force.IsPresent) {
-        While ($prompt -notmatch '[yYnN]') {
-            $prompt = Read-Host -Prompt 'Would you like to proceed with the deletion? (y/n)'
+        # delete policy assignments
+        If ($policyAssignmentIds.count -gt 0) {
+            Write-Host "-- Deleting AMBA-ALZ policy assignments  ..."
+            $policyAssignmentIds | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:$false }
         }
-        If ($prompt -match '[yY]') {
-            $force = $true
+
+        # delete policy set definitions
+        If ($policySetDefinitionIds.count -gt 0) {
+            Write-Host "-- Deleting AMBA-ALZ policy set definitions ..."
+            $policySetDefinitionIds | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force }
         }
-        Else {
-            Write-Host "Exiting script..."
-            return
+
+        # delete policy definitions
+        If ($policyDefinitionIds.count -gt 0) {
+            Write-Host "-- Deleting AMBA-ALZ policy definitions ..."
+            $policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force}
+        }
+
+        # delete role assignments
+        If ($roleAssignments.count -gt 0) {
+            Write-Host "-- Deleting AMBA-ALZ role assignments performed on the '$pseudoRootManagementGroup' Management Group hierarchy ..."
+            $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:$false | Out-Null }
         }
     }
-
-    # delete policy assignments
-    Write-Host "Deleting policy assignments..."
-    $policyAssignmentIds | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:(!$force) -ErrorAction Stop }
-
-    # delete policy set definitions
-    Write-Host "Deleting policy set definitions..."
-    $policySetDefinitionIds | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force:$force -Confirm:(!$force) }
-
-    # delete policy definitions
-    Write-Host "Deleting policy definitions..."
-    $policyDefinitionIds | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force:$force -Confirm:(!$force) }
-
-    # delete role assignments
-    Write-Host "Deleting role assignments..."
-    $roleAssignments | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:(!$force) | Out-Null }
-
-    Write-Host "Cleanup complete."
 }
-Else {
-    $resourceToBeDeleted = $policyAssignmentIds + $policySetDefinitionIds + $policyDefinitionIds + $roleAssignments.Id
 
-    return $resourceToBeDeleted
-}
+Write-Host "=== Script execution completed. ==="
