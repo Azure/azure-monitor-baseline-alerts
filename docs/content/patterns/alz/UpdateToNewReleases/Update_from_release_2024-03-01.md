@@ -28,20 +28,20 @@ To run the script, complete the following step:
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-  **Generate a list of the resource IDs which would be deleted by this script:**
-
-  ```powershell
-  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
-  ```
-
   **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
+  ./Remove-AMBANotificationAssets.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
-  **Delete notification asset resources deployed by the ALZ pattern without prompting for confirmation:**
+  **Execute the script asking for confirmation before deleting notification asset resources deployed by AMBA-ALZ:**
 
   ```powershell
-  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
+  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup
+  ```
+
+  **Execute the script <ins>without</ins> asking for confirmation before deleting notification asset resources deployed by AMBA-ALZ.**
+
+  ```powershell
+  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Confirm:$false
   ```

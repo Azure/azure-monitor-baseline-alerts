@@ -25,20 +25,20 @@ Updating from release [2023-11-14](../../Whats-New#2023-11-14) will require runn
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-  **Generate a list of the resource IDs which would be deleted by this script:**
-
-  ```powershell
-  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
-  ```
-
   **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
+  ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
-  **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+  **Execute the script asking for confirmation before deleting old Service Health action group(s) deployed by AMBA-ALZ:**
 
   ```powershell
-  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
+  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup
+  ```
+
+  **Execute the script <ins>without</ins> asking for confirmation before deleting old Service Health action group(s) deployed by AMBA-ALZ.**
+
+  ```powershell
+  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Confirm:$false
   ```

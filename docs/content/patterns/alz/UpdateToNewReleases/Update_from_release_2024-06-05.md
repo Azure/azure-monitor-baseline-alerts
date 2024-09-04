@@ -9,7 +9,7 @@ weight: 97
 
 # Pre update actions
 
-Before updating to release [2024-06-30](../../Whats-New#2024-06-30), it's required to remove existing policy definitions, policy set definitions, policy assignments and role assignments. This action is required because of a breaking change caused by the redefinition of some parameters, which allows for more flexibility in disabling the policy remediation or, in some cases, the alerts. Unfortunately not all the alerts can be disabled after creation; only log-based alerts can be. Even if disabling the effect of policy was already possible in AMBA-ALZ, with this release we made sure that all the policies will honor both the ***PolicyEffect*** and the ***MonitorDisable*** parameters.
+Before updating to release [2024-06-05](../../Whats-New#2024-06-05), it's required to remove existing policy definitions, policy set definitions, policy assignments and role assignments. This action is required because of a breaking change caused by the redefinition of some parameters, which allows for more flexibility in disabling the policy remediation or, in some cases, the alerts. Unfortunately not all the alerts can be disabled after creation; only log-based alerts can be. Even if disabling the effect of policy was already possible in AMBA-ALZ, with this release we made sure that all the policies will honor both the ***PolicyEffect*** and the ***MonitorDisable*** parameters.
 
 In particular, the *MonitorDisable* feature has been redesigned to allow customer to specify they own existing tag and tag value instead of forcing a hard coded one. Given the ALZ guidance and the best practice of having a consistent tagging definition, it's only allowed to one parameter name fo r the entire deployment. Instead, parameter value can be different. You can specify an array of values assigned to the same parameter. For instance, you have the ```Environment``` tag name consistently applied to several environments, saying ```Production```, ```Test```, ```Sandbox```, and so on and you want to disable alerts for resources, which are in both ```Test``` and ```Sandbox```. Now it's possible by just configuring the parameters for tag name and tag values as reported in the sample screenshot (these are the default values) below:
 
@@ -36,14 +36,20 @@ To run the script, complete the following steps:
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-  **Generate a list of policy definitions, policy set definitions, policy assignments and role assignments resources which would be deleted by this script:**
+  **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
+  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
-  **Delete policy definitions, policy set definitions, policy assignments and role assignments resources deployed by the AMBA-ALZ pattern without prompting for confirmation:**
+  **Execute the script asking for confirmation before deleting the policy definitions, policy set definitions, policy assignments and role assignments deployed by AMBA-ALZ:**
 
   ```powershell
-  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
+  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup
+  ```
+
+  **Execute the script <ins>without</ins> asking for confirmation before deleting the policy definitions, policy set definitions, policy assignments and role assignments deployed by AMBA-ALZ.**
+
+  ```powershell
+  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Confirm:$false
   ```
