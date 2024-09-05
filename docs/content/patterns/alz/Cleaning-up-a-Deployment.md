@@ -51,7 +51,7 @@ Follow the instructions below to download the cleanup script file. Alternatively
     **Show output of what would happen if deletes executed:**
 
     ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
     ```
 
     **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**

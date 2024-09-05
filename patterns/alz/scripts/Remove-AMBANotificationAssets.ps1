@@ -30,15 +30,15 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Remove-AMBANotificationAssets.ps1 -pseudoManagementGroup Contoso -WhatIf
+    ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Remove-AMBANotificationAssets.ps1 -pseudoManagementGroup Contoso
+    ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup Contoso
     # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Remove-AMBANotificationAssets.ps1 -pseudoManagementGroup Contoso -Confirm:$false
+    ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup Contoso -Confirm:$false
     # execute the script without asking for confirmation before taking the configured action.
 
 #>

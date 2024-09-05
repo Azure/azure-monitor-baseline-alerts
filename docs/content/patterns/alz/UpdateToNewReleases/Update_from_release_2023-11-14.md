@@ -28,7 +28,7 @@ Updating from release [2023-11-14](../../Whats-New#2023-11-14) will require runn
   **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
+  ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
   **Execute the script asking for confirmation before deleting old Service Health action group(s) deployed by AMBA-ALZ:**

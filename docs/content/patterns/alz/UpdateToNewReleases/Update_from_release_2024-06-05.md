@@ -39,7 +39,7 @@ To run the script, complete the following steps:
   **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
+  ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
   **Execute the script asking for confirmation before deleting the policy definitions, policy set definitions, policy assignments and role assignments deployed by AMBA-ALZ:**

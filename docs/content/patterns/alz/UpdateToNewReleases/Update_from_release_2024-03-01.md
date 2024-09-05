@@ -31,7 +31,7 @@ To run the script, complete the following step:
   **Show output of what would happen if deletes executed:**
 
   ```powershell
-  ./Remove-AMBANotificationAssets.ps1 -pseudoManagementGroup $pseudoRootManagementGroup -WhatIf
+  ./Remove-AMBANotificationAssets.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
   ```
 
   **Execute the script asking for confirmation before deleting notification asset resources deployed by AMBA-ALZ:**

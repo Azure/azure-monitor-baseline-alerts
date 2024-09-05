@@ -27,15 +27,15 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup Contoso
     # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoManagementGroup Contoso -Confirm:$false
+    ./Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1 -pseudoRootManagementGroup Contoso -Confirm:$false
     # execute the script without asking for confirmation before taking the configured action.
 #>
 

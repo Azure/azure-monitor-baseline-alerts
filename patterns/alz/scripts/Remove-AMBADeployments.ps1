@@ -33,15 +33,15 @@
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Remove-AMBADeployments.ps1 -pseudoManagementGroup Contoso -WhatIf
+    ./Remove-AMBADeployments.ps1 -pseudoRootManagementGroup Contoso -WhatIf
     # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Remove-AMBADeployments.ps1 -pseudoManagementGroup Contoso
+    ./Remove-AMBADeployments.ps1 -pseudoRootManagementGroup Contoso
     # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Remove-AMBADeployments.ps1 -pseudoManagementGroup Contoso -Confirm:$false
+    ./Remove-AMBADeployments.ps1 -pseudoRootManagementGroup Contoso -Confirm:$false
     # execute the script without asking for confirmation before taking the configured action.
 
 #>
