@@ -11,7 +11,7 @@ Listed below are some examples of Grafana dashboards that visualize alerts from 
 You can also find information [below](#using-the-grafana-tab-in-the-services-section) on utilizing the Grafana tab found in the Services section of this site.
 
 ## Azure Monitor Team Dashboards
-The Azure Monitor Team has built a [library](https://grafana.com/orgs/azuremonitorteam/dashboards) of dashboards that can be imported into your own instance of Grafana.  Below are some examples from that library that help visualize alerting from Azure Monitor.
+The Azure Monitor Team has built a [library](https://grafana.com/orgs/azure/dashboards) of dashboards that can be imported into your own instance of Grafana.  Below are some examples from that library that help visualize alerting from Azure Monitor.
 
 - Azure Infrastructure Monitoring Dashboards
   - [Compute Monitoring](https://grafana.com/grafana/dashboards/19943-azure-infrastructure-compute-monitoring/)
