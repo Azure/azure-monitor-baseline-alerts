@@ -68,12 +68,13 @@ The diagram below shows the flow using the orange dash-lines of the policy initi
 
 The other monitoring initiatives are each assigned at specific platform landing zone management groups and workload landing zones. The flows for these are in blue dash-lines.
 
-![Azure Monitor Baseline Alerts policy initiative flows](../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
+![Azure Monitor Baseline Alerts policy initiative flows](../../media/azure-monitor-baseline-alerts-policy-initiative-flow.png)
 
 *Download a [Visio file](../../media/AMBA-Diagrams-2024-09-02.vsdx) of this architecture.*
 
 If you have this management group hierarchy, you can skip forward to your preferred deployment method:
 
+- [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
