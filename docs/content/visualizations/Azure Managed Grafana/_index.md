@@ -11,19 +11,24 @@ Listed below are some examples of Grafana dashboards that visualize alerts from 
 You can also find information [below](#using-the-grafana-tab-in-the-services-section) on utilizing the Grafana tab found in the Services section of this site.
 
 ## Azure Monitor Team Dashboards
-The Azure Monitor Team has built a [library](https://grafana.com/orgs/azuremonitorteam/dashboards) of dashboards that can be imported into your own instance of Grafana.  Below are some examples from that library that help visualize alerting from Azure Monitor.
+The Azure Monitor Team has built a [library](https://grafana.com/orgs/azure/dashboards) of dashboards that can be imported into your own instance of Grafana.  Below are some examples from that library that help visualize alerting from Azure Monitor.
+
+- Azure Infrastructure Monitoring Dashboards
+  - [Compute Monitoring](https://grafana.com/grafana/dashboards/19943-azure-infrastructure-compute-monitoring/)
+  - [Network Monitoring](https://grafana.com/grafana/dashboards/21255-azure-infrastructure-network-monitoring/)
+  - [Apps Monitoring](https://grafana.com/grafana/dashboards/21257-azure-infrastructure-apps-monitoring/)
+  - [Data Monitoring](https://grafana.com/grafana/dashboards/21256-azure-infrastructure-data-monitoring/)
+  - [Storage and Key Vaults Monitoring](https://grafana.com/grafana/dashboards/21253-azure-infrastructure-storage-and-key-vaults-monitoring/)
+
+  Displays traffic-light indicators showing the health of your Azure infrastructure resources based on key performance indicators and thresholds defined for each infrastructure resource type.  This is a collection of dashboards linked together via dashboard links for easy navigation between views.
+
+![Infrastructure Monitoring Gif](../../img/azure_infra_monitor.gif)
 
 - [Alert Consumption](https://grafana.com/grafana/dashboards/15128-azure-alert-consumption/)
 
   A summary of all alerts for the subscription and other filters selected.
 
   ![Alert Consumption Image](https://grafana.com/api/dashboards/15128/images/11874/image)
-
-- [Infrastructure Monitoring](https://grafana.com/grafana/dashboards/19943-azure-infrastructure-infrastructure-monitoring/)
-
-  Displays traffic-light indicators showing the health of your Azure infrastructure resources based on key performance indicators and thresholds defined for each infrastructure resource type.
-
-  ![Infrastructure Monitoring Image](https://grafana.com/api/dashboards/19943/images/15124/image)
 
 - [SCOM Managed Instance Operational Dashboard](https://grafana.com/grafana/dashboards/19919-azure-scom-managed-instance-operational-dashboard/)
 

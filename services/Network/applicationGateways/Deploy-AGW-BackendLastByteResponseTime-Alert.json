@@ -8,7 +8,7 @@
     "displayName": "Deploy AGW BackendLastByteResponseTime Alert",
     "description": "Policy to audit/deploy Azure Application Gateway BackendLastByteResponseTime Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.3.0",
       "Category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -20,7 +20,13 @@
           "displayName": "Severity",
           "description": "Severity of the Alert"
         },
-        "allowedValues": ["0", "1", "2", "3", "4"],
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
         "defaultValue": "2"
       },
       "windowSize": {
@@ -47,7 +53,13 @@
           "displayName": "Evaluation Frequency",
           "description": "Evaluation frequency for the alert"
         },
-        "allowedValues": ["PT1M", "PT5M", "PT15M", "PT30M", "PT1H"],
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
         "defaultValue": "PT1M"
       },
       "alertSensitivity": {
@@ -56,7 +68,11 @@
           "displayName": "Alert Sensitivity",
           "description": "Alert Sensitivity for the alert"
         },
-        "allowedValues": ["Low", "Medium", "High"],
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
         "defaultValue": "Medium"
       },
       "autoMitigate": {
@@ -65,7 +81,10 @@
           "displayName": "Auto Mitigate",
           "description": "Auto Mitigate for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "enabled": {
@@ -74,7 +93,10 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "effect": {
@@ -83,16 +105,32 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": ["deployIfNotExists", "disabled"],
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
         "defaultValue": "deployIfNotExists"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -104,11 +142,14 @@
           },
           {
             "field": "Microsoft.Network/applicationgateways/sku.name",
-            "In": ["Standard_v2", "WAF_v2"]
+            "In": [
+              "Standard_v2",
+              "WAF_v2"
+            ]
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -155,7 +196,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                "equals": "Total"
+                "equals": "Average"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
@@ -163,7 +204,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
-                "equals": "Medium"
+                "equals": "[[parameters('alertSensitivity')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert",
@@ -229,7 +270,9 @@
                       "description": "Metric Alert for App Gateway BackendLastByteResponseTime",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
-                      "scopes": ["[[parameters('resourceId')]"],
+                      "scopes": [
+                        "[[parameters('resourceId')]"
+                      ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
@@ -244,7 +287,7 @@
                               "minFailingPeriodsToAlert": 2,
                               "numberOfEvaluationPeriods": 2
                             },
-                            "timeAggregation": "Total",
+                            "timeAggregation": "Average",
                             "criterionType": "DynamicThresholdCriterion"
                           }
                         ],

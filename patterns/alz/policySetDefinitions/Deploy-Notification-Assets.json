@@ -4,9 +4,9 @@
   "name": "Notification-Assets",
   "properties": {
     "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
-    "description": "Initiative to deploy AMBA Notification Assets",
+    "description": "This initiative deploys Notification Assets for Azure Monitor Baseline Alerts. This includes the setup of an Alert Processing Rule and an Action Group to manage notifications and actions, along with a Notification Suppression Rule to manage alert notifications, as well as a Notification Suppression Rule to control alert notifications.",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -42,12 +42,33 @@
         }
       },
       "ALZMonitorActionGroupEmail": {
-        "type": "String",
+        "type": "Array",
         "metadata": {
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       },
       "ALZLogicappResourceId": {
         "type": "String",
@@ -66,28 +87,28 @@
         "defaultValue": ""
       },
       "ALZArmRoleId": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Arm Role Id",
-          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+          "displayName": "Arm Role Ids",
+          "description": "Arm Built-in Role Ids for action group to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZEventHubResourceId": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Event Hub resource id",
-          "description": "Event Hub resource id for action group to send alerts to"
+          "displayName": "Event Hub resource Ids",
+          "description": "Event Hub resource Ids for action group to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZWebhookServiceUri": {
-        "type": "String",
+        "type": "Array",
         "metadata": {
-          "displayName": "Webhook Service Uri",
-          "description": "Indicates the service uri of the webhook to send alerts to"
+          "displayName": "Webhook Service Uri(s)",
+          "description": "Indicates the service uri(s) of the webhook to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZFunctionResourceId": {
         "type": "String",
@@ -106,12 +127,12 @@
         "defaultValue": ""
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "BYOAlertProcessingRule": {
         "type": "String",
@@ -165,6 +186,12 @@
           },
           "BYOAlertProcessingRule": {
             "value": "[[parameters('BYOAlertProcessingRule')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -180,6 +207,12 @@
           },
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

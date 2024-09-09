@@ -8,7 +8,7 @@
     "displayName": "Deploy VM Available Memory Alert",
     "description": "Policy to audit/deploy VM Available Memory Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -109,13 +109,26 @@
         ],
         "defaultValue": "disabled"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -126,8 +139,8 @@
             "equals": "Microsoft.Compute/virtualMachines"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -182,7 +195,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-AvailableMemoryBytes-threshold-override_'), field('tags._amba-AvailableMemoryBytes-threshold-override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -307,7 +320,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-AvailableMemoryBytes-threshold-override_'), field('tags._amba-AvailableMemoryBytes-threshold-override_'), parameters('threshold'))]"
                 }
               }
             }

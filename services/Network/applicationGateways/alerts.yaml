@@ -1,45 +1,3 @@
-- name: Application Gateway Total Time
-  description: Time that it takes for a request to be processed and its response to
-    be sent. This is the interval from the time when Application Gateway receives
-    the first byte of an HTTP request to the time when the response send operation
-    finishes. It's important to note that this usually includes the Application Gateway
-    processing time, time that the request and response packets are traveling over
-    the network and the time the backend server took to respond.
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: ApplicationGatewayTotalTime
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    alertSensitivity: Medium
-    failingPeriods:
-      numberOfEvaluationPeriods: 2
-      minFailingPeriodsToAlert: 2
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway ApplicationGatewayTotalTime Alert
-    template: Deploy-AGW-ApplicationGatewayTotalTime-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
 - name: Backend Last Byte Response Time
   description: Time interval between start of establishing a connection to backend
     server and receiving the last byte of the response body
@@ -78,222 +36,7 @@
     url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
   - name: Monitoring Azure Application Gateway
     url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Capacity Units
-  description: Capacity Units consumed
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: CapacityUnits
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    threshold: 75
-    criterionType: StaticThresholdCriterion
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway CapacityUnits Alert
-    template: Deploy-AGW-CapacityUnits-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Compute Units
-  description: Compute Units consumed
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: ComputeUnits
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    threshold: 75
-    criterionType: StaticThresholdCriterion
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway CapacityUnits Alert
-    template: Deploy-AGW-CapacityUnits-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Cpu Utilization
-  description: Current CPU utilization of the Application Gateway
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: CpuUtilization
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    threshold: 80
-    criterionType: StaticThresholdCriterion
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway CPU Utilization Alert
-    template: Deploy-AGW-CPUUtil-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Failed Requests
-  description: Count of failed requests that Application Gateway has served
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: FailedRequests
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    alertSensitivity: Medium
-    failingPeriods:
-      numberOfEvaluationPeriods: 2
-      minFailingPeriodsToAlert: 2
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway FailedRequests Alert
-    template: Deploy-AGW-FailedRequests-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Response Status
-  description: Http response status returned by Application Gateway
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: ResponseStatus
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: DynamicThresholdCriterion
-    alertSensitivity: Medium
-    dimensions:
-    - name: HttpStatusGroup
-      operator: Include
-      values:
-      - 4xx
-      - 5xx
-    failingPeriods:
-      numberOfEvaluationPeriods: 2
-      minFailingPeriodsToAlert: 2
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway ResponseStatus Alert
-    template: Deploy-AGW-ResponseStatus-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
-- name: Unhealthy Host Count
-  description: Number of unhealthy backend hosts
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - alz
-  properties:
-    metricName: UnhealthyHostCount
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 2
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    threshold: 20
-    criterionType: StaticThresholdCriterion
-    autoMitigate: false
-  deployments:
-  - name: Deploy Azure Application Gateway Unhealthy Host Count Alert
-    template: Deploy-AGW-UnhealthyHostCount-Alert.json
-    type: Policy
-    tags:
-    - alz
-    properties:
-      scope: Resource
-      multiResource: false
-  references:
-  - name: Monitoring Azure Application Gateway data reference
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway-reference
-  - name: Metrics for Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/application-gateway-metrics
-  - name: Monitoring Azure Application Gateway
-    url: https://learn.microsoft.com/azure/application-gateway/monitor-application-gateway
+  guid: 57c7b576-d4b2-4aa7-8c58-5c0ccbf94726
 - name: UnhealthyHostCount
   description: Number of unhealthy backend hosts
   type: Metric
@@ -312,6 +55,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 0.0
+  guid: c88acf4e-2d23-4ac7-93fb-e44ded53ecee
 - name: FailedRequests
   description: Count of failed requests that Application Gateway has served
   type: Metric
@@ -330,6 +74,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10.0
+  guid: 73afde26-bd0c-4c31-8801-5b2444629448
 - name: HealthyHostCount
   description: Number of healthy backend hosts
   type: Metric
@@ -348,6 +93,7 @@
     operator: LessThan
     criterionType: StaticThresholdCriterion
     threshold: 1.0
+  guid: f03d1a7a-6bd3-42ae-89db-b36fd6ce5633
 - name: ResponseStatus
   description: Http response status returned by Application Gateway
   type: Metric
@@ -371,6 +117,7 @@
       values:
       - 5xx
     threshold: 10.0
+  guid: 6d77d848-23b1-4ff4-b9de-d421845d9566
 - name: ApplicationGatewayTotalTime
   description: Time that it takes for a request to be processed and its response to
     be sent. This is the interval from the time when Application Gateway receives
@@ -394,6 +141,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 5000.0
+  guid: 73fa1878-d22d-4e8d-922d-9f146454cc40
 - name: CapacityUnits
   description: Capacity Units consumed
   type: Metric
@@ -412,6 +160,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 75.0
+  guid: d43ca9ef-6211-40ff-972e-fffb17923fc9
 - name: BackendResponseStatus
   description: The number of HTTP response codes generated by the backend members.
     This does not include any response codes generated by the Application Gateway.
@@ -436,6 +185,7 @@
       values:
       - 5xx
     threshold: 10.0
+  guid: c319a40c-3750-4fb4-a36d-beb3d09ef2ee
 - name: CpuUtilization
   description: Current CPU utilization of the Application Gateway
   type: Metric
@@ -454,6 +204,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 80.0
+  guid: 9c8be4c5-5ba3-47ef-8a0a-97144734a336
 - name: BackendConnectTime
   description: Time spent establishing a connection with a backend server
   type: Metric
@@ -472,6 +223,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000.0
+  guid: e636b3ea-da2d-42f5-aedf-12b69432ac1f
 - name: ComputeUnits
   description: Compute Units consumed
   type: Metric
@@ -490,6 +242,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 75.0
+  guid: e59f4d17-2600-4bcc-ab57-6c695d37a0b2
 - name: Throughput
   description: Number of bytes per second the Application Gateway has served
   type: Metric
@@ -508,25 +261,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 167772160.0
-- name: BackendLastByteResponseTime
-  description: Time interval between start of establishing a connection to backend
-    server and receiving the last byte of the response body
-  type: Metric
-  verified: false
-  visible: true
-  tags:
-  - auto-generated
-  - agc-570
-  properties:
-    metricName: BackendLastByteResponseTime
-    metricNamespace: Microsoft.Network/applicationGateways
-    severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Average
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 8000.0
+  guid: 7640663c-b2f7-41bf-9419-be5e8cfdf74e
 - name: TotalRequests
   description: Count of successful requests that Application Gateway has served
   type: Metric
@@ -545,6 +280,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000.0
+  guid: 06982a17-4def-405d-bb59-4ecfb6486f9e
 - name: CurrentConnections
   description: Count of current connections established with Application Gateway
   type: Metric
@@ -563,6 +299,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 10000.0
+  guid: 695b9710-e432-4521-9042-36287f0fc5ba
 - name: EstimatedBilledCapacityUnits
   description: Estimated capacity units that will be charged
   type: Metric
@@ -581,6 +318,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 20.0
+  guid: e77b6820-e115-4e33-97c1-9bb902eec3b2
 - name: AzwafSecRule
   description: Matched Managed Rules
   type: Metric
@@ -599,6 +337,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 75.0
+  guid: d5827f03-efb6-4257-96e2-b6e34e3bef7e
 - name: BackendFirstByteResponseTime
   description: Time interval between start of establishing a connection to backend
     server and receiving the first byte of the response header, approximating processing
@@ -619,3 +358,4 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 2000.0
+  guid: 3cbcad15-0bb6-423e-87c1-4d40722103d6

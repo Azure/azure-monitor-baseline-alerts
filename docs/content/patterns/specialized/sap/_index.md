@@ -5,14 +5,14 @@ geekdocCollapseSection: true
 
 ## Overview
 
-It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for SAP on  Azure Solution. Action owners will receive email notifications if utilization metrics exceeds set threshold.
+Monitoring SAP environment allows timely action and improves reliability and security of the environment. This solution helps in setting up Azure Monitor alerts for SAP on  Azure Solution. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
 {{< hint type=note >}}
 Please do not operate SAP on Azure Solution outside the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided.
 {{< /hint >}}
 
 **Current Version:**
-v0.0.1 (Apr 19, 2024)
+v0.0.2 (May 25, 2024)
 
 ## Alerts Table
 
@@ -21,8 +21,8 @@ Table below shows the Alerts configured after the deployment.
 | Name                                                       | Threshold(s) (Severity)                    | Signal Type             | Frequency | \# Alert Rules |
 | ---------------------------------------------------------- | ------------------------------------------ | ----------------------- | --------- | -------------- |
 | Percentage CPU > 95                                        | 95 (2)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 90                                       | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 80                                       | 80 (2)                                     | Metric Alerts           | 5 min     | Default        |
+| Percentage CPU >= 85                                       | 85 (1)                                     | Metric Alerts           | 5 min     | Default        |
+| Percentage CPU >= 75                                       | 75 (2)                                     | Metric Alerts           | 5 min     | Default        |
 | VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
@@ -30,13 +30,31 @@ Table below shows the Alerts configured after the deployment.
 | Data Disk IOPS Consumed Percentage > 95                    | \>95 (3)                                   | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 90                | \>=90 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | OS Disk Bandwidth Consumed Percentage >= 80                | \>= 80 (2)                                 | Metric Alerts           | 5 min     | Default        |
-| ExpressRouteGatewayCpuUtilization >=95                     | \>= 95 (0)                                 | Metric Alerts           | 5 min     | Default        |
-| ExpressRouteGatewayCpuUtilization >=90                     | \>= 90 (2)                                 | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 95                         | \>=95 (0)                                  | Metric Alerts           | 5 min     | Default        |
 | VolumeConsumedSizePercentage >= 90                         | \>=90 (2)                                  | Metric Alerts           | 5 min     | Default        |
 | UnhealthyHostCount >=1                                     | \>=1 (0)                                   | Metric Alerts           | 5 min     | Default        |
-| Azure Backup                                               | 0                                          | Azure Backup            | 5 min     | Default        |
-| [SOAP] SAP Netweaver EnqueueReplicationServer Availability | AggregatedValue < 1 In selected dimensions | Log Analytics workspace | 5 min     | AMS            ||
+| Netweaver [SOAP] SAP Netweaver System Availability         |                                            | Metric Alerts           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Availability       |                                            | Metric Alerts           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver EnqueueServer Availability  |                                            | Metric Alerts           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Work Process Utilization | > 70                                 | Metric Alerts           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Queue Wait         | > 5                                        | Metric Alerts           | 5 min     | Default        |
+| SAP HANA High CPU Usage Percent                            | > 90                                       | Metric Alerts           | 5 min     | Default        |
+| SAP HANA High Memory Usage Percent                         | > 90                                       | Metric Alerts           | 5 min     | Default        |
+| Linux OS High CPU usage percent                            | > 90                                       | Metric Alerts           | 5 min     | Default        |
+| Linux OS High memory usage MB                              | > 5000                                     | Metric Alerts           | 5 min     | Default        |
+| Linux OS High Disk Read MB per Sec                         | > 10                                       | Metric Alerts           | 5 min     | Default        |
+| MS SQL Server high CPU usage percent                       | > 90                                       | Metric Alerts           | 5 min     | Default        |
+| MS SQL Server high IO write time ms                        | > 50                                       | Metric Alerts           | 5 min     | Default        |
+| MS SQL Server high blocking time ms                        | > 50                                       | Metric Alerts           | 5 min     | Default        |
+| MS SQL Server high IO read time ms                         | > 50                                       | Metric Alerts           | 5 min     | Default        |
+| DB2 Log Usage Percent                                      | > 20                                       | Metric Alerts           | 5 min     | Default        |
+| DB2 CPU Usage Percent                                      | > 20                                       | Metric Alerts           | 5 min     | Default        |
+| DB2 Availability                                           |                                            | Metric Alerts           | 5 min     | Default        |
+| DB2 Data Disk filesystem utilization percent               | > 80                                       | Metric Alerts           | 5 min     | Default        |
+| DB2 memory utilization percent                             | > 90                                       | Metric Alerts           | 5 min     | Default        |
+
+
+
 
 
 ## 📣Feedback 📣

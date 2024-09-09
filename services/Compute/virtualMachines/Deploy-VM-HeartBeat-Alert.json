@@ -8,7 +8,7 @@
     "displayName": "Deploy VM HeartBeat Alert",
     "description": "Policy to audit/deploy VM HeartBeat Alert for all VMs in the subscription",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.4.0",
       "category": "Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -23,7 +23,7 @@
           "displayName": "Resource Group Name",
           "description": "Resource group the alert is placed in"
         },
-        "defaultValue": "AlzMonitoring-rg"
+        "defaultValue": "rg-amba-monitoring-001"
       },
       "alertResourceGroupTags": {
         "type": "Object",
@@ -32,7 +32,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test"
+          "Project": "amba-monitoring"
         }
       },
       "alertResourceGroupLocation": {
@@ -42,6 +42,14 @@
           "description": "Location of the Resource group the alert is placed in"
         },
         "defaultValue": "centralus"
+      },
+      "UAMIResourceId": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "description": "The resource Id of the user assigned managed identity.",
+          "displayName": "User Assigned managed Identity resource Id."
+        }
       },
       "severity": {
         "type": "String",
@@ -63,14 +71,10 @@
         "metadata": {
           "displayName": "Operator"
         },
-        "allowedvalues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+        "allowedValues": [
+          "GreaterThan"
         ],
-        "defaultvalue": "GreaterThan"
+        "defaultValue": "GreaterThan"
       },
       "timeAggregation": {
         "type": "String",
@@ -78,13 +82,9 @@
           "displayName": "TimeAggregation"
         },
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
-        "defaultvalue": "Average"
+        "defaultValue": "Count"
       },
       "windowSize": {
         "type": "String",
@@ -101,7 +101,7 @@
           "PT12H",
           "PT24H"
         ],
-        "defaultValue": "PT15M"
+        "defaultValue": "PT6H"
       },
       "evaluationFrequency": {
         "type": "String",
@@ -185,6 +185,16 @@
         },
         "defaultValue": "1"
       },
+      "computersToInclude": {
+        "type": "array",
+        "metadata": {
+          "displayName": "Computers to be included to be monitored",
+          "description": "Array of Computer to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -196,6 +206,27 @@
           "disabled"
         ],
         "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -204,6 +235,10 @@
           {
             "field": "type",
             "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -214,7 +249,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/scheduledQueryRules",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -224,32 +259,28 @@
                 "equals": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
+                "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
                 "equals": "[[subscription().id]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/enabled",
+                "field": "Microsoft.Insights/scheduledQueryRules/enabled",
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/evaluationFrequency",
+                "field": "Microsoft.Insights/scheduledQueryRules/evaluationFrequency",
                 "equals": "[[parameters('evaluationFrequency')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/windowSize",
+                "field": "Microsoft.Insights/scheduledQueryRules/windowSize",
                 "equals": "[[parameters('windowSize')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/severity",
+                "field": "Microsoft.Insights/scheduledQueryRules/severity",
                 "equals": "[[parameters('severity')]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/autoMitigate",
+                "field": "Microsoft.Insights/scheduledQueryRules/autoMitigate",
                 "equals": "[[parameters('autoMitigate')]"
-              },
-              {
-                "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
-                "equals": "[[parameters('threshold')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
@@ -269,7 +300,11 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId"
+                "equals": "[[format('let policyThresholdString = \"{2}\"; let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); let overridenResource = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-Heartbeat-threshold-override_\"); Heartbeat | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-Heartbeat-threshold-override_\", tostring(tags.[\"_amba-Heartbeat-threshold-override_\"]), policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where Duration > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Duration', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+              },
+              {
+                "field": "identity.userAssignedIdentities",
+                "containsKey": "[[parameters('UAMIResourceId')]"
               }
             ]
           },
@@ -288,6 +323,9 @@
                     "type": "object"
                   },
                   "alertResourceGroupLocation": {
+                    "type": "string"
+                  },
+                  "UAMIResourceId": {
                     "type": "string"
                   },
                   "severity": {
@@ -325,6 +363,15 @@
                   },
                   "evaluationPeriods": {
                     "type": "String"
+                  },
+                  "computersToInclude": {
+                    "type": "array"
+                  },
+                  "MonitorDisableTagName": {
+                    "type": "String"
+                  },
+                  "MonitorDisableTagValues": {
+                    "type": "Array"
                   }
                 },
                 "variables": {},
@@ -358,6 +405,9 @@
                           },
                           "alertResourceGroupLocation": {
                             "type": "string"
+                          },
+                          "UAMIResourceId": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
@@ -367,6 +417,12 @@
                             "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-VMHeartBeatAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
+                            "identity": {
+                              "type": "UserAssigned",
+                              "userAssignedIdentities": {
+                                "[[parameters('UAMIResourceId')]": {}
+                              }
+                            },
                             "tags": {
                               "_deployed_by_amba": true
                             },
@@ -386,9 +442,8 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "Heartbeat| summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId| extend Duration = datetime_diff('minute',now(),TimeGenerated)| summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId",
-                                    "metricMeasureColumn": "AggregatedValue",
-                                    "threshold": "[[parameters('threshold')]",
+                                    "query": "[[format('let policyThresholdString = \"{2}\"; let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.{0})) in~ (\"{1}\")); let excludedVMSSNodes = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | extend isVMSS = isnotempty(properties.virtualMachineScaleSet) | where isVMSS | project id, name); let overridenResource = (arg(\"\").resources | where type =~ \"Microsoft.Compute/virtualMachines\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-Heartbeat-threshold-override_\"); Heartbeat | where _ResourceId has \"Microsoft.Compute/virtualMachines\" | where _ResourceId !in~ (excludedResources) | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-Heartbeat-threshold-override_\", tostring(tags.[\"_amba-Heartbeat-threshold-override_\"]), policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where Duration > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Duration', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                                    "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "resourceIdColumn": "_ResourceId",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
@@ -396,9 +451,7 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": [
-                                          "*"
-                                        ]
+                                        "values": "[[parameters('computersToInclude')]"
                                       }
                                     ],
                                     "failingPeriods": {
@@ -418,7 +471,10 @@
                                   "value": "[[parameters('alertResourceGroupName')]"
                                 },
                                 "alertResourceGroupLocation": {
-                                  "value": "[[parameters('alertResourceGroupName')]"
+                                  "value": "[[parameters('alertResourceGroupLocation')]"
+                                },
+                                "UAMIResourceId": {
+                                  "value": "[[parameters('UAMIResourceId')]"
                                 },
                                 "severity": {
                                   "value": "[[parameters('severity')]"
@@ -449,6 +505,15 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[[parameters('computersToInclude')]"
+                                },
+                                "MonitorDisableTagName": {
+                                  "value": "[[parameters('MonitorDisableTagName')]"
+                                },
+                                "MonitorDisableTagValues": {
+                                  "value": "[[parameters('MonitorDisableTagValues')]"
                                 }
                               }
                             }
@@ -464,6 +529,9 @@
                         },
                         "alertResourceGroupLocation": {
                           "value": "[[parameters('alertResourceGroupLocation')]"
+                        },
+                        "UAMIResourceId": {
+                          "value": "[[parameters('UAMIResourceId')]"
                         }
                       }
                     }
@@ -479,6 +547,9 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
+                },
+                "UAMIResourceId": {
+                  "value": "[[parameters('UAMIResourceId')]"
                 },
                 "severity": {
                   "value": "[[parameters('severity')]"
@@ -515,6 +586,15 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
+                },
+                "computersToInclude": {
+                  "value": "[[parameters('computersToInclude')]"
+                },
+                "MonitorDisableTagName": {
+                  "value": "[[parameters('MonitorDisableTagName')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[parameters('MonitorDisableTagValues')]"
                 }
               }
             }

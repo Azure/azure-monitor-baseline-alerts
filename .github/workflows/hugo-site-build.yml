@@ -10,6 +10,9 @@ on:
       - 'docs/**'
       - 'services/**/alerts.yaml'
       - 'services/**/*.md'
+      - 'services/**/templates/**'
+      - 'tooling/export-alerts/**'
+      - 'tooling/generate-templates/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch: {}
@@ -54,16 +57,17 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # install the python version needed
+          python-version: '3.12' # install the python version needed
 
       - name: Install Python Packages
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-        working-directory: tooling/export-alerts
+        working-directory: tooling
 
       - name: Export Alerts
-        run: python export-alerts.py --path ../../services --template ./alerts-template.xlsx --output-xls ../../services/amba-alerts.xlsx --output-json ../../services/amba-alerts.json --output-yaml ../../services/amba-alerts.yaml
+        run: |
+          pip install -r requirements.txt
+          python export-alerts.py --path ../../services --template ./alerts-template.xlsx --output-xls ../../services/amba-alerts.xlsx --output-json ../../services/amba-alerts.json --output-yaml ../../services/amba-alerts.yaml
         working-directory: tooling/export-alerts
 
       - name: Setup Pages

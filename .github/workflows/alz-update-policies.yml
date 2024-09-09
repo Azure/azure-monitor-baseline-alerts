@@ -1,0 +1,151 @@
+---
+  name: Update Policy Deployment Templates
+
+  ##########################################
+  # Start the job on push for all branches #
+  ##########################################
+
+  # yamllint disable-line rule:truthy
+  on:
+    pull_request_target:
+      types:
+        - opened
+        - reopened
+        - synchronize
+        - ready_for_review
+      paths:
+        - "services/**.json"
+        - "patterns/alz/**.json"
+        - "patterns/alz/templates/**.bicep"
+
+  env:
+    github_user_name: "github-actions"
+    github_email: "41898282+github-actions[bot]@users.noreply.github.com"
+    github_commit_message: "Auto-update Policies"
+    github_pr_number: ${{ github.event.number }}
+    github_pr_repo: ${{ github.event.pull_request.head.repo.full_name }}
+
+  permissions:
+    contents: write
+
+  ###############
+  # Set the Job #
+  ###############
+
+  jobs:
+    update-portal:
+      name: Update Policy Deployment Templates
+      runs-on: ubuntu-latest
+      if: |
+        (
+          github.event.pull_request.head.repo.full_name == 'Azure/azure-monitor-baseline-alerts'
+        )
+        ||
+        (
+          github.event.pull_request.head.repo.full_name != 'Azure/azure-monitor-baseline-alerts'
+          &&
+          contains(github.event.pull_request.labels.*.name, 'PR: Safe to test :test_tube:')
+        )
+        ||
+        (
+          github.event_name == 'workflow_dispatch'
+        )
+        ||
+        (
+          github.event_name == 'merge_group'
+        )
+
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v4
+
+        - name: Show env
+          run: env | sort
+
+        - name: Check out PR
+          run: |
+            echo "==> Check out PR..."
+            gh pr checkout "$github_pr_number"
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Configure local git
+          run: |
+            echo "git user name  : $github_user_name"
+            git config --global user.name "$github_user_name"
+            echo "git user email : $github_email"
+            git config --global user.email "$github_email"
+
+        - name: Update Automation policies
+          run: bicep build ./patterns/alz/templates/policies-Automation.bicep --outfile ./patterns/alz/policyDefinitions/policies-Automation.json
+
+        - name: Update Compute policies
+          run: bicep build ./patterns/alz/templates/policies-Compute.bicep --outfile ./patterns/alz/policyDefinitions/policies-Compute.json
+
+        - name: Update Hybrid policies
+          run: bicep build ./patterns/alz/templates/policies-Hybrid.bicep --outfile ./patterns/alz/policyDefinitions/policies-Hybrid.json
+
+        - name: Update Key Management policies
+          run: bicep build ./patterns/alz/templates/policies-KeyManagement.bicep --outfile ./patterns/alz/policyDefinitions/policies-KeyManagement.json
+
+        - name: Update Monitoring policies
+          run: bicep build ./patterns/alz/templates/policies-Monitoring.bicep --outfile ./patterns/alz/policyDefinitions/policies-Monitoring.json
+
+        - name: Update Network policies
+          run: bicep build ./patterns/alz/templates/policies-Network.bicep --outfile ./patterns/alz/policyDefinitions/policies-Network.json
+
+        - name: Update Notification Assets policies
+          run: bicep build ./patterns/alz/templates/policies-NotificationAssets.bicep --outfile ./patterns/alz/policyDefinitions/policies-NotificationAssets.json
+
+        - name: Update Recovery Services policies
+          run: bicep build ./patterns/alz/templates/policies-RecoveryServices.bicep --outfile ./patterns/alz/policyDefinitions/policies-RecoveryServices.json
+
+        - name: Update Resource Management policies
+          run: bicep build ./patterns/alz/templates/policies-ServiceHealth.bicep --outfile ./patterns/alz/policyDefinitions/policies-ServiceHealth.json
+
+        - name: Update Security policies
+          run: bicep build ./patterns/alz/templates/policies-Storage.bicep --outfile ./patterns/alz/policyDefinitions/policies-Storage.json
+
+        - name: Update Web policies
+          run: bicep build ./patterns/alz/templates/policies-Web.bicep --outfile ./patterns/alz/policyDefinitions/policies-Web.json
+
+        - name: Update policy set definitions
+          run: bicep build ./patterns/alz/templates/policySets.bicep --outfile ./patterns/alz/policyDefinitions/policySets.json
+
+        - name: Check git status
+          run: |
+            echo "==> Check git status..."
+            git status --short --branch
+
+        - name: Stage changes
+          run: |
+            echo "==> Stage changes..."
+            mapfile -t STATUS_LOG < <(git status --short | grep patterns/alz)
+            if [ ${#STATUS_LOG[@]} -gt 0 ]; then
+                echo "Found changes to the following files:"
+                printf "%s\n" "${STATUS_LOG[@]}"
+                git add --all ./patterns/alz
+            else
+                echo "No changes to add."
+            fi
+
+        - name: Push changes
+          run: |
+            echo "==> Check git diff..."
+            mapfile -t GIT_DIFF < <(git diff --cached)
+            printf "%s\n" "${GIT_DIFF[@]}"
+
+            if [ ${#GIT_DIFF[@]} -gt 0 ]; then
+
+                echo "==> Commit changes..."
+                git commit --message "$github_commit_message [$GITHUB_ACTOR/${GITHUB_SHA::8}]"
+
+                echo "==> Push changes..."
+                echo "Pushing changes to: $github_pr_repo"
+                git push "https://$GITHUB_TOKEN@github.com/$github_pr_repo.git" "HEAD:$GITHUB_HEAD_REF"
+
+            else
+                echo "No changes found."
+            fi
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

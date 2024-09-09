@@ -3,12 +3,14 @@
   "apiVersion": "2021-06-01",
   "name": "Alerting-LandingZone",
   "properties": {
-    "displayName": "Deploy Azure Monitor Baseline Alerts for Landing Zone",
+    "displayName": "[Deprecated]: Deploy Azure Monitor Baseline Alerts for Landing Zone",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ LandingZone management group",
     "metadata": {
-      "version": "1.0.5",
+      "version": "1.1.0-deprecated",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "deprecated": true,
+      "supersededBy": "Alerting-KeyManagement, Alerting-LoadBalancing, Alerting-NetworkChanges, Alerting-RecoveryServices, Alerting-Storage, Alerting-VM, Alerting-Web",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
@@ -867,7 +869,7 @@
       },
       "VMHeartBeatRGWindowSize": {
         "type": "string",
-        "defaultValue": "PT15M",
+        "defaultValue": "PT6H",
         "allowedValues": [
           "PT1M",
           "PT5M",
@@ -954,11 +956,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Heart Beat RG Operator",
@@ -967,17 +965,21 @@
       },
       "VMHeartBeatRGTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Heart Beat RG Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "VMHeartBeatRGFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "VM Heart Beat RG Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "VMNetworkInAlertSeverity": {
@@ -1084,11 +1086,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Network In Operator",
@@ -1097,13 +1095,9 @@
       },
       "VMNetworkInTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Network In Time Aggregation",
@@ -1134,16 +1128,6 @@
         "metadata": {
           "displayName": "VM Network In Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMNetworkInNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Network In Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
         }
       },
       "VMNetworkOutAlertSeverity": {
@@ -1250,11 +1234,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Network Out Operator",
@@ -1263,13 +1243,9 @@
       },
       "VMNetworkOutTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Network Out Time Aggregation",
@@ -1300,16 +1276,6 @@
         "metadata": {
           "displayName": "VM Network Out Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMNetworkOutNetworkInterfaceToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Network Out Network Interface To Include",
-          "description": "Network Interface To Include for the alert"
         }
       },
       "VMOSDiskReadLatencyAlertSeverity": {
@@ -1414,13 +1380,9 @@
       },
       "VMOSDiskReadLatencyOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM OS Disk Read Latency Operator",
@@ -1429,13 +1391,9 @@
       },
       "VMOSDiskReadLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM OS Disk Read Latency Time Aggregation",
@@ -1466,17 +1424,6 @@
         "metadata": {
           "displayName": "VM OS Disk Read Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMOSDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "VM OS Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "VMOSDiskWriteLatencyAlertSeverity": {
@@ -1573,7 +1520,7 @@
       },
       "VMOSDiskWriteLatencyThreshold": {
         "type": "string",
-        "defaultValue": "50",
+        "defaultValue": "30",
         "metadata": {
           "displayName": "VM OS Disk Write Latency Threshold",
           "description": "Threshold for the alert"
@@ -1581,13 +1528,9 @@
       },
       "VMOSDiskWriteLatencyOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM OS Disk Write Latency Operator",
@@ -1596,13 +1539,9 @@
       },
       "VMOSDiskWriteLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM OS Disk Write Latency Time Aggregation",
@@ -1633,17 +1572,6 @@
         "metadata": {
           "displayName": "VM OS Disk Write Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMOSDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "VM OS Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "VMOSDiskSpaceAlertSeverity": {
@@ -1748,13 +1676,9 @@
       },
       "VMOSDiskSpaceOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM OS Disk Space Operator",
@@ -1763,13 +1687,9 @@
       },
       "VMOSDiskSpaceTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM OS Disk Space Time Aggregation",
@@ -1800,17 +1720,6 @@
         "metadata": {
           "displayName": "VM OS Disk Space Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMOSDiskSpaceDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "C:",
-          "/"
-        ],
-        "metadata": {
-          "displayName": "VM OS Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "VMPercentCPUAlertSeverity": {
@@ -1917,11 +1826,7 @@
         "type": "string",
         "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Percent CPU Operator",
@@ -1930,17 +1835,21 @@
       },
       "VMPercentCPUTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Percent CPU Time Aggregation",
           "description": "Time Aggregation for the alert"
+        }
+      },
+      "VMPercentCPUFailingPeriods": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "VM Percent CPU Failing Periods",
+          "description": "Failing Periods for the alert"
         }
       },
       "VMPercentMemoryAlertSeverity": {
@@ -2045,13 +1954,9 @@
       },
       "VMPercentMemoryOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Percent Memory Operator",
@@ -2060,13 +1965,9 @@
       },
       "VMPercentMemoryTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Percent Memory Time Aggregation",
@@ -2175,13 +2076,9 @@
       },
       "VMDataDiskSpaceOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Data Disk Space Operator",
@@ -2190,13 +2087,9 @@
       },
       "VMDataDiskSpaceTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Data Disk Space Time Aggregation",
@@ -2217,16 +2110,6 @@
         "metadata": {
           "displayName": "VM Data Disk Space Failing Periods",
           "description": "Failing Periods for the alert"
-        }
-      },
-      "VMDataDiskSpaceDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Data Disk Space Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "VMDataDiskReadLatencyAlertSeverity": {
@@ -2331,13 +2214,9 @@
       },
       "VMDataDiskReadLatencyOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Data Disk Read Latency Operator",
@@ -2346,13 +2225,9 @@
       },
       "VMDataDiskReadLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Data Disk Read Latency Time Aggregation",
@@ -2383,16 +2258,6 @@
         "metadata": {
           "displayName": "VM Data Disk Read Latency Computers To Include",
           "description": "Computers To Include for the alert"
-        }
-      },
-      "VMDataDiskReadLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Data Disk Read Latency Disks To Include",
-          "description": "Disks To Include for the alert"
         }
       },
       "VMDataDiskWriteLatencyAlertSeverity": {
@@ -2497,13 +2362,9 @@
       },
       "VMDataDiskWriteLatencyOperator": {
         "type": "string",
-        "defaultValue": "LessThan",
+        "defaultValue": "GreaterThan",
         "allowedValues": [
-          "Equals",
-          "GreaterThan",
-          "GreaterThanOrEqual",
-          "LessThan",
-          "LessThanOrEqual"
+          "GreaterThan"
         ],
         "metadata": {
           "displayName": "VM Data Disk Write Latency Operator",
@@ -2512,13 +2373,9 @@
       },
       "VMDataDiskWriteLatencyTimeAggregation": {
         "type": "string",
-        "defaultValue": "Average",
+        "defaultValue": "Count",
         "allowedValues": [
-          "Average",
-          "Count",
-          "Maximum",
-          "Minimum",
-          "Total"
+          "Count"
         ],
         "metadata": {
           "displayName": "VM Data Disk Write Latency Time Aggregation",
@@ -2551,16 +2408,6 @@
           "description": "Computers To Include for the alert"
         }
       },
-      "VMDataDiskWriteLatencyDisksToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "VM Data Disk Write Latency Disks To Include",
-          "description": "Disks To Include for the alert"
-        }
-      },
       "AGWApplicationGatewayTotalTimeAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -2574,6 +2421,19 @@
         "metadata": {
           "displayName": "AGW Total Time Alert Severity",
           "description": "Severity of the alert"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Total Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
         }
       },
       "AGWApplicationGatewayTotalTimeWindowSize": {
@@ -2642,6 +2502,19 @@
         "metadata": {
           "displayName": "AGW Backend Last Byte Response Time Alert Severity",
           "description": "Severity of the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Dynamic Alert Sensitivity",
+          "description": "Dynamic Severity of the alert"
         }
       },
       "AGWBackendLastByteResponseTimeWindowSize": {
@@ -2916,6 +2789,19 @@
           "description": "Severity of the alert"
         }
       },
+      "AGWFailedRequestsAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Failed Requests Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
+        }
+      },
       "AGWFailedRequestsWindowSize": {
         "type": "string",
         "defaultValue": "PT5M",
@@ -2982,6 +2868,19 @@
         "metadata": {
           "displayName": "AGW Response Status Alert Severity",
           "description": "Severity of the alert"
+        }
+      },
+      "AGWResponseStatusAlertSensitivity": {
+        "type": "String",
+        "defaultValue": "Medium",
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "metadata": {
+          "displayName": "AGW Response Status Dynamic Alert Sensitivity",
+          "description": "Dynamic Sensitivity of the alert"
         }
       },
       "AGWResponseStatusWindowSize": {
@@ -4493,6 +4392,9 @@
           },
           "timeAggregation": {
             "value": "[[parameters('VMHeartBeatRGTimeAggregation')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VMHeartBeatRGFailingPeriods')]"
           }
         }
       },
@@ -4541,9 +4443,6 @@
           },
           "computersToInclude": {
             "value": "[[parameters('VMNetworkInComputersToInclude')]"
-          },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('VMNetworkInNetworkInterfaceToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -4602,9 +4501,6 @@
           "computersToInclude": {
             "value": "[[parameters('VMNetworkOutComputersToInclude')]"
           },
-          "networkInterfacesToInclude": {
-            "value": "[[parameters('VMNetworkOutNetworkInterfaceToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -4661,9 +4557,6 @@
           },
           "computersToInclude": {
             "value": "[[parameters('VMOSDiskReadLatencyComputersToInclude')]"
-          },
-          "disksToInclude": {
-            "value": "[[parameters('VMOSDiskReadLatencyDisksToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -4722,9 +4615,6 @@
           "computersToInclude": {
             "value": "[[parameters('VMOSDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('VMOSDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -4782,9 +4672,6 @@
           "computersToInclude": {
             "value": "[[parameters('VMOSDiskSpaceComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('VMOSDiskSpaceDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -4832,6 +4719,9 @@
           },
           "timeAggregation": {
             "value": "[[parameters('VMPercentCPUTimeAggregation')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VMPercentCPUFailingPeriods')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -4935,9 +4825,6 @@
           "evaluationPeriods": {
             "value": "[[parameters('VMDataDiskSpaceEvaluationPeriods')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('VMDataDiskSpaceDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -4994,9 +4881,6 @@
           },
           "computersToInclude": {
             "value": "[[parameters('VMDataDiskReadLatencyComputersToInclude')]"
-          },
-          "disksToInclude": {
-            "value": "[[parameters('VMDataDiskReadLatencyDisksToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -5055,9 +4939,6 @@
           "computersToInclude": {
             "value": "[[parameters('VMDataDiskWriteLatencyComputersToInclude')]"
           },
-          "disksToInclude": {
-            "value": "[[parameters('VMDataDiskWriteLatencyDisksToInclude')]"
-          },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
           },
@@ -5075,6 +4956,9 @@
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertSensitivity')]"
           },
           "windowSize": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeWindowSize')]"
@@ -5096,6 +4980,9 @@
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeAlertSensitivity')]"
           },
           "windowSize": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeWindowSize')]"
@@ -5181,6 +5068,9 @@
           "severity": {
             "value": "[[parameters('AGWFailedRequestsAlertSeverity')]"
           },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWFailedRequestsAlertSensitivity')]"
+          },
           "windowSize": {
             "value": "[[parameters('AGWFailedRequestsWindowSize')]"
           },
@@ -5201,6 +5091,9 @@
         "parameters": {
           "severity": {
             "value": "[[parameters('AGWResponseStatusAlertSeverity')]"
+          },
+          "alertSensitivity": {
+            "value": "[[parameters('AGWResponseStatusAlertSensitivity')]"
           },
           "windowSize": {
             "value": "[[parameters('AGWResponseStatusWindowSize')]"
@@ -5365,7 +5258,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPPercentage4XX",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage4XX_Alert",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPPercentage4XXAlertSeverity')]"
@@ -5386,7 +5279,7 @@
       },
       {
         "policyDefinitionReferenceId": "ALZ_CDNPPercentage5XX",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontdoorCDN_Percentage5XX_Alert",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
         "parameters": {
           "severity": {
             "value": "[[parameters('CDNPPercentage5XXAlertSeverity')]"

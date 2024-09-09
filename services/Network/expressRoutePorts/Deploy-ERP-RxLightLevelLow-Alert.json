@@ -8,7 +8,7 @@
     "displayName": "Deploy ER Direct ExpressRoute RxLightLevel Low Alert",
     "description": "Policy to audit/deploy ER Direct RxLightLevel Low Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "Category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -20,7 +20,13 @@
           "displayName": "Severity",
           "description": "Severity of the Alert"
         },
-        "allowedValues": ["0", "1", "2", "3", "4"],
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
         "defaultValue": "1"
       },
       "windowSize": {
@@ -47,7 +53,13 @@
           "displayName": "Evaluation Frequency",
           "description": "Evaluation frequency for the alert"
         },
-        "allowedValues": ["PT1M", "PT5M", "PT15M", "PT30M", "PT1H"],
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
         "defaultValue": "PT5M"
       },
       "autoMitigate": {
@@ -56,7 +68,10 @@
           "displayName": "Auto Mitigate",
           "description": "Auto Mitigate for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "enabled": {
@@ -65,7 +80,10 @@
           "displayName": "Alert State",
           "description": "Alert state for the alert"
         },
-        "allowedValues": ["true", "false"],
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true"
       },
       "threshold": {
@@ -82,16 +100,32 @@
           "displayName": "Effect",
           "description": "Effect of the policy"
         },
-        "allowedValues": ["deployIfNotExists", "disabled"],
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
         "defaultValue": "disabled"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Effect",
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -102,8 +136,8 @@
             "equals": "Microsoft.Network/expressRoutePorts"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -162,7 +196,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[parameters('threshold')]"
+                "equals": "[[if(contains(field('tags'), '_amba-RxLightLevel-Low-threshold-Override_'), field('tags._amba-RxLightLevel-Low-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -220,7 +254,9 @@
                       "description": "Metric Alert for ER Direct Connection RxLightLevelLow",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
-                      "scopes": ["[[parameters('resourceId')]"],
+                      "scopes": [
+                        "[[parameters('resourceId')]"
+                      ],
                       "evaluationFrequency": "[[parameters('evaluationFrequency')]",
                       "windowSize": "[[parameters('windowSize')]",
                       "criteria": {
@@ -285,7 +321,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-RxLightLevel-Low-threshold-Override_'), field('tags._amba-RxLightLevel-Low-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

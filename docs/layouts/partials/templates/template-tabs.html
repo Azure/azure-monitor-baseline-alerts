@@ -1,3 +1,9 @@
+{{ $category := .category }}
+{{ $type := .type }}
+{{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
+{{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
+{{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -6,9 +12,16 @@
     id="{{ anchorize .alert.name }}-0"
     checked="checked"
   />
-  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label"></label>
+  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy</label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p><b>Click a tab to view the template</b></p>
+    <p>
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+        <img src="https://aka.ms/deploytoazurebutton"/>
+      </a>
+      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+        <img src="https://aka.ms/deploytoazuregovbutton"/>
+      </a>
+    </p>
   </div>
   <input
     type="radio"
@@ -20,23 +33,8 @@
     ARM
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ if eq .alert.type "Metric" }}
-      {{ if eq .alert.properties.criterionType "StaticThresholdCriterion" }}
-        {{ highlight (partial "templates/arm/metric-static.html" .alert) "json" }}
-      {{ else }}
-        {{ highlight (partial "templates/arm/metric-dynamic.html" .alert) "json" }}
-      {{ end }}
-    {{ else if eq .alert.type "Log" }}
-      {{ highlight (partial "templates/arm/log.html" .alert) "json" }}
-    {{ else if eq .alert.type "ActivityLog" }}
-      {{ if eq .alert.properties.category "Administrative" }}
-        {{ highlight (partial "templates/arm/activity-administrative.html" .alert) "json" }}
-      {{ else if eq .alert.properties.category "ServiceHealth" }}
-        {{ highlight (partial "templates/arm/activity-servicehealth.html" .alert) "json" }}
-      {{ else if eq .alert.properties.category "ResourceHealth" }}
-        {{ highlight (partial "templates/arm/activity-resourcehealth.html" .alert) "json" }}
-      {{ end}}
-    {{ end }}
+    {{ $data := readFile $file }}
+    {{ highlight $data "json" }}
   </div>
   <input
     type="radio"
@@ -48,53 +46,24 @@
     Bicep
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ if eq .alert.type "Metric" }}
-      {{ if eq .alert.properties.criterionType "StaticThresholdCriterion" }}
-        {{ highlight (partial "templates/bicep/metric-static.html" .alert) "bicep" }}
-      {{ else }}
-        {{ highlight (partial "templates/bicep/metric-dynamic.html" .alert) "bicep" }}
-      {{ end }}
-    {{ else if eq .alert.type "Log" }}
-      {{ highlight (partial "templates/bicep/log.html" .alert) "bicep" }}
-    {{ else if eq .alert.type "ActivityLog" }}
-      {{ if eq .alert.properties.category "Administrative" }}
-        {{ highlight (partial "templates/bicep/activity-administrative.html" .alert) "bicep" }}
-      {{ else if eq .alert.properties.category "ServiceHealth" }}
-        {{ highlight (partial "templates/bicep/activity-servicehealth.html" .alert) "bicep" }}
-      {{ else if eq .alert.properties.category "ResourceHealth" }}
-        {{ highlight (partial "templates/bicep/activity-resourcehealth.html" .alert) "bicep" }}
-      {{ end}}
-    {{ end }}
+    {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
+    {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
+    {{ $data := readFile $file }}
+    {{ highlight $data "bicep" }}
   </div>
-  {{ $name := .alert.name }}
-  {{ $category := .category }}
-  {{ $type := .type }}
-  {{ range $idx, $value := .alert.deployments }}
-    <input
-      type="radio"
-      class="gdoc-tabs__control hidden"
-      name="{{ anchorize $name }}"
-      id="{{ anchorize $name }}-{{ add $idx 3 }}"
-    />
-    <label for="{{ anchorize $name }}-{{ add $idx 3 }}" class="gdoc-tabs__label">
-      {{ $value.type }}
-    </label>
-    {{ $file := path.Join "services/" $category $type $value.template }}
-    <div class="gdoc-markdown--nested gdoc-tabs__content">
-      <table>
-        <tr><td>Name</td><td>{{ $value.name }}</td></tr>
-        <tr><td>Template</td><td>{{ $value.template }} <a href="{{ relURL $file }}" download>(Download)</a></td></tr>
-        <tr><td>Tags</td><td>{{ delimit $value.tags "," }}</td></tr>
-        <tr><td>Properties</td>
-          <td>
-            {{ range $key, $value := $value.properties }}
-              {{ $key }}: {{ $value }}<br>
-            {{ end }}
-          </td>
-      </tr>
-      </table>
-      {{ $data := readFile $file }}
-      {{ highlight $data "json" }}
-    </div>
-  {{ end }}
+  <input
+    type="radio"
+    class="gdoc-tabs__control hidden"
+    name="{{ anchorize .alert.name }}"
+    id="{{ anchorize .alert.name }}-3"
+  />
+  <label for="{{ anchorize .alert.name }}-3" class="gdoc-tabs__label">
+    Policy
+  </label>
+  <div class="gdoc-markdown--nested gdoc-tabs__content">
+    {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+    {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
+    {{ $data := readFile $file }}
+    {{ highlight $data "json" }}
+  </div>
 </div>

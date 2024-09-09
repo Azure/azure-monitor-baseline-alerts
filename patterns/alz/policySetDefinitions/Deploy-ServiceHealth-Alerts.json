@@ -4,9 +4,9 @@
   "name": "Alerting-ServiceHealth",
   "properties": {
     "displayName": "Deploy Azure Monitor Baseline Alerts for Service Health",
-    "description": "Initiative to deploy AMBA Service Health alerts to Azure services",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health.",
     "metadata": {
-      "version": "1.4.0",
+      "version": "1.5.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -40,6 +40,27 @@
           "displayName": "Resource Group Location",
           "description": "Location of the resource group"
         }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       },
       "ResHlthUnhealthyAlertState": {
         "type": "string",
@@ -141,17 +162,9 @@
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
-      "MonitorDisable": {
-        "type": "string",
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "displayName": "Monitoring disabled",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
-        }
-      },
       "ALZMonitorActionGroupEmail": {
-        "type": "string",
-        "defaultValue": "",
+        "type": "Array",
+        "defaultValue": [],
         "metadata": {
           "displayName": "Action Group Email Addresses",
           "description": "Email addresses to send alerts to"
@@ -174,28 +187,28 @@
         "defaultValue": ""
       },
       "ALZArmRoleId": {
-        "type": "String",
-        "defaultValue": "",
+        "type": "array",
+        "defaultValue": [],
         "metadata": {
-          "displayName": "Arm Role Id",
-          "description": "Arm Built-in Role Id for action group to send alerts to a subscription level, will only send to individual members of role"
+          "displayName": "Arm Role Ids",
+          "description": "Arm Built-in Role Ids for action group to send alerts to"
         }
       },
       "ALZEventHubResourceId": {
-        "type": "String",
-        "defaultValue": "",
+        "type": "array",
+        "defaultValue": [],
         "metadata": {
-          "displayName": "Event Hub resource id",
-          "description": "Event Hub resource id for action group to send alerts to"
+          "displayName": "Event Hub resource Ids",
+          "description": "Event Hub resource Ids for action group to send alerts to"
         }
       },
       "ALZWebhookServiceUri": {
-        "type": "String",
+        "type": "Array",
         "metadata": {
-          "displayName": "Webhook Service Uri",
-          "description": "Indicates the service uri of the webhook to send alerts to"
+          "displayName": "Webhook Service Uri(s)",
+          "description": "Indicates the service uri(s) of the webhook to send alerts to"
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "ALZFunctionResourceId": {
         "type": "String",
@@ -214,12 +227,12 @@
         "defaultValue": ""
       },
       "BYOActionGroup": {
-        "type": "String",
+        "type": "array",
         "metadata": {
-          "displayName": "Customer defined Action Group Resource ID",
-          "description": "The Resource ID of an existing Action Group already deployed by the customer in his environment"
+          "displayName": "Customer defined Action Group Resource IDs",
+          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
         },
-        "defaultValue": ""
+        "defaultValue": []
       },
       "BYOAlertProcessingRule": {
         "type": "String",
@@ -273,6 +286,12 @@
           },
           "BYOAlertProcessingRule": {
             "value": "[[parameters('BYOAlertProcessingRule')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -298,8 +317,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -328,8 +350,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -358,8 +383,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -388,8 +416,11 @@
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       },
@@ -418,8 +449,11 @@
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
           },
-          "MonitorDisable": {
-            "value": "[[parameters('MonitorDisable')]"
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }

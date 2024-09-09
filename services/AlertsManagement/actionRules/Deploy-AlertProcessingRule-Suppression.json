@@ -8,7 +8,7 @@
     "displayName": "Deploy AMBA Notification Suppression Asset",
     "description": "Policy to deploy empty and disabled suppression Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -43,13 +43,26 @@
         },
         "defaultValue": "centralus"
       },
-      "MonitorDisable": {
+      "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "Monitoring disabled",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -60,8 +73,8 @@
             "equals": "Microsoft.Resources/subscriptions"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
@@ -101,8 +114,7 @@
                     "type": "string"
                   }
                 },
-                "variables": {
-                },
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -136,8 +148,7 @@
                             "apiVersion": "2021-08-08",
                             "name": "[[concat('apr-AMBA-',subscription().displayName, '-002')]",
                             "location": "Global",
-                            "dependsOn": [
-                            ],
+                            "dependsOn": [],
                             "tags": {
                               "_deployed_by_amba": true
                             },

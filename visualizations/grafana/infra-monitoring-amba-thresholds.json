@@ -3,7 +3,14 @@
     "AvailableMB" : 10,
     "UtilizationPercentage" : 85,
     "ReadBytesPerSecond" : 10000000,
-    "WriteBytesPerSecond" : 10000000
+    "WriteBytesPerSecond" : 10000000,
+    "FreeSpacePercentage" : 10,
+    "ReadLatencyMs" : 30,
+    "WriteLatencyMs" : 30,
+    "Data Disk Write Bytes/sec" : 10000000,
+    "Data Disk Read Bytes/sec" : 10000000,
+    "Data Disk Write Operations/Sec" : 50,
+    "Data Disk Read Operations/Sec" : 100
   },
   "Microsoft.Compute/virtualMachineScaleSets" : {
     "AvailableMB" : 10,
@@ -12,12 +19,10 @@
     "WriteBytesPerSecond" : 10000000
   },
   "Microsoft.Storage/storageAccounts" : {
+    "SuccessE2ELatency" : 1000,
+    "SuccessServerLatency" : 1000,
     "Availability" : 90,
     "UsedCapacity" : 4000000000000000
-  },
-  "Microsoft.Storage/storageAccounts/blobServices" : {
-    "SuccessE2ELatency" : 1000,
-    "FailingTransactions" : 500
   },
   "Microsoft.KeyVault/vaults" : {
     "Availability" : 90,
@@ -34,7 +39,7 @@
     "QpsByEndpoint" : 0
   },
   "Microsoft.Network/applicationGateways" : {
-    "UnhealthyHostCount" : 20,
+    "UnhealthyHostCount" : 0,
     "FailedRequests" : 10,
     "HealthyHostCount" : 0
   },
@@ -71,16 +76,59 @@
     "QosDropBitsInPerSecond" : 100,
     "QosDropBitsOutPerSecond" : 100
   },
+  "Microsoft.DocumentDB/databaseAccounts" : {
+    "ServerSideLatency" : 100,
+    "ReplicationLatency" : 5000,
+    "ServiceAvailability" : 99.9,
+    "OfflineRegion" : 0
+  },
+  "Microsoft.Sql/servers" : {
+    "cpu_percent" : 90,
+    "sqlserver_process_memory_percent" : 90,
+    "storage_percent" : 90,
+    "physical_data_read_percent" : 90
+  },
+  "Microsoft.DBforMySQL/flexibleServers" : {
+    "cpu_percent" : 95,
+    "memory_percent" : 95,
+    "storage_percent" : 90,
+    "replication_lag" : 6000
+  },
+  "Microsoft.DBforPostgreSQL/flexibleServers" : {
+    "cpu_percent" : 90,
+    "memory_percent" : 90,
+    "storage_percent" : 90,
+    "is_db_alive" : 1
+  },
   "Microsoft.EventHub/namespaces" : {
-    "IncomingMessages" : 1,
-    "OutgoingMessages" : 1,
-    "IncomingBytes" : 400000000,
-    "OutgoingBytes" : 400000000
+    "UserErrors" : 5,
+    "ServerErrors" : 5,
+    "ThrottledRequests" : 0
   },
   "Microsoft.Web/sites" : {
     "HttpResponseTime" : 5,
     "CpuTime" : 120,
     "PrivateBytes" : 1200000000,
     "RequestsInApplicationQueue" : 10
+  },
+  "Microsoft.ContainerService/managedClusters" : {
+    "node_cpu_usage_percentage" : 95,
+    "node_memory_working_set_percentage" : 100,
+    "node_disk_usage_percentage" : 80,
+    "cluster_autoscaler_unschedulable_pods_count" : 0
+  },
+  "Microsoft.ContainerRegistry/registries" : {
+    "StorageUsed" : 429496729600
+  },
+  "Microsoft.Cache/Redis" : {
+    "percentProcessorTime" : 80,
+    "usedmemorypercentage" : 90,
+    "cacheLatency" : 10000,
+    "errors" : 0
+  },
+  "Microsoft.ServiceBus/namespaces" : {
+    "UserErrors" : 0,
+    "ServerErrors" : 0,
+    "ThrottledRequests" : 10
   }
 }
