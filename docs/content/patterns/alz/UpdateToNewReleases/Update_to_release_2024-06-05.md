@@ -1,5 +1,5 @@
 ---
-title: Updating from release 2024-04-12
+title: Updating to release 2024-06-05
 geekdocCollapseSection: true
 weight: 98
 ---
@@ -9,7 +9,7 @@ weight: 98
 
 # Pre update actions
 
-The parameter file structure has changed to accommodate a new feature coming soon. For this reason, updating from release [2024-04-12](../../Whats-New#2024-04-12) requires the alignment of the parameter file structure you have been using so far with the new one coming with the release.
+The parameter file structure has changed to accommodate a new feature coming soon. For this reason, updating from release [2024-06-05](../../Whats-New#2024-06-05) requires the alignment of the parameter file structure you have been using so far with the new one coming with the release.
 
 In particular the new parameter file has the following differences:
 

@@ -1,12 +1,12 @@
 ---
-title: Updating from release 2023-11-14
+title: Updating to release 2024-03-01
 geekdocCollapseSection: true
 weight: 100
 ---
 
 ## Post update actions
 
-Updating from release [2023-11-14](../../Whats-New#2023-11-14) will require running a post update script to remove the old Service Health action group(s) no longer in use.
+Updating to release [2024-03-01](../../Whats-New#2024-03-01) will require running a post update script to remove the old Service Health action group(s) no longer in use.
 
   To run the script, follow the following instructions:
 
