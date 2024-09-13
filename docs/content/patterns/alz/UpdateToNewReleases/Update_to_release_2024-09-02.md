@@ -27,7 +27,7 @@ To run the script, complete the following steps:
   4. Configure the ***$pseudoRootManagementGroup*** variable using the following command:
 
   ```powershell
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+  $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
   ```
 
   1. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove policy definitions, policy set definitions, policy assignments and role assignments at the desired Management Group scope.

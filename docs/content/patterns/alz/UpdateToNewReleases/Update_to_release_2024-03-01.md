@@ -16,7 +16,7 @@ Updating to release [2024-03-01](../../Whats-New#2024-03-01) will require runnin
   4. Configure the _**$pseudoRootManagementGroup**_ variable using the following command:
 
   ```powershell
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+  $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
   ```
 
   1. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the wanted Management Group scope.
