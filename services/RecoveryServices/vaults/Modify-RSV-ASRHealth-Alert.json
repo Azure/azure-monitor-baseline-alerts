@@ -64,12 +64,16 @@
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           },
           {
-            "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllReplicationIssues",
-            "notEquals": "Enabled"
-          },
-          {
-            "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllFailoverIssues",
-            "notEquals": "Enabled"
+            "anyOf": [
+              {
+                "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllReplicationIssues",
+                "notEquals": "Enabled"
+              },
+              {
+                "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllFailoverIssues",
+                "notEquals": "Enabled"
+              }
+            ]
           }
         ]
       },
