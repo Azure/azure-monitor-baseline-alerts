@@ -13,7 +13,7 @@ Azure Monitor Baseline Alerts (AMBA) streamlines your Azure experience by provid
 - **Automation Policies**: Deploy alert policies easily and consistently with Azure Policy templates.
 
 - **Guided Documentation**: Find detailed guidance to establish a solid alerting foundation.
-  
+
 - **Enhanced Resiliency**: Automate Service Health alerts deployment to tackle common resiliency challenges.
 
 ---
@@ -33,9 +33,9 @@ Each main section of Azure Monitor Baseline Alerts can be considered as its own 
 AMBA supports three types of activity alerts to monitor your Azure resources. These alerts help you stay informed about the status and health of your Azure services:
 
 - **Alerts for logs and metrics**: These keep track of your system's logs and performance metrics.
-  
+
 - **Alerts with static thresholds**: These trigger when certain predefined limits are reached.
-  
+
 - **Alerts with dynamic thresholds**: These adapt based on patterns and trends in your data.
 
 ---
