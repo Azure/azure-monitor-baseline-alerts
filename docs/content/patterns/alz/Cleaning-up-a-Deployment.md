@@ -39,20 +39,14 @@ Follow the instructions below to download the cleanup script file. Alternatively
 3. Change directories to the location of the **Start-AMBACleanup.ps1** script
 4. Configure the _**$pseudoRootManagementGroup**_ variable using the command below:
 
-  ```powershell
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
-  ```
+    ```powershell
+    $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
+    ```
 
 5. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
 6. Execute the script using one of the options below:
 
     {{% include "PowerShell-ExecutionPolicy.md" %}}
-
-    **Generate a list of the resource IDs which would be deleted by this script:**
-
-    ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
-    ```
 
     **Show output of what would happen if deletes executed:**
 
@@ -60,8 +54,14 @@ Follow the instructions below to download the cleanup script file. Alternatively
     ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
     ```
 
-    **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+    **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
 
     ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup
+    ```
+
+    **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ.**
+
+    ```powershell
+    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Confirm:$false
     ```
