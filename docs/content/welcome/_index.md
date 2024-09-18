@@ -1,35 +1,72 @@
 ---
-title: Welcome
+title: Welcome to AMBA!
 weight: 0
 ---
 
 ---
-Welcome to the Azure Monitor Baseline Alerts (AMBA) site!  The purpose of this site is to provide best practice guidance around key alerts metrics and their thresholds.
+Azure Monitor Baseline Alerts (AMBA) streamlines your Azure experience by providing a set of essential metrics and guidelines to ensure your Azure services are performing optimally. AMBA is your go-to for a proactive and informed Azure monitoring approach! Here's what you need to know:
 
-This sites is broken down into two main sections:
-1. **Azure Resources:** This section provides guidance for individual Azure resources.  For each service, there is a list of key alert metrics and the recommended thresholds.
+- **Expert Recommendations**: Access a comprehensive list of alert recommendations and expert guidance for Azure resources.
 
-2. **Patterns / Scenarios:** This section provides guidance for common patterns / scenarios (like Azure Landing Zones), as well as policy definition and initiatives for deploying the alerts in your environment.
+- **Stay Alert**: Get near real-time notifications to quickly pinpoint issues and visualize alerts from Azure through dashboards.
 
-## Why is configuring alerts important?
+- **Automation Policies**: Deploy alert policies easily and consistently with Azure Policy templates.
+
+- **Guided Documentation**: Find detailed guidance to establish a solid alerting foundation.
+
+- **Enhanced Resiliency**: Automate Service Health alerts deployment to tackle common resiliency challenges.
+
 ---
-When deploying Azure resources, it is crucial to configure alerts to ensure the health, performance, and security of your resources. By setting up alerts, you can proactively monitor your resources and take timely actions to address any issues that may arise.
+The site is organized into three main sections:
 
-Here are the key reasons why configuring alerts is important:
+- **Azure Resources**: Find per resource level guidance on individual Azure services, including key alert metrics, recommended thresholds, deployment templates, and reference documentation.
 
-1. **Early detection of issues**: Alerts enable you to identify potential problems or anomalies in your Azure resources at an early stage. By monitoring key metrics and logs, you can detect issues such as high CPU usage, low memory, network connectivity problems, or security breaches. This allows you to take immediate action and prevent any negative impact on your applications or services.
+- **Patterns / Scenarios**: Deploy monitoring at scale with specialized patterns such as Azure Landing Zones, along with policy definitions and initiatives for deploying alerts in your environment.
 
-2. **Reduced downtime**: By configuring alerts, you can minimize downtime by being notified of critical events or failures in real-time. This allows you to quickly investigate and resolve issues before they escalate, ensuring the availability and reliability of your applications.
+- **Visualizations**: Create data-driven monitoring solutions to visually understand your alerts and key metrics. Use Azure Managed Grafana and Azure Workbooks to deploy real-time, personalized dashboards.
 
-3. **Optimized resource utilization**: Alerts help you optimize resource utilization by providing insights into resource usage patterns and trends. By monitoring metrics such as CPU utilization, memory consumption, or storage capacity, you can identify opportunities for optimization and cost savings.
+Each main section of Azure Monitor Baseline Alerts can be considered as its own level, with associated monitoring subsections:
 
-4. **Compliance and security**: Configuring alerts is essential for maintaining compliance with regulatory requirements and ensuring the security of your Azure resources. By monitoring security logs and detecting suspicious activities or unauthorized access attempts, you can take immediate action to mitigate potential risks and protect your data.
+![Screenshot 2024-09-17 113833](https://github.com/user-attachments/assets/2e8ecdeb-e27d-476e-b53e-75ef6fabc39b)
 
-5. **Proactive capacity planning**: Alerts provide valuable information for capacity planning and scaling your resources. By monitoring resource utilization trends over time, you can identify patterns and forecast future resource requirements. This helps you avoid performance bottlenecks and ensure a smooth user experience.
+---
+AMBA supports three types of activity alerts to monitor your Azure resources. These alerts help you stay informed about the status and health of your Azure services:
 
-{{< figure src="../img/amba_logo.png" width="20%" >}}
+- **Alerts for logs and metrics**: These keep track of your system's logs and performance metrics.
+
+- **Alerts with static thresholds**: These trigger when certain predefined limits are reached.
+
+- **Alerts with dynamic thresholds**: These adapt based on patterns and trends in your data.
+
+---
+**Learn more about monitoring and improve your observability story with these quick links:**
+
+- Stay Updated on Service Health:
+
+  - Set up [Azure Monitor Baseline Alerts](https://azure.github.io/azure-monitor-baseline-alerts/welcome/) for Azure Services.
+
+  - Get insights on Microsoft 365 with [Microsoft 365 monitoring](https://learn.microsoft.com/en-us/microsoft-365/enterprise/microsoft-365-monitoring?view=o365-worldwide).
+
+- Visualize your Service Health:
+
+  - Explore the [Observability at Scale repository](https://github.com/microsoft/mcsa-observability) for monitoring at scale.
+
+  - Follow best practices and [recommendations for designing and creating a monitoring system](https://learn.microsoft.com/en-us/azure/well-architected/operational-excellence/observability).
+
+- Deep Insights into Critical Workloads:
+
+  - Gain in-depth views with [Azure Mission Critical monitoring](https://learn.microsoft.com/en-us/azure/well-architected/mission-critical/).
+
+- Specialized Workload Monitoring:
+
+  - Keep an eye on your Azure specialized workloads with [Monitor Azure platform landing zone components](https://learn.microsoft.com/en-gb/azure/cloud-adoption-framework/ready/landing-zone/design-area/management-monitor#azure-landing-zone-monitoring-guidance).
+
+---
+
+**Visualize and explore your end-to-end monitoring journey:**
+
+![image](https://github.com/user-attachments/assets/384fde00-78d7-47d2-a925-d186d036b98d)
 
 {{< hint type=tip >}}
 Please review and leave issues on things you find, via [GitHub Issues](https://github.com/Azure/azure-monitor-baseline-alerts/issues)
 {{< /hint >}}
-
