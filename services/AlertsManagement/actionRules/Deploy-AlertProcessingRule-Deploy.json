@@ -401,7 +401,7 @@
                             "condition": "[[and(empty(parameters('BYOActionGroup')), empty(parameters('BYOAlertProcessingRule')))]",
                             "type": "Microsoft.Insights/actionGroups",
                             "apiVersion": "2023-01-01",
-                            "name": "[[concat('ag-AMBA-', subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]",
+                            "name": "[[concat('ag-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix')]",
                             "location": "Global",
                             "tags": {
                               "_deployed_by_amba": true
@@ -421,10 +421,10 @@
                             "condition": "[[empty(parameters('BYOAlertProcessingRule'))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
-                            "name": "[[concat('apr-AMBA-',subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, parameters('ALZProcessingRuleNameSuffix')]",
                             "location": "Global",
                             "dependsOn": [
-                              "[[concat('ag-AMBA-', subscription().displayName, (parameters('ALZProcessingRuleNameSuffix')))]"
+                              "[[concat('ag-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix'))]"
                             ],
                             "tags": {
                               "_deployed_by_amba": true
@@ -433,7 +433,7 @@
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
-                              "description": "[[concat('apr-AMBA-',subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]",
+                              "description": "[[concat('apr-AMBA-',subscription().displayName, parameters('ALZProcessingRuleNameSuffix')]",
                               "conditions": [
                                 {
                                   "field": "severity",
@@ -448,7 +448,7 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))), variables('varAGIds'))]",
+                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix')), variables('varAGIds'))]",
                                   "actionType": "AddActionGroups"
                                 }
                               ]
