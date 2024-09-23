@@ -65,7 +65,7 @@ param(
     # the items to be cleaned-up
     [Parameter(Mandatory = $True,
         ValueFromPipeline = $false)]
-        [ValidateSet("All", "Deployments", "NotificationAssets", "Alerts", "PolicyItems", IgnoreCase = $true)]
+        [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "Alerts", "PolicyItems", IgnoreCase = $true)]
         [string]$cleanItems
 )
 
@@ -207,7 +207,7 @@ Function Get-ALZ-Deployments {
     # get deployments to delete
     $allDeployments = @()
     ForEach ($mg in $managementGroups) {
-        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" | where { $_.DeploymentName.StartsWith("amba-") }
+        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" -WarningAction silentlyContinue | where { $_.DeploymentName.StartsWith("amba-") }
         $allDeployments += $deployments
     }
     Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy."
@@ -349,7 +349,7 @@ If ($managementGroups.count -eq 0) {
 
 Switch ($cleanItems)
 {
-    "All"
+    "Amba-Alz"
     {
         # Invoking function to retrieve alerts
         $alertsToBeDeleted = Get-ALZ-Alerts
@@ -366,11 +366,11 @@ Switch ($cleanItems)
         # Invoking function to retrieve policy definitions
         $policyDefinitionsToBeDeleted = Get-ALZ-PolicyDefinitions
 
-        # Invoking function to retrieve user assigned managed identities
-        $uamiToBeDeleted = Get-ALZ-UserAssignedManagedIdentities
-
         # Invoking function to retrieve role assignments
         $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
+
+        # Invoking function to retrieve user assigned managed identities
+        $uamiToBeDeleted = Get-ALZ-UserAssignedManagedIdentities
 
         # Invoking function to retrieve alert processing rules
         $aprToBeDeleted = Get-ALZ-AlertProcessingRules
@@ -378,35 +378,35 @@ Switch ($cleanItems)
         # Invoking function to retrieve action groups
         $agToBeDeleted = Get-ALZ-ActionGroups
 
-        If (($alertResourceIds.count -gt 0) -or ($policyAssignmentIds.count -gt 0) -or ($policySetDefinitionIds.count -gt 0) -or ($policyDefinitionIds.count -gt 0) -or ($roleAssignments.count -gt 0) -or ($UamiIds.count -gt 0) -or ($alertProcessingRuleIds.count -gt 0) -or ($actionGroupIds.count -gt 0)) {
+        If (($alertsToBeDeleted.count -gt 0) -or ($policyAssignmentToBeDeleted.count -gt 0) -or ($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0) -or ($uamiToBeDeleted.count -gt 0) -or ($aprToBeDeleted.count -gt 0) -or ($agToBeDeleted.count -gt 0)) {
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts, policy assignments, policy initiatives, policy definitions, policy role assignments, user assigned managed identities, alert processing rules and action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
                 # Invoking function to delete alerts
-                Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted
+                If ($alertsToBeDeleted.count -gt 0) { Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted }
 
                 # Invoking function to delete resource groups
-                #Delete-ALZ-ResourceGroups -fRgToBeDeleted $rgToBeDeleted
+                # If ($rgToBeDeleted -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $rgToBeDeleted }
 
                 # Invoking function to delete policy assignments
-                Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentToBeDeleted
+                If ($policyAssignmentToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentToBeDeleted }
 
                 # Invoking function to delete policy set definitions
-                Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted
+                If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
 
                 # Invoking function to delete policy definitions
-                Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted
+                If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
 
                 # Invoking function to delete role assignments
-                Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted
+                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
 
                 # Invoking function to delete user assigned managed identities
-                Delete-ALZ-UserAssignedManagedIdentities -fUamiToBeDeleted $uamiToBeDeleted
+                If ($uamiToBeDeleted.count -gt 0) { Delete-ALZ-UserAssignedManagedIdentities -fUamiToBeDeleted $uamiToBeDeleted }
 
                 # Invoking function to delete alert processing rules
-                Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $aprToBeDeleted
+                If ($aprToBeDeleted.count -gt 0) { Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $aprToBeDeleted }
 
                 # Invoking function to delete action groups
-                Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted
+                If ($agToBeDeleted.count -gt 0) { Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted }
             }
         }
     }
@@ -437,10 +437,10 @@ Switch ($cleanItems)
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete AMBA-ALZ alert processing rules and action groups on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
               # Invoking function to delete alert processing rules
-                Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $aprToBeDeleted
+                If ($aprToBeDeleted.count -gt 0) { Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $aprToBeDeleted }
 
                 # Invoking function to delete action groups
-                Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted
+                If ($agToBeDeleted.count -gt 0) { Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted }
             }
         }
     }
@@ -477,16 +477,16 @@ Switch ($cleanItems)
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
               # Invoking function to delete policy assignments
-                Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted
+                If ($policyAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted }
 
                 # Invoking function to delete policy set definitions
-                Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted
+                If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
 
                 # Invoking function to delete policy definitions
-                Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted
+                If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
 
                 # Invoking function to delete role assignments
-                Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted
+                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
             }
         }
     }
