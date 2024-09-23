@@ -179,7 +179,7 @@ Function Get-ALZ-PolicyDefinitions {
     Write-Host "- Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
 
     # Returning items
-    policyDefinitionIds
+    $policyDefinitionIds
 
 }
 
@@ -243,90 +243,70 @@ Function Get-ALZ-ActionGroups {
 Function Delete-ALZ-Alerts($fAlertsToBeDeleted)
 {
     # delete alert resources
-    If ($fAlertsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting alerts ..."
-        $fAlertsToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
-    }
+    Write-Host "-- Deleting alerts ..."
+    $fAlertsToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
 }
 
 Function Delete-ALZ-ResourceGroups($fRgToBeDeleted)
 {
     # delete resource groups
-    If ($fRgToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting resource groups ..."
-        $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Confirm:$false | Out-Null }
-    }
+    Write-Host "-- Deleting resource groups ..."
+    $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Confirm:$false | Out-Null }
 }
 
 Function Delete-ALZ-PolicyAssignments($fPolicyAssignmentsToBeDeleted)
 {
     # delete policy assignments
-    If ($fPolicyAssignmentsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting policy assignments ..."
-        $fPolicyAssignmentsToBeDeleted | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:$false -ErrorAction Stop }
-    }
+    Write-Host "-- Deleting policy assignments ..."
+    $fPolicyAssignmentsToBeDeleted | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:$false -ErrorAction Stop }
 }
 Function Delete-ALZ-PolicySetDefinitions($fPolicySetDefinitionsToBeDeleted)
 {
     # delete policy set definitions
-    If ($fPolicySetDefinitionsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting policy set definitions ..."
-        $fPolicySetDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force }
-    }
+    Write-Host "-- Deleting policy set definitions ..."
+    $fPolicySetDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force }
 }
 
 Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted)
 {
     # delete policy definitions
-    If ($fPolicyDefinitionsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting policy definitions ..."
-        $fPolicyDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force }
-    }
+    Write-Host "-- Deleting policy definitions ..."
+    $fPolicyDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force }
 }
 
 Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
 {
     # delete role assignments
-    If ($fRoleAssignmentsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting role assignments ..."
-        $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:$false | Out-Null }
-    }
+    Write-Host "-- Deleting role assignments ..."
+    $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:$false | Out-Null }
 }
 
 Function Delete-ALZ-UserAssignedManagedIdentities($fUamiToBeDeleted)
 {
     # delete user assigned managed identities
-    If ($fUamiToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting user assigned managed identities ..."
-        $fUamiToBeDeleted | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -SubscriptionId $_.subscriptionId -Confirm:$false }
-    }
+    Write-Host "-- Deleting user assigned managed identities ..."
+    $fUamiToBeDeleted | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -SubscriptionId $_.subscriptionId -Confirm:$false }
 }
 
 Function Delete-ALZ-AlertProcessingRules($fAprToBeDeleted)
 {
     # delete alert processing rules
-    If ($fAprToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting alert processing rules ..."
-        $fAprToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
-    }
+    Write-Host "-- Deleting alert processing rules ..."
+    $fAprToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
 }
 
 Function Delete-ALZ-ActionGroups($fAgToBeDeleted)
 {
     # delete action groups
-    If ($fAgToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting action groups ..."
-        $fAgToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
-    }
+    Write-Host "-- Deleting action groups ..."
+    $fAgToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
 }
 
 Function Delete-ALZ-Deployments($fDeploymentsToBeDeleted)
 {
     # delete deployments
-    If ($fDeploymentsToBeDeleted.count -gt 0) {
-        Write-Host "-- Deleting deployments ..."
-        $fDeploymentsToBeDeleted | ForEach-Object { Remove-AzManagementGroupDeployment -InputObject $_ -Force }
-    }
+    Write-Host "-- Deleting deployments ..."
+    $fDeploymentsToBeDeleted | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ -WarningAction silentlyContinue } -throttlelimit 100
 }
 
 #endregion
@@ -436,8 +416,6 @@ Switch ($cleanItems)
         # Invoking function to retrieve deployments
         $deploymentsToBeDeleted = Get-ALZ-Deployments
 
-        Write-Host "- Found '$($deploymentsToBeDeleted.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy."
-
         If ($deploymentsToBeDeleted.count -gt 0) {
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete deployments performed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
@@ -472,7 +450,7 @@ Switch ($cleanItems)
         # Invoking function to retrieve alerts
         $alertsToBeDeleted = Get-ALZ-Alerts
 
-        If ($alertResourceIds.count -gt 0) {
+        If ($alertsToBeDeleted.count -gt 0) {
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts, policy assignments, policy initiatives, policy definitions, policy role assignments, user assigned managed identities, alert processing rules and action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
                 # Invoking function to delete alerts
@@ -484,7 +462,7 @@ Switch ($cleanItems)
     "PolicyItems"
     {
         # Invoking function to retrieve policy assignments
-        $policyAssignmentToBeDeleted = Get-ALZ-PolicyAssignments
+        $policyAssignmentsToBeDeleted = Get-ALZ-PolicyAssignments
 
         # Invoking function to retrieve policy set definitions
         $policySetDefinitionsToBeDeleted = Get-ALZ-PolicySetDefinitions
@@ -492,11 +470,14 @@ Switch ($cleanItems)
         # Invoking function to retrieve policy definitions
         $policyDefinitionsToBeDeleted = Get-ALZ-PolicyDefinitions
 
-        If (($policyAssignmentIds.count -gt 0) -or ($policySetDefinitionIds.count -gt 0) -or ($policyDefinitionIds.count -gt 0) -or ($roleAssignments.count -gt 0)) {
+        # Invoking function to retrieve role assignments
+        $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
+
+        If (($policyAssignmentsToBeDeleted.count -gt 0) -or ($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0)) {
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
               # Invoking function to delete policy assignments
-                Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentToBeDeleted
+                Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted
 
                 # Invoking function to delete policy set definitions
                 Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted
