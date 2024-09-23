@@ -202,8 +202,8 @@
               },
             
               {
-                "field": "Microsoft.AlertsManagement/actionRules/name",
-                "equals": "[[concat('ag-AMBA-', subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]"
+                "field": "Microsoft.AlertsManagement/actionRules/conditions.severity.values[*]",
+                "equals": "[[parameters('ALZAlertSeverity')]"
               }
             ]
           },
@@ -427,7 +427,7 @@
                             "name": "[[concat('apr-AMBA-',subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]",
                             "location": "Global",
                             "dependsOn": [
-                              "[[concat('ag-AMBA-', subscription().displayName, '-001')]"
+                              "[[concat('ag-AMBA-', subscription().displayName, (parameters('ALZProcessingRuleNameSuffix')))]"
                             ],
                             "tags": {
                               "_deployed_by_amba": true
