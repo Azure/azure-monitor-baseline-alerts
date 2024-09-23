@@ -198,13 +198,10 @@
             "allOf": [
               {
                 "field": "Microsoft.AlertsManagement/actionRules/description",
-                "equals": "AMBA Notification Assets - Alert Processing Rule for Subscription"
-              },
-            
-              {
-                "field": "Microsoft.AlertsManagement/actionRules/conditions.severity.values[*]",
-                "equals": "[[parameters('ALZAlertSeverity')]"
+                "equals": "[[concat('apr-AMBA-',subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]"
               }
+            
+           
             ]
           },
           "deployment": {
@@ -436,7 +433,7 @@
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
-                              "description": "AMBA Notification Assets - Alert Processing Rule for Subscription",
+                              "description": "[[concat('apr-AMBA-',subscription().displayName, (parameters('ALZProcessingRuleNameSuffix'))]",
                               "conditions": [
                                 {
                                   "field": "severity",
