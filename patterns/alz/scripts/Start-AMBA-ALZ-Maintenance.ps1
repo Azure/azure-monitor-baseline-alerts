@@ -177,7 +177,7 @@ Function Get-ALZ-OrphanedAlerts {
         }
     }
 
-    Write-Host "- Found '$($orphanedAlerts.Count)' metric, activity log and log orphaned alerts with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+    Write-Host "- Found '$($orphanedAlerts.Count)' orphaned metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $orphanedAlerts
