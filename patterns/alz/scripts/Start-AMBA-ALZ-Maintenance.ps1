@@ -10,15 +10,15 @@
 # SOFTWARE.
 
 <#
-.SYNOPSIS
-    This script is intended to consolidate previous maintenance scripts. It will allow customers to:
-    - remove all resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
+.DESCRIPTION
+    This script is intended to consolidate previous maintenance scripts. It allow customers to:
+    - remove ALL resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
     - remove ONLY the deployment entries of AMBA-ALZ happening at the pseudo root management group level
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
     - remove ONLY policy definitions, policy initiatives, policy assignments nd role assignment created by the AMBA-ALZ deployment
+    - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
 
-.NOTES
     In order for this script to function the deployed resources must have a tag _deployed_by_amba with a value of true and Policy resources must have metadata property
     named _deployed_by_amba with a value of True. These tags and metadata are included in the automation, but if they are subsequently removed, there may be orphaned
     resources after this script executes.
@@ -30,17 +30,17 @@
 .LINK
     https://github.com/Azure/azure-monitor-baseline-alerts
 
-.PARAMETER
-    pseudoRootManagementGroup
-        The pseudo root management group to start the cleanup from. This is the management group that is the parent of all the management groups that are part of the AMBA-ALZ deployment.  This is the management group that the AMBA-ALZ deployment was initiated from.
+.PARAMETER pseudoRootManagementGroup
+    Required. The pseudo root management group to start the cleanup from. This is the management group that is the parent of all the management groups that are part of the AMBA-ALZ deployment.  This is the management group that the AMBA-ALZ deployment was initiated from.
 
-    cleanItems
-        The item type we want the script to clean up.  The options are:
-          - All
-          - Deployments
-          - NotificationAssets
-          - Alerts
-          - PolicyItems
+.PARAMETER cleanItems
+    Required. The item type we want the script to clean up. The options are:
+        - Amba-Alz
+        - Deployments
+        - NotificationAssets
+        - Alerts
+        - PolicyItems
+        - OrphanedAlerts
 
 .EXAMPLE
     ./Start-AMBA-Maintenance.ps1 -pseudoRootManagementGroup Contoso - cleanItems All -WhatIf
@@ -65,7 +65,7 @@ param(
     # the items to be cleaned-up
     [Parameter(Mandatory = $True,
         ValueFromPipeline = $false)]
-        [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "Alerts", "PolicyItems", IgnoreCase = $true)]
+        [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyItems", IgnoreCase = $true)]
         [string]$cleanItems
 )
 
@@ -92,17 +92,17 @@ Function Search-AzGraphRecursive {
             }
         }
 
-        $result = @()
+        $result = [System.Collections.ArrayList]::new()
         ForEach ($managementGroupBatch in $managementGroupBatches) {
             $batchResult = Search-AzGraph -Query $query -ManagementGroup $managementGroupBatch -Verbose:$false @optionalParams
 
             # resource graph returns pages of 100 resources, if there are more than 100 resources in a batch, recursively query for more
             If ($batchResult.count -eq 100 -and $batchResult.SkipToken) {
-                $result += $batchResult
+                [void]$result.Add($batchResult)
                 Search-AzGraphRecursive -query $query -managementGroupNames $managementGroupNames -skipToken $batchResult.SkipToken
             }
             else {
-                $result += $batchResult
+                [void]$result.Add($batchResult)
             }
         }
     }
@@ -119,7 +119,7 @@ Function Search-AzGraphRecursive {
 
 Function Iterate-ManagementGroups($mg) {
 
-    $script:managementGroups += $mg.Name
+    [void]$script:managementGroups.Add($mg.Name)
     if ($mg.Children) {
         foreach ($child in $mg.Children) {
             if ($child.Type -eq 'Microsoft.Management/managementGroups') {
@@ -136,17 +136,58 @@ Function Get-ALZ-Alerts {
     # get alert resources to delete
     $query = "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id"
     $alertResourceIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($alertResourceIds.Count)' metric, activity log and log alerts with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $alertResourceIds
+}
+
+Function Get-ALZ-OrphanedAlerts {
+
+    # get AMBA-ALZ alert resources
+    $query = "Resources | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id, scope = tostring(properties.scopes)"
+    $alertResources = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups
+
+    # get alerts without scoped resource existent
+    If ($alertResources.count -gt 0) {
+        $tempArrayList = [System.Collections.ArrayList]::new()
+        $orphanedAlerts = [System.Collections.ArrayList]::Synchronized($tempArrayList)
+        <#ForEach ($alert in $alertResources) {
+            $scope = $($alert.scope.replace('"]', '')).replace('["', '')
+            $query = "Resources | where id =~ '$scope' | project id"
+            $resourceId = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id
+
+            If (-NOT $resourceId) {
+                $orphanedAlerts.add($alert.id)
+            }
+        }#>
+
+        $alertResources | ForEach-Object -Parallel {
+            $arr = $using:orphanedAlerts
+            $scope = $($_.scope.replace('"]', '')).replace('["', '')
+
+            # Filtering out alerts targeted at the subscriptions and the resource groups
+            if (($scope -split '/').count -gt 5) {
+                $resourceId = Get-AzResource -ResourceId $scope -ErrorAction SilentlyContinue
+
+                if (-not $resourceId) {
+                    [void]$arr.Add($_.id)
+                }
+            }
+        }
+    }
+
+    Write-Host "- Found '$($orphanedAlerts.Count)' metric, activity log and log orphaned alerts with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+
+    # Returning items
+    $orphanedAlerts
 }
 
 Function Get-ALZ-ResourceGroups {
     # get resource group to delete
     $query = "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_amba'] =~ 'True' | project id"
     $resourceGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $resourceGroupIds
@@ -156,7 +197,7 @@ Function Get-ALZ-PolicyAssignments {
     # get policy assignments to delete
     $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | project name,metadata=parse_json(properties.metadata),type,identity,id | where metadata._deployed_by_amba =~ 'true'"
     $policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $policyAssignmentIds
@@ -166,7 +207,7 @@ Function Get-ALZ-PolicySetDefinitions {
     # get policy set definitions to delete
     $query = "policyresources | where type =~ 'microsoft.authorization/policysetdefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
     $policySetDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $policySetDefinitionIds
@@ -176,7 +217,7 @@ Function Get-ALZ-PolicyDefinitions {
     # get policy definitions to delete
     $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
     $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $policyDefinitionIds
@@ -187,7 +228,7 @@ Function Get-ALZ-UserAssignedManagedIdentities {
     # get user assigned managed identities to delete
     $query = "Resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
     $UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-    Write-Host "- Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $UamiIds
@@ -197,7 +238,7 @@ Function Get-ALZ-RoleAssignments {
     # get role assignments to delete
     $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
     $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Sort-Object -Property id | Get-Unique -AsString
-    Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted."
+    Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $roleAssignments
@@ -210,7 +251,7 @@ Function Get-ALZ-Deployments {
         $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" -WarningAction silentlyContinue | where { $_.DeploymentName.StartsWith("amba-") }
         $allDeployments += $deployments
     }
-    Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy."
+    Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy." -ForegroundColor Cyan
 
     # Returning items
     $allDeployments
@@ -221,7 +262,7 @@ Function Get-ALZ-AlertProcessingRules {
     #$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
     $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name startswith 'apr-AMBA-' and properties.description startswith 'AMBA Notification Assets - ' and tags['_deployed_by_amba'] =~ 'True'| project id"
     $alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $alertProcessingRuleIds
@@ -231,7 +272,7 @@ Function Get-ALZ-ActionGroups {
     # get action groups to delete
     $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | project id"
     $actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-    Write-Host "- Found '$($actionGroupIds.Count)' action group(s) with tag '_deployed_by_amba=True' to be deleted."
+    Write-Host "- Found '$($actionGroupIds.Count)' action group(s) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
     # Returning items
     $actionGroupIds
@@ -243,70 +284,80 @@ Function Get-ALZ-ActionGroups {
 Function Delete-ALZ-Alerts($fAlertsToBeDeleted)
 {
     # delete alert resources
-    Write-Host "-- Deleting alerts ..."
-    $fAlertsToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
+    Write-Host "`n-- Deleting alerts ..." -foregroundcolor Yellow
+    $fAlertsToBeDeleted | Foreach-Object -Parallel { Remove-AzResource -ResourceId $_ -Force } | Out-Null
+    Write-Host "---- Done deleting alerts ..." -ForegroundColor Cyan
 }
 
 Function Delete-ALZ-ResourceGroups($fRgToBeDeleted)
 {
     # delete resource groups
-    Write-Host "-- Deleting resource groups ..."
-    $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Confirm:$false | Out-Null }
+    Write-Host "`n-- Deleting resource groups ..." -foregroundcolor Yellow
+    $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Confirm:$false } | Out-Null
+    Write-Host "---- Done deleting resource groups ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-PolicyAssignments($fPolicyAssignmentsToBeDeleted)
 {
     # delete policy assignments
-    Write-Host "-- Deleting policy assignments ..."
-    $fPolicyAssignmentsToBeDeleted | ForEach-Object { Remove-AzPolicyAssignment -Id $_ -Confirm:$false -ErrorAction Stop }
+    Write-Host "`n-- Deleting policy assignments ..." -foregroundcolor Yellow
+    $fPolicyAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzPolicyAssignment -Id $_ -Confirm:$false -ErrorAction Stop } | Out-Null
+    Write-Host "---- Done policy assignments ..." -foregroundcolor Cyan
 }
 Function Delete-ALZ-PolicySetDefinitions($fPolicySetDefinitionsToBeDeleted)
 {
     # delete policy set definitions
-    Write-Host "-- Deleting policy set definitions ..."
-    $fPolicySetDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicySetDefinition -Id $_ -Force }
+    Write-Host "`n-- Deleting policy set definitions ..." -foregroundcolor Yellow
+    $fPolicySetDefinitionsToBeDeleted | ForEach-Object -Parallel { Remove-AzPolicySetDefinition -Id $_ -Force } | Out-Null
+    Write-Host "---- Done deleting policy set definitions ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted)
 {
     # delete policy definitions
-    Write-Host "-- Deleting policy definitions ..."
-    $fPolicyDefinitionsToBeDeleted | ForEach-Object { Remove-AzPolicyDefinition -Id $_ -Force }
+    Write-Host "`n-- Deleting policy definitions ..." -foregroundcolor Yellow
+    $fPolicyDefinitionsToBeDeleted | ForEach-Object -Parallel { Remove-AzPolicyDefinition -Id $_ -Force } | Out-Null
+    Write-Host "---- Done deleting policy definitions ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
 {
     # delete role assignments
-    Write-Host "-- Deleting role assignments ..."
-    $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object { Remove-AzRoleAssignment @psItem -Confirm:$false | Out-Null }
+    Write-Host "`n-- Deleting role assignments ..." -foregroundcolor Yellow
+    $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+    Write-Host "---- Done deleting role assignments ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-UserAssignedManagedIdentities($fUamiToBeDeleted)
 {
     # delete user assigned managed identities
-    Write-Host "-- Deleting user assigned managed identities ..."
-    $fUamiToBeDeleted | ForEach-Object { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -SubscriptionId $_.subscriptionId -Confirm:$false }
+    Write-Host "`n-- Deleting user assigned managed identities ..." -foregroundcolor Yellow
+    $fUamiToBeDeleted | ForEach-Object -Parallel { Remove-AzUserAssignedIdentity -ResourceGroupName $_.resourceGroup -Name $_.name -SubscriptionId $_.subscriptionId -Confirm:$false } | Out-Null
+    Write-Host "---- Done deleting user assigned managed identities ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-AlertProcessingRules($fAprToBeDeleted)
 {
     # delete alert processing rules
-    Write-Host "-- Deleting alert processing rules ..."
-    $fAprToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
+    Write-Host "`n-- Deleting alert processing rules ..." -foregroundcolor Yellow
+    $fAprToBeDeleted | Foreach-Object -Parallel { Remove-AzResource -ResourceId $_ -Force } | Out-Null
+    Write-Host "---- Done deleting alert processing rules ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-ActionGroups($fAgToBeDeleted)
 {
     # delete action groups
-    Write-Host "-- Deleting action groups ..."
-    $fAgToBeDeleted | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
+    Write-Host "`n-- Deleting action groups ..." -foregroundcolor Yellow
+    $fAgToBeDeleted | Foreach-Object -Parallel { Remove-AzResource -ResourceId $_ -Force } | Out-Null
+    Write-Host "---- Done deleting action groups ..." -foregroundcolor Cyan
 }
 
 Function Delete-ALZ-Deployments($fDeploymentsToBeDeleted)
 {
     # delete deployments
-    Write-Host "-- Deleting deployments ..."
-    $fDeploymentsToBeDeleted | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ -WarningAction silentlyContinue } -throttlelimit 100
+    Write-Host "`n-- Deleting deployments ..." -foregroundcolor Yellow
+    $fDeploymentsToBeDeleted | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ -WarningAction silentlyContinue } -throttlelimit 100 | Out-Null
+    Write-Host "---- Done deleting deployments ..." -foregroundcolor Cyan
 }
 
 #endregion
@@ -335,13 +386,13 @@ If (-NOT(Get-Module -ListAvailable Az.ManagedServiceIdentity)) {
 }
 
 # get all management groups -- used in graph query scope
-$managementGroups = @()
+$managementGroups = [System.Collections.ArrayList]::new()
 $allMgs = Get-AzManagementGroup -GroupName $pseudoRootManagementGroup -Expand -Recurse
 foreach ($mg in $allMgs) {
     Iterate-ManagementGroups $mg
 }
 
-Write-Host "Found '$($managementGroups.Count)' management group(s) (including the parent one) which are part of the '$pseudoRootManagementGroup' management group hierarchy, to be queried for AMBA-ALZ resources."
+Write-Host "`nFound '$($managementGroups.Count)' management group(s) (including the parent one) which are part of the '$pseudoRootManagementGroup' management group hierarchy, to be queried for AMBA-ALZ resources.`n"
 
 If ($managementGroups.count -eq 0) {
     Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources deployed by AMBA-ALZ."
@@ -384,9 +435,6 @@ Switch ($cleanItems)
                 # Invoking function to delete alerts
                 If ($alertsToBeDeleted.count -gt 0) { Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted }
 
-                # Invoking function to delete resource groups
-                # If ($rgToBeDeleted -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $rgToBeDeleted }
-
                 # Invoking function to delete policy assignments
                 If ($policyAssignmentToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentToBeDeleted }
 
@@ -407,6 +455,9 @@ Switch ($cleanItems)
 
                 # Invoking function to delete action groups
                 If ($agToBeDeleted.count -gt 0) { Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted }
+
+                # Invoking function to delete resource groups
+                # If ($rgToBeDeleted -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $rgToBeDeleted }
             }
         }
     }
@@ -451,10 +502,24 @@ Switch ($cleanItems)
         $alertsToBeDeleted = Get-ALZ-Alerts
 
         If ($alertsToBeDeleted.count -gt 0) {
-            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts, policy assignments, policy initiatives, policy definitions, policy role assignments, user assigned managed identities, alert processing rules and action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
                 # Invoking function to delete alerts
                 Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted
+            }
+        }
+    }
+
+    "OrphanedAlerts"
+    {
+        # Invoking function to retrieve orphaned alerts
+        $orphanedAlertsToDeleted = Get-ALZ-OrphanedAlerts
+
+        If ($orphanedAlertsToDeleted.count -gt 0) {
+            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete orphaned alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+                # Invoking function to delete alerts
+                Delete-ALZ-Alerts -fAlertsToBeDeleted $orphanedAlertsToDeleted
             }
         }
     }
@@ -492,4 +557,4 @@ Switch ($cleanItems)
     }
 }
 
-Write-Host "=== Script execution completed. ==="
+Write-Host "`n=== Script execution completed. ==="
