@@ -448,7 +448,7 @@
                               "enabled": true,
                               "actions": [
                                 {
-                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix'), variables('varAGIds')))]",
+                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix'))), variables('varAGIds'))]",
                                   "actionType": "AddActionGroups"
                                 }
                               ]
@@ -463,9 +463,7 @@
                         "ALZProcessingRuleNameSuffix": {
                           "value": "[[parameters('ALZProcessingRuleNameSuffix')]"
                         },
-                        "ALZMonitorResourceGroupTags": {
-                          "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-                        },
+                  
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
                         },
