@@ -557,4 +557,4 @@ Switch ($cleanItems)
     }
 }
 
-Write-Host "`n=== Script execution completed. ==="
+Write-Host "`n=== Script execution completed. ===`n"
