@@ -3,18 +3,34 @@ title: Customize Policy Assignment
 geekdocCollapseSection: true
 weight: 20
 ---
+## In this page
+
+[Introduction](./Customize-Policy-Assignment#introduction)
+[Modify initiative assignment](./Customize-Policy-Assignment#modify-initiative-assignment)
+[- Parameter file](./Customize-Policy-Assignment#parameter-file)
+[- Applying changes to the parameter file](./Customize-Policy-Assignment#applying-changes-to-the-parameter-file)
+[- Metric alert policy parameters](./Customize-Policy-Assignment#metric-alert-policy-parameters)
+[- Activity log, Service health alert and action group policy parameters](./Customize-Policy-Assignment#activity-log-service-health-alert-and-action-group-policy-parameters)
+[- Disabling Policies](./Customize-Policy-Assignment#disabling-policies)
+[Next steps](./Customize-Policy-Assignment#next-steps)
 
 ## Introduction
 
 As described in [Introduction to deploying the ALZ pattern](../Introduction-to-deploying-the-ALZ-Pattern), the policies and initiatives in this repo can be deployed in a default configuration, i.e. with default settings and are intended to be used as such. There may be however, scenarios where you would want to tweak the initiative assignment for individual policies to conform with your monitoring requirements, or potentially wish to deploy alerts in a more phased approach to a brownfield environment. This document lists some of the various scenarios as well as how you would go about making such changes to the assignments.
 
+[Back to top of page](.)
+
 ## Modify initiative assignment
 
 As an example you may want to change alert thresholds for one or more metric alerts when assigning initiatives. To do so the specific parameters can be specified in a parameter file. For convenience we supply a complete parameter file, containing all the parameters that can be comfigured in each initiative. Note that you are advised to leverage this as a template for creating your own parameter file as the parameters in these files may change over time, which could potentially have undesirable effects on your alert configurations.
 
+[Back to top of page](.)
+
 ### Parameter file
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-08-30/patterns/alz/alzArm.param.json)
+
+[Back to top of page](.)
 
 ### Applying changes to the parameter file
 
@@ -61,6 +77,8 @@ The parameter file contains the same default values as listed in our documentati
 }
 ```
 
+[Back to top of page](.)
+
 ### Metric alert policy parameters
 
 The following parameters can be changed for metric alert policies, in the initiatives these are prefixed with an appropriate string to indicate the metric in question.
@@ -75,6 +93,8 @@ The following parameters can be changed for metric alert policies, in the initia
 | threshold | Indicates a numerical threshold for when the alert would trigger. Not relevant to all alerts as some are configured with dynamic rather than fixed thresholds |
 | enabled | Whether the alert is enabled or not |
 
+[Back to top of page](.)
+
 ### Activity log, Service health alert and action group policy parameters
 
 The following parameters can be changed for activity log, service health alert and action group policies.
@@ -87,10 +107,16 @@ The following parameters can be changed for activity log, service health alert a
 
 Note that the above parameters specifies the resource group that activity log alerts are placed in. If the resource group does not exist it gets created. Also the parameter for tags can take several tags, if multiple tags are needed. Tags are only applied at the resource group level. The tags parameter is set to a default value of one tag with the name *environment* and the value *test*, you can add more tags as already mentioned or set it to be an empty value.
 
-### Disabling Policies
-- To review the options for disabling policies, please proceed with [Disabling Policies](../../Disabling-Policies)
+[Back to top of page](.)
 
-# Next steps
+### Disabling Policies
+
+To review the options for disabling policies, please proceed with [Disabling Policies](../../Disabling-Policies)
+
+[Back to top of page](.)
+
+## Next steps
+
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
