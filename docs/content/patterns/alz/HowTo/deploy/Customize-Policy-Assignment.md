@@ -5,14 +5,14 @@ weight: 20
 ---
 ## In this page
 
-[Introduction](./Customize-Policy-Assignment#introduction)
-[Modify initiative assignment](./Customize-Policy-Assignment#modify-initiative-assignment)
-[- Parameter file](./Customize-Policy-Assignment#parameter-file)
-[- Applying changes to the parameter file](./Customize-Policy-Assignment#applying-changes-to-the-parameter-file)
-[- Metric alert policy parameters](./Customize-Policy-Assignment#metric-alert-policy-parameters)
-[- Activity log, Service health alert and action group policy parameters](./Customize-Policy-Assignment#activity-log-service-health-alert-and-action-group-policy-parameters)
-[- Disabling Policies](./Customize-Policy-Assignment#disabling-policies)
-[Next steps](./Customize-Policy-Assignment#next-steps)
+> [Introduction](../Customize-Policy-Assignment#introduction) </br>
+> [Modify initiative assignment](../Customize-Policy-Assignment#modify-initiative-assignment) </br>
+> [- Parameter file](../Customize-Policy-Assignment#parameter-file) </br>
+> [- Applying changes to the parameter file](../Customize-Policy-Assignment#applying-changes-to-the-parameter-file) </br>
+> [- Metric alert policy parameters](../Customize-Policy-Assignment#metric-alert-policy-parameters) </br>
+> [- Activity log, Service health alert and action group policy parameters](../Customize-Policy-Assignment#activity-log-service-health-alert-and-action-group-policy-parameters) </br>
+> [- Disabling Policies](../Customize-Policy-Assignment#disabling-policies) </br>
+> [Next steps](../Customize-Policy-Assignment#next-steps)
 
 ## Introduction
 
