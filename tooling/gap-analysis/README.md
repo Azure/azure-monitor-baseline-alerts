@@ -44,16 +44,16 @@ This is a sandbox for the development and testing of the AMBA Gap Analysis solut
 
     ``cd AMBA``
 
-- Clone this repository using Git.  If you do not have Git installed, see [here](https://git-scm.com/download/win)
+- Clone this repository and specific branch using Git.  If you do not have Git installed, see [here](https://git-scm.com/download/win)
 
     ``
-    git clone https://github.com/judyer28/AMBA-Gap-Analysis-Sandbox.git
+    git clone -b amba-gap-analysis https://github.com/Azure/azure-monitor-baseline-alerts.git
     ``
 
 - Change directory to AMBA-Gap-Analysis-Sandbox
 
     ``
-    cd AMBA-Gap-Analysis-Sandbox
+    cd .\azure-monitor-baseline-alerts\tooling\gap-analysis\
     ``
 
 - Run the 1_amba_collector.ps1 script.  You must replace the TenantID and SubscriptionIds to match your tenant and subscription ids.
@@ -61,7 +61,7 @@ This is a sandbox for the development and testing of the AMBA Gap Analysis solut
     ``
     ./1_amba_collector.ps1 -TenantID "YOUR TENANT ID" -SubscriptionIds "/subscriptions/YOUR SUBSCRIPTION ID"
     ``
-  
+
 - If you want to run the script across multiple subscriptions, separate them with a comma.  Here is an example using the command above and passing in 2 subscriptions.
 
     ``
