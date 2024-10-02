@@ -5,7 +5,7 @@
 Azure Monitor Baseline Alerts (AMBA) Gap Analysis v0.1 collector script
 
 .DESCRIPTION
-This script does...
+This script reads all resources from a subsciption(s) and checks to see if they have a all recommended alerts as defined by AMBA.  The results are written to a JSON file.  This script reuses code from the Azure Proactive Resiliency Library (APRL): https://github.com/Azure/Azure-Proactive-Resiliency-Library-v2/tree/main/tools.
 
 .LINK
 https://azure.github.io/azure-monitor-baseline-alerts/welcome/
@@ -368,7 +368,7 @@ $Script:Runtime = Measure-Command -Expression {
                   }
               }
 
-              
+
             if ($SubId -notin $LoopedSub) {
               Write-Host '----------------------------'
               Write-Host 'Collecting: ' -NoNewline
@@ -425,7 +425,7 @@ $Script:Runtime = Measure-Command -Expression {
               timeAggregation         = [string]$row.timeAggregation
               timeAggregationMatch    = [string]$row.timeAggregationMatch
               criterionType           = [string]$row.criterionType
-              criterionTypeMatch      = [string]$row.criterionTypeMatch 
+              criterionTypeMatch      = [string]$row.criterionTypeMatch
             }
           $result
         }
@@ -540,10 +540,10 @@ $Script:Runtime = Measure-Command -Expression {
                           | extend implemented = iff(implemented has 'Partial', 'Partial', 'No')
                           | project id, name, type, resourceGroup, alert, metricNamespace='$metricNamespace', implemented
                           //| project id=id1, name, type=type1, resourceGroup, alert, implemented, severity, severityMatch, windowSize, windowSizeMatch, evaluationFrequency, evaluationFrequencyMatch, threshold, thresholdMatch, operator, operatorMatch, timeAggregation, timeAggregationMatch, criterionType, criterionTypeMatch"
-                          
+
                 #THIS IS WHERE IMPACTED RESOURCES ARE COLLECTED
                 $TempResult += Invoke-QueryExecution -type $type -Subscription $Subid -query $query -alertToCheck $alert.metricName
-              }  
+              }
             }
           }
         }
@@ -780,7 +780,7 @@ $Script:Runtime = Measure-Command -Expression {
   }
 
 
-  
+
     $Scopes = @()
     if ($SubscriptionIds)
       {
@@ -806,7 +806,7 @@ $Script:Runtime = Measure-Command -Expression {
             $RG
           }
       }
-  
+
 
   Write-Debug 'Reseting Variables'
   Invoke-ResetVariable

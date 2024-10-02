@@ -5,7 +5,7 @@
 Azure Monitor Baseline Alerts (AMBA) Gap Analysis v0.1 data analyzer script
 
 .DESCRIPTION
-This script does...
+This script reads in JSON output from the AMBA Collector script and outputs the results to an Excel file.  This script reuses code from the Azure Proactive Resiliency Library (APRL): https://github.com/Azure/Azure-Proactive-Resiliency-Library-v2/tree/main/tools.
 
 .PARAMETER Debugging
 Switch to enable debugging mode.
@@ -128,10 +128,10 @@ $Script:Runtime = Measure-Command -Expression {
         $templateFile = ($Script:AlertARMTemplates | Where-Object { $_ -match '(?<=/'+ $Recom.type.Split('.')[1] + '/(.*)' + $alertFileName + '_)(.*)(?=.json)' })
 
         $deployToAzure = ('az deployment group create --name "AMBA-' + [guid]::NewGuid() +
-        '" --resource-group "AMBA-Generated-Alerts-RG" --template-uri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services/' + 
-        $templateFile.Split('/')[1] + '/' + $templateFile.Split('/')[2] + '/templates/arm/' + $templateFile.Split('/')[3] + 
-        '" --parameters alertName="AMBA-' + $Recom.alertToCheck + '-' + $Recom.resourceGroup + '-' + $Recom.name + '" targetResourceId="' + $Recom.id + 
-        '" targetResourceRegion="' + $Recom.location + 
+        '" --resource-group "AMBA-Generated-Alerts-RG" --template-uri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services/' +
+        $templateFile.Split('/')[1] + '/' + $templateFile.Split('/')[2] + '/templates/arm/' + $templateFile.Split('/')[3] +
+        '" --parameters alertName="AMBA-' + $Recom.alertToCheck + '-' + $Recom.resourceGroup + '-' + $Recom.name + '" targetResourceId="' + $Recom.id +
+        '" targetResourceRegion="' + $Recom.location +
         '" targetResourceType="' + $Recom.type + '"');
 
         $tmp = @{
@@ -152,7 +152,7 @@ $Script:Runtime = Measure-Command -Expression {
 
       }
     }
-    # Removes duplicate alerts.  However, this needs to be revisited for alerts such as "Transactions" for storage accounts 
+    # Removes duplicate alerts.  However, this needs to be revisited for alerts such as "Transactions" for storage accounts
     # which have same alert just differing operators and thresholds.
     $Script:MergedRecommendation = $Script:MergedRecommendation | Sort-Object -Property id, fullAlertName -Unique
   }
@@ -335,7 +335,7 @@ $Script:Runtime = Measure-Command -Expression {
         Address           = $Excel.PivotTable.cells['H3']
         SourceWorkSheet   = $Excel.Recommendations
         PivotRows         = @('Azure Service')
-        PivotData         = @{'Missing Alerts' = 'Sum';} 
+        PivotData         = @{'Missing Alerts' = 'Sum';}
         PivotTableStyle   = 'Medium8'
         Activate          = $true
         PivotFilter       = 'Azure Service Category'
@@ -357,7 +357,7 @@ $Script:Runtime = Measure-Command -Expression {
         Address           = $Excel.PivotTable.cells['K3']
         SourceWorkSheet   = $Excel.Recommendations
         PivotRows         = @('Azure Service')
-        PivotData         = @{'Alerts Implemented' = 'Average';} 
+        PivotData         = @{'Alerts Implemented' = 'Average';}
         PivotTableStyle   = 'Medium8'
         Activate          = $true
         PivotFilter       = 'Azure Service Category'
@@ -373,14 +373,14 @@ $Script:Runtime = Measure-Command -Expression {
       }
       Add-PivotTable @PTParams
       $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P1"].DataFields[0].Format="0%"
-      $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P1"].DataFields[0].Name="Alerts Implemented" 
+      $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P1"].DataFields[0].Name="Alerts Implemented"
 
       $PTParams = @{
         PivotTableName    = 'P2'
         Address           = $Excel.PivotTable.cells['A3']
         SourceWorkSheet   = $Excel.Recommendations
         PivotRows         = @('Azure Service')
-        PivotColumns      = @('Impact') 
+        PivotColumns      = @('Impact')
         PivotData         = @{'Impact' = 'Count';}
         PivotTableStyle   = 'Medium8'
         Activate          = $true
@@ -421,7 +421,7 @@ $Script:Runtime = Measure-Command -Expression {
 
           ($WS.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Cut()
           $WS2.Paste()
-          
+
           ($WS.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Cut()
           $WS2.Paste()
 

@@ -77,3 +77,7 @@ This is a sandbox for the development and testing of the AMBA Gap Analysis solut
     ``
     .\2_amba_data_analyzer.ps1 -JSONFile 'YOUR JSON FILE'
     ``
+
+- Open the Excel file and examine the worksheets.  The Recommendations tab shows each recommended alert and whether or not they have been implemented.  The PivotTable and Charts tabs show summaries of the overall report.
+
+- The ImpactedResources tab shows all alerts missing for each Azure resource found in the subscription(s).  The last column named "deployToAzure" is the AZ CLI command to deploy the missing alert.  The command expects a resource group named "AMBA-Generated-Alerts-RG" to be present in the subscription(s).
