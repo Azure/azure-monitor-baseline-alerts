@@ -56,7 +56,7 @@ This is a sandbox for the development and testing of the AMBA Gap Analysis solut
     cd .\azure-monitor-baseline-alerts\tooling\gap-analysis\
     ``
 
-- Run the 1_amba_collector.ps1 script.  You must replace the TenantID and SubscriptionIds to match your tenant and subscription ids.
+- Run the 1_amba_collector.ps1 script.  You must replace the TenantID and SubscriptionIds to match your tenant and subscription ids.  If you get an error regarding "Your Azure credentials have not been set up or have expired" then run the command "Disconnect-AzAccount" and try again.
 
     ``
     ./1_amba_collector.ps1 -TenantID "YOUR TENANT ID" -SubscriptionIds "/subscriptions/YOUR SUBSCRIPTION ID"
