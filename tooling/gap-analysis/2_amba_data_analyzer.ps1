@@ -449,10 +449,10 @@ $Script:Runtime = Measure-Command -Expression {
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Font.Size = 9
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Left = 10
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Top = 40
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('HIGH').Interior.Color = '#ED6924'
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('MEDIUM').Interior.Color = '#106186'
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('LOW').Interior.Color = '#029AD5'
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('INFO').Interior.Color = '#1D7128'
+          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('HIGH').Interior.Color = '#ED6924'
+          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('MEDIUM').Interior.Color = '#106186'
+          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('LOW').Interior.Color = '#029AD5'
+          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('INFO').Interior.Color = '#1D7128'
 
 
           Write-Debug 'Editing Pivot Filters'
