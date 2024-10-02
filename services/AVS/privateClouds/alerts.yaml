@@ -46,3 +46,113 @@
       - '*'
     threshold: 80.0
   guid: b9f2fe91-023a-443c-b376-b12f0cd5d965
+- name: CPU
+  description: CPU Usage per Cluster
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - avs-landingzone
+  properties:
+    metricName: EffectiveCpuAverage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 2
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: clustername
+      values:
+      - '*'
+    threshold: 80.0
+- name: CPUCritical
+  description: CPU Usage per Cluster (Critical)
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - avs-landingzone
+  properties:
+    metricName: EffectiveCpuAverage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 0
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: clustername
+      values:
+      - '*'
+    threshold: 95.0
+- name: Memory
+  description: Memory Usage per Cluster
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - avs-landingzone
+  properties:
+    metricName: UsageAverage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 2
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: clustername
+      values:
+      - '*'
+    threshold: 80.0
+- name: MemoryCritical
+  description: Memory Usage per Cluster (Critical)
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - avs-landingzone
+  properties:
+    metricName: UsageAverage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 0
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: clustername
+      values:
+      - '*'
+    threshold: 95.0
+- name: Storage
+  description: Storage Usage per Datastore
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - avs-landingzone
+  properties:
+    metricName: DiskUsedPercentage
+    metricNamespace: Microsoft.AVS/privateClouds
+    severity: 2
+    windowSize: PT30M
+    evaluationFrequency: PT5M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: dsname
+      values:
+      - '*'
+    threshold: 70.0
