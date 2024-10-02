@@ -7,7 +7,7 @@ weight: 98
 ***The parameter file structure has changed to accommodate a new feature coming soon.***
 {{< /hint >}}
 
-# Pre update actions
+## Pre update actions
 
 The parameter file structure has changed to accommodate a new feature coming soon. For this reason, updating from release [2024-06-05](../../Whats-New#2024-06-05) requires the alignment of the parameter file structure you have been using so far with the new one coming with the release.
 
@@ -38,3 +38,7 @@ In particular the new parameter file has the following differences:
 2. Changes the previous parameter objects, such as ***policyAssignmentParametersCommon***, ***policyAssignmentParametersBYON*** and ***policyAssignmentParametersNotificationAssets*** into classic parameters using the same name as before. As result, the previous sections of the parameter you'll now look like the following image:
 
     ![New parameter file sample](../../media/alz-New-ParamterFile-Structure.png)
+
+## Update
+
+Complete the activities documented in the [Steps to update to the latest release](..\_index#steps-to-update-to-the-latest-release) page.

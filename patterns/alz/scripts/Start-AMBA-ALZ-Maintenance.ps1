@@ -16,7 +16,8 @@
     - remove ONLY the deployment entries of AMBA-ALZ happening at the pseudo root management group level
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
-    - remove ONLY policy definitions, policy initiatives, policy assignments nd role assignment created by the AMBA-ALZ deployment
+    - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
+    - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
     - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
 
     In order for this script to function the deployed resources must have a tag _deployed_by_amba with a value of true and Policy resources must have metadata property
@@ -39,19 +40,20 @@
         - Deployments
         - NotificationAssets
         - Alerts
-        - PolicyItems
+        - PolicyAssignments
+        - PolicyDefinitions
         - OrphanedAlerts
 
 .EXAMPLE
-    ./Start-AMBA-Maintenance.ps1 -pseudoRootManagementGroup Contoso - cleanItems All -WhatIf
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All -WhatIf
     # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Start-AMBA-Maintenance.ps1 -pseudoRootManagementGroup Contoso - cleanItems All
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All
     # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Start-AMBA-Maintenance.ps1 -pseudoRootManagementGroup Contoso - cleanItems All -Confirm:$false
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All -Confirm:$false
     # execute the script without asking for confirmation before taking the configured action.
 #>
 
@@ -65,7 +67,7 @@ param(
     # the items to be cleaned-up
     [Parameter(Mandatory = $True,
         ValueFromPipeline = $false)]
-        [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyItems", IgnoreCase = $true)]
+        [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", IgnoreCase = $true)]
         [string]$cleanItems
 )
 
@@ -524,34 +526,42 @@ Switch ($cleanItems)
         }
     }
 
-    "PolicyItems"
+    "PolicyAssignments"
     {
         # Invoking function to retrieve policy assignments
         $policyAssignmentsToBeDeleted = Get-ALZ-PolicyAssignments
 
+        # Invoking function to retrieve role assignments
+        $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
+
+        If (($policyAssignmentsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0)) {
+            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+              # Invoking function to delete policy assignments
+                If ($policyAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted }
+
+                # Invoking function to delete role assignments
+                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
+            }
+        }
+    }
+
+    "PolicyDefinitions"
+    {
         # Invoking function to retrieve policy set definitions
         $policySetDefinitionsToBeDeleted = Get-ALZ-PolicySetDefinitions
 
         # Invoking function to retrieve policy definitions
         $policyDefinitionsToBeDeleted = Get-ALZ-PolicyDefinitions
 
-        # Invoking function to retrieve role assignments
-        $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
-
-        If (($policyAssignmentsToBeDeleted.count -gt 0) -or ($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0)) {
+        If (($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0)) {
             If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
-
-              # Invoking function to delete policy assignments
-                If ($policyAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted }
 
                 # Invoking function to delete policy set definitions
                 If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
 
                 # Invoking function to delete policy definitions
                 If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
-
-                # Invoking function to delete role assignments
-                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
             }
         }
     }
