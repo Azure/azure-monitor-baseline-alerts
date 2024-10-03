@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Load Balancing",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -1420,6 +1420,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "CDNPOriginLatencyFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPOriginLatencyEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
+      },
       "CDNPPercentage4XXAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1488,6 +1504,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "CDNPPercentage4XXFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPPercentage4XXEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
+      },
       "CDNPPercentage5XXAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1555,6 +1587,22 @@
           "displayName": "CDN Percentage 5XX Alert State",
           "description": "Alert state for the alert"
         }
+      },
+      "CDNPPercentage5XXFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPPercentage5XXEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
       },
       "TMEndpointHealthAlertSeverity": {
         "type": "String",
@@ -2294,6 +2342,12 @@
           "enabled": {
             "value": "[[parameters('CDNPOriginLatencyAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPOriginLatencyFailingPeriods')]"
+          },
+          "evaluationperiods": {
+            "value": "[[parameters('CDNPOriginLatencyEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -2321,6 +2375,12 @@
           "enabled": {
             "value": "[[parameters('CDNPPercentage4XXAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPPercentage4XXFailingPeriods')]"
+          },
+          "evaluationperiods": {
+            "value": "[[parameters('CDNPPercentage4XXEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -2347,6 +2407,12 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPPercentage5XXAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPPercentage5XXFailingPeriods')]"
+          },
+          "evaluationperiods": {
+            "value": "[[parameters('CDNPPercentage5XXEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
