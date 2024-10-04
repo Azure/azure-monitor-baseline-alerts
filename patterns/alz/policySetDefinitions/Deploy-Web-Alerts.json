@@ -256,6 +256,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "WSFDiskQueueLengthFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "WSF Disk Queue Lenght Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "WSFDiskQueueLengthEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "WSF Disk Queue Lenght Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "WSFHttpQueueLengthAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -322,6 +338,22 @@
         "metadata": {
           "displayName": "WSF HTTP Queue Lenght Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "WSFHttpQueueLengthFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "WSF HTTP Queue Lenght Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "WSFHttpQueueLengthEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "WSF HTTP Queue Lenght Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       }
     },
@@ -405,6 +437,12 @@
           "enabled": {
             "value": "[[parameters('WSFDiskQueueLengthAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('WSFDiskQueueLengthFailingPeriods')]"
+          },
+          "evaluatioPeriods": {
+            "value": "[[parameters('WSFDiskQueueLengthEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -431,6 +469,12 @@
           },
           "enabled": {
             "value": "[[parameters('WSFHttpQueueLengthAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('WSFHttpQueueLengthFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('WSFHttpQueueLengthEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
