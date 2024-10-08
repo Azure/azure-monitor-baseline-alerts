@@ -1,7 +1,7 @@
 <# Script to validate ARM templates using the Test-AzTemplate cmdlet #>
 
 # Define a function to get the list of changed files in a pull request
-function Get-ChangedFiles {
+function Get-ChangedFile {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         # Parameter to filter files by path
@@ -32,7 +32,7 @@ function Get-ChangedFiles {
 }
 
 # Get the list of modified ARM template files
-$ModifiedFiles = @(Get-ChangedFiles -pathFilter 'templates/arm' -extensionFilter 'json')
+$ModifiedFiles = @(Get-ChangedFile -pathFilter 'templates/arm' -extensionFilter 'json')
 
 # Check if there are any modified ARM template files
 if ($null -ne $ModifiedFiles) {
