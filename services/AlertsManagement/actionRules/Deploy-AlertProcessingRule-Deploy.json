@@ -123,6 +123,26 @@
         },
         "defaultValue": ""
       },
+      "AlertProcessingRuleConditions": {
+        "defaultValue": [
+          {
+            "field": "Severity",
+            "operator": "Equals",
+            "values": [
+              "Sev0", 
+              "Sev1", 
+              "Sev2", 
+              "Sev3", 
+              "Sev4"
+            ]
+          }
+        ],
+        "metadata": {
+          "description": "Conditions that determine when the Alert Processing Rule should trigger",
+          "displayName": "Alert Processing Rule Conditions"
+        },
+        "type": "Array"
+      },
       "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
@@ -138,9 +158,9 @@
           "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
+          "true", 
+          "Test", 
+          "Dev", 
           "Sandbox"
         ]
       }
@@ -226,6 +246,9 @@
                   },
                   "BYOAlertProcessingRule": {
                     "type": "String"
+                  },
+                  "AlertProcessingRuleConditions": {
+                    "type": "Array"
                   }
                 },
                 "variables": {
@@ -357,6 +380,9 @@
                           },
                           "BYOAlertProcessingRule": {
                             "type": "string"
+                          },
+                          "AlertProcessingRuleConditions": {
+                            "type": "Array"
                           }
                         },
                         "variables": {},
@@ -399,6 +425,7 @@
                               ],
                               "description": "AMBA Notification Assets - Alert Processing Rule for Subscription",
                               "enabled": true,
+                              "conditions": "[parameters('AlertProcessingRuleConditions')]",
                               "actions": [
                                 {
                                   "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, '-001')), variables('varAGIds'))]",
@@ -442,6 +469,9 @@
                         },
                         "BYOAlertProcessingRule": {
                           "value": "[[parameters('BYOAlertProcessingRule')]"
+                        },
+                        "AlertProcessingRuleConditions": {
+                          "value": "[parameters('AlertProcessingRuleConditions')]"
                         }
                       }
                     }
@@ -487,6 +517,9 @@
                 },
                 "BYOAlertProcessingRule": {
                   "value": "[[parameters('BYOAlertProcessingRule')]"
+                },
+                "AlertProcessingRuleConditions": {
+                  "value": "[parameters('AlertProcessingRuleConditions')]"
                 }
               }
             }
