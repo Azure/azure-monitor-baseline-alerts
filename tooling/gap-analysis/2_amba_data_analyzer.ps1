@@ -347,7 +347,7 @@ $Script:Runtime = Measure-Command -Expression {
         NoLegend          = $false
         ChartTitle        = 'Recommended Alerts Missing per Service'
         ChartHeight       = 700
-        ChartWidth        = 500
+        ChartWidth        = 515
       }
       Add-PivotTable @PTParams
       $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P0"].DataFields[0].Name="Missing Alerts"
@@ -369,7 +369,7 @@ $Script:Runtime = Measure-Command -Expression {
         NoLegend          = $false
         ChartTitle        = 'Percentage of Recommended Alerts Implemented per Service'
         ChartHeight       = 700
-        ChartWidth        = 700
+        ChartWidth        = 515
       }
       Add-PivotTable @PTParams
       $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P1"].DataFields[0].Format="0%"
@@ -391,9 +391,9 @@ $Script:Runtime = Measure-Command -Expression {
         ChartRow          = 80
         ChartColumn       = 3
         NoLegend          = $false
-        ChartTitle        = 'Recommended Alerts Impact per Service'
+        ChartTitle        = 'Impact of Implementing Recommended Alerts per Service'
         ChartHeight       = 700
-        ChartWidth        = 500
+        ChartWidth        = 515
       }
       Add-PivotTable @PTParams
       $Excel.Workbook.Worksheets["PivotTable"].PivotTables["P2"].DataFields[0].Name="Impact"
@@ -403,11 +403,15 @@ $Script:Runtime = Measure-Command -Expression {
 
     function Invoke-ExcelAPI {
       Write-Host 'Opening Excel...'
-      $Script:ExcelApplication = New-Object -ComObject Excel.Application
+      $ExcelApplication = New-Object -ComObject Excel.Application
+      $Ex = $null
+      $WS = $null
+      $WS2 = $null
+
       Start-Sleep 2
       Write-Host 'Customizing Excel Charts. '
       # Open the Excel using the API to move the charts from the PivotTable sheet to the Charts sheet and change chart style, font, etc..
-      if ($Script:ExcelApplication) {
+      if ($ExcelApplication) {
         try {
           Write-Debug 'Opening Excel File'
           $Ex = $ExcelApplication.Workbooks.Open($ExcelFile)
@@ -432,14 +436,14 @@ $Script:Runtime = Measure-Command -Expression {
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartStyle = 222
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartArea.Font.Name = 'Segoe UI'
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartArea.Font.Size = 9
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartArea.Left = 500
+          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartArea.Left = 510
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP0' }).DrawingObject.Chart.ChartArea.Top = 40
 
           Write-Debug 'Editing ChartP1'
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartStyle = 222
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartArea.Font.Name = 'Segoe UI'
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartArea.Font.Size = 9
-          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartArea.Left = 1000
+          ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartArea.Left = 1010
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.ChartArea.Top = 40
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP1' }).DrawingObject.Chart.Axes(2).MaximumScale = 1
 
@@ -449,11 +453,21 @@ $Script:Runtime = Measure-Command -Expression {
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Font.Size = 9
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Left = 10
           ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.ChartArea.Top = 40
-          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('HIGH').Interior.Color = '#ED6924'
-          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('MEDIUM').Interior.Color = '#106186'
-          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('LOW').Interior.Color = '#029AD5'
-          #($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection('INFO').Interior.Color = '#1D7128'
 
+          #Color bars on chart based on impact
+          $numSeries = ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection().Count
+          for ($i = 1; $i -le $numSeries; $i++) {
+            $sc = ($WS2.Shapes | Where-Object { $_.name -eq 'ChartP2' }).DrawingObject.Chart.SeriesCollection($i)
+            if ($sc.Name -eq 'HIGH') {
+              $sc.Interior.Color = '#ED6924'
+            } elseif ($sc.Name -eq 'MEDIUM') {
+              $sc.Interior.Color = '#106186'
+            } elseif ($sc.Name -eq 'LOW') {
+              $sc.Interior.Color = '#029AD5'
+            } elseif ($sc.Name -eq 'INFO') {
+              $sc.Interior.Color = '#1D7128'
+            }
+          }
 
           Write-Debug 'Editing Pivot Filters'
           $WS.Range('B1').Formula = '(All)'
@@ -466,14 +480,22 @@ $Script:Runtime = Measure-Command -Expression {
           Write-Debug 'Closing Excel Application'
           $Ex.Close()
           $ExcelApplication.Quit()
-          # Ensures the Excel process opened by the API is closed
-          Write-Debug 'Ensuring Excel Process is Closed.'
-          Get-Process -Name 'excel' -ErrorAction Ignore | Where-Object { $_.CommandLine -like '*/automation*' } | Stop-Process
+
         } catch {
           Write-Host 'Error during the PivotTable + Charts customization' -BackgroundColor DarkRed
+
+        } finally {
+          Write-Host 'Releasing COM objects and cleaning up Excel process...'
+          [System.Runtime.InteropServices.Marshal]::ReleaseComObject($WS) | Out-Null
+          [System.Runtime.InteropServices.Marshal]::ReleaseComObject($WS2) | Out-Null
+          [System.Runtime.InteropServices.Marshal]::ReleaseComObject($Ex) | Out-Null
+          [System.Runtime.InteropServices.Marshal]::ReleaseComObject($ExcelApplication) | Out-Null
+          Get-Process -Name 'excel' -ErrorAction Ignore | Where-Object { $_.CommandLine -like '*/automation*' } | Stop-Process
+          [System.GC]::Collect()
+          [System.GC]::WaitForPendingFinalizers()
         }
       }
-
+      Remove-Variable -Name WS, WS2, EX, ExcelApplication
     }
 
     Add-ImpactedResource
