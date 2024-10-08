@@ -16,13 +16,12 @@ function Get-ChangedFiles {
         [Parameter()]
         [String]$PRBranch = "$($env:GITHUB_HEAD_REF)"
     )
-    
     # Get the list of changed files between the main branch and the pull request branch
     $changedFiles = git diff --name-only origin/main origin/$PRBranch
-    
+
     # Create a regex pattern to filter files based on the provided path and extension
     $regex = "$pathFilter.*\.$extensionFilter"
-    
+
     # Filter the changed files using the regex pattern
     $resultFiles = $changedFiles | Where-Object { $PSItem -match $regex }
 
@@ -49,13 +48,13 @@ $NumberOfFailedTests = 0
 $ModifiedFiles | ForEach-Object {
     $TemplatePath = $PSItem
     Write-Output "Test $TemplatePath"
-    
+
     # Run the Test-AzTemplate cmdlet to test the ARM template
     $testResults = Test-AzTemplate -TemplatePath $TemplatePath -Test deploymentTemplate -ErrorAction Continue
-    
+
     # Filter the test results to find any failed tests
     $failedTests = $testResults | Where-Object { $PSItem.Passed -ne $True }
-    
+
     # If there are failed tests, log a warning and increment the failed tests counter
     if ($failedTests -ne $null) {
         $failedTests | ForEach-Object {
