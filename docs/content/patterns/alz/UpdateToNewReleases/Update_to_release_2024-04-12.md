@@ -7,7 +7,11 @@ weight: 99
 <ins>***No post update action required***</ins> for Greenfield customers or for Brownfield customers that prefer to continue using notification assets deployed by the ALZ pattern code.
 {{< /hint >}}
 
-# Post update actions
+## Update
+
+Complete the activities documented in the [Steps to update to the latest release](..\_index#steps-to-update-to-the-latest-release) page.
+
+## Post update actions
 
 Updating to release [2024-04-12](../../Whats-New#2024-04-12) might require running a post update script to remove the notification assets deployed by ALZ pattern <ins>***if and only if***</ins> customer decided to use existing action groups and alert processing rule. In this case, the Service Health alerts will be reconfigured to use the customer' action groups as per the _**B**ring **Y**our **O**wn **N**otifications_ (BYON) feature.
 
