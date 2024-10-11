@@ -1,0 +1,43 @@
+---
+name: Unit Test ARM templates with arm-ttk
+
+##########################################
+# Start the job on PR for all branches #
+#########################################
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - "services/**/**/templates/arm/**.json"
+  workflow_dispatch: { }
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  validate-arm-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - name: Clone ARM-TTK repo
+        uses: GuillaumeFalourd/clone-github-repo-action@v3
+        with:
+          owner: 'Azure'
+          repository: 'arm-ttk'
+      - name: Test Modified ARM templates
+        shell: pwsh
+        run: |
+            Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
+            ./.github/actions-pester/Test-ArmTemplates.Tests.ps1
