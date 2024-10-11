@@ -3,8 +3,8 @@ title: Remediate Policies
 weight: 80
 ---
 
-The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you're deploying in a green field scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.
-If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you'll need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder to remediate all AMBA-ALZ policies in scope as defined by management group pre-fix.
+The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you are deploying in a green field scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.
+If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you will need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder to remediate all AMBA-ALZ policies in scope as defined by management group pre-fix.
 
 {{< hint type=Important >}}
 This script requires PowerShell 7.0 or higher and the following PowerShell modules:
