@@ -1,6 +1,7 @@
 ---
 title: Azure OpenAI
-geekdocCollapseSection: true
+geekdocCollapseSection: false
+geekdocHidden: true
 ---
 
 ## Deploy monitoring for AI Services
