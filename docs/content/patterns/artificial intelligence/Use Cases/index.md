@@ -5,7 +5,3 @@ There are numerous ways to implement AI solution on Azure, and each comes with i
 ## AI on Infrastructure (BYOM)
 
 Running AI workloads on Azure infrastructure involves monitoring each of the components of the solution, including virtual machines, storage, and networking. Refer to the defined metrics in [HPC](../../specialized/hpc/Alerting-and-Monitoring.md). For monitoring the GPU/CPU metrics, use [Moneo](https://github.com/Azure/Moneo)
-
-### Azure OpenAI with RAG
-
-### Azure OpenAI without RAG
