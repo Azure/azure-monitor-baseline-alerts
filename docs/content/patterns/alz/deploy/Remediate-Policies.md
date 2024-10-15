@@ -4,7 +4,7 @@ weight: 80
 ---
 
 The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you are deploying in a green field scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.
-If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you will need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder to remediate all AMBA-ALZ policies in scope as defined by management group pre-fix.
+If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you will need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the _Start-AMBARemediation.ps1_ script located in the _.\patterns\alz\scripts_ folder to remediate all AMBA-ALZ policies in scope as defined by management group pre-fix.
 
 {{< hint type=Important >}}
 This script requires PowerShell 7.0 or higher and the following PowerShell modules:
@@ -66,7 +66,7 @@ $LZManagementGroup="The management group id for Landing Zones"
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Web
 ```
 
-Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under [Policy Initiatives](../../Policy-Initiatives). For example, to remediate the ***Deploy AMBA Notification Assets*** policy, run the following command:
+Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under [Policy Initiatives](../../Policy-Initiatives). For example, to remediate the **_Deploy AMBA Notification Assets_** policy, run the following command:
 
 ```powershell
 #Run the following command to initiate remediation of a single policy definition
