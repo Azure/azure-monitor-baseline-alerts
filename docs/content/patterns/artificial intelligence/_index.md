@@ -1,3 +1,8 @@
+---
+title: Artificial Intelligence
+geekdocCollapseSection: true
+---
+
 # Overview
 
 There are numerous ways to implement AI solution on Azure, and each comes with its own monitoring solution. Monitoring AI solutions involves a combination of the infra or paas resources, along with monitoring any utilization metrics that can be exposed through the platform or other tooling. This page will summarize the recommended monitoring solutions for different scenarios.
