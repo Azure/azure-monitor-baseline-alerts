@@ -45,15 +45,15 @@
         - OrphanedAlerts
 
 .EXAMPLE
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All -WhatIf
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -WhatIf
     # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz
     # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup - cleanItems All -Confirm:$false
+    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -Confirm:$false
     # execute the script without asking for confirmation before taking the configured action.
 #>
 
