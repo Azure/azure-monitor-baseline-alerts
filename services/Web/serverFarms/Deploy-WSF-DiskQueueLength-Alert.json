@@ -8,7 +8,7 @@
     "displayName": "Deploy App Service Plan Disk Queue Length Alert",
     "description": "Policy to audit/deploy App Service Plan Disk Queue Length Alert",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Web Services",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -101,6 +101,22 @@
         ],
         "defaultValue": "deployIfNotExists"
       },
+      "failingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "evaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
+      },
       "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
@@ -191,11 +207,11 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert",
-                "equals": 2
+                "equals": "[[parameters('failingPeriods')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods",
-                "equals": 2
+                "equals": "[[parameters('evaluationPeriods')]"
               }
             ]
           },
@@ -234,6 +250,12 @@
                   },
                   "enabled": {
                     "type": "String"
+                  },
+                  "failingPeriods": {
+                    "type": "String"
+                  },
+                  "evaluationPeriods": {
+                    "type": "String"
                   }
                 },
                 "variables": {},
@@ -260,8 +282,8 @@
                           {
                             "alertSensitivity": "Medium",
                             "failingPeriods": {
-                              "numberOfEvaluationPeriods": 2,
-                              "minFailingPeriodsToAlert": 2
+                              "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
+                              "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
                             },
                             "name": "ServiceApiResult",
                             "metricNamespace": "Microsoft.Web/serverfarms",
@@ -289,6 +311,12 @@
                         },
                         "enabled": {
                           "value": "[[parameters('enabled')]"
+                        },
+                        "failingPeriods": {
+                          "value": "[[parameters('failingPeriods')]"
+                        },
+                        "evaluationPeriods": {
+                          "value": "[[parameters('evaluationPeriods')]"
                         }
                       }
                     }
@@ -316,6 +344,12 @@
                 },
                 "enabled": {
                   "value": "[[parameters('enabled')]"
+                },
+                "failingPeriods": {
+                  "value": "[[parameters('failingPeriods')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[[parameters('evaluationPeriods')]"
                 }
               }
             }
