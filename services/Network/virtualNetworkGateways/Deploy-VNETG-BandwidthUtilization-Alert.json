@@ -8,7 +8,7 @@
     "displayName": "Deploy VNetG Tunnel Bandwidth Alert",
     "description": "Policy to audit/deploy Virtual Network Gateway Tunnel Bandwidth Alert",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -269,7 +269,7 @@
                             "metricNamespace": "Microsoft.Network/virtualNetworkGateways",
                             "metricName": "TunnelAverageBandwidth",
                             "operator": "LessThan",
-                            "threshold": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]",
+                            "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
                             "criterionType": "StaticThresholdCriterion"
                           }
@@ -324,7 +324,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[parameters('threshold')]"
+                  "value": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }
