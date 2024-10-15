@@ -46,6 +46,7 @@
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-RecoveryServices
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Storage
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-VM
@@ -210,6 +211,15 @@ function Enumerate-Policy {
 #endregion
 
 #Main script
+
+# Checking for required module presence
+If (-NOT(Get-Module -ListAvailable Az.Resources)) {
+  Write-Warning "This script requires the Az.Resources module."
+
+  $response = Read-Host "Would you like to install the 'Az.Resources' module now? (y/n)"
+  If ($response -match '[yY]') { Install-Module Az.Resources -Scope CurrentUser }
+}
+
 switch ($azureEnvironment) {
   "AzureCloud" {
     $azureEnvironmentURI = "management.azure.com"
