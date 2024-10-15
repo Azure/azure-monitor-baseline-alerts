@@ -44,35 +44,35 @@ Execute the following instructions to download the cleanup script file. Alternat
 3. Change directory to the location of the **Start-ALZ-Maintenance.ps1** script
 4. Configure the _**$pseudoRootManagementGroup**_ variable using the following command:
 
-    ```powershell
-    $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
-    ```
+   ```powershell
+   $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
+   ```
 
 5. Sign in to Azure with the `Connect-AzAccount` command. The account you sign in with needs to have permissions to remove all the aforementioned resources (Policy Assignments, Policy Definitions, and other resources) at the desired Management Group scope.
 6. Execute the script using one of the following options:
 
-    {{% include "PowerShell-ExecutionPolicy.md" %}}
+   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-    **Get full help on script usage help:**
+   **Get full help on script usage help:**
 
-    ```powershell
-    Get-help ./Start-AMBA-ALZ-Maintenance.ps1
-    ```
+   ```powershell
+   Get-help ./Start-AMBA-ALZ-Maintenance.ps1
+   ```
 
-    **Show output of what would happen if deletes executed:**
+   **Show output of what would happen if deletes executed:**
 
-    ```powershell
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -WhatIf
-    ```
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -WhatIf
+   ```
 
-    **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
+   **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
 
-    ```powershell
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz
-    ```
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz
+   ```
 
-    **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ.**
+   **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ.**
 
-    ```powershell
-    ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz  -Confirm:$false
-    ```
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -Confirm:$false
+   ```
