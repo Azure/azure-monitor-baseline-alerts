@@ -38,18 +38,18 @@
 
     Run the following commands to initiate remediation:
 
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $identityManagementGroup -policyName Alerting-Identity
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $managementManagementGroup -policyName Alerting-Management
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Storage
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-VM
-    .\patterns\alz\scripts\Start-AMBARemediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Web
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $identityManagementGroup -policyName Alerting-Identity
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $managementManagementGroup -policyName Alerting-Management
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Storage
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-VM
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Web
 
 #>
 
