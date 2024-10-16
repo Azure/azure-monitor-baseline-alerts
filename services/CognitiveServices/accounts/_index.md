@@ -1,7 +1,7 @@
 ---
 title: accounts
 geekdocCollapseSection: true
-geekdocHidden: false
+geekdocHidden: true
 ---
 
 {{< alertList name="alertList" >}}
