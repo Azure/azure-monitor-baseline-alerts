@@ -60,6 +60,12 @@ Should customers decide to switch, it will be enough to:
 - change the values in the parameter file to match one of the three cases previously discussed
 - redeploy the ALZ pattern
 - run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives
-- remove notification assets deployed by ALZ patterns using the [**Remove-AMBANotificationAssets.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Remove-AMBANotificationAssets.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
+- remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_). To Remove the notification assets, run the command passing the _**NotificationAssets**_ value to the _**-cleanItems**_ parameter:
+
+  ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems NotificationAssets
+  ```
+
+  Documentation about the ***Start-AMBA-ALZ-Maintenance.ps1*** script can be found at [Cleaning up a Deployment](../../Cleaning-up-a-Deployment)
 
 The code will reconfigure the Service Health alerts to use either the customer's action groups to the ALZ pattern notification assets according to the selected case.
