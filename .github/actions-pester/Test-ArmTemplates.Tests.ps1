@@ -17,7 +17,7 @@ function Get-ChangedFile {
         [String]$PRBranch = "$($env:GITHUB_HEAD_REF)"
     )
     # Get the list of changed files between the main branch and the pull request branch
-    $changedFiles = git diff --name-only origin/main origin/$PRBranch
+    $changedFiles = git diff --name-only main origin/$PRBranch
 
     # Create a regex pattern to filter files based on the provided path and extension
     $regex = "$pathFilter.*\.$extensionFilter"
