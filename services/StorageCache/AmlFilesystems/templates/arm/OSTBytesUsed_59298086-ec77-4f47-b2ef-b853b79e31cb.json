@@ -1,0 +1,256 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "alertName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Name of the alert"
+      }
+    },
+    "alertDescription": {
+      "type": "string",
+      "defaultValue": "Log an alert if OSTByteUsed is above 85%",
+      "metadata": {
+        "description": "Description of alert"
+      }
+    },
+    "isEnabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether the alert is enabled"
+      }
+    },
+    "checkWorkspaceAlertsStorageConfigured": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Specifies whether to check linked storage and fail creation if the storage was not found"
+      }
+    },
+    "resourceId": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Full Resource ID of the resource emitting the metric that will be used for the comparison. For example /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroups/ResourceGroupName/providers/Microsoft.compute/virtualMachines/VM_xyz"
+      }
+    },
+    "muteActionsDuration": {
+      "type": "string",
+      "allowedValues": [
+        "PT1M",
+        "PT5M",
+        "PT15M",
+        "PT30M",
+        "PT1H",
+        "PT6H",
+        "PT12H",
+        "PT24H"
+      ],
+      "metadata": {
+        "description": "Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired."
+      }
+    },
+    "alertSeverity": {
+      "type": "int",
+      "defaultValue": 2,
+      "allowedValues": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "metadata": {
+        "description": "Severity of alert {0,1,2,3,4}"
+      }
+    },
+    "autoMitigate": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Specifies whether the alert will automatically resolve"
+      }
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": " let threshold_used = 0.85; AzureMetrics | where MetricName == \"OSTBytesTotal\" or MetricName == \"OSTBytesUsed\" | summarize OSTBytesTotal = maxif(Total, MetricName == \"OSTBytesTotal\"), OSTBytesUsed = maxif(Total, MetricName == \"OSTBytesUsed\") | extend UsedRatio = OSTBytesUsed / OSTBytesTotal | where UsedRatio > threshold_used | project UsedRatio, OSTBytesUsed, OSTBytesTotal ",
+      "metadata": {
+        "description": "Name of the metric used in the comparison to activate the alert."
+      }
+    },
+    "metricMeasureColumn": {
+      "type": "string",
+      "defaultValue": "AggregatedValue",
+      "metadata": {
+        "description": "Name of the measure column used in the alert evaluation."
+      }
+    },
+    "resourceIdColumn": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of the resource ID column used in the alert targeting the alerts."
+      }
+    },
+    "operator": {
+      "type": "string",
+      "defaultValue": "GreaterThan",
+      "allowedValues": [
+        "Equals",
+        "GreaterThan",
+        "GreaterThanOrEqual",
+        "LessThan",
+        "LessThanOrEqual"
+      ],
+      "metadata": {
+        "description": "Operator comparing the current value with the threshold value."
+      }
+    },
+    "threshold": {
+      "type": "string",
+      "defaultValue": "85",
+      "metadata": {
+        "description": "The threshold value at which the alert is activated."
+      }
+    },
+    "numberOfEvaluationPeriods": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "The number of periods to check in the alert evaluation."
+      }
+    },
+    "minFailingPeriodsToAlert": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
+      }
+    },
+    "timeAggregation": {
+      "type": "string",
+      "defaultValue": "Average",
+      "allowedValues": [
+        "Average",
+        "Minimum",
+        "Maximum",
+        "Total",
+        "Count"
+      ],
+      "metadata": {
+        "description": "How the data that is collected should be combined over time."
+      }
+    },
+    "windowSize": {
+      "type": "string",
+      "defaultValue": "PT1M",
+      "allowedValues": [
+        "PT1M",
+        "PT5M",
+        "PT15M",
+        "PT30M",
+        "PT1H",
+        "PT6H",
+        "PT12H",
+        "PT24H",
+        "PT1D"
+      ],
+      "metadata": {
+        "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
+      }
+    },
+    "evaluationFrequency": {
+      "type": "string",
+      "defaultValue": "PT5M",
+      "allowedValues": [
+        "PT5M",
+        "PT15M",
+        "PT30M",
+        "PT1H"
+      ],
+      "metadata": {
+        "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
+      }
+    },
+    "currentDateTimeUtcNow": {
+      "type": "string",
+      "defaultValue": "[utcNow()]",
+      "metadata": {
+          "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+          "Yes",
+          "No"
+      ],
+      "metadata": {
+          "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2021-08-01",
+      "name": "[parameters('alertName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "_deployed_by_amba": true
+      },
+      "properties": {
+        "description": "[parameters('alertDescription')]",
+        "severity": "[parameters('alertSeverity')]",
+        "enabled": "[parameters('isEnabled')]",
+        "scopes": [
+          "[parameters('resourceId')]"
+        ],
+        "evaluationFrequency": "[parameters('evaluationFrequency')]",
+        "windowSize": "[parameters('windowSize')]",
+        "criteria": {
+          "allOf": [
+            {
+              "query": "[parameters('query')]",
+              "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
+              "resourceIdColumn": "[parameters('resourceIdColumn')]",
+              "dimensions": [{"name": "UsedRatio", "operator": "Include", "values": ["*"]}, {"name": "OSTBytesUsed", "operator": "Include", "values": ["*"]}, {"name": "OSTBytesTotal", "operator": "Include", "values": ["*"]}],
+              "operator": "[parameters('operator')]",
+              "threshold": "[parameters('threshold')]",
+              "timeAggregation": "[parameters('timeAggregation')]",
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
+                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
+              }
+            }
+          ]
+        },
+        "muteActionsDuration": "[parameters('muteActionsDuration')]",
+        "autoMitigate": "[parameters('autoMitigate')]",
+        "checkWorkspaceAlertsStorageConfigured": "[parameters('checkWorkspaceAlertsStorageConfigured')]"
+      }
+    },
+    {
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('pidDeploymentName')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+          "mode": "Incremental",
+          "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "resources": []
+          }
+      }
+    }
+  ]
+}
