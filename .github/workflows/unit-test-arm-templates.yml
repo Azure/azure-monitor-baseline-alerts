@@ -37,7 +37,41 @@ jobs:
           owner: 'Azure'
           repository: 'arm-ttk'
       - name: Test Modified ARM templates
+        id: run_tests
         shell: pwsh
         run: |
-            Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
-            ./.github/actions-pester/Test-ArmTemplates.Tests.ps1
+              $changedFiles = git diff --name-only origin/main origin/${{github.event.pull_request.head.ref}}
+              # Initialize a counter for the number of failed tests
+              $NumberOfFailedTests = 0
+              If ($changedFiles -ne $null) {
+                  $armFiles = $changedFiles | where-object {$PSItem -match "services/.*/templates/arm/.*.json"}
+                  If ($armFiles -ne $null) {
+                      Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
+                      $armFiles | ForEach-Object {
+                          $armFile = $PSItem
+                          write-output "Testing $armFile"
+                          Test-AzTemplate -TemplatePath $armFile -Test deploymentTemplate -ErrorAction Continue
+                          $testResults = Test-AzTemplate -TemplatePath $armFile -Test deploymentTemplate -ErrorAction Continue
+                          # Filter the test results to find any failed tests
+                          $failedTests = $testResults | Where-Object { $PSItem.Passed -ne $True }
+                          # If there are failed tests, increment the failed tests counter
+                          if ($failedTests -ne $null) {
+                              $failedTests | ForEach-Object {
+                                  $NumberOfFailedTests++
+                              }
+                          }
+                      }
+                  }
+              }
+              echo "failtests=$NumberOfFailedTests"
+              Add-Content -Path $env:GITHUB_ENV -Value "failtests=$NumberOfFailedTests"
+        continue-on-error: true
+      - name: Check for failed tests
+        id: check_fail
+        shell: pwsh
+        run: |
+          echo "Number of failed tests: ${{ env.failtests }}"
+          If (${{ env.failtests }} -gt 0) {
+              echo "Failed tests found, see previous step for details"
+              exit 1
+          }
