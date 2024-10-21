@@ -77,7 +77,7 @@
     "query": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "InsightsMetrics | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk ",
+      "defaultValue": "InsightsMetrics | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"ReadLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk in ('C:','/') | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk ",
       "metadata": {
         "description": "Name of the metric used in the comparison to activate the alert."
       }
@@ -112,7 +112,7 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "30",
+      "defaultValue": "25",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }

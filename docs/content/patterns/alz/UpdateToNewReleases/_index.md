@@ -71,9 +71,9 @@ Within the code editor of your choice, make sure you pull the changes from your 
 
 ### Check for detailed requirement when updating to a newer release (always required)
 
-Check the content of the page corresponding to the release you are updating from, to see if there's any pre or post deployment action required. For instance, if you're updating from release **2023-11-14**, check the page called ***Updating from release 2023-11-14***
+Check the content of the page corresponding to the release you are updating to, to see if there's any pre or post deployment action required. For instance, if you're updating to release **2024-04-12**, check the page called ***Updating to release 2024-04-12***
 
-  ![Updating from release](../media/UpdatingFromRelease.png)
+  ![Updating from release](../media/UpdatingToRelease.png)
 
 ### Update the parameter file with any new parameter and configuration
 
