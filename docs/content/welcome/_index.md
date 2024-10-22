@@ -27,7 +27,7 @@ The site is organized into three main sections:
 
 Each main section of Azure Monitor Baseline Alerts can be considered as its own level, with associated monitoring subsections:
 
-![Screenshot 2024-09-17 113833](https://github.com/user-attachments/assets/2e8ecdeb-e27d-476e-b53e-75ef6fabc39b)
+![Screenshot 2024-10-22 091245](https://github.com/user-attachments/assets/6d78b107-3592-430d-baeb-26990febf5cc)
 
 ---
 AMBA supports three types of activity alerts to monitor your Azure resources. These alerts help you stay informed about the status and health of your Azure services:
@@ -65,7 +65,8 @@ AMBA supports three types of activity alerts to monitor your Azure resources. Th
 
 **Explore your end-to-end monitoring journey:**
 
-![Screenshot 2024-10-18 011630](https://github.com/user-attachments/assets/2ad647b7-9256-490b-b908-f556ec2f2d60)
+![Screenshot 2024-10-18 011630](https://github.com/user-attachments/assets/a9062189-77f1-46a5-94a4-7fd0a81560c6)
+
 
 | **Customer and Partner outcomes​:**             | *I want to…* learn about Monitoring                                          | *I want to…* be notified on the health for every Microsoft Service consumed​             | *I want to…* visualize the health of every Microsoft Service consumed​              | *I want to…* monitor the health of my mission critical workloads for deep insights​    | *I want to…* monitor my specialized workloads (Teams + Azure, Power Platform + Azure)​ |
 | --------------------------- | --------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
