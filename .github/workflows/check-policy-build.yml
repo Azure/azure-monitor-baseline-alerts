@@ -1,10 +1,10 @@
 ---
     name: Check Policy Build
-    
+
     ##########################################
     # Start the job on PR for all branches #
     ##########################################
-    
+
     # yamllint disable-line rule:truthy
     on:
       pull_request:
@@ -14,15 +14,14 @@
           - synchronize
           - ready_for_review
         paths:
-          - "eslzArm/**.json"
-          - "src/Alz.Tools/**"
-          - "src/**.json"
-          - "src/**.bicep"
-    
+          - "patterns/alz/policyDefinitions/**.json"
+          - "patterns/alz/templates/**.bicep"
+          - "services/**.json"
+
     ###############
     # Set the Job #
     ###############
-    
+
     jobs:
       check-policy:
         name: Check Policy Build
@@ -33,7 +32,7 @@
             uses: actions/checkout@v4
             with:
               fetch-depth: 0
-    
+
           - name: Check build
             shell: pwsh
             run: |
