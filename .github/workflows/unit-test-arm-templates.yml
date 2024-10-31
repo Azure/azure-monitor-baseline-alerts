@@ -31,13 +31,60 @@ jobs:
           fetch-depth: 0
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
+      - name: Get all changed ARM files
+        id: changed-arm-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            services/**/**/templates/arm/**.json
+      - name: List all changed ARM files
+        if: steps.changed-arm-files.outputs.any_changed == 'true'
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-arm-files.outputs.all_changed_files }}
+        run: |
+              for file in ${ALL_CHANGED_FILES}; do
+              echo "File changed: $file"
+              done
       - name: Clone ARM-TTK repo
         uses: GuillaumeFalourd/clone-github-repo-action@v3
         with:
           owner: 'Azure'
           repository: 'arm-ttk'
       - name: Test Modified ARM templates
+        id: run_tests
+        if: steps.changed-arm-files.outputs.any_changed == 'true'
         shell: pwsh
         run: |
-            Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
-            ./.github/actions-pester/Test-ArmTemplates.Tests.ps1
+            $changedFiles =  "${{ steps.changed-arm-files.outputs.all_changed_files }}"
+            $changedFiles = $changedFiles -split ' '
+            # Initialize a counter for the number of failed tests
+            $NumberOfFailedTests = 0
+            If ($changedFiles -ne $null) {
+                    Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
+                    $changedFiles | ForEach-Object {
+                        $armFile = $PSItem
+                        write-output "Testing $armFile"
+                        Test-AzTemplate -TemplatePath $armFile -Test deploymentTemplate -ErrorAction Continue
+                        $testResults = Test-AzTemplate -TemplatePath $armFile -Test deploymentTemplate -ErrorAction Continue
+                        # Filter the test results to find any failed tests
+                        $failedTests = $testResults | Where-Object { $PSItem.Passed -ne $True }
+                        # If there are failed tests, increment the failed tests counter
+                        if ($failedTests -ne $null) {
+                            $failedTests | ForEach-Object {
+                                $NumberOfFailedTests++
+                            }
+                        }
+                    }
+                }
+              echo "failtests=$NumberOfFailedTests"
+              Add-Content -Path $env:GITHUB_ENV -Value "failtests=$NumberOfFailedTests"
+        continue-on-error: true
+      - name: Check for failed tests
+        id: check_fail
+        shell: pwsh
+        run: |
+          echo "Number of failed tests: ${{ env.failtests }}"
+          If (${{ env.failtests }} -gt 0) {
+              echo "Failed tests found, see previous step for details"
+              exit 1
+          }
