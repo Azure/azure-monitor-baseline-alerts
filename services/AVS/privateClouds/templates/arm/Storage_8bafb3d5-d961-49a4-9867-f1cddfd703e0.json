@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "##DESCRIPTION##",
+      "defaultValue": "Storage Usage per Datastore",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": ##SEVERITY##,
+      "defaultValue": 2,
       "allowedValues": [
         0,
         1,
@@ -59,45 +59,28 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "##OPERATOR##",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
+        "Equals",
         "GreaterThan",
+        "GreaterThanOrEqual",
         "LessThan",
-        "GreaterOrLessThan"
+        "LessThanOrEqual"
       ],
       "metadata": {
         "description": "Operator comparing the current value with the threshold value."
       }
     },
-    "alertSensitivity": {
+    "threshold": {
       "type": "string",
-      "defaultValue": "##ALERT_SENSITIVITY##",
-      "allowedValues": [
-        "High",
-        "Medium",
-        "Low"
-      ],
+      "defaultValue": "70",
       "metadata": {
-        "description": "Tunes how 'noisy' the Dynamic Thresholds alerts will be: 'High' will result in more alerts while 'Low' will result in fewer alerts."
-      }
-    },
-    "numberOfEvaluationPeriods": {
-      "type": "int",
-      "defaultValue": ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##,
-      "metadata": {
-        "description": "The number of periods to check in the alert evaluation."
-      }
-    },
-    "minFailingPeriodsToAlert": {
-      "type": "int",
-      "defaultValue": ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##,
-      "metadata": {
-        "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
+        "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "##TIME_AGGREGATION##",
+      "defaultValue": "Average",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -111,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "##WINDOW_SIZE##",
+      "defaultValue": "PT30M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -124,13 +107,14 @@
         "PT1D"
       ],
       "metadata": {
-        "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format."
+        "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
       }
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "##EVALUATION_FREQUENCY##",
+      "defaultValue": "PT5M",
       "allowedValues": [
+        "PT1M",
         "PT5M",
         "PT15M",
         "PT30M",
@@ -160,7 +144,7 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
     "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
@@ -185,19 +169,13 @@
           "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
           "allOf": [
             {
-              "criterionType": "DynamicThresholdCriterion",
               "name": "1st criterion",
-              "metricName": "##METRIC_NAME##",
-              "dimensions": [
-                ##DIMENSIONS##
-              ],
+              "metricName": "DiskUsedPercentage",
+              "dimensions": [{"operator": "include", "name": "dsname", "values": ["*"]}],
               "operator": "[parameters('operator')]",
-              "alertSensitivity": "[parameters('alertSensitivity')]",
-              "failingPeriods": {
-                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
-                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
-              },
-              "timeAggregation": "[parameters('timeAggregation')]"
+              "threshold": "[parameters('threshold')]",
+              "timeAggregation": "[parameters('timeAggregation')]",
+              "criterionType": "StaticThresholdCriterion"
             }
           ]
         }
@@ -205,7 +183,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2023-07-01",
+      "apiVersion": "2020-06-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {

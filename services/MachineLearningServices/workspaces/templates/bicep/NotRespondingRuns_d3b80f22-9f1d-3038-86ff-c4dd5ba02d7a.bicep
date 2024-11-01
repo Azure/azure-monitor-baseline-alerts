@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = '##DESCRIPTION##'
+param alertDescription string = 'Number of runs not responding for this workspace. Count is updated when a run enters Not Responding state.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = ##SEVERITY##
+param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -37,10 +37,10 @@ param alertSeverity int = ##SEVERITY##
   'LessThan'
   'LessThanOrEqual'
 ])
-param operator string = '##OPERATOR##'
+param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = ##THRESHOLD##
+param threshold int = 0
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -50,7 +50,7 @@ param threshold int = ##THRESHOLD##
   'Total'
   'Count'
 ])
-param timeAggregation string = '##TIME_AGGREGATION##'
+param timeAggregation string = 'Total'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([
@@ -64,7 +64,7 @@ param timeAggregation string = '##TIME_AGGREGATION##'
   'PT24H'
   'P1D'
 ])
-param windowSize string = '##WINDOW_SIZE##'
+param windowSize string = 'PT5M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -74,7 +74,7 @@ param windowSize string = '##WINDOW_SIZE##'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = '##EVALUATION_FREQUENCY##'
+param evaluationFrequency string = 'PT1M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -106,8 +106,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: '##METRIC_NAME##'
-          dimensions: ##DIMENSIONS##
+          metricName: 'Not Responding Runs'
+          dimensions: [[]]
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation
@@ -118,8 +118,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
   }
 }
 
-var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
+var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

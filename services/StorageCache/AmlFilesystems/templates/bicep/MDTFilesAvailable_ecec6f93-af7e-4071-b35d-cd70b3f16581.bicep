@@ -2,12 +2,8 @@
 @minLength(1)
 param alertName string
 
-@description('Location of the alert')
-@minLength(1)
-param location string
-
 @description('Description of alert')
-param alertDescription string = '##DESCRIPTION##'
+param alertDescription string = 'Log an alert if MDTBytesAvailable is below 15%'
 
 @description('Specifies whether the alert is enabled')
 param isEnabled bool = true
@@ -40,20 +36,20 @@ param muteActionsDuration string
   3
   4
 ])
-param alertSeverity int = ##SEVERITY##
+param alertSeverity int = 2
 
 @description('Specifies whether the alert will automatically resolve')
-param autoMitigate bool = ##AUTO_MITIGATE##
+param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = '##QUERY##'
+param query string = ' let threshold_used = 0.15; AzureMetrics | where MetricName == "MDTBytesAvailable" or MetricName == "MDTBytesTotal" | summarize MDTBytesAvailable = maxif(Total, MetricName == "MDTBytesAvailable"), MDTBytesTotal = maxif(Total, MetricName == "MDTBytesTotal") | extend AvailableRatio = MDTBytesAvailable / MDTBytesTotal | where AvailableRatio < threshold_available | project AvailableRatio, MDTBytesAvailable, MDTBytesTotal '
 
 @description('Name of the measure column used in the alert evaluation.')
-param metricMeasureColumn string = '##METRIC_MEASURE_COLUMN##'
+param metricMeasureColumn string = 'AggregatedValue'
 
 @description('Name of the resource ID column used in the alert targeting the alerts.')
-param resourceIdColumn string = '##RESOURCE_ID_COLUMN##'
+param resourceIdColumn string = ''
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -63,16 +59,16 @@ param resourceIdColumn string = '##RESOURCE_ID_COLUMN##'
   'LessThan'
   'LessThanOrEqual'
 ])
-param operator string = '##OPERATOR##'
+param operator string = 'LessThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = ##THRESHOLD##
+param threshold int = 15
 
 @description('The number of periods to check in the alert evaluation.')
-param numberOfEvaluationPeriods int = ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##
+param numberOfEvaluationPeriods int = 1
 
 @description('The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods).')
-param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##
+param minFailingPeriodsToAlert int = 1
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -82,7 +78,7 @@ param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_AL
   'Total'
   'Count'
 ])
-param timeAggregation string = '##TIME_AGGREGATION##'
+param timeAggregation string = 'Average'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([
@@ -96,7 +92,7 @@ param timeAggregation string = '##TIME_AGGREGATION##'
   'PT24H'
   'P1D'
 ])
-param windowSize string = '##WINDOW_SIZE##'
+param windowSize string = 'PT1M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -105,7 +101,7 @@ param windowSize string = '##WINDOW_SIZE##'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = '##EVALUATION_FREQUENCY##'
+param evaluationFrequency string = 'PT5M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -119,7 +115,7 @@ param telemetryOptOut string = 'No'
 
 resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
   name: alertName
-  location: location
+  location: resourceGroup().location
   tags: {
     _deployed_by_amba: 'true'
   }
@@ -138,8 +134,22 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
           query: query
           metricMeasureColumn: metricMeasureColumn
           resourceIdColumn: resourceIdColumn
-          dimensions: [##DIMENSIONS##
-          ]
+          dimensions: [
+            {
+              name: 'AvailableRatio'
+              operator: 'Include'
+              values: ['*']
+            }
+            {
+              name: 'MDTBytesAvailable'
+              operator: 'Include'
+              values: ['*']
+            }
+            {
+              name: 'MDTBytesTotal'
+              operator: 'Include'
+              values: ['*']
+            }]
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation
@@ -156,8 +166,8 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
   }
 }
 
-var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
+var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'
