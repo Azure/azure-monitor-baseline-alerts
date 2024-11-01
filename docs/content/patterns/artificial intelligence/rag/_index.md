@@ -11,7 +11,7 @@ This page provides the alert settings for AI RAG pattern setup. It contains rele
 
 Below is a basic architecture of RAG implementation
 
-![](https://github.com/Azure/GPT-RAG/blob/main/media/architecture-GPT-RAG-Basic.png?raw=true)
+![RAG Basic Architecture](https://github.com/Azure/GPT-RAG/blob/main/media/architecture-GPT-RAG-Basic.png?raw=true)
 
 We may update these settings as we continue to work with a breadth of customers.
 
