@@ -81,6 +81,7 @@ jobs:
         continue-on-error: true
       - name: Check for failed tests
         id: check_fail
+        if: steps.run_tests.conclusion == 'success'
         shell: pwsh
         run: |
           echo "Number of failed tests: ${{ env.failtests }}"
