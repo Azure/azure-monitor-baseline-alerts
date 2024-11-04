@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Availability percentage with the following calculation: (Total Calls - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500.'
+param alertDescription string = 'CPU Usage per Cluster (Critical)'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 3
+param alertSeverity int = 0
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -37,10 +37,10 @@ param alertSeverity int = 3
   'LessThan'
   'LessThanOrEqual'
 ])
-param operator string = 'LessThan'
+param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 100
+param threshold int = 95
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -64,7 +64,7 @@ param timeAggregation string = 'Average'
   'PT24H'
   'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT30M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -74,7 +74,7 @@ param windowSize string = 'PT5M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT1M'
+param evaluationFrequency string = 'PT5M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -106,8 +106,13 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'SuccessRate'
-          dimensions: [[]]
+          metricName: 'EffectiveCpuAverage'
+          dimensions: [
+            {
+              name: 'clustername'
+              operator: 'include'
+              values: ['*']
+            }]
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation

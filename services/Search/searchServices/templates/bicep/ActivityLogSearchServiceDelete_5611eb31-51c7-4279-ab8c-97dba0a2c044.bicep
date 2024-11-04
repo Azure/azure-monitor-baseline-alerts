@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = '##DESCRIPTION##'
+param alertDescription string = 'Activity Log Alert for Search Service Delete'
 
 @description('Indicates whether or not the alert is enabled.')
 param isEnabled bool = true
@@ -33,24 +33,26 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
     condition: {
       allOf: [
         {
-          field: 'category'
-          equals: 'ResourceHealth'
-        }
-        {
-          anyOf: [##CAUSES##
-          ]
-        }
-        {
-          anyOf: [##CURRENT_HEALTH_STATUS##
-          ]
+          {
+            field: 'category'
+            equals: 'Administrative'
+          }
+          {
+            field: 'operationName'
+            equals: 'Microsoft.Search/searchServices/delete'
+          }
+          {
+            field: 'status'
+            containsAny: ['succeeded']
+          }
         }
       ]
     }
   }
 }
 
-var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
+var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

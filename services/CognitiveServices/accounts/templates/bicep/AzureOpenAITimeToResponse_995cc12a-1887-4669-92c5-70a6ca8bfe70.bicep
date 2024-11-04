@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Total number of calls.'
+param alertDescription string = 'Recommended latency (responsiveness) measure for streaming requests. Time in milliseconds.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 3
+param alertSeverity int = 2
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -40,7 +40,7 @@ param alertSeverity int = 3
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 5000
+param threshold int = 200
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -106,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'TotalCalls'
+          metricName: 'AzureOpenAITimeToResponse'
           dimensions: [[]]
           operator: operator
           threshold: threshold

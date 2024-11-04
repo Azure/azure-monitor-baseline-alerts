@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Latency in milliseconds.'
+param alertDescription string = 'Memory Usage per Cluster'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -40,7 +40,7 @@ param alertSeverity int = 2
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 90
+param threshold int = 80
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -64,7 +64,7 @@ param timeAggregation string = 'Average'
   'PT24H'
   'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT30M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -74,7 +74,7 @@ param windowSize string = 'PT5M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT1M'
+param evaluationFrequency string = 'PT5M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -106,8 +106,13 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'Latency'
-          dimensions: [[]]
+          metricName: 'UsageAverage'
+          dimensions: [
+            {
+              name: 'clustername'
+              operator: 'include'
+              values: ['*']
+            }]
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation

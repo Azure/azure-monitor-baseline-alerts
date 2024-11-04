@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Number of calls that exceeded rate or quota limit.'
+param alertDescription string = 'Number of runs not responding for this workspace. Count is updated when a run enters Not Responding state.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 2
+param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -106,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'BlockedCalls'
+          metricName: 'Not Responding Runs'
           dimensions: [[]]
           operator: operator
           threshold: threshold

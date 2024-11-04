@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Number of calls with service internal error (HTTP response code 5xx).'
+param alertDescription string = 'Number of model deployments that failed in this workspace.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -106,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'ServerErrors'
+          metricName: 'Model Deploy Failed'
           dimensions: [[]]
           operator: operator
           threshold: threshold

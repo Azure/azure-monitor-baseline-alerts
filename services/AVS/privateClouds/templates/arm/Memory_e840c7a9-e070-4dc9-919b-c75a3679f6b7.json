@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "Number of calls that exceeded rate or quota limit.",
+      "defaultValue": "Memory Usage per Cluster",
       "metadata": {
         "description": "Description of alert"
       }
@@ -73,14 +73,14 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "0",
+      "defaultValue": "80",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "Total",
+      "defaultValue": "Average",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -94,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "PT5M",
+      "defaultValue": "PT30M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -112,7 +112,7 @@
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "PT1M",
+      "defaultValue": "PT5M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -170,8 +170,8 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "BlockedCalls",
-              "dimensions": [],
+              "metricName": "UsageAverage",
+              "dimensions": [{"operator": "include", "name": "clustername", "values": ["*"]}],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
               "timeAggregation": "[parameters('timeAggregation')]",

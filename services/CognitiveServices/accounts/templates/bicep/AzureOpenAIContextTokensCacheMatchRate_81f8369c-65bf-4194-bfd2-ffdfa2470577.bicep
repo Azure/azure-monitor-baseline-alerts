@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Total number of calls with error response (HTTP response code 4xx or 5xx).'
+param alertDescription string = 'Percentage of the prompt tokens hit the cache, avaiable for PTU-managed.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -40,7 +40,7 @@ param alertSeverity int = 2
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 5
+param threshold int = 75
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -106,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'TotalErrors'
+          metricName: 'AzureOpenAIContextTokensCacheMatchRate'
           dimensions: [[]]
           operator: operator
           threshold: threshold

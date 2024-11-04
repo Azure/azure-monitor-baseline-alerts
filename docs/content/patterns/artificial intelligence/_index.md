@@ -40,4 +40,4 @@ Running AI workloads on Azure infrastructure involves monitoring each of the com
 
 ### AI Specialized Workload Patterns
 
-#### GPT-RAG (coming soon)
+#### [GPT-RAG](./rag/)

@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Number of calls with client side error (HTTP response code 4xx).'
+param alertDescription string = 'Memory Usage per Cluster (Critical)'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 1
+param alertSeverity int = 0
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -40,7 +40,7 @@ param alertSeverity int = 1
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 0
+param threshold int = 95
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -50,7 +50,7 @@ param threshold int = 0
   'Total'
   'Count'
 ])
-param timeAggregation string = 'Total'
+param timeAggregation string = 'Average'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([
@@ -64,7 +64,7 @@ param timeAggregation string = 'Total'
   'PT24H'
   'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT30M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -74,7 +74,7 @@ param windowSize string = 'PT5M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT1M'
+param evaluationFrequency string = 'PT5M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -106,8 +106,13 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'ClientErrors'
-          dimensions: [[]]
+          metricName: 'UsageAverage'
+          dimensions: [
+            {
+              name: 'clustername'
+              operator: 'include'
+              values: ['*']
+            }]
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation
