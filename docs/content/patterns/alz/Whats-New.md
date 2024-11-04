@@ -8,11 +8,42 @@ For information on what's new please refer to the [Releases](https://github.com/
 
 To update your current deployment with the content from the latest release, please refer to the [Update to new releases](../UpdateToNewReleases) page.
 
+## 2024-11-01
+
+### New features
+
+- Added a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure monitor alerts.
+- **Script consolidation**: *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1* and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* scripts have been consolidated into a single new one called [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. With this enhancement, it is now possible to remove alerts for resources which have been deletedf (orphaned alerts).
+
+### Bug fixes
+
+- Fixed [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensure -WhatIf parameter is honored by all scripts commands and fix hybrid disconnected alert bug
+- Fixed [[#342](https://github.com/Azure/azure-monitor-baseline-alerts/pull/342)]: Github issue link and Management Subscription Id fix
+- Fixed [[#346](https://github.com/Azure/azure-monitor-baseline-alerts/pull/346)]: Update useCommonSchema to useCommonAlertSchema in Deploy_ServiceHealth_ActionGroups and Deploy_Suppression_AlertProcessing_Rule Policy Definitions
+- Fixed [[#357](https://github.com/Azure/azure-monitor-baseline-alerts/pull/357)]: Resolve the ExpressRoute QoS remediation issue
+- Fixed [[#362](https://github.com/Azure/azure-monitor-baseline-alerts/pull/362)]: Standardization on param usage for failingPeriods and evaluationPeriods
+- Fixed [[#381](https://github.com/Azure/azure-monitor-baseline-alerts/pull/381)]: Bugged Connectivity policy initiative + override tag name case consistency + tag override documentation update
+
+### Documentation updates
+
+- Documentation update about:
+  - Update to new releases pages now brings more clarity
+  - Update to new releases pages contain samples using the new consolidated maintenance script. [Updating to release 2024-09-02](./UpdateToNewReleases/Update_to_release_2024-09-02), [Updating to release 2024-03-01](./UpdateToNewReleases/Update_to_release_2024-03-01)
+  - Clarification on how to identify the pseudoRootManagementGroup as the one parenting the Platform and Landing Zones management groups.
+  - Updated AMBA diagrams. [Introduction to deploying the ALZ Pattern](./deploy/Introduction-to-deploying-the-ALZ-Pattern)
+  - Remediation command for the ***Deploy Azure Monitor Baseline Alerts for Recovery Services*** policy initiative added to the list. [Remediate Policies](./deploy/Remediate-Policies)
+
+### Tools
+
+- **Automation:**
+  - Removed the previous workflow that automates the process of creating ARM templates for Azure Policies/ PolicySets because of a security issue.
+  - New workflow to ensure policy updates and to verify the Bicep build has been run by the contributor.
+
 ## 2024-09-02
 
 ### New features
 
-- **AMBA Portal Accelerator**: We are thrilled to introduce the Azure Monitor Baseline Alerts Accelerator, now available in preview! The new deployment method is accessible directly through the Azure Portal UI, providing a user-friendly interface that guides you through the setup process. This means you can deploy alerts faster and with greater confidence. It simplifies the process of setting up baseline alerts, ensuring that you are promptly notified of critical metrics and log anomalies that could indicate potential issues with your Azure deployments. To begin using the AMBA Portal Accelerator click the Deploy to Azure button below. Please refer to the detailed deployment instructions for further guidance. [Deploy via the Azure Portal (Preview)](../deploy/Deploy-via-Azure-Portal-UI)
+- **AMBA Portal Accelerator**: We are thrilled to introduce the Azure Monitor Baseline Alerts Accelerator, now available in preview! The new deployment method is accessible directly through the Azure Portal UI, providing a user-friendly interface that guides you through the setup process. This means you can deploy alerts faster and with greater confidence. It simplifies the process of setting up baseline alerts, ensuring that you are promptly notified of critical metrics and log anomalies that could indicate potential issues with your Azure deployments. To begin using the AMBA Portal Accelerator click the Deploy to Azure button below. Please refer to the detailed deployment instructions for further guidance. **[Deploy via the Azure Portal (Preview)](../deploy/Deploy-via-Azure-Portal-UI)
 - **Modular approach to Initiatives**: Recognizing the limitations of a monolithic approach, we have deprecated the former Landing Zone Initiative. The initiative was becoming too large and impractical. Instead, We have adopted a modular approach by splitting the initiative into the following distinct components. For more details please visit: [Policy Initiatives](../Policy-Initiatives)
   - Key Management
   - Load Balancing
