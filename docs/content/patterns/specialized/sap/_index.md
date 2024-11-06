@@ -20,38 +20,35 @@ Table below shows the Alerts configured after the deployment.
 
 | Name                                                       | Threshold(s) (Severity)                    | Signal Type             | Frequency | \# Alert Rules |
 | ---------------------------------------------------------- | ------------------------------------------ | ----------------------- | --------- | -------------- |
-| Percentage CPU > 95                                        | 95 (2)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 85                                       | 85 (1)                                     | Metric Alerts           | 5 min     | Default        |
-| Percentage CPU >= 75                                       | 75 (2)                                     | Metric Alerts           | 5 min     | Default        |
-| VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Metric Alerts           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Metric Alerts           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Metric Alerts           | 5 min     | Default        |
-| Available Memory Bytes < 500000000                         | < 500000000 (1)                            | Metric Alerts           | 5 min     | Default        |
-| Data Disk IOPS Consumed Percentage > 95                    | \>95 (3)                                   | Metric Alerts           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 90                | \>=90 (0)                                  | Metric Alerts           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 80                | \>= 80 (2)                                 | Metric Alerts           | 5 min     | Default        |
-| VolumeConsumedSizePercentage >= 95                         | \>=95 (0)                                  | Metric Alerts           | 5 min     | Default        |
-| VolumeConsumedSizePercentage >= 90                         | \>=90 (2)                                  | Metric Alerts           | 5 min     | Default        |
-| UnhealthyHostCount >=1                                     | \>=1 (0)                                   | Metric Alerts           | 5 min     | Default        |
-| Netweaver [SOAP] SAP Netweaver System Availability         |                                            | Metric Alerts           | 5 min     | Default        |
-| Netweaver [SOAP] SAP Netweaver Instance Availability       |                                            | Metric Alerts           | 5 min     | Default        |
-| Netweaver [SOAP] SAP Netweaver EnqueueServer Availability  |                                            | Metric Alerts           | 5 min     | Default        |
-| Netweaver [SOAP] SAP Netweaver Instance Work Process Utilization | > 70                                 | Metric Alerts           | 5 min     | Default        |
-| Netweaver [SOAP] SAP Netweaver Instance Queue Wait         | > 5                                        | Metric Alerts           | 5 min     | Default        |
-| SAP HANA High CPU Usage Percent                            | > 90                                       | Metric Alerts           | 5 min     | Default        |
-| SAP HANA High Memory Usage Percent                         | > 90                                       | Metric Alerts           | 5 min     | Default        |
-| Linux OS High CPU usage percent                            | > 90                                       | Metric Alerts           | 5 min     | Default        |
-| Linux OS High memory usage MB                              | > 5000                                     | Metric Alerts           | 5 min     | Default        |
-| Linux OS High Disk Read MB per Sec                         | > 10                                       | Metric Alerts           | 5 min     | Default        |
-| MS SQL Server high CPU usage percent                       | > 90                                       | Metric Alerts           | 5 min     | Default        |
-| MS SQL Server high IO write time ms                        | > 50                                       | Metric Alerts           | 5 min     | Default        |
-| MS SQL Server high blocking time ms                        | > 50                                       | Metric Alerts           | 5 min     | Default        |
-| MS SQL Server high IO read time ms                         | > 50                                       | Metric Alerts           | 5 min     | Default        |
-| DB2 Log Usage Percent                                      | > 20                                       | Metric Alerts           | 5 min     | Default        |
-| DB2 CPU Usage Percent                                      | > 20                                       | Metric Alerts           | 5 min     | Default        |
-| DB2 Availability                                           |                                            | Metric Alerts           | 5 min     | Default        |
-| DB2 Data Disk filesystem utilization percent               | > 80                                       | Metric Alerts           | 5 min     | Default        |
-| DB2 memory utilization percent                             | > 90                                       | Metric Alerts           | 5 min     | Default        |
+| Percentage CPU > 95                                        | 95 (2)                                     | Log Analytics           | 5 min     | Default        |
+| Percentage CPU >= 85                                       | 85 (1)                                     | Log Analytics           | 5 min     | Default        |
+| Percentage CPU >= 75                                       | 75 (2)                                     | Log Analytics           | 5 min     | Default        |
+| VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Log Analytics           | 5 min     | Default        |
+| Available Memory Bytes < 500000000                         | < 500000000 (1)                            | Log Analytics           | 5 min     | Default        |
+| Data Disk IOPS Consumed Percentage > 95                    | \>95 (3)                                   | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage >= 90                | \>=90 (0)                                  | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage >= 80                | \>= 80 (2)                                 | Log Analytics           | 5 min     | Default        |
+| VolumeConsumedSizePercentage >= 95                         | \>=95 (0)                                  | Log Analytics           | 5 min     | Default        |
+| VolumeConsumedSizePercentage >= 90                         | \>=90 (2)                                  | Log Analytics           | 5 min     | Default        |
+| UnhealthyHostCount >=1                                     | \>=1 (0)                                   | Log Analytics           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver System Availability         | boolean                                    | Log Analytics           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Availability       | boolean                                    | Log Analytics           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver EnqueueServer Availability  | boolean                                    | Log Analytics           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Work Process Utilization | > 70                                 | Log Analytics           | 5 min     | Default        |
+| Netweaver [SOAP] SAP Netweaver Instance Queue Wait         | > 5                                        | Log Analytics           | 5 min     | Default        |
+| SAP HANA High CPU Usage Percent                            | > 90                                       | Log Analytics           | 5 min     | Default        |
+| SAP HANA High Memory Usage Percent                         | > 90                                       | Log Analytics           | 5 min     | Default        |
+| MS SQL Server high CPU usage percent                       | > 90                                       | Log Analytics           | 5 min     | Default        |
+| MS SQL Server high IO write time ms                        | > 50                                       | Log Analytics           | 5 min     | Default        |
+| MS SQL Server high blocking time ms                        | > 50                                       | Log Analytics           | 5 min     | Default        |
+| MS SQL Server high IO read time ms                         | > 50                                       | Log Analytics           | 5 min     | Default        |
+| DB2 Log Usage Percent                                      | > 20                                       | Log Analytics           | 5 min     | Default        |
+| DB2 CPU Usage Percent                                      | > 20                                       | Log Analytics           | 5 min     | Default        |
+| DB2 Availability                                           | boolean                                    | Log Analytics           | 5 min     | Default        |
+| DB2 Data Disk filesystem utilization percent               | > 80                                       | Log Analytics           | 5 min     | Default        |
+| DB2 memory utilization percent                             | > 90                                       | Log Analytics           | 5 min     | Default        |
 
 
 
@@ -65,7 +62,9 @@ If you have encountered a problem please file an issue in our GitHub repo [GitHu
 
 ## Deployment Guide
 
-We have a [Deployment Guide](./deploy/deploy.md#deployment-guide) available for guidance on how to consume the contents of this repo.
+We have a [Deployment Guide](https://learn.microsoft.com/en-us/azure/sap/monitor/quickstart-portal) for guidance on how to deploy Azure Monitor for SAP.
+
+[Managed Alerts](https://github.com/Azure/Azure-Monitor-for-SAP-solutions-preview/wiki/9-.b.-Managed-alerts-enabling-bulk-alerts) simplifies alert configuration by allowing bulk view and edits across providers.
 
 ## Known Issues
 
@@ -73,7 +72,7 @@ Please see the [Known Issues](Known-Issues).
 
 ## Frequently Asked Questions
 
-Please see the [Frequently Asked Questions](../avs/FAQ.md).
+Please see the [Frequently Asked Questions](FAQ).
 
 ## Contributing
 
