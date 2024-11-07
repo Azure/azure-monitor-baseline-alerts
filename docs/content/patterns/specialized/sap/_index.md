@@ -68,7 +68,7 @@ We have a [Deployment Guide](https://learn.microsoft.com/en-us/azure/sap/monitor
 
 ## Known Issues
 
-Please see the [Known Issues](Known-Issues)
+Please see the [Known Issues](Known-Issues.md)
 
 ## Frequently Asked Questions
 
