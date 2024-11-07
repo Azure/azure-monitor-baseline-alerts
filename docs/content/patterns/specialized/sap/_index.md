@@ -68,11 +68,11 @@ We have a [Deployment Guide](https://learn.microsoft.com/en-us/azure/sap/monitor
 
 ## Known Issues
 
-Please see the [Known Issues](/Known-Issues.md).
+Please see the [Known Issues](Known-Issues)
 
 ## Frequently Asked Questions
 
-Please see the [Frequently Asked Questions](/FAQ.md).
+Please see the [Frequently Asked Questions](FAQ.md).
 
 ## Contributing
 
