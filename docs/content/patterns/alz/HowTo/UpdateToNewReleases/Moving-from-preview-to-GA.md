@@ -3,8 +3,7 @@ title: Moving from preview to GA
 geekdocCollapseSection: true
 weight: 101
 ---
-
-When moving from the preview version to GA, it is required to remove everything deployed by the ALZ Monitor solution. The instructions below detail execution of a PowerShell script to delete all resources deployed, including:
+When transitioning from the preview version to the General Availability (GA) version, it is necessary to remove all resources deployed by the ALZ Monitor solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all such resources, including:
 
 - Metric Alerts
 - Activity Log Alerts
@@ -14,31 +13,31 @@ When moving from the preview version to GA, it is required to remove everything 
 - Policy Set Definitions
 - Policy Assignment remediation identity role assignments
 
-All resources deployed as part of the initial ALZ Monitor deployment and the resources created dynamically by 'deploy if not exist' policies are either tagged, marked in metadata, or in description (depending on what the resource supports) with the value `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is used to execute the cleanup of deployed resources; _if it has been removed or modified the cleanup script will not include those resources_.
+All resources deployed by the initial ALZ Monitor deployment, as well as those created dynamically by 'deploy if not exist' policies, are tagged, marked in metadata, or described (depending on resource capabilities) with `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is crucial for the cleanup script to identify and remove the resources. If this metadata has been altered or removed, the cleanup script will not recognize those resources for deletion.
 
 ## Cleanup Script Execution
 
 {{< hint type=Important >}}
-It is highly recommended to **thoroughly** test the script before running on production environments. The sample scripts are not supported under any Microsoft standard support program or service. The sample scripts are provided AS IS without warranty of any kind. Microsoft further disclaims all implied warranties including, without limitation, any implied warranties of merchantability or of fitness for a particular purpose. The entire risk arising out of the use or performance of the sample scripts and documentation remains with you. In no event shall Microsoft, its authors, or anyone else involved in the creation, production, or delivery of the scripts be liable for any damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of business information, or other pecuniary loss) arising out of the use of or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
+It is strongly advised to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 {{< /hint >}}
 
 ### Download the script file
 
-Follow the instructions below to download the cleanup script file. Alternatively, clone the repo from GitHub and ensure you are working from the latest version of the file by fetching the latest `main` branch.
+Follow these steps to download the cleanup script file. Alternatively, you can clone the repository from GitHub and ensure you have the latest version by fetching the `main` branch.
 
-1. Navigate AMBA [project in GitHub](https://github.com/Azure/azure-monitor-baseline-alerts)
-2. In the folder structure, browse to the `patterns/alz/scripts` directory
-3. Open the **Start-ALZMonitorCleanup.ps1** script file
-4. Click the **Raw** button
-5. Save the open file as **Start-ALZMonitorCleanup.ps1**
+1. Navigate to the [AMBA project on GitHub](https://github.com/Azure/azure-monitor-baseline-alerts).
+2. Browse to the `patterns/alz/scripts` directory.
+3. Locate and open the **Start-ALZMonitorCleanup.ps1** script file.
+4. Click on the **Raw** button to view the raw content of the script.
+5. Save the file as **Start-ALZMonitorCleanup.ps1**.
 
 ### Executing the Script
 
-1. Open PowerShell
-2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph`
-3. Change directories to the location of the **Start-ALZMonitorCleanup.ps1** script
-4. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
-5. Execute the script using the option below
+1. Launch PowerShell.
+2. Install the **Az.ResourceGraph** module by running: `Install-Module Az.ResourceGraph`.
+3. Navigate to the directory containing the **Start-ALZMonitorCleanup.ps1** script.
+4. Sign in to Azure using the `Connect-AzAccount` command. Ensure the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
+5. Execute the script with one of the following options:
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
@@ -61,11 +60,10 @@ Follow the instructions below to download the cleanup script file. Alternatively
   ```
 
 ## Next steps
-
-- To customize policy assignments, please proceed with [Customize Policy Assignment](../../HowTo/deploy/Customize-Policy-Assignment)
-- To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions)
-- To deploy with Azure DevOps Pipelines, please proceed with [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines)
-- To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI)
-- To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell)
+- For customizing policy assignments, refer to [Customize Policy Assignment](../../HowTo/deploy/Customize-Policy-Assignment).
+- For deployment using GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
+- For deployment using Azure DevOps Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
+- For deployment using Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
+- For deployment using Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
 
 [Back to top of page](.)

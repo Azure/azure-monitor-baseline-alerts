@@ -6,70 +6,69 @@ weight: 95
 
 ## Overview
 
-The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, available with release [2024-06-05](../../Overview/Whats-New#2024-06-05), allows both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during or after the deployment of AMBA-ALZ. It also allows Brownfield customers, who deployed the ALZ pattern when this feature wasn't available, to use any existing one by configuring a couple of parameters. Thanks to this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language. Log-based search alerts can now be enhanced to include ARG queries looking at resource tags.
+The ***Bring Your Own User Assigned Managed Identity*** (BYO UAMI) feature, introduced in the [2024-06-05 release](../../Overview/Whats-New#2024-06-05), enables both Greenfield and Brownfield customers to create a new User Assigned Managed Identity (UAMI) during or after the deployment of AMBA-ALZ. Additionally, Brownfield customers who deployed the ALZ pattern before this feature was available can now configure existing UAMIs by setting a few parameters. This feature allows querying Azure Resource Graph (ARG) using Kusto Query Language and enhances log-based search alerts to include ARG queries for resource tags.
 
 ## How this feature works
 
-The BYO UAMI feature works by creating a new UAMI in the management subscription and assigns the ***Monitoring reader*** role on the parent pseudo root Management Group. With this new feature, it's now possible to query Azure Resource Graph (ARG) using the Kusto Query Language and to enhance Log-based search alerts that can now query ARG to look at resource tags or properties. It's enough to enter the necessary parameter values before running the ALZ pattern deployment.
+The BYO UAMI feature creates a new UAMI in the management subscription and assigns the ***Monitoring Reader*** role to the parent pseudo root Management Group. This enables querying Azure Resource Graph (ARG) using Kusto Query Language and enhances log-based search alerts to query ARG for resource tags or properties. To use this feature, enter the necessary parameter values before deploying the ALZ pattern.
 
-Should Brownfield customers decide to use their own UAMI after the initial deployment, it will be sufficient to enter the parameter values for _bringYourOwnUserAssignedManagedIdentity_ and _bringYourOwnUserAssignedManagedIdentityResourceId_, leaving the _userAssignedManagedIdentityName_ parameter at its default and the parameter _managementSubscriptionId_ with no values:
+For Brownfield customers wanting to use their own UAMI after initial deployment, set the parameters _bringYourOwnUserAssignedManagedIdentity_ and _bringYourOwnUserAssignedManagedIdentityResourceId_, leaving _userAssignedManagedIdentityName_ at its default and _managementSubscriptionId_ with no values:
 
-Once parameters are set according to your needs, redeploy the AMBA-ALZ pattern and wait for the remediation to happen. You can also start the Policy remediation manually as documented at [Remediate Policies](../deploy/Remediate-Policies).
+After setting the parameters, redeploy the AMBA-ALZ pattern and wait for remediation. Manual Policy remediation can also be initiated as documented in [Remediate Policies](../deploy/Remediate-Policies).
 
 ### Conditional deployment behavior
 
-The deployment template has conditions that controls what is being deployed according to the following two scenarios:
+The deployment template includes conditions that control deployment based on two scenarios:
 
-A. ***Customers want to use existing UAMI.*** In this scenario the deployment will:
+A. ***Using an existing UAMI.*** In this scenario, the deployment will:
 
 {{< hint type=Important >}}
-Before executing the deployment, ensure that the existing UAMI is assigned the ***Monitoring Reader*** role at the pseudo root Management Group.
+Before deployment, ensure the existing UAMI is assigned the ***Monitoring Reader*** role at the pseudo root Management Group.
 
-It is probable that the UAMI you provide is located within the Management subscription beneath the Platform management group, whereas the Policy Assignment resides at the LandingZones management group. In this case, for the deployIfNotExists policies to have permission to assign the UAMI to the scheduled query rule, the ***Managed Identity Operator*** role must be granted to the system Managed Identity of the Initiative Assignment (```Deploy-AMBA-VM``` for the Virtual machine initiative, ```Deploy-AMBA-HybridVM``` for the Arc-enabled Servers initiative) at the UAMI scope.
-
+If the UAMI is within the Management subscription under the Platform management group, and the Policy Assignment is at the LandingZones management group, grant the ***Managed Identity Operator*** role to the system Managed Identity of the Initiative Assignment (```Deploy-AMBA-VM``` for Virtual machine initiative, ```Deploy-AMBA-HybridVM``` for Arc-enabled Servers initiative) at the UAMI scope.
 {{< /hint >}}
 
 - Not deploy any UAMI
 - Not assign the _Monitoring Reader_ role
-- Set the provided existing UAMI as the identity to be used in the necessary alerts
+- Use the provided existing UAMI for necessary alerts
 
-Here's a sample extract of the parameter file with the relevant parameter configuration for this scenario:
+Sample parameter file configuration for this scenario:
 
   ![Customer defined UAMI](../../media/alz-UAMI-Param-Example-1.png)
 
-B. ***Customers does not have an existing UAMI and want AMBA-ALZ to create a new one.*** In this scenario the deployment will:
+B. ***Creating a new UAMI.*** In this scenario, the deployment will:
 
 {{< hint type=Info >}}
-When a new UAMI is created by the deployment template, the ***Monitoring Reader*** role is <ins>*is automatically assigned at the pseudo root Management Group level during the deployment*</ins>.
+When a new UAMI is created by the deployment template, the ***Monitoring Reader*** role is <ins>*automatically assigned at the pseudo root Management Group level during deployment*</ins>.
 {{< /hint >}}
 
 - Deploy any UAMI
 - Assign the *Monitoring Reader* role
-- Set the provided existing UAMI as the identity to be used in the necessary alerts
+- Set the provided UAMI as the identity to be used in the necessary alerts
 
-Here's a sample extract of the parameter file with the relevant parameter configuration for this scenario:
+Sample parameter file configuration for this scenario:
 
   ![New UAMI deployed by the template](../../media/alz-UAMI-Param-Example-2.png)
 
-### Where is it used
+### Usage
 
-This new feature is used in Log-search based alerts. At the moment of this release, there's one alert using it. The alert is part of the new ***Deploy Azure Monitor Vaseline Alerts for Hybrid VMs*** policySet added to monitor hybrid virtual machine.
+This feature is currently used in log-search based alerts. As of this release, one alert uses it, part of the ***Deploy Azure Monitor Baseline Alerts for Hybrid VMs*** policySet for monitoring hybrid virtual machines.
 
 ![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
 
 {{< hint type=Info >}}
-We're planning to use this feature more in the future and to include it as part of other alerts.
+Future plans include expanding this feature to other alerts.
 {{< /hint >}}
 
 ### Switching between BYO UAMI and new UAMI
 
-The [conditional deployment behavior](../Bring-your-own-Managed-Identity#conditional-deployment-behavior) discussed earlier, allows brownfield customers to switch from a new created UAMI to an existing one and viceversa.
-Should customers decide to switch, it will be enough to:
+The [conditional deployment behavior](../Bring-your-own-Managed-Identity#conditional-deployment-behavior) allows Brownfield customers to switch between a newly created UAMI and an existing one. To switch:
 
-- Change the values in the parameter file to match one of the two scenarios previously discussed
+- Update the parameter file values to match one of the discussed scenarios
 - Redeploy the AMBA-ALZ pattern
-- Run the remediation as documented at [Remediate Policies](../deploy/Remediate-Policies)
+- Run remediation as documented in [Remediate Policies](../deploy/Remediate-Policies)
 
-The code will reconfigure the necessary alerts to use either the customer's provided UAMI or the new one created during the deployment.
+The code will reconfigure alerts to use either the provided UAMI or the newly created one.
 
 [Back to top of page](.)
+

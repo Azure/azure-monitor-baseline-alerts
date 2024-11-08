@@ -8,20 +8,21 @@ weight: 100
 
 Updating from release [2023-11-14](../../../Overview/Whats-New#2023-11-14) will require running a post update script to remove the old Service Health action group(s) no longer in use.
 
-  To run the script, follow the following instructions:
-
-  1. Open PowerShell
-  2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph`
-  3. Change directories to the location of the **Start-AMBAOldArpCleanup.ps1** script
-  4. Configure the _**$pseudoRootManagementGroup**_ variable using the following command:
+To execute the script, follow these steps:
+1. Launch PowerShell.
+2. Install the **Az.ResourceGraph** module by executing the following command:
+  ```powershell
+  Install-Module Az.ResourceGraph
+  ```
+3. Navigate to the directory containing the **Start-AMBAOldArpCleanup.ps1** script.
+4. Set the _**$pseudoRootManagementGroup**_ variable with the following command:
 
   ```powershell
   $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
   ```
+  1. Sign in to your Azure account using the `Connect-AzAccount` command. Ensure that the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
 
-  1. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the wanted Management Group scope.
-
-  2. Execute the script using one of the following options:
+  2. Run the script with one of the following options:
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 

@@ -3,27 +3,28 @@ title: Remediate Policies
 weight: 80
 ---
 
-The policies are all deploy-if-not-exists, by default, meaning that any new deployments will be influenced by them. Therefore, if you are deploying in a green field scenario and will afterwards be deploying any of the covered resource types, including subscriptions, then the policies will take effect and the relevant alert rules, action groups and alert processing rules will be created.
-If you are in a brownfield scenario on the other hand, policies will be reporting non-compliance for resources in scope, but to remediate non-compliant resources you will need to initiate remediation. This can be done either through the portal, on a policy-by-policy basis or you can run the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder to remediate all AMBA policies in scope as defined by management group pre-fix.
+The policies are configured as deploy-if-not-exists by default. This means that any new deployments will be affected by these policies. In a greenfield scenario, where you are deploying new resources, including subscriptions, the policies will automatically create the relevant alert rules, action groups, and alert processing rules.
+
+In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis, or by running the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA policies in scope as defined by the management group prefix.
 
 {{< hint type=Important >}}
-This script requires PowerShell 7.0 or higher and the following PowerShell modules:
+This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
 
 - [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
 - [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
 
 {{< /hint >}}
 
-To use the script, do the following:
+To use the script, follow these steps:
 
-- Log on to Azure PowerShell with an account with at least Resource Policy Contributor permissions at the pseudo-root management group level
-- Navigate to the root of the cloned repo
-- Set the variables
-- Run the remediation script
+1. Log in to Azure PowerShell with an account that has at least Resource Policy Contributor permissions at the pseudo-root management group level.
+2. Navigate to the root directory of the cloned repository.
+3. Set the necessary variables.
+4. Execute the remediation script.
 
   {{% include "./PowerShell-ExecutionPolicy.md" %}}
 
-- For example, to remediate **Alerting-Management** initiative, assigned to the **alz-platform-management** Management Group run the following commands:
+- For instance, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
 
   ```powershell
   #Modify the following variables to match your environment
@@ -35,18 +36,18 @@ To use the script, do the following:
   .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
   ```
 
-- The script will return the output from the REST API calls, which should be a status code 201. If the script fails, check the error message and ensure that the management group name and policy name are correct.
-- After running the script, you should be able to see a number of remediation tasks initiated at the alz-platform-management.
+- The script will output the results of the REST API calls, typically returning a status code 201. If the script encounters an error, review the error message and verify that the management group name and policy name are correct.
+- Upon successful execution of the script, you should observe multiple remediation tasks initiated within the **alz-platform-management** management group.
 
-For convenience, assuming that the management hierarchy is fully aligned to ALZ, below are the commands required to remediate all policies assigned through the guidance provided in this repo:
+For convenience, assuming that the management hierarchy is fully aligned with the Azure Landing Zones (ALZ) architecture, the following commands can be used to remediate all policies assigned as per the guidance provided in this repository:
 
 ```powershell
 #Modify the following variables to match your environment
-$pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
-$identityManagementGroup = "The management group id for Identity"
-$managementManagementGroup = "The management group id for Management"
-$connectivityManagementGroup = "The management group id for Connectivity"
-$LZManagementGroup="The management group id for Landing Zones"
+$pseudoRootManagementGroup = "The pseudo root management group ID parenting the identity, management and connectivity management groups"
+$identityManagementGroup = "The management group ID for Identity"
+$managementManagementGroup = "The management group ID for Management"
+$connectivityManagementGroup = "The management group ID for Connectivity"
+$LZManagementGroup="The management group ID for Landing Zones"
 ```
 
 ```powershell
@@ -65,7 +66,7 @@ $LZManagementGroup="The management group id for Landing Zones"
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Web
 ```
 
-Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under the [Policy Initiatives](../../../Getting-started/Policy-Initiatives) page. For example, to remediate the ***Deploy AMBA Notification Assets*** policy, run the command below:
+To remediate a single policy definition instead of the entire policy initiative, use the remediation script with the specific policy reference ID available on the [Policy Initiatives](../../../Getting-started/Policy-Initiatives) page. For example, to remediate the **Deploy AMBA Notification Assets** policy, execute the following command:
 
 ```powershell
 #Run the following command to initiate remediation of a single policy definition

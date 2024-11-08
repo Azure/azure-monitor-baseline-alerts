@@ -4,18 +4,18 @@ geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
-Since PowerShell scripts released as part of the ALZ pattern are not digitally signed they might require you to _**temporarily**_ change the execution policy if not already set to _**Unrestricted**_. Before running the script, check the execution policy settings using this command:
+To run PowerShell scripts provided in the ALZ pattern, you may need to _**temporarily**_ change the execution policy if it is not set to _**Unrestricted**_. Verify the current execution policy by executing the following command:
 
 ```PowerShell
 Get-ExecutionPolicy
 ```
 
-If the result is everything but _**Unrestricted**_, run the following command to change it to **Unrestricted**
+If the current execution policy is not set to _**Unrestricted**_, execute the following command to change it to **Unrestricted**:
 
 ```PowerShell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ```
 
-At this point, you should be able to run your scripts with no issues. After you finished, you can set the execution policy back to what it was if you like to do so.
+After running your scripts, you may revert the execution policy to its original setting if desired.
 
 {{< /hint >}}

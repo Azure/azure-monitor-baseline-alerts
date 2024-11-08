@@ -4,15 +4,15 @@ geekdocCollapseSection: true
 weight: 60
 ---
 
-The policies in AMBA provide multiple methods to enable or disable the effects of the policy.
+The Azure Monitor Baseline Alerts (AMBA) policies offer various methods to enable or disable the effects of the policies.
 
-1. **Parameter: AlertState** - Determines the state of the alert rule. This either deploys an alert rule in a disabled state, or disables an already deployed alert rule at scale trough policy.
-2. **Parameter: PolicyEffect** - Determines the effect of a Policy Definition, allowing a Policy to be deployed in a disabled state.
-3. **Tag: MonitorDisable** - A tag that determines whether the resource should be evaluated. Allows you to exclude selected resources from monitoring.
+1. **Parameter: AlertState** - Configures the state of the alert rule, enabling deployment of alert rules in a disabled state or disabling existing alert rules at scale through policy.
+2. **Parameter: PolicyEffect** - Defines the effect of a Policy Definition, allowing the policy to be deployed in a disabled state.
+3. **Tag: MonitorDisable** - Specifies whether a resource should be evaluated, enabling exclusion of selected resources from monitoring.
 
 ## AlertState parameter
 
-Recognizing that it is not always possible to test alerts in a dev/test environment, we have introduced the AlertState parameter for all metric alerts (in the initiatives and the example parameter file the parameter is named combining {resourceType}, {metricName} and AlertState, for example VnetGwTunnelIngressAlertState). This is to address a scenario where an alert storm occurs and it is necessary to disable one or more alerts deployed via policies through a controlled process. This could be considered for a roll-back process as part of a change request.
+In scenarios where it is not feasible to test alerts in a development or test environment, the AlertState parameter has been introduced for all metric alerts. This parameter, named by combining {resourceType}, {metricName}, and AlertState (e.g., VnetGwTunnelIngressAlertState), allows for the controlled disabling of one or more alerts deployed via policies. This feature is particularly useful in situations where an alert storm occurs and a rollback process is necessary as part of a change request.
 
 ### Allowed values
 
@@ -21,7 +21,7 @@ Recognizing that it is not always possible to test alerts in a dev/test environm
 
 ### How it works
 
-The AlertState parameter is used for both compliance evaluation and configuration of the state of the alert rule. The value of the **AlertState** parameter is passed on to the **enabled** parameter which is part of the existenceCondition of the Policy.
+The **AlertState** parameter serves dual purposes: compliance evaluation and configuring the state of the alert rule. The value assigned to the **AlertState** parameter is transferred to the **enabled** parameter, which is a component of the policy's existenceCondition.
 
 ```json
 "existenceCondition": {
@@ -46,31 +46,31 @@ The AlertState parameter is used for both compliance evaluation and configuratio
 }
 ```
 
-If "allOf" evaluates to true, the effect is satisfied and doesn't trigger the deployment. If you have implemented the alert rules before and want to disable an alert rule you can change the Alert State to "false", this will cause "allOf" to evaluate as false, which will trigger the deployment that changes the "enabled" property of the alert rule to false.
+If "allOf" evaluates to true, the policy effect is satisfied, and the deployment does not proceed. To disable an existing alert rule, set the AlertState parameter to "false". This change causes "allOf" to evaluate as false, triggering the deployment that updates the "enabled" property of the alert rule to false.
 
 ### Deployment steps
 
-These are the high-level steps that would need to take place:
+These are the high-level steps to disable policies:
 
-1. Change the value for the AlertState parameter for the offending policies to false, either via command line or parameter file as described previously.
-2. Deploy the policies and assignments as described previously.
-3. After deploying and policy evaluation there will be a number of non-compliant policies depending on which alerts were to be disabled. These will then need to be remediated which can be done either through the portal, on a policy-by-policy basis or you can run the script found in [patterns/alz/scripts/Start-AMBARemediation](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBARemediation.ps1) to remediate all ALZ-Monitor policies in scope as defined by management group pre-fix.
+1. Set the AlertState parameter to "false" for the relevant policies, either via command line or parameter file.
+2. Deploy the policies and assignments as previously described.
+3. After deployment and policy evaluation, identify non-compliant policies based on the alerts to be disabled. Remediate these policies through the portal on a policy-by-policy basis or use the script available at [patterns/alz/scripts/Start-AMBARemediation](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBARemediation.ps1) to remediate all ALZ-Monitor policies in scope as defined by the management group prefix.
 
-Note that the above approach will not delete the alerts objects in Azure, merely disable them. To delete the alerts you will have to do so manually. Also note that while you can engage the PolicyEffect to avoid deploying new alerts, you should not do so until you have successfully remediated the above. Otherwise the policy will be disabled, and you will not be able to turn alerts off via policy until that is changed back.
+Note: This approach will disable the alerts but not delete them. To delete alerts, you must do so manually. Ensure successful remediation before engaging the PolicyEffect to avoid deploying new alerts, as disabling the policy will prevent turning off alerts via policy until it is re-enabled.
 
 ## PolicyEffect parameter
 
-In general, we evaluate the alert rules on best practices, field experience, customer feedback, type of alert and possible impact. There are situations where disabling the policy makes sense to prevent receiving unnecessary and/or duplicate alerts/notifications. For example we deploy an alert rule for VPN Gateway Bandwidth Utilization, in turn we have disabled the alert rules for VPN Gateway Egress and Ingress.
-The default is intended to provide a well balanced baseline. However you may want to Enable or Disable the creation of certain Alert rules to meet your needs.
+In practice, alert rules are evaluated based on best practices, field experience, customer feedback, alert type, and potential impact. There are scenarios where disabling a policy is beneficial to avoid unnecessary or duplicate alerts. For instance, while we deploy an alert rule for VPN Gateway Bandwidth Utilization, we have disabled the alert rules for VPN Gateway Egress and Ingress to prevent redundant notifications.
+The default settings are designed to offer a balanced baseline, but adjustments may be necessary to better align with your specific requirements.
 
 ### Allowed values
 
-- "deployIfNotExists" - Policy will deploy the alert rule if the conditions are met. (Default for most Policies)
-- "disabled" - The policy itself will be created but will not create the corresponding Alert rule.
+- "deployIfNotExists" - The policy will deploy the alert rule if the specified conditions are met. This is the default setting for most policies.
+- "disabled" - The policy will be created, but it will not deploy the corresponding alert rule.
 
 ### How it works
 
-The PolicyEffect parameter is used for the configuration of the effect of the PolicyDefinition (in the initiatives and the example parameter file the parameter is named combining {resourceType}, {metricName} and PolicyEffect, for example ERCIRQoSDropBitsinPerSecPolicyEffect) . The value of the **PolicyEffect** parameter is passed on to the **effect** parameter which configures the effect of the Policy.
+The **PolicyEffect** parameter configures the effect of the Policy Definition. In the initiatives and example parameter files, this parameter is named by combining {resourceType}, {metricName}, and PolicyEffect (e.g., ERCIRQoSDropBitsinPerSecPolicyEffect). The value assigned to the **PolicyEffect** parameter is transferred to the **effect** parameter, which determines the policy's effect.
 
 ```json
 "policyRule": {
@@ -92,7 +92,7 @@ The PolicyEffect parameter is used for the configuration of the effect of the Po
 
 ## MonitorDisable parameter
 
-It´s also possible to exclude certain resources from being monitored. You may not want to monitor pre-production or dev environments. The MonitorDisable parameter contains the tag name and tag value to determine whether a resource should be included. By default, creating the tag MonitorDisable with value ___"true"___ will prevent deployment of alert rules on those resources. This can be easily adjusted to use existing tags and tag values. For example you could configure the parameters with the tag name ___Environment___ and tag value of ___Production___ or ___Test___ or ___Sandbox___ or all of them to exclude resources in these environments (see the sample parameter section).
+It is also possible to exclude specific resources from monitoring. For instance, you might not want to monitor pre-production or development environments. The **MonitorDisable** parameter includes the tag name and tag value to determine whether a resource should be monitored. By default, creating a tag named **MonitorDisable** with the value **"true"** will prevent the deployment of alert rules on those resources. This can be easily adjusted to use existing tags and tag values. For example, you could configure the parameters with the tag name **Environment** and tag values such as **Production**, **Test**, or **Sandbox** to exclude resources in these environments (refer to the sample parameter section).
 
 ```json
 .
@@ -111,12 +111,11 @@ It´s also possible to exclude certain resources from being monitored. You may n
 .
 .
 ```
-
-This will deploy policy definitions which will only be evaluated and remediated if the tag value(s) are not included in the list you provided.
+This deployment will implement policy definitions that will only be evaluated and remediated if the specified tag values are not present in the provided list.
 
 ### How it works
 
-The policyRule only continues if "allOff" is true. Meaning, the deployment will continue as long as the MonitorDisableTagName tag doesn't exist or doesn't hold the any of the values listed in the MonitorDisableTagValues parameter. When the tag holds one of the configured values, the "allOff" will return "false" as _"notIn": "[[parameters('MonitorDisableTagValues')]"_ is no longer satisfied, causing the evaluation and hence the remediation to stop.
+The policy rule proceeds only if "allOf" evaluates to true. This means the deployment will continue as long as the tag specified by the MonitorDisableTagName parameter does not exist or does not contain any of the values listed in the MonitorDisableTagValues parameter. If the tag contains one of the specified values, the "allOf" condition will evaluate to false because the _"notIn": "[parameters('MonitorDisableTagValues')]"_ condition is not met, thereby halting the evaluation and remediation process.
 
 ```json
     "policyRule": {
@@ -134,9 +133,10 @@ The policyRule only continues if "allOff" is true. Meaning, the deployment will 
       },
 ```
 
-Given the different resource scope that this method can be applied to, we made it working a little bit different when it comes to log-based alerts. For instance, the virtual machine alerts are scoped to subscription and tagging the subcription would result in disabling all the policies targeted at it.
-For this reason, and thanks to the new _**Bring Your Own User Assigned Managed Identity (BYO UAMI)**_ included in the [2024-06-05](../../Overview/Whats-New#2024-06-05) release and to the ability to query Azure resource Graph using Azure Monitor (see [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now possible to disable individual alerts for both Azure and hybrid virtual machines after they are created. We got requests to stop alerting fro virtual machines that were off for maintenance and this enhancement came up just in time.
+Given the varying resource scopes to which this method can be applied, the approach for log-based alerts differs slightly. For example, virtual machine alerts are scoped to the subscription level, and tagging the subscription would disable all targeted policies.
 
-Should you need to disable the alerts for your virtual machines after they are created, just make sure you tag the relevant resources accordingly. The alert queries have been modified to look at resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If the resource contains the given tag name and tag value, it is made part of an exclusion list, so alerts will not be generated for them. This behavior allows you to dinamically and rapidly exclude the necessary resources from being alerted without the need of deleteing the alert, tag the resource and run the remediation again.
+With the introduction of the _**Bring Your Own User Assigned Managed Identity (BYO UAMI)**_ feature in the [2024-06-05](../../Overview/Whats-New#2024-06-05) release, and the capability to query Azure Resource Graph using Azure Monitor (refer to [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now feasible to disable individual alerts for both Azure and hybrid virtual machines post-creation. This enhancement addresses requests to stop alerting for virtual machines that are offline for maintenance, providing a timely solution.
+
+To disable alerts for your virtual machines after they are created, ensure that you tag the relevant resources appropriately. The alert queries have been updated to reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and tag value, it will be included in an exclusion list, preventing alerts from being generated for those resources. This approach allows for dynamic and rapid exclusion of necessary resources from alerts without needing to delete the alert. Simply tag the resource and run the remediation process again.
 
 [Back to top of page](.)

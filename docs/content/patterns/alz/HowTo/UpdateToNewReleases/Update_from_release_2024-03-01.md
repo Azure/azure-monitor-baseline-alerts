@@ -4,27 +4,25 @@ geekdocCollapseSection: true
 weight: 99
 ---
 {{< hint type=Important >}}
-<ins>***No post update action required***</ins> for Greenfield customers or for Brownfield customers that prefer to continue using notification assets deployed by the ALZ pattern code.
+<ins>***No post update action required***</ins> for Greenfield or Brownfield customers that prefer to continue using notification assets deployed by the ALZ pattern code.
 {{< /hint >}}
 
 # Post update actions
 
-Updating from release [2024-03-01](../../../Overview/Whats-New#2024-03-01) might require running a post update script to remove the notification assets deployed by ALZ pattern <ins>***if and only if***</ins> customer decided to use existing action groups and alert processing rule. In this case, the Service Health alerts will be reconfigured to use the customer' action groups as per the ***B***ring ***Y***our ***O***wn ***N***otifications (BYON) feature.
+If you are updating from release [2024-03-01](../../../Overview/Whats-New#2024-03-01), you may need to run a post-update script to remove the notification assets deployed by the ALZ pattern. This is necessary only if you have chosen to use existing action groups and alert processing rules. In such cases, the Service Health alerts will be reconfigured to use your action groups according to the ***Bring Your Own Notifications (BYON)*** feature.
 
-To run the script, complete the following step:
-
-  1. Open PowerShell
-  2. Install the **Az.ResourceGraph** module: `Install-Module Az.ResourceGraph` (if not present)
-  3. Change directories to the location of the **Remove-AMBANotificationAssets.ps1** script
-  4. Configure the ***$pseudoRootManagementGroup*** variable using the command below:
+To execute the script, follow these steps:
+1. Open PowerShell.
+2. Install the **Az.ResourceGraph** module if it is not already installed by running: `Install-Module Az.ResourceGraph`.
+3. Navigate to the directory containing the **Remove-AMBANotificationAssets.ps1** script.
+4. Set the ***$pseudoRootManagementGroup*** variable using the following command:
 
   ```powershell
-  $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+  $pseudoRootManagementGroup = "The pseudo root management group ID parenting the identity, management and connectivity management groups"
   ```
+  1. Sign in to your Azure account using the `Connect-AzAccount` command. Ensure that the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
 
-  1. Sign in to the Azure with the `Connect-AzAccount` command. The account you sign in as needs to have permissions to remove Policy Assignments, Policy Definitions, and resources at the desired Management Group scope.
-
-  2. Execute the script using one of the options below:
+  2. Run the script with one of the following options:
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 

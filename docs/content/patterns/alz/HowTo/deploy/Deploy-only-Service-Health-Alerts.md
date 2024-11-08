@@ -8,10 +8,10 @@ weight: 70
 Updating from the _**preview**_ version isn't supported. If you deployed the _**preview**_ version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
 
-The following guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When you deploy one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions that are provided in the ALZ Pattern, this is recommended when you want to deploy other Policy Set Definitions in the future. In case you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions at a later stage. This document covers two deployment options:
+This guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When deploying one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions provided in the ALZ Pattern, which is recommended if you plan to deploy other Policy Set Definitions in the future. If you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions later. This document covers two deployment options:
 
-1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions, Policy Set Definitions, however, this assigns only the Service Health Policy Set Definition.
-2. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploys only the Policy Definitions and Policy Set Definition that are needed for the Service Health Alerts. Assigns only the Service Health Policy Set Definition.
+1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions and Policy Set Definitions, but assigns only the Service Health Policy Set Definition.
+2. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploys only the Policy Definitions and Policy Set Definition needed for the Service Health Alerts, and assigns only the Service Health Policy Set Definition.
 
 {{< hint type=note >}}
 In this example we will deploy the Service Health Policy Set Definition via Azure CLI. However, the same principles and steps apply to other Policy Set Definitions and deployment methods as well.
@@ -27,7 +27,7 @@ To start, you can either download a copy of the parameter file or clone/fork the
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
-- Change the value of the following parameters at the beginning of parameter file according to the instructions below:
+- Change the value of the following parameters at the beginning of the parameter file according to the instructions below:
 
   {{< hint type=note >}}
   While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is strongly recommended to configure at least one option.

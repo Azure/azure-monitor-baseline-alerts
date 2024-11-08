@@ -10,13 +10,13 @@ weight: 90
 
 <!-- markdownlint-restore -->
 
-Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through [customer usage attribution](https://docs.microsoft.com/azure/marketplace/azure-partner-customer-usage-attribution). The data is collected and governed by Microsoft's privacy policies, located at the [trust center](https://www.microsoft.com/trustcenter).
+Microsoft can identify deployments of Azure Resource Manager and Bicep templates by correlating them with the deployed Azure resources. This telemetry data helps Microsoft enhance product experiences and manage their services effectively. The telemetry is collected via [customer usage attribution](https://docs.microsoft.com/azure/marketplace/azure-partner-customer-usage-attribution) and is governed by Microsoft's privacy policies, which can be found at the [Microsoft Trust Center](https://www.microsoft.com/trustcenter).
 
-To disable this tracking, we have included a parameter called `telemetryOptOut` to the deployment template in this repo with a simple boolean flag. The default value `No` which **does not** disable the telemetry. If you would like to disable this tracking, then simply set this value to `Yes` and this module will not be included in deployments and **therefore disables** the telemetry tracking.
+To disable telemetry tracking, a parameter named `telemetryOptOut` has been added to the deployment template in this repository. This parameter uses a boolean flag, with the default value set to `No`, which means telemetry tracking is **enabled**. To disable telemetry tracking, change the value to `Yes`. This will exclude the module from deployments, effectively **disabling** telemetry tracking.
 
-If you are happy with leaving telemetry tracking enabled, no changes are required.
+To keep telemetry tracking enabled, no modifications are necessary.
 
-For example, in the alzArm.json file, you will see the following:
+For instance, in the `alzArm.json` file, you will find the following configuration:
 
 ```json
 "telemetryOptOut": {
@@ -32,7 +32,7 @@ For example, in the alzArm.json file, you will see the following:
 }
 ```
 
-The default value is `No`, but can be changed to `Yes` in the parameter file. If set to `Yes` the deployment below will be ignored and therefore telemetry will not be tracked.
+To disable telemetry tracking, set the `telemetryOptOut` parameter to `Yes` in the parameter file. When this parameter is set to `Yes`, the deployment specified below will be skipped, and telemetry data will not be collected.
 
 ```json
 {
@@ -54,7 +54,7 @@ The default value is `No`, but can be changed to `Yes` in the parameter file. If
 
 ## Module PID Value Mapping
 
-The following are the unique ID's (also known as PIDs) used in the AMBA deployment
+The following are the unique IDs (also known as PIDs) used in the AMBA deployment
 
 | Name                                                                | PID                                  | Telemetry for                                                                   |
 | ------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------- |

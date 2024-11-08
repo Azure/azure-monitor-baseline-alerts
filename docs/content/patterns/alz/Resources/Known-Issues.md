@@ -8,7 +8,7 @@ weight: 100
 
 > ### Error includes
 >
-> The error can be presented with one of the two following messages:
+> The error can be presented with one of the following messages:
 >
 > ```TEXT
 > failed to resolve table or column expression named
@@ -49,12 +49,12 @@ weight: 100
 >
 > ### Cause
 >
-> When a role or a role assignment is removed, some orphaned object can still appear, preventing a successful deployment.
+> When a role or a role assignment is removed, some orphaned objects can still appear, preventing a successful deployment.
 >
 > ### Resolution
 >
 > 1. Navigate to **_Management Groups_**
-> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) were AMBA-ALZ deployment was targeted to
+> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) where the AMBA-ALZ deployment was targeted
 > 3. Select **_Access control (IAM)_**
 > 4. Under the **_Contributor_** role, select all records named **_Identity not found_** entry and click **_Remove_**
 > 5. Run the deployment
@@ -69,27 +69,27 @@ weight: 100
 >
 > ### Cause
 >
-> A deployment has been performed using one region, for example "uksouth", and when you try to deploy again to the same scope but to a different region you will receive an error. This happens even when a cleanup has been performed (see [Cleaning up a Deployment](../../HowTo/Cleaning-up-a-Deployment) for more details). This is because deployment entries still exist from the previous operation, so a region conflict is detected blocking you to run another deployment using a different region.
->
+> When attempting to deploy to a different region, such as "uksouth", after a previous deployment in another region, an error may occur. This issue persists even after performing a cleanup (refer to [Cleaning up a Deployment](../../HowTo/Cleaning-up-a-Deployment) for more details). The error arises because deployment entries from the previous operation still exist, causing a region conflict that prevents the new deployment.
+
 > ### Resolution
 >
-> Situation 1: You are trying to deploy to a region different from the one used in previous deployment. Deploying to the same scope in a different region is not necessary. The definitions and assignments are scoped to a management group and are not region-specific. No action is required.
->
-> Situation 2: You cleaned up a previous implementation and want to deploy again to a different region. To resolve this issue, follow the steps below:
->
+> Situation 1: You are attempting to deploy to a different region than the one used in a previous deployment. It is not necessary to deploy to the same scope in a different region, as the definitions and assignments are scoped to a management group and are not region-specific. No further action is required.
+
+> Situation 2: You have cleaned up a previous deployment and now wish to deploy to a different region. Follow these steps to resolve the issue:
+
 > 1. Navigate to **_Management Groups_**
-> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) were AMBA deployment was targeted to
+> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) where the AMBA deployment was targeted
 > 3. Click **_Deployment_**
 > 4. Select all the deployment instances related to AMBA and click **_Delete_**.
 >
-> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those deployments whose names start with:
+> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those whose names start with:
 
-1. amba-
-2. pid-
-3. alzArm
-4. ambaPreparingToLaunch
+> 1. amba-
+> 2. pid-
+> 3. alzArm
+> 4. ambaPreparingToLaunch
 
-If you deployed AMBA just one time, you have 14 deployment instances
+If you've only deployed AMBA once, you have 14 deployment instances.
 
 {{< /hint >}}
 
@@ -107,22 +107,22 @@ If you deployed AMBA just one time, you have 14 deployment instances
 >
 > ### Resolution
 >
-> To resolve this issue, follow the steps below:
+> To resolve this issue, follow these steps:
 >
 > 1. Navigate to **_Management Groups_**
-> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) were AMBA deployment was targeted to
+> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) where AMBA deployment was targeted
 > 3. Click **_Deployment_**
-> 4. Select all the deployments that could be deleted (example: instances of previous deployment related to AMBA) and click **_Delete_**
+> 4. Select all the deployments that could be deleted (example: instances of previous deployments related to AMBA) and click **_Delete_**
 > 5. Run the deployment
 >
-> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those deployments whose names start with:
+> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those whose names start with:
 
-1. amba-
-2. pid-
-3. alzArm
-4. ambaPreparingToLaunch
+> 1. amba-
+> 2. pid-
+> 3. alzArm
+> 4. ambaPreparingToLaunch
 
-If you deployed AMBA-ALZ just one time, you have 14 deployment instances
+If you've only deployed AMBA once, you have 14 deployment instances.
 
 {{< /hint >}}
 
@@ -130,7 +130,7 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 
 > ### Error includes
 >
-> The error can be presented with one of the two following messages:
+> The error can be presented with one of the following messages:
 >
 > ```JSON
 > {
@@ -145,20 +145,18 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 >
 > ### Cause
 >
-> The new [Bring Your Own User Assigned Managed Identity (BYO UAMI)](../../HowTo/Bring-your-own-Managed-Identity) allows you to either use an existing User Assigned Managed Identity (UAMI) or to create a new one in the management subscription automatically assigning the Monitoring reader role to it at the parent pseudo root Management Group. If you opted for creating a new UAMI, the management subscription id is needed.
->
+> The new [Bring Your Own User Assigned Managed Identity (BYO UAMI)](../../HowTo/Bring-your-own-Managed-Identity) feature allows you to either use an existing User Assigned Managed Identity (UAMI) or create a new one within the management subscription. This process automatically assigns the Monitoring Reader role to the UAMI at the parent pseudo root Management Group. If a new UAMI is created, ensure the management subscription ID is correctly specified.
 > ### Resolution
 >
-> Set the parameter for the management subscription id correctly in the parameter file:
->
+> Ensure that the management subscription ID is accurately specified in the parameter file:
 > ![New UAMI deployed by the template](../../media/alz-UAMI-Param-Example-2.png)
 
 ## Failed to deploy action group(s) and/or alert processing rule(s)
 
-> The following remediation tasks are failing for one or more resource when the subscription name is used as part of the resource name and contains invalid characters:
+> The following remediation tasks fail when the subscription name, used as part of the resource name, contains invalid characters:
 >
-> - Deploy AMBA Notification Assets
-> - Deploy AMBA Notification Suppression Asset
+> - Deployment of AMBA Notification Assets
+> - Deployment of AMBA Notification Suppression Assets
 >
 > ### Error includes
 >
@@ -168,27 +166,27 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 >
 > ### Cause
 >
-> When action group(s) and alert processing rule(s) are deployed, they get the subscription name as part of their display name. If the subscription in which they are about to be deployed contains invalid characters in the name, this will make the remediation task failing with a the misleading error reported above.
->
+> When action groups and alert processing rules are deployed, the subscription name is included in their display names. If the subscription name contains invalid characters, the deployment will fail, resulting in the misleading error mentioned above.
+
 > ### Resolution
 >
-> Rename the subscription to avoid invalid characters. A list of supported characters for any resource can be found on the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) public documentation page. As an example that you can find in the referenced documentation, the alert suppression rules only allow alphanumerics, underscores, and hyphens as valid characters and at the beginning of the same page, alphanumeric is referring to:
+> Rename the subscription to exclude invalid characters. Refer to the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) for a list of supported characters. For instance, alert suppression rules only permit alphanumeric characters, underscores, and hyphens. Specifically, alphanumeric characters include:
 >
 > - **_a_** through **_z_** (lowercase letters)
 > - **_A_** through **_Z_** (uppercase letters)
 > - **_0_** through **_9_** (numbers)
 >
-> After the subscription is renamed correctly, run the remediation
+> After renaming the subscription correctly, rerun the remediation.
 
 ## Failed to edit action group(s)
 
-> Editing a previously deployed action group is returning a misleading error in the Azure portal page.
+> Editing a previously deployed action group is returning a misleading error in the Azure portal.
 >
 > ![Api-version required error](../../media/api-version_required.png)
 >
 > ### Error includes
 >
-> The error message appearing in the Azure portal includes the following message:
+> The error includes the following message:
 >
 > ```TEXT
 > The api-version query parameter (?api-version=) is required for all requests. (Code: MissingApiVersionParameter)
@@ -196,16 +194,16 @@ If you deployed AMBA-ALZ just one time, you have 14 deployment instances
 >
 > ### Cause
 >
-> Action group are deployed using a name which contain the subscription name. If the subscription name contains characters which are not considered valid for the resource, editing the action group will fail.
+> Action groups are deployed with names that include the subscription name. If the subscription name contains invalid characters, editing the action group will fail.
 >
 > ### Resolution
 >
-> Rename the subscription to avoid invalid characters. A list of supported characters for any resource can be found on the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) public documentation page. As an example that you can find in the referenced documentation, the alert suppression rules only allow alphanumerics, underscores, and hyphens as valid characters and at the beginning of the same page, alphanumeric is referring to:
+> Rename the subscription to exclude invalid characters. Refer to the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) for a list of supported characters. For instance, alert suppression rules only permit alphanumeric characters, underscores, and hyphens. Specifically, alphanumeric characters include:
 >
 > - **_a_** through **_z_** (lowercase letters)
 > - **_A_** through **_Z_** (uppercase letters)
 > - **_0_** through **_9_** (numbers)
 >
-> After the subscription is renamed correctly, remove the existing action groups (those whose name starts with either **_ag-AMBA-_** or **_ag-AMBA-SH-_**) and run the remediation.
+> Once the subscription has been renamed to exclude invalid characters, delete the existing action groups (those with names starting with **_ag-AMBA-_** or **_ag-AMBA-SH-_**) and rerun the remediation process.
 
 [Back to top of page](.)

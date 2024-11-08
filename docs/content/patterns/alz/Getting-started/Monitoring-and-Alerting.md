@@ -6,36 +6,36 @@ weight: 20
 
 ## ALZ Monitor Alert Approach
 
-The overall approach for enabling alerts in ALZ is to use Azure Policy to deploy relevant alerts as resources are created, configure action group(s), and then use Alert Processing Rules to activate alerts and connect them to the Action Group.
+The overall strategy for enabling alerts in ALZ involves using Azure Policy to deploy relevant alerts as resources are created, configuring action groups, and then using Alert Processing Rules to activate alerts and link them to the action group.
 
-There are two general principles/approaches to enabling alerting in ALZ:
+There are two main principles/approaches to enabling alerting in ALZ:
 
 ### Centralized
 
-With a **centralized** approach to alerting a central Action Group is used for all alerts, which means a single alerting email (distribution group) address or other configured actions.
+In a **centralized** alerting approach, a single Action Group is used for all alerts, which means a unified alerting email (distribution group) address or other configured actions.
 
-Metric alerts are deployed with resources (same resource group) and platform alerts like Service Health / Activity are created in a dedicated resource group, in a subscription typically located in the Management platform management group. A single Alert Action Group in a subscription in the Management platform management group is configured with a central alerting email address, and Alert Processing Rules enabling filters and connecting alerts to the Alert Action Group.
+Metric alerts are deployed with resources in the same resource group, while platform alerts like Service Health and Activity are created in a dedicated resource group within a subscription typically located in the Management platform management group. A single Alert Action Group in this subscription is configured with a central alerting email address and Alert Processing Rules in order to enable filters and connect alerts to the Alert Action Group.
 
-As an example in the context of ALZ, a single centralized action group is deployed in the "rg-amba-monitoring-001" resource group in a subscription in the Management platform management group.
+For example, in the context of ALZ, a single centralised action group is deployed in the "rg-amba-monitoring-001" resource group within a subscription in the Management platform management group.
 
 ### Decentralized
 
-For a **decentralized** approach every subscription has a dedicated Action Group allowing for more granular control of how to direct alert notifications, for example, for connectivity/networking alerts for the platform connectivity subscription, direct the alerts to the network operations team.
+In a **decentralized** approach, each subscription has a dedicated Action Group, providing more granular control over how alert notifications are directed. For instance, connectivity/networking alerts for the platform connectivity subscription can be directed to the network operations team.
 
-Metric alerts are deployed with resources (in the same resource group) and platform alerts like Service Health / Activity are created in a dedicated resource group for each subscription. Alert Action Groups are created in each landing zone subscription, allowing each operational area and landing zone subscription to have different alerting email addresses (networking, identity, ops, workloads, etc.) or other supported actions. Alert Processing Rules are created to enable filters and connect alerts to the Action Groups.
+Metric alerts are deployed with resources in the same resource group, while platform alerts such as Service Health and Activity are created in a dedicated resource group for each subscription. Alert Action Groups are established in each landing zone subscription, allowing different operational areas and landing zone subscriptions to have distinct alerting email addresses (e.g., networking, identity, operations, workloads) or other supported actions. Alert Processing Rules are created to enable filters and connect alerts to the Action Groups.
 
-As an example in the context of ALZ, see below for a graphic representation of the flow.
+For example, in the context of ALZ, a graphic representation of the flow is provided below.
 
 ![ALZ alerting](../../media/AMBA-focused-rg-alz-monitor-alert-flow.png)
 
 ### ALZ Approach
 
-For ALZ the decentralized approach is followed to allow maximum flexibility in directing alerts. For more information review [What are Azure Monitor Alerts?](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview).
+In ALZ, a decentralized approach is adopted to provide maximum flexibility in directing alerts. For more information review [What are Azure Monitor Alerts?](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview).
 
-- A single Action Group per subscription will be deployed. This allows customers to configure discrete actions per subscription (different email addresses or other supported actions).
+- Each subscription will have a single Action Group, allowing customers to configure specific actions per subscription, such as different email addresses or other supported actions.
 - Alert Processing Rules will target the Action Group in the subscription where the alert originated.
 
-As this is a work in progress, the initial configuration provided by ALZ will configure all Action Groups with the same email distribution group/address through Azure Policy. We may investigate and implement alternative or additional actions in the future (e.g. configure alternate email distribution groups depending on the subscription/service or workload owners/etc.).
+As this is a work in progress, the initial configuration provided by ALZ will set up all Action Groups with the same email distribution group/address through Azure Policy. Future updates may include alternative or additional actions, such as configuring different email distribution groups based on the subscription, service, or workload owners.
 
 ALZ Alerts, Action Groups and Alert Processing Rules are deployed using Azure Policy defined in the platform native Azure Policy JSON format.
 
@@ -51,11 +51,11 @@ The following policy definition categories will be enabled as part of ALZ deploy
 
 ### Resource Metrics
 
-Resource Metric alerts are deployed in the same resource group as the created Azure resource. For example, a resource metric alert for Express Route will be created in the same resource group containing the Express Route Gateway. This is done because these alert types are related to the specific resource id, therefore it makes sense to link the alert to the resource in the same resource group.
+Resource Metric alerts are deployed within the same resource group as the associated Azure resource. For instance, a resource metric alert for Express Route will be created in the resource group that contains the Express Route Gateway. This approach is logical because these alert types are tied to the specific resource ID, making it sensible to link the alert to the resource within the same resource group.
 
 ### Log Alerts
 
-Log alerts are scoped at the subscription level. For the policies to remediate and deploy, the data which the alert queries for needs to exist in the Log Analytics table. For the virtual machine log alerts the VM insights solution needs to be enabled on the VMs that are targeted. Only the performance collection of the VM insights solution is required for the current alerts to deploy. To enable VM Insights, you need to install the Azure Monitor Agent and optionally the Dependency agent on your supported machines. You can use different methods to install the agents, such as the Azure portal, Azure Policy, Azure Resource Manager templates, PowerShell, or manual install. For more details, please refer to the links below:
+Log alerts are scoped at the subscription level. For policies to remediate and deploy, the data queried by the alert must exist in the Log Analytics table. For virtual machine log alerts, the VM insights solution needs to be enabled on the targeted VMs. Only the performance collection of the VM insights solution is required for the current alerts to deploy. To enable VM Insights, you need to install the Azure Monitor Agent and optionally the Dependency agent on your supported machines. Various methods can be used to install the agents, such as the Azure portal, Azure Policy, Azure Resource Manager templates, PowerShell, or manual installation. For more details, please refer to the links below:
 
 - [Enable VM Insights overview](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview)
 - [Enable VM insights by using Azure Policy](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-policy)
@@ -65,16 +65,17 @@ Log alerts are scoped at the subscription level. For the policies to remediate a
 
 [Service health](https://learn.microsoft.com/en-us/azure/service-health/overview) provides a personalized view of the health of the Azure services and regions you're using. Resource health provides information about the health of your individual cloud resources such as a specific virtual machine instance.
 
-Service and resource health events are written into the activity log. This means we can create a sub set of activity log alerts that can alert on health events. We create these alerts scoped to each subscription with four separate alerts for each of the four service health categories: Incident, Planned Maintenance, Security Advisories and Health Advisories.
-A resource health alert will be created for any resource that goes into an unavailable or degraded state which can be platform or user initiated. We will ignore if the state is unknown as this can lead to erroneous alerting.
+Service and resource health events are recorded in the activity log, allowing us to create a subset of activity log alerts that notify on health events. These alerts are scoped to each subscription and include four separate alerts for each of the service health categories: Incident, Planned Maintenance, Security Advisories, and Health Advisories.
+
+A resource health alert will be generated for any resource that enters an unavailable or degraded state, whether platform or user-initiated. We will disregard the unknown state to avoid erroneous alerting.
 
 ## ALZ Monitor Alert Processing Rules
 
 [Alert Processing Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-processing-rules) enable the filtering of alerts and assign alerts to the appropriate action groups based on filter criteria.
 
-As this is currently a work in progress, for ALZ we will implement a single Action Group per subscription, and deploy a single Alert Processing Rule without filters to action alerts via the Action Group. This may be revised in the future.
+As this is currently a work in progress, for ALZ we will implement a single Action Group per subscription, and deploy a single Alert Processing Rule without filters to manage alerts via the Action Group. This approach may be revised in the future.
 
-As this is a work in progress, we still need to investigate appropriate filters for Alert Processing Rules for optimal alert processing.
+We still need to investigate appropriate filters for Alert Processing Rules for optimal alert processing.
 
 Available filters:
 
@@ -90,11 +91,11 @@ Available filters:
 - Severity
 - Signal type
 
-As an example, we could implement a filter on Severity (Critical, Error, Warning) only, ignoring (Informational, Verbose).
+For instance, we could apply a filter to include only Severity levels of Critical, Error, and Warning, while excluding Informational and Verbose.
 
 ## Monitoring Backup (Recovery Services Vaults)
 
-Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in alerts.
+Azure Backup now provides new and improved alerting capabilities via Azure Monitor. The following policy: [Backup Monitor Policy](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json) configures new and existing recovery services vaults through a modify effect, which disables the classic alerts and enables the new built-in ones.
 
 ### Modifications
 
@@ -124,6 +125,6 @@ Azure Backup now provides new and improved alerting capabilities via Azure Monit
 
 ### Notifications
 
-While alerts are generated by default and can't be turned off for destructive operations, the notifications are in the control of the user, allowing you to clearly specify which set of email address (or other notification endpoints) you wish to route alerts to. Notifications are configured by an alert processing rule, which will be created by default when deploying AMBA-ALZ pattern.
+While alerts are generated by default and cannot be disabled for destructive operations, users have control over the notifications. This allows you to specify the email addresses (or other notification endpoints) to which alerts should be routed. Notifications are configured by an alert processing rule, which is created by default when deploying the AMBA-ALZ pattern.
 
 [Back to top of page](.)

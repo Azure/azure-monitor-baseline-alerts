@@ -6,11 +6,11 @@ weight: 40
 
 ## Overview
 
-This document details the ALZ-Monitor Azure policy initiatives leveraged for deploying the ALZ-Monitor baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
+This document details the ALZ-Monitor Azure policy initiatives used for deploying the ALZ-Monitor baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
 
 ## Connectivity initiative
 
-This initiative is intended for assignment of policies relevant to networking components in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                            | **Policy Reference ID**                   | **Path to policy json file**                                                                                                                                 | **Policy default effect** |
 | ---------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
@@ -67,7 +67,7 @@ This initiative is intended for assignment of policies relevant to networking co
 
 ## Management initiative
 
-This initiative is intended for assignment of policies relevant to management components in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz-platform-management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment to management components in ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                       | **Policy Reference ID**        | **Path to policy json file**                                                                                                               | **Policy default effect** |
 | ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
@@ -80,7 +80,7 @@ This initiative is intended for assignment of policies relevant to management co
 
 ## Identity initiative
 
-This initiative is intended for assignment of policies relevant to identity components in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz-platform-identity management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment to identity components in ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-identity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                  | **Policy Reference ID**   | **Path to policy json file**                                                                                                             | **Policy default effect** |
 | ------------------------------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -93,7 +93,7 @@ This initiative is intended for assignment of policies relevant to identity comp
 
 ## Key Management initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -105,7 +105,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management 
 
 ## Load Balancing initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -136,7 +136,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing 
 
 ## Network Changes initiative
 
-This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -145,7 +145,7 @@ This initiative implements Azure Monitor Baseline Alerts to monitor alterations 
 
 ## Recovery Services initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -153,7 +153,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Servic
 
 ## Storage initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -161,7 +161,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 
 ## VM initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -179,7 +179,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual M
 
 ## Web initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services. This initiative is intended for assignment of policies relevant to a landing zone in the ALZ structure. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services. It is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -190,7 +190,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services su
 
 ## Hybrid VM initiative
 
-This initiative is intended for assignment of policies relevant to Hybrid VM alerts in AMBA-ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will be assigned to the 'alz' intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default policy effect is, refer to the below table.
+This initiative is intended for relevant policy assignment to Hybrid VM alerts in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will be assigned to the 'alz' intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Display Name**                        | **Reference ID**                 | **Path to policy json file**                                                                                                             | **Policy default effect** |
 | ---------------------------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -209,7 +209,7 @@ This initiative is intended for assignment of policies relevant to Hybrid VM ale
 
 ## Service Health initiative
 
-This initiative is intended for assignment of policies relevant to service health alerts in ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                               | **Policy Reference ID**        | **Path to policy json file**                                                                                                                                 | **Policy default effect** |
 | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
@@ -222,7 +222,7 @@ This initiative is intended for assignment of policies relevant to service healt
 
 ## Notification Assets initiative
 
-This initiative is intended for assignment of policies relevant to notification in AMBA-ALZ. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment to notification in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Display Name**                    | **Reference ID**                     | **Path to policy json file**                                                                                                              | **Policy default effect** |
 | ------------------------------------------ | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -231,7 +231,7 @@ This initiative is intended for assignment of policies relevant to notification 
 
 ## Landing Zone initiative (Deprecated)
 
-This initiative is intended for assignment of policies relevant to a landing zone in the ALZ structure. With the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on which policies are included in the initiative as well as what the default enablement state of the policy is, refer to the below table.
+This initiative is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |

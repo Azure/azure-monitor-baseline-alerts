@@ -12,7 +12,7 @@ First, configure your OpenID Connect as described [here](https://learn.microsoft
 To deploy through GitHub actions, refer to the [sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml).
 
 {{< hint type=note >}}
-If you customized the policies as documented at [How to modify individual policies](./Introduction-to-deploying-the-ALZ-Pattern.md#how-to-modify-individual-policies), make sure to modify the workflow file to have the **run** pointing to your own repository and branch. Example:
+If you have customized the policies as described in [How to modify individual policies](./Introduction-to-deploying-the-ALZ-Pattern.md#how-to-modify-individual-policies), ensure that the workflow file's **run** command points to your specific repository and branch. For example:
 
   ```ActionScript
   run: |
@@ -25,27 +25,27 @@ If you customized the policies as documented at [How to modify individual polici
 
 - Modify the following values in [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml):
   - Change _Location: "norwayeast"_, to your preferred Azure region
-  - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group id parenting the identity, management and connectivity management groups
+  - Change _ManagementGroupPrefix: "alz"_, to the pseudo root management group ID parenting the identity, management and connectivity management groups
 - Save the customized [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml) in the _**.github/workflow**_ folder
 
   {{< hint type=important >}}
-  The file name <ins>_**must perfectly**_</ins> match the name at line **1** of the sample file. You can eventually replace spaces with **-**
+  The file name <ins>_**must** perfectly </ins> match the name at line **1** of the sample file. You may eventually replace spaces with **-**
   {{< /hint >}}
 
   ![Workflow file name](../../../media/WorkflowFileName.png)
 
   ![Workflow saved](../../../media/WorkflowSaved.png)
 
-  More information about workflow is available in the GitHub documentation at [Creating starter workflows for your organization](https://docs.github.com/en/actions/using-workflows/creating-starter-workflows-for-your-organization)
+  For additional details on workflows, refer to the GitHub documentation: [Creating starter workflows for your organization](https://docs.github.com/en/actions/using-workflows/creating-starter-workflows-for-your-organization)
 
-- Go to GitHub actions and run the action _**Deploy AMBA**_
+- Visit GitHub actions and run the action _**Deploy AMBA**_
 
   ![Deploy AMBA action](../../../media/DeployAmbaAction.png)
 
 {{< hint type=important >}}
-Above-mentioned "ManagementGroupPrefix" variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the "parPolicyPseudoRootMgmtGroup" parameter, as set previously within the parameter files.
+The value of the "ManagementGroupPrefix" variable, referred to as the "pseudo root management group ID," must match the value of the "parPolicyPseudoRootMgmtGroup" parameter set earlier in the parameter files.
 
-The location variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
+The `Location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
 
 ## Next steps
