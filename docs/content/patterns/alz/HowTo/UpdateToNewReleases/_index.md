@@ -71,14 +71,14 @@ Within the code editor of your choice, make sure you pull the changes from your 
 
 ### Check for detailed requirement when updating to a newer release (always required)
 
-Check the content of the page corresponding to the release you are updating from, to see if there's any pre or post deployment action required. For instance, if you're updating from release [**2023-11-14**](../../Overview/Whats-New#2023-11-14), check the [Update from release 2023-11-14](../UpdateToNewReleases/Update_from_release_2023-11-14) page.
+Check the content of the page corresponding to the release you are updating to, to see if there's any pre or post deployment action required. For instance, if you're updating to release **2024-04-12**, check the page called ***Updating to release 2024-04-12***
 
-  ![Updating from release](../../media/UpdatingFromRelease.png)
+  ![Updating from release](../media/UpdatingToRelease.png)
 
 ### Update the parameter file with any new parameter and configuration
 
 The parameter may undergo changes in the structure or in the number of parameters that need to be configured.
-For this reason, based on what documented in the [What's new](../../Overview/Whats-New) or in the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) pages. For this reason it mandatory that you check your current parameter file content with the one coming with the release, making sure you with new or refactored parameters.
+For this reason, based on what documented in the [What's new](../../Overview/Whats-New) or in the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) pages, it is mandatory that you check your current parameter file content with the one coming with the release, making sure you with new or refactored parameters.
 
 ### Deploy (always required)
 

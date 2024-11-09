@@ -16,7 +16,7 @@
     .EXAMPLE
     Modify the following variables to match your environment:
 
-    $pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+    $pseudoRootManagementGroup = "The pseudo root management group id parenting the Platform and Landing Zones management groups"
     $identityManagementGroup = "The management group id for Identity"
     $managementManagementGroup = "The management group id for Management"
     $connectivityManagementGroup = "The management group id for Connectivity"

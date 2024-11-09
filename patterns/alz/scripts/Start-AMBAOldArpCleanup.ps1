@@ -1,6 +1,18 @@
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 <#
 .SYNOPSIS
     This script cleans up the alert processing rule and action group created deployed by the ALZ-Monitor automation versions up to 2023-11-14 and not in use anymore.
+
 .DESCRIPTION
     This script cleans up the alert processing rule and action group created deployed by the ALZ-Monitor automation versions up to 2023-11-14 and not in use anymore.
     Newer versions will deploy 1 action group per subscription specific to Service Health alerts and 1 action group, which is member of 1 alert processing rule, per
@@ -12,36 +24,29 @@
     resources after this script executes.
 
     This script leverages the Azure Resource Graph to find object to delete. Note that the Resource Graph lags behind ARM by a couple minutes.
+
 .LINK
     https://github.com/Azure/azure-monitor-baseline-alerts
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -ReportOnly
-    # generate a list of the resource IDs which would be deleted by this script
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup Contoso -WhatIf
+    # show output of what would happen if deletes executed.
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -WhatIf
-    # show output of what would happen if deletes executed
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup Contoso
+    # execute the script and will ask for confirmation before taking the configured action.
 
 .EXAMPLE
-    ./Start-AMBAOldArpCleanup.ps1 -pseudoManagementGroup Contoso -Force
-    # delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation
+    ./Start-AMBAOldArpCleanup.ps1 -pseudoRootManagementGroup Contoso -Confirm:$false
+    # execute the script without asking for confirmation before taking the configured action.
 #>
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
     # the pseudo managemnt group to start from
     [Parameter(Mandatory=$True,
-      ValueFromPipeline=$false)]
-      [string]$pseudoRootManagementGroup,
-    # output a list of the resources to be deleted
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$reportOnly,
-    # if not specified, delete will prompt for confirmation
-    [Parameter(Mandatory=$False,
-      ValueFromPipeline=$false)]
-      [switch]$force
+        ValueFromPipeline=$false)]
+        [string]$pseudoRootManagementGroup
 )
 
 Function Search-AzGraphRecursive {
@@ -119,11 +124,12 @@ foreach ($mg in $allMgs) {
     Iterate-ManagementGroups $mg
 }
 
-Write-Host "Found '$($managementGroups.Count)' management groups to query for ALZ-Monitor resources."
+Write-Host "Found '$($managementGroups.Count)' management groups(s) (including the parent one) which are part of the '$pseudoRootManagementGroup' management group hierarchy, to be queried for action groups and alert processing rules deployed by ALZ-Monitor."
 
 
 If ($managementGroups.count -eq 0) {
-    Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively clean up Policies and all related resources."
+    Write-Error "The command 'Get-AzManagementGroups' returned '0' groups. This script needs to run with Owner permissions on the Azure Landing Zones intermediate root management group to effectively remove action groups and alert processing rules deployed by AMBA-ALZ."
+    return
 }
 
 # get alert processing rules to delete
@@ -136,35 +142,20 @@ $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where na
 $actionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
 Write-Host "Found '$($actionGroupIds.Count)' action group(s) with name 'AmbaActionGr', short name 'AmbaActionGr' and tag '_deployed_by_amba=True' to be deleted."
 
-If (!$reportOnly.IsPresent) {
-
-    Write-Warning "This script will delete the resources discovered above."
-
-    If (!$force.IsPresent) {
-        While ($prompt -notmatch '[yYnN]') {
-            $prompt = Read-Host -Prompt 'Would you like to proceed with the deletion? (y/n)'
+If (($alertProcessingRuleIds.count -gt 0) -or ($actionGroupIds.count -gt 0)) {
+    If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete ALZ-Monitor alert processing rules and action groups on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+        # delete alert processing rules
+        If ($alertProcessingRuleIds.count -gt 0) {
+          Write-Host "-- Deleting alert processing rules ..."
+          $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
         }
-        If ($prompt -match '[yY]') {
-            $force = $true
-        }
-        Else {
-            Write-Host "Exiting script..."
-            return
+
+        # delete action groups
+        If ($actionGroupIds.count -gt 0) {
+          Write-Host "-- Deleting action groups ..."
+          $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force }
         }
     }
-
-    # delete alert processing rules
-    Write-Host "Deleting alert processing rule(s)..."
-    $alertProcessingRuleIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
-
-    # delete action groups
-    Write-Host "Deleting action group(s)..."
-    $actionGroupIds | Foreach-Object { Remove-AzResource -ResourceId $_ -Force:$force -Confirm:(!$force) }
-
-    Write-Host "Cleanup complete."
 }
-Else {
-    $resourceToBeDeleted = $alertProcessingRuleIds+$actionGroupIds
 
-    return $resourceToBeDeleted
-}
+Write-Host "=== Script execution completed. ==="

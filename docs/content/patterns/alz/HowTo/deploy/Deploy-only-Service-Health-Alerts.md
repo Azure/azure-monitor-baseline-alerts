@@ -21,9 +21,10 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 ### 1. Parameter configuration
 
-To start, you can either download a copy of the parameter file or clone/fork the repository.
+To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-08-30/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-11-01/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
 
@@ -234,7 +235,7 @@ Run the following commands:
 
 ```bash
 location="Your Azure location of choice"
-pseudoRootManagementGroup="The pseudo root management group id parenting the identity, management and connectivity management groups"
+pseudoRootManagementGroup="The pseudo root management group id parenting the Platform and Landing Zones management groups"
 ```
 
 {{< hint type=Important >}}
@@ -250,7 +251,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-08-30/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-11-01/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>
