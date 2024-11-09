@@ -5,7 +5,7 @@ weight: 80
 
 The policies are configured as deploy-if-not-exists by default. This means that any new deployments will be affected by these policies. In a greenfield scenario, where you are deploying new resources, including subscriptions, the policies will automatically create the relevant alert rules, action groups, and alert processing rules.
 
-In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis, or by running the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA policies in scope as defined by the management group prefix.
+In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis, or by running the *Start-AMBARemediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
 
 {{< hint type=Important >}}
 This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
@@ -60,6 +60,8 @@ $LZManagementGroup="The management group ID for Landing Zones"
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-RecoveryServices
+
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Storage
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-VM
@@ -72,5 +74,3 @@ To remediate a single policy definition instead of the entire policy initiative,
 #Run the following command to initiate remediation of a single policy definition
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
 ```
-
-[Back to top of page](.)

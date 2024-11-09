@@ -7,11 +7,12 @@ When transitioning from the preview version to the General Availability (GA) ver
 
 - Metric Alerts
 - Activity Log Alerts
-- Resource Groups (created for to contain alert resources)
 - Policy Assignments
 - Policy Definitions
 - Policy Set Definitions
 - Policy Assignment remediation identity role assignments
+- Action Groups
+- Alert Processing Rules
 
 All resources deployed by the initial ALZ Monitor deployment, as well as those created dynamically by 'deploy if not exist' policies, are tagged, marked in metadata, or described (depending on resource capabilities) with `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is crucial for the cleanup script to identify and remove the resources. If this metadata has been altered or removed, the cleanup script will not recognize those resources for deletion.
 
@@ -60,10 +61,9 @@ Follow these steps to download the cleanup script file. Alternatively, you can c
   ```
 
 ## Next steps
+
 - For customizing policy assignments, refer to [Customize Policy Assignment](../../HowTo/deploy/Customize-Policy-Assignment).
 - For deployment using GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
 - For deployment using Azure DevOps Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
 - For deployment using Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
 - For deployment using Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
-
-[Back to top of page](.)

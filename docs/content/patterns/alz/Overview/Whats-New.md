@@ -8,13 +8,43 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
+## 2024-11-01
+
+### New Features
+
+- Added a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure monitor alerts.
+- **Script consolidation**: *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1* and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* scripts have been consolidated into a single new one called [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. With this enhancement, it is now possible to remove alerts for resources which have been deletedf (orphaned alerts).
+
+### Bug Fixes
+
+- Fixed [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensure -WhatIf parameter is honored by all scripts commands and fix hybrid disconnected alert bug
+- Fixed [[#342](https://github.com/Azure/azure-monitor-baseline-alerts/pull/342)]: Github issue link and Management Subscription Id fix
+- Fixed [[#346](https://github.com/Azure/azure-monitor-baseline-alerts/pull/346)]: Update useCommonSchema to useCommonAlertSchema in Deploy_ServiceHealth_ActionGroups and Deploy_Suppression_AlertProcessing_Rule Policy Definitions
+- Fixed [[#357](https://github.com/Azure/azure-monitor-baseline-alerts/pull/357)]: Resolve the ExpressRoute QoS remediation issue
+- Fixed [[#362](https://github.com/Azure/azure-monitor-baseline-alerts/pull/362)]: Standardization on param usage for failingPeriods and evaluationPeriods
+- Fixed [[#381](https://github.com/Azure/azure-monitor-baseline-alerts/pull/381)]: Bugged Connectivity policy initiative + override tag name case consistency + tag override documentation update
+
+### Documentation Updates
+
+- Documentation update about:
+  - Update to new releases pages now brings more clarity
+  - Update to new releases pages contain samples using the new consolidated maintenance script. [Updating to release 2024-09-02](../../HowTo/UpdateToNewReleases#2024-09-02), [Updating to release 2024-03-01](../../HowTo/UpdateToNewReleases#2024-03-01)
+  - Clarification on how to identify the pseudoRootManagementGroup as the one parenting the Platform and Landing Zones management groups.
+  - Updated AMBA diagrams. [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern)
+  - Remediation command for the ***Deploy Azure Monitor Baseline Alerts for Recovery Services*** policy initiative added to the list. [Remediate Policies](../../HowTo/deploy/Remediate-Policies)
+
+### Tools
+
+- **Automation:**
+  - Removed the previous workflow that automates the process of creating ARM templates for Azure Policies/ PolicySets because of a security issue.
+  - New workflow to ensure policy updates and to verify the Bicep build has been run by the contributor.
+
 ## 2024-09-02
 
 ### New Features
 
-- **AMBA Portal Accelerator**: Introducing the Azure Monitor Baseline Alerts Accelerator, now in preview! Deploy alerts quickly and confidently through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../deploy/Deploy-via-Azure-Portal-UI).
-
-- **Modular Initiatives**: The former Landing Zone Initiative is deprecated. We now offer a modular approach with distinct components. For more details, visit [Policy Initiatives](../Policy-Initiatives).
+- **AMBA Portal Accelerator**: Introducing the Azure Monitor Baseline Alerts Accelerator, now in preview! Deploy alerts quickly and confidently through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
+- **Modular Initiatives**: The former Landing Zone Initiative is deprecated. We now offer a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
   - Key Management
   - Load Balancing
@@ -24,7 +54,7 @@ To update your deployment with the latest release, refer to the [Update to new r
   - VM
   - Web
 
-- **Threshold Override**: Adjust alert thresholds for specific resources using a tag. This feature is available for metrics and log alerts. Learn more: [Alert Threshold Override](../Available_features/Threshold-Override).
+- **Threshold Override**: Adjust alert thresholds for specific resources using a tag. This feature is available for metrics and log alerts. Learn more: [Alert Threshold Override](../../HowTo/Threshold-Override).
 
 - **Custom Tags to Disable Monitoring**: Specify a tag name and values to disable monitoring for certain resources.
 
@@ -49,10 +79,10 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Documentation Updates
 
-- Added new policies for ExpressRoute Ports to Connectivity table. [Policy Initiatives](../Policy-Initiatives).
-- Updated documentation on unsupported/unrecommended Tenant Root Group deployment. [FAQ](../FAQ).
-- New guidance for bringing your own Managed Identity. [Bring Your Own User Assigned Managed Identity](../Available_features/Bring-Your-Own-User-Assigned-Managed-Identity).
-- Updated Policy Initiatives documentation to include Policy Reference ID and display names. [Policy Initiatives](../Policy-Initiatives).
+- Added new policies for ExpressRoute Ports to Connectivity table. [Policy Initiatives](../../Getting-started/Policy-Initiatives).
+- Updated documentation on unsupported/unrecommended Tenant Root Group deployment. [FAQ](../../Resources/FAQ).
+- New guidance for bringing your own Managed Identity. [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-Your-Own-User-Assigned-Managed-Identity).
+- Updated Policy Initiatives documentation to include Policy Reference ID and display names. [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
 ### Tools
 
@@ -122,7 +152,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Documentation Updates
 
-- Updated [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions) addressing [Issue #102](https://github.com/Azure/azure-monitor-baseline-alerts/issues/102).
+- Updated [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions) addressing [Issue #102](https://github.com/Azure/azure-monitor-baseline-alerts/issues/102).
 - Updated guidance for AMA in [Monitoring and Alerting](../../Getting-started/Monitoring-and-Alerting).
 
 ## 2023-11-14
@@ -149,5 +179,3 @@ To update your deployment with the latest release, refer to the [Update to new r
 - Added guidance for Server Health alert rules - [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts).
 - New documentation on updating to a new release - [Update to new releases](../../HowTo/UpdateToNewReleases).
 - FAQ Updates - [Frequently Asked Questions](../../Resources//FAQ).
-
-[Back to top of page](.)

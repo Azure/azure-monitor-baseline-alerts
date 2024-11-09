@@ -3,24 +3,15 @@ title: Deploy via the Azure Portal (Preview)
 weight: 30
 ---
 
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/Deploy-via-Azure-Portal-UI.md
-</br>
-
-=======
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/Deploy-via-Azure-Portal-UI.md
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 
 </br>
 
 ## Deployment Settings Blade
 
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/Deploy-via-Azure-Portal-UI.md
 ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
 
 </br>
-=======
-![Deployment Settings Blade](../../media/PortalAccelerator/DeploymentSettings.png)
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/Deploy-via-Azure-Portal-UI.md
 
 - Change the values on the Deployment Settings blade to the following instructions:
   - Choose the Management Group where you wish to deploy the policies and the initiatives, usually called the "pseudo root management group". For example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
@@ -42,19 +33,11 @@ weight: 30
 
 ### If you are aligned to ALZ
 
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/Deploy-via-Azure-Portal-UI.md
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the management group ID for Platform.
 - Choose the value of _```Identity Management Group```_ to the management group ID for Identity.
 - Choose the value of _```Management Management Group```_ to the management group ID for Management.
 - Choose the value of _```Connectivity Management Group```_ to the management group ID for Connectivity.
 - Choose the value of _```Landing Zone Management Group```_ to the management group ID for Landing Zones.
-=======
-- Choose the value of _`Enterprise Scale Company Management Group`_ to the management group ID for Platform.
-- Choose the value of _`Identity Management Group`_ to the management group ID for Identity.
-- Choose the value of _`Management Management Group`_ to the management groupID for Management.
-- Choose the value of _`Connectivity Management Group`_ to the management group ID for Connectivity.
-- Choose the value of _`Landing Zone Management Group`_ to the management group ID for Landing Zones.
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/Deploy-via-Azure-Portal-UI.md
 
 ### If you are unaligned to ALZ
 
@@ -80,10 +63,8 @@ For ease of deployment and maintenance we have kept the same variables.
 For ease of deployment and maintenance we have kept the same variables.
 {{< /hint >}}
 
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/Deploy-via-Azure-Portal-UI.md
-- Set the value of _`Enable AMBA notification assets`_ to _`Yes`_. This configuration will deploy notification assets for Service Health alerts and broad notifications.
-- Set the value of _`Enable AMBA Service Health`_ to _`Yes`_. This setting will assign the Service Health Policy Set Definition during deployment.
-=======
+- Set the value of _`Enable AMBA notification assets`_ to _`Yes`_. This configuration will deploy notification assets broad notifications.
+- Set the value of _`Enable AMBA Service Health`_ to _`Yes`_. This setting will assign the Service Health Policy Set Definition during deployment and deploy action groups for Service Health alerts notifications.
 - Change the value of _`Enable AMBA Hybrid VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.
 - Change the value of _`Enable AMBA Key Management`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM.
 - Change the value of _`Enable AMBA Load Balancing`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.
@@ -92,9 +73,6 @@ For ease of deployment and maintenance we have kept the same variables.
 - Change the value of _`Enable AMBA Storage`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts.
 - Change the value of _`Enable AMBA VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.
 - Change the value of _`Enable AMBA Web`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services.
-- Set the value of _`Enable AMBA notification assets`_ to _`Yes`_. This configuration will deploy notification assets for Service Health alerts and broad notifications.
-- Set the value of _`Enable AMBA Service Health`_ to _`Yes`_. This configuration will assign the Service Health Policy Set Definition during deployment.
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/Deploy-via-Azure-Portal-UI.md
 
 ## Notification Settings Blade
 
@@ -121,28 +99,20 @@ While it's technically possible to not add any notification information (email, 
 
     ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/Deploy-via-Azure-Portal-UI.md
     {{< hint type=note >}}
     It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
-    Should you set multiple entries, ensure that they are entered as a single string with values separated by comma. Example:
+    Should you set multiple entries, ensure that they are entered in the proper format which is:
+    - Array format for:
+      - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
+      - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
+      - Event Hubs. Example: []
+      - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
+    - Single stringfor:
+      - Logic Apps
+      - Functions
 
-    - action1@contoso.com , action2@contoso.com , action3@contoso.com
-    - https://webhookUri1.webhook.com, http://webhookUri2.webhook.com
     {{< /hint >}}
 
-=======
-  {{< hint type=note >}}
-  It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, ensure that they are entered as an array. Example:
-
-  `["action1@contoso.com","action2@contoso.com","action3@contoso.com"]`
-
-  `["https://webhookUri1.webhook.com","http://webhookUri2.webhook.com"]`
-
-  {{< /hint >}}
-
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/Deploy-via-Azure-Portal-UI.md
 ## Next steps
 
 To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
-
-[Back to top of page](.)

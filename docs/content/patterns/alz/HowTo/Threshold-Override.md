@@ -4,11 +4,11 @@ geekdocCollapseSection: true
 weight: 85
 ---
 
-# Overview
+## Overview
 
 The ***Alert Threshold Override*** feature, introduced in the [2024-09-05 release](../../Whats-New#2024-09-05), enables both Greenfield and Brownfield customers to customize alert thresholds for specific resources during or after the deployment of AMBA-ALZ. This feature allows the use of a tag with a specific name and value to override the default alert threshold for designated resources. The new threshold value will apply exclusively to the tagged resources, replacing the global threshold specified in the parameter file.
 
-# How this feature works
+## How this feature works
 
 This feature is applicable exclusively to metrics and log-search alerts, as Activity Log-based alerts do not utilize thresholds and therefore cannot benefit from this enhancement. To use this feature, customers must create a resource tag with a specific name and assign it a desired value. After deploying this release, tags can be created either before or after the remediation task execution. However, the feature's behavior varies between Metric and Log-search alerts.
 
@@ -28,17 +28,17 @@ Considering the nature of log-search alerts, where resource information is retri
 
 ## Which tag does customers need to create
 
-To ensure proper functionality, this feature requires specific tag names. Flexibility in tag naming is not supported in this case. The tag names must adhere to the following naming convention:
-
 {{< hint type=Info >}}
 For a comprehensive list of resource type friendly names, resource provider namespaces, and recommended abbreviations, refer to [Abbreviation recommendations for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
 {{< /hint >}}
 
-```***_amba-<metricName/counterName>-threshold-override_***```
+To ensure proper functionality, this feature requires specific tag names. Flexibility in tag naming is not supported in this case. The tag names must adhere to the following naming convention:
+
+```***_amba-<metricName/counterName>-threshold-Override_***```
 
 In scenarios where the same metric is used multiple times for the same resource, a differentiator value is implemented immediately after the metric name. This ensures the naming convention follows the format:
 
-```***_amba-<metricName/counterName>-<differentiator>-threshold-override_***```
+```***_amba-<metricName/counterName>-<differentiator>-threshold-Override_***```
 
 The following table provides a mapping between alert names and the corresponding tag values that need to be created:
 
@@ -53,5 +53,3 @@ The following table provides a mapping between alert names and the corresponding
 ### Metric alerts table
 
 {{% include "Metrics_Alert_Table.md" %}}
-
-[Back to top of page](.)

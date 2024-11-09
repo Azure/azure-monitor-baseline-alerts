@@ -70,7 +70,7 @@ weight: 100
 > ### Cause
 >
 > When attempting to deploy to a different region, such as "uksouth", after a previous deployment in another region, an error may occur. This issue persists even after performing a cleanup (refer to [Cleaning up a Deployment](../../HowTo/Cleaning-up-a-Deployment) for more details). The error arises because deployment entries from the previous operation still exist, causing a region conflict that prevents the new deployment.
-
+>
 > ### Resolution
 >
 > Situation 1: You are attempting to deploy to a different region than the one used in a previous deployment. It is not necessary to deploy to the same scope in a different region, as the definitions and assignments are scoped to a management group and are not region-specific. No further action is required.
@@ -83,15 +83,15 @@ weight: 100
 > 4. Select all the deployment instances related to AMBA and click **_Delete_**.
 >
 > {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those whose names start with:
-
+>
 > 1. amba-
 > 2. pid-
 > 3. alzArm
 > 4. ambaPreparingToLaunch
-
-If you've only deployed AMBA once, you have 14 deployment instances.
-
-{{< /hint >}}
+>
+>If you have only deployed AMBA-ALZ once, you have 14 deployment instances.
+>
+>{{< /hint >}}
 
 ## Failed to deploy because of the limit of 800 deployments per management group has been reached
 
@@ -110,21 +110,21 @@ If you've only deployed AMBA once, you have 14 deployment instances.
 > To resolve this issue, follow these steps:
 >
 > 1. Navigate to **_Management Groups_**
-> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) where AMBA deployment was targeted
+> 2. Select the management group (corresponding to the value entered for the _enterpriseScaleCompanyPrefix_ during the deployment) where AMBA-ALZ deployment was targeted
 > 3. Click **_Deployment_**
 > 4. Select all the deployments that could be deleted (example: instances of previous deployments related to AMBA) and click **_Delete_**
 > 5. Run the deployment
 >
-> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those whose names start with:
-
+> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA-ALZ, select those whose names start with:
+>
 > 1. amba-
 > 2. pid-
 > 3. alzArm
 > 4. ambaPreparingToLaunch
-
-If you've only deployed AMBA once, you have 14 deployment instances.
-
-{{< /hint >}}
+>
+>If you have only deployed AMBA-ALZ once, you have 14 deployment instances.
+>
+>{{< /hint >}}
 
 ## Failed to deploy because of 'location' property not specified
 
@@ -146,9 +146,11 @@ If you've only deployed AMBA once, you have 14 deployment instances.
 > ### Cause
 >
 > The new [Bring Your Own User Assigned Managed Identity (BYO UAMI)](../../HowTo/Bring-your-own-Managed-Identity) feature allows you to either use an existing User Assigned Managed Identity (UAMI) or create a new one within the management subscription. This process automatically assigns the Monitoring Reader role to the UAMI at the parent pseudo root Management Group. If a new UAMI is created, ensure the management subscription ID is correctly specified.
+>
 > ### Resolution
 >
 > Ensure that the management subscription ID is accurately specified in the parameter file:
+>
 > ![New UAMI deployed by the template](../../media/alz-UAMI-Param-Example-2.png)
 
 ## Failed to deploy action group(s) and/or alert processing rule(s)
@@ -167,7 +169,7 @@ If you've only deployed AMBA once, you have 14 deployment instances.
 > ### Cause
 >
 > When action groups and alert processing rules are deployed, the subscription name is included in their display names. If the subscription name contains invalid characters, the deployment will fail, resulting in the misleading error mentioned above.
-
+>
 > ### Resolution
 >
 > Rename the subscription to exclude invalid characters. Refer to the [Naming rules and restrictions for Azure resources](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules) for a list of supported characters. For instance, alert suppression rules only permit alphanumeric characters, underscores, and hyphens. Specifically, alphanumeric characters include:
@@ -205,5 +207,3 @@ If you've only deployed AMBA once, you have 14 deployment instances.
 > - **_0_** through **_9_** (numbers)
 >
 > Once the subscription has been renamed to exclude invalid characters, delete the existing action groups (those with names starting with **_ag-AMBA-_** or **_ag-AMBA-SH-_**) and rerun the remediation process.
-
-[Back to top of page](.)

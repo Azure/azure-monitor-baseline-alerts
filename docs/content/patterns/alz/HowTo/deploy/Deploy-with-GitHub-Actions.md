@@ -29,7 +29,7 @@ If you have customized the policies as described in [How to modify individual po
 - Save the customized [amba-sample-workflow.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-workflow.yml) in the _**.github/workflow**_ folder
 
   {{< hint type=important >}}
-  The file name <ins>_**must** perfectly </ins> match the name at line **1** of the sample file. You may eventually replace spaces with **-**
+  The file name <ins>_**must** perfectly_</ins> match the name at line **1** of the sample file. You may eventually replace spaces with **-**
   {{< /hint >}}
 
   ![Workflow file name](../../../media/WorkflowFileName.png)
@@ -51,5 +51,3 @@ The `Location` variable specifies the deployment region. It is not required to d
 ## Next steps
 
 To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
-
-[Back to top of page](.)

@@ -1,18 +1,19 @@
 ---
-title: Cleaning up a Deployment
+title: Clean-up AMBA-ALZ Deployment
 geekdocCollapseSection: true
 weight: 70
 ---
 
-In certain situations, you may need to remove all resources deployed by the AMBA solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all deployed resources, including:
+In certain situations, you may need to remove all resources deployed by the AMBA-ALZ solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all deployed resources, including:
 
 - Metric Alerts
 - Activity Log Alerts
-- Resource Groups (created for to contain alert resources)
 - Policy Assignments
 - Policy Definitions
 - Policy Set Definitions
 - Policy Assignment remediation identity role assignments
+- Action Groups
+- Alert Processing Rules
 
 All resources deployed as part of the initial AMBA deployment, as well as those created dynamically by 'deploy if not exist' policies, are tagged, marked in metadata, or described (depending on resource capabilities) with the value `_deployed_by_amba` or `_deployed_by_amba=True`. This metadata is crucial for the cleanup process; if it has been removed or altered, the cleanup script will not target those resources.
 
@@ -28,18 +29,19 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 
 1. Navigate to the [AMBA project on GitHub](https://github.com/Azure/azure-monitor-baseline-alerts).
 2. Browse to the `patterns/alz/scripts` directory.
-3. Open the **Start-AMBACleanup.ps1** script file.
+3. Open the **Start-AMBA-ALZ-Maintenance.ps1** script file.
 4. Click the **Raw** button.
-5. Save the file as **Start-AMBACleanup.ps1**.
+5. Save the file as **Start-AMBA-ALZ-Maintenance.ps1**.
 
 ### Executing the Script
 
 1. Launch PowerShell.
-2. Install the **Az.ResourceGraph** module by executing the following command:
-  ```powershell
-  Install-Module Az.ResourceGraph
-  ```
-3. Navigate to the directory containing the **Start-AMBACleanup.ps1** script.
+2. Ensure the following modules are installed:
+   1. **Az.Accounts**: if not installed, use the `Install-Module Az.Accounts` to install it
+   2. **Az.Resources**: if not installed, use the `Install-Module Az.Resources` to install it
+   3. **Az.ResourceGraph**: if not installed, use the `Install-Module Az.ResourceGraph` to install it
+   4. **Az.ManagedServiceIdentity**: if not installed, use the `Install-Module Az.ManagedServiceIdentity` to install it
+3. Navigate to the directory containing the **Start-ALZ-Maintenance.ps1** script.
 4. Set the _**$pseudoRootManagementGroup**_ variable using the command below:
 
   ```powershell
@@ -51,22 +53,26 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 
     {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-    **Generate a list of the resource IDs which would be deleted by this script:**
+    **Get full help on script usage help:**
 
-    ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -ReportOnly
-    ```
+   ```powershell
+   Get-help ./Start-AMBA-ALZ-Maintenance.ps1
+   ```
 
-    **Show output of what would happen if deletes executed:**
+   **Show output of what would happen if deletes executed:**
 
-    ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -WhatIf
-    ```
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -WhatIf
+   ```
 
-    **Delete all resources deployed by the ALZ-Monitor IaC without prompting for confirmation:**
+   **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
 
-    ```powershell
-    ./Start-AMBACleanup.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -Force
-    ```
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz
+   ```
 
-[Back to top of page](.)
+   **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ.**
+
+   ```powershell
+   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -Confirm:$false
+   ```

@@ -4,7 +4,7 @@ geekdocCollapseSection: true
 weight: 60
 ---
 
-The Azure Monitor Baseline Alerts (AMBA) policies offer various methods to enable or disable the effects of the policies.
+The AMBA-ALZ pattern offers various methods to enable or disable the effects of the policies.
 
 1. **Parameter: AlertState** - Configures the state of the alert rule, enabling deployment of alert rules in a disabled state or disabling existing alert rules at scale through policy.
 2. **Parameter: PolicyEffect** - Defines the effect of a Policy Definition, allowing the policy to be deployed in a disabled state.
@@ -111,6 +111,7 @@ It is also possible to exclude specific resources from monitoring. For instance,
 .
 .
 ```
+
 This deployment will implement policy definitions that will only be evaluated and remediated if the specified tag values are not present in the provided list.
 
 ### How it works
@@ -138,5 +139,3 @@ Given the varying resource scopes to which this method can be applied, the appro
 With the introduction of the _**Bring Your Own User Assigned Managed Identity (BYO UAMI)**_ feature in the [2024-06-05](../../Overview/Whats-New#2024-06-05) release, and the capability to query Azure Resource Graph using Azure Monitor (refer to [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now feasible to disable individual alerts for both Azure and hybrid virtual machines post-creation. This enhancement addresses requests to stop alerting for virtual machines that are offline for maintenance, providing a timely solution.
 
 To disable alerts for your virtual machines after they are created, ensure that you tag the relevant resources appropriately. The alert queries have been updated to reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and tag value, it will be included in an exclusion list, preventing alerts from being generated for those resources. This approach allows for dynamic and rapid exclusion of necessary resources from alerts without needing to delete the alert. Simply tag the resource and run the remediation process again.
-
-[Back to top of page](.)

@@ -26,7 +26,7 @@ The `pseudoRootManagementGroup` variable should _match_ the value of the `enterp
 The `location` variable specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
 
-## 4. Deploying AMBA
+## 4. Deploying AMBA-ALZ
 
 The following commands are applicable to all scenarios, whether you are aligned with ALZ, unaligned, or managing a single management group.
 
@@ -45,11 +45,9 @@ If you have customized the policies as described in [How to modify individual po
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-09-02/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
+az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-11-01/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
 ```
 
 ## Next steps
 
 To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
-
-[Back to top of page](.)

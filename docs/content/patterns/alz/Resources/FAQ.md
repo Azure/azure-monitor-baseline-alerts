@@ -35,6 +35,7 @@ weight: 80
 ## How much does it cost to run the ALZ Baseline solution?
 
 > The cost of running the ALZ Baseline solution varies based on several factors, including the number of alert rules deployed, the number of subscriptions inheriting the baseline policies, and the resources within each subscription that match the policy rules. Each alert rule costs approximately $0.1 per month<sup>1</sup>.
+>
 > - Alert rules are charged based on the number of evaluations.
 > - If the alert rule evaluates data continuously throughout the month, the cost is approximately $0.1<sup>1</sup>.
 > - If the rule evaluates data intermittently (e.g., due to the monitored resource being down and not sending telemetry), the cost is prorated based on the time the rule was actively evaluating data.
@@ -44,14 +45,13 @@ weight: 80
 > {{< hint type=Note >}} It is advisable to evaluate the costs in a non-production environment before full deployment to ensure a clear understanding of the potential expenses.{{< /hint >}}
 >
 > For detailed cost estimates related to your deployment, please refer to the [Azure Monitor Pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/) page. Additionally, you can collaborate with your local Microsoft account team to develop a rough order of magnitude (RoM) cost estimate.
-
 > <sup>1</sup> Note that costs may vary slightly depending on the deployment region. The costs mentioned are based on pricing as of April 2023.
 
 ## Can I access the Visio diagrams displayed in the documentation?
 
 > Yes, you can access the Visio diagrams in the [media](https://github.com/Azure/azure-monitor-baseline-alerts/tree/main/docs/content/patterns/alz/media) folder.
 
-## Can I use AMBA without a GitHub repository
+## Can I use AMBA-ALZ without cloning/forking a GitHub repository
 
 > <p> Yes, as long as the ARM templates are publicly accessible. This solution includes several linked templates that must be accessible publicly. When the top-level ARM template is submitted to Azure Resource Manager, the linked templates are not automatically uploaded and need to be pulled in at deploy time from Azure. Therefore, they must be referenced using a URL accessible from Azure (e.g., via a public GitHub repository). <p>
 >
@@ -79,5 +79,3 @@ weight: 80
 > - Resource creation will fail.
 > - Deployment of action groups and/or alert processing rules will fail. For AMBA-specific issues, refer to the [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) section in the [Known Issues](../Known-Issues) documentation.
 > - Editing action groups will result in an Azure portal page error. For AMBA-specific issues, refer to the [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) section in the [Known Issues](../Known-Issues) documentation.
-
-[Back to top of page](.)

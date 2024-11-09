@@ -50,5 +50,3 @@ To configure the APR, follow these steps:
   {{< hint type=Note >}}
   It is possible to apply other types of filter. For a complete list of allowed scopes and filters, refer to the official [Scope and filters for alert processing rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-processing-rules?tabs=portal#scope-and-filters-for-alert-processing-rules) documentation.
   {{< /hint >}}
-
-[Back to top of page](.)

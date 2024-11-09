@@ -5,40 +5,39 @@ weight: 98
 ---
 
 {{< hint type=Important >}}
-**_The parameter file structure has changed to accommodate a new feature coming soon._**
+***The parameter file structure has changed to accommodate a new feature coming soon.***
 {{< /hint >}}
 
-## Pre update actions
+# Pre update actions
 
-The parameter file structure has changed to accommodate a new feature coming soon. For this reason, updating from release [2024-06-05](../../Whats-New#2024-06-05) requires the alignment of the parameter file structure you have been using so far with the new one coming with the release.
+The parameter file structure has been updated to support an upcoming feature. Therefore, when updating from release [2024-06-05](../../../Overview/Whats-New#2024-06-05), you must align your existing parameter file structure with the new format introduced in this release.
+In particular, the new parameter file includes the following changes:
 
-In particular the new parameter file has the following differences:
+1. Introduces new parameters for utilizing an existing User Assigned Managed Identity (UAMI) or creating a new one during the AMBA-ALZ deployment. These parameters are essential for the new hybrid virtual machine alert set. Ensure to review and configure the following parameters accurately:
 
-1. Contains new parameters for using an existing User Assigned Managed Identity or creating a new one during the AMBA-ALZ deployment. It's required by the new hybrid virtual machine alert set. Make sure to review and set the following parameters correctly:
+   1. ***bringYourOwnUserAssignedManagedIdentity***: Set this parameter to **Yes** if you want to use an existing User Assigned Managed Identity (UAMI). Set it to **No** if you prefer the AMBA-ALZ deployment to create a new UAMI for you.
 
-   1. **_bringYourOwnUserAssignedManagedIdentity_**: set it to **Yes** if you would like to use your own User Assigned Managed Identity (UAMI) or to **No** if you don't have one and would like the deployment of AMBA-ALZ to create one.
-
-   2. **_bringYourOwnUserAssignedManagedIdentityResourceId_**: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **Yes**:
+   2. ***bringYourOwnUserAssignedManagedIdentityResourceId***: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **Yes**, provide the resource ID of your existing UAMI.
 
       1.1. Enter the UAMI resource ID, leaving the **managementSubscriptionId** blank
 
-      ![UAMI resource ID](../../media/alz-BYO-UAMI.png)
+        ![UAMI resource ID](../../../media/alz-BYO-UAMI.png)
 
-      1.2. Configure it with the **_Monitoring Reader_** role on the pseudo root Management Group.
+      1.2. Configure it with the ***Monitoring Reader*** role on the pseudo root Management Group.
 
-   3. **_userAssignedManagedIdentityName_**: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **No**, leave the default value or set a different one to specify a different name for the UAMI created during the deployment. The provided default name aligns with the ALZ standard naming convention.
+   3. ***userAssignedManagedIdentityName***: If the **bringYourOwnUserAssignedManagedIdentity** parameter is set to **No**, you can either use the default value or specify a custom name for the UAMI that will be created during the deployment. The default name follows the ALZ standard naming convention.
 
-      ![UAMI default name](../../media/alz-UAMI-Default-Name.png)
+      ![UAMI default name](../../../media/alz-UAMI-Default-Name.png)
 
-   4. **_managementSubscriptionId_**: If you set the **bringYourOwnUserAssignedManagedIdentity** parameter to **No**, enter the subscription ID of the subscription under the Management management group. The deployment procedure will create the UAMI in this subscription and assign it the **_Monitoring Reader_** role on the pseudo root Management Group
+   4. ***managementSubscriptionId***: If the **bringYourOwnUserAssignedManagedIdentity** parameter is set to **No**, provide the subscription ID of the subscription within the Management management group. The deployment process will create the UAMI in this subscription and assign it the ***Monitoring Reader*** role on the pseudo root Management Group.
 
-      ![Management subscription ID](../../media/alz-ManagementSubscription.png)
+      ![Management subscription ID](../../../media/alz-ManagementSubscription.png)
 
-      ![](../../media/alz-UAMI-Management-SubscriptionID.png)
+      ![Management subscription ID parameter](../../../media/alz-UAMI-Management-SubscriptionID.png)
 
-2. Changes the previous parameter objects, such as **_policyAssignmentParametersCommon_**, **_policyAssignmentParametersBYON_** and **_policyAssignmentParametersNotificationAssets_** into classic parameters using the same name as before. As result, the previous sections of the parameter you'll now look like the following image:
+2. Converts the previous parameter objects, including ***policyAssignmentParametersCommon***, ***policyAssignmentParametersBYON***, and ***policyAssignmentParametersNotificationAssets***, into standard parameters while retaining their original names. Consequently, the corresponding sections of the parameter file will now appear as shown in the following image:
 
-   ![New parameter file sample](../../media/alz-New-ParamterFile-Structure.png)
+    ![New parameter file sample](../../../media/alz-New-ParamterFile-Structure.png)
 
 ## Update
 

@@ -1,5 +1,5 @@
 ---
-title: The ALZ Pattern
+title: The Azure Landing Zones (ALZ) Pattern
 geekdocCollapseSection: true
 weight: 10
 ---
@@ -10,11 +10,11 @@ The Azure Monitor Baseline Alerts (AMBA) for Azure Landing Zones (ALZ) is a best
 
 A frequent question from customers is, "What should we monitor in Azure?" and "What thresholds should we set for our alerts?"
 
-There isn't a definitive list of what to monitor when deploying to Azure because it depends on the services used and their usage patterns. This dictates what to monitor, the metrics to collect, and the errors to alert on.
+There is not a definitive list of what to monitor when deploying to Azure because it depends on the services used and their usage patterns. This dictates what to monitor, the metrics to collect, and the errors to alert on.
 
-Microsoft addresses this with various 'insights or solutions' for popular services, such as [Storage Insights](https://learn.microsoft.com/en-us/azure/storage/common/storage-insights-overview), [VM Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-overview), and [Container Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-overview). However, this doesn't cover everything.
+Microsoft addresses this with various 'insights or solutions' for popular services, such as [Storage Insights](https://learn.microsoft.com/en-us/azure/storage/common/storage-insights-overview), [VM Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-overview), and [Container Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-overview). However, this does not cover everything.
 
-This project focuses on monitoring for Azure Landing Zones, providing a common set of Azure resources/services configured similarly across organizations. It also includes guidance for custom brownfield scenarios that don't align with ALZ. This serves as a starting point for addressing "What should be monitored in Azure?" and demonstrates how to monitor at scale using Infrastructure-as-Code principles.
+This project focuses on monitoring for Azure Landing Zones, providing a common set of Azure resources/services configured similarly across organizations. It also includes guidance for custom brownfield scenarios that do not align with ALZ. This serves as a starting point for addressing "What should be monitored in Azure?" and demonstrates how to monitor at scale using Infrastructure-as-Code principles.
 
 This project offers an opinionated view on monitoring key components of your Azure Landing Zone within the Platform and Landing Zone scope, including:
 
@@ -54,7 +54,7 @@ If you encounter a problem, please file an issue in our GitHub repository [GitHu
 
 ## Deployment Guide
 
-Refer to our [Deployment Guide](../../Howto/deploy/Introduction-to-deploying-the-ALZ-Pattern) for guidance on consuming the contents of this repository.
+Refer to [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) for guidance on consuming the contents of this repository.
 
 ## Known Issues
 
@@ -80,10 +80,8 @@ Details on contributing to this repository can be found in the [Contributor Guid
 
 When you deploy the IP located in this repository, Microsoft can identify the installation with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
-If you don't wish to send usage data to Microsoft or need more details, refer to the [Disable telemetry tracking](../../Howto/Telemetry) guide.
+If you do not wish to send usage data to Microsoft or need more details, refer to the [Disable telemetry tracking](../../Howto/Telemetry) guide.
 
 ## Trademarks
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos must follow [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos is subject to those third-party's policies.
-
-[Back to top of page](.)

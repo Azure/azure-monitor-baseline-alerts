@@ -2,18 +2,17 @@
 title: Parameter configuration
 geekdocHidden: true
 ---
-<<<<<<< HEAD:docs/content/patterns/alz/HowTo/deploy/parameterConfiguration.md
+
 {{< hint type=Important >}}
 Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
-=======
->>>>>>> 50e64f12830f19892cc6e813b50d9577e20035e7:docs/content/patterns/alz/deploy/parameterConfiguration.md
 
 ## 1. Parameter configuration
 
-To start, you can either download a copy of the parameter file or clone/fork the repository.
+To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-09-02/patterns/alz/alzArm.param.json)
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-11-01/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group.
 
@@ -49,6 +48,10 @@ The following instructions apply universally, regardless of your alignment with 
   {{< hint type=note >}}
   You can use multiple email addresses, ARM Roles, Webhooks, or Event Hubs (though using multiple Event Hubs is not recommended as per ALZ guidance). If you set multiple entries, ensure they are entered as a single string with values separated by commas. For example:
 
+
+
+
+
   ```json
   "ALZMonitorActionGroupEmail": {
       "value": [
@@ -70,7 +73,11 @@ The following instructions apply universally, regardless of your alignment with 
   }
   ```
 
+
+
+
   {{< /hint >}}
+
   To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBALandingZone```_, _```enableAMBAManagement```_, or _```enableAMBAServiceHealth```_.
 
 ### If you are aligned to ALZ

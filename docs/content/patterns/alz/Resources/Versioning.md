@@ -9,5 +9,3 @@ The main output of this repository is a set of Azure Policy initiatives and corr
 To facilitate the adoption of policies, a new release of the repository will be issued whenever one or more policies are updated with breaking changes, in accordance with the [Azure Policy versioning guidance](https://github.com/Azure/azure-policy/blob/master/built-in-policies/README.md#versioning).
 
 Guidance for updating existing deployments to new versions will be provided with each release.
-
-[Back to top of page](.)

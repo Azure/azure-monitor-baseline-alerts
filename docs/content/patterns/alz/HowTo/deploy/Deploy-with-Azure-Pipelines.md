@@ -18,6 +18,7 @@ If you have customized the policies as described in [How to modify individual po
   ```
 
 {{< /hint >}}
+
 Additionally, in your Azure DevOps project, set up a service connection to your Azure subscription by following the instructions in the [Connect to Azure by using an Azure Resource Manager service connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops&tabs=yaml) guide. Ensure that the service connection targets the intermediate root management group for ALZ-aligned deployments or the specific management group where you intend to deploy the policies and initiatives for ALZ-unaligned deployments.
 
 ### Modify variables and run the pipeline
@@ -37,5 +38,3 @@ The `Location` variable specifies the deployment region. It is not required to d
 ## Next steps
 
 To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
-
-[Back to top of page](.)

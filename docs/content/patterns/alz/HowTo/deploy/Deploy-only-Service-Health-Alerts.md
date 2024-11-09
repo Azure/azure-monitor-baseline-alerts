@@ -66,6 +66,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
           "action2@contoso.com"
       ]
   },
+
   "ALZArmRoleId": {
       "value": [
           "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
@@ -246,7 +247,7 @@ Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so cal
 The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
 
-### 4. Deploying AMBA
+### 4. Deploying AMBA-ALZ
 
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -335,6 +336,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 {{< /hint >}}
 
 ### 5. Deploy Policy Definitions
+
 To deploy policy definitions to the intermediate management group, run the following command:
 
 ```bash
@@ -350,6 +352,7 @@ az deployment mg create --name "amba-ServiveHealthOnly" --template-file ./patter
 ```
 
 ### 6. Assign the Service Health Policy Set Definition
+
 Assign a Policy Set Definition by running the following command:
 
 ```bash
@@ -365,5 +368,3 @@ The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and
 ## Next steps
 
 To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
-
-[Back to top of page](.)

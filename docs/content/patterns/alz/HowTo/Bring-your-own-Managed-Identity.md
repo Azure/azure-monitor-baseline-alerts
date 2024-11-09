@@ -69,6 +69,3 @@ The [conditional deployment behavior](../Bring-your-own-Managed-Identity#conditi
 - Run remediation as documented in [Remediate Policies](../deploy/Remediate-Policies)
 
 The code will reconfigure alerts to use either the provided UAMI or the newly created one.
-
-[Back to top of page](.)
-
