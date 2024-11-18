@@ -339,15 +339,6 @@
                 "description": "Provide the alert processing rule used for monitoring."
             }
         },
-        "delayCount": {
-            "type": "int",
-            "defaultValue": 1,
-            "minValue": 1,
-            "maxValue": 60,
-            "metadata": {
-                "description": "Configure the count of empty deployments used to introduce a delay after policy deployment. Used to increase reliability of deployment, but can be reduced when re-deploying to an existing environment."
-            }
-        },
         "currentDateTimeUtcNow": {
             "type": "string",
             "defaultValue": "[utcNow()]",
@@ -993,34 +984,6 @@
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
                     }
-                }
-            }
-        },
-        // MARK: Delay
-        // Adding delay to ensure policy deployment is completed before policy assignments
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2020-10-01",
-            "name": "[concat('amba-PreparingToLaunch', copyIndex())]",
-            "location": "[deployment().location]",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-            "dependsOn": [
-                "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
-            ],
-            "copy": {
-                "batchSize": 1,
-                "count": "[parameters('delayCount')]",
-                "mode": "Serial",
-                "name": "ambaPolicyCompletion"
-            },
-            "properties": {
-                "mode": "Incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {},
-                    "resources": [],
-                    "outputs": {}
                 }
             }
         },
