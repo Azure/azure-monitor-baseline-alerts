@@ -1,9 +1,165 @@
+- name: TotalCalls
+  description: Total number of calls.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1205
+  properties:
+    metricName: TotalCalls
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5000.0
+  guid: 07f1ae0a-94f3-41da-b3a6-ca9188e416cb
+- name: TotalErrors
+  description: Total number of calls with error response (HTTP response code 4xx or
+    5xx).
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-1052
+  properties:
+    metricName: TotalErrors
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 5.0
+  guid: e228ad2d-7f9f-4843-88e2-57f6d44c59e9
+- name: Latency
+  description: Latency in milliseconds.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-882
+  properties:
+    metricName: Latency
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 90.0
+  guid: d76ab40a-2831-4fa2-b476-5fdcda3d7c4c
+- name: SuccessRate
+  description: 'Availability percentage with the following calculation: (Total Calls
+    - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500.'
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-852
+  properties:
+    metricName: SuccessRate
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Average
+    operator: LessThan
+    criterionType: StaticThresholdCriterion
+    threshold: 99.9
+  guid: 80f3c9ae-7da9-462f-ab44-2ff80d27c8f1
+- name: ServerErrors
+  description: Number of calls with service internal error (HTTP response code 5xx).
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-606
+  properties:
+    metricName: ServerErrors
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 3
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  guid: 3c550d9c-8276-4a61-b0cf-ef437a55e299
+- name: TokenTransaction
+  description: Number of Inference Tokens Processed on an OpenAI Model
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-530
+  properties:
+    metricName: TokenTransaction
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 180000.0
+  guid: 287a29bf-097d-4c4a-9ac5-df70a10f6903
+- name: BlockedCalls
+  description: Number of calls that exceeded rate or quota limit.
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-468
+  properties:
+    metricName: BlockedCalls
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  guid: 87fe8679-655d-4acb-a37c-b7faebe26d47
+- name: ClientErrors
+  description: Number of calls with client side error (HTTP response code 4xx).
+  type: Metric
+  verified: false
+  visible: true
+  tags:
+  - auto-generated
+  - agc-420
+  properties:
+    metricName: ClientErrors
+    metricNamespace: Microsoft.CognitiveServices/accounts
+    severity: 1
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Total
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    threshold: 0.0
+  guid: ec8c928a-5206-4059-8aea-8486004dd30d
 - name: ActionFeaturesIdOccurrences
   description: NNumber of times each action feature appears.
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActionFeaturesIdOccurrences
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -20,7 +176,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActionFeaturesPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -37,7 +195,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActionIfOccurrence
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -54,7 +214,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActionNamespacePerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -71,7 +233,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActionPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -88,7 +252,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ActiveTokens
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -105,7 +271,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AudioSecondsTranscribed
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -122,7 +290,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AudioSecondsTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -139,7 +309,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AvatarModelHostingSeconds
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -154,26 +326,30 @@
 - name: AzureOpenAIContextTokensCacheMatchRate
   description: Percentage of the prompt tokens hit the cache, avaiable for PTU-managed.
   type: Metric
-  verified: false
-  visible: false
-  tags: manual-ck
+  verified: true
+  visible: true
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AzureOpenAIContextTokensCacheMatchRate
     metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
+    severity: 2
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
+    threshold: 75
   guid: 81f8369c-65bf-4194-bfd2-ffdfa2470577
 - name: AzureOpenAIProvisionedManagedUtilization
   description: Utilization % for a provisoned-managed deployment, calculated as (PTUs consumed / PTUs deployed) x 100.
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AzureOpenAIProvisionedManagedUtilization
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -189,7 +365,7 @@
   description: Utilization % for a provisoned-managed deployment, calculated as (PTUs consumed / PTUs deployed) x 100.
   type: Metric
   verified: false
-  visible: true
+  visible: false
   tags: manual-ck
   properties:
     metricName: AzureOpenAIProvisionedManagedUtilizationV2
@@ -207,7 +383,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: AzureOpenAIRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -220,10 +398,10 @@
     threshold: 0.0
   guid: a1528d17-f288-46b1-b084-8b8fe3af90fa
 - name: AzureOpenAITimeToResponse
-  description: Recommended latency (responsiveness) measure for streaming requests.
+  description: Recommended latency (responsiveness) measure for streaming requests. Time in milliseconds.
   type: Metric
   verified: false
-  visible: true
+  visible: false
   tags: manual-ck
   properties:
     metricName: AzureOpenAITimeToResponse
@@ -234,14 +412,16 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 200ms
+    threshold: 0.0
   guid: 995cc12a-1887-4669-92c5-70a6ca8bfe70
 - name: BaselineEstimatorOverallReward
   description: Baseline Estimator Overall Reward.
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineEstimatorOverallReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -258,7 +438,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineEstimatorSlotReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -275,7 +457,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineRandomEstimatorOverallReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -292,7 +476,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineRandomEstimatorSlotReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -309,7 +495,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineRandomEventCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -326,7 +514,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BaselineRandomReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -343,7 +533,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: BlockedCalls
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -360,7 +552,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: CarnegieInferenceCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -377,7 +571,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ClientErrors
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -394,7 +590,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ComputerVisionTransactions
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -411,7 +609,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ContentSafetyImageAnalyzeRequestCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -428,7 +628,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ContentSafetyTextAnalyzeRequestCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -445,7 +647,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ContextFeatureIdOccurrences
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -462,7 +666,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ContextFeaturesPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -479,7 +685,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ContextNamespacesPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -496,7 +704,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: CustomVisionTrainingTime
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -513,7 +723,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: CustomVisionTransactions
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -530,7 +742,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: DataIn
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -547,7 +761,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: DataOut
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -564,7 +780,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: DocumentCharactersTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -581,7 +799,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: DocumentCustomCharactersTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -598,7 +818,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FaceImagesTrained
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -615,7 +837,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FacesStored
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -632,7 +856,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FaceTransactions
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -649,7 +875,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FeatureCardinality_Action
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -666,7 +894,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FeatureCardinality_Context
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -683,7 +913,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FeatureCardinality_Slot
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -700,7 +932,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: FineTunedTrainingHours
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -717,7 +951,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: GeneratedTokens
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -734,7 +970,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ImagesStored
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -751,7 +989,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: Latency
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -768,7 +1008,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: LearnedEvents
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -785,7 +1027,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: LUISSpeechRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -802,7 +1046,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: LUISTextRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -819,7 +1065,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: MatchedRewards
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -836,7 +1084,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: NonActivatedEvents
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -853,7 +1103,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: NumberOfSlots
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -870,7 +1122,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: NumberofSpeakerProfiles
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -887,7 +1141,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ObservedRewards
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -904,7 +1160,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: OneDocumentCharactersTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -921,7 +1179,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: OnlineEstimatorOverallReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -938,7 +1198,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: OnlineEstimatorSlotReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -955,7 +1217,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: OnlineEventCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -972,7 +1236,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: OnlineReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -989,7 +1255,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedCharacters
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1006,7 +1274,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedHealthTextRecords
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1023,7 +1293,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedImages
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1040,7 +1312,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedPages
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1057,7 +1331,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedPromptTokens
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1074,7 +1350,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ProcessedTextRecords
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1091,7 +1369,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: QuestionAnsweringTextRecords
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1108,7 +1388,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: RAIAbusiveUsersCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1125,7 +1407,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: RAIHarmfulRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1142,7 +1426,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: RAIRejectedRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1159,7 +1445,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: RAISystemEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1176,7 +1464,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: RAITotalRequests
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1193,7 +1483,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: Ratelimit
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1210,7 +1502,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: Reward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1227,7 +1521,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: ServerErrors
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1244,7 +1540,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SlotFeatureIdOccurrences
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1261,7 +1559,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SlotFeaturesPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1278,7 +1578,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SlotIdOccurrences
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1295,7 +1597,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SlotNamespacesPerEvent
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1312,7 +1616,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SlotRewards
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1329,7 +1635,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SpeakerRecognitionTransactions
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1346,7 +1654,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SpeechModelHostingHours
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1363,7 +1673,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SpeechModelHostingHours
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1380,7 +1692,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SuccessfulCalls
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1397,7 +1711,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SuccessRate
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1414,7 +1730,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: SynthesizedCharacters
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1431,7 +1749,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TextCharactersTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1448,7 +1768,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TextCustomCharactersTranslated
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1465,7 +1787,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TextTrainedCharacters
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1482,7 +1806,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TokenTransaction
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1499,7 +1825,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TotalCalls
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1516,7 +1844,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TotalErrors
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1533,7 +1863,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TotalEvents
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1550,7 +1882,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: TotalTokenCalls
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1567,7 +1901,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: UserBaselineEventCount
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1584,7 +1920,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: UserBaselineReward
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1601,7 +1939,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: VideoSecondsSynthesized
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1618,7 +1958,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: VoiceModelHostingHours
     metricNamespace: Microsoft.CognitiveServices/accounts
@@ -1635,7 +1977,9 @@
   type: Metric
   verified: false
   visible: false
-  tags: manual-ck
+  tags:
+  - manual-ck
+  - rag
   properties:
     metricName: VoiceModelTrainingMinutes
     metricNamespace: Microsoft.CognitiveServices/accounts
