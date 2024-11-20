@@ -33,11 +33,11 @@ To work correctly, this feature needs to look at specific tag names. Unfortunate
 Mapping between resource type friendly name and resource provider namespace (together with the recommended abbreviation) can be found at [Abbreviation recommendations for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)
 {{< /hint >}}
 
-```***_amba-<metricName/counterName>-threshold-override_***```
+```***_amba-<metricName/counterName>-threshold-Override_***```
 
 There might be cases where for the same resource, the same metric is used more than one. In this scenario, we implemented a differentiator value inserted right after the metric name, making the naming convention resampling the following format:
 
-```***_amba-<metricName/counterName>-<differentiator>-threshold-override_***```
+```***_amba-<metricName/counterName>-<differentiator>-threshold-Override_***```
 
 The following table contains the mapping between the alert name and the corresponding tag value to be created:
 

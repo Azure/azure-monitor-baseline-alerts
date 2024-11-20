@@ -78,7 +78,7 @@ Check the content of the page corresponding to the release you are updating to, 
 ### Update the parameter file with any new parameter and configuration
 
 The parameter may undergo changes in the structure or in the number of parameters that need to be configured.
-For this reason, based on what documented in the [What's new](../Whats-New.md) or in the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) pages. For this reason it mandatory that you check your current parameter file content with the one coming with the release, making sure you with new or refactored parameters.
+For this reason, based on what documented in the [What's new](../Whats-New.md) or in the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) pages, it is mandatory that you compare your current parameter file content with the one coming with the release, making sure it aligns with new or refactored parameters.
 
 ### Deploy (always required)
 
