@@ -14,6 +14,16 @@ This script requires PowerShell 7.0 or higher and the following PowerShell modul
 
 {{< /hint >}}
 
+{{< hint type=Important >}}
+The Azure Landing Zones pattern is _**not**_ officially supported on sovereign clouds like "Azure US Government" or "Azure China". However, this script has been update to work with these 2 environments. You need to specify the Azure environment you use as a parameter for the script.
+Allowed parameter values are:
+
+- AzureCloud
+- AzureUSGovernment
+- AzureChinaCloud
+
+{{< /hint >}}
+
 To use the script, do the following:
 
 - Sign in Azure PowerShell with an account with at least Resource Policy Contributor permissions at the pseudo-root management group level
@@ -32,7 +42,7 @@ To use the script, do the following:
 
   ```powershell
   #Run the following commands to initiate remediation
-  .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
+  .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $managementManagementGroup -policyName Alerting-Management
   ```
 
 - The script will return the output from the REST API calls, which should be a status code 201. If the script fails, check the error message and ensure that the management group name and policy name are correct.
@@ -51,24 +61,24 @@ $LZManagementGroup="The management group id for Landing Zones"
 
 ```powershell
 #Run the following commands to initiate remediation
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-RecoveryServices
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Storage
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-VM
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Web
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $identityManagementGroup -policyName Alerting-Identity
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $managementManagementGroup -policyName Alerting-Management
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-KeyManagement
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-RecoveryServices
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Storage
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-VM
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $LZManagementGroup -policyName Alerting-Web
 ```
 
 Should you need to remediate just one policy definition and not the entire policy initiative, you can run the remediation script targeted at the policy reference id that can be found under [Policy Initiatives](../../Policy-Initiatives). For example, to remediate the **_Deploy AMBA Notification Assets_** policy, run the following command:
 
 ```powershell
 #Run the following command to initiate remediation of a single policy definition
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -azureEnvironment "AzureCloud" -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
 ```
