@@ -551,7 +551,8 @@
             "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
-            "AMBAHybridVMDeploymentName": "[take(concat('amba-HybridVM', variables('deploymentSuffix')), 64)]",
+            "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
+            "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
             "AMBAManagementDeploymentName": "[take(concat('amba-Management', variables('deploymentSuffix')), 64)]",
             "AMBAServiceHealthDeploymentName": "[take(concat('amba-ServiceHealth', variables('deploymentSuffix')), 64)]",
             "AMBANotificationAssetsDeploymentName": "[take(concat('amba-NotificationAssets', variables('deploymentSuffix')), 64)]",
@@ -560,7 +561,8 @@
             "AMBANetworkChangesDeploymentName": "[take(concat('amba-NetworkChanges', variables('deploymentSuffix')), 64)]",
             "AMBARecoveryServicesDeploymentName": "[take(concat('amba-RecoveryServices', variables('deploymentSuffix')), 64)]",
             "AMBAStorageDeploymentName": "[take(concat('amba-Storage', variables('deploymentSuffix')), 64)]",
-            "AMBAVMDeploymentName": "[take(concat('amba-VM', variables('deploymentSuffix')), 64)]",
+            "AMBAVMDeploymentNameLandingZones": "[take(concat('amba-VM-LandingZones', variables('deploymentSuffix')), 64)]",
+            "AMBAVMDeploymentNamePlatform": "[take(concat('amba-VM-Platform', variables('deploymentSuffix')), 64)]",
             "AMBAWebDeploymentName": "[take(concat('amba-Web', variables('deploymentSuffix')), 64)]",
             "pidCuaDeploymentName": "[take(concat('amba-pid-', variables('cuaid'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity-', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
@@ -1153,6 +1155,42 @@
                 }
             }
         },
+        // Assigning AMBA HybridVM PolicySet to the Platform management group if condition is true
+        {
+            "condition": "[equals(parameters('enableAMBAHybridVM'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBAHybridVMDeploymentName]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('platformManagementGroup'))]",
+            "location": "[deployment().location]",
+            "dependsOn": [
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAHybridVMInitiative]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('platformManagementGroup')]"
+                    },
+                    "uamiScope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersHybridVM')]"
+                    }
+                }
+            }
+        },
         // Assigning AMBA Key Management PolicySet to the Landing Zone management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAKeyManagement'), 'Yes')]",
@@ -1309,13 +1347,13 @@
                 }
             }
         },
-        // Assigning AMBA VM PolicySet to the Identity management group if condition is true
+        // Assigning AMBA VM PolicySet to the Platform management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAVM'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAVMDeploymentName]",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('IdentityManagementGroup'))]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('platformManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
@@ -1331,43 +1369,7 @@
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
                     },
                     "scope": {
-                        "value": "[parameters('IdentityManagementGroup')]"
-                    },
-                    "uamiScope": {
-                        "value": "[parameters('managementManagementGroup')]"
-                    },
-                    "bringYourOwnUserAssignedManagedIdentity": {
-                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
-                    },
-                    "policyAssignmentParameters": {
-                        "value": "[variables('policyAssignmentParametersVM')]"
-                    }
-                }
-            }
-        },
-        // Assigning AMBA VM PolicySet to the Connectivity management group if condition is true
-        {
-            "condition": "[equals(parameters('enableAMBAVM'), 'Yes')]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2020-10-01",
-            "name": "[variables('deploymentNames').AMBAVMDeploymentName]",
-            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
-            "location": "[deployment().location]",
-            "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('deploymentUris').AMBAVMInitiative]"
-                },
-                "parameters": {
-                    "topLevelManagementGroupPrefix": {
-                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
-                    },
-                    "scope": {
-                        "value": "[parameters('connectivityManagementGroup')]"
+                        "value": "[parameters('platformManagementGroup')]"
                     },
                     "uamiScope": {
                         "value": "[parameters('managementManagementGroup')]"
