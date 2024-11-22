@@ -188,7 +188,9 @@
               "criterionType": "DynamicThresholdCriterion",
               "name": "1st criterion",
               "metricName": "##METRIC_NAME##",
-              "dimensions": ##DIMENSIONS##,
+              "dimensions": [
+                ##DIMENSIONS##
+              ],
               "operator": "[parameters('operator')]",
               "alertSensitivity": "[parameters('alertSensitivity')]",
               "failingPeriods": {
@@ -203,7 +205,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2023-07-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
