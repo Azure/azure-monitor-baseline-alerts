@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "Number of Inference Tokens Processed on an OpenAI Model",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": ,
+      "defaultValue": 2,
       "allowedValues": [
         0,
         1,
@@ -59,7 +59,7 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -73,14 +73,14 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "0",
+      "defaultValue": "180000",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "Average",
+      "defaultValue": "Total",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -94,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "PT5M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -112,7 +112,7 @@
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "PT1M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -170,7 +170,7 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "globalreachbitsoutpersecond",
+              "metricName": "TokenTransaction",
               "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
@@ -183,7 +183,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2023-07-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
