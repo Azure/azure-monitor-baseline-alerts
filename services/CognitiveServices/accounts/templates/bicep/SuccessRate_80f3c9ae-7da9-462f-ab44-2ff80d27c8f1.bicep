@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = ''
+param alertDescription string = 'Availability percentage with the following calculation: (Total Calls - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 
+param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -37,10 +37,10 @@ param alertSeverity int =
   'LessThan'
   'LessThanOrEqual'
 ])
-param operator string = ''
+param operator string = 'LessThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 0
+param threshold int = 100
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -64,7 +64,7 @@ param timeAggregation string = 'Average'
   'PT24H'
   'P1D'
 ])
-param windowSize string = ''
+param windowSize string = 'PT5M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -74,7 +74,7 @@ param windowSize string = ''
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = ''
+param evaluationFrequency string = 'PT1M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -106,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'globalreachbitsinpersecond'
+          metricName: 'SuccessRate'
           dimensions: [[]]
           operator: operator
           threshold: threshold
@@ -119,7 +119,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
 }
 
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

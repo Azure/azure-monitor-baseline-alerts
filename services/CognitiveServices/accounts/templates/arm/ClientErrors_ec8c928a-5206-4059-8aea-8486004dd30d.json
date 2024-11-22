@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "total number of packet passing through load balancer",
+      "defaultValue": "Number of calls with client side error (HTTP response code 4xx).",
       "metadata": {
         "description": "Description of alert"
       }
@@ -59,7 +59,7 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -73,7 +73,7 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "0",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
@@ -170,7 +170,7 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "PacketCount",
+              "metricName": "ClientErrors",
               "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
@@ -183,7 +183,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2023-07-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {

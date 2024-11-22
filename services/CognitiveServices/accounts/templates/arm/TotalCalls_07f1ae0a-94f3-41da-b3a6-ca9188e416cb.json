@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "Total number of bytes passing through load balancer",
+      "defaultValue": "Total number of calls.",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 3,
       "allowedValues": [
         0,
         1,
@@ -59,7 +59,7 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -73,7 +73,7 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "5000",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
@@ -170,7 +170,7 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "Bytecount",
+              "metricName": "TotalCalls",
               "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
@@ -183,7 +183,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2023-07-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
