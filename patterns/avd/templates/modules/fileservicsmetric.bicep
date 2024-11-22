@@ -7,13 +7,17 @@ param MetricAlertsFileShares array
 param ActionGroupID string
 param Tags object
 
+// Help ensure entire deployment name is under 64 characters
+var StorAcctNameOrig = split(StorageAccountResourceID, '/')[8]
+var StorAcctName = length(StorAcctNameOrig) < 20 ? StorAcctNameOrig : skip(StorAcctNameOrig, length(StorAcctNameOrig)-20)
+
 var FileServicesResourceID = '${StorageAccountResourceID}/fileServices/default'
 
 module metricAlerts_FileServices '../carml/1.3.0/Microsoft.Insights/metricAlerts/deploy.bicep' = [for i in range(0, length(MetricAlertsFileShares)): {
-  name: 'c_${MetricAlertsFileShares[i].name}-${split(FileServicesResourceID, '/')[8]}-${Environment}'
+  name: 'c_${MetricAlertsFileShares[i].name}-${StorAcctName}-${Environment}'
   params: {
     enableDefaultTelemetry: false
-    name: '${MetricAlertsFileShares[i].displayName}-${split(FileServicesResourceID, '/')[8]}-${Environment}'
+    name: '${MetricAlertsFileShares[i].displayName}-${StorAcctName}-${Environment}'
     criterias: MetricAlertsFileShares[i].criteria.allOf
     location: 'global'
     alertDescription: MetricAlertsFileShares[i].description
