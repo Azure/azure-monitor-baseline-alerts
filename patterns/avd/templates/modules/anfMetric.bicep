@@ -7,11 +7,15 @@ param ANFVolumeResourceID string
 param ActionGroupID string
 param Tags object
 
-module metricAlerts_VirtualMachines '../carml/1.3.0/Microsoft.Insights/metricAlerts/deploy.bicep' = [for i in range(0, length(MetricAlertsANF)): {
-  name: 'c_${MetricAlertsANF[i].name}-${split(ANFVolumeResourceID, '/')[12]}-${Environment}'
+// Help ensure entire deployment name is under 64 characters
+var ANFVolumeResourceNameOrig = split(ANFVolumeResourceID, '/')[12]
+var ANFVolumeResourceName = length(ANFVolumeResourceNameOrig) < 20 ? ANFVolumeResourceNameOrig : skip(ANFVolumeResourceNameOrig, length(ANFVolumeResourceNameOrig)-20)
+
+module metricAlerts_ANFVolumes '../carml/1.3.0/Microsoft.Insights/metricAlerts/deploy.bicep' = [for i in range(0, length(MetricAlertsANF)): {
+  name: 'c_${MetricAlertsANF[i].name}-${ANFVolumeResourceName}-${Environment}'
   params: {
     enableDefaultTelemetry: false
-    name: '${MetricAlertsANF[i].displayName}-${split(ANFVolumeResourceID, '/')[12]}-${Environment}'
+    name: '${MetricAlertsANF[i].displayName}-${ANFVolumeResourceName}-${Environment}'
     criterias: MetricAlertsANF[i].criteria.allOf
     location: 'global'
     alertDescription: MetricAlertsANF[i].description

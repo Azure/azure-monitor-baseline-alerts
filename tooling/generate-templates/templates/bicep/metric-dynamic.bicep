@@ -131,7 +131,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
 }
 
 var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

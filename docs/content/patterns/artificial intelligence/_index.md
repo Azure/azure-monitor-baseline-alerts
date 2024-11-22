@@ -14,7 +14,7 @@ The table below provides quick links to alert guidelines for the most commonly u
 
 |Services|Resource Type|
 |---     |---          |
-|Azure AI Studio Hub/Azure Machine Learning |[Microsoft.MachineLearningServices/workspaces](../../services/machineLearningServices/workspaces/)|
+|Azure AI Studio Hub/Azure Machine Learning |[Microsoft.MachineLearningServices/workspaces](../../services/MachineLearningServices/workspaces/)|
 |Azure AI Search|[Microsoft.Search/searchServices](../../services/Search/searchServices/)|
 |Azure AI Services |[Microsoft.CognitiveServices/accounts](../../services/CognitiveServices/accounts/)|
 |Azure Kubernetes services |[Microsoft.ContainerService/managedClusters](../../services/ContainerService/managedClusters/)|
@@ -40,4 +40,4 @@ Running AI workloads on Azure infrastructure involves monitoring each of the com
 
 ### AI Specialized Workload Patterns
 
-#### GPT-RAG (coming soon)
+#### [GPT-RAG](./rag/)
