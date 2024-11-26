@@ -62,8 +62,8 @@ for yaml_file_name in yaml_files:
     print(f"Validating {yaml_file_name}")
     # Validate each entity in the array
     for entity in data:
-        entity_type = entity.get("type").lower()  
-        entity_name = entity.get("name").lower()  
+        entity_type = entity.get("type").lower()
+        entity_name = entity.get("name").lower()
         # switch depending on entity_type
         if entity_type == "activitylog":
             # Get Category in properties
