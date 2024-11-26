@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "total number of port allocated for SNAT",
+      "defaultValue": "Total number of calls with error response (HTTP response code 4xx or 5xx).",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 2,
       "allowedValues": [
         0,
         1,
@@ -59,7 +59,7 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -73,14 +73,14 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "5",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "Average",
+      "defaultValue": "Total",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -170,7 +170,7 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "AllocatedSnartPorts",
+              "metricName": "TotalErrors",
               "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
@@ -183,7 +183,7 @@
     },
     {
       "condition": "[equals(parameters('telemetryOptOut'), 'No')]",
-      "apiVersion": "2020-06-01",
+      "apiVersion": "2023-07-01",
       "name": "[variables('pidDeploymentName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {

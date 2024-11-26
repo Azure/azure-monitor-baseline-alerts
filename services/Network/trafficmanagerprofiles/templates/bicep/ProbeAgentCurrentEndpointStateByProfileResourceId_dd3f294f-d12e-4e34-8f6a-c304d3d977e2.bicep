@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = '1 if an endpoint's probe status is "Enabled", 0 otherwise.'
+param alertDescription string = '1 if an endpoint's probe status is Enabled, 0 otherwise.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -124,7 +124,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
 }
 
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'
