@@ -59,6 +59,16 @@
     # execute the script without asking for confirmation before taking the configured action.
 #>
 
+# The following SuppressMessageAttribute entries are used to suppress PSScriptAnalyzer tests against known exceptions as per:
+# https://github.com/powershell/psscriptanalyzer#suppressing-rules
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False positive')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False positive')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Justification = 'Approved verbs are not available for this scenario')]
+
+# Declaring required PowerShell modules and minimal versions
+#Requires -Modules @{ ModuleName="Az.Accounts"; ModuleVersion="2.16.0" }
+#Requires -Modules @{ ModuleName="Az.Resources"; ModuleVersion="6.16.0" }
+
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
     # the pseudo managemnt group to start from
@@ -333,6 +343,7 @@ Function Delete-ALZ-PolicyAssignments($fPolicyAssignmentsToBeDeleted)
     $fPolicyAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzPolicyAssignment -Id $_ -Confirm:$false -ErrorAction Stop } | Out-Null
     Write-Host "---- Done policy assignments ..." -ForegroundColor Cyan
 }
+
 Function Delete-ALZ-PolicySetDefinitions($fPolicySetDefinitionsToBeDeleted)
 {
     # delete policy set definitions
