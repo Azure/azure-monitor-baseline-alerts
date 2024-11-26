@@ -364,17 +364,7 @@ Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
 {
     # delete role assignments
     Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-    try {
-      $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
-    }
-    catch {
-      <#Do this if a terminating exception happens to remove orphaned role assignments #>
-      foreach($managementGroup in $managementGroups) {
-        #Write-Host $managementGroup
-        Get-AzRoleAssignment -Scope $managementGroup.mgId | Where-Object ObjectType -eq "Unknown" | Remove-AzRoleAssignment | Out-Null
-        #Get-AzRoleAssignment -Scope $managementGroup.mgId | Where-Object { ($_.ObjectType -eq "Unknown") -and ($_.Description -eq "_deployed_by_amba")} | Remove-AzRoleAssignment | Out-Null
-      }
-    }
+    $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
     Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
