@@ -267,7 +267,7 @@ Function Get-ALZ-Deployments {
     # get deployments to delete
     $allDeployments = @()
     ForEach ($mg in $managementGroups) {
-        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$mg" -WarningAction silentlyContinue | where { $_.DeploymentName.StartsWith("amba-") }
+        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$($mg.mgName)" -WarningAction silentlyContinue | where { $_.DeploymentName.StartsWith("amba-") }
         $allDeployments += $deployments
     }
     Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy." -ForegroundColor Cyan
