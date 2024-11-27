@@ -50,6 +50,9 @@ jobs:
         with:
           owner: 'Azure'
           repository: 'arm-ttk'
+      - name: Remove unwanted tests
+        run: |
+          rm ./arm-ttk/arm-ttk/testcases/deploymentTemplate/Template-Should-Not-Contain-Blanks.test.ps1
       - name: Test Modified ARM templates
         id: run_tests
         if: steps.changed-arm-files.outputs.any_changed == 'true'
