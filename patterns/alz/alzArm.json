@@ -997,6 +997,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1021,6 +1024,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('identityManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1047,8 +1053,9 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('managementManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
-            ],
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+                "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+              ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -1078,6 +1085,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAServiceHealthDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1102,6 +1112,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBANotificationAssetsDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1128,8 +1141,9 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
-            ],
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+                "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+              ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -1164,7 +1178,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('platformManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1198,6 +1213,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAKeyManagementDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1222,6 +1240,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBALoadBalancingDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1246,6 +1267,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBANetworkChangesDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1270,6 +1294,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBARecoveryServicesDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1294,6 +1321,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAStorageDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
@@ -1320,7 +1350,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+                "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1356,7 +1387,8 @@
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('platformManagementGroup'))]",
             "location": "[deployment().location]",
             "dependsOn": [
-                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]"
+                "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+                "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1390,6 +1422,9 @@
             "apiVersion": "2020-10-01",
             "name": "[variables('deploymentNames').AMBAWebDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
             "location": "[deployment().location]",
             "properties": {
                 "mode": "Incremental",
