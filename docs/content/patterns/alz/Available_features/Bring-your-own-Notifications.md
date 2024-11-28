@@ -60,6 +60,6 @@ Should customers decide to switch, it will be enough to:
 - change the values in the parameter file to match one of the three cases previously discussed
 - redeploy the ALZ pattern
 - run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives
-- remove notification assets deployed by ALZ patterns using the [**Remove-AMBANotificationAssets.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Remove-AMBANotificationAssets.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
+- remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
 
-The code will reconfigure the Service Health alerts to use either the customer's action groups to the ALZ pattern notification assets according to the selected case.
+The code will also reconfigure the Service Health alerts to use either the customer's action groups to the ALZ pattern notification assets according to the selected case.

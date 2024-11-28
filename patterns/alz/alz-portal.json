@@ -272,9 +272,9 @@
               "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
               "constraints": {
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": false
+                "required": true
               },
-              "visible": false
+              "visible": true
             },
             {
               "name": "enableAMBAIdentity",
@@ -946,7 +946,7 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "['contoso-platform']",
+        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
