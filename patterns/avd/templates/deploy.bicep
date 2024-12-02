@@ -2228,8 +2228,8 @@ module automationAccount 'br/public:avm/res/automation/automation-account:0.11.0
 
 module roleAssignment_AutoAcctDesktopRead 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.1' = [
   for RG in HostPoolInfo: if (!AllResourcesSameRG) {
-    scope: resourceGroup(ResourceGroupName)
-    name: 'c_DsktpRead_${ResourceGroupName}'
+    scope: resourceGroup(split(RG.colVMResGroup, '/')[6])
+    name: 'c_DsktpRead_${split(RG.colVMResGroup, '/')[6]}'
     params: {
       enableTelemetry: false
       principalId: automationAccount.outputs.systemAssignedMIPrincipalId
