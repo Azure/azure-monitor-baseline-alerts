@@ -76,11 +76,11 @@ AMBA supports three types of activity alerts to monitor your Azure resources. Th
 | ***Product***                                                |                                                                        | Azure Monitor                                                                                                                                            | Azure Monitor, M365, D365                                                                                                                                                                       | Azure Monitor, M365, D365                                                                                                                                                          | Azure Monitor, M365, D365                                                                                                                                                                 |
 
 ---
-### What's New in AMBA:
+### What's New in AMBA
 
 Below, you'll find the latest updates and solutions we've added to enhance your experience with AMBA.
 
-**New: [Monitoring solutions for AI on Azure Platforms (PaaS) and AI Specialized Workload Patterns (GPT-RAG)](https://azure.github.io/azure-monitor-baseline-alerts/patterns/artificial-intelligence/)** 
+**New: [Monitoring solutions for AI on Azure Platforms (PaaS) and AI Specialized Workload Patterns (GPT-RAG)](https://azure.github.io/azure-monitor-baseline-alerts/patterns/artificial-intelligence/)**
 - **Details:** We've showcased new links to alert guidelines for AI on Azure platform services. Additionally, you'll discover alert guidelines for common Azure services used to build enterprise-level AI applications. We've also introduced alert settings for [GPT-RAG pattern](https://azure.github.io/azure-monitor-baseline-alerts/patterns/artificial-intelligence/rag/) setups. These settings include metrics and threshold recommendations for services involved in AI RAG pattern architectures.
 - **Benefits:** Improved monitoring and alerting for AI solutions on Azure.
 
