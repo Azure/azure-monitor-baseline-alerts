@@ -178,7 +178,7 @@
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
     query: 'Heartbeat
-      | where type == "microsoft.hybridcompute/machines"
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
       | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
       | extend Duration = datetime_diff("minute",now(),TimeGenerated)
       | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId'
