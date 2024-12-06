@@ -21,7 +21,7 @@ To use the script, follow these steps:
 2. Navigate to the root directory of the cloned repository.
 3. Set the necessary variables.
 4. Execute the remediation script.
-a
+
   {{% include "./PowerShell-ExecutionPolicy.md" %}}
 
 For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
