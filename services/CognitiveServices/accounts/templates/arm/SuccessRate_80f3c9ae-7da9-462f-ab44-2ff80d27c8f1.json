@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "##DESCRIPTION##",
+      "defaultValue": "Availability percentage with the following calculation: (Total Calls - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500.",
       "metadata": {
         "description": "Description of alert"
       }
@@ -45,7 +45,7 @@
     },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": ##SEVERITY##,
+      "defaultValue": 3,
       "allowedValues": [
         0,
         1,
@@ -59,7 +59,7 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "##OPERATOR##",
+      "defaultValue": "LessThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -73,14 +73,14 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "##THRESHOLD##",
+      "defaultValue": "100",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "##TIME_AGGREGATION##",
+      "defaultValue": "Average",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -94,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "##WINDOW_SIZE##",
+      "defaultValue": "PT5M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -112,7 +112,7 @@
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "##EVALUATION_FREQUENCY##",
+      "defaultValue": "PT1M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -144,7 +144,7 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
     "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
@@ -170,10 +170,8 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "##METRIC_NAME##",
-              "dimensions": [
-                ##DIMENSIONS##
-              ],
+              "metricName": "SuccessRate",
+              "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
               "timeAggregation": "[parameters('timeAggregation')]",

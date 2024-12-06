@@ -3,9 +3,9 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = '##DESCRIPTION##'
+param alertDescription string = 'Latency in milliseconds.'
 
-@description('array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
+@description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
 param targetResourceId array
 
@@ -27,29 +27,20 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = ##SEVERITY##
+param alertSeverity int = 2
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
+  'Equals'
   'GreaterThan'
+  'GreaterThanOrEqual'
   'LessThan'
-  'GreaterOrLessThan'
+  'LessThanOrEqual'
 ])
-param operator string = '##OPERATOR##'
+param operator string = 'GreaterThan'
 
-@description('Tunes how \'noisy\' the Dynamic Thresholds alerts will be: \'High\' will result in more alerts while \'Low\' will result in fewer alerts.')
-@allowed([
-  'High'
-  'Medium'
-  'Low'
-])
-param alertSensitivity string = '##ALERT_SENSITIVITY##'
-
-@description('The number of periods to check in the alert evaluation.')
-param numberOfEvaluationPeriods int = ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##
-
-@description('The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods).')
-param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##
+@description('The threshold value at which the alert is activated.')
+param threshold int = 90
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -59,9 +50,9 @@ param minFailingPeriodsToAlert int = ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_AL
   'Total'
   'Count'
 ])
-param timeAggregation string = '##TIME_AGGREGATION##'
+param timeAggregation string = 'Average'
 
-@description('Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format.')
+@description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([
   'PT1M'
   'PT5M'
@@ -73,16 +64,17 @@ param timeAggregation string = '##TIME_AGGREGATION##'
   'PT24H'
   'P1D'
 ])
-param windowSize string = '##WINDOW_SIZE##'
+param windowSize string = 'PT5M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
+  'PT1M'
   'PT5M'
   'PT15M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = '##EVALUATION_FREQUENCY##'
+param evaluationFrequency string = 'PT1M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -113,24 +105,20 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       'odata.type': 'Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria'
       allOf: [
         {
-          criterionType: 'DynamicThresholdCriterion'
           name: '1st criterion'
-          metricName: '##METRIC_NAME##'
-          dimensions: ##DIMENSIONS##
+          metricName: 'Latency'
+          dimensions: [[]]
           operator: operator
-          alertSensitivity: alertSensitivity
-          failingPeriods: {
-            numberOfEvaluationPeriods: numberOfEvaluationPeriods
-            minFailingPeriodsToAlert: minFailingPeriodsToAlert
-          }
+          threshold: threshold
           timeAggregation: timeAggregation
+          criterionType: 'StaticThresholdCriterion'
         }
       ]
     }
   }
 }
 
-var ambaTelemetryPidName = '##TELEMETRY_PID##-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
+var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {

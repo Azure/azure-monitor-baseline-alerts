@@ -2,7 +2,7 @@
   description: Total number of calls.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1205
@@ -23,7 +23,7 @@
     5xx).
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-1052
@@ -43,7 +43,7 @@
   description: Latency in milliseconds.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-882
@@ -64,7 +64,7 @@
     - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500.'
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-852
@@ -84,7 +84,7 @@
   description: Number of calls with service internal error (HTTP response code 5xx).
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-606
@@ -104,7 +104,7 @@
   description: Number of Inference Tokens Processed on an OpenAI Model
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-530
@@ -124,7 +124,7 @@
   description: Number of calls that exceeded rate or quota limit.
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-468
@@ -144,7 +144,7 @@
   description: Number of calls with client side error (HTTP response code 4xx).
   type: Metric
   verified: false
-  visible: false
+  visible: true
   tags:
   - auto-generated
   - agc-420
@@ -161,7 +161,7 @@
     threshold: 0.0
   guid: ec8c928a-5206-4059-8aea-8486004dd30d
 - name: ActionFeaturesIdOccurrences
-  description: NNumber of times each action feature appears.
+  description: Number of times each action feature appears.
   type: Metric
   verified: false
   visible: false
@@ -424,7 +424,7 @@
     timeAggregation: Total
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 200
+    threshold: 200.0
   guid: 995cc12a-1887-4669-92c5-70a6ca8bfe70
 - name: BaselineEstimatorOverallReward
   description: Baseline Estimator Overall Reward.
@@ -540,25 +540,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: d4666cca-c55a-4c38-9c83-35184d82dbb0
-- name: BlockedCalls
-  description: Number of calls that exceeded rate or quota limit.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: BlockedCalls
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 64af1ec3-218f-4348-a91d-101b48453477
 - name: CarnegieInferenceCount
   description: Inference Count of Carnegie Frontdoor Service.
   type: Metric
@@ -578,25 +559,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: 87cf02fd-d12a-4c8d-85b7-01f616866f8c
-- name: ClientErrors
-  description: Number of calls with client side error (HTTP response code 4xx). Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: ClientErrors
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 05d55a15-cc87-42c7-a6b1-0042e3fac3f2
 - name: ComputerVisionTransactions
   description: Number of Computer Vision Transactions.
   type: Metric
@@ -996,25 +958,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: 2b1b7563-e1ec-4f56-9caf-f2cb019bc04f
-- name: Latency
-  description: Latency in milliseconds. Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: Latency
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: d673ed33-d3f0-47b4-8270-03de31d91382
 - name: LearnedEvents
   description: Number of learned events.
   type: Metric
@@ -1528,25 +1471,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: 3984067c-1e9b-41ee-9464-1f6b2df45cea
-- name: ServerErrors
-  description: Number of calls with server side error (HTTP response code 5xx). Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: ServerErrors
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 6293ec35-7a2c-49a2-8479-84f93068872e
 - name: SlotFeatureIdOccurrences
   description: Number of times each slot feature appears.
   type: Metric
@@ -1718,25 +1642,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: 715804f2-6789-4b83-9c5f-bee2a805bbc2
-- name: SuccessRate
-  description: Availability percentage with the following calculation; (Total Calls - Server Errors)/Total Calls. Server Errors include any HTTP responses >=500. Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: SuccessRate
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: edc719b7-66cf-45cd-8fde-f153b0462c4e
 - name: SynthesizedCharacters
   description: Number of characters.
   type: Metric
@@ -1813,63 +1718,6 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
   guid: 528496f5-e701-4a9e-8b4c-c876be59c9dc
-- name: TokenTransaction
-  description: Number of inference tokens processed on an OpenAI model.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: TokenTransaction
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 2f4a4eb0-310a-4eae-ba0c-66d93fe1de6e
-- name: TotalCalls
-  description: Total number of calls. Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: TotalCalls
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 82b6364c-a0c8-4012-8ef9-f638c3132f38
-- name: TotalErrors
-  description: Total number of errors(HTTP response code 4xx or 5xx). Do not use for Azure OpenAI service.
-  type: Metric
-  verified: false
-  visible: false
-  tags:
-  - manual-ck
-  - rag
-  properties:
-    metricName: TotalErrors
-    metricNamespace: Microsoft.CognitiveServices/accounts
-    severity: 0
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 0.0
-  guid: 39d82158-fc44-41ee-9b31-602f8a069379
 - name: TotalEvents
   description: Number of events.
   type: Metric

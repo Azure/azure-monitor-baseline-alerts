@@ -9,18 +9,31 @@
         "description": "Name of the alert"
       }
     },
-    "location": {
+    "alertDescription": {
+      "type": "string",
+      "defaultValue": "Latency in milliseconds.",
+      "metadata": {
+        "description": "Description of alert"
+      }
+    },
+    "targetResourceId": {
       "type": "string",
       "minLength": 1,
       "metadata": {
-        "description": "Location of the alert"
+        "description": "List of Azure resource Ids seperated by a comma. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name"
       }
     },
-    "alertDescription": {
+    "targetResourceRegion": {
       "type": "string",
-      "defaultValue": "##DESCRIPTION##",
       "metadata": {
-        "description": "Description of alert"
+        "description": "Azure region in which target resources to be monitored are in (without spaces). For example: EastUS"
+      }
+    },
+    "targetResourceType": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Resource type of target resources to be monitored."
       }
     },
     "isEnabled": {
@@ -30,39 +43,9 @@
         "description": "Specifies whether the alert is enabled"
       }
     },
-    "checkWorkspaceAlertsStorageConfigured": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Specifies whether to check linked storage and fail creation if the storage was not found"
-      }
-    },
-    "resourceId": {
-      "type": "string",
-      "minLength": 1,
-      "metadata": {
-        "description": "Full Resource ID of the resource emitting the metric that will be used for the comparison. For example /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroups/ResourceGroupName/providers/Microsoft.compute/virtualMachines/VM_xyz"
-      }
-    },
-    "muteActionsDuration": {
-      "type": "string",
-      "allowedValues": [
-        "PT1M",
-        "PT5M",
-        "PT15M",
-        "PT30M",
-        "PT1H",
-        "PT6H",
-        "PT12H",
-        "PT24H"
-      ],
-      "metadata": {
-        "description": "Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired."
-      }
-    },
     "alertSeverity": {
       "type": "int",
-      "defaultValue": ##SEVERITY##,
+      "defaultValue": 2,
       "allowedValues": [
         0,
         1,
@@ -74,38 +57,9 @@
         "description": "Severity of alert {0,1,2,3,4}"
       }
     },
-    "autoMitigate": {
-      "type": "bool",
-      "defaultValue": ##AUTO_MITIGATE##,
-      "metadata": {
-        "description": "Specifies whether the alert will automatically resolve"
-      }
-    },
-    "query": {
-      "type": "string",
-      "minLength": 1,
-      "defaultValue": ##QUERY##,
-      "metadata": {
-        "description": "Name of the metric used in the comparison to activate the alert."
-      }
-    },
-    "metricMeasureColumn": {
-      "type": "string",
-      "defaultValue": "##METRIC_MEASURE_COLUMN##",
-      "metadata": {
-        "description": "Name of the measure column used in the alert evaluation."
-      }
-    },
-    "resourceIdColumn": {
-      "type": "string",
-      "defaultValue": "##RESOURCE_ID_COLUMN##",
-      "metadata": {
-        "description": "Name of the resource ID column used in the alert targeting the alerts."
-      }
-    },
     "operator": {
       "type": "string",
-      "defaultValue": "##OPERATOR##",
+      "defaultValue": "GreaterThan",
       "allowedValues": [
         "Equals",
         "GreaterThan",
@@ -119,28 +73,14 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "##THRESHOLD##",
+      "defaultValue": "90",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
     },
-    "numberOfEvaluationPeriods": {
-      "type": "int",
-      "defaultValue": ##FAILING_PERIODS_NUMBER_OF_EVALUATION_PERIODS##,
-      "metadata": {
-        "description": "The number of periods to check in the alert evaluation."
-      }
-    },
-    "minFailingPeriodsToAlert": {
-      "type": "int",
-      "defaultValue": ##FAILING_PERIODS_MIN_FAILING_PERIODS_TO_ALERT##,
-      "metadata": {
-        "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
-      }
-    },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "##TIME_AGGREGATION##",
+      "defaultValue": "Average",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -154,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "##WINDOW_SIZE##",
+      "defaultValue": "PT5M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -172,8 +112,9 @@
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "##EVALUATION_FREQUENCY##",
+      "defaultValue": "PT1M",
       "allowedValues": [
+        "PT1M",
         "PT5M",
         "PT15M",
         "PT30M",
@@ -203,48 +144,41 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]"
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(resourceGroup().id, parameters('alertName'), parameters('currentDateTimeUtcNow'))), 64)]",
+    "varTargetResourceId": "[split(parameters('targetResourceId'), ',')]"
   },
   "resources": [
     {
-      "type": "Microsoft.Insights/scheduledQueryRules",
-      "apiVersion": "2021-08-01",
+      "type": "Microsoft.Insights/metricAlerts",
+      "apiVersion": "2018-03-01",
       "name": "[parameters('alertName')]",
-      "location": "[parameters('location')]",
+      "location": "global",
       "tags": {
         "_deployed_by_amba": true
       },
       "properties": {
         "description": "[parameters('alertDescription')]",
+        "scopes": "[variables('varTargetResourceId')]",
+        "targetResourceType": "[parameters('targetResourceType')]",
+        "targetResourceRegion": "[parameters('targetResourceRegion')]",
         "severity": "[parameters('alertSeverity')]",
         "enabled": "[parameters('isEnabled')]",
-        "scopes": [
-          "[parameters('resourceId')]"
-        ],
         "evaluationFrequency": "[parameters('evaluationFrequency')]",
         "windowSize": "[parameters('windowSize')]",
         "criteria": {
+          "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
           "allOf": [
             {
-              "query": "[parameters('query')]",
-              "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
-              "resourceIdColumn": "[parameters('resourceIdColumn')]",
-              "dimensions": [
-                ##DIMENSIONS##
-              ],
+              "name": "1st criterion",
+              "metricName": "Latency",
+              "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
               "timeAggregation": "[parameters('timeAggregation')]",
-              "failingPeriods": {
-                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
-                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
-              }
+              "criterionType": "StaticThresholdCriterion"
             }
           ]
-        },
-        "muteActionsDuration": "[parameters('muteActionsDuration')]",
-        "autoMitigate": "[parameters('autoMitigate')]",
-        "checkWorkspaceAlertsStorageConfigured": "[parameters('checkWorkspaceAlertsStorageConfigured')]"
+        }
       }
     },
     {
