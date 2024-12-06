@@ -43,6 +43,7 @@ For convenience, assuming that the management hierarchy is fully aligned with th
 ```powershell
 # Modify the following variables to match your environment
 $pseudoRootManagementGroup = "The pseudo root management group ID parenting the identity, management and connectivity management groups"
+$platformManagementGroup = "The management group ID for Platform"
 $identityManagementGroup = "The management group ID for Identity"
 $managementManagementGroup = "The management group ID for Management"
 $connectivityManagementGroup = "The management group ID for Connectivity"
@@ -53,6 +54,8 @@ $LZManagementGroup="The management group ID for Landing Zones"
 # Run the following commands to initiate remediation
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-HybridVM
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-VM
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $identityManagementGroup -policyName Alerting-Identity
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $managementManagementGroup -policyName Alerting-Management
@@ -60,9 +63,8 @@ $LZManagementGroup="The management group ID for Landing Zones"
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-LoadBalancing
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-NetworkChanges
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-RecoveryServices
-
-.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Storage
+.\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-HybridVM
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-VM
 .\patterns\alz\scripts\Start-AMBARemediation.ps1 -managementGroupName $LZManagementGroup -policyName Alerting-Web
 ```
