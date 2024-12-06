@@ -5,57 +5,55 @@ weight: 40
 
 {{% include "parameterConfiguration.md" %}}
 
-## 3. Configuring variables for deployment
+## 3. Configuring Variables for Deployment
 
-The following steps apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
+These steps are applicable to all scenarios, whether aligned or unaligned with ALZ, or if you have a single management group.
 
-Open a PowerShell prompt and navigate to the root of the cloned repository. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
+1. Open a PowerShell prompt and navigate to the root of the cloned repository.
+2. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 
-Run the following commands:
+Execute the following commands:
 
 ```powershell
 $location = "Your Azure location of choice"
-$pseudoRootManagementGroup = "The pseudo root management group id parenting the identity, management and connectivity management groups"
+$pseudoRootManagementGroup = "The pseudo root management group ID parenting the identity, management, and connectivity management groups"
 ```
 
 {{< hint type=important >}}
-The `pseudoRootManagementGroup` variable must _match_ the value of the `parPolicyPseudoRootMgmtGroup` parameter as defined in the parameter files.
+The `pseudoRootManagementGroup` variable must match the value of the `parPolicyPseudoRootMgmtGroup` parameter as defined in the parameter files.
 
 The `location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
 
-## 4. Deploy the policy definitions, initiatives and policy assignments with default settings
+## 4. Deploy Policy Definitions, Initiatives, and Policy Assignments with Default Settings
 
-{{< hint type=Important >}}
+{{< hint type=important >}}
 Deploying through PowerShell requires authentication to Azure and the following modules:
 
 - Az.Accounts
 - Az.Resources
 
-Before starting the deployment, ensure you logged in using the Connect-AzAccount PowerShell command and that the modules above have been imported.
+Before starting the deployment, ensure you have logged in using the `Connect-AzAccount` PowerShell command and that the modules above have been imported.
 {{< /hint >}}
 
-The following steps apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
+These steps are applicable to all scenarios, whether aligned or unaligned with ALZ, or if you have a single management group.
 
 If you have closed your previous session, open a PowerShell prompt and navigate to the root of the cloned repository. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives. Then, run the following command:
 
 {{< hint type=note >}}
 For testing purposes, it is recommended to deploy in a safe environment first. When preparing for production deployment, refer to the [Customize Policy Assignment](../Customize-Policy-Assignment) guide to deploy and enable alerts in a controlled manner.
 
-If you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies), ensure that you run the deployment command using your own repository and branch in the _**-TemplateUri**_ parameter. For example:
+If you have customized the policies as described in [How to Modify Individual Policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies), ensure that you run the deployment command using your own repository and branch in the `-TemplateUri` parameter. For example:
 
-  ```PowerShell
-  New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location
-  -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json"
-  -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
-  ```
-
+```powershell
+New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+```
 {{< /hint >}}
 
 ```powershell
 New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-11-01/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
 
-## Next steps
+## Next Steps
 
-To remediate non-compliant policies, continue with [Policy remediation](../Remediate-Policies)
+To remediate non-compliant policies, continue with [Policy Remediation](../Remediate-Policies).

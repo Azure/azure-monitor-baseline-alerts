@@ -1,21 +1,21 @@
 ---
-title: PowerShell ExecutionPolicy
+title: PowerShell Execution Policy
 geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
-To run PowerShell scripts provided in the ALZ pattern, you may need to _**temporarily**_ change the execution policy if it is not set to _**Unrestricted**_. Verify the current execution policy by executing the following command:
+To execute the PowerShell scripts provided in the ALZ pattern, you may need to _**temporarily**_ modify the execution policy if it is not set to _**Unrestricted**_. Check the current execution policy by running the following command:
 
 ```PowerShell
 Get-ExecutionPolicy
 ```
 
-If the current execution policy is not set to _**Unrestricted**_, execute the following command to change it to **Unrestricted**:
+If the execution policy is not _**Unrestricted**_, change it to **Unrestricted** by running:
 
 ```PowerShell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ```
 
-After running your scripts, you may revert the execution policy to its original setting if desired.
+After executing your scripts, you can revert the execution policy to its original setting if needed.
 
 {{< /hint >}}

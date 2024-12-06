@@ -1,25 +1,25 @@
 ---
-title: Parameter configuration
+title: Parameter Configuration
 geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
-Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before proceeding.
 {{< /hint >}}
 
-## 1. Parameter configuration
+## 1. Parameter Configuration
 
-To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
+To begin, either download the appropriate parameter file for the version of AMBA-ALZ you are deploying or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-11-01/patterns/alz/alzArm.param.json) aligned to the latest release
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-11-01/patterns/alz/alzArm.param.json) for the latest release.
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group.
 
 - Modify the values of the following parameters at the beginning of the parameter file as per the instructions below:
 
   {{< hint type=note >}}
-  It is highly recommended to configure at least one notification option (email, ARM Role, Logic App, etc.) to ensure you receive alerts. While it is technically possible to proceed without any notification settings, doing so is not advised.
+  It is highly recommended to configure at least one notification option (email, ARM Role, Logic App, etc.) to ensure you receive alerts. Proceeding without any notification settings is not advised.
   {{< /hint >}}
 
   - Set the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you intend to deploy the policies and initiatives. Typically, this is the "pseudo root management group." In [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this refers to the "Intermediate Root Management Group" located directly beneath the "Tenant Root Group."
@@ -48,10 +48,6 @@ The following instructions apply universally, regardless of your alignment with 
   {{< hint type=note >}}
   You can use multiple email addresses, ARM Roles, Webhooks, or Event Hubs (though using multiple Event Hubs is not recommended as per ALZ guidance). If you set multiple entries, ensure they are entered as a single string with values separated by commas. For example:
 
-
-
-
-
   ```json
   "ALZMonitorActionGroupEmail": {
       "value": [
@@ -72,9 +68,6 @@ The following instructions apply universally, regardless of your alignment with 
       ]
   }
   ```
-
-
-
 
   {{< /hint >}}
 

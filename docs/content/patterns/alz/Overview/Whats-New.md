@@ -12,39 +12,38 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### New Features
 
-- Added a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure monitor alerts.
-- **Script consolidation**: *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1* and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* scripts have been consolidated into a single new one called [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. With this enhancement, it is now possible to remove alerts for resources which have been deletedf (orphaned alerts).
+- Introduced a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure Monitor alerts.
+- **Script Consolidation**: The scripts *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1*, and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* have been merged into a single script named [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. This enhancement allows the removal of alerts for deleted resources (orphaned alerts).
 
 ### Bug Fixes
 
-- Fixed [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensure -WhatIf parameter is honored by all scripts commands and fix hybrid disconnected alert bug
-- Fixed [[#342](https://github.com/Azure/azure-monitor-baseline-alerts/pull/342)]: Github issue link and Management Subscription Id fix
-- Fixed [[#346](https://github.com/Azure/azure-monitor-baseline-alerts/pull/346)]: Update useCommonSchema to useCommonAlertSchema in Deploy_ServiceHealth_ActionGroups and Deploy_Suppression_AlertProcessing_Rule Policy Definitions
-- Fixed [[#357](https://github.com/Azure/azure-monitor-baseline-alerts/pull/357)]: Resolve the ExpressRoute QoS remediation issue
-- Fixed [[#362](https://github.com/Azure/azure-monitor-baseline-alerts/pull/362)]: Standardization on param usage for failingPeriods and evaluationPeriods
-- Fixed [[#381](https://github.com/Azure/azure-monitor-baseline-alerts/pull/381)]: Bugged Connectivity policy initiative + override tag name case consistency + tag override documentation update
+- Resolved [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensured the -WhatIf parameter is honored by all script commands and fixed the hybrid disconnected alert bug.
+- Resolved [[#342](https://github.com/Azure/azure-monitor-baseline-alerts/pull/342)]: Fixed GitHub issue link and Management Subscription ID.
+- Resolved [[#346](https://github.com/Azure/azure-monitor-baseline-alerts/pull/346)]: Updated useCommonSchema to useCommonAlertSchema in Deploy_ServiceHealth_ActionGroups and Deploy_Suppression_AlertProcessing_Rule Policy Definitions.
+- Resolved [[#357](https://github.com/Azure/azure-monitor-baseline-alerts/pull/357)]: Fixed the ExpressRoute QoS remediation issue.
+- Resolved [[#362](https://github.com/Azure/azure-monitor-baseline-alerts/pull/362)]: Standardized parameter usage for failingPeriods and evaluationPeriods.
+- Resolved [[#381](https://github.com/Azure/azure-monitor-baseline-alerts/pull/381)]: Fixed Connectivity policy initiative, tag name case consistency, and updated tag override documentation.
 
 ### Documentation Updates
 
-- Documentation update about:
-  - Update to new releases pages now brings more clarity
-  - Update to new releases pages contain samples using the new consolidated maintenance script. [Updating to release 2024-09-02](../../HowTo/UpdateToNewReleases#2024-09-02), [Updating to release 2024-03-01](../../HowTo/UpdateToNewReleases#2024-03-01)
-  - Clarification on how to identify the pseudoRootManagementGroup as the one parenting the Platform and Landing Zones management groups.
-  - Updated AMBA diagrams. [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern)
-  - Remediation command for the ***Deploy Azure Monitor Baseline Alerts for Recovery Services*** policy initiative added to the list. [Remediate Policies](../../HowTo/deploy/Remediate-Policies)
+- Improved clarity on the 'Update to new releases' page.
+- Added examples using the new consolidated maintenance script to the 'Update to new releases' page: [Updating to release 2024-09-02](../../HowTo/UpdateToNewReleases#2024-09-02), [Updating to release 2024-03-01](../../HowTo/UpdateToNewReleases#2024-03-01).
+- Clarified identification of the pseudoRootManagementGroup as the parent of the Platform and Landing Zones management groups.
+- Updated AMBA diagrams in the [Introduction to deploying the ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) section.
+- Added remediation command for the ***Deploy Azure Monitor Baseline Alerts for Recovery Services*** policy initiative to the [Remediate Policies](../../HowTo/deploy/Remediate-Policies) list.
 
 ### Tools
 
 - **Automation:**
-  - Removed the previous workflow that automates the process of creating ARM templates for Azure Policies/ PolicySets because of a security issue.
-  - New workflow to ensure policy updates and to verify the Bicep build has been run by the contributor.
+  - Removed the previous workflow that automated the creation of ARM templates for Azure Policies/PolicySets due to a security issue.
+  - Introduced a new workflow to ensure policy updates and verify the Bicep build has been run by the contributor.
 
 ## 2024-09-02
 
 ### New Features
 
-- **AMBA Portal Accelerator**: Introducing the Azure Monitor Baseline Alerts Accelerator, now in preview! Deploy alerts quickly and confidently through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
-- **Modular Initiatives**: The former Landing Zone Initiative is deprecated. We now offer a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
+- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
+- **Modular Initiatives**: Deprecated the former Landing Zone Initiative in favor of a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
   - Key Management
   - Load Balancing
@@ -54,46 +53,46 @@ To update your deployment with the latest release, refer to the [Update to new r
   - VM
   - Web
 
-- **Threshold Override**: Adjust alert thresholds for specific resources using a tag. This feature is available for metrics and log alerts. Learn more: [Alert Threshold Override](../../HowTo/Threshold-Override).
+- **Threshold Override**: Allows adjustment of alert thresholds for specific resources using a tag. This feature is available for metrics and log alerts. Learn more: [Alert Threshold Override](../../HowTo/Threshold-Override).
 
 - **Custom Tags to Disable Monitoring**: Specify a tag name and values to disable monitoring for certain resources.
 
-- New alert rule for Azure Key Vault Managed HSM, included in Identity and Key Management initiatives.
-- New Daily Cap threshold alert for Log Analytics workspace, added to the Management initiative.
-- New Application Insight Throttling alert, included in the Web initiative.
-- New ActivityLog Alert for deleting Application Insight, added to the Web initiative.
-- Ability to change Application Gateway dynamic alert sensitivity.
+- Added new alert rules for Azure Key Vault Managed HSM, included in Identity and Key Management initiatives.
+- Added a new Daily Cap threshold alert for Log Analytics workspace, included in the Management initiative.
+- Added a new Application Insight Throttling alert, included in the Web initiative.
+- Added a new ActivityLog Alert for deleting Application Insight, included in the Web initiative.
+- Enabled changing Application Gateway dynamic alert sensitivity.
 
 - **Deprecated** the Landing Zone Initiative.
 
 ### Bug Fixes
 
-- Fixed [[#280](https://github.com/Azure/azure-monitor-baseline-alerts/issues/280)]: AGW Compute Units Alert and AGW Unhealthy Host Count Alert remain non-compliant after remediation.
-- Fixed [[#278](https://github.com/Azure/azure-monitor-baseline-alerts/issues/278)]: Deploy VNetG ExpressRoute CPU Utilization Alert remediation fails.
-- Fixed [[#284](https://github.com/Azure/azure-monitor-baseline-alerts/issues/284)]: AMBA policy ALZ_ServiceHealth_ActionGroups missing during remediation.
-- Fixed [[#253](https://github.com/Azure/azure-monitor-baseline-alerts/issues/253)]: Older version used in documentation.
-- Fixed [[#261](https://github.com/Azure/azure-monitor-baseline-alerts/issues/261)]: Display name VMLowOSDisk(Write/Read)LatencyAlert should be VMHighOSDisk(Write/Read)LatencyAlert.
-- Fixed [[#260](https://github.com/Azure/azure-monitor-baseline-alerts/issues/260)]: No threshold parameter for ALZ alerts ALZ_WSFMemoryPercentage, ALZ_WSFCPUPercentage.
+- Resolved [[#280](https://github.com/Azure/azure-monitor-baseline-alerts/issues/280)]: Fixed AGW Compute Units Alert and AGW Unhealthy Host Count Alert non-compliance after remediation.
+- Resolved [[#278](https://github.com/Azure/azure-monitor-baseline-alerts/issues/278)]: Fixed Deploy VNetG ExpressRoute CPU Utilization Alert remediation failure.
+- Resolved [[#284](https://github.com/Azure/azure-monitor-baseline-alerts/issues/284)]: Fixed missing AMBA policy ALZ_ServiceHealth_ActionGroups during remediation.
+- Resolved [[#253](https://github.com/Azure/azure-monitor-baseline-alerts/issues/253)]: Updated older version used in documentation.
+- Resolved [[#261](https://github.com/Azure/azure-monitor-baseline-alerts/issues/261)]: Corrected display name VMLowOSDisk(Write/Read)LatencyAlert to VMHighOSDisk(Write/Read)LatencyAlert.
+- Resolved [[#260](https://github.com/Azure/azure-monitor-baseline-alerts/issues/260)]: Added threshold parameter for ALZ alerts ALZ_WSFMemoryPercentage, ALZ_WSFCPUPercentage.
 - Fixed casing in metadata and policies.
 - Fixed default values for multiple parameters in VM and Hybrid initiatives.
 
 ### Documentation Updates
 
-- Added new policies for ExpressRoute Ports to Connectivity table. [Policy Initiatives](../../Getting-started/Policy-Initiatives).
+- Added new policies for ExpressRoute Ports to the Connectivity table. [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 - Updated documentation on unsupported/unrecommended Tenant Root Group deployment. [FAQ](../../Resources/FAQ).
-- New guidance for bringing your own Managed Identity. [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-Your-Own-User-Assigned-Managed-Identity).
+- Provided new guidance for bringing your own Managed Identity. [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-Your-Own-User-Assigned-Managed-Identity).
 - Updated Policy Initiatives documentation to include Policy Reference ID and display names. [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
 ### Tools
 
-- **Automation**: New workflow automates ARM template creation for Azure Policies/PolicySets, triggered by pull request events.
+- **Automation**: Introduced a new workflow to automate ARM template creation for Azure Policies/PolicySets, triggered by pull request events.
 
 ## 2024-06-05
 
 ### New Features
 
 - Added new PIDs for additional deployment methods. See [Disable telemetry tracking](../../HowTo/Telemetry) for more information.
-- New initiative to monitor Azure Arc-enabled Virtual Machines. [Alerting-HybridVM](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json).
+- Introduced a new initiative to monitor Azure Arc-enabled Virtual Machines. [Alerting-HybridVM](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/policySetDefinitions/Deploy-HybridVM-Alerts.json).
 
 ### Bug Fixes
 
@@ -142,12 +141,12 @@ To update your deployment with the latest release, refer to the [Update to new r
   - Webhook
 - Service health initiative now has its own Action Group.
 - Added [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative.
-- New policy for Storage Account Deletion. [Issue #76](https://github.com/Azure/azure-monitor-baseline-alerts/issues/76).
-- Updated remediation script for better experience with new action group for Service Health.
+- Introduced a new policy for Storage Account Deletion. [Issue #76](https://github.com/Azure/azure-monitor-baseline-alerts/issues/76).
+- Updated remediation script for better experience with the new action group for Service Health.
 
 ### Bug Fixes
 
-- Fixed: unable to deploy via pipeline using ubuntu-latest. [Issue #64](https://github.com/Azure/azure-monitor-baseline-alerts/issues/64).
+- Resolved: unable to deploy via pipeline using ubuntu-latest. [Issue #64](https://github.com/Azure/azure-monitor-baseline-alerts/issues/64).
 - Fixed PIP VIP alert existence condition to check only for standard SKU. [Issue #80](https://github.com/Azure/azure-monitor-baseline-alerts/issues/80).
 
 ### Documentation Updates
@@ -178,4 +177,5 @@ To update your deployment with the latest release, refer to the [Update to new r
 - How to modify individual policies - [How to modify individual policies](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern/#how-to-modify-individual-policies).
 - Added guidance for Server Health alert rules - [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts).
 - New documentation on updating to a new release - [Update to new releases](../../HowTo/UpdateToNewReleases).
-- FAQ Updates - [Frequently Asked Questions](../../Resources//FAQ).
+- FAQ Updates - [Frequently Asked Questions](../../Resources/FAQ).
+

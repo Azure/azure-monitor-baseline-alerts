@@ -1,9 +1,9 @@
 ---
-title: Moving from preview to GA
+title: Transitioning from Preview to General Availability (GA)
 geekdocCollapseSection: true
 weight: 101
 ---
-When transitioning from the preview version to the General Availability (GA) version, it is necessary to remove all resources deployed by the ALZ Monitor solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all such resources, including:
+To transition from the preview version to the General Availability (GA) version of the ALZ Monitor solution, you must remove all previously deployed resources. Follow these instructions to execute a PowerShell script that deletes the following resources:
 
 - Metric Alerts
 - Activity Log Alerts
@@ -14,15 +14,15 @@ When transitioning from the preview version to the General Availability (GA) ver
 - Action Groups
 - Alert Processing Rules
 
-All resources deployed by the initial ALZ Monitor deployment, as well as those created dynamically by 'deploy if not exist' policies, are tagged, marked in metadata, or described (depending on resource capabilities) with `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is crucial for the cleanup script to identify and remove the resources. If this metadata has been altered or removed, the cleanup script will not recognize those resources for deletion.
+All resources deployed by the ALZ Monitor solution, including those created dynamically by 'deploy if not exist' policies, are tagged or marked with `_deployed_by_alz_monitor` or `_deployed_by_alz_monitor=True`. This metadata is essential for the cleanup script to identify and remove the resources. If this metadata has been altered or removed, the script will not recognize those resources for deletion.
 
 ## Cleanup Script Execution
 
 {{< hint type=Important >}}
-It is strongly advised to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
+It is strongly recommended to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 {{< /hint >}}
 
-### Download the script file
+### Download the Script File
 
 Follow these steps to download the cleanup script file. Alternatively, you can clone the repository from GitHub and ensure you have the latest version by fetching the `main` branch.
 
@@ -42,13 +42,13 @@ Follow these steps to download the cleanup script file. Alternatively, you can c
 
   {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-  **Generate a list of the resource IDs which would be deleted by this script:**
+  **Generate a list of the resource IDs that would be deleted by this script:**
 
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -ReportOnly
   ```
 
-  **Show output of what would happen if deletes executed:**
+  **Show output of what would happen if deletes were executed:**
 
   ```powershell
   ./Start-ALZMonitorCleanup.ps1 -WhatIf
@@ -60,7 +60,7 @@ Follow these steps to download the cleanup script file. Alternatively, you can c
   ./Start-ALZMonitorCleanup.ps1 -Force
   ```
 
-## Next steps
+## Next Steps
 
 - For customizing policy assignments, refer to [Customize Policy Assignment](../../HowTo/deploy/Customize-Policy-Assignment).
 - For deployment using GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).

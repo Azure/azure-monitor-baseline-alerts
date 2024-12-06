@@ -26,9 +26,9 @@ The deployment code includes conditions that control the deployment behavior bas
 
 A. ***Use your own AGs with the AMBA APR***:
 
-- Does not deploy the AMBA SH AG
-- Deploys the AMBA APR with the customer's AGs
-- Deploys SH alerts pointing to the customer's AGs
+- Does not deploy the AMBA SH AG.
+- Deploys the AMBA APR with the customer's AGs.
+- Deploys SH alerts pointing to the customer's AGs.
 
 Example parameter file for this scenario:
 
@@ -36,8 +36,8 @@ Example parameter file for this scenario:
 
 B. ***Use your own AGs and APR***:
 
-- Does not deploy any AMBA notification AG or APR assets or AMBA SH AG
-- Deploys SH alerts pointing to the customer's AGs
+- Does not deploy any AMBA notification AG or APR assets or AMBA SH AG.
+- Deploys SH alerts pointing to the customer's AGs.
 
 Example parameter file for this scenario:
 
@@ -57,9 +57,9 @@ The [conditional deployment behavior](../Bring-your-own-Notifications#conditiona
 
 To switch, customers need to:
 
-- Update the parameter file to match one of the three scenarios discussed
-- Redeploy the ALZ pattern
-- Run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives
-- Remove notification assets deployed by ALZ patterns using the [**Remove-AMBANotificationAssets.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Remove-AMBANotificationAssets.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
+- Update the parameter file to match one of the three scenarios discussed.
+- Redeploy the ALZ pattern.
+- Run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives.
+- Remove notification assets deployed by ALZ patterns using the [**Remove-AMBANotificationAssets.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Remove-AMBANotificationAssets.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_).
 
 The code will reconfigure the Service Health alerts to use either the customer's action groups or the ALZ pattern notification assets based on the selected scenario.

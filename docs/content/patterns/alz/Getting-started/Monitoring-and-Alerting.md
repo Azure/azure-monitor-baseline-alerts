@@ -6,17 +6,17 @@ weight: 20
 
 ## AMBA-ALZ Monitor Alert Approach
 
-The overall strategy for enabling alerts in AMBA-ALZ pattern involves using Azure Policy to deploy relevant alerts as resources are created, configuring action groups, and then using Alert Processing Rules to activate alerts and link them to the action group.
+The strategy for enabling alerts in the AMBA-ALZ pattern involves using Azure Policy to deploy alerts as resources are created, configuring action groups, and using Alert Processing Rules to activate alerts and link them to the action group.
 
-There are two main principles/approaches to enabling alerting in AMBA-ALZ pattern :
+There are two main approaches to enabling alerting in the AMBA-ALZ pattern:
 
 ### Centralized
 
-In a **centralized** alerting approach, a single Action Group is used for all alerts, which means a unified alerting email (distribution group) address or other configured actions.
+In a **centralized** alerting approach, a single Action Group is used for all alerts, resulting in a unified alerting email (distribution group) address or other configured actions.
 
-Metric alerts are deployed with resources in the same resource group, while platform alerts like Service Health and Activity are created in a dedicated resource group within a subscription typically located in the Management platform management group. A single Alert Action Group in this subscription is configured with a central alerting email address and Alert Processing Rules in order to enable filters and connect alerts to the Alert Action Group.
+Metric alerts are deployed with resources in the same resource group, while platform alerts like Service Health and Activity are created in a dedicated resource group within a subscription, typically located in the Management platform management group. A single Alert Action Group in this subscription is configured with a central alerting email address and Alert Processing Rules to enable filters and connect alerts to the Alert Action Group.
 
-For example, in the context of AMBA-ALZ pattern, a single centralised action group is deployed in the "rg-amba-monitoring-001" resource group within a subscription in the Management platform management group.
+For example, in the AMBA-ALZ pattern, a single centralized action group is deployed in the "rg-amba-monitoring-001" resource group within a subscription in the Management platform management group.
 
 ### Decentralized
 
@@ -24,20 +24,20 @@ In a **decentralized** approach, each subscription has a dedicated Action Group,
 
 Metric alerts are deployed with resources in the same resource group, while platform alerts such as Service Health and Activity are created in a dedicated resource group for each subscription. Alert Action Groups are established in each landing zone subscription, allowing different operational areas and landing zone subscriptions to have distinct alerting email addresses (e.g., networking, identity, operations, workloads) or other supported actions. Alert Processing Rules are created to enable filters and connect alerts to the Action Groups.
 
-For example, in the context of AMBA-ALZ pattern , a graphic representation of the flow is provided below.
+For example, in the AMBA-ALZ pattern, a graphic representation of the flow is provided below.
 
 ![ALZ alerting](../../media/AMBA-focused-rg-alz-monitor-alert-flow.png)
 
 ### AMBA-ALZ Approach
 
-In AMBA-ALZ pattern, a decentralized approach is adopted to provide maximum flexibility in directing alerts. For more information review [What are Azure Monitor Alerts?](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview).
+In the AMBA-ALZ pattern, a decentralized approach is adopted to provide maximum flexibility in directing alerts. For more information, review [What are Azure Monitor Alerts?](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview).
 
 - Each subscription will have a single Action Group, allowing customers to configure specific actions per subscription, such as different email addresses or other supported actions.
 - Alert Processing Rules will target the Action Group in the subscription where the alert originated.
 
-As this is a work in progress, the initial configuration provided by AMBA-ALZ will set up all Action Groups with the same email distribution group/address through Azure Policy. Future updates may include alternative or additional actions, such as configuring different email distribution groups based on the subscription, service, or workload owners.
+Initially, AMBA-ALZ will set up all Action Groups with the same email distribution group/address through Azure Policy. Future updates may include alternative or additional actions, such as configuring different email distribution groups based on the subscription, service, or workload owners.
 
-AMBA-ALZ Alerts, Action Groups and Alert Processing Rules are deployed using Azure Policy defined in the platform native Azure Policy JSON format.
+AMBA-ALZ Alerts, Action Groups, and Alert Processing Rules are deployed using Azure Policy defined in the platform native Azure Policy JSON format.
 
 ## AMBA-ALZ Pattern Monitor Alert Policy Definitions
 
@@ -67,14 +67,13 @@ Log alerts are scoped at the subscription level. For policies to remediate and d
 
 Service and resource health events are recorded in the activity log, allowing us to create a subset of activity log alerts that notify on health events. These alerts are scoped to each subscription and include four separate alerts for each of the service health categories: Incident, Planned Maintenance, Security Advisories, and Health Advisories.
 
-
 A resource health alert will be generated for any resource that enters an unavailable or degraded state, whether platform or user-initiated. We will disregard the unknown state to avoid erroneous alerting.
 
 ## AMBA-ALZ Monitor Alert Processing Rules
 
 [Alert Processing Rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-processing-rules) enable the filtering of alerts and assign alerts to the appropriate action groups based on filter criteria.
 
-As this is currently a work in progress, for AMBA-ALZ we will implement a single Action Group per subscription, and deploy a single Alert Processing Rule without filters to manage alerts via the Action Group. This approach may be revised in the future.
+For AMBA-ALZ, we will implement a single Action Group per subscription and deploy a single Alert Processing Rule without filters to manage alerts via the Action Group. This approach may be revised in the future.
 
 We still need to investigate appropriate filters for Alert Processing Rules for optimal alert processing.
 
@@ -82,7 +81,7 @@ Available filters:
 
 - Alert condition
 - Alert context (payload)
-- Alert rule id
+- Alert rule ID
 - Alert name
 - Description
 - Monitor service
@@ -102,28 +101,29 @@ Azure Backup now provides new and improved alerting capabilities via Azure Monit
 
 ```json
 {
-    "effect": "[[parameters('effect')]",
-    "details": {
-        "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-        ],
-        "conflictEffect": "audit",
-        "operations": [
-            {
-                "operation": "addOrReplace",
-                "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations",
-                "value": "Disabled"
-            },
-            {
-                "operation": "addOrReplace",
-                "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures",
-                "value": "Enabled"
-            }
-        ]
-    }
+  "effect": "[[parameters('effect')]",
+  "details": {
+    "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    ],
+    "conflictEffect": "audit",
+    "operations": [
+      {
+        "operation": "addOrReplace",
+        "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations",
+        "value": "Disabled"
+      },
+      {
+        "operation": "addOrReplace",
+        "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures",
+        "value": "Enabled"
+      }
+    ]
+  }
 }
 ```
 
 ### Notifications
 
 While alerts are generated by default and cannot be disabled for destructive operations, users have control over the notifications. This allows you to specify the email addresses (or other notification endpoints) to which alerts should be routed. Notifications are configured by an alert processing rule, which is created by default when deploying the AMBA-ALZ pattern.
+

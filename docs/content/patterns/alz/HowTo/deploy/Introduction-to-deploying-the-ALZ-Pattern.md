@@ -38,7 +38,7 @@ Alerts, action groups, and alert processing rules are created as follows:
 While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
 {{< /hint >}}
 
-## Getting started
+## Getting Started
 
 - Fork this repository to your own GitHub organization. Do not create a direct clone of the repository, as pull requests from direct clones will not be accepted.
 - Clone the repository from your GitHub organization to your local development environment.
@@ -50,7 +50,7 @@ While it is recommended to implement the alert policies and initiatives within a
   - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
   - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
-### Determining your management group hierarchy
+### Determining your Management Group Hierarchy
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 
@@ -137,11 +137,11 @@ The following image illustrates an example of how the assignments appear when ut
 
 ![Management group structure - single](../../../media/alz-management-groups-single.png)
 
-## Customizing policy assignments
+## Customizing Policy Assignments
 
 For instructions on customizing policy and initiative assignments, please refer to [Customize Policy Assignment](../Customize-Policy-Assignment).
 
-## Customizing the AMBA-ALZ policies
+## Customizing the AMBA-ALZ Policies
 
 We encourage customers and partners to tailor the policies to meet their specific needs and requirements. Customize the policies in your local copies to align with your design preferences.
 
@@ -149,7 +149,7 @@ If you need to include additional thresholds, metrics, or activity log alerts be
 
 You can then deploy this customized policy into your environment to achieve the desired functionality.
 
-### How to modify individual policies
+### How to Modify Individual Policies
 
 Policy files are located in the `services` directory. This directory contains baseline alert definitions, guidance, and example deployment scripts. The structure is organized by resource category (e.g., Compute) and then by resource type (e.g., virtualMachines). The example folder structure below shows the location of individual policy files:
 
@@ -195,7 +195,7 @@ If you have suggestions or feature requests, consider submitting a pull request.
 
 In certain situations, you may need to remove all resources deployed by the AMBA-ALZ solution. For detailed instructions on how to clean up an AMBA-ALZ deployment, refer to the [Cleaning up an AMBA-ALZ Deployment](../../Cleaning-up-a-Deployment) guide.
 
-## Next steps
+## Next Steps
 
 - For instructions on customizing policy assignments, refer to [Customize Policy Assignment](../Customize-Policy-Assignment).
 - For deploying using Azure Portal UI, refer to [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI).
