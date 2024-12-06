@@ -25,8 +25,8 @@ Table below shows the Alerts configured after the deployment.
 | Percentage CPU >= 85                                       | 85 (1)                                     | Log Analytics           | 5 min     | Default        |
 | Percentage CPU >= 75                                       | 75 (2)                                     | Log Analytics           | 5 min     | Default        |
 | VmAvailabilityMetric < 1                                   | < 1 (0)                                    | Log Analytics           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 95                | 95 (0)                                     | Log Analytics           | 5 min     | Default        |
-| OS Disk Bandwidth Consumed Percentage >= 90                | 90 (1)                                     | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage > 95                | 95 (0)                                     | Log Analytics           | 5 min     | Default        |
+| OS Disk Bandwidth Consumed Percentage > 90                | 90 (1)                                     | Log Analytics           | 5 min     | Default        |
 | Available Memory Bytes < 500000000                         | < 500000000 (1)                            | Log Analytics           | 5 min     | Default        |
 | VM cached Bandwidth Consumed Percentage > 95               | 95 (2)                                     | Log Analytics           | 5 min     | Default        |
 | VM cached Bandwidth Consumed Percentage > 85               | 85 (2)                                     | Log Analytics           | 5 min     | Default        |
