@@ -1,4 +1,6 @@
 ---
-title: Azure Landing Zones
+title: Overview
 geekdocCollapseSection: true
+weight: 10
 ---
+

@@ -1,0 +1,545 @@
+- name: Hybrid Machine Data Disk Read Latency Alert
+  description: Log Alert for Hybrid Machine Data Disk Read Latency
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 25
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ("C:", "/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Data Disk Read Latency Alert
+    template: Deploy-Hybrid-VM-DataDiskReadLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 6aff7331-001f-4ee6-b5d2-1fc43b18b7de
+- name: Hybrid Machine Data Disk Free Space Percentage Alert
+  description: Log Alert for Hybrid Machine Data Disk Free Space Percentage
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk"and Name == "FreeSpacePercentage"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ("C:","/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer,_ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Data Disk Free Space Percentage Alert
+    template: Deploy-Hybrid-VM-DataDiskSpace-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 2030d931-6431-4134-9a03-106ebb83cb2d
+- name: Hybrid Machine Data Disk Write Latency Alert
+  description: Log Alert for Hybrid Machine Data Disk Write Latency (ms)
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 25
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk !in ("C:","/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated,15m), Computer, _ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor hybrid virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Data Disk Write Latency Alert
+    template: Deploy-Hybrid-VM-DataDiskWriteLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: c4226730-ae59-4607-bddc-03b91dad1c4b
+- name: Hybrid Machine Heartbeat Alert
+  description: Log Alert for Hybrid Machine Heartbeat
+  type: Log
+  verified: false
+  visible: true
+  properties:
+    severity: 1
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'Heartbeat
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId
+      | extend Duration = datetime_diff("minute",now(),TimeGenerated)
+      | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine HeartBeat Alert for all Machines in the subscription
+    template: Deploy-Hybrid-VM-HeartBeat-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 7ade7362-3df1-4ad2-a000-78fa7b3d9b27
+- name: Hybrid Machine Network Read Alert
+  description: Log Alert for Hybrid Machine Network Read (bytes/sec)
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10000000
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Network" and Name == "ReadBytesPerSecond"
+      | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Nework Read (bytes/sec) Alert
+    template: Deploy-Hybrid-VM-NetworkIn-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 5e223d13-112e-4f84-82ba-e03a76f6350f
+- name: Hybrid Machine Network Write Alert
+  description: Log Alert for Hybrid Machine Network Write (bytes/sec)
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10000000
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Network" and Name == "WriteBytesPerSecond"
+      | extend NetworkInterface=tostring(todynamic(Tags)["vm.azm.ms/networkDeviceId"])
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Network Write (bytes/sec) Alert
+    template: Deploy-Hybrid-VM-NetworkOut-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: bb1969d8-eaa2-45b6-bd9f-09348b1ee346
+- name: Hybrid Machine OS Disk Read Latency Alert
+  description: Log Alert for Hybrid Machine Data OS Read Latency (ms)
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 25
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "ReadLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk in ("C:","/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine OS Disk Read Latency Alert
+    template: Deploy-Hybrid-VM-OSDiskReadLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 4b62cf77-069b-42a3-9608-8cd585a640f1
+- name: Hybrid Machine OS Disk Free Space Percentage
+  description: Log Alert for Hybrid Machine OS Disk Free Space Percentage
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk in ("C:","/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine OS Disk Free Space Percentage Alert
+    template: Deploy-Hybrid-VM-OSDiskSpace-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 6a96dc94-674f-4a9c-830e-a0a4f7383646
+- name: Hybrid Machine OS Disk Write Latency (ms)
+  description: Log Alert for Hybrid Machine OS Disk Write Latency (ms)
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 25
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    - name: Disk
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "LogicalDisk" and Name == "WriteLatencyMs"
+      | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"])
+      | where Disk in ("C:","/")
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine OS Disk Write Latency Alert
+    template: Deploy-Hybrid-VM-OSDiskWriteLatency-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 50ee79d0-a321-4217-8f5b-b096654ad1ce
+- name: Hybrid Machine Processor Utilization Percentage
+  description: Log Alert for Hybrid Machine Processor Utilization Percentage
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: GreaterThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 85
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Processor" and Name == "UtilizationPercentage"
+      | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Processor Utilization Percentage Alert
+    template: Deploy-Hybrid-VM-PercentCPU-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 639014b8-0ac6-4ae1-a887-bb3979669287
+- name: Hybrid Machine Available Memory Percentage
+  description: Log Alert for Hybrid Machine Available Memory Percentage
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  properties:
+    severity: 2
+    operator: LessThan
+    timeAggregation: Average
+    windowSize: PT15M
+    evaluationFrequency: PT5M
+    threshold: 10
+    metricMeasureColumn: AggregatedValue
+    resouceIdColumn: _ResourceId
+    dimensions:
+    - name: Computer
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'InsightsMetrics
+      | where _ResourceId has "Microsoft.HybridCompute/machines"
+      | where Origin == "vm.azm.ms"
+      | where Namespace == "Memory" and Name == "AvailableMB"
+      | extend TotalMemory = toreal(todynamic(Tags)["vm.azm.ms/memorySizeMB"])
+      | extend AvailableMemoryPercentage = (toreal(Val) / TotalMemory) * 100.0
+      | summarize AggregatedValue = avg(AvailableMemoryPercentage) by bin(TimeGenerated,15m), Computer, _ResourceId'
+    autoMitigate: true
+    autoResolve: true
+    autoResolveTime: 0:10:00
+  references:
+  - name: 'Monitor virtual machines with Azure Monitor: Alerts'
+    url: https://learn.microsoft.com/en-us/azure/azure-monitor/vm/monitor-virtual-machine-alerts#common-alert-rules
+  deployments:
+  - name: Deploy Hybrid Machine Available Memory Percentage Alert
+    template: Deploy-Hybrid-VM-PercentMemory-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Subscription
+      multiResource: false
+  guid: 67300599-c61e-48d2-b47d-979b2254d494
