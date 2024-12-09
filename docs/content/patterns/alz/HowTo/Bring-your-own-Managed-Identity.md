@@ -1,7 +1,7 @@
 ---
 title: Bring Your Own User Assigned Managed Identity
 geekdocCollapseSection: true
-weight: 95
+weight: 80
 ---
 
 ## Overview
