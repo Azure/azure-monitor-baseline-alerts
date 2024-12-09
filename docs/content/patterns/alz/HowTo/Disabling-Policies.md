@@ -52,7 +52,7 @@ If "allOf" evaluates to true, the policy effect is satisfied, and deployment doe
 
 1. Set AlertState to "false" for relevant policies via command line or parameter file.
 2. Deploy the policies and assignments.
-3. Identify non-compliant policies based on alerts to be disabled. Remediate these policies through the portal or use the script at [patterns/alz/scripts/Start-AMBARemediation](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBARemediation.ps1).
+3. Identify non-compliant policies based on alerts to be disabled. Remediate these policies through the portal or use the script at [patterns/alz/scripts/Start-AMBA-ALZ-Remediation](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Remediation.ps1).
 
 Note: This approach disables alerts but does not delete them. Delete alerts manually if needed. Ensure successful remediation before engaging PolicyEffect to avoid deploying new alerts.
 
