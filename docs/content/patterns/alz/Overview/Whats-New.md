@@ -8,6 +8,30 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
+## 2024-12-10
+
+### New Features
+
+- Assignment of VM and Hybrid VM initiatives to Platform MG.
+- Faster deployment thanks to both template and ARM engine improvements.
+
+### Bug Fixes
+
+- Resolved [[#400](https://github.com/Azure/azure-monitor-baseline-alerts/pull/400)]: Fix for log alerts policy remediation not working when ALZMonitorDisableTagName parameter value contains dashes.
+
+### Documentation Updates
+
+- Improved navigation for the ALZ pattern content by restructuring the menu.
+- Improved spelling and grammar for the ALZ pattern content.
+- Updated the ***Introduction to deploying the AMBA-ALZ Pattern*** page with the new Platform Management Group assignment for both **VM initiative** and **Hybrid VM initiative**.
+- Updated broken links.
+
+### Tools
+
+- **Automation:**
+  - Created workflow to assign issues to the relevant owner based on labels.
+  - Added GitHub action to validate yml schemas.
+
 ## 2024-11-01
 
 ### New Features
@@ -178,4 +202,3 @@ To update your deployment with the latest release, refer to the [Update to new r
 - Added guidance for Server Health alert rules - [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts).
 - New documentation on updating to a new release - [Update to new releases](../../HowTo/UpdateToNewReleases).
 - FAQ Updates - [Frequently Asked Questions](../../Resources/FAQ).
-

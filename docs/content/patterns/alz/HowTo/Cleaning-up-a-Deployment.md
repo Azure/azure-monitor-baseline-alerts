@@ -1,7 +1,7 @@
 ---
 title: Clean-up AMBA-ALZ Deployment
 geekdocCollapseSection: true
-weight: 70
+weight: 52
 ---
 
 In some cases, you may need to remove all resources deployed by the AMBA-ALZ solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all deployed resources, including:
