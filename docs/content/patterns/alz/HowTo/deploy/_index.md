@@ -1,5 +1,5 @@
 ---
-title: Deploying the ALZ pattern
+title: Deploy the AMBA-ALZ pattern
 geekdocCollapseSection: true
 weight: 50
 ---

@@ -6,7 +6,7 @@ weight: 71
 
 ## What is included in the latest release
 
-The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://github.com/Azure/azure-monitor-baseline-alerts) repository.
+The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://aka.ms/amba/repo) repository.
 
 On the center-right side of the page, there's a specific section indicating the latest release. Click on the release number to see the release content.
 
@@ -73,7 +73,7 @@ Within the code editor of your choice, make sure you pull the changes from your 
 
 Check the content of the page corresponding to the release you are updating to, to see if there's any pre or post deployment action required. For instance, if you're updating to release **2024-04-12**, check the page called ***Updating to release 2024-04-12***
 
-  ![Updating from release](../media/UpdatingToRelease.png)
+  ![Updating from release](../../media/UpdatingToRelease.png)
 
 ### Update the parameter file with any new parameter and configuration
 
@@ -84,6 +84,7 @@ For this reason, based on what documented in the [What's new](../../Overview/Wha
 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
 
+- To deploy with Azure Portal, please proceed with [Deploy via the Azure Portal (Preview)](../deploy/Deploy-via-Azure-Portal-UI)  (recommended method)
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
 - To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
@@ -92,5 +93,3 @@ Once you reached this stage, you are ready to deploy the latest release. You can
 ### Start the policy remediation (always required)
 
 To remediate non-compliant policies, continue with Policy remediation documented at [Remediate Policies](../deploy/Remediate-Policies)
-
-[Back to top of page](.)
