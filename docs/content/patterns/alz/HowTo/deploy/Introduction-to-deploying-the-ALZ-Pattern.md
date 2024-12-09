@@ -193,7 +193,7 @@ If you have suggestions or feature requests, consider submitting a pull request.
 
 ## Cleaning up an AMBA-ALZ Deployment
 
-In certain situations, you may need to remove all resources deployed by the AMBA-ALZ solution. For detailed instructions on how to clean up an AMBA-ALZ deployment, refer to the [Cleaning up an AMBA-ALZ Deployment](../../Cleaning-up-a-Deployment) guide.
+In certain situations, you may need to remove all resources deployed by the AMBA-ALZ solution. For detailed instructions on how to clean up an AMBA-ALZ deployment, refer to the [Clean up an AMBA-ALZ Deployment](../../Cleaning-up-a-Deployment) guide.
 
 ## Next Steps
 
