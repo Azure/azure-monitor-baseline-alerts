@@ -69,7 +69,7 @@ weight: 100
 >
 > ### Cause
 >
-> When attempting to deploy to a different region, such as "uksouth", after a previous deployment in another region, an error may occur. This issue persists even after performing a cleanup (refer to [Cleaning up a Deployment](../../HowTo/Cleaning-up-a-Deployment) for more details). The error arises because deployment entries from the previous operation still exist, causing a region conflict that prevents the new deployment.
+> When attempting to deploy to a different region, such as "uksouth", after a previous deployment in another region, an error may occur. This issue persists even after performing a cleanup (refer to [Clean-up AMBA-ALZ Deployment](../../HowTo/Cleaning-up-a-Deployment) for more details). The error arises because deployment entries from the previous operation still exist, causing a region conflict that prevents the new deployment.
 >
 > ### Resolution
 >

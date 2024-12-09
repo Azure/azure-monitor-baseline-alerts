@@ -80,7 +80,7 @@ Details on contributing to this repository can be found in the [Contributor Guid
 
 When you deploy the IP located in this repository, Microsoft can identify the installation with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
-If you do not wish to send usage data to Microsoft or need more details, refer to the [Disable telemetry tracking](../../Howto/Telemetry) guide.
+If you do not wish to send usage data to Microsoft or need more details, refer to the [Disable telemetry tracking](./../../../../Howto/Telemetry) guide.
 
 ## Trademarks
 

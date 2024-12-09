@@ -6,7 +6,7 @@ weight: 85
 
 ## Overview
 
-The ***Alert Threshold Override*** feature, introduced in the [2024-09-05 release](../../Whats-New#2024-09-05), enables both Greenfield and Brownfield customers to customize alert thresholds for specific resources during or after the deployment of AMBA-ALZ. This feature allows the use of a tag with a specific name and value to override the default alert threshold for designated resources. The new threshold value will apply exclusively to the tagged resources, replacing the global threshold specified in the parameter file.
+The ***Alert Threshold Override*** feature, introduced in the [2024-09-05 release](../../Overview/Whats-New#2024-09-05), enables both Greenfield and Brownfield customers to customize alert thresholds for specific resources during or after the deployment of AMBA-ALZ. This feature allows the use of a tag with a specific name and value to override the default alert threshold for designated resources. The new threshold value will apply exclusively to the tagged resources, replacing the global threshold specified in the parameter file.
 
 ## How this feature works
 
