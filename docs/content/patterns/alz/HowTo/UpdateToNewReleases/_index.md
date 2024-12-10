@@ -1,7 +1,7 @@
 ---
 title: Update to new releases
 geekdocCollapseSection: true
-weight: 71
+weight: 51
 ---
 
 ## What is included in the latest release
