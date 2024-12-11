@@ -43,7 +43,7 @@ param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = 'InsightsMetrics | where Origin == "vm.azm.ms" | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage" | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"]) | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk '
+param query string = 'InsightsMetrics | where Origin == "vm.azm.ms" | where Namespace == "LogicalDisk" and Name == "FreeSpacePercentage" | extend Disk=tostring(todynamic(Tags)["vm.azm.ms/mountId"]) | where Disk in (\'C:\',\'/\') | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk '
 
 @description('Name of the measure column used in the alert evaluation.')
 param metricMeasureColumn string = 'AggregatedValue'
@@ -162,7 +162,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
 }
 
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

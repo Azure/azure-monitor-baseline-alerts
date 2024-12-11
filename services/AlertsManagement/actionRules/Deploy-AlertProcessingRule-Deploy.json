@@ -8,7 +8,7 @@
     "displayName": "Deploy AMBA Notification Assets",
     "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -265,7 +265,7 @@
                       "name": "AlzLA-0",
                       "resourceId": "[[if(empty(parameters('ALZLogicappResourceId')), null(), trim(parameters('ALZLogicappResourceId')))]",
                       "callbackUrl": "[[if(empty(parameters('ALZLogicappCallbackUrl')), null(), trim(parameters('ALZLogicappCallbackUrl')))]",
-                      "useCommonSchema": true
+                      "useCommonAlertSchema": true
                     }
                   ],
                   "varAzureFunctionReceivers": [
@@ -285,7 +285,7 @@
                       "input": {
                         "name": "[[concat('AlzMail-', indexOf(parameters('ALZMonitorActionGroupEmail'), parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')]))]",
                         "emailAddress": "[[trim(parameters('ALZMonitorActionGroupEmail')[copyIndex('varEmailReceivers')])]",
-                        "useCommonSchema": true
+                        "useCommonAlertSchema": true
                       }
                     },
                     {
@@ -295,7 +295,7 @@
                       "input": {
                         "name": "[[concat('AlzARM-', indexOf(parameters('ALZArmRoleId'), parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
                         "roleId": "[[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
-                        "useCommonSchema": true
+                        "useCommonAlertSchema": true
                       }
                     },
                     {

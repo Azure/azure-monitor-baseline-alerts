@@ -211,6 +211,16 @@
                 }
               ],
               "visible": true
+            },
+            {
+              "name": "feedbackSection",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": true,
+              "options": {
+                "text": "If you have any feedback, please use the following link: https://aka.ms/amba/issues",
+                "uri": "https://aka.ms/amba/issues",
+                "style": "Info"
+              }
             }
           ]
         },
@@ -262,9 +272,9 @@
               "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
               "constraints": {
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": false
+                "required": true
               },
-              "visible": false
+              "visible": true
             },
             {
               "name": "enableAMBAIdentity",
@@ -923,7 +933,7 @@
         "bringYourOwnUserAssignedManagedIdentity": "[steps('basics').bringYourOwnUserAssignedManagedIdentity]",
         "bringYourOwnUserAssignedManagedIdentityResourceId": "[steps('basics').bringYourOwnUserAssignedManagedIdentityResourceId]",
         "userAssignedManagedIdentityName": "[steps('basics').userAssignedManagedIdentityName]",
-        "managementSubscriptionId": "[steps('basics').managementSubscriptionId]",
+        "managementSubscriptionId": "[if(equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No'), steps('basics').managementSubscriptionId, '')]",
         "ALZArmRoleId": "[steps('Notification').ALZArmRoleId]",
         "ALZEventHubResourceId": "[steps('Notification').ALZEventHubResourceId]",
         "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
@@ -936,7 +946,7 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "['contoso-platform']",
+        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
