@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
     "description": "This initiative deploys Notification Assets for Azure Monitor Baseline Alerts. This includes the setup of an Alert Processing Rule and an Action Group to manage notifications and actions, along with a Notification Suppression Rule to manage alert notifications, as well as a Notification Suppression Rule to control alert notifications.",
     "metadata": {
-      "version": "1.3.1",
+      "version": "1.4.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -126,6 +126,14 @@
         },
         "defaultValue": ""
       },
+      "ALZProcessingRuleNameSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Alert Processing Rule Name Suffix",
+          "description": "Name of the Alert Processing Rule  and actionGroup suffix"
+        },
+        "defaultValue": "-001"
+      },
       "ALZAlertSeverity": {
         "type": "Array",
         "metadata": {
@@ -194,6 +202,9 @@
           },
           "ALZFunctionTriggerUrl": {
             "value": "[[parameters('ALZFunctionTriggerUrl')]"
+          },
+          "ALZProcessingRuleNameSuffix": {
+            "value": "[[parameters('ALZProcessingRuleNameSuffix')]"
           },
           "ALZAlertSeverity": {
             "value": "[[parameters('ALZAlertSeverity')]"

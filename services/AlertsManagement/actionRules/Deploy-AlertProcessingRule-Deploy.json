@@ -35,14 +35,6 @@
           "_deployed_by_amba": true
         }
       },
-      "ALZProcessingRuleNameSuffix": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Alert Processing Rule Name Suffix",
-          "description": "Name of the Alert Processing Rule  and actionGroup suffix"
-        },
-        "defaultValue": "-001"
-      },
       "ALZMonitorResourceGroupLocation": {
         "type": "String",
         "metadata": {
@@ -115,6 +107,28 @@
         },
         "defaultValue": ""
       },
+      "ALZProcessingRuleNameSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Alert Processing Rule Name Suffix",
+          "description": "Name of the Alert Processing Rule  and actionGroup suffix"
+        },
+        "defaultValue": "-001"
+      },
+      "ALZAlertSeverity": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Alert Severities for Alert Processing Rule",
+          "description": "Severity of the alerts to apply action groups. Will apply to all severities if not specified."
+        },
+        "defaultValue": [
+          "Sev0",
+          "Sev1",
+          "Sev2",
+          "Sev3",
+          "Sev4"
+        ]
+      },
       "BYOActionGroup": {
         "type": "array",
         "metadata": {
@@ -130,20 +144,6 @@
           "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment"
         },
         "defaultValue": ""
-      },
-      "ALZAlertSeverity": {
-        "type": "Array",
-        "metadata": {
-          "displayName": "Alert Severities for Alert Processing Rule",
-          "description": "Severity of the alerts to apply action groups. Will apply to all severities if not specified."
-        },
-        "defaultValue": [
-          "Sev0",
-          "Sev1",
-          "Sev2",
-          "Sev3",
-          "Sev4"
-        ]
       },
       "MonitorDisableTagName": {
         "type": "String",
@@ -200,8 +200,6 @@
                 "field": "Microsoft.AlertsManagement/actionRules/description",
                 "equals": "[[concat('apr-AMBA-', subscription().displayName, parameters('ALZProcessingRuleNameSuffix'))]"
               }
-            
-           
             ]
           },
           "deployment": {
@@ -247,6 +245,9 @@
                   },
                   "ALZFunctionTriggerUrl": {
                     "type": "String"
+                  },
+                  "ALZAlertProcessingRuleNameSuffix": {
+                    "type": "string"
                   },
                   "ALZAlertSeverity": {
                     "type": "Array"
@@ -385,6 +386,9 @@
                           "ALZFunctionTriggerUrl": {
                             "type": "string"
                           },
+                          "ALZAlertProcessingRuleNameSuffix": {
+                            "type": "string"
+                          },
                           "ALZAlertSeverity": {
                             "type": "Array"
                           },
@@ -441,10 +445,6 @@
                                   "values": "[[parameters('ALZAlertSeverity')]"
                                 }
                               ],
-
-
-
-                              
                               "enabled": true,
                               "actions": [
                                 {
@@ -463,7 +463,6 @@
                         "ALZProcessingRuleNameSuffix": {
                           "value": "[[parameters('ALZProcessingRuleNameSuffix')]"
                         },
-                  
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
                         },
@@ -487,6 +486,9 @@
                         },
                         "ALZFunctionTriggerUrl": {
                           "value": "[[parameters('ALZFunctionTriggerUrl')]"
+                        },
+                        "ALZAlertProcessingRuleNameSuffix":{
+                          "value": "[[parameters('ALZProcessingRuleNameSuffix')]"
                         },
                         "ALZAlertSeverity": {
                           "value": "[[parameters('ALZAlertSeverity')]"
@@ -539,7 +541,10 @@
                 "ALZFunctionTriggerUrl": {
                   "value": "[[parameters('ALZFunctionTriggerUrl')]"
                 },
-               "ALZAlertSeverity": {
+                "ALZAlertProcessingRuleNameSuffix":{
+                  "value": "[[parameters('ALZProcessingRuleNameSuffix')]"
+                },
+                "ALZAlertSeverity": {
                   "value": "[[parameters('ALZAlertSeverity')]"
                 },
                 "BYOActionGroup": {
