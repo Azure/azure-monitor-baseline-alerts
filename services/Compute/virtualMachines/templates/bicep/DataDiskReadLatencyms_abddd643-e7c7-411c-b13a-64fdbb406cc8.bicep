@@ -62,7 +62,7 @@ param resourceIdColumn string = '_ResourceId'
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 30
+param threshold int = 25
 
 @description('The number of periods to check in the alert evaluation.')
 param numberOfEvaluationPeriods int = 1
@@ -162,7 +162,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
 }
 
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
-resource ambaTelemetryPid 'Microsoft.Resources/deployments@2020-06-01' =  if (telemetryOptOut == 'No') {
+resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
   tags: {
     _deployed_by_amba: 'true'

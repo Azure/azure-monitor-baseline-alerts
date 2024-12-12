@@ -64,8 +64,8 @@
               "name": "getLocations",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
-                  "method": "GET",
-                  "path": "locations?api-version=2019-11-01"
+                "method": "GET",
+                "path": "locations?api-version=2019-11-01"
               }
             },
             {
@@ -76,11 +76,11 @@
               "toolTip": "Specify the location for said resource group",
               "defaultValue": "[steps('basics').resourceScope.location.displayName]",
               "constraints": {
-                  "allowedValues": "[map(steps('basics').getLocations.value,(item) => parse(concat('{\"label\":\"',item.displayName,'\",\"value\":\"',item.name,'\"}')))]",
-                  "required": true
+                "allowedValues": "[map(steps('basics').getLocations.value,(item) => parse(concat('{\"label\":\"',item.displayName,'\",\"value\":\"',item.name,'\"}')))]",
+                "required": true
               },
               "visible": true
-          },
+            },
             {
               "name": "bringYourOwnUserAssignedManagedIdentity",
               "type": "Microsoft.Common.DropDown",
@@ -160,63 +160,68 @@
               }
             },
             {
-              "name": "tags",
-              "type": "Microsoft.Common.TextBlock",
-              "visible": true,
-              "required": true,
-              "options": {
-                "text": "Resource Group Tags",
-                "link": {
-                  "label": "Resource Group Tags Documentation",
-                  "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/deploy/Deploy-with-Azure-PowerShell/#1-parameter-configuration"
-                }
-              }
-            },
-            {
               "name": "ALZMonitorResourceGroupTags",
-              "type": "Microsoft.Common.TagsByResource",
-              "resources": [
-                "Microsoft.Resources/subscriptions/resourceGroups"
-              ]
+              "type": "Microsoft.Common.TextBox",
+              "label": "Resource Group Tags",
+              "toolTip": "Provide the tags for the resource group for Azure Monitor Baseline Alerts. Tags are name/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups.",
+              "visible": true,
+              "placeholder": "{\"_deployed_by_amba\": \"true\"}",
+              "defaultValue": "",
+              "constraints": {
+                "required": false,
+                "regex": "",
+                "validationMessage": "",
+                "validations": []
+              }
             },
             {
               "name": "cuaSection",
               "type": "Microsoft.Common.Section",
               "label": "Telemetry Tracking Using Customer Usage Attribution (PID)",
               "elements": [
-                  {
-                      "name": "cuaSettingsInfo",
-                      "type": "Microsoft.Common.InfoBox",
-                      "visible": true,
-                      "options": {
-                          "text": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more.",
-                          "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
-                          "style": "Info"
-                      }
-                  },
-                  {
-                      "name": "telemetryOptOut",
-                      "type": "Microsoft.Common.OptionsGroup",
-                      "visible": true,
-                      "label": "Customer Usage Selection Options",
-                      "defaultValue": "Enabled",
-                      "constraints": {
-                          "allowedValues": [
-                              {
-                                  "label": "Enabled",
-                                  "value": "No"
-                              },
-                              {
-                                  "label": "Disabled",
-                                  "value": "Yes"
-                              }
-                          ],
-                          "required": true
-                      }
+                {
+                  "name": "cuaSettingsInfo",
+                  "type": "Microsoft.Common.InfoBox",
+                  "visible": true,
+                  "options": {
+                    "text": "Microsoft can identify the deployments of the Azure Resource Manager templates with the deployed Azure resources. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft's privacy policies, located at the trust center. Visit this link to find out more.",
+                    "uri": "https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Telemetry/",
+                    "style": "Info"
                   }
+                },
+                {
+                  "name": "telemetryOptOut",
+                  "type": "Microsoft.Common.OptionsGroup",
+                  "visible": true,
+                  "label": "Customer Usage Selection Options",
+                  "defaultValue": "Enabled",
+                  "constraints": {
+                    "allowedValues": [
+                      {
+                        "label": "Enabled",
+                        "value": "No"
+                      },
+                      {
+                        "label": "Disabled",
+                        "value": "Yes"
+                      }
+                    ],
+                    "required": true
+                  }
+                }
               ],
               "visible": true
-          }
+            },
+            {
+              "name": "feedbackSection",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": true,
+              "options": {
+                "text": "If you have any feedback, please use the following link: https://aka.ms/amba/issues",
+                "uri": "https://aka.ms/amba/issues",
+                "style": "Info"
+              }
+            }
           ]
         },
         {
@@ -267,9 +272,9 @@
               "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
               "constraints": {
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": false
+                "required": true
               },
-              "visible": false
+              "visible": true
             },
             {
               "name": "enableAMBAIdentity",
@@ -569,6 +574,20 @@
               "visible": true
             },
             {
+              "name": "LandingZoneManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Landing Zone Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
+            },
+            {
               "name": "enableAMBAServiceHealth",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Service Health",
@@ -683,13 +702,15 @@
               "name": "ALZMonitorActionGroupEmail",
               "type": "Microsoft.Common.TextBox",
               "label": "Email contact for action group notifications",
-              "toolTip": "Provide Email address to get email notifications from alerts.It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.",
+              "toolTip": "Provide the email address(es) for the action group used for monitoring.",
               "visible": "[equals(steps('Notification').NotificationOption,'No')]",
+              "placeholder": "[\"example1@contoso.com\",\"example2@contoso.com\"]",
               "defaultValue": "",
               "constraints": {
                 "required": false,
-                "regex": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
-                "validationMessage": "Please provide a valid email"
+                "regex": "",
+                "validationMessage": "",
+                "validations": []
               }
             },
             {
@@ -698,11 +719,13 @@
               "label": "Webhook Service Uri",
               "toolTip": "The URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.",
               "visible": "[equals(steps('Notification').NotificationOption,'No')]",
+              "placeholder": "[\"http://example.com/\"]",
               "defaultValue": "",
               "constraints": {
                 "required": false,
                 "regex": "",
-                "validationMessage": ""
+                "validationMessage": "",
+                "validations": []
               }
             },
             {
@@ -757,7 +780,7 @@
                 "method": "POST",
                 "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "resources | where type =~ 'microsoft.logic/workflows' | project label=tostring(name), description=id, value=id | order by label asc"
+                  "query": "resources | where type =~ 'microsoft.logic/workflows' or (type =~ 'Microsoft.Web/sites' and kind =~ 'functionapp,workflowapp') | project label=tostring(name), description=id, value=id | order by label asc"
                 }
               }
             },
@@ -910,7 +933,7 @@
         "bringYourOwnUserAssignedManagedIdentity": "[steps('basics').bringYourOwnUserAssignedManagedIdentity]",
         "bringYourOwnUserAssignedManagedIdentityResourceId": "[steps('basics').bringYourOwnUserAssignedManagedIdentityResourceId]",
         "userAssignedManagedIdentityName": "[steps('basics').userAssignedManagedIdentityName]",
-        "managementSubscriptionId": "[steps('basics').managementSubscriptionId]",
+        "managementSubscriptionId": "[if(equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No'), steps('basics').managementSubscriptionId, '')]",
         "ALZArmRoleId": "[steps('Notification').ALZArmRoleId]",
         "ALZEventHubResourceId": "[steps('Notification').ALZEventHubResourceId]",
         "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
@@ -923,10 +946,11 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "['contoso-platform']",
+        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(equals(steps('Configuration').enableAMBAManagement, 'No'), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
+        "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
         "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule.id]",
         "deployAMBAPortalAccelerator": "Yes",

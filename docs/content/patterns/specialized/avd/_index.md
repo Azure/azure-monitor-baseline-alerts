@@ -7,15 +7,15 @@ geekdocCollapseSection: true
 
 This solution provides a baseline of alerts for AVD that are disabled by default and for ensuring administrators and staff get meaningful and timely alerts when there are problems related to an AVD deployment. The deployment has been tested in Azure Global and Azure US Government and will incorporate storage alerts for either or both Azure Files and/or Azure Netapp Files.  This solution initially was part of the Azure Virtual Desktop Solution Accelerator as a brownfield and moved to this location.
 
-**Current Version:**  
-v2.1.5 (Dec 5, 2023)
+**Current Version:**
+v2.1.7 (Dec 10, 2024)
 
 ## Alerts Table
 
 Table below shows the Alert Names however the number of alert rules created may be multiple based on different severity and/or additional volume or storage name designators. For example, a deployment with a single Azure Files Storage Account and an Azure NetApp Files Volume would yield 20 alert rules created. [(Excel Table)](https://github.com/Azure/azure-monitor-baseline-alerts/raw/main/docs/static/img/Avd/alerts.xlsx)
 
 | Name                                                                      | Threshold(s) (Severity)    |  Signal Type   |  Frequency    |  # Alert Rules |
-|---                                                                        |---                         |---             |---            |---  
+|---                                                                        |---                         |---             |---            |---          |
 | AVD-HostPool-Capacity (1.)                                                | 95% (1) / 85% (2) / 50% (3)| Log Analytics  |  5 min        |  3/hostpool |
 | AVD-HostPool-Disconnected User over n Hours (hostpoolname)                | 24 (1) / 72 (2)            | Log Analytics  |  1 hour       |  2/hostpool |
 | AVD-HostPool-No Resources Available (hostpoolname)                        | Any are Sev1               | Log Analytics  |  15 min       |  1/hostpool |
@@ -43,10 +43,10 @@ Table below shows the Alert Names however the number of alert rules created may 
 | AVD-ServiceHealth-Security                                                | na                         | Service Health |  na           |   4  |
 | AVD-ServiceHealth-Service Issue                                           | na                         | Service Health |  na           |   4  |
 
-**NOTES:**  
-1. Alert based on associated Automation Account / Runbook  
-2. See the following for custom condition. Note that both Standard and Premium values are incorporated into the alert rule. ['How to create an alert if a file share is throttled'](https://docs.microsoft.com/azure/storage/files/storage-troubleshooting-files-performance#how-to-create-an-alert-if-a-file-share-is-throttled)  
-Service Health - The alert severity cannot be set or changed from 'Verbose'  
+**NOTES:**
+1. Alert based on associated Automation Account / Runbook
+2. See the following for custom condition. Note that both Standard and Premium values are incorporated into the alert rule. ['How to create an alert if a file share is throttled'](https://docs.microsoft.com/azure/storage/files/storage-troubleshooting-files-performance#how-to-create-an-alert-if-a-file-share-is-throttled)
+Service Health - The alert severity cannot be set or changed from 'Verbose'
 
 ## 📣Feedback 📣
 
