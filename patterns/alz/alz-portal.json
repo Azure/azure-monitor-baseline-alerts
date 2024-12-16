@@ -32,7 +32,7 @@
                 "method": "POST",
                 "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | where properties.managementGroupAncestorsChain contains \"{0}\" | project label=tostring(name) , description=id, value=subscriptionId | order by label asc', steps('basics').resourceScope.managementGroup.name)]"
+                  "query": "resourcecontainers| where type == 'microsoft.resources/subscriptions'| project label=tostring(name) , description=id, value=subscriptionId | order by label asc"
                 }
               }
             },
@@ -142,7 +142,7 @@
               "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No')]",
               "multiselect": false,
               "defaultValue": "",
-              "filter": true,
+              "filter": false,
               "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
               "constraints": {
                 "allowedValues": "[steps('basics').getmanagementSubscriptionId.data]"
@@ -239,6 +239,21 @@
               }
             },
             {
+              "name": "enterpriseScaleCompanyPrefix",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enterprise Scale Company Management Group",
+              "multiselect": false,
+              "defaultValue": "[steps('basics').resourceScope.managementGroup.name]",
+              "filter": false,
+              "defaultDescription": "Enterprise Scale Company Management Group",
+              "toolTip": "Management group where you wish to deploy the policies and the initiatives. This is usually the so called “pseudo root management group”, this would be the so called “Intermediate Root Management Group” (directly beneath the “Tenant Root Group”).",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": true
+            },
+            {
               "name": "ManagementGroupAPI",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
@@ -247,39 +262,16 @@
               }
             },
             {
-              "name": "DescendantManagementGroupAPI",
-              "type": "Microsoft.Solutions.ArmApiControl",
-              "request": {
-                "method": "GET",
-                "path": "[format('providers/Microsoft.Management/managementGroups/{0}/descendants?api-version=2020-05-01',steps('basics').resourceScope.managementGroup.name)]"
-              }
-            },
-            {
-              "name": "enterpriseScaleCompanyPrefix",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Enterprise Scale Company Management Group",
-              "multiselect": false,
-              "defaultValue": "[steps('basics').resourceScope.managementGroup.displayName]",
-              "filter": false,
-              "defaultDescription": "Enterprise Scale Company Management Group",
-              "toolTip": "Management group where you wish to deploy the policies and the initiatives. This is usually the so called “pseudo root management group”, this would be the so called “Intermediate Root Management Group” (directly beneath the “Tenant Root Group”).",
-              "constraints": {
-                "allowedValues": "[filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"value\":\"', item.name, '\"}'))), (item) => equals(item.label, steps('basics').resourceScope.managementGroup.displayName))]",
-                "required": true
-              },
-              "visible": true
-            },
-            {
               "name": "platformManagementGroup",
               "type": "Microsoft.Common.DropDown",
               "label": "Platform Management Group",
               "multiselect": false,
-              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
-              "filter": true,
+              "defaultValue": "",
+              "filter": false,
               "defaultDescription": "Platform Management Group",
               "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
               "constraints": {
-                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
               "visible": true
@@ -310,11 +302,11 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Identity Management Group",
               "multiselect": false,
-              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
-              "filter": true,
+              "defaultValue": "",
+              "filter": false,
               "toolTip": "Provide the name of the Management Group that will be used to host the identity resources.",
               "constraints": {
-                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
               "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
@@ -345,11 +337,11 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Management Management Group",
               "multiselect": false,
-              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
-              "filter": true,
+              "defaultValue": "",
+              "filter": false,
               "toolTip": "Provide the name of the Management Group that will be used to host the management resources.",
               "constraints": {
-                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
               "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
@@ -380,11 +372,11 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Connectivity Management Group",
               "multiselect": false,
-              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
-              "filter": true,
+              "defaultValue": "",
+              "filter": false,
               "toolTip": "Provide the name of the Management Group that will be used to host the connectivity resources.",
               "constraints": {
-                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
               "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
@@ -536,7 +528,7 @@
             {
               "name": "enableAMBAVM",
               "type": "Microsoft.Common.DropDown",
-              "label": "Enable AMBA Azure VM",
+              "label": "Enable AMBA VM",
               "subLabel": "",
               "defaultValue": "Yes",
               "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.",
@@ -586,11 +578,11 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Landing Zone Management Group",
               "multiselect": false,
-              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
-              "filter": true,
+              "defaultValue": "",
+              "filter": false,
               "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
               "constraints": {
-                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
               "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
@@ -956,7 +948,7 @@
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
         "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
-        "managementManagementGroup": "[if(empty(steps('Configuration').managementManagementGroup), 'contoso-management', steps('Configuration').managementManagementGroup)]",
+        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
         "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
