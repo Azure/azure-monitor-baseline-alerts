@@ -263,17 +263,44 @@
               }
             },
             {
-              "name": "platformManagementGroup",
+              "name": "enableAMBAServiceHealth",
               "type": "Microsoft.Common.DropDown",
-              "label": "Platform Management Group",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "defaultDescription": "Platform Management Group",
-              "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
+              "label": "Enable AMBA Service Health",
+              "defaultValue": "Yes",
+              "toolTip": "Assign Service health initiative",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": true
+                "required": true,
+                "allowedValues": [
+                  {
+                    "label": "Yes",
+                    "value": "Yes"
+                  },
+                  {
+                    "label": "No",
+                    "value": "No"
+                  }
+                ]
+              },
+              "visible": true
+            },
+            {
+              "name": "enableAMBAConnectivity",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Connectivity",
+              "defaultValue": "Yes",
+              "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Connectivity policy initiative is assigned to the Connectivity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+              "constraints": {
+                "required": true,
+                "allowedValues": [
+                  {
+                    "label": "Yes",
+                    "value": "Yes"
+                  },
+                  {
+                    "label": "No",
+                    "value": "No"
+                  }
+                ]
               },
               "visible": true
             },
@@ -299,20 +326,6 @@
               "visible": true
             },
             {
-              "name": "IdentityManagementGroup",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Identity Management Group",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "toolTip": "Provide the name of the Management Group that will be used to host the identity resources.",
-              "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": true
-              },
-              "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
-            },
-            {
               "name": "enableAMBAManagement",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Management",
@@ -334,25 +347,12 @@
               "visible": true
             },
             {
-              "name": "managementManagementGroup",
+              "name": "enableAMBAHybridVM",
               "type": "Microsoft.Common.DropDown",
-              "label": "Management Management Group",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "toolTip": "Provide the name of the Management Group that will be used to host the management resources.",
-              "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": true
-              },
-              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
-            },
-            {
-              "name": "enableAMBAConnectivity",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Enable AMBA Connectivity",
+              "label": "Enable AMBA Hybrid VM",
+              "subLabel": "",
               "defaultValue": "Yes",
-              "toolTip": "If 'Yes' is selected the Deploy Azure Monitor Baseline Alerts for Connectivity policy initiative is assigned to the Connectivity management group. This will ensure that relevant new resources created within that scope are configured with appropriate baseline alerts. For more details on what is included in the initiative please refer to https://aka.ms/amba/alz/wiki under Azure Policy Initiatives and Alert Details.",
+              "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers",
               "constraints": {
                 "required": true,
                 "allowedValues": [
@@ -364,31 +364,19 @@
                     "label": "No",
                     "value": "No"
                   }
-                ]
+                ],
+                "validations": []
               },
+              "infoMessages": [],
               "visible": true
             },
             {
-              "name": "connectivityManagementGroup",
+              "name": "enableAMBAVM",
               "type": "Microsoft.Common.DropDown",
-              "label": "Connectivity Management Group",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "toolTip": "Provide the name of the Management Group that will be used to host the connectivity resources.",
-              "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": true
-              },
-              "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
-            },
-            {
-              "name": "enableAMBAHybridVM",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Enable AMBA Hybrid VM",
+              "label": "Enable AMBA Azurure VM",
               "subLabel": "",
               "defaultValue": "Yes",
-              "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers",
+              "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.",
               "constraints": {
                 "required": true,
                 "allowedValues": [
@@ -527,30 +515,6 @@
               "visible": true
             },
             {
-              "name": "enableAMBAVM",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Enable AMBA VM",
-              "subLabel": "",
-              "defaultValue": "Yes",
-              "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.",
-              "constraints": {
-                "required": true,
-                "allowedValues": [
-                  {
-                    "label": "Yes",
-                    "value": "Yes"
-                  },
-                  {
-                    "label": "No",
-                    "value": "No"
-                  }
-                ],
-                "validations": []
-              },
-              "infoMessages": [],
-              "visible": true
-            },
-            {
               "name": "enableAMBAWeb",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Web",
@@ -575,41 +539,6 @@
               "visible": true
             },
             {
-              "name": "LandingZoneManagementGroup",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Landing Zone Management Group",
-              "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
-              "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
-              "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
-                "required": true
-              },
-              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
-            },
-            {
-              "name": "enableAMBAServiceHealth",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Enable AMBA Service Health",
-              "defaultValue": "Yes",
-              "toolTip": "Assign Service health initiative",
-              "constraints": {
-                "required": true,
-                "allowedValues": [
-                  {
-                    "label": "Yes",
-                    "value": "Yes"
-                  },
-                  {
-                    "label": "No",
-                    "value": "No"
-                  }
-                ]
-              },
-              "visible": true
-            },
-            {
               "name": "enableAMBANotificationAssets",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Notification Assets",
@@ -629,6 +558,77 @@
                 ]
               },
               "visible": true
+            },
+            {
+              "name": "platformManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Platform Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "defaultDescription": "Platform Management Group",
+              "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": true
+            },
+            {
+              "name": "connectivityManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Connectivity Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the connectivity resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
+            },
+            {
+              "name": "IdentityManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Identity Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the identity resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
+            },
+            {
+              "name": "managementManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Management Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the management resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
+            },
+            {
+              "name": "LandingZoneManagementGroup",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Landing Zone Management Group",
+              "multiselect": false,
+              "defaultValue": "",
+              "filter": false,
+              "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
+              "constraints": {
+                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "required": true
+              },
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
             }
           ]
         },
