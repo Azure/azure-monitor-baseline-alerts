@@ -26,7 +26,7 @@
               "instanceDetailsLabel": "AMBA Accelerator"
             },
             {
-              "name": "getmanagementSubscriptionId",
+              "name": "getSubscriptionIds",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
@@ -145,7 +145,7 @@
               "filter": false,
               "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
               "constraints": {
-                "allowedValues": "[steps('basics').getmanagementSubscriptionId.data]",
+                "allowedValues": "[steps('basics').getSubscriptionIds.data]",
                 "required": "[if(equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No'), true, false)]"
               }
             },
@@ -572,7 +572,7 @@
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
-              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
+							"visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
             },
             {
               "name": "connectivityManagementGroup",
