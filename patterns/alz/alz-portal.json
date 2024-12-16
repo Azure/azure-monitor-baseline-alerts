@@ -572,7 +572,7 @@
                 "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
                 "required": true
               },
-              "visible": true
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
             },
             {
               "name": "connectivityManagementGroup",
