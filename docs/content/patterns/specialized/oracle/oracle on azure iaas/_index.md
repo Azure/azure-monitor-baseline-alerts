@@ -5,12 +5,10 @@ geekdocCollapseSection: true
 
 ## Overview
 
-Monitoring Oracle on Azure IaaS allows for timely actions towards performance, reliability and security nd improves these. 
-This solution helps in setting up the right Azure Monitor alerts for your utilization on the virtual machines and disks. Action owners will receive email notifications if utilization metrics exceeds set threshold.
+Monitoring Oracle on Azure IaaS enables timely actions to enhance performance, reliability, and security. This solution helps set up appropriate Azure Monitor alerts for virtual machine and disk utilization. Action owners will receive email notifications if utilization metrics exceed the set thresholds.
 
-{{< hint type=note >}}
-Please do not operate Oracle on Azure IaaS solutions outside the thresholds provided below. If you ignore alerts for the threshold values below performance degradation appear. Following if thresholds are exceeded an always available database cannot be guaranteed.
-{{< /hint >}}
+> [!NOTE]
+> Please adhere to the thresholds provided below when operating Oracle on Azure IaaS solutions. Ignoring alerts for these threshold values may lead to performance degradation and compromise the availability of the database
 
 **Current Version:**
 v0 (Dec 6, 2024)
