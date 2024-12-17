@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts - Notification Assets",
     "description": "This initiative deploys Notification Assets for Azure Monitor Baseline Alerts. This includes the setup of an Alert Processing Rule and an Action Group to manage notifications and actions, along with a Notification Suppression Rule to manage alert notifications, as well as a Notification Suppression Rule to control alert notifications.",
     "metadata": {
-      "version": "1.3.1",
+      "version": "1.4.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -126,6 +126,28 @@
         },
         "defaultValue": ""
       },
+      "ALZNotificationAssetSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Notification Asset Name Suffix",
+          "description": "Suffix for Alert Processing Rule and Action Group names"
+        },
+        "defaultValue": "-001"
+      },
+      "ALZAlertSeverity": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Alert Severities for Alert Processing Rule",
+          "description": "Severity of the alerts to apply action groups. Will apply to all severities if not specified."
+        },
+        "defaultValue": [
+          "Sev0",
+          "Sev1",
+          "Sev2",
+          "Sev3",
+          "Sev4"
+        ]
+      },
       "BYOActionGroup": {
         "type": "array",
         "metadata": {
@@ -180,6 +202,12 @@
           },
           "ALZFunctionTriggerUrl": {
             "value": "[[parameters('ALZFunctionTriggerUrl')]"
+          },
+          "ALZNotificationAssetSuffix": {
+            "value": "[[parameters('ALZNotificationAssetSuffix')]"
+          },
+          "ALZAlertSeverity": {
+            "value": "[[parameters('ALZAlertSeverity')]"
           },
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
