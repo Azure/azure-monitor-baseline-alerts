@@ -20,6 +20,15 @@
 							}
 						},
 						{
+							"name": "infoMessagePrereqs",
+							"type": "Microsoft.Common.InfoBox",
+							"visible": true,
+							"options": {
+								"text": "This page is for the Subscription and region to deploy the Alerts Solution in. The next page will prompt for alternate subscriptions for Log Analytics if it is NOT within this subscription. You will need to ensure you are deploying with an Account that has full Owner over the Resource Group with this resource to allow the proper role assignments for the Automation Account!",
+								"style": "Warning"
+							}
+						},
+						{
 							"name": "HostPoolsApi",
 							"type": "Microsoft.Solutions.ArmApiControl",
 							"request": {
@@ -41,14 +50,6 @@
 							"request": {
 								"method": "GET",
 								"path": "[concat(steps('basics').resourceScope.subscription.id, '/providers/Microsoft.Storage/storageAccounts?api-version=2022-09-01')]"
-							}
-						},
-						{
-							"name": "LogAnalyticsApi",
-							"type": "Microsoft.Solutions.ArmApiControl",
-							"request": {
-								"method": "GET",
-								"path": "[concat(steps('basics').resourceScope.subscription.id, '/providers/microsoft.operationalinsights/workspaces?api-version=2021-06-01')]"
 							}
 						}
 					]
@@ -250,16 +251,58 @@
 							"visible": true
 						},
 						{
-							"name": "LogAnalyticsWorkspaceResource",
-							"type": "Microsoft.Solutions.ResourceSelector",
-							"label": "Insights Log Analytics Workspace",
-							"toolTip": "Log Analytics Workspace in which AVD Insigts and diagnostics data resides in.",
-							"resourceType": "Microsoft.OperationalInsights/workspaces",
-							"constraints": {
-								"required": true
-							},
-							"infoMessages": [],
-							"visible": true
+							"name": "LAWSection",
+							"type": "Microsoft.Common.Section",
+							"label": "Log Analytics Selection",
+							"elements": [
+								{
+									"type": "Microsoft.Common.SubscriptionSelector",
+									"name": "LAWsubscription",
+									"label": "Log Analytics Subscription",
+									"resourceProviders": [
+										"Microsoft.OperationalInsights"
+									]
+								},
+								{
+									"name": "LogAnalyticsApi",
+									"type": "Microsoft.Solutions.ArmApiControl",
+									"request": {
+										"method": "GET",
+										"path": "[concat('/subscriptions/', steps('AlertsConfig').LAWSection.LAWsubscription.subscriptionId, '/providers/microsoft.operationalinsights/workspaces?api-version=2021-06-01')]",
+										"transforms": {
+											"list": "value[*].{label:name, value:id, description:location}"
+										}
+									}
+								},
+								{
+									"name": "LogAnalyticsWorkspaceResource",
+									"type": "Microsoft.Common.DropDown",
+									"label": "Insights Log Analytics Workspace NEW",
+									"toolTip": "Log Analytics Workspace in which AVD Insigts and diagnostics data resides in.",
+									"placeholder": "",
+									"defaultValue": "",
+									"multiselect": false,
+									"selectAll": false,
+									"filter": true,
+									"filterPlaceholder": "Filter items ...",
+									"multiLine": true,
+									"defaultDescription": "A value for selection",
+									"constraints": {
+										"allowedValues": "[steps('AlertsConfig').LAWSection.LogAnalyticsApi.transformed.list]",
+										"required": true
+									},
+									"visible": true
+								},
+								{
+									"name": "infoMessageLogAnalytics",
+									"type": "Microsoft.Common.InfoBox",
+									"visible": true,
+									"options": {
+										"text": "The Log Analytics Workspace in which AVD Insights and diagnostics data resides in.",
+										"style": "Info"
+									}
+								}
+							]
 						},
 						{
 							"name": "optionVMMetrics",
@@ -283,9 +326,9 @@
 							"defaultDescription": "A value for selection",
 							"constraints": {
 								"allowedValues": "[map(steps('basics').ResGroupsApi.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
-								"required": "[if(steps('AlertsConfig').optionVMMetrics, false, true)]"
+								"required": true
 							},
-							"visible": "[if(steps('AlertsConfig').optionVMMetrics, false, true)]"
+							"visible": true
 						},
 						{
 							"name": "HostPools",
@@ -468,7 +511,7 @@
 				"Environment": "[steps('AlertsConfig').Environment]",
 				"HostPoolInfo": "[steps('AlertsConfig').hostPoolInfo]",
 				"HostPools": "[steps('AlertsConfig').HostPools]",
-				"LogAnalyticsWorkspaceResourceId": "[steps('AlertsConfig').LogAnalyticsWorkspaceResource.id]",
+				"LogAnalyticsWorkspaceResourceId": "[steps('AlertsConfig').LAWSection.LogAnalyticsWorkspaceResource]",
 				"ResourceGroupName": "[if(equals(steps('AlertsConfig').ResourceGroupStatus, 'New'), steps('AlertsConfig').resourceGroupNameNew, last(split(steps('AlertsConfig').resourceGroupNameExisting, '/')))]",
 				"ResourceGroupStatus": "[steps('AlertsConfig').ResourceGroupStatus]",
 				"StorageAccountResourceIds": "[steps('AlertsConfig').AzFilesStorageSection.StorageAccountResourceIds]",

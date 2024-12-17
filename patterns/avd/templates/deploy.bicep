@@ -72,8 +72,8 @@ param ANFVolumeResourceIds array = []
 
 param Tags object = {}
 
-var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}'
-var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.1.7)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
+var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName, time)}'
+var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.1.8)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
 var CloudEnvironment = environment().name
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false

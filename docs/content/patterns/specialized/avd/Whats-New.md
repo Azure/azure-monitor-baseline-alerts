@@ -8,6 +8,10 @@ For information on what's new please refer to the [Releases](https://github.com/
 
 To update your current deployment with the content from the latest release, please refer to the [Update to new release](Update-to-new-Release.md) page.
 
+## 2024-12-18
+Bug fixes [(See Known Issues Section)](Known-Issues.md)
+Added option to select alternate subscription for Log Analytics and an initial prerequisites note on the first screen.
+
 ## 2024-12-10
 ### After 3/21/2024 Host Pool Capacity Alert Rule would not fire
 An issue was discovered where the Automation Account Identity was not being assigned the Virtual Desktop Reader role on the Resource Group hosting all the AVD Resources. Thus, the output of the script was null which yielded no alerts, regardless of what the host pool capacity currently was. There was a condition on the role assignment that was adjusted so that it will be added at deployment.
