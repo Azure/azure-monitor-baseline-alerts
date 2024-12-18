@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Web",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -354,6 +354,163 @@
         "metadata": {
           "displayName": "WSF HTTP Queue Lenght Evaluation Periods",
           "description": "The number of aggregated lookback points."
+        },
+        "AppInsightsThrottlingLimitSeverity": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Severity",
+            "description": "Severity of the Alert"
+          },
+          "allowedValues": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "defaultValue": "2"
+        },
+        "AppInsightsThrottlingLimitOperator": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Operator"
+          },
+          "allowedValues": [
+            "GreaterThan",
+            "GreaterThanOrEqual"
+          ],
+          "defaultValue": "GreaterThan"
+        },
+        "AppInsightsThrottlingLimitTimeAggregation": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert TimeAggregation"
+          },
+          "allowedValues": [
+            "Count"
+          ],
+          "defaultValue": "Count"
+        },
+        "AppInsightsThrottlingLimitWindowSize": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Window Size",
+            "description": "Window size for the alert"
+          },
+          "allowedValues": [
+            "PT1M",
+            "PT5M",
+            "PT10M",
+            "PT15M",
+            "PT30M",
+            "PT45M",
+            "PT1H",
+            "PT2H",
+            "PT3H",
+            "PT4H",
+            "PT5H",
+            "PT6H",
+            "P1D"
+          ],
+          "defaultValue": "P1D"
+        },
+        "AppInsightsThrottlingLimitEvaluationFrequency": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Evaluation Frequency",
+            "description": "Evaluation frequency for the alert"
+          },
+          "allowedValues": [
+            "PT5M",
+            "PT10M",
+            "PT15M",
+            "PT30M",
+            "PT45M",
+            "PT1H",
+            "PT2H",
+            "PT3H",
+            "PT4H",
+            "PT5H",
+            "PT6H",
+            "P1D"
+          ],
+          "defaultValue": "PT1H"
+        },
+        "AppInsightsThrottlingLimitAutoMitigate": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Auto Mitigate",
+            "description": "Auto Mitigate for the alert"
+          },
+          "allowedValues": [
+            "true",
+            "false"
+          ],
+          "defaultValue": "true"
+        },
+        "AppInsightsThrottlingLimitThreshold": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Threshold",
+            "description": "Threshold for the alert"
+          },
+          "defaultValue": "0"
+        },
+        "AppInsightsThrottlingLimitFailingPeriods": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Failing Periods",
+            "description": "Number of failing periods before alert is fired"
+          },
+          "defaultValue": "1"
+        },
+        "AppInsightsThrottlingLimitEvaluationPeriods": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Evaluation Periods",
+            "description": "The number of aggregated lookback points."
+          },
+          "defaultValue": "1"
+        },
+        "AppInsightsThrottlingLimitPolicyEffect": {
+          "type": "string",
+          "defaultValue": "deployIfNotExists",
+          "allowedValues": [
+            "deployIfNotExists",
+            "disabled"
+          ],
+          "metadata": {
+            "displayName": "Application Insights Throttling Limit Reached Alert Policy Effect",
+            "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+          }
+        },
+        "AppInsightsThrottlingLimitAlertState": {
+          "type": "string",
+          "defaultValue": "true",
+          "metadata": {
+            "displayName": "AApplication Insights Throttling Limit Reached Alert State",
+            "description": "Alert state for the alert"
+          }
+        },
+        "activityAppInsightsDeletePolicyEffect": {
+          "type": "string",
+          "defaultValue": "deployIfNotExists",
+          "allowedValues": [
+            "deployIfNotExists",
+            "disabled"
+          ],
+          "metadata": {
+            "displayName": "Activity Log Application Insights Alert Delete Policy Effect",
+            "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
+          }
+        },
+        "activityAppInsightsDeleteAlertState": {
+          "type": "string",
+          "defaultValue": "true",
+          "metadata": {
+            "displayName": "Activity Log Application Insights Alert Delete Alert State",
+            "description": "Alert state for the alert"
+          }
         }
       }
     },
@@ -475,6 +632,81 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('WSFHttpQueueLengthEvaluationPeriods')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AppInsightsThrottlingLimitReached_Alert",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_AppInsightsThrottlingLimit_Alert",
+        "parameters": {
+          "UAMIResourceId": {
+            "value": "[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
+          },
+          "severity": {
+            "value": "[[parameters('AppInsightsThrottlingLimitSeverity')]"
+          },
+          "operator": {
+            "value": "[[parameters('AppInsightsThrottlingLimitOperator')]"
+          },
+          "timeAggregation": {
+            "value": "[[parameters('AppInsightsThrottlingLimitTimeAggregation')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('AppInsightsThrottlingLimitWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('AppInsightsThrottlingLimitEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('AppInsightsThrottlingLimitAutoMitigate')]"
+          },
+          "threshold": {
+            "value": "[[parameters('AppInsightsThrottlingLimitThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('AppInsightsThrottlingLimitFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AppInsightsThrottlingLimitEvaluationPeriods')]"
+          },
+          "effect": {
+            "value": "[[parameters('AppInsightsThrottlingLimitPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('AppInsightsThrottlingLimitAlertState')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityAppInsightsDelete",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_AppInsights_Delete",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('activityAppInsightsDeletePolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('activityAppInsightsDeleteAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"

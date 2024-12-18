@@ -167,7 +167,6 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-LAWorkspace-DailyCapLimitReached-Alert.json')
-    loadTextContent('../../../services/Insights/components/Deploy-AppInsightsThrottlingLimit-Alert')
 
     // Used in both LandingZone and Management policy definitions
     loadTextContent('../../../services/storage/storageAccounts/Deploy-SA-Availability-Alert.json')
