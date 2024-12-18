@@ -415,17 +415,39 @@
 							"label": "Azure Files Storage",
 							"elements": [
 								{
+									"type": "Microsoft.Common.SubscriptionSelector",
+									"name": "StorageSubscription",
+									"label": "Azure Files Subscription",
+									"resourceProviders": [
+										"Microsoft.Storage"
+									]
+								},
+								{
+									"name": "StorageApi",
+									"type": "Microsoft.Solutions.ArmApiControl",
+									"request": {
+										"method": "GET",
+										"path": "[concat('/subscriptions/', steps('AlertsConfig').AzFilesStorageSection.StorageSubscription.subscriptionId, '/providers/Microsoft.Storage/storageAccounts?api-version=2023-05-01')]",
+										"transforms": {
+											"list": "value[*].{label: name, value: id, description: join(' | ', [sku.name, location])}"
+										}
+									}
+								},
+								{
 									"name": "StorageAccountResourceIds",
 									"type": "Microsoft.Common.DropDown",
 									"label": "AVD Related Storage Accounts",
-									"multiselect": true,
-									"selectAll": true,
-									"defaultValue": "[]",
 									"toolTip": "The Storage Accounts that are used for FSLogix or MSIX App attach.",
-									"filterPlaceholder": "Filter Storage Accounts...",
+									"placeholder": "",
+									"defaultValue": "[]",
+									"multiselect": true,
+									"selectAll": false,
+									"filter": true,
+									"filterPlaceholder": "Filter Storage Accounts ...",
+									"multiLine": true,
 									"defaultDescription": "A value for selection",
 									"constraints": {
-										"allowedValues": "[map(steps('basics').StorAcctsApi.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+										"allowedValues": "[steps('AlertsConfig').AzFilesStorageSection.StorageApi.transformed.list]",
 										"required": true
 									},
 									"visible": true

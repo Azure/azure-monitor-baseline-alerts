@@ -10,7 +10,7 @@ To update your current deployment with the content from the latest release, plea
 
 ## 2024-12-18
 Bug fixes [(See Known Issues Section)](Known-Issues.md)
-Added option to select alternate subscription for Log Analytics and an initial prerequisites note on the first screen.
+Added option to select alternate subscription for Log Analytics and Storage as well as an initial prerequisites note on the first screen.
 
 ## 2024-12-10
 ### After 3/21/2024 Host Pool Capacity Alert Rule would not fire
