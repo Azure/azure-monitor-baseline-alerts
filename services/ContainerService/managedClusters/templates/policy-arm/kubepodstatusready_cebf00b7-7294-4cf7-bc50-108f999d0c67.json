@@ -1,6 +1,44 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "parameters": {
+    "displayName": {
+      "defaultValue": "Deploy ContainerService managedClusters kube_pod_status_ready Alert",
+      "type": "String",
+      "metadata": {
+        "description": "Display name of policy"
+      }
+    },
+    "description": {
+      "defaultValue": "Policy to Audit/Deploy ContainerService managedClusters kube_pod_status_ready Alert",
+      "type": "String",
+      "metadata": {
+        "description": "Description of policy"
+      }
+    },
+    "currentDateTimeUtcNow": {
+      "defaultValue": "[utcNow()]",
+      "type": "String",
+      "metadata": {
+        "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "type": "String",
+      "metadata": {
+        "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(managementGroup().id, parameters('currentDateTimeUtcNow'))), 64)]",
+    "location": "[deployment().location]"
+  },
   "resources": [
     {
       "type": "Microsoft.Authorization/policyDefinitions",
@@ -9,16 +47,12 @@
       "properties": {
         "policyType": "Custom",
         "mode": "All",
-        "displayName": "Deploy ContainerService managedClusters kube_pod_status_ready Alert",
-        "description": "Policy to Audit/Deploy ContainerService managedClusters kube_pod_status_ready Alert",
+        "displayName": "[parameters('displayName')]",
+        "description": "[parameters('description')]",
         "metadata": {
-          "version": "1.0.0-preview",
+          "version": "1.0.0",
           "category": "ContainerService",
-          "preview": true,
           "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-          "alzCloudEnvironments": [
-            "AzureCloud"
-          ],
           "_deployed_by_amba": "True"
         },
         "parameters": {
@@ -334,6 +368,21 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
+      "name": "[variables('pidDeploymentName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      },
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]"
     }
   ]
 }
