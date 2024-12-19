@@ -50,10 +50,16 @@ The sample values in the tables ***are not meant*** to serve as recommendations 
 
 ### Log-search alerts table
 
-{{% include "Log_Search_Alert_Table.md" %}}
+{{% include "Log_Search_Alerts_Table.md" %}}
 
 </br>
 
 ### Metric alerts table
 
-{{% include "Metrics_Alert_Table.md" %}}
+{{% include "Metrics_Alerts_Table.md" %}}
+
+</br>
+
+### Activity Log alerts table
+
+{{% include "ActivityLog_Alerts_Table.md" %}}

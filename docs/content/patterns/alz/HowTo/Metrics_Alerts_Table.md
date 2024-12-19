@@ -10,12 +10,10 @@ geekdocHidden: true
 | Front Door CDN profiles | *```resourceName```*-OriginLatencyAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span>| <span style="color:DarkOrange">***N/A***</span> |
 | Front Door CDN profiles | *```resourceName```*-Percentage4XXAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Front Door CDN profiles | *```resourceName```*-Percentage5XXAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Key vault | ActivityKeyVaultDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Key vault | *```resourceName```*-Availability | Metrics | ***\_amba-Availability-threshold-Override\_*** | Number | 80 |
 | Key vault | *```resourceName```*-CapacityAlert | Metrics | ***\_amba-SaturationShoebox-threshold-Override\_*** | Number | 90 |
 | Key vault | *```resourceName```*-LatencyAlert | Metrics | ***\_amba-ServiceApiLatency-threshold-Override\_*** | Number | 900 |
 | Key vault | *```resourceName```*-RequestsAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Azure Key Vault Managed HSM | ActivityManagedHSMDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Azure Key Vault Managed HSM | *```resourceName```*-Availability | Metrics | ***\_amba-Availability-threshold-Override\_*** | Number | 80 |
 | Azure Key Vault Managed HSM | *```resourceName```*-LatencyAlert | Metrics | ***\_amba-ServiceApiLatency-threshold-Override\_*** | Number | 900 |
 | Application gateway | *```resourceName```*-agApplicationGatewayTotalTime | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
@@ -26,7 +24,6 @@ geekdocHidden: true
 | Application gateway | *```resourceName```*-agFailedRequests | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Application gateway | *```resourceName```*-agResponseStatus | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Application gateway | *```resourceName```*-agUnhealthyHostCount | Metrics | ***\_amba-UnhealthyHostCount-threshold-Override\_*** | Number | 25 |
-| Firewall | ActivityAzureFirewallDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Firewall | *```resourceName```*-FirewallHealth | Metrics | ***\_amba-FirewallHealth-threshold-Override\_*** | Number | 75 |
 | Firewall | *```resourceName```*-SNATPortUtilization | Metrics | ***\_amba-SNATPortUtilization-threshold-Override\_*** | Number | 90 |
 | ExpressRoute circuit | *```resourceName```*-ArpAvailability | Metrics | ***\_amba-ArpAvailability-threshold-Override\_*** | Number | 85 |
@@ -49,7 +46,6 @@ geekdocHidden: true
 | Load balancer | *```resourceName```*-ALBGlobalBackendAvailability | Metrics | ***\_amba-GlobalBackendAvailability-threshold-Override\_*** | Number | 85 |
 | Load balancer | *```resourceName```*-ALBHealthProbeStatus | Metrics | ***\_amba-DipAvailability-threshold-Override\_*** | Number | 85 |
 | Load balancer | *```resourceName```*-ALBUsedSNATPorts | Metrics | ***\_amba-UsedSNATPorts-threshold-Override\_*** | Number | 800 |
-| Network security group | ActivityNSGDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Private DNS zone | *```resourceName```*-CapacityUtilizationAlert | Metrics | ***\_amba-VirtualNetworkLinkCapacityUtilization-threshold-Override\_*** | Number | 75 |
 | Private DNS zone | *```resourceName```*-QueryVolumeAlert | Metrics | ***\_amba-QueryVolume-threshold-Override\_*** | Number | 400 |
 | Private DNS zone | *```resourceName```*-RecordSet_Capacity_Utilization | Metrics | ***\_amba-RecordSetCapacityUtilization-threshold-Override\_*** | Number | 75 |
@@ -58,7 +54,6 @@ geekdocHidden: true
 | Public IP address | *```resourceName```*-DDOS_Attack | Metrics | ***\_amba-ifunderddosattack-threshold-Override\_*** | Number | 5 |
 | Public IP address | *```resourceName```*-PacketsInDDosAlert | Metrics | ***\_amba-PacketsInDDoS-threshold-Override\_*** | Number | 35000 |
 | Public IP address | *```resourceName```*-VIPAvailabityAlert | Metrics | ***\_amba-VipAvailability-threshold-Override\_*** | Number | 80 |
-| Route table | ActivityUDRUpdate | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Traffic Manager | *```resourceName```*-EndpointHealthAlert | Metrics | ***\_amba-EndpointHealth-threshold-Override\_*** | Number | 0.7 |
 | Virtual network gateway | *```resourceName```*-TunnelBandwidthAlert | Metrics | ***\_amba-TunnelAverageBandwidth-threshold-Override\_*** | Number | 2 |
 | Virtual network gateway | *```resourceName```*-TunnelEgressAlert | Metrics | ***\_amba-TunnelEgressBytes-threshold-Override\_*** | Number | 2 |
@@ -70,7 +65,6 @@ geekdocHidden: true
 | Virtual network gateway | *```resourceName```*-TunnelIngressPacketDropCountAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Virtual network gateway | *```resourceName```*-TunnelIngressPacketDropTSMismatchAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span>| <span style="color:DarkOrange">***N/A***</span> |
 | Virtual network | *```resourceName```*-DDOSAttackAlert | Metrics | ***\_amba-ifunderddosattack-threshold-Override\_*** | Number | 1 |
-| VPN Gateway | ActivityVPNGatewayDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | VPN Gateway | *```resourceName```*-GatewayBandwidthAlert | Metrics | ***\_amba-tunnelaveragebandwidth-threshold-Override\_*** | Number | 2 |
 | VPN Gateway | *```resourceName```*-BGPPeerStatusAlert | Metrics | ***\_amba-bgppeerstatus-threshold-Override\_*** | Number | 2 |
 | VPN Gateway | *```resourceName```*-TunnelEgressAlert | Metrics | ***\_amba-tunnelegressbytes-threshold-Override\_*** | Number | 2 |
@@ -79,14 +73,6 @@ geekdocHidden: true
 | VPN Gateway | *```resourceName```*-TunnelIngressAlert | Metrics | ***\_amba-tunnelingressbytes-threshold-Override\_*** | Number | 2 |
 | VPN Gateway | *```resourceName```*-TunnelIngressPacketDropCount | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | VPN Gateway | *```resourceName```*-TunnelIngressPacketDropTSMismatchAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Log Analytics workspace | ActivityLAWorkspaceDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Log Analytics workspace | ActivityLAWorkspaceRegenKey | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Subscription | ResourceHealthUnhealthyAlert | Resource health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Subscription | ServiceHealthHealth | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Subscription | ServiceHealthIncident | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Subscription | ServiceHealthMaintenance | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Subscription | ServiceSecurityIncident | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
-| Storage account | ActivitySADelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Storage account | *```resourceName```*-AvailabilityAlert | Metrics | ***\_amba-Availability-threshold-Override\_*** | Number | 90 |
 | App Service plan | *```resourceName```*-CpuPercentage | Metrics | ***\_amba-CpuPercentage-threshold-Override\_*** | Number | 75 |
 | App Service plan | *```resourceName```*-DiskQueueLengthAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
