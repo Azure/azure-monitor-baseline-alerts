@@ -29,4 +29,4 @@ geekdocHidden: true
 | Virtual machine | *```subscription().displayName```*-VMHighCPUAlert | _Log search_ | ***\_amba-UtilizationPercentage-threshold-Override\_*** |
 | Virtual machine | *```subscription().displayName```*-VMLowMemoryAlert | _Log search_ | ***\_amba-AvailableMemoryPercentage-threshold-Override\_*** |
 | Log Analytics workspace | *```resourceName```*-DailyCapLimitReachedAlert | _Log search_ | ***Not available as threshold will always be ```0```*** |
-| Application Insights | *```resourceName```*-DailyCapLimitReachedAlert | _Log search_ | ***\_amba-Throttling-threshold-override\_*** |
+| Application Insights | *```resourceName```*-ApplicationInsightsThrottlingLimitReachedAlert | _Log search_ | ***\_amba-Throttling-threshold-override\_*** |
