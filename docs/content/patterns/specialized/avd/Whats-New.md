@@ -8,6 +8,10 @@ For information on what's new please refer to the [Releases](https://github.com/
 
 To update your current deployment with the content from the latest release, please refer to the [Update to new release](Update-to-new-Release.md) page.
 
+## 2024-11-20
+### Deployment Names over 64 characters
+An issue was discovered in which the deployment for some alerts would fail if the deployment name was over 64 characters. This was due to the Storage Account and/or ANF Volume names being too long and appended to the deployment name. Those names are now truncated if over 20 characters.
+
 ## 2024-01-25
 ### New features
 Initial relocation from the Azure AVD Accelerator Brownfield with AVD specific Alerts on a per Host Pool basis.

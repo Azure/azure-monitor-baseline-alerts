@@ -69,6 +69,7 @@ var loadPolicyDefinitions = {
   All: [
     // Used in both RecoverySwervices and Management Policy Set Definitions
     loadTextContent('../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json')
+    loadTextContent('../../../services/RecoveryServices/vaults/Modify-RSV-ASRHealth-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []

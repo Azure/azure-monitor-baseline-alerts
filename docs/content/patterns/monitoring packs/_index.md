@@ -11,7 +11,7 @@ geekdocCollapseSection: true
 
 - Minimize the need for the Customer to determine the minimal monitoring items for a certain type of workload
 
-- Provide best practices out of the box on items that need monitoring for different workloads. The Monitoring Packs work closely wit the Azure Monitor Baseline Alerts [AMBA](http://aka.ms/amba) and the Azure Monitor teams to provide a comprehensive and aligned monitoring solution.
+- Provide best practices out of the box on items that need monitoring for different workloads. The Monitoring Packs work closely with the Azure Monitor Baseline Alerts [AMBA](http://aka.ms/amba) and the Azure Monitor teams to provide a comprehensive and aligned monitoring solution.
 
 - Create a framework for collaboration that will make it easy to add new monitored technologies.
 

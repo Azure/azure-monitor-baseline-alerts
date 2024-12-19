@@ -11,14 +11,10 @@ High Performance Compute supports a variety of workloads. Seismic modeling, flui
 * Azure Batch Service
 * Azure NetApp Files
 * Azure Blob Storage
-* Azure Managed Lustre Filesystem - Coming Soon!
+* Azure Managed Lustre Filesystem
 
 Please note that an HPC Landing Zone is built on top of the best practices of the Azure Landing Zone. The approach for broader monitoring and alerting in the context of the Azure Landing Zone can be found [here](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Monitoring-and-Alerting/).
 
-## Azure High Performance Computing on Demand
+## Azure CycleCloud Workspace for Slurm
 
-[Azure High Performance Computing on Demand (Az-HOP)](https://learn.microsoft.com/azure/cloud-adoption-framework/scenarios/azure-hpc/azure-hpc-landing-zone-accelerator) is our HPC Landing Zone accelerator. It provides Grafana Dashboards to monitor you cluster. It uses [Azure CycleCloud](https://learn.microsoft.com/azure/cyclecloud/overview?view=cyclecloud-8) as a scheduler.
-
-## GPU Monitoring
-
-We are working on explicit GPU metrics to monitor to for HPC/AI workloads. Until then, Azure HPC Ubuntu VMs come with [Moneo](https://github.com/Azure/Moneo)
+[Azure CycleCloud Workspace for Slurm](https://learn.microsoft.com/azure/cyclecloud/overview-ccws?view=cyclecloud-8) is our HPC Landing Zone accelerator.
