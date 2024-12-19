@@ -27,7 +27,7 @@ To configure the APR, follow these steps:
 
 2. Click on the ARP named ***apr-AMBA-<mark>subscription display name</mark>-002*** with rule type **Suppression**
 
-  ![Suppression aler processing rule](../../media/SuppressionAlertProcessingRule.png)
+  ![Suppression alert processing rule](../../media/SuppressionAlertProcessingRule.png)
 
 3. Click on ***Edit***
 
@@ -42,11 +42,13 @@ To configure the APR, follow these steps:
     ![Configure filter](../../media/Filter-AlertProcessingRule.png)
 
     {{< hint type=Important >}}
-    Each filter can include up to ***5*** values. If you need to specify more than **5** resources, add additional filter lines.
+  Each filter can include up to ***5*** values. If you need to specify more than **5** resources, you will need to create a new Alert Processing Rule to suppress notifications, as each filter type can only be used once within the same Alert Processing Rule.
     {{< /hint >}}
 
 5. Click on ***Review + save*** and then ***Save***
 
   {{< hint type=Note >}}
-  It is possible to apply other types of filter. For a complete list of allowed scopes and filters, refer to the official [Scope and filters for alert processing rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-processing-rules?tabs=portal#scope-and-filters-for-alert-processing-rules) documentation.
+  It is possible to apply other types of filter. For example, you could add the *Alert Rule name* as a filter to only suppress the *ResourceHealthUnhealthyAlert* for specific resources during maintenance instead of all resource-related alerts.
+
+  For a complete list of allowed scopes and filters, refer to the official [Scope and filters for alert processing rules](https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-processing-rules?tabs=portal#scope-and-filters-for-alert-processing-rules) documentation.
   {{< /hint >}}

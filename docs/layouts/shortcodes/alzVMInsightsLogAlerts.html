@@ -1,6 +1,6 @@
 <div><table>
   <tr>
-    <th>Alert Name</th>
+    <th>Alert Policy Name</th>
     <th>Component</th>
     <th>Aggregation</th>
     <th>Operator</th>
@@ -17,11 +17,11 @@
   </tr>
 
 {{ range $category, $types := $.Site.Data  }}
-  {{ if ne $category "Compute" }}
+  {{ if and (ne $category "Compute") (ne $category "HybridCompute") }}
     {{ continue }}
   {{ end }}
   {{ range $type, $rules := $types }}
-    {{ if ne $type "virtualMachines" }}
+    {{ if and (ne $type "virtualMachines") (ne $type "machines") }}
       {{ continue }}
     {{ end }}
     {{ range $rules.alerts }}
