@@ -8,7 +8,7 @@ geekdocHidden: true
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHighDataDiskReadLatencyAlert | _Log search_ | ***\_amba-ReadLatencyMs-Data-threshold-Override\_*** | Number | 35 |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMLowDataDiskSpaceAlert | _Log search_ | ***\_amba-FreeSpacePercentage-Data-threshold-Override\_*** | Number | 8 |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHighDataDiskWriteLatencyAlert | _Log search_ | ***\_amba-WriteLatencyMs-Data-threshold-Override\_*** | Number | 35 |
-| Machine - Azure Arc | *```subscription().displayName```*-HybridVMDisconnectedAlert | _Log search_ | ***\_amba-Disconnected-threshold-Override\_*** | Number | 5 |
+| Machine - Azure Arc | *```subscription().displayName```*-HybridVMDisconnectedAlert | _Log search_ | ***\_amba-Disconnected-threshold-Override\_*** | [Timespan](https://learn.microsoft.com/en-us/kusto/query/scalar-data-types/timespan?view=microsoft-fabric) | 5m, 10d, 2h |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHeartBeatAlert | _Log search_ | ***\_amba-Heartbeat-threshold-Override\_*** | Number | 5 |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHighNetworkInAlert | _Log search_ | ***\_amba-ReadBytesPerSecond-threshold-Override\_*** | Number | 20000000 |
 | Machine - Azure Arc | *```subscription().displayName```*-HybridVMHighNetworkOutAlert | _Log search_ | ***\_amba-WriteBytesPerSecond-threshold-Override\_*** | Number | 20000000 |
