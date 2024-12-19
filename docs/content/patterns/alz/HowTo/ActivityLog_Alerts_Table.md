@@ -1,5 +1,5 @@
 ---
-title: Metrics alert table
+title: Activity Log alerts table
 geekdocHidden: true
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Metrics alert table
+title: Metrics alerts table
 geekdocHidden: true
 ---
 

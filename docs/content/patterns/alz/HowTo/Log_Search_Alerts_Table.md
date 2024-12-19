@@ -1,5 +1,5 @@
 ---
-title: Log-search alert table
+title: Log-search alerts table
 geekdocHidden: true
 ---
 
