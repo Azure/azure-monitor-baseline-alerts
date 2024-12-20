@@ -27,24 +27,44 @@ weight: 30
 
 ## Management Groups Settings Blade
 
-- Change the values on the Management Groups Settings blade to the following instructions:
+![Management Groups Settings Blade](../../../media/PortalAccelerator/MGSettings.png)
 
-  ![Management Groups Settings Blade](../../../media/PortalAccelerator/MGSettings.png)
+</br>
+
+In the Management Groups Settings blade, change the value of the policy set definitions you would like to enable according to the following instructions:
+
+- Set the value of _`Enable AMBA Service Health`_ to _`Yes`_. This initiative deploys Azure Monitor Baseline Alerts to monitor Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health together with action groups for Service Health alerts notifications.
+- Change the value of _`Enable AMBA Connectivity`_ to _`Yes`_. This initiative deploys Azure Monitor Baseline Alerts to monitor Network components such as Azure Firewalls, ExpressRoute, VPN, and Private DNS Zones.
+- Change the value of _`Enable AMBA Identity`_ to _`Yes`_. This initiative deploys Azure Monitor Baseline Alerts to monitor Identity services such as Key Vaults, Managed HSMs.
+- Change the value of _`Enable AMBA Management`_ to _`Yes`_. This initiative deploys Azure Monitor Baseline Alerts to monitor Management services such as Log Analytics Workspaces, Storage Accounts, Automation Accounts.
+- Change the value of _`Enable AMBA Hybrid VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.
+- Change the value of _`Enable AMBA Azure VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.
+- Change the value of _`Enable AMBA Key Management`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM.
+- Change the value of _`Enable AMBA Load Balancing`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.
+- Change the value of _`Enable AMBA Network Changes`_ to _`Yes`_ This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups.
+- Change the value of _`Enable AMBA Recovery Services`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery.
+- Change the value of _`Enable AMBA Storage`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts.
+- Change the value of _`Enable AMBA Web`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services.
+- Set the value of _`Enable AMBA Notification Assets`_ to _`Yes`_. This configuration will deploy notification assets broad notifications.
+
+- Change the values on the Management Groups Settings blade according to the following instructions:
 
 ### If you are aligned to ALZ
 
 - Choose the value of _```Enterprise Scale Company Management Group```_ to the management group ID for Platform.
+- Choose the value of _```Platform Management Group```_ to the management group ID for Platform.
+- Choose the value of _```Connectivity Management Group```_ to the management group ID for Connectivity.
 - Choose the value of _```Identity Management Group```_ to the management group ID for Identity.
 - Choose the value of _```Management Management Group```_ to the management group ID for Management.
-- Choose the value of _```Connectivity Management Group```_ to the management group ID for Connectivity.
 - Choose the value of _```Landing Zone Management Group```_ to the management group ID for Landing Zones.
 
 ### If you are unaligned to ALZ
 
 - Choose the value of _`Enterprise Scale Company Management Group`_ to the management group ID for Platform. The same management group ID may be repeated.
+- Choose the value of _`Platform Management Group`_ to the management group ID for Platform. The same management group ID may be repeated.
+- Choose the value of _`Connectivity Management Group`_ to the management group ID for Connectivity. The same management group ID may be repeated.
 - Choose the value of _`Identity Management Group`_ to the management group ID for Identity. The same management group ID may be repeated.
 - Choose the value of _`Management Management Group`_ to the management group ID for Management. The same management group ID may be repeated.
-- Choose the value of _`Connectivity Management Group`_ to the management group ID for Connectivity. The same management group ID may be repeated.
 - Choose the value of _`Landing Zone Management Group`_ to the management group ID for Landing Zones. The same management group ID may be repeated.
 
 {{< hint type=note >}}
@@ -54,25 +74,15 @@ For ease of deployment and maintenance we have kept the same variables.
 ### If you have a single management group
 
 - Choose the value of _`Enterprise Scale Company Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Choose the value of _`Platform Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Choose the value of _`Connectivity Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 - Choose the value of _`Identity Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 - Choose the value of _`Management Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
-- Choose the value of _`Connectivity Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 - Choose the value of _`Landing Zone Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
 For ease of deployment and maintenance we have kept the same variables.
 {{< /hint >}}
-
-- Set the value of _`Enable AMBA notification assets`_ to _`Yes`_. This configuration will deploy notification assets broad notifications.
-- Set the value of _`Enable AMBA Service Health`_ to _`Yes`_. This setting will assign the Service Health Policy Set Definition during deployment and deploy action groups for Service Health alerts notifications.
-- Change the value of _`Enable AMBA Hybrid VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.
-- Change the value of _`Enable AMBA Key Management`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM.
-- Change the value of _`Enable AMBA Load Balancing`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.
-- Change the value of _`Enable AMBA Network Changes`_ to _`Yes`_ This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups.
-- Change the value of _`Enable AMBA Recovery Services`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery.
-- Change the value of _`Enable AMBA Storage`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts.
-- Change the value of _`Enable AMBA VM`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines.
-- Change the value of _`Enable AMBA Web`_ to _`Yes`_ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services.
 
 ## Notification Settings Blade
 
