@@ -93,3 +93,4 @@ geekdocHidden: true
 | App Service plan | *```resourceName```*-DiskQueueLengthAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> |
 | App Service plan | *```resourceName```*-HttpQueueLengthAlert | Metrics | <span style="color:DarkOrange">***Not available since it uses dynamic thresholds***</span> |
 | App Service plan | *```resourceName```*-MemoryPercentage | Metrics | ***\_amba-MemoryPercentage-threshold-Override\_*** |
+| Application Insights | ActivityAppInsightsDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
