@@ -82,6 +82,23 @@
     {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
     {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
     {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
-    {{ highlight $data "json" }}
+    {{ $lines := split $data "\n" }}
+    {{ $target := "    \"parameters\":" }}
+    {{ $index := 0 }}
+    {{ range $i, $v := $lines }}
+      {{ if strings.Contains $v $target }}
+        {{ $index = $i }}
+        {{break}}
+      {{ end }}
+    {{ end }}
+    {{ $policyLines := after $index $lines }}
+    {{ $index := sub (len $policyLines) 2 }}
+    {{ if lt $index 0 }}
+      {{ $index = 0 }}
+    {{ end }}
+    {{ $policyLines := first $index $policyLines }}
+    {{ $policy :=  delimit $policyLines "\n" }}
+    {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
+    {{ highlight $policy "json" }}
   </div>
 </div>
