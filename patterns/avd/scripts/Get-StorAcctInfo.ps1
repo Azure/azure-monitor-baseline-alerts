@@ -23,14 +23,20 @@ Connect-AzAccount -Identity -Environment $CloudEnvironment | Out-Null
 Import-Module -Name 'Az.Accounts'
 Import-Module -Name 'Az.Storage'
 
-$SubName = (Get-azSubscription -SubscriptionId ($StorageAccountResourceIDs -split '/')[2]).Name
+# $SubName = (Get-azSubscription -SubscriptionId ($StorageAccountResourceIDs -split '/')[2]).Name
 
 # Foreach storage account
 Foreach ($storageAcct in $storageAccountResourceIDs) {
+    $Subscription = Get-azSubscription -SubscriptionId ($storageAcct -split '/')[2]
+    $SubName = $Subscription.Name
+
+    #Get current context and switch if storage in different Subscription
+    $Context = Get-AzContext
+    if ($Context.Subscription.Id -ne $Subscription.Id) {Set-AzContext -SubscriptionId $Subscription.Id | Out-Null}
 
     $resourceGroup = ($storageAcct -split '/')[4]
     $storageAcctName = ($storageAcct -split '/')[8]
-    #Write-Host "Working on Storage:" $storageAcctName "in" $resourceGroup
+    #Write-Output "Working on Storage:" $storageAcctName "in" $SubName " \ " $resourceGroup
 
     # $shares = Get-AzStorageShare -ResourceGroupName $resourceGroup -StorageAccountName $storageAcctName -Name 'profiles' -GetShareUsage
     $shares = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName
@@ -38,7 +44,7 @@ Foreach ($storageAcct in $storageAccountResourceIDs) {
     # Foreach Share
     Foreach ($share in $shares) {
         $shareName = $share.Name
-        $share = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName -Name $shareName -GetShareUsage
+        $share = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName -Name $shareName -GetShareUsage -SubscriptionId $Subscription.Id
         #Write-Host "Share: " $shareName
         $shareQuota = $share.QuotaGiB #GB
         $shareUsageInGB = $share.ShareUsageBytes / 1073741824 # Bytes to GB

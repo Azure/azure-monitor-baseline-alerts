@@ -72,8 +72,8 @@ param ANFVolumeResourceIds array = []
 
 param Tags object = {}
 
-var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}'
-var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.1.7)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
+var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName, time)}'
+var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.0)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
 var CloudEnvironment = environment().name
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false
@@ -81,8 +81,8 @@ var RunbookNameGetStorage = 'AvdStorageLogData'
 var RunbookNameGetHostPool = 'AvdHostPoolLogData'
 var RunbookScriptGetStorage = 'Get-StorAcctInfo.ps1${_ArtifactsLocationSasToken}'
 var RunbookScriptGetHostPool = 'Get-HostPoolInfo.ps1${_ArtifactsLocationSasToken}'
-var StorAcctRGsAll = [for item in StorageAccountResourceIds: split(item, '/')[4]]
-var StorAcctRGs = union(StorAcctRGsAll, [])
+var StorAcctsAll = [for item in StorageAccountResourceIds: '${split(item, '/')[2]},${split(item, '/')[4]}']  //format of SubscriptionId,ResourceGroup
+var StorAcctsSubRGs = union(StorAcctsAll, [])
 // var UsrManagedIdentityName = 'id-ds-avdAlerts-Deployment'
 
 var RoleAssignments = {
@@ -2281,15 +2281,15 @@ module roleAssignment_LogAnalytics 'carml/1.3.0/Microsoft.Authorization/roleAssi
 // Assign role to Automation Account for Storage Account Contributor to allow Automation Account to gather Storage Statistics
 // (Needed for Automation Account)
 module roleAssignment_Storage 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [
-  for StorAcctRG in StorAcctRGs: {
-    scope: resourceGroup(StorAcctRG)
-    name: 'c_StorAcctContrib_${StorAcctRG}'
+  for StorAcctInfo in StorAcctsSubRGs: {
+    scope: resourceGroup(split(StorAcctInfo, ',')[0],split(StorAcctInfo, ',')[1])
+    name: 'c_StorAcctContrib_${split(StorAcctInfo, ',')[1]}'
     params: {
       enableDefaultTelemetry: false
       principalId: automationAccount.outputs.systemAssignedPrincipalId
       roleDefinitionIdOrName: '/providers/Microsoft.Authorization/roleDefinitions/${RoleAssignments.StoreAcctContrib.GUID}'
       principalType: 'ServicePrincipal'
-      resourceGroupName: StorAcctRG
+      resourceGroupName: split(StorAcctInfo, ',')[1]
     }
     dependsOn: [
       automationAccount
