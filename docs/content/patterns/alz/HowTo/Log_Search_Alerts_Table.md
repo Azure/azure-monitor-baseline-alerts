@@ -29,3 +29,4 @@ geekdocHidden: true
 | Virtual machine | *```subscription().displayName```*-VMHighCPUAlert | _Log search_ | ***\_amba-UtilizationPercentage-threshold-Override\_*** | Number | 90 |
 | Virtual machine | *```subscription().displayName```*-VMLowMemoryAlert | _Log search_ | ***\_amba-AvailableMemoryPercentage-threshold-Override\_*** | Number | 8 |
 | Log Analytics workspace | *```resourceName```*-DailyCapLimitReachedAlert | _Log search_ | <span style="color:DarkOrange">***Not available as threshold will always be 0***</span> | <span style="color:DarkOrange">***Not applicable***</span>| <span style="color:DarkOrange">***N/A***</span> |
+| Application Insights | *```resourceName```*-ApplicationInsightsThrottlingLimitReachedAlert | _Log search_ | ***\_amba-Throttling-threshold-override\_*** | Number | 64000 |
