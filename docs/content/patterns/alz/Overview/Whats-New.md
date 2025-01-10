@@ -66,7 +66,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### New Features
 
-- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
+- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal Accelerator (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
 - **Modular Initiatives**: Deprecated the former Landing Zone Initiative in favor of a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
   - Key Management
