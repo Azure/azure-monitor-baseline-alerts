@@ -112,11 +112,11 @@ Function Search-AzGraphRecursive {
 
             # resource graph returns pages of 100 resources, if there are more than 100 resources in a batch, recursively query for more
             If ($batchResult.count -eq 100 -and $batchResult.SkipToken) {
-                [void]$result.Add($batchResult)
+                $result += $batchResult
                 Search-AzGraphRecursive -query $query -managementGroupNames $managementGroupNames -skipToken $batchResult.SkipToken
             }
             else {
-                [void]$result.Add($batchResult)
+                $result +=$batchResult
             }
         }
     }
@@ -133,7 +133,7 @@ Function Search-AzGraphRecursive {
 
 Function Iterate-ManagementGroups($mg) {
 
-    # Assembling a custom object to create multidemnsional array
+    # Assembling a custom object to create multidimensional array
     $row = [PSCustomObject]@{
         mgName = "$($mg.Name)"
         mgId = "$($mg.Id)"
