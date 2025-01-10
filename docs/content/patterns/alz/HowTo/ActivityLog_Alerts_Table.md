@@ -19,3 +19,5 @@ geekdocHidden: true
 | Subscription | ServiceSecurityIncident | Service health | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Storage account | ActivitySADelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> | <span style="color:DarkOrange">***Not applicable***</span> | <span style="color:DarkOrange">***N/A***</span> |
 | Application Insights | ActivityAppInsightsDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
+| Route Tables | ActivityUDRDelete | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |
+| Route Tables - Routes | ActivityUDRRoutesDelete  | Activity Log | <span style="color:DarkOrange">***Not available since Activity Log based alerts do not have thresholds***</span> |

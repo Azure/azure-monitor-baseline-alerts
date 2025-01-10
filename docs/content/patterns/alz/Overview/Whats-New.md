@@ -17,6 +17,9 @@ To update your deployment with the latest release, refer to the [Update to new r
 - Added new policy definition for Application Insights alerts as part of the Alerting-Web initiative:
   - Deploy Activity Log Application Insights Delete Alert (Preview)
   - Deploy Application Insights Throttling Limit Reached Alert (Preview)
+- Added new policies to create Alert rules for Route Table activity:
+  - Activity Log Route Table Delete Alert - based on operation *Microsoft.Network/routeTables/delete*
+  - Activity Log Route Table Routes Delete Alert - based on operation *Microsoft.Network/routeTables/routes/delete*
 - Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
 
 ### Bug Fixes
@@ -92,7 +95,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### New Features
 
-- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal Accelerator (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
+- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
 - **Modular Initiatives**: Deprecated the former Landing Zone Initiative in favor of a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
   - Key Management
