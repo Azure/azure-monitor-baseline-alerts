@@ -70,6 +70,7 @@ var loadPolicyDefinitions = {
     // Used in Connectivity policy definitions only
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-ActivityLog-AzureFirewall-Del.json')
     loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
+    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-FirewallHealth-Alert.json')
     loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-SNATPortUtilization-Alert.json')
