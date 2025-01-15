@@ -96,7 +96,7 @@ For options on disabling policies, visit [Disabling Policies](../../Disabling-Po
 
 ## Next Steps
 
-- To deploy using Azure Portal UI, visit [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)
+- To deploy using Azure Portal UI, visit [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
 - To deploy with GitHub Actions, visit [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - To deploy with Azure DevOps Pipelines, visit [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, visit [Deploy with Azure CLI](../Deploy-with-Azure-CLI)

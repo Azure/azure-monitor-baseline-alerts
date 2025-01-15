@@ -8,6 +8,35 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
+## 2025-01-10
+
+### New Features
+
+- General Availability for AMBA Portal accelerator. Together with this, the portal accelerator has been enhanced with some nice filtering capabilities allowing you to see only management groups parented with the selected pseudo. The same capability also applies to subscription selection for which you will be only presented those belonging to the pseudo management group
+- Remediation script enhancement: The former **Start-AMBARemediation.ps1** remediation script has been redesigned, optimized and standardized into a new one called [***Start-AMBA-ALZ-Remediation.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Remediation.ps1)
+- Added new policy definition for Application Insights alerts as part of the Alerting-Web initiative:
+  - Deploy Activity Log Application Insights Delete Alert (Preview)
+  - Deploy Application Insights Throttling Limit Reached Alert (Preview)
+- Added new policies to create Alert rules for Route Table activity:
+  - [Preview] Deploy Activity Log Routes Delete Alert
+  - [Preview] Deploy Activity Log Route Table Delete Alert
+- Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
+
+### Bug Fixes
+
+- Resolved [[#455](https://github.com/Azure/azure-monitor-baseline-alerts/pull/455)]: Property name case consistency and remediation script rename
+- Resolved [[#460](https://github.com/Azure/azure-monitor-baseline-alerts/pull/460)]: Portal accelerator bug
+- Resolved [[#465](https://github.com/Azure/azure-monitor-baseline-alerts/pull/465)]: Fix policyDefinitionId format
+- Resolved [[#475](https://github.com/Azure/azure-monitor-baseline-alerts/pull/475)]: [Bug]: Unable to cleanup AMBA deployment - Property "Id" cannot be found
+
+### Documentation Updates
+
+- Added examples of tag value and type in the [Override alert thresholds](../HowTo/Threshold-Override.md) documentation page
+
+### Tools
+
+- NONE
+
 ## 2024-12-10
 
 ### New Features
@@ -37,7 +66,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 ### New Features
 
 - Introduced a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure Monitor alerts.
-- **Script Consolidation**: The scripts *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1*, and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* have been merged into a single script named [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. This enhancement allows the removal of alerts for deleted resources (orphaned alerts).
+- **Script Consolidation**: The *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1*, and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* scripts have been merged into a single script named [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. This enhancement allows the removal of alerts for deleted resources (orphaned alerts).
 
 ### Bug Fixes
 

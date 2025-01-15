@@ -1,5 +1,5 @@
 ---
-title: Deploy via the Azure Portal (Preview)
+title: Deploy via the Azure Portal
 weight: 30
 ---
 
