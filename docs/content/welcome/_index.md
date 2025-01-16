@@ -4,6 +4,11 @@ weight: 0
 ---
 
 ---
+
+{{< hint type=note >}}
+We are actively looking for feedback. </br> Please tell us what you think and share your opinion by filling the [Azure Monitor Baseline Alerts (AMBA) survey](https://aka.ms/ambaSurvey).
+{{< /hint >}}
+
 Azure Monitor Baseline Alerts (AMBA) streamlines your Azure experience by providing a set of essential metrics and guidelines to ensure your Azure services are performing optimally. AMBA is your go-to for a proactive and informed Azure monitoring approach! Here's what you need to know:
 
 - **Expert Recommendations**: Access a comprehensive list of alert recommendations and expert guidance for Azure resources.
