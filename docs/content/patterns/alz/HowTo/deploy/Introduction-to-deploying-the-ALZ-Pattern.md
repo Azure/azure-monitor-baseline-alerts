@@ -3,6 +3,19 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
+> [Background](../Introduction-to-deploying-the-ALZ-Pattern#background) </br>
+> [Prerequisites](../Introduction-to-deploying-the-ALZ-Pattern#prerequisites) </br>
+> [Getting Started](../Introduction-to-deploying-the-ALZ-Pattern#getting-started) </br>
+> [Determining your Management Group Hierarchy](../Introduction-to-deploying-the-ALZ-Pattern#determining-your-management-group-hierarchy) </br>
+> [Customizing Policy Assignments](../Introduction-to-deploying-the-ALZ-Pattern#customizing-policy-assignments) </br>
+> [Customizing the AMBA-ALZ Policies](../Introduction-to-deploying-the-ALZ-Pattern#customizing-the-amba-alz-policies) </br>
+> [How to Modify Individual Policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies) </br>
+> [Disabling Monitoring](../Introduction-to-deploying-the-ALZ-Pattern#disabling-monitoring) </br>
+> [Cleaning up an ALZ Deployment](../Introduction-to-deploying-the-ALZ-Pattern#cleaning-up-an-alz-deployment) </br>
+> [Next Steps](../Introduction-to-deploying-the-ALZ-Pattern#next-steps) </br>
+
+
+
 ## Background
 
 This guide provides instructions on how to begin implementing alert policies and initiatives in your environment for testing and validation. It assumes that you will use GitHub Actions or manual deployment methods to implement policies, initiatives, and policy assignments in your environment.

@@ -3,6 +3,8 @@ title: Disable Policies
 geekdocCollapseSection: true
 weight: 60
 ---
+> [AlertState Parameter](../Disabling-Policies#alertstate-parameter) </br>
+> [PolicyEffect Parameter](../Disabling-Policies#policyeffect-parameter) </br>
 
 The AMBA-ALZ pattern provides several methods to enable or disable policy effects.
 

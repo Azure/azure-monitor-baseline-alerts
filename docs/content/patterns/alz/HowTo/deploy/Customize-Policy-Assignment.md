@@ -3,6 +3,9 @@ title: Customize Policy Assignment
 geekdocCollapseSection: true
 weight: 20
 ---
+> [Introduction](../Customize-Policy-Assignment#introduction) </br>
+> [Modify initiative assignment](../Customize-Policy-Assignment#modify-initiative-assignment) </br>
+> [Next steps](../Customize-Policy-Assignment#next-steps)
 
 ## Introduction
 

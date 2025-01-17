@@ -2,6 +2,8 @@
 title: Parameter Configuration
 geekdocHidden: true
 ---
+> [Parameter Configuration](../parameterConfiguration#1-parameter-configuration) </br>
+> [Sample Parameter File](../parameterConfiguration#2-sample-parameter-file) </br>
 
 {{< hint type=Important >}}
 Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before proceeding.

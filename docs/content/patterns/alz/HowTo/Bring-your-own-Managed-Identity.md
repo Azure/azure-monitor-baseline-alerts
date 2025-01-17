@@ -3,6 +3,8 @@ title: Bring Your Own User Assigned Managed Identity
 geekdocCollapseSection: true
 weight: 95
 ---
+> [Overview](../Bring-your-own-Managed-Identity#overview) </br>
+> [How this feature works](../Bring-your-own-Managed-Identity#how-this-feature-works) </br>
 
 ## Overview
 

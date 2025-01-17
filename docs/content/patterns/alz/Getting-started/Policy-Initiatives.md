@@ -4,6 +4,24 @@ geekdocCollapseSection: true
 weight: 40
 ---
 
+> [Overview](../Policy-Initiatives#overview) </br>
+> [Connectivity Initiative](../Policy-Initiatives#connectivity-initiative) </br>
+> [Management Initiative](../Policy-Initiatives#management-initiative) </br>
+> [Identity Initiative](../Policy-Initiatives#identity-initiative) </br>
+> [Key Management Initiative](../Policy-Initiatives#key-management-initiative) </br>
+> [Load Balancing Initiative](../Policy-Initiatives#load-balancing-initiative) </br>
+> [Network Changes Initiative](../Policy-Initiatives#network-changes-initiative) </br>
+> [Recovery Services Initiative](../Policy-Initiatives#recovery-services-initiative) </br>
+> [Storage Initiative](../Policy-Initiatives#storage-initiative) </br>
+> [VM Initiative](../Policy-Initiatives#vm-initiative) </br>
+> [Web Initiative](../Policy-Initiatives#web-initiative) </br>
+> [Hybrid VM Initiative](../Policy-Initiatives#hybrid-vm-initiative) </br>
+> [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
+> [Notification Assets Initiative](../Policy-Initiatives#notification-assets-initiative) </br>
+> [Landing Zone Initiative (Deprecated)](../Policy-Initiatives#landing-zone-initiative-deprecated) </br>
+
+
+
 ## Overview
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
