@@ -54,8 +54,8 @@ Sample parameter file configuration for this scenario:
 
 This feature is currently used in log-search based alerts which are mostly included in the following policy initiatives:
 
-- Deploy Azure Monitor Baseline Alertts for VMs
-- Deploy Azure Monitor Baseline Alertts for Hybrid VMs
+- Deploy Azure Monitor Baseline Alerts for Azure Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines
 
 ![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
 
