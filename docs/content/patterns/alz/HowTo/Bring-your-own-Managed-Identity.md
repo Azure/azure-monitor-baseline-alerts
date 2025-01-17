@@ -52,12 +52,15 @@ Sample parameter file configuration for this scenario:
 
 ### Usage
 
-This feature is currently used in log-search based alerts. As of this release, one alert uses it, part of the ***Deploy Azure Monitor Baseline Alerts for Hybrid VMs*** policySet for monitoring hybrid virtual machines.
+This feature is currently used in log-search based alerts which are mostly included in the following policy initiatives:
+
+- Deploy Azure Monitor Baseline Alerts for Azure Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines
 
 ![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
 
 {{< hint type=Info >}}
-Future plans include expanding this feature to other alerts.
+This feature could be expanded to other alerts in the future.
 {{< /hint >}}
 
 ### Switching between BYO UAMI and new UAMI
