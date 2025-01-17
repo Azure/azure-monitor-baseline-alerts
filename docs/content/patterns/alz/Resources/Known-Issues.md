@@ -4,6 +4,16 @@ geekdocCollapseSection: true
 weight: 100
 ---
 
+### In this page
+
+> [VM Log Alert policies fail to remediate](../Known-Issues#vm-log-alert-policies-fail-to-remediate) </br>
+> [Failed to deploy because of role assignment issue](../Known-Issues#failed-to-deploy-because-of-role-assignment-issue) </br>
+> [Failed to deploy to a different location](../Known-Issues#failed-to-deploy-to-a-different-location) </br>
+> [Failed to deploy because of the limit of 800 deployments per management group has been reached](../Known-Issues#failed-to-deploy-because-of-the-limit-of-800-deployments-per-management-group-has-been-reached) </br>
+> [Failed to deploy because of 'location' property not specified](../Known-Issues#failed-to-deploy-because-of-location-property-not-specified) </br>
+> [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) </br>
+> [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) </br>
+
 ## VM Log Alert policies fail to remediate
 
 > ### Error includes

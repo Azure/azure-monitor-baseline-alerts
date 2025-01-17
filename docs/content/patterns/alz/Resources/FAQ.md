@@ -4,6 +4,21 @@ geekdocCollapseSection: true
 weight: 80
 ---
 
+### In this page
+
+> [Do I need to have Azure Landing zones deployed for this to work?](../FAQ#do-i-need-to-have-azure-landing-zones-deployed-for-this-to-work) </br>
+> [Can I deploy to the Tenant Root Group?](../FAQ#can-i-deploy-to-the-tenant-root-group) </br>
+> [Do I need to deploy to each region that I want to monitor?](../FAQ#do-i-need-to-deploy-to-each-region-that-i-want-to-monitor) </br>
+> [Do I need to use the thresholds defined as default values in the metric rule alerts?](../FAQ#do-i-need-to-use-the-thresholds-defined-as-default-values-in-the-metric-rule-alerts) </br>
+> [Why are the availability alert thresholds lower than 100% in this solution when the product group documentation recommends 100%?](../FAQ#why-are-the-availability-alert-thresholds-lower-than-100-in-this-solution-when-the-product-group-documentation-recommends-100) </br>
+> [Do I need to use these metrics or can they be replaced with ones more suited to my environment?](../FAQ#do-i-need-to-use-these-metrics-or-can-they-be-replaced-with-ones-more-suited-to-my-environment) </br>
+> [Can I disable the alerts being deployed for a resource or subscription?](../FAQ#can-i-disable-the-alerts-being-deployed-for-a-resource-or-subscription) </br>
+> [How much does it cost to run the ALZ Baseline solution?](../FAQ#how-much-does-it-cost-to-run-the-alz-baseline-solution) </br>
+> [Can I access the Visio diagrams displayed in the documentation?](../FAQ#can-i-access-the-visio-diagrams-displayed-in-the-documentation) </br>
+> [Can I use AMBA-ALZ without cloning/forking a GitHub repository](../FAQ#can-i-use-amba-alz-without-cloningforking-a-github-repository) </br>
+> [Can I deploy a local template by using -TemplateFile](../FAQ#can-i-deploy-a-local-template-by-using--templatefile) </br>
+> [What characters can I use when creating Azure resources or renaming Azure subscriptions?](../FAQ#what-characters-can-i-use-when-creating-azure-resources-or-renaming-azure-subscriptions) </br>
+
 ## Do I need to have Azure Landing zones deployed for this to work?
 
 > No, Azure Landing Zones are not required. However, you must use Azure Management Groups. Currently, our focus is on resources commonly deployed as part of Azure Landing Zone implementations.
