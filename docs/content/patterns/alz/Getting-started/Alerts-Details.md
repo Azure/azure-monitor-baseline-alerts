@@ -4,6 +4,13 @@ geekdocCollapseSection: true
 weight: 30
 ---
 
+### In this page
+
+> [AMBA-ALZ Pattern Metric Alerts Settings](../Alerts-Details#amba-alz-pattern-metric-alerts-settings) </br>
+> [AMBA-ALZ Pattern Activity Log Alerts](../Alerts-Details#amba-alz-pattern-activity-log-alerts) </br>
+> [VM Insights Log Alerts](../Alerts-Details#vm-insights-log-alerts) </br>
+> [Recovery Vault Alerts](../Alerts-Details#recovery-vault-alerts) </br>
+
 To download specific alerts for the AMBA-ALZ pattern, click the Download icon (highlighted in red below) in the top right corner of the page.
 
   ![Alert-Details Download icon](../../media/AlertDetailsDownloadReference.png)
@@ -67,4 +74,3 @@ Security Alerts and Job Failure alerts are summarized in the "[Using Backup Cent
 | PolicyName                                                                                                                                                                                    | Component                         | Category                                                                                              | Scope    | Support for Multiple Resources | Verified | References                                                                                                                                                                                                                                                                                                            |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|-------------------------------------------------------------------------------------------------------|----------|--------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Deploy RV Backup Health Monitoring Alerts](../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json) | Microsoft.RecoveryServices/Vaults | Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations | Resource | No                             | Y        | [Azure Monitor Alerts for Azure Backup](https://learn.microsoft.com/en-us/azure/backup/backup-azure-monitoring-built-in-monitor?tabs=recovery-services-vaults#azure-monitor-alerts-for-azure-backup) <br> [Move to Azure Monitor Alerts](https://learn.microsoft.com/en-us/azure/backup/move-to-azure-monitor-alerts) |
-

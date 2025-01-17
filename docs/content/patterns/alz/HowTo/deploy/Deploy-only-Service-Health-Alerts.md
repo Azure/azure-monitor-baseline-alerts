@@ -4,6 +4,12 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
+### In this page
+
+> [Quick deployment](../Deploy-only-Service-Health-Alerts#quick-deployment) </br>
+> [Custom deployment](../Deploy-only-Service-Health-Alerts#custom-deployment) </br>
+> [Next Steps](../Deploy-only-Service-Health-Alerts#next-steps) </br>
+
 {{< hint type=Important >}}
 Updating from the _**preview**_ version isn't supported. If you deployed the _**preview**_ version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}

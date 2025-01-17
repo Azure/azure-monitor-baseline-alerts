@@ -4,6 +4,10 @@ geekdocCollapseSection: true
 weight: 94
 ---
 
+### In this page
+
+> [Update](../Update_to_release_2025-01-10#update) </br>
+
 {{< hint type=Info >}}
 **_No pre-update or post-update actions_** are required.
 {{< /hint >}}

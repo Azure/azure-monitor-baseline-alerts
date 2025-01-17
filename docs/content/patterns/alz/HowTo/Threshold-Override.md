@@ -4,6 +4,14 @@ geekdocCollapseSection: true
 weight: 70
 ---
 
+### In this page
+
+> [Overview](../Threshold-Override#overview) </br>
+> [How this feature works](../Threshold-Override#how-this-feature-works) </br>
+> [Metrics alerts](../Threshold-Override#metrics-alerts) </br>
+> [Log-search alerts](../Threshold-Override#log-search-alerts) </br>
+> [Which tag do customers need to create](../Threshold-Override#which-tag-do-customers-need-to-create) </br>
+
 ## Overview
 
 The ***Alert Threshold Override*** feature, introduced in the [2024-09-05 release](../../Overview/Whats-New#2024-09-05), enables both Greenfield and Brownfield customers to customize alert thresholds for specific resources during or after the deployment of AMBA-ALZ. This feature allows the use of a tag with a specific name and value to override the default alert threshold for designated resources. The new threshold value will apply exclusively to the tagged resources, replacing the global threshold specified in the parameter file.
@@ -26,7 +34,7 @@ Considering the nature of log-search alerts, where resource information is retri
 
 ![Log-search Alerts - Override threshold at work](../../media/LogsearchAlerts-OverrideThresholdAtWork.png)
 
-## Which tag does customers need to create
+## Which tag do customers need to create
 
 {{< hint type=Info >}}
 For a comprehensive list of resource type friendly names, resource provider namespaces, and recommended abbreviations, refer to [Abbreviation recommendations for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).

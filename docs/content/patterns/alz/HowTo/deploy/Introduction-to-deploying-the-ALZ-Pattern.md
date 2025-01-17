@@ -3,6 +3,18 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
+### In this page
+
+> [Background](../Introduction-to-deploying-the-ALZ-Pattern#background) </br>
+> [Prerequisites](../Introduction-to-deploying-the-ALZ-Pattern#prerequisites) </br>
+> [Getting Started](../Introduction-to-deploying-the-ALZ-Pattern#getting-started) </br>
+> [Determining your Management Group Hierarchy](../Introduction-to-deploying-the-ALZ-Pattern#determining-your-management-group-hierarchy) </br>
+> [Customizing Policy Assignments](../Introduction-to-deploying-the-ALZ-Pattern#customizing-policy-assignments) </br>
+> [Customizing the AMBA-ALZ Policies](../Introduction-to-deploying-the-ALZ-Pattern#customizing-the-amba-alz-policies) </br>
+> [Disabling Monitoring](../Introduction-to-deploying-the-ALZ-Pattern#disabling-monitoring) </br>
+> [Cleaning up an ALZ Deployment](../Introduction-to-deploying-the-ALZ-Pattern#cleaning-up-an-amba-alz-deployment) </br>
+> [Next Steps](../Introduction-to-deploying-the-ALZ-Pattern#next-steps) </br>
+
 ## Background
 
 This guide provides instructions on how to begin implementing alert policies and initiatives in your environment for testing and validation. It assumes that you will use GitHub Actions or manual deployment methods to implement policies, initiatives, and policy assignments in your environment.
@@ -50,7 +62,7 @@ While it is recommended to implement the alert policies and initiatives within a
   - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
   - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
-### Determining your Management Group Hierarchy
+## Determining your Management Group Hierarchy
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 

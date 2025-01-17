@@ -4,6 +4,17 @@ geekdocCollapseSection: true
 weight: 09
 ---
 
+### In this page
+
+> [2025-01-10](../Whats-New#2025-01-10) </br>
+> [2024-12-10](../Whats-New#2024-12-10) </br>
+> [2024-11-01](../Whats-New#2024-11-01) </br>
+> [2024-09-02](../Whats-New#2024-09-02) </br>
+> [2024-06-05](../Whats-New#2024-06-05) </br>
+> [2024-04-12](../Whats-New#2024-04-12) </br>
+> [2024-03-01](../Whats-New#2024-03-01) </br>
+> [2023-11-14](../Whats-New#2023-11-14) </br>
+
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.

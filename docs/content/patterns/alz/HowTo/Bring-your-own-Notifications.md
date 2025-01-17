@@ -4,6 +4,11 @@ geekdocCollapseSection: true
 weight: 90
 ---
 
+### In this page
+
+> [Overview](../Bring-your-own-Notifications#overview) </br>
+> [How this feature works](../Bring-your-own-Notifications#how-this-feature-works) </br>
+
 ## Overview
 
 The ***Bring Your Own Notifications*** (BYON) feature, introduced in the [2024-04-12](../../Overview/Whats-New#2024-04-12) release, enables brownfield customers to utilize their existing Action Groups (AGs) and Alert Processing Rules (APRs) without mandating the use of notification assets deployed by the [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) initiative or the [Deploy Service Health Action Group](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) policy definition in the ALZ pattern. This feature also allows brownfield customers who deployed the ALZ pattern before this feature was available to switch to it.

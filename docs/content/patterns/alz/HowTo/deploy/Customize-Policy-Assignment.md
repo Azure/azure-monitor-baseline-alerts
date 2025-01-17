@@ -4,6 +4,12 @@ geekdocCollapseSection: true
 weight: 20
 ---
 
+### In this page
+
+> [Introduction](../Customize-Policy-Assignment#introduction) </br>
+> [Modify initiative assignment](../Customize-Policy-Assignment#modify-initiative-assignment) </br>
+> [Next steps](../Customize-Policy-Assignment#next-steps)
+
 ## Introduction
 
 This document provides guidance on customizing policy assignments for the policies and initiatives in this repository. While default configurations are available as described in [Introduction to deploying the AMBA-ALZ pattern](../Introduction-to-deploying-the-ALZ-Pattern), you may need to adjust these settings to meet specific monitoring requirements or to implement alerts incrementally in an existing environment.

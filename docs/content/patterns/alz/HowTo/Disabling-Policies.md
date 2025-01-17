@@ -4,6 +4,12 @@ geekdocCollapseSection: true
 weight: 60
 ---
 
+### In this page
+
+> [AlertState Parameter](../Disabling-Policies#alertstate-parameter) </br>
+> [PolicyEffect Parameter](../Disabling-Policies#policyeffect-parameter) </br>
+> [MonitorDisable Parameter](../Disabling-Policies#monitordisable-parameter) </br>
+
 The AMBA-ALZ pattern provides several methods to enable or disable policy effects.
 
 1. **Parameter: AlertState** - Manages the state of alert rules, allowing deployment in a disabled state or disabling existing alert rules at scale through policy.

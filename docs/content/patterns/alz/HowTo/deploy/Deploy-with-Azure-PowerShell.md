@@ -3,6 +3,12 @@ title: Deploy with Azure PowerShell
 weight: 40
 ---
 
+### In this page
+
+> [Configuring Variables for Deployment](../Deploy-with-Azure-PowerShell#3-configuring-variables-for-deployment) </br>
+> [Deploy Policy Definitions, Initiatives, and Policy Assignments with Default Settings](../Deploy-with-Azure-PowerShell#4-deploy-policy-definitions-initiatives-and-policy-assignments-with-default-settings) </br>
+> [Next Steps](../Deploy-with-Azure-PowerShell#next-steps) </br>
+
 {{% include "parameterConfiguration.md" %}}
 
 ## 3. Configuring Variables for Deployment

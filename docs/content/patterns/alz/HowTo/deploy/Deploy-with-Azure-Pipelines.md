@@ -3,6 +3,12 @@ title: Deploy with Azure Pipelines
 weight: 50
 ---
 
+### In this page
+
+> [Configure and Run the Pipeline](../Deploy-with-Azure-Pipelines#3-configure-and-run-the-pipeline) </br>
+> [Next Steps](../Deploy-with-Azure-Pipelines#next-steps) </br>
+
+
 {{% include "parameterConfiguration.md" %}}
 
 ## 3. Configure and Run the Pipeline

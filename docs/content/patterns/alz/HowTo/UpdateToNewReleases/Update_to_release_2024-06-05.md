@@ -4,6 +4,11 @@ geekdocCollapseSection: true
 weight: 98
 ---
 
+### In this page
+
+> [Pre update actions](../Update_to_release_2024-06-05#pre-update-actions) </br>
+> [Update](../Update_to_release_2024-06-05#update)
+
 {{< hint type=Important >}}
 ***The parameter file structure has changed to accommodate a new feature coming soon.***
 {{< /hint >}}
