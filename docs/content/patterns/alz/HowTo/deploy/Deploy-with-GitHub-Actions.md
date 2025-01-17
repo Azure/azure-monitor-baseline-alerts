@@ -3,8 +3,9 @@ title: Deploy with GitHub Actions
 weight: 60
 ---
 
+### In this page
+
 > [Configure and Run the Workflow](../Deploy-with-GitHub-Actions#3-configure-and-run-the-workflow) </br>
-> [Modify Variables and Run the Workflow](../Deploy-with-GitHub-Actions#modify-variables-and-run-the-workflow) </br>
 > [Next Steps](../Deploy-with-GitHub-Actions#next-steps) </br>
 
 {{% include "parameterConfiguration.md" %}}

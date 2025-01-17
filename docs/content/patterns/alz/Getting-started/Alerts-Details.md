@@ -4,12 +4,12 @@ geekdocCollapseSection: true
 weight: 30
 ---
 
+### In this page
+
 > [AMBA-ALZ Pattern Metric Alerts Settings](../Alerts-Details#amba-alz-pattern-metric-alerts-settings) </br>
 > [AMBA-ALZ Pattern Activity Log Alerts](../Alerts-Details#amba-alz-pattern-activity-log-alerts) </br>
 > [VM Insights Log Alerts](../Alerts-Details#vm-insights-log-alerts) </br>
 > [Recovery Vault Alerts](../Alerts-Details#recovery-vault-alerts) </br>
-
-
 
 To download specific alerts for the AMBA-ALZ pattern, click the Download icon (highlighted in red below) in the top right corner of the page.
 

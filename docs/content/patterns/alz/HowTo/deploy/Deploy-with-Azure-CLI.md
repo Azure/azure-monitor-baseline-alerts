@@ -3,10 +3,11 @@ title: Deploy with Azure CLI
 weight: 30
 ---
 
+### In this page
+
 > [Configuring Variables for Deployment](../Deploy-with-Azure-CLI#3-configuring-variables-for-deployment) </br>
 > [Deploying AMBA-ALZ](../Deploy-with-Azure-CLI#4-deploying-amba-alz) </br>
 > [Next Steps](../Deploy-with-Azure-CLI#next-steps) </br>
-
 
 {{% include "parameterConfiguration.md" %}}
 

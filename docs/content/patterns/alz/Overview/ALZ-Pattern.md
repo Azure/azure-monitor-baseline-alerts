@@ -4,8 +4,10 @@ geekdocCollapseSection: true
 weight: 10
 ---
 
+### In this page
+
 > [Overview](../ALZ-Pattern#overview) </br>
-> [Feedback](../ALZ-Pattern#feedback) </br>
+> [Feedback](../ALZ-Pattern#-feedback-) </br>
 > [Deployment Guide](../ALZ-Pattern#deployment-guide) </br>
 > [Known Issues](../ALZ-Pattern#known-issues) </br>
 > [Frequently Asked Questions](../ALZ-Pattern#frequently-asked-questions) </br>

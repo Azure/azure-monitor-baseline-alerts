@@ -4,9 +4,9 @@ geekdocCollapseSection: true
 weight: 101
 ---
 
+### In this page
+
 > [Cleanup Script Execution](../Moving-from-preview-to-GA#cleanup-script-execution) </br>
-> [Download the Script File](../Moving-from-preview-to-GA#download-the-script-file) </br>
-> [Executing the Script](../Moving-from-preview-to-GA#executing-the-script) </br>
 > [Next Steps](../Moving-from-preview-to-GA#next-steps) </br>
 
 To transition from the preview version to the General Availability (GA) version of the ALZ Monitor solution, you must remove all previously deployed resources. Follow these instructions to execute a PowerShell script that deletes the following resources:

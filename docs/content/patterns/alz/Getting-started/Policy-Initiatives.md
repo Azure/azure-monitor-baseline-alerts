@@ -4,6 +4,8 @@ geekdocCollapseSection: true
 weight: 40
 ---
 
+### In this page
+
 > [Overview](../Policy-Initiatives#overview) </br>
 > [Connectivity Initiative](../Policy-Initiatives#connectivity-initiative) </br>
 > [Management Initiative](../Policy-Initiatives#management-initiative) </br>
@@ -19,8 +21,6 @@ weight: 40
 > [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
 > [Notification Assets Initiative](../Policy-Initiatives#notification-assets-initiative) </br>
 > [Landing Zone Initiative (Deprecated)](../Policy-Initiatives#landing-zone-initiative-deprecated) </br>
-
-
 
 ## Overview
 
