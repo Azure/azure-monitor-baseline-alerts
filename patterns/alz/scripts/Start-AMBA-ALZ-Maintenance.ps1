@@ -112,11 +112,11 @@ Function Search-AzGraphRecursive {
 
             # resource graph returns pages of 100 resources, if there are more than 100 resources in a batch, recursively query for more
             If ($batchResult.count -eq 100 -and $batchResult.SkipToken) {
-                [void]$result.Add($batchResult)
+                $result += $batchResult
                 Search-AzGraphRecursive -query $query -managementGroupNames $managementGroupNames -skipToken $batchResult.SkipToken
             }
             else {
-                [void]$result.Add($batchResult)
+                $result +=$batchResult
             }
         }
     }
@@ -133,7 +133,7 @@ Function Search-AzGraphRecursive {
 
 Function Iterate-ManagementGroups($mg) {
 
-    # Assembling a custom object to create multidemnsional array
+    # Assembling a custom object to create multidimensional array
     $row = [PSCustomObject]@{
         mgName = "$($mg.Name)"
         mgId = "$($mg.Id)"
@@ -267,7 +267,7 @@ Function Get-ALZ-Deployments {
     # get deployments to delete
     $allDeployments = @()
     ForEach ($mg in $managementGroups) {
-        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$($mg.mgName)" -WarningAction silentlyContinue | where { $_.DeploymentName.StartsWith("amba-") }
+        $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$($mg.mgName)" -WarningAction silentlyContinue | Where-Object { $_.DeploymentName.StartsWith("amba-") }
         $allDeployments += $deployments
     }
     Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy." -ForegroundColor Cyan
@@ -446,7 +446,7 @@ Switch ($cleanItems)
         $alertsToBeDeleted = Get-ALZ-Alerts
 
         # Invoking function to retrieve resource groups
-        $rgToBeDeleted = Get-ALZ-ResourceGroups
+        #$rgToBeDeleted = Get-ALZ-ResourceGroups
 
         # Invoking function to retrieve policy assignments
         $policyAssignmentToBeDeleted = Get-ALZ-PolicyAssignments

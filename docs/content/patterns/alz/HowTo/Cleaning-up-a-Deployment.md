@@ -1,7 +1,7 @@
 ---
 title: Clean-up AMBA-ALZ Deployment
 geekdocCollapseSection: true
-weight: 70
+weight: 52
 ---
 
 ### In this page
@@ -31,7 +31,7 @@ It is strongly advised to **thoroughly** test the script in a non-production env
 
 To download the cleanup script file, follow these steps. Alternatively, you can clone the repository from GitHub and ensure you are working with the latest version by fetching the latest `main` branch.
 
-1. Navigate to the [AMBA project on GitHub](https://github.com/Azure/azure-monitor-baseline-alerts).
+1. Navigate to the [AMBA project on GitHub](https://aka.ms/amba/repo).
 2. Browse to the `patterns/alz/scripts` directory.
 3. Open the **Start-AMBA-ALZ-Maintenance.ps1** script file.
 4. Click the **Raw** button.

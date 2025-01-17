@@ -29,7 +29,7 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-11-01/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-12-10/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
@@ -41,7 +41,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   {{< /hint >}}
 
   - Change the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-  - Change the value of _```bringYourownUserAssignedManagedIdentity```_ to **Yes** if you have an existing user assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
+  - Change the value of _```bringYourownUserAssignedManagedIdentity```_ to **Yes** if you have an existing user assigned managed identity with the _**Monitoring Reader**_ role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
   - Change the value of _```bringYourownUserAssignedManagedIdentityResourceId```_. If you set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes**, insert the resource ID of your user assigned managed identity. If you left it with the default value of **No**, leave the value blank.
   - Change the value of _```userAssignedManagedIdentityName```_ to a name of your preference. This parameter is used only if the _```bringYourownUserAssignedManagedIdentity```_ has been set to **No**.
   - Change the value of _```managementSubscriptionId```_. If you set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **No**, enter the subscriptionId of the management subscription, otherwise leave the default value.
@@ -89,7 +89,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
   {{< /hint >}}
 
-- If you would like to disable initiative assignments, you can change the value on one or more of the following parameters; _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBALandingZone```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_ to _**"No"**_.
+To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_, _```enableAMBANotificationAssets```_, _```enableAMBAHybridVM```_, _```enableAMBAKeyManagement```_, _```enableAMBALoadBalancing```_, _```enableAMBANetworkChanges```_, _```enableAMBARecoveryServices```_, _```enableAMBAStorage```_, _```enableAMBAVM```_, or _```enableAMBAWeb```_.
 
 #### If you are aligned to ALZ
 
@@ -121,7 +121,7 @@ For ease of deployment and maintenance we have kept the same variables. For exam
 - Change the value of _```LandingZoneManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_ and _```LZManagementGroup```_ with the pseudo root management group ID.
+For ease of deployment and maintenance we have kept the same variables. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_ and _```LZManagementGroup```_ with the pseudo root management group ID.
 {{< /hint >}}
 
 ### 2. Example Parameter file
@@ -164,7 +164,7 @@ The parameter file shown below has been truncated for brevity, compared to the s
       "value": "Yes"
     },
     "enableAMBANotificationAssets": {
-      "value": "Yes"
+      "value": "No"
     },
     "enableAMBAHybridVM": {
       "value": "No"
@@ -259,7 +259,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-11-01/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-12-10/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>

@@ -32,7 +32,7 @@ It is strongly recommended to **thoroughly** test the script in a non-production
 
 Follow these steps to download the cleanup script file. Alternatively, you can clone the repository from GitHub and ensure you have the latest version by fetching the `main` branch.
 
-1. Navigate to the [AMBA project on GitHub](https://github.com/Azure/azure-monitor-baseline-alerts).
+1. Navigate to the [AMBA project on GitHub](https://aka.ms/amba/repo).
 2. Browse to the `patterns/alz/scripts` directory.
 3. Locate and open the **Start-ALZMonitorCleanup.ps1** script file.
 4. Click on the **Raw** button to view the raw content of the script.
@@ -68,8 +68,9 @@ Follow these steps to download the cleanup script file. Alternatively, you can c
 
 ## Next Steps
 
-- For customizing policy assignments, refer to [Customize Policy Assignment](../../HowTo/deploy/Customize-Policy-Assignment).
-- For deployment using GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
-- For deployment using Azure DevOps Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
-- For deployment using Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
-- For deployment using Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
+- For customizing policy assignments, refer to [Customize Policy Assignment](../../deploy/Customize-Policy-Assignment).
+- For deplyment using Azure Portal, refer to [Deploy via the Azure Portal Accelerator](../../deploy/Deploy-via-Azure-Portal-UI)  (recommended method)
+- For deployment using GitHub Actions, refer to [Deploy with GitHub Actions](../../deploy/Deploy-with-GitHub-Actions).
+- For deployment using Azure DevOps Pipelines, refer to [Deploy with Azure Pipelines](../../deploy/Deploy-with-Azure-Pipelines).
+- For deployment using Azure CLI, refer to [Deploy with Azure CLI](../../deploy/Deploy-with-Azure-CLI).
+- For deployment using Azure PowerShell, refer to [Deploy with Azure PowerShell](../../deploy/Deploy-with-Azure-PowerShell).

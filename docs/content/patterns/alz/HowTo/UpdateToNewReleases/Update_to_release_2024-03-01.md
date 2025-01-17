@@ -11,11 +11,11 @@ weight: 100
 
 ## Update
 
-Complete the activities documented in the [Steps to update to the latest release](.._index#steps-to-update-to-the-latest-release) page.
+Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
 
 ## Post update actions
 
-Updating to release [2024-03-01](../../../Whats-New#2024-03-01) will require running a post update script to remove the old Service Health action group(s) no longer in use.
+Updating to release [2024-03-01](../../../Overview/Whats-New#2024-03-01) will require running a post update script to remove the old Service Health action group(s) no longer in use.
 
 To execute the script, follow these steps:
 
