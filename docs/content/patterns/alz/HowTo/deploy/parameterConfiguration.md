@@ -4,7 +4,7 @@ geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
-Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before proceeding.
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../alz/HowTo/UpdateToNewReleases/Moving-from-preview-to-GA.md) before proceeding.
 {{< /hint >}}
 
 ## 1. Parameter Configuration
