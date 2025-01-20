@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Service Health",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health.",
     "metadata": {
-      "version": "1.5.0",
+      "version": "1.5.2",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -17,7 +17,7 @@
     "parameters": {
       "ALZMonitorResourceGroupName": {
         "type": "String",
-        "defaultValue": "ALZ-Monitoring-RG",
+        "defaultValue": "rg-amba-monitoring-001",
         "metadata": {
           "displayName": "Resource Group Name",
           "description": "Name of the resource group to deploy the alerts to"
@@ -246,7 +246,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
-        "policyDefinitionId": "[concat('/providers/Microsoft.Management/managementGroups/contoso', '/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups')]",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups",
         "parameters": {
           "ALZMonitorResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"

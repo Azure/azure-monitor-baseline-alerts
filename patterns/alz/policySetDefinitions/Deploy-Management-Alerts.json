@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Management",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ Management management group",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -17,7 +17,7 @@
     "parameters": {
       "ALZMonitorResourceGroupName": {
         "type": "String",
-        "defaultValue": "ALZ-Monitoring-RG",
+        "defaultValue": "rg-amba-monitoring-001",
         "metadata": {
           "displayName": "ALZ Monitoring Resource Group Name",
           "description": "Name of the resource group to deploy the ALZ monitoring resources to"
@@ -172,6 +172,19 @@
         "metadata": {
           "displayName": "RV Backup Health Monitor Policy Effect",
           "description": "Policy effect for the alert, modify will create the alert if it does not exist and enable it on your Recovery Vaults, audit will only audit if alerting is enabled on Recovery Vaults, disabled will not create the alert on Recovery Vaults"
+        }
+      },
+      "RVASRHealthMonitorPolicyEffect": {
+        "type": "string",
+        "defaultValue": "modify",
+        "allowedValues": [
+          "modify",
+          "audit",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "Recovery Vault ASR Health Monitor Policy Effect",
+          "description": "Policy effect for the alert, modify will modify the alert if it exists, or audit if it does not exist"
         }
       },
       "StorageAccountAvailabilityAlertSeverity": {
@@ -587,6 +600,21 @@
         "parameters": {
           "effect": {
             "value": "[[parameters('RVBackupHealthMonitorPolicyEffect')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_RVASRHealthMonitor",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('RVASRHealthMonitorPolicyEffect')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"

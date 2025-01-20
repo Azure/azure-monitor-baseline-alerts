@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Load Balancing",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -497,6 +497,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "AGWApplicationGatewayTotalTimeFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Total Time Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "AGWApplicationGatewayTotalTimeEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Total Time Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "AGWBackendLastByteResponseTimeAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -576,6 +592,22 @@
         "metadata": {
           "displayName": "AGW Backend Last Byte Response Time Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "AGWBackendLastByteResponseTimeFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "AGWBackendLastByteResponseTimeEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Backend Last Byte Response Time Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "AGWCapacityUnitsAlertSeverity": {
@@ -863,6 +895,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "AGWFailedRequestsFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Failed Requests Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "AGWFailedRequestsEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Failed Requests Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "AGWResponseStatusAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -942,6 +990,22 @@
         "metadata": {
           "displayName": "AGW Response Status Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "AGWResponseStatusFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Response Status Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "AGWResponseStatusEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "AGW Response Status Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "AGWUnhealthyHostCountAlertSeverity": {
@@ -1420,6 +1484,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "CDNPOriginLatencyFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Origin Latency Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPOriginLatencyEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Origin Latency Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
+      },
       "CDNPPercentage4XXAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1488,6 +1568,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "CDNPPercentage4XXFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPPercentage4XXEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Percentage 4XX Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
+      },
       "CDNPPercentage5XXAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1555,6 +1651,22 @@
           "displayName": "CDN Percentage 5XX Alert State",
           "description": "Alert state for the alert"
         }
+      },
+      "CDNPPercentage5XXFailingPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        },
+        "defaultValue": "2"
+      },
+      "CDNPPercentage5XXEvaluationPeriods": {
+        "type": "String",
+        "metadata": {
+          "displayName": "CDN Percentage 5XX Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        },
+        "defaultValue": "2"
       },
       "TMEndpointHealthAlertSeverity": {
         "type": "String",
@@ -1934,6 +2046,12 @@
           "enabled": {
             "value": "[[parameters('AGWApplicationGatewayTotalTimeAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AGWApplicationGatewayTotalTimeEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -1963,6 +2081,12 @@
           },
           "enabled": {
             "value": "[[parameters('AGWBackendLastByteResponseTimeAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AGWBackendLastByteResponseTimeEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -2075,6 +2199,12 @@
           "enabled": {
             "value": "[[parameters('AGWFailedRequestsAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('AGWFailedRequestsFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AGWFailedRequestsEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -2104,6 +2234,12 @@
           },
           "enabled": {
             "value": "[[parameters('AGWResponseStatusAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('AGWResponseStatusFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('AGWResponseStatusEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -2294,6 +2430,12 @@
           "enabled": {
             "value": "[[parameters('CDNPOriginLatencyAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPOriginLatencyFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('CDNPOriginLatencyEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -2321,6 +2463,12 @@
           "enabled": {
             "value": "[[parameters('CDNPPercentage4XXAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPPercentage4XXFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('CDNPPercentage4XXEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -2347,6 +2495,12 @@
           },
           "enabled": {
             "value": "[[parameters('CDNPPercentage5XXAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('CDNPPercentage5XXFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('CDNPPercentage5XXEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"

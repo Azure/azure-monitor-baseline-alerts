@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Connectivity",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Network components such as Azure Firewalls, ExpressRoute, VPN, and Private DNS Zones.",
     "metadata": {
-      "version": "1.1.1",
+      "version": "1.3.2",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -17,7 +17,7 @@
     "parameters": {
       "ALZMonitorResourceGroupName": {
         "type": "String",
-        "defaultValue": "ALZ-Monitoring-RG",
+        "defaultValue": "rg-amba-monitoring-001",
         "metadata": {
           "displayName": "ALZ Monitor Resource Group Name",
           "description": "Name of the resource group where the ALZ Monitor resources will be deployed"
@@ -130,6 +130,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "ERCIRQoSDropBitsinPerSecFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "ERC IRQoS Drop Bits in Per Sec Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "ERCIRQoSDropBitsinPerSecEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "ERC IRQoS Drop Bits in Per Sec Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "ERCIRQoSDropBitsoutPerSecAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -196,6 +212,22 @@
         "metadata": {
           "displayName": "ERC IRQoS Drop Bits out Per Sec Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "ERCIRQoSDropBitsoutPerSecFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "ERC IRQoS Drop Bits out Per Sec Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "ERCIRQoSDropBitsoutPerSecEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "ERC IRQoS Drop Bits out Per Sec Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "VPNGwBGPPeerStatusAlertSeverity": {
@@ -792,7 +824,27 @@
       },
       "VPNGWTunnelEgressPacketDropCountAlertState": {
         "type": "string",
-        "defaultValue": "true"
+        "defaultValue": "true",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Egress Packet Drop Count Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "VPNGWTunnelEgressPacketDropCountFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Egress Packet Drop Count Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VPNGWTunnelEgressPacketDropCountEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Egress Packet Drop Count Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
       },
       "VPNGWTunnelEgressPacketDropMismatchAlertSeverity": {
         "type": "String",
@@ -860,6 +912,22 @@
         "metadata": {
           "displayName": "VPN GW Tunnel Egress Packet Drop Mismatch Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "VPNGWTunnelEgressPacketDropMismatchFailingPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Egress Packet Drop Mismatch Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VPNGWTunnelEgressPacketDropMismatchEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "2",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Egress Packet Drop Mismatch Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "VPNGWIngressAlertSeverity": {
@@ -1014,6 +1082,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "VPNGWTunnelIngressPacketDropCountFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Ingress Packet Drop Count Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VPNGWTunnelIngressPacketDropCountEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Ingress Packet Drop Count Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "VPNGWTunnelIngressPacketDropMismatchAlertSeverity": {
         "type": "String",
         "defaultValue": "3",
@@ -1080,6 +1164,22 @@
         "metadata": {
           "displayName": "VPN GW Tunnel Ingress Packet Drop Mismatch Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "VPNGWTunnelIngressPacketDropMismatchFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Ingress Packet Drop Mismatch Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VPNGWTunnelIngressPacketDropMismatchEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "VPN GW Tunnel Ingress Packet Drop Mismatch Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "PDNSZCapacityUtilAlertSeverity": {
@@ -2062,6 +2162,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "VnetGwTunnelEgressPacketDropCountFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Egress Packet Drop Count Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VnetGwTunnelEgressPacketDropCountEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Egress Packet Drop Count Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "VnetGwTunnelEgressPacketDropMismatchAlertSeverity": {
         "type": "String",
         "defaultValue": "3",
@@ -2128,6 +2244,22 @@
         "metadata": {
           "displayName": "Vnet Gw Tunnel Egress Packet Drop Mismatch Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "VnetGwTunnelEgressPacketDropMismatchFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Egress Packet Drop Mismatch Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VnetGwTunnelEgressPacketDropMismatchEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Egress Packet Drop Mismatch Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "VnetGwExpressRouteBitsPerSecondAlertSeverity": {
@@ -2274,6 +2406,22 @@
           "description": "Alert state for the alert"
         }
       },
+      "VnetGwTunnelIngressPacketDropMismatchFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Ingress Packet Drop Mismatch Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VnetGwTunnelIngressPacketDropMismatchEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Ingress Packet Drop Mismatch Evaluation Periods",
+          "description": "The number of aggregated lookback points."
+        }
+      },
       "VnetGwTunnelIngressPacketDropCountAlertSeverity": {
         "type": "String",
         "defaultValue": "3",
@@ -2340,6 +2488,22 @@
         "metadata": {
           "displayName": "Vnet Gw Tunnel Ingress Packet Drop Count Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+      "VnetGwTunnelIngressPacketDropCountFailingPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Ingress Packet Drop Count Failing Periods",
+          "description": "Number of failing periods before alert is fired"
+        }
+      },
+      "VnetGwTunnelIngressPacketDropCountEvaluationPeriods": {
+        "type": "string",
+        "defaultValue": "4",
+        "metadata": {
+          "displayName": "Vnet Gw Tunnel Ingress Packet Drop Count Evaluation Periods",
+          "description": "The number of aggregated lookback points."
         }
       },
       "ERCIRBgpAvailabilityAlertSeverity": {
@@ -3495,6 +3659,12 @@
           "enabled": {
             "value": "[[parameters('ERCIRQoSDropBitsinPerSecAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('ERCIRQoSDropBitsinPerSecFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('ERCIRQoSDropBitsinPerSecEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -3521,6 +3691,12 @@
           },
           "enabled": {
             "value": "[[parameters('ERCIRQoSDropBitsoutPerSecAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('ERCIRQoSDropBitsoutPerSecFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('ERCIRQoSDropBitsoutPerSecEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -3759,6 +3935,12 @@
           "enabled": {
             "value": "[[parameters('VPNGWTunnelEgressPacketDropCountAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('VPNGWTunnelEgressPacketDropCountFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VPNGWTunnelEgressPacketDropCountEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -3785,6 +3967,12 @@
           },
           "enabled": {
             "value": "[[parameters('VPNGWTunnelEgressPacketDropMismatchAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VPNGWTunnelEgressPacketDropMismatchFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VPNGWTunnelEgressPacketDropMismatchEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -3846,6 +4034,12 @@
           "enabled": {
             "value": "[[parameters('VPNGWTunnelIngressPacketDropCountAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('VPNGWTunnelIngressPacketDropCountFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VPNGWTunnelIngressPacketDropCountEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -3872,6 +4066,12 @@
           },
           "enabled": {
             "value": "[[parameters('VPNGWTunnelIngressPacketDropMismatchAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VPNGWTunnelIngressPacketDropMismatchFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VPNGWTunnelIngressPacketDropMismatchEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -4110,6 +4310,12 @@
           "enabled": {
             "value": "[[parameters('VnetGwTunnelEgressPacketDropCountAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('VnetGwTunnelEgressPacketDropCountFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VnetGwTunnelEgressPacketDropCountEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -4136,6 +4342,12 @@
           },
           "enabled": {
             "value": "[[parameters('VnetGwTunnelEgressPacketDropMismatchAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VnetGwTunnelEgressPacketDropMismatchFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VnetGwTunnelEgressPacketDropMismatchEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
@@ -4194,6 +4406,12 @@
           "enabled": {
             "value": "[[parameters('VnetGwTunnelIngressPacketDropMismatchAlertState')]"
           },
+          "failingPeriods": {
+            "value": "[[parameters('VnetGwTunnelIngressPacketDropMismatchFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VnetGwTunnelIngressPacketDropMismatchEvaluationPeriods')]"
+          },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
           },
@@ -4220,6 +4438,12 @@
           },
           "enabled": {
             "value": "[[parameters('VnetGwTunnelIngressPacketDropCountAlertState')]"
+          },
+          "failingPeriods": {
+            "value": "[[parameters('VnetGwTunnelIngressPacketDropCountFailingPeriods')]"
+          },
+          "evaluationPeriods": {
+            "value": "[[parameters('VnetGwTunnelIngressPacketDropCountEvaluationPeriods')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"

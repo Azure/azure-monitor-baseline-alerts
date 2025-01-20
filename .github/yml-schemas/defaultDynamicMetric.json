@@ -1,0 +1,233 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
+    "definitions": {
+        "Welcome": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "verified": {
+                    "type": "boolean"
+                },
+                "visible": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "$ref": "#/definitions/Properties"
+                },
+                "references": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Reference"
+                    }
+                },
+                "deployments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Deployment"
+                    }
+                },
+                "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "required": [
+                "description",
+                "guid",
+                "name",
+                "properties",
+                "type",
+                "verified",
+                "visible"
+            ],
+            "title": "Welcome"
+        },
+        "Properties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "metricName": {
+                    "type": "string"
+                },
+                "metricNamespace": {
+                    "type": "string"
+                },
+                "severity": {
+                    "type": "integer"
+                },
+                "windowSize": {
+                    "type": "string"
+                },
+                "evaluationFrequency": {
+                    "type": "string"
+                },
+                "timeAggregation": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "criterionType": {
+                    "type": "string"
+                },
+                "alertSensitivity": {
+                    "type": "string"
+                },
+                "failingPeriods": {
+                    "$ref": "#/definitions/FailingPeriods"
+                },
+                "dimensions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Dimension"
+                    }
+                },
+                "threshold": {
+                    "type": "number"
+                },
+                "autoMitigate": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "criterionType",
+                "evaluationFrequency",
+                "metricName",
+                "metricNamespace",
+                "operator",
+                "severity",
+                "timeAggregation",
+                "windowSize",
+                "failingPeriods"
+            ],
+            "title": "Properties"
+        },
+        "FailingPeriods": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numberOfEvaluationPeriods": {
+                    "type": "integer"
+                },
+                "minFailingPeriodsToAlert": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "minFailingPeriodsToAlert",
+                "numberOfEvaluationPeriods"
+            ],
+            "title": "FailingPeriods"
+        },
+        "Dimension": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "operator",
+                "values"
+            ],
+            "title": "Dimension"
+        },
+        "Reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "qt-uri-protocols": [
+                        "https"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "url"
+            ],
+            "title": "Reference"
+        },
+        "Deployment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "template": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "$ref": "#/definitions/DeploymentProperties"
+                }
+            },
+            "required": [
+                "name",
+                "properties",
+                "tags",
+                "template",
+                "type"
+            ],
+            "title": "Deployment"
+        },
+        "DeploymentProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "scope": {
+                    "type": "string"
+                },
+                "multiResource": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "multiResource",
+                "scope"
+            ],
+            "title": "DeploymentProperties"
+        }
+    }
+}
