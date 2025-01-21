@@ -30,7 +30,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | where properties.managementGroupAncestorsChain contains \"{0}\" | project label=tostring(name) , description=id, value=subscriptionId | order by label asc', steps('basics').resourceScope.managementGroup.name)]"
                 }
@@ -41,7 +41,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities'| project label=tostring(name) , description=id, value=id | order by label asc"
                 }
@@ -679,7 +679,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type == 'microsoft.insights/actiongroups'| project label=tostring(name) , description=name, value=id | order by label asc"
                 }
@@ -742,7 +742,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "authorizationresources |extend roleName = tostring(properties.roleName)|where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader')|project label=tostring(roleName) , description=roleName, value=name | order by label asc"
                 }
@@ -787,7 +787,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type =~ 'microsoft.logic/workflows' or (type =~ 'Microsoft.Web/sites' and kind =~ 'functionapp,workflowapp') | project label=tostring(name), description=id, value=id | order by label asc"
                 }
@@ -798,7 +798,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources| where type == 'microsoft.logic/workflows'| project label=tostring(properties.accessEndpoint) , description=properties.accessEndpoint, value=properties.accessEndpoint | order by label asc"
                 }
@@ -809,7 +809,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources| where type == 'microsoft.eventhub/namespaces'| project label=tostring(name) , description=id, value=id | order by label asc"
                 }
