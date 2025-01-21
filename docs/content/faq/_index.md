@@ -35,5 +35,3 @@ Got an unanswered question? Create a [GitHub Issue](https://github.com/Azure/azu
 
 5. **Where can I find more resources to learn about AMBA and monitoring?**  
    For learning resources, please refer to our monitoring journey table on the AMBA homepage. Additionally, helpful quick links on the homepage will guide you to a plethora of AMBA and monitoring-specific documentation. You can find the page [here](https://azure.github.io/azure-monitor-baseline-alerts/welcome/).
-
-   
