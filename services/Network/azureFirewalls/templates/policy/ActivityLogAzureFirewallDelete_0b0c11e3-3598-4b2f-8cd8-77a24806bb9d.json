@@ -8,7 +8,7 @@
     "displayName": "Deploy Activity Log Azure FireWall Delete Alert",
     "description": "Policy to Deploy Activity Log Azure Firewall Delete Alert",
     "metadata": {
-      "version": "1.0.2",
+      "version": "1.1.0",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -44,8 +44,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "environment": "test",
-          "_deployed_by_amba": true
+          "Project": "amba-monitoring"
         }
       },
       "alertResourceGroupLocation": {
@@ -56,13 +55,38 @@
         },
         "defaultValue": "centralus"
       },
-      "MonitorDisable": {
+      "effect": {
         "type": "String",
         "metadata": {
           "displayName": "Effect",
-          "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
+          "description": "Effect of the policy"
+        },
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists"
+      },
+      "MonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
+      },
+      "MonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
       }
     },
     "policyRule": {
@@ -73,13 +97,13 @@
             "equals": "Microsoft.Network/azureFirewalls"
           },
           {
-            "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
-            "notEquals": "true"
+            "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+            "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
         ]
       },
       "then": {
-        "effect": "deployIfNotExists",
+        "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
