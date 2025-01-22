@@ -11,13 +11,15 @@ Got an unanswered question? Create a [GitHub Issue](https://github.com/Azure/azu
 
 {{< /hint >}}
 
+{{< toc >}}
+
 ## General Questions
 
-1. **What type of alerts can AMBA monitor?**  
+1. **What type of alerts can AMBA monitor?**
     AMBA supports a wide range of alert metrics that can be monitored. This includes CPU Utilization, Memory Usage, Networking Traffic, Application Response Times, Quota Utilization, Storage Usage, and many more.
 2. **How do I deploy AMBA within my Azure environment?**
       AMBA can be deployed for both Azure resources, and specific Azure Patterns/Scenarios through the provided deployment templates within the AMBA site. Current deployment options include ARM, Bicep, Policy, and direct Deploy to Azure buttons.
-3. **Where can I find best practices for implementing Azure Monitor Baseline Alerts?**  
+3. **Where can I find best practices for implementing Azure Monitor Baseline Alerts?**
       Best practices for implementing alerting within your environment follow the Azure Well-Architected framework by prioritizing Reliability, Security, Cost optimization, Operational excellence, and Performance efficiency. For more guidance on best practices within each of these WAF Pillars, please browse our documentation [here](https://learn.microsoft.com/en-us/azure/azure-monitor/best-practices-alerts). Further resources are also showcased on our homepage.
 4. **How do I debug or view issues with any AMBA alerts I have created?**
       To view or debug issues with your AMBA alerts in Azure Monitor, it is recommended to check the Activity Log within the Azure Monitor section. This log provides details that can help you understand and resolve any issues that arise with triggered alerts.
