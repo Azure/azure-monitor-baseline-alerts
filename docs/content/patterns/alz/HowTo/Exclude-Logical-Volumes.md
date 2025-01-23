@@ -12,7 +12,7 @@ weight: 80
 
 ## Overview
 
-The ***Logical Volume Exclusion*** feature, introduce the capability of excluding logical volumes from being alerted. This feature, introduced in the [2025-02-05 release](../../Overview/Whats-New#2025-02-05), enables both Greenfield and Brownfield customers to customize the exclusion of specific logical volumes (i.e.: **D:** or **/snap/snapd/21759** logical volumes) during or after the deployment of AMBA-ALZ. This feature, supported on both Windows and Linux based virtual machines as well as on both Azure and Hybrid virtual machines, allows the use of a specific tag containing the logical volume names as its value, to ensure the passed entities are not included in the disk alerts.
+The ***Logical Volumes Exclusion*** feature, introduce the capability of excluding logical volumes from being alerted. This feature, introduced in the [2025-02-05 release](../../Overview/Whats-New#2025-02-05), enables both Greenfield and Brownfield customers to customize the exclusion of specific logical volumes (i.e.: **D:** or **/snap/snapd/21759** logical volumes) during or after the deployment of AMBA-ALZ. This feature, supported on both Windows and Linux based virtual machines as well as on both Azure and Hybrid virtual machines, allows the use of a specific tag containing the logical volume names as its value, to ensure the passed entities are not included in the disk alerts.
 
 ## How this feature works
 
