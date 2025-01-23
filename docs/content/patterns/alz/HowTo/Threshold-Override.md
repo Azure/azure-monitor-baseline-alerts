@@ -1,7 +1,7 @@
 ---
 title: Override alert thresholds
 geekdocCollapseSection: true
-weight: 70
+weight: 85
 ---
 
 ### In this page

@@ -1,7 +1,7 @@
 ---
 title: Temporarily disabling notifications
 geekdocCollapseSection: true
-weight: 65
+weight: 60
 ---
 
 Azure Monitor alerts configured for a broad scope provide extensive coverage but limit the ability to disable them for specific resources. There are various reasons to halt alert notifications, such as resources being stopped or disabled for maintenance, or the desire to suppress notifications during night shifts. To offer this level of flexibility, the Notification Assets policy initiative includes an asset from AMBA-ALZ that allows you to stop notifications for specific resources.
