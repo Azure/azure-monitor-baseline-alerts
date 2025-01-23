@@ -49,10 +49,10 @@ process {
             # Generate policy template based on the alert configuration
             If ($alert.type -eq "Metric") {
                 if ($alert.type -eq "Metric" -and $alert.properties.criterionType -eq "StaticThresholdCriterion") {
-                    $alertTemplate = Get-Content "C:\Repos\azure-monitor-baseline-alerts\tooling\generate-templates\policy\metric-static.json"
+                    $alertTemplate = Get-Content ".\policy\metric-static.json"
                 }
                 if ($alert.type -eq "Metric" -and $alert.properties.criterionType -eq "DynamicThresholdCriterion") {
-                    $alertTemplate = Get-Content "C:\Repos\azure-monitor-baseline-alerts\tooling\generate-templates\policy\metric-dynamic.json"
+                    $alertTemplate = Get-Content ".\policy\metric-dynamic.json"
                 }
                 # TODO: Add support for Log alerts, need to fix query format and dimensions
                 #if ($alert.type -eq "Log") {
