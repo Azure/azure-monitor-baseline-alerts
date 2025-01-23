@@ -7,8 +7,8 @@ weight: 80
 
 ### In this page
 
-> [Overview](../Exclude-FileSystems#overview) </br>
-> [How this feature works](../Exclude-FileSystems#how-this-feature-works) </br>
+> [Overview](../Exclude-Logical-Volumes#overview) </br>
+> [How this feature works](../Exclude-Logical-Volumes#how-this-feature-works) </br>
 
 ## Overview
 
