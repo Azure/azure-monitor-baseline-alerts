@@ -1,6 +1,6 @@
 ---
 title: Remediate Policies
-weight: 80
+weight: 90
 ---
 
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources and subscriptions are deployed, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.

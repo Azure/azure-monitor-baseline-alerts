@@ -1,6 +1,6 @@
 ---
 title: Deploy with GitHub Actions
-weight: 60
+weight: 70
 ---
 
 ### In this page

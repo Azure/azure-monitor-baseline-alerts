@@ -1,6 +1,6 @@
 ---
 title: Deploy with Azure PowerShell
-weight: 40
+weight: 50
 ---
 
 ### In this page
