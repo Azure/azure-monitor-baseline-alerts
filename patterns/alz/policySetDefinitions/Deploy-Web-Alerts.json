@@ -498,6 +498,18 @@
         ],
         "defaultValue": "true"
       },
+      "AppInsightsThrottlingLimitcheckWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Application Insights Throttling Limit Reached Alert Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
       "AppInsightsThrottlingLimitThreshold": {
         "type": "String",
         "metadata": {
@@ -714,6 +726,9 @@
           },
           "autoMitigate": {
             "value": "[[parameters('AppInsightsThrottlingLimitAutoMitigate')]"
+          },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('AppInsightsThrottlingLimitcheckWorkspaceAlertsStorageConfigured')]"
           },
           "threshold": {
             "value": "[[parameters('AppInsightsThrottlingLimitThreshold')]"

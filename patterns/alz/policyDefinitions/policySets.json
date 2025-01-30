@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "15242230497958403084"
+      "templateHash": "7417814212705403206"
     }
   },
   "parameters": {
@@ -5985,6 +5985,18 @@
             ],
             "defaultValue": "true"
           },
+          "LAWDailyCapLimitcheckWorkspaceAlertsStorageConfigured": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Require a workspace linked storage",
+              "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+            },
+            "allowedValues": [
+              "true",
+              "false"
+            ],
+            "defaultValue": "false"
+          },
           "LAWDailyCapLimitThreshold": {
             "type": "String",
             "metadata": {
@@ -6109,6 +6121,9 @@
               },
               "autoMitigate": {
                 "value": "[[[parameters('LAWDailyCapLimitAutoMitigate')]"
+              },
+              "checkWorkspaceAlertsStorageConfigured": {
+                "value": "[[[parameters('LAWDailyCapLimitcheckWorkspaceAlertsStorageConfigured')]"
               },
               "threshold": {
                 "value": "[[[parameters('LAWDailyCapLimitThreshold')]"
