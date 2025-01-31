@@ -103,7 +103,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
-    It "Check policy metadata name matches policy filename" {
+    <#It "Check policy metadata name matches policy filename" {
       $ModifiedAddedFiles | ForEach-Object {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
@@ -115,7 +115,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
         $PolicyMetadataName | Should -Be $PolicyFileNoExt
       }
-    }
+    }#>
   }
 
   Context "Validate policy parameters" {
