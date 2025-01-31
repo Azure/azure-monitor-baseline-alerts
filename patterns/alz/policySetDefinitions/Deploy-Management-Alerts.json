@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Management",
     "description": "Initiative to deploy AMBA alerts relevant to the ALZ Management management group",
     "metadata": {
-      "version": "1.3.1",
+      "version": "1.4.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -416,6 +416,18 @@
         ],
         "defaultValue": "true"
       },
+      "LAWDailyCapLimitcheckWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace Daily Cap Limit Reached Alert Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
       "LAWDailyCapLimitThreshold": {
         "type": "String",
         "metadata": {
@@ -540,6 +552,9 @@
           },
           "autoMitigate": {
             "value": "[[parameters('LAWDailyCapLimitAutoMitigate')]"
+          },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('LAWDailyCapLimitcheckWorkspaceAlertsStorageConfigured')]"
           },
           "threshold": {
             "value": "[[parameters('LAWDailyCapLimitThreshold')]"
