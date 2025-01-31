@@ -4,7 +4,10 @@ Describe 'UnitTest-ModifiedPolicies' {
 
     $ModifiedFiles = @(Get-PolicyFiles -DiffFilter "M")
     if ($ModifiedFiles -ne $null) {
-      Write-Warning "These are the modified policies: $($ModifiedFiles)"
+      Write-Warning "These are the modified policies:"
+      foreach ($ModifiedFile in $ModifiedFiles) {
+        Write-Warning "$ModifiedFile"
+      }
     }
     else {
       Write-Information "There are no modified policies"
