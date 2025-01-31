@@ -5,8 +5,8 @@ Describe 'UnitTest-ModifiedPolicies' {
     $ModifiedFiles = @(Get-PolicyFiles -DiffFilter "M")
     if ($ModifiedFiles -ne $null) {
       Write-Warning "These are the modified policies:"
-      foreach ($ModifiedFile in $ModifiedFiles) {
-        Write-Host "`t$ModifiedFile" -ForegroundColor DarkYellow
+      $ModifiedFiles | ForEach-Object {
+        Write-Host "`t$_" -ForegroundColor DarkYellow
       }
     }
     else {
@@ -15,7 +15,10 @@ Describe 'UnitTest-ModifiedPolicies' {
 
     $AddedFiles = @(Get-PolicyFiles -DiffFilter "A")
     if ($AddedFiles -ne $null) {
-      Write-Warning "These are the added policies: $($AddedFiles)"
+      Write-Warning "These are the added policies:"
+      $AddedFiles | ForEach-Object {
+        Write-Host "`t$_" -ForegroundColor DarkYellow
+      }
     }
     else {
       Write-Information "There are no added policies"
@@ -32,7 +35,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
-        $PolicyMetadataVersion | Should -Not -BeNullOrEmpty
+        $PolicyMetadataVersion | Should -Not -BeNullOrEmpty -Because "the version attribute does not exist on file [$PolicyFile]"
       }
     }
 
@@ -50,7 +53,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!$PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) {
-          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion
+          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
         }
       }
     }
