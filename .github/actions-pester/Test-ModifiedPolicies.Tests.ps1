@@ -7,7 +7,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       Write-Warning "These are the modified policies: $($ModifiedFiles)"
     }
     else {
-      Write-Warning "There are no modified policies"
+      Write-Information "There are no modified policies"
     }
 
     $AddedFiles = @(Get-PolicyFiles -DiffFilter "A")
@@ -15,7 +15,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       Write-Warning "These are the added policies: $($AddedFiles)"
     }
     else {
-      Write-Warning "There are no added policies"
+      Write-Information "There are no added policies"
     }
 
     $ModifiedAddedFiles = $ModifiedFiles + $AddedFiles
@@ -28,7 +28,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         $PolicyMetadataVersion | Should -Not -BeNullOrEmpty
       }
     }
@@ -42,10 +42,10 @@ Describe 'UnitTest-ModifiedPolicies' {
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
         $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!$PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) {
           $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion
         }
@@ -57,15 +57,15 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        Write-Warning "$($PolicyFile) - This is the policy metadata version: $($PolicyMetadataVersion)"
+        # Write-Warning "$($PolicyFile) - This is the policy metadata version: $($PolicyMetadataVersion)"
         if ($PolicyMetadataVersion.EndsWith("deprecated")) {
-          Write-Warning "$($PolicyFile) - Should have the deprecated metadata flag set to true"
+          # Write-Warning "$($PolicyFile) - Should have the deprecated metadata flag set to true"
           $PolicyMetadataDeprecated = $PolicyJson.properties.metadata.deprecated
           $PolicyMetadataDeprecated | Should -BeTrue
-          Write-Warning "$($PolicyFile) - Should have the supersededBy metadata value set"
+          # Write-Warning "$($PolicyFile) - Should have the supersededBy metadata value set"
           $PolicyMetadataSuperseded = $PolicyJson.properties.metadata.supersededBy
           $PolicyMetadataSuperseded | Should -Not -BeNullOrEmpty
-          Write-Warning "$($PolicyFile) - [Deprecated] should be in the display name"
+          # Write-Warning "$($PolicyFile) - [Deprecated] should be in the display name"
           $PolicyPropertiesDisplayName = $PolicyJson.properties.displayName
           $PolicyPropertiesDisplayName | Should -Match "[DEPRECATED]"
         }
@@ -77,7 +77,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataCategories = $PolicyJson.properties.metadata.category
-        Write-Warning "$($PolicyFile) - These are the policy metadata categories: $($PolicyMetadataCategories)"
+        # Write-Warning "$($PolicyFile) - These are the policy metadata categories: $($PolicyMetadataCategories)"
         $PolicyMetadataCategories | Should -Not -BeNullOrEmpty
       }
     }
@@ -87,7 +87,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataSource = $PolicyJson.properties.metadata.source
-        Write-Warning "$($PolicyFile) - This is the policy source link: $($PolicyMetadataSource)"
+        # Write-Warning "$($PolicyFile) - This is the policy source link: $($PolicyMetadataSource)"
         $PolicyMetadataSource | Should -Be 'https://github.com/Azure/azure-monitor-baseline-alerts/'
       }
     }
@@ -98,7 +98,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $AlzEnvironments = @("AzureCloud", "AzureChinaCloud", "AzureUSGovernment")
         $PolicyEnvironments = $PolicyJson.properties.metadata.alzCloudEnvironments
-        Write-Warning "$($PolicyFile) - These are the environments: $($PolicyEnvironments)"
+        # Write-Warning "$($PolicyFile) - These are the environments: $($PolicyEnvironments)"
         $PolicyJson.properties.metadata.alzCloudEnvironments | Should -BeIn $AlzEnvironments
       }
     }
@@ -112,7 +112,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.ContEnterpriains("AzureUSGovernment")) {
           $PolicyFileNoExt = $PolicyFileNoExt.Substring(0, $PolicyFileNoExt.IndexOf("."))
         }
-        Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
+        # Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
         $PolicyMetadataName | Should -Be $PolicyFileNoExt
       }
     }#>
@@ -130,13 +130,13 @@ Describe 'UnitTest-ModifiedPolicies' {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {
             $Parameters = $PolicyParameters | Get-Member -MemberType NoteProperty | Select-Object -Expand Name
-            Write-Warning "$($PolicyFile) - These are the params: $($Parameters)"
+            # Write-Warning "$($PolicyFile) - These are the params: $($Parameters)"
             $Parameters = $PolicyParameters | Get-Member -MemberType NoteProperty
             $Parameters | ForEach-Object {
               $key = $_.name
               if ($key -notin $ExcludeParams) {
                 $defaultValue = $PolicyParameters.$key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
-                Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
+                # Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
                 $PolicyParameters.$key.defaultValue | Should -Not -BeNullOrEmpty
               }
             }
