@@ -35,7 +35,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
-        $PolicyMetadataVersion | Should -Not -BeNullOrEmpty -Because "the version attribute does not exist on file [$PolicyFile]"
+        $PolicyMetadataVersion | Should -Not -BeNullOrEmpty -Because "the [version] attribute does not exist on file [$PolicyFile]."
       }
     }
 
@@ -53,7 +53,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!$PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) {
-          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
+          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the [version] attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
         }
       }
     }
@@ -73,7 +73,7 @@ Describe 'UnitTest-ModifiedPolicies' {
           $PolicyMetadataSuperseded | Should -Not -BeNullOrEmpty
           # Write-Warning "$($PolicyFile) - [Deprecated] should be in the display name"
           $PolicyPropertiesDisplayName = $PolicyJson.properties.displayName
-          $PolicyPropertiesDisplayName | Should -Match "[DEPRECATED]"
+          $PolicyPropertiesDisplayName | Should -Match "[DEPRECATED]" -Because "the [version] attribute on file [$PolicyFile] needs to end with [DEPRECATED]."
         }
       }
     }
@@ -84,7 +84,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataCategories = $PolicyJson.properties.metadata.category
         # Write-Warning "$($PolicyFile) - These are the policy metadata categories: $($PolicyMetadataCategories)"
-        $PolicyMetadataCategories | Should -Not -BeNullOrEmpty
+        $PolicyMetadataCategories | Should -Not -BeNullOrEmpty -Because "the [category] attribute on file [$PolicyFile] is empty."
       }
     }
 
@@ -94,7 +94,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataSource = $PolicyJson.properties.metadata.source
         # Write-Warning "$($PolicyFile) - This is the policy source link: $($PolicyMetadataSource)"
-        $PolicyMetadataSource | Should -Be 'https://github.com/Azure/azure-monitor-baseline-alerts/'
+        $PolicyMetadataSource | Should -Be 'https://github.com/Azure/azure-monitor-baseline-alerts/' -Because "the [source] attribute on file [$PolicyFile] is not set to [https://github.com/Azure/azure-monitor-baseline-alerts/]."
       }
     }
 
@@ -105,7 +105,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $AlzEnvironments = @("AzureCloud", "AzureChinaCloud", "AzureUSGovernment")
         $PolicyEnvironments = $PolicyJson.properties.metadata.alzCloudEnvironments
         # Write-Warning "$($PolicyFile) - These are the environments: $($PolicyEnvironments)"
-        $PolicyJson.properties.metadata.alzCloudEnvironments | Should -BeIn $AlzEnvironments
+        $PolicyJson.properties.metadata.alzCloudEnvironments | Should -BeIn $AlzEnvironments -Because "the [alzCloudEnvironments] attribute value does not match [AzureCloud] or [AzureChinaCloud] or [AzureUSGovernment]."
       }
     }
 
@@ -143,7 +143,7 @@ Describe 'UnitTest-ModifiedPolicies' {
               if ($key -notin $ExcludeParams) {
                 $defaultValue = $PolicyParameters.$key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
                 # Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
-                $PolicyParameters.$key.defaultValue | Should -Not -BeNullOrEmpty
+                $PolicyParameters.$key.defaultValue | Should -Not  -Because "the [defaultValue] for parameter [$key] is empty."
               }
             }
           }
