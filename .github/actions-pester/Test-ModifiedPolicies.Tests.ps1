@@ -6,7 +6,7 @@ Describe 'UnitTest-ModifiedPolicies' {
     if ($ModifiedFiles -ne $null) {
       Write-Warning "These are the modified policies:"
       foreach ($ModifiedFile in $ModifiedFiles) {
-        Write-Warning "$ModifiedFile"
+        Write-Host "\t$ModifiedFile" -ForegroundColor DarkYellow
       }
     }
     else {
