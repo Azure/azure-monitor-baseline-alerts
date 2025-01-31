@@ -88,13 +88,13 @@ Describe 'UnitTest-ModifiedPolicies' {
           }
       }
 
-      It "Check policy metadata source is set to Enterprise-Scale repo" {
+      It "Check policy metadata source is set to azure-monitor-baseline-alerts repo" {
           $ModifiedAddedFiles | ForEach-Object {
               $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
               $PolicyFile = Split-Path $_ -Leaf
               $PolicyMetadataSource = $PolicyJson.properties.metadata.source
               Write-Warning "$($PolicyFile) - This is the policy source link: $($PolicyMetadataSource)"
-              $PolicyMetadataSource | Should -Be 'https://github.com/Azure/Enterprise-Scale/'
+              $PolicyMetadataSource | Should -Be 'https://github.com/Azure/azure-monitor-baseline-alerts/'
           }
       }
 
@@ -115,7 +115,7 @@ Describe 'UnitTest-ModifiedPolicies' {
               $PolicyFile = Split-Path $_ -Leaf
               $PolicyMetadataName = $PolicyJson.name
               $PolicyFileNoExt = [System.IO.Path]::GetFileNameWithoutExtension($PolicyFile)
-              if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.Contains("AzureUSGovernment"))
+              if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.ContEnterpriains("AzureUSGovernment"))
               {
                   $PolicyFileNoExt = $PolicyFileNoExt.Substring(0, $PolicyFileNoExt.IndexOf("."))
               }
@@ -132,8 +132,8 @@ Describe 'UnitTest-ModifiedPolicies' {
                   $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
                   $PolicyFile = Split-Path $_ -Leaf
                   $PolicyMetadataName = $PolicyJson.name
-                  $ExcludePolicy = @("Deploy-Private-DNS-Zones","Deploy-Vm-autoShutdown","Deploy-Custom-Route-Table","Deploy-DDoSProtection","Deploy-Default-Udr")
-                  $ExcludeParams = @("allowedVnets","userAssignedIdentityName","identityResourceGroup","resourceName","logAnalytics","ddosPlanResourceId","modifyUdrNextHopIpAddress","emailSecurityContact","contactEmails","contactGroups","contactRoles","privateDnsZoneId","resourceType","groupId","azureAcrPrivateDnsZoneId","userWorkspaceResourceId","workspaceRegion","dcrName","dcrResourceGroup","dcrId","keyVaultNonIntegratedCaValue","excludedSubnets","excludedDestinations","allowedBypassOptions","ports","denyMgmtFromInternetPorts","allowedVmSizes","allowedKinds","predefinedPolicyName","privateLinkDnsZones","locations","tagValues","ascExportResourceGroupLocation","ascExportResourceGroupName","vulnerabilityAssessmentsEmail","vulnerabilityAssessmentsStorageID","listOfResourceTypesAllowed","listOfResourceTypesNotAllowed","synapseAllowedTenantIds","storageAllowedNetworkAclsBypass","keyVaultIntegratedCaValue","keyVaultHmsCurveNamesValue")
+                  $ExcludePolicy = @()
+                  $ExcludeParams = @("ALZManagementSubscriptionId", "BYOUserAssignedManagedIdentityResourceId")
                   if ($PolicyMetadataName -notin $ExcludePolicy)
                   {
                       $PolicyParameters = $PolicyJson.properties.parameters
