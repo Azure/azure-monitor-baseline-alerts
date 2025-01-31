@@ -1073,7 +1073,7 @@
                 }
             }
         },
-        // Assigning AMBA management PolicySet to the Management management group if condition is true
+        // Assigning AMBA Management PolicySet to the Management management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAManagement'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1107,7 +1107,7 @@
                 }
             }
         },
-        // Assigning AMBA service health PolicySet to the pseudo root management group if condition is true
+        // Assigning AMBA Service Health PolicySet to the pseudo root management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAServiceHealth'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1134,7 +1134,7 @@
                 }
             }
         },
-        // Assigning AMBA notification assets PolicySet to the pseudo root management group if condition is true
+        // Assigning AMBA Notification Assets PolicySet to the pseudo root management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBANotificationAssets'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1452,6 +1452,7 @@
             "name": "[variables('deploymentNames').AMBAWebDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "dependsOn": [
+              "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
               "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
             ],
             "location": "[deployment().location]",
@@ -1464,6 +1465,15 @@
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('LandingZoneManagementGroup')]"
+                    },
+                    "uamiScope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersWeb')]"

@@ -33,7 +33,7 @@ It is strongly recommended to **thoroughly** test the script in a non-production
 Follow these steps to download the cleanup script file. Alternatively, you can clone the repository from GitHub and ensure you have the latest version by fetching the `main` branch.
 
 1. Navigate to the [AMBA project on GitHub](https://aka.ms/amba/repo).
-2. Browse to the `patterns/alz/scripts` directory.
+2. Browse to the `patterns/alz/scripts/old-scripts` directory.
 3. Locate and open the **Start-ALZMonitorCleanup.ps1** script file.
 4. Click on the **Raw** button to view the raw content of the script.
 5. Save the file as **Start-ALZMonitorCleanup.ps1**.

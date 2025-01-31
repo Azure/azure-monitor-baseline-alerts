@@ -1,6 +1,6 @@
 ---
 title: Deploy with Azure CLI
-weight: 30
+weight: 40
 ---
 
 ### In this page
