@@ -1,6 +1,6 @@
 ---
 title: Deploy with Azure Pipelines
-weight: 50
+weight: 60
 ---
 
 ### In this page
