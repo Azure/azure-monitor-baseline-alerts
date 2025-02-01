@@ -109,7 +109,8 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
-    <#It "Check policy metadata name matches policy filename" {
+    <# Commenting this block since we use a different name for policy name and file name
+    It "Check policy metadata name matches policy filename" {
       $ModifiedAddedFiles | ForEach-Object {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
