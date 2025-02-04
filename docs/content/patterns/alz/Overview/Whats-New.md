@@ -6,6 +6,7 @@ weight: 09
 
 ### In this page
 
+> [2025-02-05](../Whats-New#2025-02-05) </br>
 > [2025-01-10](../Whats-New#2025-01-10) </br>
 > [2024-12-10](../Whats-New#2024-12-10) </br>
 > [2024-11-01](../Whats-New#2024-11-01) </br>
@@ -18,6 +19,38 @@ weight: 09
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
+
+## 2025-02-05
+
+### New Features
+
+- Exclusion of logical volumes from the following alerts for both ***Azure*** and ***Hybrid*** Virtual Machines:
+  - Operating System Disk Free space
+  - Operating System DiskRead latency
+  - Operating System DiskWrite latency
+  - Data Disks Free space
+  - Data Disks Read latency
+  - Data Disks Write latency
+
+  Detailed information on how to use this new feature can be found in the [Exclude logical volumes](../../HowTo/Exclude-Logical-Volumes) page.
+
+- Optimization of calls to Azure Resource Graph inside log-search alert queries. This optimization should reduce and mitigate the throttling issue.
+
+### Bug Fixes
+
+- Resolved [[#508](https://github.com/Azure/azure-monitor-baseline-alerts/issues/508)]: [General workload issue]: deploy-amba-web assignment missing Managed Identity Operator role on UAMI
+- Resolved [[#499](https://github.com/Azure/azure-monitor-baseline-alerts/pull/499)]: fix: ALZ Pattern add missing `/` to fix regression introduced by PG
+
+### Documentation Updates
+
+- The [Policy Initiatives](../../Getting-started/Policy-Initiatives.md) page has been aligned with the alerts.
+- The [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-your-own-Managed-Identity) page has been updated to list the policy initiatives that makes use of Managed Identity for log-search alerts.
+- An ***In this page*** section with links to contained paragraphs has been added at top of each page to increase the navigation experience.
+- Broken links fixed.
+
+### Tools
+
+- NONE
 
 ## 2025-01-10
 
@@ -35,10 +68,10 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Bug Fixes
 
-- Resolved [[#455](https://github.com/Azure/azure-monitor-baseline-alerts/pull/455)]: Property name case consistency and remediation script rename
-- Resolved [[#460](https://github.com/Azure/azure-monitor-baseline-alerts/pull/460)]: Portal accelerator bug
-- Resolved [[#465](https://github.com/Azure/azure-monitor-baseline-alerts/pull/465)]: Fix policyDefinitionId format
-- Resolved [[#475](https://github.com/Azure/azure-monitor-baseline-alerts/pull/475)]: [Bug]: Unable to cleanup AMBA deployment - Property "Id" cannot be found
+- Resolved [[#455](https://github.com/Azure/azure-monitor-baseline-alerts/issues/455)]: Property name case consistency and remediation script rename
+- Resolved [[#460](https://github.com/Azure/azure-monitor-baseline-alerts/issues/460)]: Portal accelerator bug
+- Resolved [[#465](https://github.com/Azure/azure-monitor-baseline-alerts/issues/465)]: Fix policyDefinitionId format
+- Resolved [[#475](https://github.com/Azure/azure-monitor-baseline-alerts/issues/475)]: [Bug]: Unable to cleanup AMBA deployment - Property "Id" cannot be found
 
 ### Documentation Updates
 
