@@ -1,6 +1,6 @@
 ---
 title: Deploy with Azure PowerShell
-weight: 40
+weight: 50
 ---
 
 ### In this page
@@ -57,7 +57,7 @@ New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupI
 {{< /hint >}}
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-12-10/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-02-05/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
 
 ## Next Steps

@@ -1,6 +1,6 @@
 ---
 title: Deploy with Azure CLI
-weight: 30
+weight: 40
 ---
 
 ### In this page
@@ -50,7 +50,7 @@ If you have customized the policies as described in [How to modify individual po
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-12-10/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
+az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-02-05/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
 ```
 
 ## Next Steps

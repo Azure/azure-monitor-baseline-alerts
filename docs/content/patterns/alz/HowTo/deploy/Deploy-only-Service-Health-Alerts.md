@@ -1,7 +1,7 @@
 ---
 title: Deploy only Service Health Alerts
 geekdocCollapseSection: true
-weight: 70
+weight: 80
 ---
 
 ### In this page
@@ -29,7 +29,7 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-12-10/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-02-05/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
@@ -259,7 +259,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-12-10/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-02-05/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>
