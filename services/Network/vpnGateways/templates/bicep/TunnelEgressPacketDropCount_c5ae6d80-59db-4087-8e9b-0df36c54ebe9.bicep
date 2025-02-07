@@ -43,7 +43,7 @@ param operator string = 'GreaterThan'
   'Medium'
   'Low'
 ])
-param alertSensitivity string = '##ALERT_SENSITIVITY##'
+param alertSensitivity string = 'Medium'
 
 @description('The number of periods to check in the alert evaluation.')
 param numberOfEvaluationPeriods int = 4
@@ -63,20 +63,16 @@ param timeAggregation string = 'Average'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format.')
 @allowed([
-  'PT1M'
   'PT5M'
   'PT15M'
   'PT30M'
   'PT1H'
-  'PT6H'
-  'PT12H'
-  'PT24H'
-  'P1D'
 ])
 param windowSize string = 'PT5M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
+  'PT1M'
   'PT5M'
   'PT15M'
   'PT30M'

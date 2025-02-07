@@ -84,22 +84,36 @@ param timeAggregation string = 'Count'
 @allowed([
   'PT1M'
   'PT5M'
+  'PT10M'
   'PT15M'
   'PT30M'
+  'PT45M'
   'PT1H'
+  'PT2H'
+  'PT3H'
+  'PT4H'
+  'PT5H'
   'PT6H'
-  'PT12H'
-  'PT24H'
   'P1D'
+  'P2D'
 ])
 param windowSize string = 'PT15M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
+  'PT1M'
   'PT5M'
+  'PT10M'
   'PT15M'
   'PT30M'
+  'PT45M'
   'PT1H'
+  'PT2H'
+  'PT3H'
+  'PT4H'
+  'PT5H'
+  'PT6H'
+  'P1D'
 ])
 param evaluationFrequency string = 'PT15M'
 
