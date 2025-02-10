@@ -2,6 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for the alert."
+      }
+    },
     "alertName": {
       "type": "string",
       "minLength": 1,
@@ -40,14 +47,19 @@
     "muteActionsDuration": {
       "type": "string",
       "allowedValues": [
-        "PT1M",
         "PT5M",
+        "PT10M",
         "PT15M",
         "PT30M",
+        "PT45M",
         "PT1H",
+        "PT2H",
+        "PT3H",
+        "PT4H",
+        "PT5H",
         "PT6H",
-        "PT12H",
-        "PT24H"
+        "P1D",
+        "P2D"
       ],
       "metadata": {
         "description": "Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired."
@@ -217,7 +229,7 @@
       "type": "Microsoft.Insights/scheduledQueryRules",
       "apiVersion": "2022-06-15",
       "name": "[parameters('alertName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "tags": {
         "_deployed_by_amba": true
       },
