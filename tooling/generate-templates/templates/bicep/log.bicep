@@ -127,7 +127,7 @@ param currentDateTimeUtcNow string = utcNow()
 ])
 param telemetryOptOut string = 'No'
 
-resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
+resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
   name: alertName
   location: resourceGroup().location
   tags: {
