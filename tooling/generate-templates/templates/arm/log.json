@@ -44,6 +44,7 @@
         "description": "Full Resource ID of the resource emitting the metric that will be used for the comparison. For example /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroups/ResourceGroupName/providers/Microsoft.compute/virtualMachines/VM_xyz"
       }
     },
+    /* Removing muteActionsDuration and defaulting autoMitigate to true
     "muteActionsDuration": {
       "type": "string",
       "allowedValues": [
@@ -64,7 +65,7 @@
       "metadata": {
         "description": "Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired."
       }
-    },
+    }, */
     "alertSeverity": {
       "type": "int",
       "defaultValue": ##SEVERITY##,
@@ -81,7 +82,7 @@
     },
     "autoMitigate": {
       "type": "bool",
-      "defaultValue": ##AUTO_MITIGATE##,
+      "defaultValue": true,
       "metadata": {
         "description": "Specifies whether the alert will automatically resolve"
       }
@@ -259,7 +260,7 @@
             }
           ]
         },
-        "muteActionsDuration": "[parameters('muteActionsDuration')]",
+        //"muteActionsDuration": "[parameters('muteActionsDuration')]",
         "autoMitigate": "[parameters('autoMitigate')]",
         "checkWorkspaceAlertsStorageConfigured": "[parameters('checkWorkspaceAlertsStorageConfigured')]"
       }
