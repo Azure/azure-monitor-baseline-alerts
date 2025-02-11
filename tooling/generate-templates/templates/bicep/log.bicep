@@ -1,3 +1,7 @@
+@description('Location for the alert.')
+@minLength(1)
+param location string = resourceGroup().location
+
 @description('Name of the alert')
 @minLength(1)
 param alertName string
@@ -15,6 +19,7 @@ param checkWorkspaceAlertsStorageConfigured bool = false
 @minLength(1)
 param resourceId string
 
+/* Removing muteActionsDuration and defaulting autoMitigate to true
 @description('Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.')
 @allowed([
   'PT1M'
@@ -26,7 +31,7 @@ param resourceId string
   'PT12H'
   'PT24H'
 ])
-param muteActionsDuration string
+param muteActionsDuration string */
 
 @description('Severity of alert {0,1,2,3,4}')
 @allowed([
@@ -39,7 +44,7 @@ param muteActionsDuration string
 param alertSeverity int = ##SEVERITY##
 
 @description('Specifies whether the alert will automatically resolve')
-param autoMitigate bool = ##AUTO_MITIGATE##
+param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
@@ -129,7 +134,7 @@ param telemetryOptOut string = 'No'
 
 resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
   name: alertName
-  location: resourceGroup().location
+  location: location
   tags: {
     _deployed_by_amba: 'true'
   }
@@ -159,7 +164,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
         }
       ]
     }
-    muteActionsDuration: muteActionsDuration
+    //muteActionsDuration: muteActionsDuration
     autoMitigate: autoMitigate
     checkWorkspaceAlertsStorageConfigured: checkWorkspaceAlertsStorageConfigured
   }
