@@ -1,3 +1,7 @@
+@description('Location for the alert.')
+@minLength(1)
+param location string = resourceGroup().location
+
 @description('Name of the alert')
 @minLength(1)
 param alertName string
@@ -15,6 +19,7 @@ param checkWorkspaceAlertsStorageConfigured bool = false
 @minLength(1)
 param resourceId string
 
+/* Removing muteActionsDuration and defaulting autoMitigate to true
 @description('Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.')
 @allowed([
   'PT1M'
@@ -26,7 +31,7 @@ param resourceId string
   'PT12H'
   'PT24H'
 ])
-param muteActionsDuration string
+param muteActionsDuration string */
 
 @description('Severity of alert {0,1,2,3,4}')
 @allowed([
@@ -84,22 +89,36 @@ param timeAggregation string = 'Average'
 @allowed([
   'PT1M'
   'PT5M'
+  'PT10M'
   'PT15M'
   'PT30M'
+  'PT45M'
   'PT1H'
+  'PT2H'
+  'PT3H'
+  'PT4H'
+  'PT5H'
   'PT6H'
-  'PT12H'
-  'PT24H'
   'P1D'
+  'P2D'
 ])
 param windowSize string = 'PT1M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
+  'PT1M'
   'PT5M'
+  'PT10M'
   'PT15M'
   'PT30M'
+  'PT45M'
   'PT1H'
+  'PT2H'
+  'PT3H'
+  'PT4H'
+  'PT5H'
+  'PT6H'
+  'P1D'
 ])
 param evaluationFrequency string = 'PT5M'
 
@@ -113,9 +132,9 @@ param currentDateTimeUtcNow string = utcNow()
 ])
 param telemetryOptOut string = 'No'
 
-resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
+resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
   name: alertName
-  location: resourceGroup().location
+  location: location
   tags: {
     _deployed_by_amba: 'true'
   }
@@ -160,7 +179,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
         }
       ]
     }
-    muteActionsDuration: muteActionsDuration
+    //muteActionsDuration: muteActionsDuration
     autoMitigate: autoMitigate
     checkWorkspaceAlertsStorageConfigured: checkWorkspaceAlertsStorageConfigured
   }
