@@ -263,7 +263,7 @@ def main():
               values: [{",".join(values)}]
             }}""")
 
-            bicep_template = bicep_template.replace("##DIMENSIONS##", "".join(dimensions))
+            bicep_template = bicep_template.replace("##DIMENSIONS##", "[" + "".join(dimensions) + "]")
           else:
             arm_template = arm_template.replace("##DIMENSIONS##", "[]")
             bicep_template = bicep_template.replace("##DIMENSIONS##", "[]")

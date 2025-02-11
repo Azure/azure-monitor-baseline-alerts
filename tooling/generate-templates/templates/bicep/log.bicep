@@ -148,7 +148,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2021-08-01' = {
           query: query
           metricMeasureColumn: metricMeasureColumn
           resourceIdColumn: resourceIdColumn
-          dimensions: [##DIMENSIONS##]
+          dimensions: ##DIMENSIONS##
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation
