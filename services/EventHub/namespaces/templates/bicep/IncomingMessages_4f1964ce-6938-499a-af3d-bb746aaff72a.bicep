@@ -61,7 +61,6 @@ param timeAggregation string = 'Total'
   'PT1H'
   'PT6H'
   'PT12H'
-  'PT24H'
   'P1D'
 ])
 param windowSize string = 'PT6H'
