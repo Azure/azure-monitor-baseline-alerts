@@ -955,7 +955,7 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
+        "platformManagementGroup": "[if(or(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
