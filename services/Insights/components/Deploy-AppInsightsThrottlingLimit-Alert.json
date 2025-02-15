@@ -8,7 +8,7 @@
     "displayName": "Deploy Application Insights Throttling Limit Reached Alert (Preview)",
     "description": "Policy to audit/deploy Application Insights Throttling Limit Reached Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -117,6 +117,18 @@
           "false"
         ],
         "defaultValue": "true"
+      },
+      "checkWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
       },
       "enabled": {
         "type": "String",
@@ -231,6 +243,10 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
+                "field": "Microsoft.Insights/scheduledQueryRules/checkWorkspaceAlertsStorageConfigured",
+                "equals": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+              },
+              {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
                 "equals": 0
               },
@@ -301,6 +317,9 @@
                     "type": "String"
                   },
                   "autoMitigate": {
+                    "type": "String"
+                  },
+                  "checkWorkspaceAlertsStorageConfigured": {
                     "type": "String"
                   },
                   "enabled": {
@@ -379,6 +398,7 @@
                         ]
                       },
                       "autoMitigate": "[[parameters('autoMitigate')]",
+                      "checkWorkspaceAlertsStorageConfigured": "[[parameters('checkWorkspaceAlertsStorageConfigured')]",
                       "parameters": {
                         "UAMIResourceId": {
                           "value": "[[parameters('UAMIResourceId')]"
@@ -394,6 +414,9 @@
                         },
                         "autoMitigate": {
                           "value": "[[parameters('autoMitigate')]"
+                        },
+                        "checkWorkspaceAlertsStorageConfigured": {
+                          "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
                         },
                         "enabled": {
                           "value": "[[parameters('enabled')]"
@@ -448,6 +471,9 @@
                 },
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
+                },
+                "checkWorkspaceAlertsStorageConfigured": {
+                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
                 },
                 "enabled": {
                   "value": "[[parameters('enabled')]"
