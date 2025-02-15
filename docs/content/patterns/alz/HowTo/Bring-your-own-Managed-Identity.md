@@ -61,8 +61,10 @@ This feature is currently used in log-search based alerts which are mostly inclu
 
 - Deploy Azure Monitor Baseline Alerts for Azure Virtual Machines
 - Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Management
+- Deploy Azure Monitor Baseline Alerts for Web
 
-![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
+![Policy Initiatives using UAMI for ARG queries](../../media/Initiatives-Using-UAMI.png)
 
 {{< hint type=Info >}}
 This feature could be expanded to other alerts in the future.
