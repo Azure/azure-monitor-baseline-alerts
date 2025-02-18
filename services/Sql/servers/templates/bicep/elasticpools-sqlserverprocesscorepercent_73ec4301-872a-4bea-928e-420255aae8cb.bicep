@@ -61,7 +61,6 @@ param timeAggregation string = 'Maximum'
   'PT1H'
   'PT6H'
   'PT12H'
-  'PT24H'
   'P1D'
 ])
 param windowSize string = 'PT5M'
@@ -107,7 +106,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
         {
           name: '1st criterion'
           metricName: 'sqlserver_process_core_percent'
-          dimensions: [[]]
+          dimensions: []
           operator: operator
           threshold: threshold
           timeAggregation: timeAggregation

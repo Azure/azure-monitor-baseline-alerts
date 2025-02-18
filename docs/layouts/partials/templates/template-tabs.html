@@ -5,6 +5,9 @@
 {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
 {{ $file := path.Join "services" $category $type "templates/arm" $filename }}
 {{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
+{{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
+{{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
+{{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -16,10 +19,10 @@
   <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy Alert</label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
     <p>
-      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
         <img src="https://aka.ms/deploytoazurebutton"/>
       </a>
-      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
         <img src="https://aka.ms/deploytoazuregovbutton"/>
       </a>
     </p>
@@ -33,10 +36,10 @@
   <label for="{{ anchorize .alert.name }}-1" class="gdoc-tabs__label">Deploy Policy</label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
     <p>
-      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $file2 }}" target="_blank">
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
         <img src="https://aka.ms/deploytoazurebutton"/>
       </a>
-      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $file2 }}" target="_blank">
+      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
         <img src="https://aka.ms/deploytoazuregovbutton"/>
       </a>
     </p>
