@@ -135,6 +135,8 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/virtualNetworks/Deploy-VNET-DDOSAttack-Alert.json')
     // Used in both Connectivity and NetworkChanges Policy Set Definitions
     loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json')
+    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Delete.json')
+    loadTextContent('../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Routes-Delete.json')
     loadTextContent('../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json')
   ]
   AzureCloud: []

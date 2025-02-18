@@ -240,6 +240,13 @@ def main():
             arm_template = arm_template.replace("##EVALUATION_FREQUENCY##", "")
             bicep_template = bicep_template.replace("##EVALUATION_FREQUENCY##", "")
 
+          if 'alertSensitivity' in alert["properties"] and alert["properties"]["alertSensitivity"] is not None:
+            arm_template = arm_template.replace("##ALERT_SENSITIVITY##", alert["properties"]["alertSensitivity"])
+            bicep_template = bicep_template.replace("##ALERT_SENSITIVITY##", alert["properties"]["alertSensitivity"])
+          else:
+            arm_template = arm_template.replace("##ALERT_SENSITIVITY##", "")
+            bicep_template = bicep_template.replace("##ALERT_SENSITIVITY##", "")
+
           if 'dimensions' in alert["properties"] and alert["properties"]["dimensions"] is not None:
             arm_template = arm_template.replace("##DIMENSIONS##", json.dumps(alert["properties"]["dimensions"]))
 
@@ -256,7 +263,7 @@ def main():
               values: [{",".join(values)}]
             }}""")
 
-            bicep_template = bicep_template.replace("##DIMENSIONS##", "".join(dimensions))
+            bicep_template = bicep_template.replace("##DIMENSIONS##", "[" + "".join(dimensions) + "]")
           else:
             arm_template = arm_template.replace("##DIMENSIONS##", "[]")
             bicep_template = bicep_template.replace("##DIMENSIONS##", "[]")

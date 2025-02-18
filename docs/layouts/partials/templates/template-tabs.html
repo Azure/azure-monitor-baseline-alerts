@@ -4,6 +4,10 @@
 {{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
 {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
 {{ $file := path.Join "services" $category $type "templates/arm" $filename }}
+{{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
+{{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
+{{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
+{{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
 <div class="gdoc-tabs">
   <input
     type="radio"
@@ -12,13 +16,13 @@
     id="{{ anchorize .alert.name }}-0"
     checked="checked"
   />
-  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy</label>
+  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy Alert</label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
     <p>
-      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
         <img src="https://aka.ms/deploytoazurebutton"/>
       </a>
-      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $file }}" target="_blank">
+      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
         <img src="https://aka.ms/deploytoazuregovbutton"/>
       </a>
     </p>
@@ -29,7 +33,24 @@
     name="{{ anchorize .alert.name }}"
     id="{{ anchorize .alert.name }}-1"
   />
-  <label for="{{ anchorize .alert.name }}-1" class="gdoc-tabs__label">
+  <label for="{{ anchorize .alert.name }}-1" class="gdoc-tabs__label">Deploy Policy</label>
+  <div class="gdoc-markdown--nested gdoc-tabs__content">
+    <p>
+      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+        <img src="https://aka.ms/deploytoazurebutton"/>
+      </a>
+      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+        <img src="https://aka.ms/deploytoazuregovbutton"/>
+      </a>
+    </p>
+  </div>
+  <input
+    type="radio"
+    class="gdoc-tabs__control hidden"
+    name="{{ anchorize .alert.name }}"
+    id="{{ anchorize .alert.name }}-2"
+  />
+  <label for="{{ anchorize .alert.name }}-2" class="gdoc-tabs__label">
     ARM
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
@@ -40,9 +61,9 @@
     type="radio"
     class="gdoc-tabs__control hidden"
     name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-2"
+    id="{{ anchorize .alert.name }}-3"
   />
-  <label for="{{ anchorize .alert.name }}-2" class="gdoc-tabs__label">
+  <label for="{{ anchorize .alert.name }}-3" class="gdoc-tabs__label">
     Bicep
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
@@ -55,15 +76,32 @@
     type="radio"
     class="gdoc-tabs__control hidden"
     name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-3"
+    id="{{ anchorize .alert.name }}-4"
   />
-  <label for="{{ anchorize .alert.name }}-3" class="gdoc-tabs__label">
+  <label for="{{ anchorize .alert.name }}-4" class="gdoc-tabs__label">
     Policy
   </label>
   <div class="gdoc-markdown--nested gdoc-tabs__content">
     {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
     {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
-    {{ $data := readFile $file }}
-    {{ highlight $data "json" }}
+    {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
+    {{ $lines := split $data "\n" }}
+    {{ $target := "    \"parameters\":" }}
+    {{ $index := 0 }}
+    {{ range $i, $v := $lines }}
+      {{ if strings.Contains $v $target }}
+        {{ $index = $i }}
+        {{break}}
+      {{ end }}
+    {{ end }}
+    {{ $policyLines := after $index $lines }}
+    {{ $index := sub (len $policyLines) 2 }}
+    {{ if lt $index 0 }}
+      {{ $index = 0 }}
+    {{ end }}
+    {{ $policyLines := first $index $policyLines }}
+    {{ $policy :=  delimit $policyLines "\n" }}
+    {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
+    {{ highlight $policy "json" }}
   </div>
 </div>

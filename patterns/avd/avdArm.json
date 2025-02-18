@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.31.92.45157",
-      "templateHash": "10824749438491777673"
+      "templateHash": "9307847103098609977"
     }
   },
   "parameters": {
@@ -148,13 +148,13 @@
   "variables": {
     "copy": [
       {
-        "name": "StorAcctRGsAll",
+        "name": "StorAcctsAll",
         "count": "[length(parameters('StorageAccountResourceIds'))]",
-        "input": "[split(parameters('StorageAccountResourceIds')[copyIndex('StorAcctRGsAll')], '/')[4]]"
+        "input": "[format('{0},{1}', split(parameters('StorageAccountResourceIds')[copyIndex('StorAcctsAll')], '/')[2], split(parameters('StorageAccountResourceIds')[copyIndex('StorAcctsAll')], '/')[4])]"
       }
     ],
-    "ActionGroupName": "[format('ag-avdmetrics-{0}-{1}', parameters('Environment'), parameters('Location'))]",
-    "AlertDescriptionHeader": "Automated AVD Alert Deployment Solution (v2.1.6)\n",
+    "ActionGroupName": "[format('ag-avdmetrics-{0}-{1}-{2}', parameters('Environment'), parameters('Location'), uniqueString(subscription().displayName, parameters('time')))]",
+    "AlertDescriptionHeader": "Automated AVD Alert Deployment Solution (v2.2.0)\n",
     "AutomationAccountName": "[format('aa-avdmetrics-{0}-{1}-{2}', parameters('Environment'), parameters('Location'), parameters('AlertNamePrefix'))]",
     "CloudEnvironment": "[environment().name]",
     "ResourceGroupCreate": "[if(equals(parameters('ResourceGroupStatus'), 'New'), true(), false())]",
@@ -162,7 +162,7 @@
     "RunbookNameGetHostPool": "AvdHostPoolLogData",
     "RunbookScriptGetStorage": "[format('Get-StorAcctInfo.ps1{0}', parameters('_ArtifactsLocationSasToken'))]",
     "RunbookScriptGetHostPool": "[format('Get-HostPoolInfo.ps1{0}', parameters('_ArtifactsLocationSasToken'))]",
-    "StorAcctRGs": "[union(variables('StorAcctRGsAll'), createArray())]",
+    "StorAcctsSubRGs": "[union(variables('StorAcctsAll'), createArray())]",
     "RoleAssignments": {
       "DesktopVirtualizationRead": {
         "Name": "Desktop-Virtualization-Reader",
@@ -5704,7 +5704,6 @@
       ]
     },
     {
-      "condition": "[parameters('AllResourcesSameRG')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "[format('c_DsktpRead_{0}', split(parameters('AVDResourceGroupId'), '/')[4])]",
@@ -6880,12 +6879,13 @@
     {
       "copy": {
         "name": "roleAssignment_Storage",
-        "count": "[length(variables('StorAcctRGs'))]"
+        "count": "[length(variables('StorAcctsSubRGs'))]"
       },
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "[format('c_StorAcctContrib_{0}', variables('StorAcctRGs')[copyIndex()])]",
-      "resourceGroup": "[variables('StorAcctRGs')[copyIndex()]]",
+      "name": "[format('c_StorAcctContrib_{0}', split(variables('StorAcctsSubRGs')[copyIndex()], ',')[1])]",
+      "subscriptionId": "[split(variables('StorAcctsSubRGs')[copyIndex()], ',')[0]]",
+      "resourceGroup": "[split(variables('StorAcctsSubRGs')[copyIndex()], ',')[1]]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -6905,7 +6905,7 @@
             "value": "ServicePrincipal"
           },
           "resourceGroupName": {
-            "value": "[variables('StorAcctRGs')[copyIndex()]]"
+            "value": "[split(variables('StorAcctsSubRGs')[copyIndex()], ',')[1]]"
           }
         },
         "template": {

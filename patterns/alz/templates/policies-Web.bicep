@@ -72,6 +72,8 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-DiskQueueLength-Alert.json')
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-HttpQueueLength-Alert.json')
     loadTextContent('../../../services/Web/serverFarms/Deploy-WSF-MemoryPercentage-Alert.json')
+    loadTextContent('../../../services/Insights/components/Deploy-AppInsightsThrottlingLimit-Alert.json')
+    loadTextContent('../../../services/Insights/components/Deploy-ActivityLog-AppInsights-Del.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
