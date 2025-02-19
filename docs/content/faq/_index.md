@@ -3,7 +3,7 @@ title: Frequently Asked Questions (FAQs)
 weight: 20
 ---
 
-This FAQ page provides answers to common questions about Azure Monitor Baseline Alerts (AMBA). It covers a variety of topics, including the types of alerts that can be monitored, how to deploy AMBA, best practices, and where to find additional learning resources. Whether you're just getting started with AMBA or looking to deepen your understanding, this FAQ page has you covered!
+This FAQ page provides answers to common questions about Azure Monitor Baseline Alerts (AMBA). It covers a variety of topics, including the types of alerts that can be monitored, how to deploy AMBA, best practices, and where to find additional learning resources. Links to FAQ pages of specific patterns and scenarios such as ALZ, AVD, and AVS are also included. Whether you're just getting started with AMBA or looking to deepen your understanding, we have you covered!
 
 {{< hint type=tip >}}
 
@@ -11,9 +11,14 @@ Got an unanswered question? Create a [GitHub Issue](https://github.com/Azure/azu
 
 {{< /hint >}}
 
-{{< toc >}}
+## Patterns and Specialized FAQ's
 
-## General Questions
+- **[Azure Landing Zones](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/Resources/FAQ/)**
+- **[Azure Virtual Desktop](https://azure.github.io/azure-monitor-baseline-alerts/patterns/specialized/avd/FAQ/)**
+- **[Azure VMware Solution](https://azure.github.io/azure-monitor-baseline-alerts/patterns/specialized/avs/FAQ/)**
+- **[SAP on Azure](https://azure.github.io/azure-monitor-baseline-alerts/patterns/specialized/sap/FAQ/)**
+
+## General AMBA FAQ's
 
 1. **What type of alerts can AMBA monitor?**
     AMBA supports a wide range of alert metrics that can be monitored. This includes CPU Utilization, Memory Usage, Networking Traffic, Application Response Times, Quota Utilization, Storage Usage, and many more.
