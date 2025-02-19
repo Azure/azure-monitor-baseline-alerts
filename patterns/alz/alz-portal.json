@@ -296,7 +296,7 @@
               "type": "Microsoft.Common.InfoBox",
               "visible":"[equals(steps('Configuration').enableAMBAServiceHealth,'Yes')]",
               "options": {
-                "text": "Accessing Security Advisories now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles.",
+                "text": "Accessing Security Advisories now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. *This is not impacting AMBA-ALZ configuration that will continue to work independently.",
                 "uri": "https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499",
                 "style": "Info"
               }
@@ -590,7 +590,7 @@
                 "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": true
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
             },
             {
               "name": "connectivityManagementGroup",
@@ -632,7 +632,7 @@
                 "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": "[equals(steps('Configuration').enableAMBAManagement,'Yes')]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
             },
             {
               "name": "LandingZoneManagementGroup",
@@ -965,9 +965,9 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
+        "platformManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
-        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
+        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAWeb,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
         "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
