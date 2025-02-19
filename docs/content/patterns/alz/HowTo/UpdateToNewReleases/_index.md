@@ -4,6 +4,11 @@ geekdocCollapseSection: true
 weight: 51
 ---
 
+### In this page
+
+> [What is included in the latest release](../_index#what-is-included-in-the-latest-release) </br>
+> [Steps to update to the latest release](../_index#steps-to-update-to-the-latest-release) </br>
+
 ## What is included in the latest release
 
 The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://aka.ms/amba/repo) repository.
