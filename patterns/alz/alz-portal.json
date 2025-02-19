@@ -292,6 +292,16 @@
               "visible": true
             },
             {
+              "name": "securityadvisoriesinfo",
+              "type": "Microsoft.Common.InfoBox",
+              "visible":"[equals(steps('Configuration').enableAMBAServiceHealth,'Yes')]",
+              "options": {
+                "text": "Accessing Security Advisories now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. *This is not impacting AMBA-ALZ configuration that will continue to work independently.",
+                "uri": "https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499",
+                "style": "Info"
+              }
+            },
+            {
               "name": "enableAMBAConnectivity",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Connectivity",
@@ -955,7 +965,7 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "[if(or(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
+        "platformManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
         "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAWeb,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
