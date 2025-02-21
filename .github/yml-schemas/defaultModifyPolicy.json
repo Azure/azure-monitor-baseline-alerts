@@ -1,0 +1,170 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
+    "definitions": {
+        "Welcome": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "verified": {
+                    "type": "boolean"
+                },
+                "visible": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "$ref": "#/definitions/WelcomeProperties"
+                },
+                "references": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Reference"
+                    }
+                },
+                "deployments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Deployment"
+                    }
+                },
+                "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "required": [
+                "deployments",
+                "description",
+                "guid",
+                "name",
+                "properties",
+                "references",
+                "tags",
+                "type",
+                "verified",
+                "visible"
+            ],
+            "title": "Welcome"
+        },
+        "Deployment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "template": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "$ref": "#/definitions/DeploymentProperties"
+                }
+            },
+            "required": [
+                "name",
+                "properties",
+                "tags",
+                "template",
+                "type"
+            ],
+            "title": "Deployment"
+        },
+        "DeploymentProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "scope": {
+                    "type": "string"
+                },
+                "policyScope": {
+                    "type": "string"
+                },
+                "documented": {
+                    "type": "boolean"
+                },
+                "alertName": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "alertName",
+                "documented",
+                "policyScope",
+                "scope"
+            ],
+            "title": "DeploymentProperties"
+        },
+        "WelcomeProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "operationName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "category",
+                "operationName",
+                "status"
+            ],
+            "title": "WelcomeProperties"
+        },
+        "Reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "qt-uri-protocols": [
+                        "https"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "url"
+            ],
+            "title": "Reference"
+        }
+    }
+}
