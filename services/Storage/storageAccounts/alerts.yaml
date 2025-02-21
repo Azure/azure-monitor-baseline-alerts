@@ -23,6 +23,7 @@
     threshold: 100
     criterionType: StaticThresholdCriterion
     autoMitigate: false
+    enabled: true
   references:
   - name: Monitoring Availability
     url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/storage-monitoring-diagnosing-troubleshooting?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=dotnet#monitoring-availability
@@ -37,7 +38,6 @@
     properties:
       scope: Resource
       multiResource: false
-    enabled: true
   guid: b1a4849b-78a8-437f-8113-7c6f2dc34927
 - name: Throttling
   description: The storage account will be throttled if throughput exceeds the account's
@@ -71,6 +71,7 @@
     threshold: 1
     criterionType: StaticThresholdCriterion
     autoMitigate: false
+    enabled: true
   references:
   - name: High latency, low throughput, or low IOPS
     url: https://learn.microsoft.com/en-us/troubleshoot/azure/azure-storage/files-troubleshoot-performance?tabs=windows#high-latency-low-throughput-or-low-iops
@@ -83,7 +84,6 @@
     properties:
       scope: Resource
       multiResource: false
-    enabled: true
   guid: 5e544473-d84f-427d-869d-9d982619e4cb
 - name: QueueCount
   description: The number of queues in the storage account.
@@ -104,12 +104,12 @@
     criterionType: StaticThresholdCriterion
     threshold: 0.0
     autoMitigate: false
+    enabled: true
   references:
   - name: Queue Storage Metrics
     url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
   - name: Best practices for monitoring Azure Queue Storage
     url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
-    enabled: true
   guid: f75dec98-78a3-4e42-954d-375fe3352857
 - name: FileShareCount
   description: The number of file shares in the storage account.
@@ -157,12 +157,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 2251800000000000.0
+    enabled: true
   references:
   - name: Account Level Metrics
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-metrics
   - name: Azure Storage Metric - Used Capacity
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#account-level
-    enabled: true
   guid: b663a689-6db8-467d-8b5d-8cd34afe4b0e
 - name: Egress
   description: The amount of egress data. This number includes egress to external
@@ -188,12 +188,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 60000000.0
+    enabled: true
   references:
   - name: Transaction Metrics
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
   - name: Storage Account Metric Dimensions (all storage)
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
-    enabled: true
   guid: eb186756-b63b-408a-bbaf-ac94c1010287
 - name: Ingress
   description: The amount of ingress data, in bytes. This number includes ingress
@@ -218,12 +218,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1073741824.0
+    enabled: true
   references:
   - name: Transaction Metrics
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
   - name: Storage Account Metric Dimensions (all storage)
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#metrics-dimensions
-    enabled: true
   guid: 5d872cb4-7f71-4275-81eb-98c968c0cadd
 - name: blobServices - BlobCapacity
   description: The amount of storage used by the storage account's Blob service in
@@ -244,12 +244,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 107374182400.0
+    enabled: true
   references:
   - name: Blob Storage Metrics
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#blob-storage
   - name: Storage Account Metric Dimensions (Blob Storage)
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#dimensions-specific-to-blob-storage
-    enabled: true
   guid: 8c0aaea9-bcce-4c27-a090-ffe54b7e1d1c
 - name: blobServices - SuccessE2ELatency
   description: The average end-to-end latency of successful requests made to a storage
@@ -276,12 +276,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    enabled: true
   references:
   - name: Verify throughput and latency metrics for a storage account
     url: https://learn.microsoft.com/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
   - name: Troubleshoot performance in Azure storage accounts
     url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/troubleshoot-storage-performance#metrics-show-high-successe2elatency-and-low-successserverlatency
-    enabled: true
   guid: 0acc30dc-881d-46c9-b634-8cba507a263f
 - name: blobServices - SuccessServerLatency
   description: The average time used to process a successful request by Azure Storage.
@@ -306,6 +306,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    enabled: true
   references:
   - name: Trouble shoot performance in Azure storage accounts
     url: https://learn.microsoft.com/troubleshoot/azure/azure-storage/troubleshoot-storage-performance
@@ -313,7 +314,6 @@
     url: https://learn.microsoft.com/azure/storage/blobs/storage-blob-scalable-app-verify-metrics
   - name: Storage Transaction Metrics
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
-    enabled: true
   guid: 0a3689c7-b610-4c52-ae84-ab0640f3d6e4
 - name: blobServices - BlobCount
   description: The number of blob objects stored in the storage account.
@@ -332,11 +332,11 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 0.0
+    threshold: 0.
+    enabled: true
   references:
   - name: Monitor the use of a container
     url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
-    enabled: true
   guid: c4d93fac-a6b6-4731-a92a-c499b6fb2bcb
 - name: queueServices - QueueMessageCount
   description: The number of unexpired queue messages in the storage account.
@@ -356,6 +356,7 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 1000.0
+    enabled: true
   references:
   - name: Best practices for Azure Queue storage
     url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
@@ -363,7 +364,6 @@
     url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
   - name: supported metrics for Microsoft.Storage/storageAccounts/queueServices
     url: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-storage-storageaccounts-queueservices-metrics
-    enabled: true
   guid: 34769aaa-5014-4ced-bb08-9fabfba3d959
 - name: queueServices - QueueCapacity
   description: The amount of Queue storage used by the storage account.
@@ -383,12 +383,12 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 31457280.0
+    enabled: true
   references:
   - name: Queue Storage Metrics
     url: https://learn.microsoft.com/azure/storage/queues/monitor-queue-storage-reference#queue-storage-metrics
   - name: Best practices for monitoring Azure Queue Storage
     url: https://learn.microsoft.com/azure/storage/queues/queues-storage-monitoring-scenarios?tabs=azure-powershell
-    enabled: true
   guid: 7815fc6f-bfb1-4474-9ea6-05e1449a2ed5
 - name: fileServices - FileCapacity
   description: The amount of File storage used by the storage account.
@@ -408,10 +408,10 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 96636764160.0
+    enabled: true
   references:
   - name: File Storage Metrics
     url: https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-scenarios#file-storage-metrics
-    enabled: true
   guid: 26e09eae-c784-4e8f-a225-d3f13efff76f
 - name: fileServices - Transactions
   description: The number of requests made to a storage service or the specified API
@@ -447,6 +447,7 @@
       values:
       - anonymous
     threshold: 10.0
+    enabled: true
   references:
   - name: Identify storage accounts with no or low use
     url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#identify-storage-accounts-with-no-or-low-use
@@ -454,7 +455,6 @@
     url: https://learn.microsoft.com/azure/storage/blobs/blob-storage-monitoring-scenarios#monitor-the-use-of-a-container
   - name: Storage Transaction Metrics
     url: https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage-reference#transaction-metrics
-    enabled: true
   guid: c81d3e6c-5539-42ad-a95f-9bba504d91f0
 - name: fileServices - FileShareSnapshotCount
   description: The number of snapshots present on the share in storage account's Files
@@ -475,10 +475,10 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     threshold: 190.0
+    enabled: true
   references:
   - name: Azure Files monitoring data reference
     url: https://learn.microsoft.com/azure/storage/files/storage-files-monitoring-reference#azure-files
-    enabled: true
   guid: 8cbe449d-9264-4ae1-8221-5d97989005a8
 - name: fileServices - Availability
   description: The percentage of availability for the storage service or the specified
