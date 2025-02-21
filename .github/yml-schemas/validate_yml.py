@@ -57,7 +57,7 @@ schemas = {
     "resourcehealth_activitylog": subschema4,
     "servicehealth_activitylog": subschema5,
     "dynamicthresholdcriterion_metric": subschema6,
-    "modifyPolicy": subschema7
+    "modifypolicy": subschema7
 }
 
 for yaml_file_name in yaml_files:
