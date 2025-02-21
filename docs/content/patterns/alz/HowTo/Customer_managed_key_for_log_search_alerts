@@ -1,0 +1,28 @@
+title: Secure log search alert queries with Customer-Managed key
+geekdocCollapseSection: true
+geekdocHidden: false
+weight: 80
+---
+
+### In this page
+
+> [Overview](../Customer_managed_key_for_log_search_alerts#overview) </br>
+> [How this feature works](../Customer_managed_key_for_log_search_alerts#how-this-feature-works) </br>
+
+## Overview
+
+The query language used in Log Analytics is expressive and can contain sensitive information in comments, or in the query syntax. Some organizations require that such information is kept protected under Customer-managed key policy and you need save your queries encrypted with your key. Azure Monitor enables you to store saved queries and log search alerts encrypted with your key in your own Storage Account when linked to your workspace. Please check guidance and concidereations in the following article: [Azure Monitor customer-managed keys](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/customer-managed-keys?tabs=portal).
+
+## How this feature works
+
+**This feature is applicable only to log-search alerts.**
+
+The **checkWorkspaceAlertsStorageConfigured** flag in query alert rule indicates whether this scheduled query rule should be stored in the customer's storage. The **default value is false**. More information in the following article: [Scheduled Query Rules](https://learn.microsoft.com/en-us/azure/templates/microsoft.insights/scheduledqueryrules?pivots=deployment-language-bicep)
+
+To change the **checkWorkspaceAlertsStorageConfigured** flag to **true**
+- navigate to:
+
+   - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-02-05/patterns/alz/alzArm.param.json) for the latest release.
+   - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
+
+- change the following paramaters:
