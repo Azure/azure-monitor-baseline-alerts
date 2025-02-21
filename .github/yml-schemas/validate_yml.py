@@ -56,7 +56,7 @@ schemas = {
     "administrative_activitylog": subschema3,
     "resourcehealth_activitylog": subschema4,
     "servicehealth_activitylog": subschema5,
-    "dynamicthresholdcriterion_metric": subschema6
+    "dynamicthresholdcriterion_metric": subschema6,
     "modifyPolicy": subschema7
 }
 
