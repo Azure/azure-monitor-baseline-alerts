@@ -57,7 +57,7 @@ schemas = {
     "resourcehealth_activitylog": subschema4,
     "servicehealth_activitylog": subschema5,
     "dynamicthresholdcriterion_metric": subschema6,
-    "Site Recovery_modifyPolicy": subschema7
+    "modifyPolicy": subschema7
 }
 
 for yaml_file_name in yaml_files:
@@ -84,10 +84,7 @@ for yaml_file_name in yaml_files:
           if entity_type == "log":
               schema = schemas.get(entity_type)
           if entity_type == "modifyPolicy":
-              # Get Category in properties
-              entity_category = entity.get("properties").get("category").lower()
-              selector = f"{entity_category}_{entity_type}"
-              schema = schemas.get(selector)
+              schema = schemas.get(entity_type)
           if schema:
               validator = Draft7Validator(schema)
               errors = sorted(validator.iter_errors(entity), key=lambda e: e.path)
