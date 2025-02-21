@@ -83,7 +83,7 @@ for yaml_file_name in yaml_files:
               schema = schemas.get(selector)
           if entity_type == "log":
               schema = schemas.get(entity_type)
-          if entity_type == "modifyPolicy":
+          if entity_type == "modifypolicy":
               schema = schemas.get(entity_type)
           if schema:
               validator = Draft7Validator(schema)
