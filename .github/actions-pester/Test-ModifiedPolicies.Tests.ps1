@@ -142,9 +142,9 @@ Describe 'UnitTest-ModifiedPolicies' {
             $Parameters | ForEach-Object {
               $key = $_.name
               if ($key -notin $ExcludeParams) {
-                $defaultValue = $PolicyParameters.$key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
+                $defaultValue = $key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
                 # Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
-                $PolicyParameters.$key.defaultValue | Should -Not -Because "the [defaultValue] for parameter [$key] is empty."
+                $key.defaultValue | Should -Not -Because "the [defaultValue] for parameter [$key] is empty."
               }
             }
           }
