@@ -137,13 +137,13 @@ Describe 'UnitTest-ModifiedPolicies' {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {
             $Parameters = $PolicyParameters | Get-Member -MemberType NoteProperty | Select-Object -Expand Name
-            Write-Warning "$($PolicyFile) - These are the params: $($Parameters)"
+            # Write-Warning "$($PolicyFile) - These are the params: $($Parameters)"
             $Parameters = $PolicyParameters | Get-Member -MemberType NoteProperty
             $Parameters | ForEach-Object {
               $key = $_.name
               if ($key -notin $ExcludeParams) {
                 $defaultValue = $PolicyParameters.$key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
-                Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
+                # Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
                 $PolicyParameters.$key.defaultValue | Should -Not -BeNullOrEmpty -Because "the [defaultValue] for parameter [$key] is empty."
               }
             }
