@@ -8,7 +8,7 @@
     "displayName": "Deploy Hybrid VM HeartBeat Alert",
     "description": "Policy to audit/deploy Hybrid VM HeartBeat Alert",
     "metadata": {
-      "version": "1.4.0",
+      "version": "1.5.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -129,6 +129,18 @@
         ],
         "defaultValue": "true"
       },
+      "checkWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
       "autoResolve": {
         "type": "String",
         "metadata": {
@@ -184,16 +196,6 @@
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "1"
-      },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
       },
       "effect": {
         "type": "String",
@@ -283,6 +285,10 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
+                "field": "Microsoft.Insights/scheduledQueryRules/checkWorkspaceAlertsStorageConfigured",
+                "equals": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+              },
+              {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
                 "equals": "[[parameters('operator')]"
               },
@@ -340,6 +346,9 @@
                   "autoMitigate": {
                     "type": "String"
                   },
+                  "checkWorkspaceAlertsStorageConfigured": {
+                    "type": "String"
+                  },
                   "autoResolve": {
                     "type": "String"
                   },
@@ -363,9 +372,6 @@
                   },
                   "evaluationPeriods": {
                     "type": "String"
-                  },
-                  "computersToInclude": {
-                    "type": "array"
                   },
                   "MonitorDisableTagName": {
                     "type": "String"
@@ -451,7 +457,9 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": "[[parameters('computersToInclude')]"
+                                        "values": [
+                                          "*"
+                                        ]
                                       }
                                     ],
                                     "failingPeriods": {
@@ -462,6 +470,7 @@
                                 ]
                               },
                               "autoMitigate": "[[parameters('autoMitigate')]",
+                              "checkWorkspaceAlertsStorageConfigured": "[[parameters('checkWorkspaceAlertsStorageConfigured')]",
                               "ruleResolveConfiguration": {
                                 "autoResolved": "[[parameters('autoResolve')]",
                                 "timeToResolve": "[[parameters('autoResolveTime')]"
@@ -488,6 +497,9 @@
                                 "autoMitigate": {
                                   "value": "[[parameters('autoMitigate')]"
                                 },
+                                "checkWorkspaceAlertsStorageConfigured": {
+                                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+                                },
                                 "autoResolve": {
                                   "value": "[[parameters('autoResolve')]"
                                 },
@@ -505,9 +517,6 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
                                 },
                                 "MonitorDisableTagName": {
                                   "value": "[[parameters('MonitorDisableTagName')]"
@@ -563,6 +572,9 @@
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
                 },
+                "checkWorkspaceAlertsStorageConfigured": {
+                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+                },
                 "autoResolve": {
                   "value": "[[parameters('autoResolve')]"
                 },
@@ -586,9 +598,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisableTagName": {
                   "value": "[[parameters('MonitorDisableTagName')]"
