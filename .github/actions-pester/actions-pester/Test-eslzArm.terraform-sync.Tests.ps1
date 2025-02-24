@@ -38,7 +38,8 @@ Describe "Compare JSON Parameter Files" {
         $Key | Should -Be $eslzTerraformJson.parameter.$key -Because "The key parameter [$key] is not present on file [eslzArm.terraform-sync.param.json] and must be added."
       }
   }#>
-}
 
-# To run the tests, use the following command in PowerShell:
-# Invoke-Pester -Script .\compare-json-params.tests.ps1 -FilePath1 "path\to\first\file.json" -FilePath2 "path\to\second\file.json"
+  AfterAll {
+    # These are not the droids you are looking for...
+  }
+}
