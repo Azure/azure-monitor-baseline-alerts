@@ -25,7 +25,7 @@ Describe "Compare JSON Parameter Files" {
       #Comparing parameter names
       foreach ($key in $alzArmParamJsonParams) {
         $paramName = $_.name
-        $_.Name | Should -Be $eslzTerraformJsonParams.Name -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
+        $_.Name | Should -Be $eslzTerraformJsonParams.$paramName -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
       }
     }
   }
