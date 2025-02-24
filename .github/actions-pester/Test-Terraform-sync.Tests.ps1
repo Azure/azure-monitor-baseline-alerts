@@ -4,7 +4,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force
 
     # Setting param files to be compared
-    $alzArmParam = "./patterns/alz/alzarm.param.json"
+    $alzArmParam = "./patterns/alz/alzArm.param.json"
     $eslzTerraform = "./patterns/alz/eslzArm.terraform-sync.param.json"
 
     # Loading file content
