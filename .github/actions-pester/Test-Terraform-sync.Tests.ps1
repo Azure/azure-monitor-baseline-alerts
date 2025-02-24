@@ -24,7 +24,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
       #Comparing parameter names
       foreach ($key in $alzArmParamJsonParams) {
-        $paramName = $_.name
+        $paramName = $_.Name
         $_.Name | Should -Be $eslzTerraformJsonParams.$paramName -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
       }
     }
