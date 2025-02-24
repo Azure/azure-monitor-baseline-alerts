@@ -1,4 +1,4 @@
-Describe "Compare JSON Parameter Files" {
+Describe "UnitTest-CompareEslzTerraform-Sync" {
 
   BeforeAll {
     Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force
