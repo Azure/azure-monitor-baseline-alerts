@@ -26,11 +26,13 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check param files have the same parameters" {
 
       #Comparing parameter names
-      foreach ($key in $alzArmParameters) {
+      $alzArmParameters | ForEach-Object {
+
+        $paramName = $_.Name
+        Write-Warning "parameter name [$paramName] / [$_.name]."
 
         # Validating params from flat entries
-        if ($_.Name -notlike "policyAssignmentParameters*") {
-          $paramName = $_.Name
+        if ($paramName -notlike "policyAssignmentParameters*") {
           $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
           Write-Warning "Testing parameter name [$paramName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
