@@ -87,6 +87,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
       #Setting excluded params that must have different values according to TF requirements
       $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZMonitorResourceGroupTags")
+
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
 
@@ -99,6 +100,22 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
           #Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+        }
+        else {
+
+          # Validating params from nested entries
+          $alzArmParamObj = $alzArmParameters["$alzArmParamName"].values
+
+          $alzArmParamObj | ForEach-Object {
+            $alzArmParamName2 = $_.keys
+            $alzArmParamValue2 = $_.values.value
+
+            Write-Warning "Child param name: [$alzArmParamName2] with value: [$alzArmParamValue2]"
+
+            #$eslzTerraformParam2 = $eslzTerraformParameters["$alzArmParamName"].values.keys | Where-Object {$_ -like "$alzArmParamName2"}
+            #Write-Warning "Testing parameter name [$alzArmParamName2] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+            #$alzArmParamName2 | Should -Be $eslzTerraformParam2 -Because "the parameter name [$alzArmParamName2] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+          }
         }
       }
     }
