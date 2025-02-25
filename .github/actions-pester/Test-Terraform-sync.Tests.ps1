@@ -22,8 +22,8 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
   }
 
-  Context "Validate parameter name sync between alzArm.param.json and eslzArm.terraform-sync.param.json" {
-    It "Check existence of parameters defined in alzArm.param.json in file eslzArm.terraform-sync.param.json" {
+  Context "Validate parameter names sync between [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
+    It "Check for existence of parameters defined in [alzArm.param.json] inside file [eslzArm.terraform-sync.param.json]" {
 
       #Comparing parameter names
       $alzArmParameters | ForEach-Object {
@@ -47,7 +47,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
       }
     }
 
-    It "Check existence of parameters defined in eslzArm.terraform-sync.param.json in file alzArm.param.json" {
+    It "Check for existence of parameters defined in [eslzArm.terraform-sync.param.json] inside file [alzArm.param.json]" {
 
       #Comparing parameter names
       $eslzTerraformParameters | ForEach-Object {
@@ -57,7 +57,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
         # Validating params from flat entries
         if ($eslzTerraformParamName -notlike "policyAssignmentParameters*") {
           $alzArmParamName = $alzArmParameters | Where-Object Name -EQ $eslzTerraformParamName | Select-Object -ExpandProperty Name
-          Write-Warning "Testing the existence of parameter name [$eslzTerraformParamName] in both files [$eslzTerraformFileName] and [$alzArmFileName]."
+          #Write-Warning "Testing the existence of parameter name [$eslzTerraformParamName] in both files [$eslzTerraformFileName] and [$alzArmFileName]."
           $eslzTerraformParamName | Should -Be $alzArmParamName -Because "the parameter name [$eslzTerraformParamName] is not existing in file [$alzArmFileName]. Files should be aligned."
         }
         else {
