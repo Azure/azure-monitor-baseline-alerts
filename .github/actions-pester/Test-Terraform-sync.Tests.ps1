@@ -86,7 +86,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for parameters default values to be the same between files [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
 
       #Setting excluded params that must have different values according to TF requirements
-      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail")
+      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZMonitorDisableTagValues")
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
 
