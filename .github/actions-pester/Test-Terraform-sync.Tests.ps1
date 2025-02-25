@@ -26,9 +26,9 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for existence of parameters defined in [alzArm.param.json] inside file [eslzArm.terraform-sync.param.json]" {
 
       #Comparing parameter names
-      $alzArmParameters | ForEach-Object {
+      $alzArmParameters.keys | ForEach-Object {
         Write-Warning "This is the record: $_"
-        $alzArmParamName = $_.keys
+        $alzArmParamName = $_
         Write-Warning "This is param name: $_"
 
         if ($alzArmParamName -notlike "policyAssignmentParameters*") {
