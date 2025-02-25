@@ -25,24 +25,25 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
   Context "Validate parameter names" {
     It "Check param files have the same parameters" {
 
-    #Comparing parameter names
-    foreach ($key in $alzArmParameters) {
+      #Comparing parameter names
+      foreach ($key in $alzArmParameters) {
 
-      # Validating params from flat entries
-      if ($_.Name -notlike "policyAssignmentParameters*") {
-        $paramName = $_.Name
-        $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
-        Write-Warning "Testing parameter name [$paramName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-        $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
+        # Validating params from flat entries
+        if ($_.Name -notlike "policyAssignmentParameters*") {
+          $paramName = $_.Name
+          $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
+          Write-Warning "Testing parameter name [$paramName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+          $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
+        }
+        else {
+          # Validating params from nested entries
+          Write-Information "These are not the droids you are looking for..."
+          #$paramName = $_.Name
+          #$eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
+          #Write-Warning "Testing parameter name [$paramName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+          #$paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
+        }
       }
-      else {
-        # Validating params from nested entries
-        Write-Information "These are not the droids you are looking for..."
-        <#$paramName = $_.Name
-        $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
-        Write-Warning "Testing parameter name [$paramName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-        $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
-      }#>
     }
   }
 
@@ -53,6 +54,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
       foreach ($key in $alzArmJson.parameters) {
         $Key | Should -Be $eslzTerraformJson.parameter.$key -Because "The key parameter [$key] is not present on file [eslzArm.terraform-sync.param.json] and must be added."
       }
+    }
   }#>
 
   AfterAll {
