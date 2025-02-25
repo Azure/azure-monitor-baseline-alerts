@@ -27,7 +27,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
         if ($_.Name -notlike "policyAssignmentParameters*") {
           $paramName = $_.Name
           $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
-          Write-Warning "Testing record [$] and param name [$eslzTerraformParameters.$paramName] on file [$alzArmFile]"
+          Write-Warning "Testing record [$key] and param name [$paramName] on file [$alzArmFile]"
           $_.Name | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
         }
       }
