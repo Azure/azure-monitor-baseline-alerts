@@ -108,7 +108,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
           $alzArmParamObj.keys | ForEach-Object {
             $alzArmParamName2 = $_
-            $alzArmParamValue2 = $_.values.value
+            $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
 
             Write-Warning "Child param name: [$alzArmParamName2] with value: [$alzArmParamValue2]"
 
