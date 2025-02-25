@@ -86,7 +86,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for parameters default values to be the same between files [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
 
       #Setting excluded params that must have different values according to TF requirements
-      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZMonitorDisableTagValues")
+      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZMonitorResourceGroupTags")
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
 
@@ -97,7 +97,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           # Validating params from flat entries
           $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
           $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
-          Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+          #Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
         }
       }
