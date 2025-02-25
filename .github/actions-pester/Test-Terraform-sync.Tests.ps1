@@ -55,23 +55,28 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for existence of parameters defined in [eslzArm.terraform-sync.param.json] inside file [alzArm.param.json]" {
 
       #Comparing parameter names
-      $eslzTerraformParameters | ForEach-Object {
+      $eslzTerraformParameters.keys | ForEach-Object {
 
-        $eslzTerraformParamName = $_.Name
+        $eslzTerraformParamName = $_
 
-        # Validating params from flat entries
         if ($eslzTerraformParamName -notlike "policyAssignmentParameters*") {
-          $alzArmParamName = $alzArmParameters | Where-Object Name -EQ $eslzTerraformParamName | Select-Object -ExpandProperty Name
+
+          # Validating params from flat entries
+          $alzArmParamName = $alzArmParameters.keys | Where-Object {$_ -like "$eslzTerraformParamName"}
           #Write-Warning "Testing the existence of parameter name [$eslzTerraformParamName] in both files [$eslzTerraformFileName] and [$alzArmFileName]."
           $eslzTerraformParamName | Should -Be $alzArmParamName -Because "the parameter name [$eslzTerraformParamName] is not existing in file [$alzArmFileName]. Files should be aligned."
         }
         else {
+
           # Validating params from nested entries
-          Write-Warning "These are not the droids you are looking for..."
-          #$alzArmParamName = $_.Name
-          #$eslzTerraformParam = $BR1 | Where-Object Name -EQ $alzArmParamName
-          #Write-Warning "Testing parameter name [$alzArmParamName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-          #$alzArmParamName | Should -Be $eslzTerraformParam -Because "the parameter name [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+          $eslzTerraformParamObj = $eslzTerraformParameters["$eslzTerraformParamName"].values
+
+          $eslzTerraformParamObj.keys | ForEach-Object{
+            $eslzTerraformParamName2 = $_
+            $alzArmParam2 = $alzArmParameters["$eslzTerraformParamName"].values.keys | Where-Object {$_ -like "$eslzTerraformParamName2"}
+            Write-Warning "Testing parameter name [$eslzTerraformParamName2] to be present in both files [$eslzTerraformFileName] and [$alzArmFileName]."
+            $eslzTerraformParamName2 | Should -Be $alzArmParam2 -Because "the parameter name [$eslzTerraformParamName2] is not existing in file [$alzArmFileName]. Files should be aligned."
+          }
         }
       }
     }
