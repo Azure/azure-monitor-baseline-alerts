@@ -122,7 +122,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
                 $eslzTerraformParamName2 = $_
                 if($eslzTerraformParamName2 -eq $alzArmParamName2) {
                   $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
-                  #Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+                  Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
                   $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the value of parameter[$alzArmParamName2] in file [$alzArmFileName] should be the same used for parameter [$eslzTerraformParamName2] in file [$eslzTerraformFileName]. Files should be aligned."
                 }
               }
