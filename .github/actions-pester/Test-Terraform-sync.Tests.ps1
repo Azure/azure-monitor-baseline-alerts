@@ -4,12 +4,12 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force
 
     # Setting param files to be compared
-    $alzArmParam = "./patterns/alz/alzArm.param.json"
-    $eslzTerraform = "./patterns/alz/eslzArm.terraform-sync.param.json"
+    $alzArmParamFile = "./patterns/alz/alzArm.param.json"
+    $eslzTerraformFile = "./patterns/alz/eslzArm.terraform-sync.param.json"
 
     # Loading file content
-    $alzArmParamJson = Get-Content -Raw -Path $alzArmParam | ConvertFrom-Json
-    $eslzTerraformJson = Get-Content -Raw -Path $eslzTerraform | ConvertFrom-Json
+    $alzArmParamJson = Get-Content -Raw -Path $alzArmParamFile | ConvertFrom-Json
+    $eslzTerraformJson = Get-Content -Raw -Path $eslzTerraformFile | ConvertFrom-Json
 
     $alzArmParamJsonParams = $alzArmParamJson.parameters | Get-Member -MemberType NoteProperty
     $eslzTerraformJsonParams = $eslzTerraformJson.parameters | Get-Member -MemberType NoteProperty
@@ -25,6 +25,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
       #Comparing parameter names
       foreach ($key in $alzArmParamJsonParams) {
         $paramName = $_.Name
+        Write-Warning "Testing record [$Key] and param name [$paramName] on file [$alzArmParamFile]"
         $_.Name | Should -Be $eslzTerraformJsonParams.$paramName -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
       }
     }
