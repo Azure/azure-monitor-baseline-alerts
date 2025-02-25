@@ -27,9 +27,9 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
-        Write-Warning "This is the record: $_"
+
         $alzArmParamName = $_
-        Write-Warning "This is param name: $_"
+        Write-Warning "This is param name: [$alzArmParamName]"
 
         if ($alzArmParamName -notlike "policyAssignmentParameters*") {
 
