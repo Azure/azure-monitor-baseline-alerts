@@ -42,7 +42,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           # Validating params from nested entries
           $alzArmParamObj = $alzArmParameters["$alzArmParamName"].values
 
-          $alzArmParamObj.keys | ForEach-Object{
+          $alzArmParamObj.keys | ForEach-Object {
             $alzArmParamName2 = $_
             $eslzTerraformParam2 = $eslzTerraformParameters["$alzArmParamName"].values.keys | Where-Object {$_ -like "$alzArmParamName2"}
             #Write-Warning "Testing parameter name [$alzArmParamName2] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
@@ -92,12 +92,13 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
         if ($alzArmParamName -notlike "policyAssignmentParameters*") {
 
-        # Validating params from flat entries
-        $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
-        $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
-        Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-        $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+          # Validating params from flat entries
+          $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
+          $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
+          Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+          $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
         }
+      }
     }
 
     <#It "Check for parameters default values to be the same between files [eslzArm.terraform-sync.param.json] and [alzArm.param.json]" {
