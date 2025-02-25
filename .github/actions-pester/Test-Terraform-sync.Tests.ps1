@@ -1,7 +1,7 @@
 Describe "UnitTest-CompareEslzTerraform-Sync" {
 
   BeforeAll {
-    Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force
+    #Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force
 
     # Setting param files to be compared
     $alzArmFile = "./patterns/alz/alzArm.param.json"
@@ -93,13 +93,17 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
         $alzArmParamName = $_
 
-        if (($alzArmParamName -notlike "policyAssignmentParameters*") -and ($alzArmParamName -notin $ExcludeParams)) {
+        if ($alzArmParamName -notlike "policyAssignmentParameters*"){
 
-          # Validating params from flat entries
-          $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
-          $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
-          #Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-          $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+          #Executing only if param is not excluded
+          if($alzArmParamName -notin $ExcludeParams) {
+
+            # Validating params from flat entries
+            $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
+            $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
+            #Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+            $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the value of parameter [$alzArmParamName] in file [$alzArmFileName] should be the same used for parameter [$alzArmParamName] in file [$eslzTerraformFileName]. Files should be aligned."
+          }
         }
         else {
 
@@ -110,13 +114,17 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
             $alzArmParamName2 = $_
             $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
 
-            $eslzTerraformParamObj = $eslzTerraformParameters["$alzArmParamName"].values
-            $eslzTerraformParamObj | ForEach-Object {
-              $eslzTerraformParamName2 = $_
-              if(($eslzTerraformParamName2 -eq $alzArmParamName2) -and ($eslzTerraformParamName2 -notin $ExcludeParams)) {
-                $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
-                #Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-                $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the parameter value [$alzArmParamName2] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+            #Executing only if param is not excluded
+            if($eslzTerraformParamName2 -notin $ExcludeParams) {
+              # Getting param value from the other file
+              $eslzTerraformParamObj = $eslzTerraformParameters["$alzArmParamName"].values
+              $eslzTerraformParamObj.keys | ForEach-Object {
+                $eslzTerraformParamName2 = $_
+                if($eslzTerraformParamName2 -eq $alzArmParamName2) {
+                  $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
+                  #Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+                  $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the value of parameter[$alzArmParamName2] in file [$alzArmFileName] should be the same used for parameter [$eslzTerraformParamName2] in file [$eslzTerraformFileName]. Files should be aligned."
+                }
               }
             }
           }
@@ -124,10 +132,6 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
       }
     }
 
-    <#It "Check for parameters default values to be the same between files [eslzArm.terraform-sync.param.json] and [alzArm.param.json]" {
-
-
-    }#>
   }
 
   AfterAll {
