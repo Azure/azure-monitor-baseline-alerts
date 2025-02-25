@@ -41,9 +41,10 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
           # Validating params from nested entries
           $alzArmParamObj = $alzArmParameters["$alzArmParamName"].values
+
           $alzArmParamObj.keys | ForEach-Object{
             $alzArmParamName2 = $_
-            $eslzTerraformParam2 = $eslzTerraformParameters["$alzArmParamName"].values.keys | Where-Object Name -EQ $alzArmParamName2
+            $eslzTerraformParam2 = $eslzTerraformParameters["$alzArmParamName"].values.keys | Where-Object {$_ -like "$alzArmParamName2"}
             Write-Warning "Testing parameter name [$alzArmParamName2] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
             $alzArmParamName2 | Should -Be $eslzTerraformParam2 -Because "the parameter name [$alzArmParamName2] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
           }
