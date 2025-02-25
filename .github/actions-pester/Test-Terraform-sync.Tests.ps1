@@ -45,7 +45,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           $alzArmParamObj.keys | ForEach-Object{
             $alzArmParamName2 = $_
             $eslzTerraformParam2 = $eslzTerraformParameters["$alzArmParamName"].values.keys | Where-Object {$_ -like "$alzArmParamName2"}
-            Write-Warning "Testing parameter name [$alzArmParamName2] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+            #Write-Warning "Testing parameter name [$alzArmParamName2] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
             $alzArmParamName2 | Should -Be $eslzTerraformParam2 -Because "the parameter name [$alzArmParamName2] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
           }
         }
@@ -74,7 +74,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           $eslzTerraformParamObj.keys | ForEach-Object{
             $eslzTerraformParamName2 = $_
             $alzArmParam2 = $alzArmParameters["$eslzTerraformParamName"].values.keys | Where-Object {$_ -like "$eslzTerraformParamName2"}
-            Write-Warning "Testing parameter name [$eslzTerraformParamName2] to be present in both files [$eslzTerraformFileName] and [$alzArmFileName]."
+            #Write-Warning "Testing parameter name [$eslzTerraformParamName2] to be present in both files [$eslzTerraformFileName] and [$alzArmFileName]."
             $eslzTerraformParamName2 | Should -Be $alzArmParam2 -Because "the parameter name [$eslzTerraformParamName2] is not existing in file [$alzArmFileName]. Files should be aligned."
           }
         }
@@ -82,17 +82,29 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     }
   }
 
-  <#Context "Validate parameter values sync between [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
+  Context "Validate parameter values sync between [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
     It "Check for parameters default values to be the same between files [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
 
+      #Comparing parameter names
+      $alzArmParameters.keys | ForEach-Object {
 
+        $alzArmParamName = $_
+
+        if ($alzArmParamName -notlike "policyAssignmentParameters*") {
+
+        # Validating params from flat entries
+        $alzArmParamValue = $alzArmParameters["$alzArmParamName"].values
+        $eslzTerraformParamValue = $eslzTerraformParameters["$alzArmParamName"].values
+        Write-Warning "Testing the value of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+        $alzArmParamValue | Should -Be $eslzTerraformParamValue -Because "the parameter value [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
+        }
     }
 
-    It "Check for parameters default values to be the same between files [eslzArm.terraform-sync.param.json] and [alzArm.param.json]" {
+    <#It "Check for parameters default values to be the same between files [eslzArm.terraform-sync.param.json] and [alzArm.param.json]" {
 
 
-    }
-  }#>
+    }#>
+  }
 
   AfterAll {
     # These are not the droids you are looking for...
