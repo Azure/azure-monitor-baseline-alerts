@@ -27,8 +27,9 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
       #Comparing parameter names
       foreach ($key in $alzArmParameters) {
-        $paramName = $_.Name
+
         if ($paramName -notlike "policyAssignmentParameters*") {
+          $paramName = $_.Name
           $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
           Write-Warning "Testing parameter name [$_.Name] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
