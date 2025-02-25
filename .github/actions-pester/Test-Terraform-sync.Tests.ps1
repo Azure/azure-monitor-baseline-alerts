@@ -106,8 +106,8 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
           # Validating params from nested entries
           $alzArmParamObj = $alzArmParameters["$alzArmParamName"].values
 
-          $alzArmParamObj | ForEach-Object {
-            $alzArmParamName2 = $_.keys
+          $alzArmParamObj.keys | ForEach-Object {
+            $alzArmParamName2 = $_
             $alzArmParamValue2 = $_.values.value
 
             Write-Warning "Child param name: [$alzArmParamName2] with value: [$alzArmParamValue2]"
