@@ -33,13 +33,13 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
         # Validating params from flat entries
         if ($alzArmParamName -notlike "policyAssignmentParameters*") {
           $eslzTerraformParamName = $eslzTerraformParameters | Where-Object Name -EQ $alzArmParamName | Select-Object -ExpandProperty Name
-          Write-Information "eslz param name [$eslzTerraformParamName]"
+          Write-Warning "eslz param name [$eslzTerraformParamName]"
           Write-Warning "Testing the existence of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $alzArmParamName | Should -Be $eslzTerraformParamName -Because "the parameter name [$alzArmParamName] is not existing in file [$eslzTerraformFileName] and must be added."
         }
         else {
           # Validating params from nested entries
-          Write-Information "These are not the droids you are looking for..."
+          Write-Warning "These are not the droids you are looking for..."
           #$alzArmParamName = $_.Name
           #$eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $alzArmParamName
           #Write-Warning "Testing parameter name [$alzArmParamName] to be present in both files [$alzArmFileName] and [$eslzTerraformFileName]."
