@@ -110,6 +110,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
             $alzArmParamName2 = $_
             $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
 
+            # Getting param value from the other file
             $eslzTerraformParamObj = $eslzTerraformParameters["$alzArmParamName"].values
             $eslzTerraformParamObj | ForEach-Object {
               $eslzTerraformParamName2 = $_
