@@ -33,7 +33,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
         if ($alzArmParamName -notlike "policyAssignmentParameters*") {
 
           # Validating params from flat entries
-          $eslzTerraformParamName = $eslzTerraformParameters.keys | Where-Object {$_ -like "$paramName"}
+          $eslzTerraformParamName = $eslzTerraformParameters.keys | Where-Object {$_ -like "$alzArmParamName"}
           #Write-Warning "Testing the existence of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
           $alzArmParamName | Should -Be $eslzTerraformParamName -Because "the parameter name [$alzArmParamName] is not existing in file [$eslzTerraformFileName]. Files should be aligned."
         }
