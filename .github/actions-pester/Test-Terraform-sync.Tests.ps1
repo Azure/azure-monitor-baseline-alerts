@@ -115,7 +115,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
             $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
 
             #Executing only if param is not excluded
-            if($eslzTerraformParamName2 -notin $ExcludeParams) {
+            if($alzArmParamName2 -notin $ExcludeParams) {
               # Getting param value from the other file
               $eslzTerraformParamObj = $eslzTerraformParameters["$alzArmParamName"].values
               $eslzTerraformParamObj.keys | ForEach-Object {
@@ -123,7 +123,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
                 if($eslzTerraformParamName2 -eq $alzArmParamName2) {
                   $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
                   Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
-                  $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the value of parameter[$alzArmParamName2] in file [$alzArmFileName] should be the same used for parameter [$eslzTerraformParamName2] in file [$eslzTerraformFileName]. Files should be aligned."
+                  $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the value of parameter [$alzArmParamName2] in file [$alzArmFileName] should be the same used for parameter [$eslzTerraformParamName2] in file [$eslzTerraformFileName]. Files should be aligned."
                 }
               }
             }
