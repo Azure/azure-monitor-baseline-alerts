@@ -25,6 +25,7 @@ subschema3_file_name = '.github/yml-schemas/defaultAdminActivityLog.json'
 subschema4_file_name = '.github/yml-schemas/defaultRHActivityLog.json'
 subschema5_file_name = '.github/yml-schemas/defaultSHActivityLog.json'
 subschema6_file_name = '.github/yml-schemas/defaultDynamicMetric.json'
+subschema7_file_name = '.github/yml-schemas/defaultModifyPolicy.json'
 
 # Load the subschemas from files
 with open(subschema1_file_name, 'r') as subschema1_file:
@@ -45,6 +46,9 @@ with open(subschema5_file_name, 'r') as subschema5_file:
 with open(subschema6_file_name, 'r') as subschema6_file:
     subschema6 = json.load(subschema6_file)
 
+with open(subschema7_file_name, 'r') as subschema7_file:
+    subschema7 = json.load(subschema7_file)
+
 # Define a mapping of types to schemas
 schemas = {
     "log": subschema1,
@@ -52,7 +56,8 @@ schemas = {
     "administrative_activitylog": subschema3,
     "resourcehealth_activitylog": subschema4,
     "servicehealth_activitylog": subschema5,
-    "dynamicthresholdcriterion_metric": subschema6
+    "dynamicthresholdcriterion_metric": subschema6,
+    "modifypolicy": subschema7
 }
 
 for yaml_file_name in yaml_files:
@@ -77,6 +82,8 @@ for yaml_file_name in yaml_files:
               selector = f"{entity_category}_{entity_type}"
               schema = schemas.get(selector)
           if entity_type == "log":
+              schema = schemas.get(entity_type)
+          if entity_type == "modifypolicy":
               schema = schemas.get(entity_type)
           if schema:
               validator = Draft7Validator(schema)
