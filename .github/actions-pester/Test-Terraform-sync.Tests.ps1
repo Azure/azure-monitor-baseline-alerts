@@ -7,6 +7,9 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     $alzArmFile = "./patterns/alz/alzArm.param.json"
     $eslzTerraformFile = "./patterns/alz/eslzArm.terraform-sync.param.json"
 
+    $alzArmFileName = Split-Path $alzArmFile -Leaf
+    $eslzTerraformFileName = Split-Path $eslzTerraformFile -Leaf
+
     # Loading file content
     $alzArmJson = Get-Content -Raw -Path $alzArmFile | ConvertFrom-Json
     $eslzTerraformJson = Get-Content -Raw -Path $eslzTerraformFile | ConvertFrom-Json
@@ -24,11 +27,11 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
       #Comparing parameter names
       foreach ($key in $alzArmParameters) {
-        if ($_.Name -notlike "policyAssignmentParameters*") {
-          $paramName = $_.Name
+        $paramName = $_.Name
+        if ($paramName -notlike "policyAssignmentParameters*") {
           $eslzTerraformParam = $eslzTerraformParameters | Where-Object Name -EQ $paramName
-          Write-Warning "Testing record [$key] and param name [$paramName] on file [$alzArmFile]"
-          $_.Name | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [eslzArm.terraform-sync.param.json] and must be added."
+          Write-Warning "Testing parameter name [$paramName] from file [$alzArmFile] to be present in file [$eslzTerraformFileName]"
+          $paramName | Should -Be $eslzTerraformParam -Because "the parameter name [$paramName] is not existing in file [$eslzTerraformFileName] and must be added."
         }
       }
     }
