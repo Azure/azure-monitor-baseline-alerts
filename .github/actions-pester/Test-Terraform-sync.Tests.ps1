@@ -7,6 +7,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     $alzArmFile = "./patterns/alz/alzArm.param.json"
     $eslzTerraformFile = "./patterns/alz/eslzArm.terraform-sync.param.json"
 
+    # Extracting file name from path
     $alzArmFileName = Split-Path $alzArmFile -Leaf
     $eslzTerraformFileName = Split-Path $eslzTerraformFile -Leaf
 
@@ -14,11 +15,9 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     $alzArmJson = Get-Content -Raw -Path $alzArmFile | ConvertFrom-Json -Depth 99 -AsHashtable
     $eslzTerraformJson = Get-Content -Raw -Path $eslzTerraformFile | ConvertFrom-Json -Depth 99 -AsHashtable
 
+    # Creating hashtable of parameters
     $alzArmParameters = $alzArmJson.parameters
     $eslzTerraformParameters = $eslzTerraformJson.parameters
-
-    #$ExcludePolicy = @()
-    #$ExcludeParams = @("ALZManagementSubscriptionId", "BYOUserAssignedManagedIdentityResourceId")
 
   }
 
@@ -30,8 +29,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
         $alzArmParamName = $_
 
-        if ($alzArmParamName -notlike "policyAssignmentParameters*") {
-
+        if (($alzArmParamName -notlike "policyAssignmentParameters*") -and ($alzArmParamName -notlike "ALZMonitorResourceGroupTags")) {
           # Validating params from flat entries
           $eslzTerraformParamName = $eslzTerraformParameters.keys | Where-Object {$_ -like "$alzArmParamName"}
           #Write-Warning "Testing the existence of parameter name [$alzArmParamName] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
@@ -86,14 +84,14 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for parameters default values to be the same between files [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
 
       #Setting excluded params that must have different values according to TF requirements
-      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZMonitorResourceGroupTags")
+      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail")#, "ALZMonitorResourceGroupTags")
 
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
 
         $alzArmParamName = $_
 
-        if ($alzArmParamName -notlike "policyAssignmentParameters*"){
+        if (($alzArmParamName -notlike "policyAssignmentParameters*") -and ($alzArmParamName -notlike "ALZMonitorResourceGroupTags")) {
 
           #Executing only if param is not excluded
           if($alzArmParamName -notin $ExcludeParams) {
@@ -112,7 +110,12 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
           $alzArmParamObj.keys | ForEach-Object {
             $alzArmParamName2 = $_
-            $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
+            if($alzArmParamObj.Values.GetType().Name -eq "String") {
+              $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2
+            }
+            else {
+              $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2.value
+            }
 
             #Executing only if param is not excluded
             if($alzArmParamName2 -notin $ExcludeParams) {
@@ -121,8 +124,14 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
               $eslzTerraformParamObj.keys | ForEach-Object {
                 $eslzTerraformParamName2 = $_
                 if($eslzTerraformParamName2 -eq $alzArmParamName2) {
-                  $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
-                  Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
+                  if($eslzTerraformParamObj.Values.GetType().Name -eq "String") {
+                    $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2
+
+                  }
+                  else {
+                    $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2.value
+                  }
+                  #Write-Warning "Testing the value of parameter name [$alzArmParamName2] in both files [$alzArmFileName] and [$eslzTerraformFileName]."
                   $alzArmParamValue2 | Should -Be $eslzTerraformParamValue2 -Because "the value of parameter [$alzArmParamName2] in file [$alzArmFileName] should be the same used for parameter [$eslzTerraformParamName2] in file [$eslzTerraformFileName]. Files should be aligned."
                 }
               }
