@@ -108,7 +108,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
           $alzArmParamObj.keys | ForEach-Object {
             $alzArmParamName2 = $_
-            if($alzArmParamObj.Values.GetType().Name -eq "String") {
+            if($alzArmParamObj.$alzArmParamName2.GetType().Name -eq "String") {
               $alzArmParamValue2 = $alzArmParamObj.$alzArmParamName2
             }
             else {
@@ -122,7 +122,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
               $eslzTerraformParamObj.keys | ForEach-Object {
                 $eslzTerraformParamName2 = $_
                 if($eslzTerraformParamName2 -eq $alzArmParamName2) {
-                  if($eslzTerraformParamObj.Values.GetType().Name -eq "String") {
+                  if($eslzTerraformParamObj.$eslzTerraformParamName2.GetType().Name -eq "String") {
                     $eslzTerraformParamValue2 = $eslzTerraformParamObj.$eslzTerraformParamName2
 
                   }
