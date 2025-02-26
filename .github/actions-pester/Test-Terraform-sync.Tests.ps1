@@ -17,9 +17,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
     # Creating hashtable of parameters
     $alzArmParameters = $alzArmJson.parameters
-    $eslzTerraformParameters = $eslzTerraformJson.parameters
-
-  }
+    $eslzTerraformParameters = $eslzTerraformJson.parameters  }
 
   Context "Validate parameter names sync between [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
     It "Check for existence of parameters defined in [alzArm.param.json] inside file [eslzArm.terraform-sync.param.json]" {
@@ -57,7 +55,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
         $eslzTerraformParamName = $_
 
-        if ($eslzTerraformParamName -notlike "policyAssignmentParameters*") {
+        if (($eslzTerraformParamName -notlike "policyAssignmentParameters*") -and ($eslzTerraformParamName -notlike "ALZMonitorResourceGroupTags")) {
 
           # Validating params from flat entries
           $alzArmParamName = $alzArmParameters.keys | Where-Object {$_ -like "$eslzTerraformParamName"}
@@ -84,7 +82,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
     It "Check for parameters default values to be the same between files [alzArm.param.json] and [eslzArm.terraform-sync.param.json]" {
 
       #Setting excluded params that must have different values according to TF requirements
-      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail")#, "ALZMonitorResourceGroupTags")
+      $ExcludeParams = @("enterpriseScaleCompanyPrefix", "platformManagementGroup", "IdentityManagementGroup", "managementManagementGroup", "connectivityManagementGroup", "LandingZoneManagementGroup", "bringYourOwnUserAssignedManagedIdentityResourceId", "managementSubscriptionId", "ALZMonitorActionGroupEmail")
 
       #Comparing parameter names
       $alzArmParameters.keys | ForEach-Object {
