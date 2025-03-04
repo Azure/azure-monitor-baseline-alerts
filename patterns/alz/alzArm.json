@@ -1705,30 +1705,6 @@
                     "resources": []
                 }
             }
-        },
-        // MARK: Deploy exemptions
-        // Exempt Connectivity Initiative
-        {
-          "condition": "[and(equals(parameters('enableAMBAConnectivity'), 'Yes'), equals(parameters('exemptAMBAConnectivityParameterws'), 'Yes'))]",
-          "type": "Microsoft.Authorization/policyExemptions",
-          "apiVersion": "2022-07-01-preview",
-          "name": "Exempt Connectivity Initiative",
-          "dependsOn": [
-              "[variables('deploymentNames').AMBAConnectivityDeploymentName]"
-            ],
-          "location": "[deployment().location]",
-          "properties": {
-            "description": "This exemption will exclude management groups or subscriptions from the AMBA Connectivity Initiative assignment.",
-            "displayName": "[concat('Exemption for ', variables('deploymentNames').AMBAConnectivityDeploymentName)]",
-            "exemptionCategory": "Mitigated",
-            "assignmentScopeValidation": "DoNotValidate",
-            "metadata": {
-              "_deployed_by_amba": true
-            },
-            "policyAssignmentId": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
-            "policyDefinitionReferenceIds": [],
-            "resourceSelectors": []
-          }
         }
     ],
     "outputs": {
