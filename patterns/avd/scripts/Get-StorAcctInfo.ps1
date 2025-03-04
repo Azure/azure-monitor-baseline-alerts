@@ -44,7 +44,7 @@ Foreach ($storageAcct in $storageAccountResourceIDs) {
     # Foreach Share
     Foreach ($share in $shares) {
         $shareName = $share.Name
-        $share = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName -Name $shareName -GetShareUsage -SubscriptionId $Subscription.Id
+        $share = Get-AzRmStorageShare -ResourceGroupName $ResourceGroup -StorageAccountName $storageAcctName -Name $shareName -GetShareUsage
         #Write-Host "Share: " $shareName
         $shareQuota = $share.QuotaGiB #GB
         $shareUsageInGB = $share.ShareUsageBytes / 1073741824 # Bytes to GB
