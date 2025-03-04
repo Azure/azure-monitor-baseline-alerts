@@ -23,6 +23,13 @@
         "policyAssignmentParameters": {
             "type": "object",
             "defaultValue": {}
+        },
+        "notScopes": {
+            "type": "Array",
+            "metadata": {
+                "displayName": "Not scopes",
+                "description": "Scopes excluded from the policy assignment"
+            }
         }
     },
     "variables": {
@@ -63,6 +70,7 @@
                         "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
                     }
                 ],
+                "notScopes": "[parameters('notScopes')]",
                 "parameters": "[parameters('policyAssignmentParameters')]",
                 "metadata": {
                     "_deployed_by_amba": true
