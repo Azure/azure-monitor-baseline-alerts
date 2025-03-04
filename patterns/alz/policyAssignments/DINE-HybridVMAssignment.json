@@ -21,19 +21,16 @@
       "type": "object",
       "defaultValue": {}
     },
+    "policyAssignmentExclusions": {
+      "type": "object",
+      "defaultValue": {}
+    },
     "scope": {
       "type": "String",
       "metadata": {
         "displayName": "Scope",
         "description": "Scope of the policy assignment"
       }
-    },
-    "notScopes": {
-        "type": "Array",
-        "metadata": {
-            "displayName": "Not scopes",
-            "description": "Scopes excluded from the policy assignment"
-        }
     },
     "uamiScope": {
       "type": "String",
@@ -95,7 +92,7 @@
             "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
           }
         ],
-        "notScopes": [],
+        "notScopes": "[parameters('policyAssignmentExclusions')]",
         "parameters": "[parameters('policyAssignmentParameters')]",
         "metadata": {
           "_deployed_by_amba": true
