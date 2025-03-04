@@ -93,7 +93,7 @@ process {
             # Generate policy templates for log alerts
             if ($alert.type -eq "Log") {
                 $alertTemplate = Get-Content ".\policy\log.json"
-                $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", $alert.guid
+                $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", (('Deploy_' + $alert.name) -replace ' ', '_')
                 if ($alert.deployments.name -ne $null) {
                     $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", $alert.deployments.name
                     $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/$($alert.deployments.name)"
@@ -102,6 +102,26 @@ process {
                     $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", "Deploy $($alert.name) Alert"
                     $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/Deploy $($alert.name) Alert"
                 }
+
+                $parts = $policyPathName -split '\\'
+                $secondToLastIndex = $parts.Length - 2
+                $thirdToLastIndex = $parts.Length - 3
+                $category = $parts[$thirdToLastIndex]
+                $resourceType = 'Microsoft.' + $parts[$thirdToLastIndex] + '/' + $parts[$secondToLastIndex]
+
+                $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
+                $alertTemplate = $alertTemplate -replace "##RESOURCE_TYPE##", $resourceType
+                $alertTemplate = $alertTemplate -replace "##SEVERITY##", $alert.properties.severity
+                $alertTemplate = $alertTemplate -replace "##OPERATOR##", $alert.properties.operator
+                $alertTemplate = $alertTemplate -replace "##TIME_AGGREGATION##", $alert.properties.timeAggregation
+                $alertTemplate = $alertTemplate -replace "##WINDOW_SIZE##", $alert.properties.windowSize
+                $alertTemplate = $alertTemplate -replace "##EVALUATION_FREQUENCY##", $alert.properties.evaluationFrequency
+                $alertTemplate = $alertTemplate -replace "##THRESHOLD##", $alert.properties.threshold
+                $alertTemplate = $alertTemplate -replace "##MIN_FAILING_PERIODS##", $alert.properties.failingPeriods.minFailingPeriodsToAlert
+                $alertTemplate = $alertTemplate -replace "##NUMBER_OF_EVALUATION_PERIODS##", $alert.properties.failingPeriods.numberOfEvaluationPeriods
+                $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
+                $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
+
                 if (-not (Test-Path -Path $policyDirectory)) {
                   New-Item -ItemType Directory -Path $policyDirectory -Force
                 }

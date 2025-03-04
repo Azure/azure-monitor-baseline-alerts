@@ -8,7 +8,7 @@
     "displayName": "##POLICY_DISPLAY_NAME##",
     "description": "##POLICY_DESCRIPTION##",
     "metadata": {
-      "version": "1.0.0-preview",
+      "version": "2.0.0",
       "category": "##POLICY_CATEGORY##",
       "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
@@ -186,16 +186,6 @@
         },
         "defaultValue": "##NUMBER_OF_EVALUATION_PERIODS##"
       },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
-      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -365,9 +355,6 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "computersToInclude": {
-                    "type": "array"
-                  },
                   "MonitorDisableTagName": {
                     "type": "String"
                   },
@@ -415,7 +402,7 @@
                         "resources": [
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
-                            "apiVersion": "2022-06-15",
+                            "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-##ALERT_NAME##')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "identity": {
@@ -503,9 +490,6 @@
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
                                 },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
-                                },
                                 "MonitorDisableTagName": {
                                   "value": "[[parameters('MonitorDisableTagName')]"
                                 },
@@ -583,9 +567,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisableTagName": {
                   "value": "[[parameters('MonitorDisableTagName')]"
