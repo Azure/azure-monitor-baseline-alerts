@@ -12,7 +12,7 @@ weight: 78
 
 ## Overview
 
-After release [2025-03-03](../Overview/Whats-New#2025-03-03) we have made available a new set of parameters that allows you do exclude Management Groups and/or Subscriptions from policy assignments. This feature helps customers that would like to control the application of policies at scale during the deployment of the AMBA-ALZ pattern. For brownfield customers, it is still possible to exclude resources from being assigned, but it has to be done manually at the assignment level. A guide to perform the task is availabel at the [Manually configure policy assignment exclusion]() page. For greenfield customers, it is possible to make use of the new parameters to add the resources to be excluded for each and every policy assignment. The resource format should follow the standar Azure resource id format reported below for both Managent Groups and Subscriptions:
+After release [2025-03-03](../../Overview/Whats-New#2025-03-03) we have made available a new set of parameters that allows you do exclude Management Groups and/or Subscriptions from policy assignments. This feature helps customers that would like to control the application of policies at scale during the deployment of the AMBA-ALZ pattern. For brownfield customers, it is still possible to exclude resources from being assigned, but it has to be done manually at the assignment level. A guide to perform the task is available at [Can I exclude Management Groups or Subscriptions from policy assignment?](../../Resources/FAQ#can-i-exclude-management-groups-or-subscriptions-from-policy-assignment) in the [FAQ](../../Resources/FAQ) page. For greenfield customers, it is possible to make use of the new parameters to add the resources to be excluded for each and every policy assignment. The resource format should follow the standard Azure resource id format reported below for both Managent Groups and Subscriptions:
 
 - **Management Groups** == *"/providers/Microsoft.Management/managementGroups/<<management group id>>"*
 - **Subscriptions** == *"/subscriptions/<<subscription id>>"*
@@ -23,53 +23,50 @@ The parameters can be configured with more than one value, since it is expecting
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2"]
 
-  ![2 management groups exclusion](../media/AssignmentaExclusion-1.png)
+  ![2 management groups exclusion](../../media/AssignmentsExclusion-1.png)
 
 ### Exclusion of 2 subscriptions
 
 "value": ["/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
 
-![2 subscriptions exclusion](../media/AssignmentaExclusion-2.png)
+![2 subscriptions exclusion](../../media/AssignmentsExclusion-2.png)
 
 ### Exclusion of 1 management group and 1 subscription
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/subscriptions/11111111-1111-1111-1111-111111111111"]
 
-![Mixed exclusion](../media/AssignmentaExclusion-3.png)
+![Mixed exclusion](../../media/AssignmentsExclusion-3.png)
 
 ### Exclusion of 2 management groups (or more) and 2 subscriptions (or more)
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2", "/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
 
-![Mixed exclusion - multiple elements](../media/AssignmentaExclusion-4.png)
+![Mixed exclusion - multiple elements](../../media/AssignmentsExclusion-4.png)
 
 ## How this feature works
 
 {{< hint type=Info >}}
-**Configuration of exclusions at scale is not allowed while deploying through AMBA-ALZ Portal.**
+**This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell.Configuration of exclusions at scale is not allowed while deploying through AMBA-ALZ Portal.**
 {{< /hint >}}
 
-The **Require a workspace linked storage** option in the query alert rule controls whether this scheduled query rule should be stored in the customer's storage. To control this option in the AMBA-ALZ pattern, we use the ***checkWorkspaceAlertsStorageConfigured*** parameter with a **default value of 'false'**. More information in the following article: [Scheduled Query Rules](https://learn.microsoft.com/en-us/azure/templates/microsoft.insights/scheduledqueryrules?pivots=deployment-language-bicep)
+To use this feature, customers must populate the relevant parameter file section with the id of resources to be excluded. The section, called _**policyAssignmentExclusionList**_, contains an entry for each of the policy assignments configured during the deployment with no default value.
 
-To change the **checkWorkspaceAlertsStorageConfigured** flag to **'true'**, navigate to:
+![policyAssignmentExclusionList](../../media/AssignmentsExclusion-5.png)
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-02-05/patterns/alz/alzArm.param.json) for the latest release.
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
-- change parameters value where name contains *checkWorkspaceAlertsStorageConfigured* to *true*
-  ![Parameter file](../../media/cmk_parameter.png)
+Resources to be excluded can be inserted more than one time if applicable to different scopes. Make sure you enter the correct resource scope under the relevant section. As already documented in the above section, enter the resource ids in the correct form. You can the following combination when configuring the exclusion:
 
-{{< hint type=IMPORTANT >}}
-An alert rule won't be created if the Log Analytics workspace doesn't have a configured linked storage account.
-{{< /hint >}}
+- 1 or more Management groups
+- 1 or more subscriptions
+- a mix of 1 or more management groups and 1 or more subscriptions
 
-Enabling this feature without a linked storage account, will cause the remediation task to fail
+Once the parameter has been configured deploy the AMBA-ALZ pattern using one the methods below:
 
-  ![remediation task error](../../media/cmk_remediation_task_error.png)
+- To deploy with Azure Portal, please proceed with [Deploy via the Azure Portal Accelerator](../deploy/Deploy-via-Azure-Portal-UI)  (recommended method)
+- To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
+- To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
+- To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
+- To deploy with Azure PowerShell, please proceed with [Deploy with PowerShell](../deploy/Deploy-with-Azure-PowerShell)
 
-with an error message similar to the following one:
+You will get policy assignments configured with the excluded resources (if any):
 
-  ![remediation task error message](../../media/cmk_remediation_task_error_message.png)
-
-As consequence, <ins>***no alert rule for the given policy will be created***</ins> and the corresponding policy definition will show as ***Non-compliant***. See the image below
-
-  ![Policy compliance](../../media/cmk_alert_rule_error.png)
+![Policy assignment with excluded resources](../../media/AssignmentsExclusion-6.png)
