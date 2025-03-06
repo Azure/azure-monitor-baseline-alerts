@@ -38,7 +38,7 @@ The parameters can be configured with more than one value, since it is expecting
 ## How this feature works
 
 {{< hint type=Info >}}
-**This feature is applicable only to log-search alerts.**
+**Configuration of exclusions at scale is not allowed while deploying through AMBA-ALZ Portal.**
 {{< /hint >}}
 
 The **Require a workspace linked storage** option in the query alert rule controls whether this scheduled query rule should be stored in the customer's storage. To control this option in the AMBA-ALZ pattern, we use the ***checkWorkspaceAlertsStorageConfigured*** parameter with a **default value of 'false'**. More information in the following article: [Scheduled Query Rules](https://learn.microsoft.com/en-us/azure/templates/microsoft.insights/scheduledqueryrules?pivots=deployment-language-bicep)
