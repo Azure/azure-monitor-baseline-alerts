@@ -1,5 +1,5 @@
 ---
-title: Exclude Management Groups and/or Subscription from Policy Assignment
+title: Exclude Management Groups and/or Subscriptions from Policy Assignment
 geekdocCollapseSection: true
 geekdocHidden: false
 weight: 78
@@ -12,7 +12,7 @@ weight: 78
 
 ## Overview
 
-After release [2025-03-03](../../Overview/Whats-New#2025-03-03), we have made available a new set of parameters that allows you do exclude Management Groups and/or Subscriptions from policy assignments. This feature helps customers that would like to control the application of policies at scale during the deployment of the AMBA-ALZ pattern. For brownfield customers, it is still possible to exclude resources from being assigned, but it has to be done manually at the assignment level. A guide to perform the task is available at [Can I exclude Management Groups or Subscriptions from policy assignment?](../../Resources/FAQ#can-i-exclude-management-groups-or-subscriptions-from-policy-assignment) in the [FAQ](../../Resources/FAQ) page. For greenfield customers, it is possible to make use of the new parameters to add the resources to be excluded for each and every policy assignment. The resource format should follow the standard Azure resource ID format reported below for both Management Groups and Subscriptions:
+After release [2025-03-03](../../Overview/Whats-New#2025-03-03), we have made available a new set of parameters that allows you do exclude Management Groups and/or Subscriptions from policy assignments. This feature helps customers that would like to control the application of policies at scale during the deployment of the AMBA-ALZ pattern. For brownfield customers, it is still possible to exclude resources from being assigned, but it has to be done manually on the existing policy assignment. A guide to perform the task is available at [Can I exclude Management Groups or Subscriptions from policy assignment?](../../Resources/FAQ#can-i-exclude-management-groups-or-subscriptions-from-policy-assignment) in the [FAQ](../../Resources/FAQ) page. For greenfield customers, it is possible to make use of the new parameters to add the resources to be excluded for each and every policy assignment. The resource format should follow the standard Azure resource ID format reported below for both Management Groups and Subscriptions:
 
 - **Management Groups** == *"/providers/Microsoft.Management/managementGroups/<<management group id>>"*
 - **Subscriptions** == *"/subscriptions/<<subscription id>>"*
