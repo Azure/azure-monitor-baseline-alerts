@@ -1,7 +1,7 @@
 ---
 title: Secure log search alert queries with Customer-managed key
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 weight: 79
 ---
 
