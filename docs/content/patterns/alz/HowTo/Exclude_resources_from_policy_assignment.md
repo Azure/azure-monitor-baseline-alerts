@@ -23,17 +23,25 @@ The parameters can be configured with more than one value, since it is expecting
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2"]
 
+  ![2 management groups exclusion](../media/AssignmentaExclusion-1.png)
+
 ### Exclusion of 2 subscriptions
 
 "value": ["/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
+
+![2 subscriptions exclusion](../media/AssignmentaExclusion-2.png)
 
 ### Exclusion of 1 management group and 1 subscription
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/subscriptions/11111111-1111-1111-1111-111111111111"]
 
+![Mixed exclusion](../media/AssignmentaExclusion-3.png)
+
 ### Exclusion of 2 management groups (or more) and 2 subscriptions (or more)
 
 "value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2", "/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
+
+![Mixed exclusion - multiple elements](../media/AssignmentaExclusion-4.png)
 
 ## How this feature works
 
