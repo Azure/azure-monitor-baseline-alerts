@@ -52,8 +52,8 @@
               "type": "Microsoft.Common.TextBox",
               "label": "Resource group for baseline alerts",
               "toolTip": "Resource group for activity log alerts and action groups. Will be created in all subscriptions in scope for the policy",
-              "visible": "true",
-              "defaultValue": "rg-amba-monitoring-BR1",
+              "visible": "[equals(steps('monitor').enableMonitorBaselines,'Yes')]",
+              "defaultValue": "rg-amba-monitoring-001",
               "constraints": {
                 "required": "true",
                 "validations": [
@@ -132,9 +132,12 @@
               "toolTip": "Specify the name of the user assigned managed identity for monitoring purpose.",
               "constraints": {
                 "required": false,
-                "regex": "",
-                "validationMessage": "",
-                "validations": []
+                "validations": [
+                  {
+                    "regex": "^[a-zA-Z0-9][a-zA-Z0-9-_]{0,128}$",
+                    "validationMessage": "Please provide a valid managed identity name"
+                  }
+                ]
               },
               "infoMessages": [],
               "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No')]"
