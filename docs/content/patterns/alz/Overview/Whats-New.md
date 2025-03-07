@@ -31,8 +31,6 @@ To update your deployment with the latest release, refer to the [Update to new r
   - Activity Log LA Workspace Workspace Regenerate Key Alert
   - Activity Log LA Workspace Delete Alert
 
-- Optimization of calls to Azure Resource Graph inside log-search alert queries. This optimization should reduce and mitigate the throttling issue.
-
 ### Bug Fixes
 
 - Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Hybrid VM and Azure VM options (MG Settings)
