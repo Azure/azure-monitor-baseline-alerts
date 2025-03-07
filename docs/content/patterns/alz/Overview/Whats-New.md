@@ -6,6 +6,7 @@ weight: 09
 
 ### In this page
 
+> [2025-03-03](../Whats-New#2025-03-03) </br>
 > [2025-02-05](../Whats-New#2025-02-05) </br>
 > [2025-01-10](../Whats-New#2025-01-10) </br>
 > [2024-12-10](../Whats-New#2024-12-10) </br>
@@ -19,6 +20,30 @@ weight: 09
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
+
+## 2025-03-03
+
+### New Features
+
+- Ability to securely store log-search alerts in the CMK protected linked storage account. Detailed information on how to use this new feature can be found in the [Secure log search alert queries with Customer-managed key](../../HowTo/Customer_managed_key_for_log_search_alerts) page.
+- Added the following new alerts to the Web Initiative:
+  - LA Workspace Daily Cap Limit Reached Alert
+  - Activity Log LA Workspace Workspace Regenerate Key Alert
+  - Activity Log LA Workspace Delete Alert
+
+### Bug Fixes
+
+- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Hybrid VM and Azure VM options (MG Settings)
+
+### Documentation Updates
+
+- The [The Azure Landing Zones (ALZ) Pattern](../../Overview/ALZ-Pattern) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- The [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- Added a new entry in the [Known Issues](../../Resources/Known-Issues) page to help customer resolving common errors during the AMBA-ALZ update from previous versions
+
+### Tools
+
+- Added a new UnitTest to ensure the correct policy versioning for updated or new policies.
 
 ## 2025-02-05
 

@@ -11,7 +11,7 @@ Updating from the _**preview**_ version is not supported. If you deployed the _*
 
 To begin, either download the appropriate parameter file for the version of AMBA-ALZ you are deploying or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-02-05/patterns/alz/alzArm.param.json) for the latest release.
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group.
