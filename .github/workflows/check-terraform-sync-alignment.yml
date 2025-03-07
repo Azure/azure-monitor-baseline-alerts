@@ -1,5 +1,5 @@
 ---
-    name: Check Policy Build
+    name: Check EslzArm terraform-sync param file alignment
 
     ##########################################
     # Start the job on PR for all branches #
@@ -14,19 +14,18 @@
           - synchronize
           - ready_for_review
         paths:
-          - "patterns/alz/policyDefinitions/**.json"
-          - "patterns/alz/policySetDefinitions/**.json"
-          - "patterns/alz/templates/**.bicep"
-          - "services/**.json"
+          - "patterns/alz/alzArm.param.json"
+          - "patterns/alz/eslzArm.terraform-sync.param.json"
+      workflow_dispatch: {}
 
     ###############
     # Set the Job #
     ###############
 
     jobs:
-      check-policy:
-        name: Check Policy Build
-        runs-on: windows-latest
+      check-eslzArm:
+        name: Check eslzArm.terraform-sync.param.json alignment with alzarm.param.json
+        runs-on: ubuntu-latest
 
         steps:
           - name: Check out repository
@@ -34,13 +33,13 @@
             with:
               fetch-depth: 0
 
-          - name: Check build
+          - name: Check eslzArm terraform param file sync
             shell: pwsh
             run: |
               Import-Module Pester -Force
                 $pesterConfiguration = @{
                   Run    = @{
-                    Container = New-PesterContainer -Path "./.github/actions-pester/Test-BuildPolicies.Tests.ps1"
+                    Container = New-PesterContainer -Path "./.github/actions-pester/Test-Terraform-sync.Tests.ps1"
                     PassThru  = $true
                   }
                   Output = @{
