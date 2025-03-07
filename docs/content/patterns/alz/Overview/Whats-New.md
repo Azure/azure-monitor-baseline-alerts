@@ -25,7 +25,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### New Features
 
-- Ability to securely store log-search alerts in the CMK protected linked storage storage account. Detailed information on how to use this new feature can be found in the [Secure log search alert queries with Customer-managed key](../../HowTo/Customer_managed_key_for_log_search_alerts) page.
+- Ability to securely store log-search alerts in the CMK protected linked storage account. Detailed information on how to use this new feature can be found in the [Secure log search alert queries with Customer-managed key](../../HowTo/Customer_managed_key_for_log_search_alerts) page.
 - Added the following new alerts to the Web Initiative:
   - LA Workspace Daily Cap Limit Reached Alert
   - Activity Log LA Workspace Workspace Regenerate Key Alert
