@@ -1,0 +1,50 @@
+---
+    name: Check EslzArm terraform-sync param file alignment
+
+    ##########################################
+    # Start the job on PR for all branches #
+    ##########################################
+
+    # yamllint disable-line rule:truthy
+    on:
+      pull_request:
+        types:
+          - opened
+          - reopened
+          - synchronize
+          - ready_for_review
+        paths:
+          - "patterns/alz/alzArm.param.json"
+          - "patterns/alz/eslzArm.terraform-sync.param.json"
+      workflow_dispatch: {}
+
+    ###############
+    # Set the Job #
+    ###############
+
+    jobs:
+      check-eslzArm:
+        name: Check eslzArm.terraform-sync.param.json alignment with alzarm.param.json
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Check out repository
+            uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+
+          - name: Check eslzArm terraform param file sync
+            shell: pwsh
+            run: |
+              Import-Module Pester -Force
+                $pesterConfiguration = @{
+                  Run    = @{
+                    Container = New-PesterContainer -Path "./.github/actions-pester/Test-Terraform-sync.Tests.ps1"
+                    PassThru  = $true
+                  }
+                  Output = @{
+                    Verbosity = 'Detailed'
+                  }
+                }
+                $result = Invoke-Pester -Configuration $pesterConfiguration
+                exit $result.FailedCount
