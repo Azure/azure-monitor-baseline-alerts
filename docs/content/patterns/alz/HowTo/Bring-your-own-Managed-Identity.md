@@ -1,8 +1,13 @@
 ---
 title: Bring Your Own User Assigned Managed Identity
 geekdocCollapseSection: true
-weight: 80
+weight: 90
 ---
+
+### In this page
+
+> [Overview](../Bring-your-own-Managed-Identity#overview) </br>
+> [How this feature works](../Bring-your-own-Managed-Identity#how-this-feature-works) </br>
 
 ## Overview
 
@@ -52,12 +57,17 @@ Sample parameter file configuration for this scenario:
 
 ### Usage
 
-This feature is currently used in log-search based alerts. As of this release, one alert uses it, part of the ***Deploy Azure Monitor Baseline Alerts for Hybrid VMs*** policySet for monitoring hybrid virtual machines.
+This feature is currently used in log-search based alerts which are mostly included in the following policy initiatives:
 
-![Deploy Azure Monitor Baseline Alerts for Hybrid VMs](../../media/deploy-HybridVM-Alerts.png)
+- Deploy Azure Monitor Baseline Alerts for Azure Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Management
+- Deploy Azure Monitor Baseline Alerts for Web
+
+![Policy Initiatives using UAMI for ARG queries](../../media/Initiatives-Using-UAMI.png)
 
 {{< hint type=Info >}}
-Future plans include expanding this feature to other alerts.
+This feature could be expanded to other alerts in the future.
 {{< /hint >}}
 
 ### Switching between BYO UAMI and new UAMI

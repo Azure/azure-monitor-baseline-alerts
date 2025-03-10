@@ -4,9 +4,107 @@ geekdocCollapseSection: true
 weight: 09
 ---
 
+### In this page
+
+> [2025-03-03](../Whats-New#2025-03-03) </br>
+> [2025-02-05](../Whats-New#2025-02-05) </br>
+> [2025-01-10](../Whats-New#2025-01-10) </br>
+> [2024-12-10](../Whats-New#2024-12-10) </br>
+> [2024-11-01](../Whats-New#2024-11-01) </br>
+> [2024-09-02](../Whats-New#2024-09-02) </br>
+> [2024-06-05](../Whats-New#2024-06-05) </br>
+> [2024-04-12](../Whats-New#2024-04-12) </br>
+> [2024-03-01](../Whats-New#2024-03-01) </br>
+> [2023-11-14](../Whats-New#2023-11-14) </br>
+
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
+
+## 2025-03-03
+
+### New Features
+
+- Ability to securely store log-search alerts in the CMK protected linked storage account. Detailed information on how to use this new feature can be found in the [Secure log search alert queries with Customer-managed key](../../HowTo/Customer_managed_key_for_log_search_alerts) page.
+- Added the following new alerts to the Web Initiative:
+  - LA Workspace Daily Cap Limit Reached Alert
+  - Activity Log LA Workspace Workspace Regenerate Key Alert
+  - Activity Log LA Workspace Delete Alert
+
+### Bug Fixes
+
+- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Hybrid VM and Azure VM options (MG Settings)
+
+### Documentation Updates
+
+- The [The Azure Landing Zones (ALZ) Pattern](../../Overview/ALZ-Pattern) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- The [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- Added a new entry in the [Known Issues](../../Resources/Known-Issues) page to help customer resolving common errors during the AMBA-ALZ update from previous versions
+
+### Tools
+
+- Added a new UnitTest to ensure the correct policy versioning for updated or new policies.
+
+## 2025-02-05
+
+### New Features
+
+- Exclusion of logical volumes from the following alerts for both ***Azure*** and ***Hybrid*** Virtual Machines:
+  - Operating System Disk Free space
+  - Operating System DiskRead latency
+  - Operating System DiskWrite latency
+  - Data Disks Free space
+  - Data Disks Read latency
+  - Data Disks Write latency
+
+  Detailed information on how to use this new feature can be found in the [Exclude logical volumes](../../HowTo/Exclude-Logical-Volumes) page.
+
+- Optimization of calls to Azure Resource Graph inside log-search alert queries. This optimization should reduce and mitigate the throttling issue.
+
+### Bug Fixes
+
+- Resolved [[#508](https://github.com/Azure/azure-monitor-baseline-alerts/issues/508)]: [General workload issue]: deploy-amba-web assignment missing Managed Identity Operator role on UAMI
+- Resolved [[#499](https://github.com/Azure/azure-monitor-baseline-alerts/pull/499)]: fix: ALZ Pattern add missing `/` to fix regression introduced by PG
+
+### Documentation Updates
+
+- The [Policy Initiatives](../../Getting-started/Policy-Initiatives.md) page has been aligned with the alerts.
+- The [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-your-own-Managed-Identity) page has been updated to list the policy initiatives that makes use of Managed Identity for log-search alerts.
+- An ***In this page*** section with links to contained paragraphs has been added at top of each page to increase the navigation experience.
+- Broken links fixed.
+
+### Tools
+
+- NONE
+
+## 2025-01-10
+
+### New Features
+
+- General Availability for AMBA Portal accelerator. Together with this, the portal accelerator has been enhanced with some nice filtering capabilities allowing you to see only management groups parented with the selected pseudo. The same capability also applies to subscription selection for which you will be only presented those belonging to the pseudo management group
+- Remediation script enhancement: The former **Start-AMBARemediation.ps1** remediation script has been redesigned, optimized and standardized into a new one called [***Start-AMBA-ALZ-Remediation.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Remediation.ps1)
+- Added new policy definition for Application Insights alerts as part of the Alerting-Web initiative:
+  - Deploy Activity Log Application Insights Delete Alert (Preview)
+  - Deploy Application Insights Throttling Limit Reached Alert (Preview)
+- Added new policies to create Alert rules for Route Table activity:
+  - [Preview] Deploy Activity Log Routes Delete Alert
+  - [Preview] Deploy Activity Log Route Table Delete Alert
+- Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
+
+### Bug Fixes
+
+- Resolved [[#455](https://github.com/Azure/azure-monitor-baseline-alerts/issues/455)]: Property name case consistency and remediation script rename
+- Resolved [[#460](https://github.com/Azure/azure-monitor-baseline-alerts/issues/460)]: Portal accelerator bug
+- Resolved [[#465](https://github.com/Azure/azure-monitor-baseline-alerts/issues/465)]: Fix policyDefinitionId format
+- Resolved [[#475](https://github.com/Azure/azure-monitor-baseline-alerts/issues/475)]: [Bug]: Unable to cleanup AMBA deployment - Property "Id" cannot be found
+
+### Documentation Updates
+
+- Added examples of tag value and type in the [Override alert thresholds](../HowTo/Threshold-Override.md) documentation page
+
+### Tools
+
+- NONE
 
 ## 2024-12-10
 
@@ -37,7 +135,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 ### New Features
 
 - Introduced a new policy definition to audit/update Recovery Vault ASR Health Alerting to Azure Monitor alerts.
-- **Script Consolidation**: The scripts *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1*, and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* have been merged into a single script named [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. This enhancement allows the removal of alerts for deleted resources (orphaned alerts).
+- **Script Consolidation**: The *Remove-AMBADeployments.ps1*, *Remove-AMBANotificationAssets.ps1*, *Start-AMBACleanup.ps1*, *Start-AMBAOldArpCleanup.ps1*, and *Start-AMBAPolicyInitiativesAndAssignmentsCleanup.ps1* scripts have been merged into a single script named [***Start-AMBA-ALZ-Maintenance.ps1***](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) [[#352](https://github.com/Azure/azure-monitor-baseline-alerts/pull/352): Consolidate maintenance scripts]. This enhancement allows the removal of alerts for deleted resources (orphaned alerts).
 
 ### Bug Fixes
 

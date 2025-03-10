@@ -4,6 +4,11 @@ geekdocCollapseSection: true
 weight: 100
 ---
 
+### In this page
+
+> [Update](../Update_to_release_2024-03-01#update) </br>
+> [Post update actions](../Update_to_release_2024-03-01#post-update-actions) </br>
+
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.

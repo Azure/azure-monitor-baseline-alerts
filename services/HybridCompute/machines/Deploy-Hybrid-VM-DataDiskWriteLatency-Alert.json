@@ -6,9 +6,9 @@
     "policyType": "Custom",
     "mode": "All",
     "displayName": "Deploy Hybrid VM Data Disk Write Latency Alert",
-    "description": "Policy to audit/deploy VM dataDiskWriteLatency Alert",
+    "description": "Policy to audit/deploy Hybrid VM Data Disk Write Latency Alert",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.6.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -129,6 +129,18 @@
         ],
         "defaultValue": "true"
       },
+      "checkWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
       "autoResolve": {
         "type": "String",
         "metadata": {
@@ -184,16 +196,6 @@
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "1"
-      },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
       },
       "effect": {
         "type": "String",
@@ -283,6 +285,10 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
+                "field": "Microsoft.Insights/scheduledQueryRules/checkWorkspaceAlertsStorageConfigured",
+                "equals": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+              },
+              {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
                 "equals": "[[parameters('operator')]"
               },
@@ -300,7 +306,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let policyThresholdString = \"{2}\"; let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.[\"{0}\"])) in~ (\"{1}\")); let overridenResource = (arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-WriteLatencyMs-Data-threshold-Override_\"); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-WriteLatencyMs-Data-threshold-Override_\", tostring(tags.[\"_amba-WriteLatencyMs-Data-threshold-Override_\"]), policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where AggregatedValue > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Disk, AggregatedValue', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+                "equals": "[[format('let policyThresholdString = \"{0}\"; let resourceTagging = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | where tags.[\"{1}\"] !in~ (\"{2}\") | project _ResourceId = tolower(id), resourceTags = tags); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\", \"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk | join hint.remote=left kind=inner (resourceTagging ) on _ResourceId | project-away _ResourceId1 | extend excludedLogicalVolumes = iif(isnotempty(resourceTags.[\"{4}\"]),resourceTags.[\"{4}\"], \"No logical volumes excluded\") | where excludedLogicalVolumes !has Disk | extend newThresholdString = tostring(resourceTags.[\"{3}\"]) | extend appliedThreshold = iif(isempty(newThresholdString), toint(policyThresholdString), toint(newThresholdString)) | where AggregatedValue > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Disk, AggregatedValue, appliedThreshold, excludedLogicalVolumes', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), '_amba-WriteLatencyMs-Data-threshold-Override_', '_amba-ExcludedLogicalVolumes-WriteLatency_')]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -340,6 +346,9 @@
                   "autoMitigate": {
                     "type": "String"
                   },
+                  "checkWorkspaceAlertsStorageConfigured": {
+                    "type": "String"
+                  },
                   "autoResolve": {
                     "type": "String"
                   },
@@ -363,9 +372,6 @@
                   },
                   "evaluationPeriods": {
                     "type": "String"
-                  },
-                  "computersToInclude": {
-                    "type": "array"
                   },
                   "MonitorDisableTagName": {
                     "type": "String"
@@ -442,7 +448,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let policyThresholdString = \"{2}\"; let excludedResources = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | project _ResourceId = id, tags | where parse_json(tostring(tags.[\"{0}\"])) in~ (\"{1}\")); let overridenResource = (arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | project _ResourceId = tolower(id), tags | where tags contains \"_amba-WriteLatencyMs-Data-threshold-Override_\"); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where _ResourceId !in~ (excludedResources) | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\",\"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk | join hint.remote=left kind=leftouter overridenResource on _ResourceId | project-away _ResourceId1 | extend appliedThresholdString = iif(tags contains \"_amba-WriteLatencyMs-Data-threshold-Override_\", tostring(tags.[\"_amba-WriteLatencyMs-Data-threshold-Override_\"]), policyThresholdString) | extend appliedThreshold = toint(appliedThresholdString) | where AggregatedValue > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Disk, AggregatedValue', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                                    "query": "[[format('let policyThresholdString = \"{0}\"; let resourceTagging = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | where tags.[\"{1}\"] !in~ (\"{2}\") | project _ResourceId = tolower(id), resourceTags = tags); InsightsMetrics | where _ResourceId has \"Microsoft.HybridCompute/machines\" | where Origin == \"vm.azm.ms\" | where Namespace == \"LogicalDisk\" and Name == \"WriteLatencyMs\" | extend Disk=tostring(todynamic(Tags)[\"vm.azm.ms/mountId\"]) | where Disk !in (\"C:\", \"/\") | summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, Disk | join hint.remote=left kind=inner (resourceTagging ) on _ResourceId | project-away _ResourceId1 | extend excludedLogicalVolumes = iif(isnotempty(resourceTags.[\"{4}\"]),resourceTags.[\"{4}\"], \"No logical volumes excluded\") | where excludedLogicalVolumes !has Disk | extend newThresholdString = tostring(resourceTags.[\"{3}\"]) | extend appliedThreshold = iif(isempty(newThresholdString), toint(policyThresholdString), toint(newThresholdString)) | where AggregatedValue > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Disk, AggregatedValue, appliedThreshold, excludedLogicalVolumes', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), '_amba-WriteLatencyMs-Data-threshold-Override_', '_amba-ExcludedLogicalVolumes-WriteLatency_')]",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "resourceIdColumn": "_ResourceId",
@@ -451,7 +457,9 @@
                                       {
                                         "name": "Computer",
                                         "operator": "Include",
-                                        "values": "[[parameters('computersToInclude')]"
+                                        "values": [
+                                          "*"
+                                        ]
                                       },
                                       {
                                         "name": "Disk",
@@ -469,6 +477,7 @@
                                 ]
                               },
                               "autoMitigate": "[[parameters('autoMitigate')]",
+                              "checkWorkspaceAlertsStorageConfigured": "[[parameters('checkWorkspaceAlertsStorageConfigured')]",
                               "ruleResolveConfiguration": {
                                 "autoResolved": "[[parameters('autoResolve')]",
                                 "timeToResolve": "[[parameters('autoResolveTime')]"
@@ -495,6 +504,9 @@
                                 "autoMitigate": {
                                   "value": "[[parameters('autoMitigate')]"
                                 },
+                                "checkWorkspaceAlertsStorageConfigured": {
+                                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+                                },
                                 "autoResolve": {
                                   "value": "[[parameters('autoResolve')]"
                                 },
@@ -512,9 +524,6 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
                                 },
                                 "MonitorDisableTagName": {
                                   "value": "[[parameters('MonitorDisableTagName')]"
@@ -570,6 +579,9 @@
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
                 },
+                "checkWorkspaceAlertsStorageConfigured": {
+                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+                },
                 "autoResolve": {
                   "value": "[[parameters('autoResolve')]"
                 },
@@ -593,9 +605,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisableTagName": {
                   "value": "[[parameters('MonitorDisableTagName')]"

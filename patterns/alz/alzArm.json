@@ -17,7 +17,7 @@
                 "No"
             ],
             "metadata": {
-                "displayName": "Teletry Opt Out",
+                "displayName": "Telemetry Opt Out",
                 "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
             }
         },
@@ -339,6 +339,27 @@
                 "description": "Provide the alert processing rule used for monitoring."
             }
         },
+        "ALZAlertSeverity": {
+            "type": "array",
+            "defaultValue":  [
+                "Sev0",
+                "Sev1",
+                "Sev2",
+                "Sev3",
+                "Sev4"
+              ],
+            "metadata": {
+                "description": "Alert Severities for alert processing rule to action."
+            }
+        },
+        "ALZNotificationAssetSuffix" :{
+
+            "type": "string",
+            "defaultValue": "-001",
+            "metadata": {
+                "description": "Suffix for the notification assets."
+            }
+        },
         "currentDateTimeUtcNow": {
             "type": "string",
             "defaultValue": "[utcNow()]",
@@ -487,12 +508,20 @@
                 "value": "[parameters('BYOAlertProcessingRule')]"
             }
         },
+        "notificationAssetSeverityParameters": {
+            "ALZAlertSeverity": {
+                "value": "[parameters('ALZAlertSeverity')]"
+            },
+            "ALZNotificationAssetSuffix": {
+                "value": "[parameters('ALZNotificationAssetSuffix')]"
+            }
+        },
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
-        "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'))]",
+        "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'), variables('notificationAssetSeverityParameters'))]",
         "policyAssignmentParametersHybridVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersHybridVM'), variables('uamiParameters'))]",
         "policyAssignmentParametersKeyManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersKeyManagement'))]",
         "policyAssignmentParametersLoadBalancing": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersLoadBalancing'))]",
@@ -500,7 +529,7 @@
         "policyAssignmentParametersRecoveryServices": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersRecoveryServices'))]",
         "policyAssignmentParametersStorage": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersStorage'))]",
         "policyAssignmentParametersVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersVM'),variables('uamiParameters'))]",
-        "policyAssignmentParametersWeb": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersWeb'))]",
+        "policyAssignmentParametersWeb": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersWeb'), variables('uamiParameters'))]",
         // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
         "deploymentUris": {
             "policyDefinitionsAutomation": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Automation.json')]",
@@ -1044,7 +1073,7 @@
                 }
             }
         },
-        // Assigning AMBA management PolicySet to the Management management group if condition is true
+        // Assigning AMBA Management PolicySet to the Management management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAManagement'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1078,7 +1107,7 @@
                 }
             }
         },
-        // Assigning AMBA service health PolicySet to the pseudo root management group if condition is true
+        // Assigning AMBA Service Health PolicySet to the pseudo root management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBAServiceHealth'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1105,7 +1134,7 @@
                 }
             }
         },
-        // Assigning AMBA notification assets PolicySet to the pseudo root management group if condition is true
+        // Assigning AMBA Notification Assets PolicySet to the pseudo root management group if condition is true
         {
             "condition": "[equals(parameters('enableAMBANotificationAssets'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
@@ -1423,6 +1452,7 @@
             "name": "[variables('deploymentNames').AMBAWebDeploymentName]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
             "dependsOn": [
+              "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
               "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
             ],
             "location": "[deployment().location]",
@@ -1435,6 +1465,15 @@
                 "parameters": {
                     "topLevelManagementGroupPrefix": {
                         "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "scope": {
+                        "value": "[parameters('LandingZoneManagementGroup')]"
+                    },
+                    "uamiScope": {
+                        "value": "[parameters('managementManagementGroup')]"
+                    },
+                    "bringYourOwnUserAssignedManagedIdentity": {
+                        "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersWeb')]"

@@ -3,7 +3,7 @@
   "view": {
     "kind": "Form",
     "properties": {
-      "title": "Azure Monitor Baseline Alerts Accelerator (Preview)",
+      "title": "Azure Monitor Baseline Alerts Accelerator",
       "steps": [
         {
           "name": "basics",
@@ -26,13 +26,13 @@
               "instanceDetailsLabel": "AMBA Accelerator"
             },
             {
-              "name": "getSubscriptionIds",
+              "name": "getmanagementSubscriptionId",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "resourcecontainers| where type == 'microsoft.resources/subscriptions'| project label=tostring(name) , description=id, value=subscriptionId | order by label asc"
+                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | where properties.managementGroupAncestorsChain contains \"{0}\" | project label=tostring(name) , description=id, value=subscriptionId | order by label asc', steps('basics').resourceScope.managementGroup.name)]"
                 }
               }
             },
@@ -41,7 +41,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities'| project label=tostring(name) , description=id, value=id | order by label asc"
                 }
@@ -142,10 +142,10 @@
               "visible": "[equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No')]",
               "multiselect": false,
               "defaultValue": "",
-              "filter": false,
+              "filter": true,
               "toolTip": "Provide the subscription id where the user assigned managed identity will be created.",
               "constraints": {
-                "allowedValues": "[steps('basics').getSubscriptionIds.data]",
+                "allowedValues": "[steps('basics').getmanagementSubscriptionId.data]",
                 "required": "[if(equals(steps('basics').bringYourOwnUserAssignedManagedIdentity,'No'), true, false)]"
               }
             },
@@ -244,12 +244,12 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Enterprise Scale Company Management Group",
               "multiselect": false,
-              "defaultValue": "[steps('basics').resourceScope.managementGroup.name]",
+              "defaultValue": "[steps('basics').resourceScope.managementGroup.displayName]",
               "filter": false,
               "defaultDescription": "Enterprise Scale Company Management Group",
               "toolTip": "Management group where you wish to deploy the policies and the initiatives. This is usually the so called “pseudo root management group”, this would be the so called “Intermediate Root Management Group” (directly beneath the “Tenant Root Group”).",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"value\":\"', item.name, '\"}'))), (item) => equals(item.label, steps('basics').resourceScope.managementGroup.displayName))]",
                 "required": true
               },
               "visible": true
@@ -260,6 +260,14 @@
               "request": {
                 "method": "GET",
                 "path": "providers/Microsoft.Management/managementGroups?api-version=2020-05-01"
+              }
+            },
+            {
+              "name": "DescendantManagementGroupAPI",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                "method": "GET",
+                "path": "[format('providers/Microsoft.Management/managementGroups/{0}/descendants?api-version=2020-05-01',steps('basics').resourceScope.managementGroup.name)]"
               }
             },
             {
@@ -282,6 +290,16 @@
                 ]
               },
               "visible": true
+            },
+            {
+              "name": "securityadvisoriesinfo",
+              "type": "Microsoft.Common.InfoBox",
+              "visible":"[equals(steps('Configuration').enableAMBAServiceHealth,'Yes')]",
+              "options": {
+                "text": "Accessing Security Advisories now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. *This is not impacting AMBA-ALZ configuration that will continue to work independently.",
+                "uri": "https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499",
+                "style": "Info"
+              }
             },
             {
               "name": "enableAMBAConnectivity",
@@ -564,26 +582,26 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Platform Management Group",
               "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
+              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
+              "filter": true,
               "defaultDescription": "Platform Management Group",
               "toolTip": "Provide the name of the Management Group that will be used to host the platform resources.",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-							"visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
             },
             {
               "name": "connectivityManagementGroup",
               "type": "Microsoft.Common.DropDown",
               "label": "Connectivity Management Group",
               "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
+              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
+              "filter": true,
               "toolTip": "Provide the name of the Management Group that will be used to host the connectivity resources.",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
               "visible": "[equals(steps('Configuration').enableAMBAConnectivity,'Yes')]"
@@ -593,11 +611,11 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Identity Management Group",
               "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
+              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
+              "filter": true,
               "toolTip": "Provide the name of the Management Group that will be used to host the identity resources.",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
               "visible": "[equals(steps('Configuration').enableAMBAIdentity,'Yes')]"
@@ -607,25 +625,25 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Management Management Group",
               "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
+              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
+              "filter": true,
               "toolTip": "Provide the name of the Management Group that will be used to host the management resources.",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
             },
             {
               "name": "LandingZoneManagementGroup",
               "type": "Microsoft.Common.DropDown",
               "label": "Landing Zone Management Group",
               "multiselect": false,
-              "defaultValue": "",
-              "filter": false,
+              "defaultValue": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), steps('basics').resourceScope.managementGroup.name, '')]",
+              "filter": true,
               "toolTip": "Provide the name of the Management Group that will be used to host the landing zone resources.",
               "constraints": {
-                "allowedValues": "[map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.name, '\"}')))]",
+                "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
               "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
@@ -671,7 +689,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type == 'microsoft.insights/actiongroups'| project label=tostring(name) , description=name, value=id | order by label asc"
                 }
@@ -734,7 +752,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "authorizationresources |extend roleName = tostring(properties.roleName)|where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader')|project label=tostring(roleName) , description=roleName, value=name | order by label asc"
                 }
@@ -779,7 +797,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources | where type =~ 'microsoft.logic/workflows' or (type =~ 'Microsoft.Web/sites' and kind =~ 'functionapp,workflowapp') | project label=tostring(name), description=id, value=id | order by label asc"
                 }
@@ -790,7 +808,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources| where type == 'microsoft.logic/workflows'| project label=tostring(properties.accessEndpoint) , description=properties.accessEndpoint, value=properties.accessEndpoint | order by label asc"
                 }
@@ -801,7 +819,7 @@
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
                 "method": "POST",
-                "path": "providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
                   "query": "resources| where type == 'microsoft.eventhub/namespaces'| project label=tostring(name) , description=id, value=id | order by label asc"
                 }
@@ -947,9 +965,9 @@
         "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
         "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "[steps('Configuration').platformManagementGroup]",
+        "platformManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
-        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
+        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAWeb,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
         "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
