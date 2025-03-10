@@ -4,6 +4,24 @@ geekdocCollapseSection: true
 weight: 40
 ---
 
+### In this page
+
+> [Overview](../Policy-Initiatives#overview) </br>
+> [Connectivity Initiative](../Policy-Initiatives#connectivity-initiative) </br>
+> [Management Initiative](../Policy-Initiatives#management-initiative) </br>
+> [Identity Initiative](../Policy-Initiatives#identity-initiative) </br>
+> [Key Management Initiative](../Policy-Initiatives#key-management-initiative) </br>
+> [Load Balancing Initiative](../Policy-Initiatives#load-balancing-initiative) </br>
+> [Network Changes Initiative](../Policy-Initiatives#network-changes-initiative) </br>
+> [Recovery Services Initiative](../Policy-Initiatives#recovery-services-initiative) </br>
+> [Storage Initiative](../Policy-Initiatives#storage-initiative) </br>
+> [VM Initiative](../Policy-Initiatives#vm-initiative) </br>
+> [Web Initiative](../Policy-Initiatives#web-initiative) </br>
+> [Hybrid VM Initiative](../Policy-Initiatives#hybrid-vm-initiative) </br>
+> [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
+> [Notification Assets Initiative](../Policy-Initiatives#notification-assets-initiative) </br>
+> [Landing Zone Initiative (Deprecated)](../Policy-Initiatives#landing-zone-initiative-deprecated) </br>
+
 ## Overview
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
@@ -14,12 +32,12 @@ This initiative is intended for relevant policy assignment to networking compone
 
 | **Policy Name**                                            | **Policy Reference ID**                   | **Path to policy json file**                                                                                                                                 | **Policy default effect** |
 | ---------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
-| Deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert  | ALZ_ERCIRQoSDropBitsinPerSec              | [deploy-ercir_qosdropsbitsin_alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json)                              | deployIfNotExists         |
-| Deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert | ALZ_ERCIRQoSDropBitsoutPerSec             | [deploy-ercir_qosdropsbitsout_alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsOut-Alert.json)                            | deployIfNotExists         |
-| Deploy ER Direct ExpressRoute Bits In Alert                | ALZ_ERPBitsInPerSecond                    | [deploy-erp-bitsinpersecond-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-BitsInPerSecond-Alert.json)                                   | deployIfNotExists         |
-| Deploy ER Direct ExpressRoute Bits Out Alert               | ALZ_ERPBitsOutPerSecond                   | [deploy-erp-bitsoutpersecond-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-BitsOutPerSecond-Alert.json)                                 | deployIfNotExists         |
-| Deploy ER Direct ExpressRoute LineProtocol Alert           | ALZ_ERPLineProtocol                       | [deploy-erp-lineprotocol-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-LineProtocol-Alert.json)                                         | deployIfNotExists         |
-| Deploy ER Direct ExpressRoute RxLightLevel High Alert      | ALZ_ERPRxLightLevelHigh                   | [deploy-erp-rxlightlevelhigh-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelHigh-Alert.json)                                 | deployIfNotExists         |
+| Deploy ExpressRoute Circuits QosDropBitsInPerSecond Alert  | ALZ_ERCIRQoSDropBitsinPerSec              | [Deploy-ERCIR-QOSDropsBitsIn-Alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json)                              | deployIfNotExists         |
+| Deploy ExpressRoute Circuits QosDropBitsOutPerSecond Alert | ALZ_ERCIRQoSDropBitsoutPerSec             | [Deploy-ERCIR-QOSDropsBitsOut-Alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsOut-Alert.json)                            | deployIfNotExists         |
+| Deploy ER Direct ExpressRoute Bits In Alert                | ALZ_ERPBitsInPerSecond                    | [Deploy-ERP-BitsInPerSecond-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-BitsInPerSecond-Alert.json)                                   | deployIfNotExists         |
+| Deploy ER Direct ExpressRoute Bits Out Alert               | ALZ_ERPBitsOutPerSecond                   | [Deploy-ERP-BitsOutPerSecond-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-BitsOutPerSecond-Alert.json)                                 | deployIfNotExists         |
+| Deploy ER Direct ExpressRoute LineProtocol Alert           | ALZ_ERPLineProtocol                       | [Deploy-ERP-LineProtocol-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-LineProtocol-Alert.json)                                         | deployIfNotExists         |
+| Deploy ER Direct ExpressRoute RxLightLevel High Alert      | ALZ_ERPRxLightLevelHigh                   | [Deploy-ERP-RxLightLevelHigh-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelHigh-Alert.json)                                 | deployIfNotExists         |
 | Deploy ER Direct ExpressRoute RxLightLevel Low Alert       | ALZ_ERPRxLightLevelLow                    | [deploy-erp-rxlightlevellow-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelLow-Alert.json)                                   | deployIfNotExists         |
 | Deploy ER Direct ExpressRoute TxLightLevel High Alert      | ALZ_ERPTxLightLevelHigh                   | [deploy-erp-txlightlevelhigh-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelHigh-Alert.json)                                 | deployIfNotExists         |
 | Deploy ER Direct ExpressRoute TxLightLevel Low Alert       | ALZ_ERPTxLightLevelLow                    | [deploy-erp-txlightlevellow-alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelLow-Alert.json)                                   | deployIfNotExists         |
@@ -28,7 +46,7 @@ This initiative is intended for relevant policy assignment to networking compone
 | Deploy VNetG Tunnel Bandwidth Alert                        | ALZ_VnetGwTunnelBW                        | [deploy-vnetg_bandwidthutilization_alert.json](../../../../services/Network/virtualNetworkGateways/Deploy-VNETG-BandwidthUtilization-Alert.json)                | deployIfNotExists         |
 | Deploy VNetG Tunnel Egress Alert                           | ALZ_VnetGwTunnelEgress                    | [deploy-vnetg_egress_alert.json](../../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Egress-Alert.json)                                            | disabled                  |
 | Deploy VNetG Tunnel Ingress Alert                          | ALZ_VnetGwTunnelIngress                   | [deploy-vnetg_ingress_alert.json](../../../../services/Network/virtualNetworkGateways/Deploy-VNETG-Ingress-Alert.json)                                          | disabled                  |
-| Deploy_VPNGw_BandwidthUtil_Alert                           | ALZ_VPNGWBandWidthUtil                    | [deploy-vpng_bandwidthutilization_alert.json](../../../../services/Network/vpnGateways/Deploy-VPNG-BandwidthUtilization-Alert.json)                             | deployIfNotExists         |
+| Deploy VPNGw BandwidthUtil Alert                           | ALZ_VPNGWBandWidthUtil                    | [deploy-vpng_bandwidthutilization_alert.json](../../../../services/Network/vpnGateways/Deploy-VPNG-BandwidthUtilization-Alert.json)                             | deployIfNotExists         |
 | Deploy VPNG Egress Alert                                   | ALZ_VPNGWEgress                           | [deploy-vpng_egress_alert.json](../../../../services/Network/vpnGateways/Deploy-VPNG-Egress-Alert.json)                                                         | disabled                  |
 | Deploy VPNG Egress Packet Drop Count Alert                 | ALZ_VPNGWTunnelEgressPacketDropCount      | [deploy-vpng_egresspacketdropcount_alert.json](../../../../services/Network/vpnGateways/Deploy-VPNG-EgressPacketDropCount-Alert.json)                           | deployIfNotExists         |
 | Deploy VPNG Egress Packet Drop Mismatch Alert              | ALZ_VPNGWTunnelEgressPacketDropMismatch   | [deploy-vpng_egresspacketdropmismatch_alert.json](../../../../services/Network/vpnGateways/Deploy-VPNG-EgressPacketDropMismatch-Alert.json)                     | deployIfNotExists         |
@@ -64,6 +82,8 @@ This initiative is intended for relevant policy assignment to networking compone
 | Deploy Activity Log Route Table Update Alert               | Deploy_activitylog_RouteTable_Update      | [deploy-activitylog-RouteTable-Update.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json)                                 | deployIfNotExists         |
 | Deploy Activity Log NSG Delete Alert                       | ALZ_activityNSGDelete                     | [deploy-activitylog-NSG-Del.json](../../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json)                                           | deployIfNotExists         |
 | Deploy Activity Log VPN Gateway Delete Alert               | ALZ_activityVPNGWDelete                   | [deploy-activitylog-VPNGate-Del.json](../../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json)                                                | deployIfNotExists         |
+| [Preview] Deploy Activity Log Route Table Delete Alert     | ALZ_activityUDRDelete | [Deploy-ActivityLog-RouteTable-Delete.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Delete.json)                                                | deployIfNotExists         |
+| [Preview] Deploy Activity Log Routes Delete Alert     | ALZ_activityUDRRoutesDelete | [Deploy-ActivityLog-RouteTable-Routes-Delete.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Routes-Delete.json)                                                | deployIfNotExists         |
 
 ## Management initiative
 
@@ -73,8 +93,10 @@ This initiative is intended for relevant policy assignment to management compone
 | ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
 | Deploy Automation Account TotalJob Alert              | ALZ_AATotalJob                 | [deploy-aa_totaljob_alert.json](../../../../services/Automation/automationAccounts/Deploy-AA-TotalJob-Alert.json)                             | deployIfNotExists         |
 | Deploy RV Backup Health Monitoring Alerts             | ALZ_RVBackupHealth             | [deploy-rv_backuphealth_alert.json](../../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json)                          | modify                    |
+| Deploy RV ASR Health Monitoring Alerts             | ALZ_RVASRHealth             | [deploy-rv_rsvhealth_alert.json](../../../../services/RecoveryServices/vaults/Modify-RSV-ASRHealth-Alert.json)                          | modify                    |
 | Deploy SA Availability Alert                          | ALZ_StorageAccountAvailability | [deploy-sa_availability_alert.json](../../../../services/Storage/storageAccounts/Deploy-SA-Availability-Alert.json)                           | deployIfNotExists         |
 | Deploy Activity Log Storage Account Delete Alert      | ALZ_activitySADelete           | [Deploy_activitylog_StorageAccount_Delete.json](../../../../services/Storage/storageAccounts/Deploy_activitylog_StorageAccount_Delete.json)   | deployIfNotExists         |
+| Deploy LA Workspace Daily Cap Limit Reached Alert         | ALZ_LAWorkspaceDailyCapLimitReached       | [Deploy_LAWorkspace_DailyCapLimitReached_Alert.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-DailyCapLimitReached-Alert.json)        | deployIfNotExists         |
 | Deploy Activity Log LA Workspace Delete Alert         | ALZ_activityLAWDelete          | [deploy-activitylog-LAWorkspace-Del.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json)        | deployIfNotExists         |
 | Deploy Activity Log LA Workspace Regenerate Key Alert | ALZ_activityLAWKeyRegen        | [deploy-activitylog-LAWorkspace-ReGen.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json) | deployIfNotExists         |
 
@@ -142,6 +164,8 @@ This initiative implements Azure Monitor Baseline Alerts to monitor alterations 
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | Deploy Activity Log Route Table Update Alert                | ALZ_activityUDRUpdate              | [deploy-activitylog-RouteTable-Update.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json)                         | deployIfNotExists         |
 | Deploy Activity Log NSG Delete Alert                        | ALZ_activityNSGDelete              | [deploy-activitylog-NSG-Del.json](../../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json)                                   | deployIfNotExists         |
+| [Preview] Deploy Activity Log Route Table Delete Alert     | ALZ_activityUDRDelete | [Deploy-ActivityLog-RouteTable-Delete.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Delete.json)                                                | deployIfNotExists         |
+| [Preview] Deploy Activity Log Routes Delete Alert     | ALZ_activityUDRRoutesDelete | [Deploy-ActivityLog-RouteTable-Routes-Delete.json](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Routes-Delete.json)                                                | deployIfNotExists         |
 
 ## Recovery Services initiative
 
@@ -149,7 +173,8 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Servic
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| Deploy RV Backup Health Monitoring Alerts                   | ALZ_RVBackupHealthMonitor          | [deploy-rv_backuphealth_monitor.json](../../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json)                                  | modify                    |
+| Deploy RV Backup Health Monitoring Alerts                   | ALZ_RVBackupHealthMonitor          | [Modify-RSV-BackupHealth-Alert.json](../../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json)                                  | modify                    |
+| Deploy RV ASR Health Monitoring Alerts                      | ALZ_RVASRHealthMonitor             | [Modify-RSV-ASRHealth-Alert.json](../../../../services/RecoveryServices/vaults/Modify-RSV-ASRHealth-Alert.json)                                     | modify                    |
 
 ## Storage initiative
 
@@ -157,7 +182,8 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 
 | **Policy Name**                                             | **Policy Reference ID**            | **Path to policy .json file**                                                                                                                        | **Policy default effect** |
 | ----------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| Deploy SA Availability Alert                                | ALZ_StorageAccountAvailability     | [deploy-sa_availability_alert.json](../../../../services/Storage/storageAccounts/Deploy-SA-Availability-Alert.json)                                     | deployIfNotExists         |
+| Deploy SA Availability Alert                                | ALZ_StorageAccountAvailability     | [Deploy-SA-Availability-Alert.json](../../../../services/Storage/storageAccounts/Deploy-SA-Availability-Alert.json)                                     | deployIfNotExists         |
+| Deploy SA Availability Alert                                | ALZ_activitySADelete     | [Deploy-ActivityLog-SA-Delete-Alert.json](../../../../services/Storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json)                                     | deployIfNotExists         |
 
 ## VM initiative
 
@@ -187,6 +213,11 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services su
 | Deploy App Service Plan Memory Percentage Alert             | ALZ_WSFMemoryPercentage            | [Deploy-WSF-MemoryPercentage-Alert.json](../../../../services/Web/serverFarms/Deploy-WSF-MemoryPercentage-Alert.json)                                   | deployIfNotExists         |
 | Deploy App Service Plan Disk Queue Length Alert             | ALZ_WSFDiskQueueLength             | [Deploy-WSF-DiskQueueLength-Alert.json](../../../../services/Web/serverFarms/Deploy-WSF-DiskQueueLength-Alert.json)                                     | deployIfNotExists         |
 | Deploy App Service Plan Http Queue Length Alert             | ALZ_WSFHttpQueueLength             | [Deploy-WSF-HttpQueueLength-Alert.json](../../../../services/Web/serverFarms/Deploy-WSF-HttpQueueLength-Alert.json)                                     | deployIfNotExists         |
+| Deploy LA Workspace Daily Cap Limit Reached Alert         | ALZ_LAWorkspaceDailyCapLimitReached       | [Deploy_LAWorkspace_DailyCapLimitReached_Alert.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-DailyCapLimitReached-Alert.json)        | deployIfNotExists         |
+| Deploy Activity Log LA Workspace Delete Alert         | ALZ_activityLAWDelete          | [deploy-activitylog-LAWorkspace-Del.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json)        | deployIfNotExists         |
+| Deploy Activity Log LA Workspace Regenerate Key Alert | ALZ_activityLAWKeyRegen        | [deploy-activitylog-LAWorkspace-ReGen.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json) | deployIfNotExists         |
+| Deploy Application Insights Throttling Limit Reached Alert (Preview) | ALZ_AppInsightsThrottlingLimitReached_Alert | [Deploy-AppInsightsThrottlingLimit-Alert.json](../../../../services/Insights/components/Deploy-AppInsightsThrottlingLimit-Alert.json) | deployIfNotExists         |
+| Deploy Activity Log Application Insights Delete Alert (Preview) | ALZ_activityAppInsightsDelete | [Deploy-ActivityLog-AppInsights-Del.json](../../../../services/Insights/components/Deploy-ActivityLog-AppInsights-Del.json) | deployIfNotExists         |
 
 ## Hybrid VM initiative
 

@@ -4,14 +4,14 @@ geekdocHidden: true
 ---
 
 {{< hint type=Important >}}
-Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before proceeding.
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
 {{< /hint >}}
 
 ## 1. Parameter Configuration
 
 To begin, either download the appropriate parameter file for the version of AMBA-ALZ you are deploying or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-12-10/patterns/alz/alzArm.param.json) for the latest release.
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group.
@@ -23,7 +23,7 @@ The following instructions apply universally, regardless of your alignment with 
   {{< /hint >}}
 
   - Set the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you intend to deploy the policies and initiatives. Typically, this is the "pseudo root management group." In [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this refers to the "Intermediate Root Management Group" located directly beneath the "Tenant Root Group."
-  - Set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes** if you have an existing user-assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level. Otherwise, leave it set to **No** to create a new managed identity with the appropriate permissions during the deployment process.
+  - Set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes** if you have an existing user-assigned managed identity with the _**Monitoring Reader**_ role assigned at the pseudo root management group level. Otherwise, leave it set to **No** to create a new managed identity with the appropriate permissions during the deployment process.
   - Update the _```bringYourownUserAssignedManagedIdentityResourceId```_ parameter. If _```bringYourownUserAssignedManagedIdentity```_ is set to **Yes**, provide the resource ID of your user-assigned managed identity. If it is set to **No**, leave this parameter blank.
   - Set the _```userAssignedManagedIdentityName```_ parameter to a preferred name. This parameter is only used if _```bringYourownUserAssignedManagedIdentity```_ is set to **No**.
   - Update the _```managementSubscriptionId```_ parameter. If _```bringYourownUserAssignedManagedIdentity```_ is set to **No**, provide the subscription ID of the management subscription. Otherwise, leave it blank.
@@ -71,7 +71,7 @@ The following instructions apply universally, regardless of your alignment with 
 
   {{< /hint >}}
 
-  To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBALandingZone```_, _```enableAMBAManagement```_, or _```enableAMBAServiceHealth```_.
+  To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_, _```enableAMBANotificationAssets```_, _```enableAMBAHybridVM```_, _```enableAMBAKeyManagement```_, _```enableAMBALoadBalancing```_, _```enableAMBANetworkChanges```_, _```enableAMBARecoveryServices```_, _```enableAMBAStorage```_, _```enableAMBAVM```_, or _```enableAMBAWeb```_.
 
 ### If you are aligned to ALZ
 
@@ -102,7 +102,7 @@ For streamlined deployment and maintenance, we have retained the same variable n
 - Set the value of _```LandingZoneManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
-For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.
+For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.
 {{< /hint >}}
 
 ## 2. Sample Parameter File

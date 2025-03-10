@@ -3,10 +3,10 @@
   "apiVersion": "2021-06-01",
   "name": "Alerting-HybridVM",
   "properties": {
-    "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid VMs",
+    "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.",
     "metadata": {
-      "version": "1.1.1",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -141,6 +141,14 @@
           "description": "Auto Mitigate for the alert"
         }
       },
+      "HybridVMHeartBeatRGcheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Heart Beat RG Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        }
+      },
       "HybridVMHeartBeatRGAutoResolve": {
         "type": "string",
         "defaultValue": "true",
@@ -207,16 +215,6 @@
           "description": "Time Aggregation for the alert"
         }
       },
-      "HybridVMHeartBeatRGComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Heart Beat RG Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMHeartBeatRGFailingPeriods": {
         "type": "string",
         "defaultValue": "1",
@@ -279,6 +277,14 @@
         "metadata": {
           "displayName": "Hybrid VM Network In Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMNetworkIncheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Network In Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMNetworkInAutoResolve": {
@@ -363,16 +369,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMNetworkInComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network In Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMNetworkOutAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -427,6 +423,14 @@
         "metadata": {
           "displayName": "Hybrid VM Network Out Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMNetworkOutcheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Network Out Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMNetworkOutAutoResolve": {
@@ -511,16 +515,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMNetworkOutComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Network Out Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMOSDiskReadLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -575,6 +569,14 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Read Latency Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMOSDiskReadLatencycheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM OS Disk Read Latency Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMOSDiskReadLatencyAutoResolve": {
@@ -659,16 +661,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMOSDiskReadLatencyComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Read Latency Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMOSDiskWriteLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -725,6 +717,15 @@
           "description": "Auto Mitigate for the alert"
         }
       },
+      "HybridVMOSDiskWriteLatencycheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM OS Disk Write Latency Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        }
+      },
+
       "HybridVMOSDiskWriteLatencyAutoResolve": {
         "type": "string",
         "defaultValue": "true",
@@ -807,16 +808,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMOSDiskWriteLatencyComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Write Latency Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMOSDiskSpaceAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -871,6 +862,14 @@
         "metadata": {
           "displayName": "Hybrid VM OS Disk Space Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMOSDiskSpacecheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM OS Disk Space Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMOSDiskSpaceAutoResolve": {
@@ -955,16 +954,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMOSDiskSpaceComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM OS Disk Space Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMPercentCPUAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1019,6 +1008,14 @@
         "metadata": {
           "displayName": "Hybrid VM Percent CPU Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMPercentCPUcheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Percent CPU Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMPercentCPUAutoResolve": {
@@ -1151,6 +1148,14 @@
           "description": "Auto Mitigate for the alert"
         }
       },
+      "HybridVMPercentMemorycheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Percent Memory Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        }
+      },
       "HybridVMPercentMemoryAutoResolve": {
         "type": "string",
         "defaultValue": "true",
@@ -1281,6 +1286,14 @@
           "description": "Auto Mitigate for the alert"
         }
       },
+      "HybridVMDataDiskSpacecheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Data Disk Space Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        }
+      },
       "HybridVMDataDiskSpaceAutoResolve": {
         "type": "string",
         "defaultValue": "true",
@@ -1363,16 +1376,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMDataDiskSpaceComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Space Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMDataDiskReadLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1427,6 +1430,14 @@
         "metadata": {
           "displayName": "Hybrid VM Data Disk Read Latency Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMDataDiskReadLatencycheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Data Disk Read Latency Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMDataDiskReadLatencyAutoResolve": {
@@ -1511,16 +1522,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMDataDiskReadLatencyComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Read Latency Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMDataDiskWriteLatencyAlertSeverity": {
         "type": "String",
         "defaultValue": "2",
@@ -1575,6 +1576,14 @@
         "metadata": {
           "displayName": "Hybrid VM Data Disk Write Latency Auto Mitigate",
           "description": "Auto Mitigate for the alert"
+        }
+      },
+      "HybridVMDataDiskWriteLatencycheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Data Disk Write Latency Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMDataDiskWriteLatencyAutoResolve": {
@@ -1659,16 +1668,6 @@
           "description": "Failing Periods for the alert"
         }
       },
-      "HybridVMDataDiskWriteLatencyComputersToInclude": {
-        "type": "array",
-        "defaultValue": [
-          "*"
-        ],
-        "metadata": {
-          "displayName": "Hybrid VM Data Disk Write Latency Computers To Include",
-          "description": "Computers To Include for the alert"
-        }
-      },
       "HybridVMDisconnectedAlertSeverity": {
         "type": "String",
         "defaultValue": "1",
@@ -1721,6 +1720,14 @@
         "metadata": {
           "displayName": "Hybrid VM Disconnected Auto Mitigate",
           "description": "Auto Mitigate for the Hybrid VM Disconnected alert"
+        }
+      },
+      "HybridVMDisconnectedAlertcheckWorkspaceAlertsStorageConfigured": {
+        "type": "string",
+        "defaultValue": "false",
+        "metadata": {
+          "displayName": "Hybrid VM Disconnected Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
         }
       },
       "HybridVMDisconnectedAlertPolicyEffect": {
@@ -1834,6 +1841,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMHeartBeatRGAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMHeartBeatRGcheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMHeartBeatRGAutoResolve')]"
           },
@@ -1854,9 +1864,6 @@
           },
           "timeAggregation": {
             "value": "[[parameters('HybridVMHeartBeatRGTimeAggregation')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMHeartBeatRGComputersToInclude')]"
           },
           "failingPeriods": {
             "value": "[[parameters('HybridVMHeartBeatRGFailingPeriods')]"
@@ -1888,6 +1895,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMNetworkInAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMNetworkIncheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMNetworkInAutoResolve')]"
           },
@@ -1914,9 +1924,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMNetworkInEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMNetworkInComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -1954,6 +1961,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMNetworkOutAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMNetworkOutcheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMNetworkOutAutoResolve')]"
           },
@@ -1980,9 +1990,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMNetworkOutEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMNetworkOutComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2020,6 +2027,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMOSDiskReadLatencycheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyAutoResolve')]"
           },
@@ -2046,9 +2056,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMOSDiskReadLatencyEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMOSDiskReadLatencyComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2086,6 +2093,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMOSDiskWriteLatencycheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyAutoResolve')]"
           },
@@ -2112,9 +2122,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMOSDiskWriteLatencyEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMOSDiskWriteLatencyComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2152,6 +2159,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMOSDiskSpaceAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMOSDiskSpacecheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMOSDiskSpaceAutoResolve')]"
           },
@@ -2178,9 +2188,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMOSDiskSpaceEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMOSDiskSpaceComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2217,6 +2224,9 @@
           },
           "autoMitigate": {
             "value": "[[parameters('HybridVMPercentCPUAutoMitigate')]"
+          },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMPercentCPUcheckWorkspaceAlertsStorageConfigured')]"
           },
           "autoResolve": {
             "value": "[[parameters('HybridVMPercentCPUAutoResolve')]"
@@ -2278,6 +2288,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMPercentMemoryAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMPercentMemorycheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMPercentMemoryAutoResolve')]"
           },
@@ -2338,6 +2351,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMDataDiskSpaceAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMDataDiskSpacecheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMDataDiskSpaceAutoResolve')]"
           },
@@ -2364,9 +2380,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMDataDiskSpaceEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMDataDiskSpaceComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2404,6 +2417,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMDataDiskReadLatencycheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyAutoResolve')]"
           },
@@ -2430,9 +2446,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMDataDiskReadLatencyEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMDataDiskReadLatencyComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2470,6 +2483,9 @@
           "autoMitigate": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyAutoMitigate')]"
           },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMDataDiskWriteLatencycheckWorkspaceAlertsStorageConfigured')]"
+          },
           "autoResolve": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyAutoResolve')]"
           },
@@ -2496,9 +2512,6 @@
           },
           "evaluationPeriods": {
             "value": "[[parameters('HybridVMDataDiskWriteLatencyEvaluationPeriods')]"
-          },
-          "computersToInclude": {
-            "value": "[[parameters('HybridVMDataDiskWriteLatencyComputersToInclude')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -2535,6 +2548,9 @@
           },
           "autoMitigate": {
             "value": "[[parameters('HybridVMDisconnectedAlertAutoMitigate')]"
+          },
+          "checkWorkspaceAlertsStorageConfigured": {
+            "value": "[[parameters('HybridVMDisconnectedAlertcheckWorkspaceAlertsStorageConfigured')]"
           },
           "effect": {
             "value": "[[parameters('HybridVMDisconnectedAlertPolicyEffect')]"

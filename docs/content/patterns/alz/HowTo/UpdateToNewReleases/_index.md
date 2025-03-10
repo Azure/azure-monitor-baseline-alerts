@@ -4,6 +4,11 @@ geekdocCollapseSection: true
 weight: 51
 ---
 
+### In this page
+
+> [What is included in the latest release](../_index#what-is-included-in-the-latest-release) </br>
+> [Steps to update to the latest release](../_index#steps-to-update-to-the-latest-release) </br>
+
 ## What is included in the latest release
 
 The list of enhancement, additions and fixed bugs contained in every release can be seen by navigating to corresponding page linked in the home page of the [azure-monitor-baseline-alerts](https://aka.ms/amba/repo) repository.
@@ -84,7 +89,7 @@ For this reason, based on what documented in the [What's new](../../Overview/Wha
 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
 
-- To deploy with Azure Portal, please proceed with [Deploy via the Azure Portal (Preview)](../deploy/Deploy-via-Azure-Portal-UI)  (recommended method)
+- To deploy with Azure Portal, please proceed with [Deploy via the Azure Portal Accelerator](../deploy/Deploy-via-Azure-Portal-UI) (***only available for previous portal deployment***)
 - To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
 - To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
 - To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)

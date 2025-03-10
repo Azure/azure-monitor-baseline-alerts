@@ -14,6 +14,10 @@ Replace this with a brief description of what this Pull Request fixes, changes, 
 1. *Replace me*
 2. *Replace me*
 
+### Testing evidence
+
+Please provide any testing evidence to show that your Pull Request works/fixes as described and planned (include screenshots, if appropriate).
+
 ## As part of this Pull Request I have
 
 - [ ] Read the Contribution Guide and ensured this PR is compliant with the guide

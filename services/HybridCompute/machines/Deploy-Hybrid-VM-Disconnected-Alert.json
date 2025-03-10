@@ -6,9 +6,9 @@
     "policyType": "Custom",
     "mode": "All",
     "displayName": "Deploy Hybrid VM Disconnected Alert",
-    "description": "Policy to Deploy Hybrid VM Disconnected Alert",
+    "description": "Policy to audit/deploy Hybrid VM Disconnected Alert",
     "metadata": {
-      "version": "1.5.0",
+      "version": "1.7.0",
       "category": "Hybrid Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -128,6 +128,18 @@
           "false"
         ],
         "defaultValue": "true"
+      },
+      "checkWorkspaceAlertsStorageConfigured": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Require a workspace linked storage",
+          "description": "Don't create the alert rule if the Log Analytics workspace doesn't have a configured linked storage account (relevant if you're using Customer Managed Keys)."
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
       },
       "enabled": {
         "type": "String",
@@ -268,6 +280,10 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
+                "field": "Microsoft.Insights/scheduledQueryRules/checkWorkspaceAlertsStorageConfigured",
+                "equals": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
+              },
+              {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
                 "equals": "[[parameters('operator')]"
               },
@@ -285,7 +301,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let policyThresholdString = \"{2}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.[\"{0}\"])) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(totimespan(policyThresholdString)) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]"
+                "equals": "[[format('let policyThresholdString = \"{0}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(tags.[\"{1}\"]) !in~ (\"{2}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(totimespan(policyThresholdString)) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -323,6 +339,9 @@
                     "type": "String"
                   },
                   "autoMitigate": {
+                    "type": "String"
+                  },
+                  "checkWorkspaceAlertsStorageConfigured": {
                     "type": "String"
                   },
                   "enabled": {
@@ -418,7 +437,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let policyThresholdString = \"{2}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where parse_json(tostring(tags.[\"{0}\"])) !in~ (\"{1}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(totimespan(policyThresholdString)) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), parameters('threshold'))]",
+                                    "query": "[[format('let policyThresholdString = \"{0}\"; arg(\"\").resources | where type == \"microsoft.hybridcompute/machines\" | where tostring(tags.[\"{1}\"]) !in~ (\"{2}\") | where tostring(properties.status) == \"Disconnected\" | extend lastContactedDate = todatetime(properties.lastStatusChange) | where lastContactedDate <= ago(totimespan(policyThresholdString)) | extend status = tostring(properties.status) | project id, Computer=name, status, lastContactedDate', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'))]",
                                     "resourceIdColumn": "id",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
@@ -440,6 +459,7 @@
                                 ]
                               },
                               "autoMitigate": "[[parameters('autoMitigate')]",
+                              "checkWorkspaceAlertsStorageConfigured": "[[parameters('checkWorkspaceAlertsStorageConfigured')]",
                               "parameters": {
                                 "alertResourceGroupName": {
                                   "value": "[[parameters('alertResourceGroupName')]"
@@ -461,6 +481,9 @@
                                 },
                                 "autoMitigate": {
                                   "value": "[[parameters('autoMitigate')]"
+                                },
+                                "checkWorkspaceAlertsStorageConfigured": {
+                                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
                                 },
                                 "enabled": {
                                   "value": "[[parameters('enabled')]"
@@ -527,6 +550,9 @@
                 },
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
+                },
+                "checkWorkspaceAlertsStorageConfigured": {
+                  "value": "[[parameters('checkWorkspaceAlertsStorageConfigured')]"
                 },
                 "enabled": {
                   "value": "[[parameters('enabled')]"

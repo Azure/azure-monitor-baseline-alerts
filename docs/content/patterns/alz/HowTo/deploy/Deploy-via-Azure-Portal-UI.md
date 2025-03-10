@@ -1,7 +1,14 @@
 ---
-title: Deploy via the Azure Portal (Preview)
+title: Deploy via the Azure Portal
 weight: 30
 ---
+
+### In this page
+
+> [Deployment Settings Blade](../Deploy-via-Azure-Portal-UI#deployment-settings-blade) </br>
+> [Management Groups Settings Blade](../Deploy-via-Azure-Portal-UI#management-groups-settings-blade) </br>
+> [Notification Settings Blade](../Deploy-via-Azure-Portal-UI#notification-settings-blade) </br>
+> [Next Steps](../Deploy-via-Azure-Portal-UI#next-steps) </br>
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 

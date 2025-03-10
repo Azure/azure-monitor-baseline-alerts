@@ -3,6 +3,18 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
+### In this page
+
+> [Background](../Introduction-to-deploying-the-ALZ-Pattern#background) </br>
+> [Prerequisites](../Introduction-to-deploying-the-ALZ-Pattern#prerequisites) </br>
+> [Getting Started](../Introduction-to-deploying-the-ALZ-Pattern#getting-started) </br>
+> [Determining your Management Group Hierarchy](../Introduction-to-deploying-the-ALZ-Pattern#determining-your-management-group-hierarchy) </br>
+> [Customizing Policy Assignments](../Introduction-to-deploying-the-ALZ-Pattern#customizing-policy-assignments) </br>
+> [Customizing the AMBA-ALZ Policies](../Introduction-to-deploying-the-ALZ-Pattern#customizing-the-amba-alz-policies) </br>
+> [Disabling Monitoring](../Introduction-to-deploying-the-ALZ-Pattern#disabling-monitoring) </br>
+> [Cleaning up an ALZ Deployment](../Introduction-to-deploying-the-ALZ-Pattern#cleaning-up-an-amba-alz-deployment) </br>
+> [Next Steps](../Introduction-to-deploying-the-ALZ-Pattern#next-steps) </br>
+
 ## Background
 
 This guide provides instructions on how to begin implementing alert policies and initiatives in your environment for testing and validation. It assumes that you will use GitHub Actions or manual deployment methods to implement policies, initiatives, and policy assignments in your environment.
@@ -44,13 +56,13 @@ While it is recommended to implement the alert policies and initiatives within a
 - Clone the repository from your GitHub organization to your local development environment.
 - Review your current configuration to identify the applicable scenario. We provide guidance for deploying these policies and initiatives whether you are aligned with Azure Landing Zones, use a different management group hierarchy, or do not use management groups at all. If you already know your management group hierarchy type, proceed to your preferred deployment method:
 
-  - [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)  (recommended method)
+  - [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)  (recommended method)
   - [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
   - [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
   - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
   - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
-### Determining your Management Group Hierarchy
+## Determining your Management Group Hierarchy
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 
@@ -76,7 +88,7 @@ The other monitoring initiatives are assigned to specific platform landing zone 
 
 If your management group hierarchy matches this structure, you can proceed directly to your preferred deployment method:
 
-- [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)
+- [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
@@ -109,7 +121,7 @@ We suggest reviewing the [initiative definitions](https://github.com/Azure/azure
 
 If your management group hierarchy matches this structure, you can proceed directly to your preferred deployment method:
 
-- [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)
+- [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
@@ -121,7 +133,7 @@ For detailed instructions on creating management groups, refer to the [official 
 
 If you have adopted the recommended management group design, you can proceed directly to your preferred deployment method, adhering to the ALZ-aligned guidance.
 
-- [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI)
+- [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
 - [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
 - [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
 - [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
@@ -198,7 +210,7 @@ In certain situations, you may need to remove all resources deployed by the AMBA
 ## Next Steps
 
 - For instructions on customizing policy assignments, refer to [Customize Policy Assignment](../Customize-Policy-Assignment).
-- For deploying using Azure Portal UI, refer to [Deploy via the Azure Portal (Preview)](../Deploy-via-Azure-Portal-UI).
+- For deploying using Azure Portal UI, refer to [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI).
 - For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions).
 - For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines).
 - For deploying with Azure CLI, refer to [Deploy with Azure CLI](../Deploy-with-Azure-CLI).

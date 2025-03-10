@@ -2,6 +2,13 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for the alert."
+      }
+    },
     "alertName": {
       "type": "string",
       "minLength": 1,
@@ -37,22 +44,28 @@
         "description": "Full Resource ID of the resource emitting the metric that will be used for the comparison. For example /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroups/ResourceGroupName/providers/Microsoft.compute/virtualMachines/VM_xyz"
       }
     },
+    /* Removing muteActionsDuration and defaulting autoMitigate to true
     "muteActionsDuration": {
       "type": "string",
       "allowedValues": [
-        "PT1M",
         "PT5M",
+        "PT10M",
         "PT15M",
         "PT30M",
+        "PT45M",
         "PT1H",
+        "PT2H",
+        "PT3H",
+        "PT4H",
+        "PT5H",
         "PT6H",
-        "PT12H",
-        "PT24H"
+        "P1D",
+        "P2D"
       ],
       "metadata": {
         "description": "Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired."
       }
-    },
+    }, */
     "alertSeverity": {
       "type": "int",
       "defaultValue": 1,
@@ -147,17 +160,22 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "PT1D",
+      "defaultValue": "P1D",
       "allowedValues": [
         "PT1M",
         "PT5M",
+        "PT10M",
         "PT15M",
         "PT30M",
+        "PT45M",
         "PT1H",
+        "PT2H",
+        "PT3H",
+        "PT4H",
+        "PT5H",
         "PT6H",
-        "PT12H",
-        "PT24H",
-        "PT1D"
+        "P1D",
+        "P2D"
       ],
       "metadata": {
         "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
@@ -167,10 +185,19 @@
       "type": "string",
       "defaultValue": "PT5M",
       "allowedValues": [
+        "PT1M",
         "PT5M",
+        "PT10M",
         "PT15M",
         "PT30M",
-        "PT1H"
+        "PT45M",
+        "PT1H",
+        "PT2H",
+        "PT3H",
+        "PT4H",
+        "PT5H",
+        "PT6H",
+        "P1D"
       ],
       "metadata": {
         "description": "how often the metric alert is evaluated represented in ISO 8601 duration format"
@@ -201,9 +228,9 @@
   "resources": [
     {
       "type": "Microsoft.Insights/scheduledQueryRules",
-      "apiVersion": "2021-08-01",
+      "apiVersion": "2022-06-15",
       "name": "[parameters('alertName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "tags": {
         "_deployed_by_amba": true
       },
@@ -233,7 +260,7 @@
             }
           ]
         },
-        "muteActionsDuration": "[parameters('muteActionsDuration')]",
+        //"muteActionsDuration": "[parameters('muteActionsDuration')]",
         "autoMitigate": "[parameters('autoMitigate')]",
         "checkWorkspaceAlertsStorageConfigured": "[parameters('checkWorkspaceAlertsStorageConfigured')]"
       }

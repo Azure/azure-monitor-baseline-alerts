@@ -4,11 +4,16 @@ geekdocCollapseSection: true
 weight: 98
 ---
 
+### In this page
+
+> [Pre update actions](../Update_to_release_2024-06-05#pre-update-actions) </br>
+> [Update](../Update_to_release_2024-06-05#update)
+
 {{< hint type=Important >}}
 ***The parameter file structure has changed to accommodate a new feature coming soon.***
 {{< /hint >}}
 
-# Pre update actions
+## Pre update actions
 
 The parameter file structure has been updated to support an upcoming feature. Therefore, when updating from release [2024-06-05](../../../Overview/Whats-New#2024-06-05), you must align your existing parameter file structure with the new format introduced in this release.
 In particular, the new parameter file includes the following changes:

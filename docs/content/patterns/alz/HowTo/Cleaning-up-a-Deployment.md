@@ -4,6 +4,10 @@ geekdocCollapseSection: true
 weight: 52
 ---
 
+### In this page
+
+> [Cleanup Script Execution](../Cleaning-up-a-Deployment#cleanup-script-execution) </br>
+
 In some cases, you may need to remove all resources deployed by the AMBA-ALZ solution. The following instructions provide a detailed guide on executing a PowerShell script to delete all deployed resources, including:
 
 - Metric Alerts

@@ -4,6 +4,17 @@ geekdocCollapseSection: true
 weight: 100
 ---
 
+### In this page
+
+> [VM Log Alert policies fail to remediate](../Known-Issues#vm-log-alert-policies-fail-to-remediate) </br>
+> [Failed to deploy because of role assignment issue](../Known-Issues#failed-to-deploy-because-of-role-assignment-issue) </br>
+> [Failed to deploy to a different location](../Known-Issues#failed-to-deploy-to-a-different-location) </br>
+> [Failed to deploy because of the limit of 800 deployments per management group has been reached](../Known-Issues#failed-to-deploy-because-of-the-limit-of-800-deployments-per-management-group-has-been-reached) </br>
+> [Failed to deploy because of 'location' property not specified](../Known-Issues#failed-to-deploy-because-of-location-property-not-specified) </br>
+> [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) </br>
+> [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) </br>
+> [Failed to deploy because of InvalidPolicyParameterUpdate](../Known-Issues#failed-to-deploy-because-of-invalidpolicyparameterupdate) </br>
+
 ## VM Log Alert policies fail to remediate
 
 > ### Error includes
@@ -207,3 +218,35 @@ weight: 100
 > - **_0_** through **_9_** (numbers)
 >
 > Once the subscription has been renamed to exclude invalid characters, delete the existing action groups (those with names starting with **_ag-AMBA-_** or **_ag-AMBA-SH-_**) and rerun the remediation process.
+
+## Failed to deploy because of InvalidPolicyParameterUpdate
+
+> ### Error includes
+>
+> The error can be presented with one of the following messages:
+> {{< hint type=Important >}}
+> This message can be presented more than once during a deployment and with different parameter names.
+> {{< /hint >}}
+>
+> ```JSON
+> {
+>    "code": "InvalidPolicyParameterUpdate",
+>    "message": "The existing policy parameter(s) 'networkInterfacesToInclude' were not found in the policy being updated. The parameter names can not be changed."
+> }
+> ```
+>
+> ```TEXT
+> At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details. (Code: DeploymentFailed)
+> ```
+>
+>
+> ### Cause
+>
+> The last deployed version was using a parameter that is no longer available in the new version being deployed. This situation is the consequence of a necessary breaking change introduced between releases to allow for new feature implementation. To avoid this error, it is necessary to follow the documentation available under the [Update to new releases](../../HowTo/UpdateToNewReleases/#) page with specific reference to the new release being used.
+>
+> ### Resolution
+>
+> 1. Remove previous installation of AMBA-ALZ pattern (the one we are talking about) using the maintenance script and the procedure documented at [Clean-up AMBA-ALZ Deployment](../../HowTo/Cleaning-up-a-Deployment)
+> 2. Align your local copy of param file
+> 3. Deploy the new version using either the main branch or the latest available release. The main branch might be a little ahead (might contain some enhancements or bugfix not included in the latest availble release and that will be added to a new one) compared to the latest release.
+>

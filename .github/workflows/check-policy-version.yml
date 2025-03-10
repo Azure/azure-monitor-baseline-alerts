@@ -1,0 +1,48 @@
+name: Check Policy Version
+
+##########################################
+# Start the job on PR for all branches #
+##########################################
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    paths:
+      - "services/**.json"
+      - "patterns/alz/policySetDefinitions/**.json"
+  workflow_dispatch: {}
+
+env:
+  POLICY_DIR: "services"
+  POLICYSET_DIR: "patterns/alz/policySetDefinitions"
+
+jobs:
+  validate-policy-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - name: Pester Test for Modified Policies
+        shell: pwsh
+        run: |
+          Import-Module Pester -Force
+            $pesterConfiguration = @{
+              Run    = @{
+                Container = New-PesterContainer -Path "./.github/actions-pester/Test-ModifiedPolicies.Tests.ps1"
+                PassThru  = $true
+              }
+              Output = @{
+                Verbosity = 'Detailed'
+              }
+            }
+            $result = Invoke-Pester -Configuration $pesterConfiguration
+            exit $result.FailedCount
