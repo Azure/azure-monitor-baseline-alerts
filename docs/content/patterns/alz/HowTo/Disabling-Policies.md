@@ -132,8 +132,8 @@ The policy rule proceeds if "allOf" evaluates to true, meaning deployment contin
 }
 ```
 
-For log-based alerts, the approach differs slightly. For example, virtual machine alerts are scoped to the subscription level, and tagging the subscription disables all targeted policies.
+### Log based alerts  
 
-With the **Bring Your Own User Assigned Managed Identity (BYO UAMI)** feature in the [2024-06-05](../../Overview/Whats-New#2024-06-05) release, and the ability to query Azure Resource Graph using Azure Monitor (refer to [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now possible to disable individual alerts for Azure and hybrid virtual machines post-creation. This addresses requests to stop alerting for virtual machines offline for maintenance.
+In AMBA virtual machine alerts are scoped to the subscription level so if the disable tag is added at the subscription level it will disables all targeted policies to all VMS.
 
-To disable alerts for virtual machines, tag the relevant resources appropriately. Updated alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from alerts without deleting the alert. Tag the resource and run the remediation process again.
+To disable the VM alerts for individual virtual machines or hybrid VMs, tag the relevant resources with the **MonitorDisable** tag. The alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from the VM alerts without deleting or disabling the whole alert. Once the resource has the tag added remediate the relevent policies to ensure the tag is respected. 
