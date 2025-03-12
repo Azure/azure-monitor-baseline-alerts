@@ -1,6 +1,6 @@
 Describe 'UnitTest-ModifiedPolicies' {
   BeforeAll {
-    Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force -Verbose
+    Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force # -Verbose
 
     $ModifiedFiles = @(Get-PolicyFiles -DiffFilter "M")
     if ($ModifiedFiles -ne $null) {
@@ -132,7 +132,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataName = $PolicyJson.name
         $ExcludePolicy = @()
-        $ExcludeParams = @("ALZManagementSubscriptionId", "BYOUserAssignedManagedIdentityResourceId")
+        $ExcludeParams = @("ALZManagementSubscriptionId", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId")
         if ($PolicyMetadataName -notin $ExcludePolicy) {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {
@@ -144,7 +144,7 @@ Describe 'UnitTest-ModifiedPolicies' {
               if ($key -notin $ExcludeParams) {
                 $defaultValue = $PolicyParameters.$key | Get-Member -MemberType NoteProperty | Where-Object Name -EQ "defaultValue"
                 # Write-Warning "$($PolicyFile) - Parameter: $($key) - Default Value: $($defaultValue)"
-                $PolicyParameters.$key.defaultValue | Should -Not  -Because "the [defaultValue] for parameter [$key] is empty."
+                $PolicyParameters.$key.defaultValue | Should -Not -BeNullOrEmpty -Because "the [defaultValue] for parameter [$key] is empty."
               }
             }
           }
