@@ -8,10 +8,10 @@ Alert List
 {{ $category := path.BaseName $parentDir }}
 {{ $type := path.BaseName $pageDir }}
 
-The column <i><b>Alert state</b></i> lists state that the alert is deployed with by default. The default alert state maps to the following principles:
-</br>
+The <i><b>Alert state</b></i> column shows the state that the alert is deployed with by default. This default value maps to the following principles:
+</br></br>
   - <b>Enabled</b>: The alert is deployed as enabled by default and has to be considered a _**Must Have**_ Alert </br>
-  - <b>Disabled</b>: The alert is deployed as disabled by default and has to be considered a _**Nice to Have**_ Alert
+  - <b>Disabled</b>: The alert is deployed as disabled by default and has to be considered a _**Nice to Have**_ Alert. Customers can enable the alert up to their choice.
 
 {{ with (index (index $.Site.Data $category) $type) }}
   <!-- Create a table of all alerts under category/type -->
@@ -29,7 +29,6 @@ The column <i><b>Alert state</b></i> lists state that the alert is deployed with
           <tr>
             <td><a href="#{{ anchorize .name }}">{{ .name }}</a></td>
             <td>{{ .type }}</td>
-            <!--<td>{{ .properties.enabled}}</td>-->
             <td>
               {{ if .properties.enabled }}
                 <i>Enabled</i>
