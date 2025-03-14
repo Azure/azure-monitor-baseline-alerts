@@ -119,7 +119,7 @@ This deployment evaluates and remediates policy definitions only if specified ta
 
 ### How It Works
 
-The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation. Once tag vlue has been added please ensure you you run remediation again to ensure tag and its value is respected. 
+The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation. Once tag and value has been added please ensure you you run remediation again to ensure tag and its value is respected. 
 
 ```json
 "policyRule": {
