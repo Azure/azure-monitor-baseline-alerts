@@ -24,6 +24,10 @@
       "type": "object",
       "defaultValue": {}
     },
+    "policyAssignmentExclusions": {
+      "type": "array",
+      "defaultValue": []
+    },
     "scope": {
       "type": "String",
       "metadata": {
@@ -91,6 +95,7 @@
             "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
           }
         ],
+        "notScopes": "[parameters('policyAssignmentExclusions')]",
         "parameters": "[parameters('policyAssignmentParameters')]",
         "metadata": {
           "_deployed_by_amba": true
