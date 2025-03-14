@@ -119,7 +119,7 @@ This deployment evaluates and remediates policy definitions only if specified ta
 
 ### How It Works
 
-The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation.
+The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation. Once tag vlue has been added please ensure you you run remediation again to ensure tag and its value is respected. 
 
 ```json
 "policyRule": {
@@ -142,4 +142,8 @@ The policy rule proceeds if "allOf" evaluates to true, meaning deployment contin
 
 In AMBA virtual machine alerts are scoped to the subscription level so if the disable tag is added at the subscription level it will disables all targeted policies to all VMS.
 
-To disable the VM alerts for individual virtual machines or hybrid VMs, tag the relevant resources with the **MonitorDisable** tag. The alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from the VM alerts without deleting or disabling the whole alert. Once the resource has the tag added remediate the relevent policies to ensure the tag is respected. 
+To disable the VM alerts for individual virtual machines or hybrid VMs, tag the relevant resources with the **MonitorDisable** tag. The alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from the VM alerts without deleting or disabling the whole alert. 
+
+
+
+
