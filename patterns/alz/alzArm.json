@@ -470,6 +470,9 @@
             },
             "ALZMonitorDisableTagValues": {
                 "value": "[parameters('ALZMonitorDisableTagValues')]"
+            },
+            "AMBAAlzDeployedVersion": {
+              "value": "[split(deployment().properties.templateLink.uri, '/')[6]]"
             }
         },
         "policyAssignmentParametersMonitorDisable": {
@@ -521,9 +524,8 @@
             }
         },
         // Declaring AMBA-ALZ version being deployed based on deployment uri
-        "ambaAlzDeployedVersion": "[split(deployment().properties.templateLink.uri, '/')[6]]",
         // Declaring the policy assignment parameters that will be used for all policy assignments
-        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'), variables('ambaAlzDeployedVersion'))]",
+        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
