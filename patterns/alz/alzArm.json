@@ -520,18 +520,6 @@
                 "value": "[parameters('ALZNotificationAssetSuffix')]"
             }
         },
-        // Declaring the deployment info parameters that will be used for all policy definitions, policy initiatives and policy assignments
-        "deploymentInfo": {
-          "ambaAlzDeploymentDate": {
-              "value": "[parameters('currentDateTimeUtcNow')]"
-            },
-            "ambaAlzDeploymentRepo": {
-              "value": "[replace(string(split(deployment().properties.templateLink.uri, '/refs')[0]), 'raw.githubusercontent.com', 'github.com')]"
-            },
-            "ambaAlzDeploymentBranch": {
-              "value": "[if(contains(deployment().properties.templateLink.uri, '/refs/heads'), string(split(deployment().properties.templateLink.uri, '/')[7]), string(split(deployment().properties.templateLink.uri, '/')[8]))]"
-            }
-        },
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
@@ -1063,9 +1051,6 @@
                     },
                     "policyAssignmentExclusions": {
                         "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
-                    },
-                    "deploymentInformation": {
-                        "value": "[variables('deploymentInfo')]"
                     }
                 }
             }
