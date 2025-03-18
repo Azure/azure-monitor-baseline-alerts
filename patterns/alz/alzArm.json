@@ -533,7 +533,7 @@
             }
         },
         // Declaring the policy assignment parameters that will be used for all policy assignments
-        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'), variables('deploymentInfo'))]",
+        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
@@ -1063,6 +1063,9 @@
                     },
                     "policyAssignmentExclusions": {
                         "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
+                    },
+                    "deploymentInformation": {
+                        "value": "[variables('deploymentInfo')]"
                     }
                 }
             }
