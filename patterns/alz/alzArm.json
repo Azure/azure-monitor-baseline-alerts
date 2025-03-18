@@ -471,11 +471,14 @@
             "ALZMonitorDisableTagValues": {
                 "value": "[parameters('ALZMonitorDisableTagValues')]"
             },
-            "AMBAAlzDeployedVersion": {
-              "value": "[string(split(deployment().properties.templateLink.uri, '/')[6])]"
-            },
             "AMBAAlzDeploymentDate": {
               "value": "[utcNow('d')]"
+            },
+            "AMBAAlzDeploymentRepo": {
+              "value": "[string(split(deployment().properties.templateLink.uri, '/blob')[0])]"
+            },
+            "AMBAAlzDeployedVersion": {
+              "value": "[string(split(deployment().properties.templateLink.uri, '/')[6])]"
             }
         },
         "policyAssignmentParametersMonitorDisable": {
