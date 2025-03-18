@@ -1,7 +1,7 @@
 ---
 title: Secure log search alert queries with Customer-managed key
 geekdocCollapseSection: true
-geekdocHidden: true
+geekdocHidden: false
 weight: 79
 ---
 
@@ -26,7 +26,7 @@ The **Require a workspace linked storage** option in the query alert rule contro
 
 To change the **checkWorkspaceAlertsStorageConfigured** flag to **'true'**, navigate to:
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-02-05/patterns/alz/alzArm.param.json) for the latest release.
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 - change parameters value where name contains *checkWorkspaceAlertsStorageConfigured* to *true*
   ![Parameter file](../../media/cmk_parameter.png)
