@@ -470,15 +470,6 @@
             },
             "ALZMonitorDisableTagValues": {
                 "value": "[parameters('ALZMonitorDisableTagValues')]"
-            },
-            "AMBAAlzDeploymentDate": {
-              "value": "[parameters('currentDateTimeUtcNow')]"
-            },
-            "AMBAAlzDeploymentRepo": {
-              "value": "[string(split(deployment().properties.templateLink.uri, '/blob')[0])]"
-            },
-            "AMBAAlzDeployedVersion": {
-              "value": "[string(split(deployment().properties.templateLink.uri, '/')[6])]"
             }
         },
         "policyAssignmentParametersMonitorDisable": {
@@ -529,8 +520,20 @@
                 "value": "[parameters('ALZNotificationAssetSuffix')]"
             }
         },
+        // Declaring the deployment info parameters that will be used for all policy definitions, policy initiatives and policy assignments
+        "deploymentInfo": {
+          "AMBAAlzDeploymentDate": {
+              "value": "[parameters('currentDateTimeUtcNow')]"
+            },
+            "AMBAAlzDeploymentRepo": {
+              "value": "[string(split(deployment().properties.templateLink.uri, '/blob')[0])]"
+            },
+            "AMBAAlzDeployedVersion": {
+              "value": "[string(split(deployment().properties.templateLink.uri, '/')[6])]"
+            }
+        },
         // Declaring the policy assignment parameters that will be used for all policy assignments
-        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
+        "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'), variables('deploymentInfo'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
