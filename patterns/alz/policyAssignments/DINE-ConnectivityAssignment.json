@@ -27,10 +27,6 @@
     "policyAssignmentExclusions": {
       "type": "array",
       "defaultValue": []
-    },
-    "deploymentInformation": {
-      "type": "object",
-      "defaultValue": {}
     }
   },
   "variables": {
@@ -50,8 +46,7 @@
     "rbacContributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
     "roleAssignmentNames": {
       "deployAMBAConnectivity": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaConnectivity))]"
-    },
-    "deploymentDateTime": "[utcNow('d')]"
+    }
   },
   "resources": [
     {
@@ -76,7 +71,6 @@
         "parameters": "[parameters('policyAssignmentParameters')]",
         "metadata": {
           "_deployed_by_amba": true,
-          "_amba-alz_deployment_date": "[variables('deploymentDateTime')]",
           "_amba-alz_deployment_repo": "[replace(string(split(deployment().properties.templateLink.uri, '/refs')[0]), 'raw.githubusercontent.com', 'github.com')]",
           "_amba-alz_deployment_branch": "[if(contains(deployment().properties.templateLink.uri, '/refs/heads'), string(split(deployment().properties.templateLink.uri, '/')[7]), string(split(deployment().properties.templateLink.uri, '/')[8]))]"
 
