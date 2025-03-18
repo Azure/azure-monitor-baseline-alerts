@@ -472,7 +472,7 @@
                 "value": "[parameters('ALZMonitorDisableTagValues')]"
             },
             "AMBAAlzDeploymentDate": {
-              "value": "[utcNow('d')]"
+              "value": "[parameters('currentDateTimeUtcNow')]"
             },
             "AMBAAlzDeploymentRepo": {
               "value": "[string(split(deployment().properties.templateLink.uri, '/blob')[0])]"
@@ -529,7 +529,6 @@
                 "value": "[parameters('ALZNotificationAssetSuffix')]"
             }
         },
-        // Declaring AMBA-ALZ version being deployed based on deployment uri
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
