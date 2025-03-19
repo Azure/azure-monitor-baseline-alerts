@@ -66,15 +66,20 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
-        $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
-        $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
+        $PreviousPolicyDefinitionsFileVersion = [System.Version]$PreviousPolicyDefinitionsFile.properties.metadata.version
+        $PolicyMetadataVersion = [System.Version]$PolicyJson.properties.metadata.version
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
-        if ($PolicyMetadataVersion.EndsWith("deprecated")) {
-          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+\.deprecated" -Because "the [version] attribute on file [$PolicyFile] needs to end with [
-DEPRECATED]."
+
+        $PolicyMetadataVersion.Major | Should -Be $PreviousPolicyDefinitionsFileVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
+
+        if($PolicyMetadataVersion.Minor -gt $PreviousPolicyDefinitionsFileVersion.Minor) {
+          $PolicyMetadataVersion.Build | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Build] version to be reset to 0. Ensure the [Build] version of [$PolicyFile] is reset to 0."
+        }
+        elseif ($PolicyMetadataVersion.Minor -eq $PreviousPolicyDefinitionsFileVersion.Minor) {
+          $PolicyMetadataVersion.Build | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Build -Because "Incrementing the [Build] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Build] version of [$PolicyFile] is incremented by 1."
         }
         else {
-          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+" -Because "the [version] attribute on file [$PolicyFile] needs to be in the format [x.x.x]."
+          $PolicyMetadataVersion.Build | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Build -Because "The [Build] version of policy version cannot be decremented. Ensure the [Build] version of [$PolicyFile] is set the same value it was."
         }
       }
     }
