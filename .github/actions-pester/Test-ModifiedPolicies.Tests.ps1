@@ -58,6 +58,43 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
+    It "Check if policy version has been correctly incremented" { #-Skip:($ModifiedFiles -ne $null){
+      $ModifiedAddedFiles | ForEach-Object {
+        $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
+        $PolicyFile = Split-Path $_ -Leaf
+        $PreviousPolicyDefinitionRawUrl = "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/$_"
+        $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
+        Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
+        $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
+        $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
+        $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+        if ($PolicyMetadataVersion.EndsWith("deprecated")) {
+          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+\.deprecated" -Because "the [version] attribute on file [$PolicyFile] needs to end with [
+DEPRECATED]."
+        }
+        else {
+          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+" -Because "the [version] attribute on file [$PolicyFile] needs to be in the format [x.x.x]."
+        }
+      }
+    }
+
+    <#It "Check policy metadata version is in the format x.x.x"  -Skip:($ModifiedFiles -ne $null) {
+      $ModifiedAddedFiles | ForEach-Object {
+        $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
+        $PolicyFile = Split-Path $_ -Leaf
+        $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+        if ($PolicyMetadataVersion.EndsWith("deprecated")) {
+          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+\.deprecated" -Because "the [version] attribute on file [$PolicyFile] needs to end with [DEPRECATED]."
+        }
+        else {
+          $PolicyMetadataVersion | Should -Match "\d+\.\d+\.\d+" -Because "the [version] attribute on file [$PolicyFile] needs to be in the format [x.x.x]."
+        }
+      }
+    }#>
+
+
     It "Check deprecated policy contains all required metadata" {
       $ModifiedAddedFiles | ForEach-Object {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
