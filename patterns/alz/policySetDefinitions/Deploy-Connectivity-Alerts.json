@@ -6,13 +6,15 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts for Connectivity",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Network components such as Azure Firewalls, ExpressRoute, VPN, and Private DNS Zones.",
     "metadata": {
-      "version": "1.4.2",
+      "version": "1.4.3",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_amba": true
+      "_deployed_by_amba": true,
+      "_amba-alz_deployment_repo": "[[replace(string(split(deployment().properties.templateLink.uri, '/refs')[0]), 'raw.githubusercontent.com', 'github.com')]",
+      "_amba-alz_deployment_branch": "[[if(contains(deployment().properties.templateLink.uri, '/refs/heads'), string(split(deployment().properties.templateLink.uri, '/')[7]), string(split(deployment().properties.templateLink.uri, '/')[8]))]"
     },
     "parameters": {
       "ALZMonitorResourceGroupName": {

@@ -58,6 +58,63 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
+    It "Check if policy version has been correctly incremented" -Skip:($ModifiedFiles -ne $null){
+      $regex = "^(?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(-(?<Suffix>[a-zA-Z0-9]+))?$"
+      $ModifiedAddedFiles | ForEach-Object {
+        $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
+        $PolicyFile = Split-Path $_ -Leaf
+        $PreviousPolicyDefinitionRawUrl = "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/$_"
+        $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
+        Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
+        $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
+        #Assembling custom version object for previous policy
+        if ($PreviousPolicyDefinitionsFile.properties.metadata.version -match $regex) {
+          $major = $matches['Major']
+          $minor = $matches['Minor']
+          $patch = $matches['Patch']
+          $suffix = $matches['Suffix']
+
+          $PreviousPolicyDefinitionsFileVersion = [PSCustomObject]@{
+            Major = $major
+            Minor = $minor
+            Patch = $patch
+            Suffix = $suffix
+          }
+        }
+
+        #$PreviousPolicyDefinitionsFileVersion = [System.Version]$PreviousPolicyDefinitionsFile.properties.metadata.version
+        #Assembling custom version object for current policy
+        if ($PolicyJson.properties.metadata.version -match $regex) {
+          $major = $matches['Major']
+          $minor = $matches['Minor']
+          $patch = $matches['Patch']
+          $suffix = $matches['Suffix']
+
+          $PolicyMetadataVersion = [PSCustomObject]@{
+            Major = $major
+            Minor = $minor
+            Patch = $patch
+            Suffix = $suffix
+          }
+        }
+
+        #$PolicyMetadataVersion = [System.Version]$PolicyJson.properties.metadata.version
+        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+
+        $PolicyMetadataVersion.Major | Should -Be $PreviousPolicyDefinitionsFileVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
+
+        if($PolicyMetadataVersion.Minor -gt $PreviousPolicyDefinitionsFileVersion.Minor) {
+          $PolicyMetadataVersion.Patch | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Patch] version to be reset to 0. When incrementing the [Minor] version , ensure the [Patch] version of [$PolicyFile] is reset to 0."
+        }
+        elseif ($PolicyMetadataVersion.Minor -eq $PreviousPolicyDefinitionsFileVersion.Minor) {
+          $PolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Patch -Because "Incrementing the [Patch] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Patch] version of [$PolicyFile] is incremented by 1."
+        }
+        else {
+          $PolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Patch -Because "The [Patch] version of policy version cannot be decremented. Ensure the [Patch] version of [$PolicyFile] is set the same value it was."
+        }
+      }
+    }
+
     It "Check deprecated policy contains all required metadata" {
       $ModifiedAddedFiles | ForEach-Object {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json

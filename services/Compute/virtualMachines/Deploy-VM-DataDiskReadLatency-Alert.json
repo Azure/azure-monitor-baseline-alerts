@@ -8,13 +8,15 @@
     "displayName": "Deploy Azure VM Data Disk Read Latency Alert",
     "description": "Policy to audit/deploy Azure VM dataDiskReadLatency Alert",
     "metadata": {
-      "version": "1.8.0",
+      "version": "1.8.1",
       "category": "Compute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_amba": "True"
+      "_deployed_by_amba": "True",
+      "_amba-alz_deployment_repo": "[[replace(string(split(deployment().properties.templateLink.uri, '/refs')[0]), 'raw.githubusercontent.com', 'github.com')]",
+      "_amba-alz_deployment_branch": "[[if(contains(deployment().properties.templateLink.uri, '/refs/heads'), string(split(deployment().properties.templateLink.uri, '/')[7]), string(split(deployment().properties.templateLink.uri, '/')[8]))]"
     },
     "parameters": {
       "alertResourceGroupName": {
