@@ -79,6 +79,7 @@ Describe 'UnitTest-ModifiedPolicies' {
             Minor = $minor
             Patch = $patch
             Suffix = $suffix
+          }
         }
 
         #$PreviousPolicyDefinitionsFileVersion = [System.Version]$PreviousPolicyDefinitionsFile.properties.metadata.version
@@ -94,6 +95,7 @@ Describe 'UnitTest-ModifiedPolicies' {
             Minor = $minor
             Patch = $patch
             Suffix = $suffix
+          }
         }
 
         #$PolicyMetadataVersion = [System.Version]$PolicyJson.properties.metadata.version
