@@ -104,13 +104,13 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyMetadataVersion.Major | Should -Be $PreviousPolicyDefinitionsFileVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
 
         if($PolicyMetadataVersion.Minor -gt $PreviousPolicyDefinitionsFileVersion.Minor) {
-          $PolicyMetadataVersion.Build | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Build] version to be reset to 0. When incrementing the [Minor] version , ensure the [Build] version of [$PolicyFile] is reset to 0."
+          $PolicyMetadataVersion.Patch | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Patch] version to be reset to 0. When incrementing the [Minor] version , ensure the [Patch] version of [$PolicyFile] is reset to 0."
         }
         elseif ($PolicyMetadataVersion.Minor -eq $PreviousPolicyDefinitionsFileVersion.Minor) {
-          $PolicyMetadataVersion.Build | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Build -Because "Incrementing the [Build] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Build] version of [$PolicyFile] is incremented by 1."
+          $PolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Patch -Because "Incrementing the [Patch] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Patch] version of [$PolicyFile] is incremented by 1."
         }
         else {
-          $PolicyMetadataVersion.Build | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Build -Because "The [Build] version of policy version cannot be decremented. Ensure the [Build] version of [$PolicyFile] is set the same value it was."
+          $PolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Patch -Because "The [Patch] version of policy version cannot be decremented. Ensure the [Patch] version of [$PolicyFile] is set the same value it was."
         }
       }
     }
