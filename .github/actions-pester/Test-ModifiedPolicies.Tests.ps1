@@ -59,6 +59,7 @@ Describe 'UnitTest-ModifiedPolicies' {
     }
 
     It "Check if policy version has been correctly incremented" -Skip:($ModifiedFiles -ne $null){
+      $regex = "^(?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(-(?<Suffix>[a-zA-Z0-9]+))?$"
       $ModifiedAddedFiles | ForEach-Object {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         $PolicyFile = Split-Path $_ -Leaf
@@ -66,8 +67,36 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
-        $PreviousPolicyDefinitionsFileVersion = [System.Version]$PreviousPolicyDefinitionsFile.properties.metadata.version
-        $PolicyMetadataVersion = [System.Version]$PolicyJson.properties.metadata.version
+        #Assembling custom version object for previous policy
+        if ($PreviousPolicyDefinitionsFile.properties.metadata.version -match $regex) {
+          $major = $matches['Major']
+          $minor = $matches['Minor']
+          $patch = $matches['Patch']
+          $suffix = $matches['Suffix']
+
+          $PreviousPolicyDefinitionsFileVersion = [PSCustomObject]@{
+            Major = $major
+            Minor = $minor
+            Patch = $patch
+            Suffix = $suffix
+        }
+
+        #$PreviousPolicyDefinitionsFileVersion = [System.Version]$PreviousPolicyDefinitionsFile.properties.metadata.version
+        #Assembling custom version object for current policy
+        if ($PolicyJson.properties.metadata.version -match $regex) {
+          $major = $matches['Major']
+          $minor = $matches['Minor']
+          $patch = $matches['Patch']
+          $suffix = $matches['Suffix']
+
+          $PolicyMetadataVersion = [PSCustomObject]@{
+            Major = $major
+            Minor = $minor
+            Patch = $patch
+            Suffix = $suffix
+        }
+
+        #$PolicyMetadataVersion = [System.Version]$PolicyJson.properties.metadata.version
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
 
         $PolicyMetadataVersion.Major | Should -Be $PreviousPolicyDefinitionsFileVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
