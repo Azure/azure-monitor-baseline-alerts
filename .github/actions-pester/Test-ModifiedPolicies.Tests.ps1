@@ -73,7 +73,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyMetadataVersion.Major | Should -Be $PreviousPolicyDefinitionsFileVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
 
         if($PolicyMetadataVersion.Minor -gt $PreviousPolicyDefinitionsFileVersion.Minor) {
-          $PolicyMetadataVersion.Build | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Build] version to be reset to 0. Ensure the [Build] version of [$PolicyFile] is reset to 0."
+          $PolicyMetadataVersion.Build | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Build] version to be reset to 0. When incrementing the [Minor] version , ensure the [Build] version of [$PolicyFile] is reset to 0."
         }
         elseif ($PolicyMetadataVersion.Minor -eq $PreviousPolicyDefinitionsFileVersion.Minor) {
           $PolicyMetadataVersion.Build | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion.Build -Because "Incrementing the [Build] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Build] version of [$PolicyFile] is incremented by 1."
