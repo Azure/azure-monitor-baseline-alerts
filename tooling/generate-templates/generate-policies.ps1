@@ -121,8 +121,8 @@ process {
                 $alertTemplate = $alertTemplate -replace "##NUMBER_OF_EVALUATION_PERIODS##", $alert.properties.failingPeriods.numberOfEvaluationPeriods
                 $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
                 $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
-                $alertTemplate = $alertTemplate -replace "##QUERY##", (($alert.properties.query -replace "`n", " ") -replace '"', '\"')
-                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", ('{ "name": "' + $alert.properties.dimensions.name + '", "operator": "' + $alert.properties.dimensions.operator + '", "values": "' + $alert.properties.dimensions.values + '" }')
+                $alertTemplate = $alertTemplate -replace "##QUERY##", (($alert.properties.query -replace "`n", "") -replace '"', '\"')
+                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", ('{ "name": "' + $alert.properties.dimensions.name + '", "operator": "' + $alert.properties.dimensions.operator + '", "values": ["' + $alert.properties.dimensions.values + '"] }')
 
                 if (-not (Test-Path -Path $policyDirectory)) {
                   New-Item -ItemType Directory -Path $policyDirectory -Force
