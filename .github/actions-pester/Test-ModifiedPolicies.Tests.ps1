@@ -74,7 +74,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
 
         if (($CurrentPolicyMetadataVersion -ne $null ) -and ($PreviousPolicyMetadataVersion -ne $null)){
-          Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($CurrentPolicyMetadataVersion). Previous metadata version is : $($PreviousPolicyMetadataVersion)"
+          #Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($CurrentPolicyMetadataVersion). Previous metadata version is : $($PreviousPolicyMetadataVersion)"
 
           $CurrentPolicyMetadataVersion.Major | Should -Be $PreviousPolicyMetadataVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
 
