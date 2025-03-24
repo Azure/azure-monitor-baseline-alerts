@@ -68,10 +68,10 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
 
         #Assembling custom version object for previous policy
-        $PreviousPolicyMetadataVersion = Parse-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
+        $PreviousPolicyMetadataVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
 
         #Assembling custom version object for current policy
-        $CurrentPolicyMetadataVersion = Parse-PolicyVersion $PolicyJson.properties.metadata.version
+        $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
 
         if (($CurrentPolicyMetadataVersion -ne $null ) -and ($PreviousPolicyMetadataVersion -ne $null)){
           Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($CurrentPolicyMetadataVersion). Previous metadata version is : $($PreviousPolicyMetadataVersion)"

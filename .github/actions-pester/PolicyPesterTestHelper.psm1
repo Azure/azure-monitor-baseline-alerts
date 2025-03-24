@@ -132,9 +132,8 @@ function ConvertTo-OrderedHashtable {
     return $orderedLevel
 }
 
-function Parse-PolicyVersion
+function Convert-PolicyVersion
 {
-    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter()]
         [String]$policyVersion
