@@ -119,6 +119,7 @@ process {
                 $alertTemplate = $alertTemplate -replace "##THRESHOLD##", $alert.properties.threshold
                 $alertTemplate = $alertTemplate -replace "##MIN_FAILING_PERIODS##", $alert.properties.failingPeriods.minFailingPeriodsToAlert
                 $alertTemplate = $alertTemplate -replace "##NUMBER_OF_EVALUATION_PERIODS##", $alert.properties.failingPeriods.numberOfEvaluationPeriods
+                $alertName = $alert.name -replace "[^a-zA-Z_]", ""
                 $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
                 $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
                 $alertTemplate = $alertTemplate -replace "##QUERY##", (($alert.properties.query -replace "`n", "") -replace '"', '\"')
