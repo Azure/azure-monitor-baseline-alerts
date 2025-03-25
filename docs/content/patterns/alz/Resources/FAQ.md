@@ -98,7 +98,7 @@ weight: 80
 
 ## Can I exclude Management Groups or Subscriptions from policy assignment?
 
-> {{< hint type=Note >}} For deployments (update or new) happening after <ins>**March 2025 the 10th**</ins> using the code in the _**main**_ branch, it is possible to configure some new parameters to perform the exclusion at scale during the deployment. Read more at [Exclude Management Groups and/or Subscription from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).{{< /hint >}}
+> {{< hint type=Note >}} For deployments (update or new) happening after <ins>**March 2025 the 25th**</ins> using the code in either the _**main**_ branch or any _**new**_ release, it is possible to configure some new parameters to perform the exclusion at scale during the deployment. Read more at [Exclude Management Groups and/or Subscription from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).{{< /hint >}}
 >
 > When deploying at scale, we include all management groups and subscriptions under the pseudo root management group hierarchy. This might results in the inclusion of unwanted or unnecessary resources. Should this be the case, it is possible to exclude them after the deployment. To do so, it is necessary to:
 >
