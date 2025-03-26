@@ -228,26 +228,26 @@
 
       | project-away TenantId,SourceSystem
 
-      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== \"Started\",
-      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== \"Connected\",
+      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== "Started",
+      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== "Connected",
       TimeGenerated , datetime(null) )) by CorrelationId
 
       | join kind=leftouter (WVDErrors
 
-      |summarize Errors=makelist(pack(\"Code\", Code, \"CodeSymbolic\", CodeSymbolic,
-      \"Time\", TimeGenerated, \"Message\", Message ,\"ServiceError\", ServiceError,
-      \"Source\", Source)) by CorrelationId
+      |summarize Errors=makelist(pack("Code", Code, "CodeSymbolic", CodeSymbolic,
+      "Time", TimeGenerated, "Message", Message ,"ServiceError", ServiceError,
+      "Source", Source)) by CorrelationId
 
       ) on CorrelationId
 
       | join kind=leftouter (WVDCheckpoints
 
-      | summarize Checkpoints=makelist(pack(\"Time\", TimeGenerated, \"Name\",
-      Name, \"Parameters\", Parameters, \"Source\", Source)) by CorrelationId
+      | summarize Checkpoints=makelist(pack("Time", TimeGenerated, "Name",
+      Name, "Parameters", Parameters, "Source", Source)) by CorrelationId
 
       | mv-apply Checkpoints on (
 
-      order by todatetime(Checkpoints[\"Time\"]) asc
+      order by todatetime(Checkpoints["Time"]) asc
 
       | summarize Checkpoints=makelist(Checkpoints))
 
@@ -368,13 +368,13 @@
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: "WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\"\
-      \ | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId ,\
+    query: 'WVDConnections | where TimeGenerated > ago(24h) | where State == "Connected"\
+      \ | where _ResourceId contains "xHostPoolNamex" | project CorrelationId ,\
       \ UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join\
-      \ (WVDConnections\n  | where State == \"Completed\"\n  | project EndTime=TimeGenerated,\
+      \ (WVDConnections\n  | where State == "Completed"\n  | project EndTime=TimeGenerated,\
       \ CorrelationId)\non CorrelationId | project Duration = EndTime - StartTime,\
       \ ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00)\
-      \ | sort by Duration desc"
+      \ | sort by Duration desc'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:30:00
@@ -1244,7 +1244,7 @@
 
       | where TimeGenerated > ago(10m)
 
-      | where Status != \"Available\"
+      | where Status != "Available"
 
       | where AllowNewSessions = True
 
@@ -1260,7 +1260,7 @@
 
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
 
-      | where HealthCheckDesc != \"InvalidIndex\"
+      | where HealthCheckDesc != "InvalidIndex"
 
       | where _ResourceId contains "xHostPoolNamex"
 

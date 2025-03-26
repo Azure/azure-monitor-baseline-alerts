@@ -290,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[format('WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\" | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join (WVDConnections  | where State == \"Completed\"  | project EndTime=TimeGenerated, CorrelationId)on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00) | sort by Duration desc')]"
+                "equals": "[format('WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\"\ \ | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId ,\ \ UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join\ \ (WVDConnections\n  | where State == \"Completed\"\n  | project EndTime=TimeGenerated,\ \ CorrelationId)\non CorrelationId | project Duration = EndTime - StartTime,\ \ ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00)\ \ | sort by Duration desc')]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -429,7 +429,7 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[format('WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\" | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join (WVDConnections  | where State == \"Completed\"  | project EndTime=TimeGenerated, CorrelationId)on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00) | sort by Duration desc')]",
+                                    "query": "[format('WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\"\ \ | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId ,\ \ UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join\ \ (WVDConnections\n  | where State == \"Completed\"\n  | project EndTime=TimeGenerated,\ \ CorrelationId)\non CorrelationId | project Duration = EndTime - StartTime,\ \ ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00)\ \ | sort by Duration desc')]",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "resourceIdColumn": "_ResourceId",
