@@ -101,6 +101,13 @@ process {
                 $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", "Deploy $($alert.name) Alert"
                 $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/Deploy $($alert.name) Alert"
               }
+
+              $parts = $policyPathName -split '\\'
+              $secondToLastIndex = $parts.Length - 2
+              $thirdToLastIndex = $parts.Length - 3
+              $category = $parts[$thirdToLastIndex]
+              $resourceType = 'Microsoft.' + $parts[$thirdToLastIndex] + '/' + $parts[$secondToLastIndex]
+
               $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
               $alertTemplate = $alertTemplate -replace "##RESOURCE_TYPE##", $resourceType
               $alertTemplate = $alertTemplate -replace "##SEVERITY##", $alert.properties.severity
