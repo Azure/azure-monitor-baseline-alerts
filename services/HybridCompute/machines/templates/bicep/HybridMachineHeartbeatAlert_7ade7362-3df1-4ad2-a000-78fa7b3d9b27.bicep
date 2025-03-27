@@ -158,11 +158,6 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
               name: 'Computer'
               operator: 'Include'
               values: ['*']
-            }
-            {
-              name: 'Disk'
-              operator: 'Include'
-              values: ['*']
             }]
           operator: operator
           threshold: threshold

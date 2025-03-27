@@ -90,7 +90,7 @@
     "query": {
       "type": "string",
       "minLength": 1,
-      "defaultValue": "Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff('minute',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId ",
+      "defaultValue": "Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId ",
       "metadata": {
         "description": "Name of the metric used in the comparison to activate the alert."
       }
@@ -249,7 +249,7 @@
               "query": "[parameters('query')]",
               "metricMeasureColumn": "[parameters('metricMeasureColumn')]",
               "resourceIdColumn": "[parameters('resourceIdColumn')]",
-              "dimensions": [{"name": "Computer", "operator": "Include", "values": ["*"]}, {"name": "Disk", "operator": "Include", "values": ["*"]}],
+              "dimensions": [{"name": "Computer", "operator": "Include", "values": ["*"]}],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",
               "timeAggregation": "[parameters('timeAggregation')]",

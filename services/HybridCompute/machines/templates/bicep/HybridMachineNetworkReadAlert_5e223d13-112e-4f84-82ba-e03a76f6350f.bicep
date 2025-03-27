@@ -160,7 +160,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
               values: ['*']
             }
             {
-              name: 'Disk'
+              name: 'NetworkInterface'
               operator: 'Include'
               values: ['*']
             }]
