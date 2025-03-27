@@ -16,12 +16,15 @@
     timeAggregation: Count
     operator: GreaterThan
     criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     dimensions:
     - operator: include
       name: statuscode
       values:
       - '429'
-    threshold: 0.0
     enabled: true
   references:
   - name: Monitor Azure Cosmos DB
@@ -258,7 +261,10 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: DynamicThresholdCriterion
-    threshold: 0.0
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     enabled: true
   guid: 0914c189-0adc-45d6-8704-d2ae73b9b7b6
 - name: MongoRequests
@@ -279,7 +285,10 @@
     timeAggregation: Count
     operator: GreaterThan
     criterionType: DynamicThresholdCriterion
-    threshold: 0.0
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     enabled: true
   references:
   - name: Monitor Azure Cosmos DB
