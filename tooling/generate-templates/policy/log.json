@@ -10,7 +10,6 @@
     "metadata": {
       "version": "1.0.0-preview",
       "category": "##POLICY_CATEGORY##",
-      "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -73,7 +72,7 @@
           "displayName": "Operator"
         },
         "allowedValues": [
-          "GreaterThan"
+          "##OPERATOR##"
         ],
         "defaultValue": "##OPERATOR##"
       },
@@ -83,7 +82,7 @@
           "displayName": "TimeAggregation"
         },
         "allowedValues": [
-          "Count"
+          "##TIME_AGGREGATION##"
         ],
         "defaultValue": "##TIME_AGGREGATION##"
       },
@@ -185,16 +184,6 @@
           "description": "The number of aggregated lookback points."
         },
         "defaultValue": "##NUMBER_OF_EVALUATION_PERIODS##"
-      },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
       },
       "effect": {
         "type": "String",
@@ -301,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "##QUERY##"
+                "equals": "[format('##QUERY##')]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -365,9 +354,6 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "computersToInclude": {
-                    "type": "array"
-                  },
                   "MonitorDisableTagName": {
                     "type": "String"
                   },
@@ -415,7 +401,7 @@
                         "resources": [
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
-                            "apiVersion": "2022-06-15",
+                            "apiVersion": "2022-08-01-preview",
                             "name": "[[concat(subscription().displayName, '-##ALERT_NAME##')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "identity": {
@@ -443,14 +429,13 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "##QUERY##",
+                                    "query": "[format('##QUERY##')]",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "resourceIdColumn": "_ResourceId",
+                                    "metricMeasureColumn": "AggregatedValue",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
-                                    "dimensions": [
-                                      ##DIMENSIONS##
-                                    ],
+                                    "dimensions": ##DIMENSIONS##,
                                     "failingPeriods": {
                                       "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
                                       "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
@@ -502,9 +487,6 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
                                 },
                                 "MonitorDisableTagName": {
                                   "value": "[[parameters('MonitorDisableTagName')]"
@@ -583,9 +565,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisableTagName": {
                   "value": "[[parameters('MonitorDisableTagName')]"
