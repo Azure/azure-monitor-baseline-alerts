@@ -1,13 +1,13 @@
 ---
 title: Deploy with Terraform
-weight: 80
+weight: 75
 ---
 
 ### On this page
 
 > [Modules](../Deploy-with-Terraform#Modules) </br>
-> [Features `avm-ptn-monitoring-amba-alz` module](../Deploy-with-Terraform#Features-`avm-ptn-monitoring-amba-alz`-module) </br>
-> [Features `avm-ptn-alz` module](../Deploy-with-Terraform#Features-`avm-ptn-alz`-module) </br>
+> [Features `avm-ptn-monitoring-amba-alz` module](../Deploy-with-Terraform#Features-avm-ptn-monitoring-amba-alz-module) </br>
+> [Features `avm-ptn-alz` module](../Deploy-with-Terraform#Features-avm-ptn-alz-module) </br>
 > [AzAPI Provider](../Deploy-with-Terraform#AzAPI-Provider) </br>
 > [Required Inputs](../Deploy-with-Terraform#Required-Inputs) </br>
 > [Optional Inputs](../Deploy-with-Terraform#Optional-Inputs) </br>
@@ -33,7 +33,7 @@ Source: Azure/avm-ptn-monitoring-amba-alz/azurerm
 
 Version: 0.1.0
 
-Module "avm-ptn-monitoring-amba-alz" also calls the following modules:
+Additionally, the "avm-ptn-monitoring-amba-alz" module calls the following resource modules:
 
 ### <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group)
 
@@ -47,17 +47,17 @@ Source: Azure/avm-res-managedidentity-userassignedidentity/azurerm
 
 Version: 0.3.3
 
-## Features `avm-ptn-monitoring-amba-alz` module
+## Features avm-ptn-monitoring-amba-alz module
 
 - Deployment of Resource Group.
 - Deployment of User Assigned Managed Identity.
 - Deployment of Monitoring Reader Role Assignment for the User Assigned Managed Identity.
 
-## Features `avm-ptn-alz` module
+## Features avm-ptn-alz module
 
 In the context of deploying AMBA ALZ, the following features are used:
 
-- Deploy policy assets (definitions, assignments, and initiatives) according to the supplied architecture ands associated archetypes
+- Deploy policy assets (definitions, assignments, and initiatives) according to the supplied architecture and associated archetypes
 - Modify policy assignments:
   - Enforcement mode
   - Identity
@@ -456,7 +456,7 @@ module "amba_policy" {
 
 ## Custom Architecture
 
-This example demonstrates how to deploy the AMBA ALZ pattern using an existing  .
+This example demonstrates how to deploy the AMBA ALZ pattern using an existing custom management group hierarchy.
 
 1. Create the `./lib` directory.
 1. Create the `custom.alz_architecture_definition.json` file. Refer to examples/custom-architecture-definition for a sample.
