@@ -14,7 +14,7 @@
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Count
-    operator: GreaterThan
+    operator: GreaterThanOrLessThan
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
@@ -226,7 +226,7 @@
     windowSize: PT5M
     evaluationFrequency: PT5M
     timeAggregation: Count
-    operator: GreaterThanOrEqual
+    operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
     - operator: include
@@ -256,10 +256,10 @@
     metricName: DataUsage
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
     severity: 3
-    windowSize: PT1M
+    windowSize: PT1H
     evaluationFrequency: PT15M
     timeAggregation: Average
-    operator: GreaterThan
+    operator: GreaterThanOrLessThan
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
@@ -283,7 +283,7 @@
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Count
-    operator: GreaterThan
+    operator: GreaterThanOrLessThan
     criterionType: DynamicThresholdCriterion
     failingPeriods:
       numberOfEvaluationPeriods: 4
@@ -337,7 +337,7 @@
   properties:
     metricName: ReplicationLatency
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 2
+    severity: 3
     windowSize: PT15M
     evaluationFrequency: PT5M
     timeAggregation: Average
@@ -423,7 +423,7 @@
   description: Throttled requests for Cosmos DB request rate too large (429) exceptions. Most workloads can tolerate 1-5% of throttled requests.
   type: Metric
   verified: true
-  visible: true
+  visible: false
   tags:
   - rag
   properties:
@@ -441,7 +441,7 @@
       values:
       - '429'
     threshold: 50.0
-    enabled: true
+    enabled: false
   references:
   - name: Diagnose and troubleshoot Azure Cosmos DB request rate too large (429) exceptions
     url: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/troubleshoot-request-rate-too-large?tabs=resource-specific#recommended-solution
