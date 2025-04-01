@@ -53,33 +53,33 @@
 
       | where TimeGenerated > now() - 5m
 
-      | extend HostPoolName=tostring(split(ResultDescription, ''|'')[0])
+      | extend HostPoolName=tostring(split(ResultDescription, "|")[0])
 
-      | extend ResourceGroup=tostring(split(ResultDescription, ''|'')[1])
+      | extend ResourceGroup=tostring(split(ResultDescription, "|")[1])
 
-      | extend Type=tostring(split(ResultDescription, ''|'')[2])
+      | extend Type=tostring(split(ResultDescription, "|")[2])
 
-      | extend MaxSessionLimit=toint(split(ResultDescription, ''|'')[3])
+      | extend MaxSessionLimit=toint(split(ResultDescription, "|")[3])
 
-      | extend NumberSessionHosts=toint(split(ResultDescription, ''|'')[4])
+      | extend NumberSessionHosts=toint(split(ResultDescription, "|")[4])
 
-      | extend UserSessionsTotal=toint(split(ResultDescription, ''|'')[5])
+      | extend UserSessionsTotal=toint(split(ResultDescription, "|")[5])
 
-      | extend UserSessionsDisconnected=toint(split(ResultDescription, ''|'')[6])
+      | extend UserSessionsDisconnected=toint(split(ResultDescription, "|")[6])
 
-      | extend UserSessionsActive=toint(split(ResultDescription, ''|'')[7])
+      | extend UserSessionsActive=toint(split(ResultDescription, "|")[7])
 
-      | extend UserSessionsAvailable=toint(split(ResultDescription, ''|'')[8])
+      | extend UserSessionsAvailable=toint(split(ResultDescription, "|")[8])
 
-      | extend HostPoolPercentLoad=toint(split(ResultDescription, ''|'')[9])
+      | extend HostPoolPercentLoad=toint(split(ResultDescription, "|")[9])
 
-      | extend HPResourceId=tostring(split(ResultDescription, ''|'')[13])
+      | extend HPResourceId=tostring(split(ResultDescription, "|")[13])
 
       | extend ResourceId=tostring(HPResourceId)
 
       | where HostPoolPercentLoad >= 85 and HostPoolPercentLoad < 95
 
-      | where HostPoolName =~ ''xHostPoolNamex'''
+      | where HostPoolName =~ "xHostPoolNamex"'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:30:00
@@ -150,33 +150,33 @@
 
       | where TimeGenerated > now() - 5m
 
-      | extend HostPoolName=tostring(split(ResultDescription, ''|'')[0])
+      | extend HostPoolName=tostring(split(ResultDescription, "|")[0])
 
-      | extend ResourceGroup=tostring(split(ResultDescription, ''|'')[1])
+      | extend ResourceGroup=tostring(split(ResultDescription, "|")[1])
 
-      | extend Type=tostring(split(ResultDescription, ''|'')[2])
+      | extend Type=tostring(split(ResultDescription, "|")[2])
 
-      | extend MaxSessionLimit=toint(split(ResultDescription, ''|'')[3])
+      | extend MaxSessionLimit=toint(split(ResultDescription, "|")[3])
 
-      | extend NumberSessionHosts=toint(split(ResultDescription, ''|'')[4])
+      | extend NumberSessionHosts=toint(split(ResultDescription, "|")[4])
 
-      | extend UserSessionsTotal=toint(split(ResultDescription, ''|'')[5])
+      | extend UserSessionsTotal=toint(split(ResultDescription, "|")[5])
 
-      | extend UserSessionsDisconnected=toint(split(ResultDescription, ''|'')[6])
+      | extend UserSessionsDisconnected=toint(split(ResultDescription, "|")[6])
 
-      | extend UserSessionsActive=toint(split(ResultDescription, ''|'')[7])
+      | extend UserSessionsActive=toint(split(ResultDescription, "|")[7])
 
-      | extend UserSessionsAvailable=toint(split(ResultDescription, ''|'')[8])
+      | extend UserSessionsAvailable=toint(split(ResultDescription, "|")[8])
 
-      | extend HostPoolPercentLoad=toint(split(ResultDescription, ''|'')[9])
+      | extend HostPoolPercentLoad=toint(split(ResultDescription, "|")[9])
 
-      | extend HPResourceId=tostring(split(ResultDescription, ''|'')[13])
+      | extend HPResourceId=tostring(split(ResultDescription, "|")[13])
 
       | extend ResourceId=tostring(HPResourceId)
 
       | where HostPoolPercentLoad >= 95
 
-      | where HostPoolName =~ ''xHostPoolNamex'''
+      | where HostPoolName =~ "xHostPoolNamex"'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:30:00
@@ -228,26 +228,26 @@
 
       | project-away TenantId,SourceSystem
 
-      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== \''Started\'',
-      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== \''Connected\'',
+      | summarize arg_max(TimeGenerated, *), StartTime =  min(iff(State== "Started",
+      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State== "Connected",
       TimeGenerated , datetime(null) )) by CorrelationId
 
       | join kind=leftouter (WVDErrors
 
-      |summarize Errors=makelist(pack(\''Code\'', Code, \''CodeSymbolic\'', CodeSymbolic,
-      \''Time\'', TimeGenerated, \''Message\'', Message ,\''ServiceError\'', ServiceError,
-      \''Source\'', Source)) by CorrelationId
+      |summarize Errors=makelist(pack("Code", Code, "CodeSymbolic", CodeSymbolic,
+      "Time", TimeGenerated, "Message", Message ,"ServiceError", ServiceError,
+      "Source", Source)) by CorrelationId
 
       ) on CorrelationId
 
       | join kind=leftouter (WVDCheckpoints
 
-      | summarize Checkpoints=makelist(pack(\''Time\'', TimeGenerated, \''Name\'',
-      Name, \''Parameters\'', Parameters, \''Source\'', Source)) by CorrelationId
+      | summarize Checkpoints=makelist(pack("Time", TimeGenerated, "Name",
+      Name, "Parameters", Parameters, "Source", Source)) by CorrelationId
 
       | mv-apply Checkpoints on (
 
-      order by todatetime(Checkpoints[\''Time\'']) asc
+      order by todatetime(Checkpoints["Time"]) asc
 
       | summarize Checkpoints=makelist(Checkpoints))
 
@@ -368,13 +368,7 @@
     failingPeriods:
       numberOfEvaluationPeriods: 1
       minFailingPeriodsToAlert: 1
-    query: "WVDConnections | where TimeGenerated > ago(24h) | where State == \"Connected\"\
-      \ | where _ResourceId contains \"xHostPoolNamex\" | project CorrelationId ,\
-      \ UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join\
-      \ (WVDConnections\n  | where State == \"Completed\"\n  | project EndTime=TimeGenerated,\
-      \ CorrelationId)\non CorrelationId | project Duration = EndTime - StartTime,\
-      \ ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00)\
-      \ | sort by Duration desc"
+    query: 'WVDConnections | where TimeGenerated > ago(24h) | where State == "Connected" | where _ResourceId contains "xHostPoolNamex" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join(WVDConnections | where State == "Completed" | project EndTime=TimeGenerated, CorrelationId) on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00) | sort by Duration desc'
     autoMitigate: true
     autoResolve: true
     autoResolveTime: 0:30:00
@@ -1244,7 +1238,7 @@
 
       | where TimeGenerated > ago(10m)
 
-      | where Status != \''Available\''
+      | where Status != "Available"
 
       | where AllowNewSessions = True
 
@@ -1260,7 +1254,7 @@
 
       | extend HealthCheckDesc = MapToDesc(HealthCheckName)
 
-      | where HealthCheckDesc != \''InvalidIndex\''
+      | where HealthCheckDesc != "InvalidIndex"
 
       | where _ResourceId contains "xHostPoolNamex"
 
@@ -1329,27 +1323,27 @@
 
       | where TimeGenerated > ago(15m)
 
-      | extend HostPoolName=tostring(split(ResultDescription, ''|'')[0])
+      | extend HostPoolName=tostring(split(ResultDescription, "|")[0])
 
-      | extend ResourceGroup=tostring(split(ResultDescription, ''|'')[1])
+      | extend ResourceGroup=tostring(split(ResultDescription, "|")[1])
 
-      | extend Type=tostring(split(ResultDescription, ''|'')[2])
+      | extend Type=tostring(split(ResultDescription, "|")[2])
 
-      | extend NumberSessionHosts=toint(split(ResultDescription, ''|'')[4])
+      | extend NumberSessionHosts=toint(split(ResultDescription, "|")[4])
 
-      | extend UserSessionsActive=toint(split(ResultDescription, ''|'')[7])
+      | extend UserSessionsActive=toint(split(ResultDescription, "|")[7])
 
-      | extend NumPersonalUnhealthy=toint(split(ResultDescription, ''|'')[10])
+      | extend NumPersonalUnhealthy=toint(split(ResultDescription, "|")[10])
 
       | extend PersonalSessionHost=extract_json("$.SessionHost", tostring(split(ResultDescription,
-      ''|'')[11]), typeof(string))
+      "|")[11]), typeof(string))
 
       | extend PersonalAssignedUser=extract_json("$.AssignedUser", tostring(split(ResultDescription,
-      ''|'')[11]), typeof(string))
+      "|")[11]), typeof(string))
 
-      | where HostPoolName =~ ''xHostPoolNamex''
+      | where HostPoolName =~ "xHostPoolNamex"
 
-      | where Type == ''Personal''
+      | where Type == "Personal"
 
       | where NumPersonalUnhealthy > 0 '
     autoMitigate: true
@@ -1431,26 +1425,26 @@
 
       | project-away TenantId,SourceSystem
 
-      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State==''Started'',
-      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State==''Connected'',
+      | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=="Started",
+      TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=="Connected",
       TimeGenerated , datetime(null) )) by CorrelationId
 
       | join kind=leftouter (WVDErrors
 
-      |summarize Errors=make_list(pack(''Code'', Code, ''CodeSymbolic'', CodeSymbolic,
-      ''Time'', TimeGenerated, ''Message'', Message ,''ServiceError'', ServiceError,
-      ''Source'', Source)) by CorrelationId
+      |summarize Errors=make_list(pack("Code", Code, "CodeSymbolic", CodeSymbolic,
+      "Time", TimeGenerated, "Message", Message ,"ServiceError", ServiceError,
+      "Source", Source)) by CorrelationId
 
       ) on CorrelationId
 
       | join kind=leftouter (WVDCheckpoints
 
-      | summarize Checkpoints=make_list(pack(''Time'', TimeGenerated, ''Name'', Name,
-      ''Parameters'', Parameters, ''Source'', Source)) by CorrelationId
+      | summarize Checkpoints=make_list(pack("Time", TimeGenerated, "Name", Name,
+      "Parameters", Parameters, "Source", Source)) by CorrelationId
 
       | mv-apply Checkpoints on (
 
-      order by todatetime(Checkpoints[''Time'']) asc
+      order by todatetime(Checkpoints["Time"]) asc
 
       | summarize Checkpoints=make_list(Checkpoints))
 
@@ -1462,11 +1456,11 @@
 
       | where TimeGenerated > ago(15m)
 
-      | extend ResourceGroup=tostring(split(_ResourceId, ''/'')[4])
+      | extend ResourceGroup=tostring(split(_ResourceId, "/")[4])
 
-      | extend HostPool=tostring(split(_ResourceId, ''/'')[8])
+      | extend HostPool=tostring(split(_ResourceId, "/")[8])
 
-      | where HostPool =~ ''xHostPoolNamex''
+      | where HostPool =~ "xHostPoolNamex"
 
       | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
 
