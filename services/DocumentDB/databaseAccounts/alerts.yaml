@@ -14,14 +14,17 @@
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Count
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
+    operator: GreaterThanOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     dimensions:
     - operator: include
       name: statuscode
       values:
       - '429'
-    threshold: 5.0
     enabled: true
   references:
   - name: Monitor Azure Cosmos DB
@@ -64,7 +67,7 @@
 - name: ServiceAvailability
   description: Account requests availability at one hour, day or month granularity
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -73,9 +76,9 @@
   properties:
     metricName: ServiceAvailability
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 1
+    severity: 2
     windowSize: PT1H
-    evaluationFrequency: PT5M
+    evaluationFrequency: PT1M
     timeAggregation: Average
     operator: LessThan
     criterionType: StaticThresholdCriterion
@@ -184,7 +187,7 @@
 - name: RegionFailover
   description: Region Failed Over
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -193,7 +196,7 @@
   properties:
     metricName: RegionFailover
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
-    severity: 3
+    severity: 2
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Count
@@ -210,7 +213,7 @@
 - name: UpdateAccountKeys
   description: Account Keys Updated
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -223,14 +226,14 @@
     windowSize: PT5M
     evaluationFrequency: PT5M
     timeAggregation: Count
-    operator: GreaterThanOrEqual
+    operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
     - operator: include
       name: keytype
       values:
       - '*'
-    threshold: 1.0
+    threshold: 0.0
     enabled: true
   references:
   - name: Monitor Azure Cosmos DB
@@ -243,7 +246,7 @@
 - name: DataUsage
   description: Total data usage reported at 5 minutes granularity
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -253,18 +256,21 @@
     metricName: DataUsage
     metricNamespace: Microsoft.DocumentDB/databaseAccounts
     severity: 3
-    windowSize: PT5M
-    evaluationFrequency: PT1M
-    timeAggregation: Total
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 2147483648.0
+    windowSize: PT1H
+    evaluationFrequency: PT15M
+    timeAggregation: Average
+    operator: GreaterThanOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     enabled: true
   guid: 0914c189-0adc-45d6-8704-d2ae73b9b7b6
 - name: MongoRequests
   description: Number of Mongo Requests Made
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -277,9 +283,12 @@
     windowSize: PT5M
     evaluationFrequency: PT1M
     timeAggregation: Count
-    operator: GreaterThan
-    criterionType: StaticThresholdCriterion
-    threshold: 9.0
+    operator: GreaterThanOrLessThan
+    criterionType: DynamicThresholdCriterion
+    failingPeriods:
+      numberOfEvaluationPeriods: 4
+      minFailingPeriodsToAlert: 4
+    alertSensitivity: Low
     enabled: true
   references:
   - name: Monitor Azure Cosmos DB
@@ -319,7 +328,7 @@
   description: P99 Replication Latency across source and target regions for geo-enabled
     account
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -410,3 +419,30 @@
   - name: Create alerts for Azure Cosmos DB using Azure Monitor
     url: https://learn.microsoft.com/azure/cosmos-db/create-alerts
   guid: a7958120-a386-46d0-9790-e80bfa72fb22
+- name: ThrottledRequests
+  description: Throttled requests for Cosmos DB request rate too large (429) exceptions. Most workloads can tolerate 1-5% of throttled requests.
+  type: Metric
+  verified: true
+  visible: false
+  tags:
+  - rag
+  properties:
+    metricName: ThrottledRequests
+    metricNamespace: Microsoft.DocumentDB/databaseAccounts
+    severity: 2
+    windowSize: PT5M
+    evaluationFrequency: PT1M
+    timeAggregation: Count
+    operator: GreaterThan
+    criterionType: StaticThresholdCriterion
+    dimensions:
+    - operator: include
+      name: statuscode
+      values:
+      - '429'
+    threshold: 50.0
+    enabled: false
+  references:
+  - name: Diagnose and troubleshoot Azure Cosmos DB request rate too large (429) exceptions
+    url: https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/troubleshoot-request-rate-too-large?tabs=resource-specific#recommended-solution
+  guid: fc8db431-f429-40ee-a51a-de1858198e19
