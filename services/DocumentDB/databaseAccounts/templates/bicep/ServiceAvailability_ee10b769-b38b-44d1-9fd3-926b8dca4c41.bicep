@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 1
+param alertSeverity int = 2
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -73,7 +73,7 @@ param windowSize string = 'PT1H'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT5M'
+param evaluationFrequency string = 'PT1M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
