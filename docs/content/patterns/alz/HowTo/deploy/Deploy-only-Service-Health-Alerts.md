@@ -4,6 +4,13 @@ geekdocCollapseSection: true
 weight: 80
 ---
 
+{{< hint type=Info >}}
+Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
+</br>
+</br>
+***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
+{{< /hint >}}
+
 ### In this page
 
 > [Quick deployment](../Deploy-only-Service-Health-Alerts#quick-deployment) </br>
@@ -29,7 +36,7 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2024-12-10/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
@@ -259,7 +266,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2024-12-10/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-03-03/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>

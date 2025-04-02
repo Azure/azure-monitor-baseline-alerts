@@ -4,6 +4,13 @@ geekdocCollapseSection: true
 weight: 10
 ---
 
+{{< hint type=Info >}}
+Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
+</br>
+</br>
+***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
+{{< /hint >}}
+
 ### In this page
 
 > [Overview](../ALZ-Pattern#overview) </br>

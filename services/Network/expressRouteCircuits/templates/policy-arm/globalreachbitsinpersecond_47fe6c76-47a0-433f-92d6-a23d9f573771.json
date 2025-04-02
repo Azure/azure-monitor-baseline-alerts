@@ -70,7 +70,7 @@
               "3",
               "4"
             ],
-            "defaultValue": ""
+            "defaultValue": "2"
           },
           "windowSize": {
             "type": "String",
@@ -88,7 +88,7 @@
               "PT12H",
               "P1D"
             ],
-            "defaultValue": ""
+            "defaultValue": "PT5M"
           },
           "evaluationFrequency": {
             "type": "String",
@@ -103,7 +103,7 @@
               "PT30M",
               "PT1H"
             ],
-            "defaultValue": ""
+            "defaultValue": "PT5M"
           },
           "autoMitigate": {
             "type": "String",
@@ -191,6 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
+              "name": "[[concat(field('name'), '-globalreachbitsinpersecond')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -231,7 +232,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
-                    "equals": ""
+                    "equals": "LessThan"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -304,7 +305,7 @@
                                 "name": "globalreachbitsinpersecond",
                                 "metricNamespace": "Microsoft.Network/expressRouteCircuits",
                                 "metricName": "globalreachbitsinpersecond",
-                                "operator": "",
+                                "operator": "LessThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",
                                 "criterionType": "StaticThresholdCriterion"

@@ -43,14 +43,6 @@ process {
                 if ($alert.type -eq "Metric" -and $alert.properties.criterionType -eq "DynamicThresholdCriterion") {
                     $alertTemplate = Get-Content ".\policy\metric-dynamic-full-arm.json"
                 }
-                # TODO: Add support for Log alerts, need to fix query format and dimensions
-                #if ($alert.type -eq "Log") {
-                #    $alertTemplate = Get-Content "C:\Repos\azure-monitor-baseline-alerts\tooling\generate-templates\policy\log.json"
-                #}
-                # TODO: Add support for Activity Log alerts, dependecy on resource type
-                #if ($alert.type -eq "ActivityLog" -and $alert.properties.category -eq "Administrative") {
-                #    $alertTemplate = Get-Content "C:\Repos\azure-monitor-baseline-alerts\tooling\generate-templates\policy\activity-administrative.json"
-                #}
                 $alertTemplate = $alertTemplate -replace "##TELEMETRY_PID##", 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d'
                 $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", $alert.guid
                 if ($alert.deployments.name -ne $null) {
@@ -96,6 +88,58 @@ process {
                 }
                 # Write the policy template to a file
                 Out-File -FilePath "$($policyPathName)templates\policy-arm\$($policyFileName)_$($alert.guid).json" -InputObject $alertTemplate
+            }
+            elseif ($alert.type -eq "Log") {
+              $alertTemplate = Get-Content ".\policy\log-full-arm.json"
+              $alertTemplate = $alertTemplate -replace "##TELEMETRY_PID##", 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d'
+              $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", $alert.guid
+              if ($alert.deployments.name -ne $null) {
+                $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", $alert.deployments.name
+                $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/$($alert.deployments.name)"
+              }
+              if ($alert.deployments.name -eq $null) {
+                $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", "Deploy $($alert.name) Alert"
+                $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/Deploy $($alert.name) Alert"
+              }
+
+              $parts = $policyPathName -split '\\'
+              $secondToLastIndex = $parts.Length - 2
+              $thirdToLastIndex = $parts.Length - 3
+              $category = $parts[$thirdToLastIndex]
+              $resourceType = 'Microsoft.' + $parts[$thirdToLastIndex] + '/' + $parts[$secondToLastIndex]
+
+              $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
+              $alertTemplate = $alertTemplate -replace "##RESOURCE_TYPE##", $resourceType
+              $alertTemplate = $alertTemplate -replace "##SEVERITY##", $alert.properties.severity
+              $alertTemplate = $alertTemplate -replace "##OPERATOR##", $alert.properties.operator
+              $alertTemplate = $alertTemplate -replace "##TIME_AGGREGATION##", $alert.properties.timeAggregation
+              $alertTemplate = $alertTemplate -replace "##WINDOW_SIZE##", $alert.properties.windowSize
+              $alertTemplate = $alertTemplate -replace "##EVALUATION_FREQUENCY##", $alert.properties.evaluationFrequency
+              $alertTemplate = $alertTemplate -replace "##THRESHOLD##", $alert.properties.threshold
+              $alertTemplate = $alertTemplate -replace "##MIN_FAILING_PERIODS##", $alert.properties.failingPeriods.minFailingPeriodsToAlert
+              $alertTemplate = $alertTemplate -replace "##NUMBER_OF_EVALUATION_PERIODS##", $alert.properties.failingPeriods.numberOfEvaluationPeriods
+              $alertName = $alert.name -replace "[^a-zA-Z_]", ""
+              $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
+              $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
+              $alertTemplate = $alertTemplate -replace "##QUERY##", (($alert.properties.query -replace "`n", "") -replace '"', '\"')
+
+              if($alert.properties.dimensions.Count -eq 0) {
+                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", "[]"
+              } elseif($alert.properties.dimensions.Count -eq 1) {
+                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", ("[" + ($alert.properties.dimensions | ConvertTo-Json -Compress) + "]")
+              }
+              else {
+                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", ($alert.properties.dimensions | ConvertTo-Json -Compress)
+              }
+
+              if (-not (Test-Path -Path $policyDirectory)) {
+                New-Item -ItemType Directory -Path $policyDirectory -Force
+              }
+              if ($policyFileName -eq "") {
+                  $policyFileName = $alert.name -replace "[^a-zA-Z0-9-]", ""
+              }
+              # Write the policy template to a file
+              Out-File -FilePath "$($policyPathName)templates\policy-arm\$($policyFileName)_$($alert.guid).json" -InputObject $alertTemplate
             }
         }
     } -ThrottleLimit 10
