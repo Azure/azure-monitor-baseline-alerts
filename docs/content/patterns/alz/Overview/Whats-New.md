@@ -30,7 +30,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Bug Fixes
 
-- No new bugs received
+- Resolved [[#553](https://github.com/Azure/azure-monitor-baseline-alerts/pull/553)]: AMBA-ALZ portal not honoring RG name customization
 
 ### Documentation Updates
 
