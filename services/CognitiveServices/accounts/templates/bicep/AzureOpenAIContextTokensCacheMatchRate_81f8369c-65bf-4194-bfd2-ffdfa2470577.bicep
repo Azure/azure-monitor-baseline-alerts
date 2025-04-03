@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Percentage of the prompt tokens hit the cache, avaiable for PTU-managed.'
+param alertDescription string = 'Percentage of the prompt tokens hit the cache, available for PTU-managed.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -50,7 +50,7 @@ param threshold int = 75
   'Total'
   'Count'
 ])
-param timeAggregation string = 'Total'
+param timeAggregation string = 'Average'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([

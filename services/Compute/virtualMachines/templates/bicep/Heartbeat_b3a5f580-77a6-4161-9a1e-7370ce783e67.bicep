@@ -48,7 +48,7 @@ param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = 'Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\'minute\',now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId '
+param query string = 'Heartbeat | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff("minute",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId '
 
 @description('Name of the measure column used in the alert evaluation.')
 param metricMeasureColumn string = 'AggregatedValue'
@@ -156,11 +156,6 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
           dimensions: [
             {
               name: 'Computer'
-              operator: 'Include'
-              values: ['*']
-            }
-            {
-              name: 'Disk'
               operator: 'Include'
               values: ['*']
             }]
