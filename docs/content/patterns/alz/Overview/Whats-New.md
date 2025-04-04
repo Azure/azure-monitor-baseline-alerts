@@ -6,7 +6,7 @@ weight: 09
 
 ### In this page
 
-> [2025-04-03](../Whats-New#2025-04-03) </br>
+> [2025-04-04](../Whats-New#2025-04-04) </br>
 > [2025-03-03](../Whats-New#2025-03-03) </br>
 > [2025-02-05](../Whats-New#2025-02-05) </br>
 > [2025-01-10](../Whats-New#2025-01-10) </br>
@@ -22,7 +22,7 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
-## 2025-04-03
+## 2025-04-04
 
 ### New Features
 
