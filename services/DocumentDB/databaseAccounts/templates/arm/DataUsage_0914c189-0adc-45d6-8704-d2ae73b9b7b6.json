@@ -59,28 +59,45 @@
     },
     "operator": {
       "type": "string",
-      "defaultValue": "GreaterThan",
+      "defaultValue": "GreaterThanOrLessThan",
       "allowedValues": [
-        "Equals",
         "GreaterThan",
-        "GreaterThanOrEqual",
         "LessThan",
-        "LessThanOrEqual"
+        "GreaterOrLessThan"
       ],
       "metadata": {
         "description": "Operator comparing the current value with the threshold value."
       }
     },
-    "threshold": {
+    "alertSensitivity": {
       "type": "string",
-      "defaultValue": "2147483648",
+      "defaultValue": "Low",
+      "allowedValues": [
+        "High",
+        "Medium",
+        "Low"
+      ],
       "metadata": {
-        "description": "The threshold value at which the alert is activated."
+        "description": "Tunes how 'noisy' the Dynamic Thresholds alerts will be: 'High' will result in more alerts while 'Low' will result in fewer alerts."
+      }
+    },
+    "numberOfEvaluationPeriods": {
+      "type": "int",
+      "defaultValue": 4,
+      "metadata": {
+        "description": "The number of periods to check in the alert evaluation."
+      }
+    },
+    "minFailingPeriodsToAlert": {
+      "type": "int",
+      "defaultValue": 4,
+      "metadata": {
+        "description": "The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods)."
       }
     },
     "timeAggregation": {
       "type": "string",
-      "defaultValue": "Total",
+      "defaultValue": "Average",
       "allowedValues": [
         "Average",
         "Minimum",
@@ -94,24 +111,20 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "PT5M",
+      "defaultValue": "PT1H",
       "allowedValues": [
-        "PT1M",
         "PT5M",
         "PT15M",
         "PT30M",
-        "PT1H",
-        "PT6H",
-        "PT12H",
-        "P1D"
+        "PT1H"
       ],
       "metadata": {
-        "description": "Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format."
+        "description": "Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format."
       }
     },
     "evaluationFrequency": {
       "type": "string",
-      "defaultValue": "PT1M",
+      "defaultValue": "PT15M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -168,13 +181,17 @@
           "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
           "allOf": [
             {
+              "criterionType": "DynamicThresholdCriterion",
               "name": "1st criterion",
               "metricName": "DataUsage",
               "dimensions": [],
               "operator": "[parameters('operator')]",
-              "threshold": "[parameters('threshold')]",
-              "timeAggregation": "[parameters('timeAggregation')]",
-              "criterionType": "StaticThresholdCriterion"
+              "alertSensitivity": "[parameters('alertSensitivity')]",
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": "[parameters('numberOfEvaluationPeriods')]",
+                "minFailingPeriodsToAlert": "[parameters('minFailingPeriodsToAlert')]"
+              },
+              "timeAggregation": "[parameters('timeAggregation')]"
             }
           ]
         }
