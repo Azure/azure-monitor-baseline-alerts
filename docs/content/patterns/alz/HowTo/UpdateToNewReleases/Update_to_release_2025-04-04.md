@@ -1,15 +1,15 @@
 ---
-title: Updating to release 2025-01-10
+title: Updating to release 2025-04-04
 geekdocCollapseSection: true
-weight: 94
+weight: 91
 ---
 
 ### In this page
 
-> [Update](../Update_to_release_2025-01-10#update) </br>
+> [Update](../Update_to_release_2025-04-04#update)
 
 {{< hint type=Info >}}
-**_No pre-update or post-update actions_** are required when updating from telease 2024-12-10.
+**_No pre-update or post-update actions_** are required when updating from release 2025-03-03.
 {{< /hint >}}
 
 ## Update

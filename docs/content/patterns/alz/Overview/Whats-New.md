@@ -6,6 +6,7 @@ weight: 09
 
 ### In this page
 
+> [2025-04-04](../Whats-New#2025-04-04) </br>
 > [2025-03-03](../Whats-New#2025-03-03) </br>
 > [2025-02-05](../Whats-New#2025-02-05) </br>
 > [2025-01-10](../Whats-New#2025-01-10) </br>
@@ -20,6 +21,25 @@ weight: 09
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
+
+## 2025-04-04
+
+### New Features
+
+- Ability to exclude Management Groups and/or Subscriptions from policy assignments [Exclude Management Groups and/or Subscriptions from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).
+
+### Bug Fixes
+
+- Resolved [[#553](https://github.com/Azure/azure-monitor-baseline-alerts/pull/553)]: AMBA-ALZ portal not honoring RG name customization
+
+### Documentation Updates
+
+- The [MonitorDisable Parameter](../../HowTo/Disabling-Policies#monitordisable-parameter) section of the [Disable Policies](../../HowTo/Disabling-Policies) page Was updated to clarify the parameter behavior difference when used with metric or log-search alerts.
+- Added a new entry under the [How to](../../HowTo/_index) section to document the new [Exclude Management Groups and/or Subscriptions from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment) feature.
+
+### Tools
+
+- Updated the UnitTest to ensure the correct policy version update.
 
 ## 2025-03-03
 
