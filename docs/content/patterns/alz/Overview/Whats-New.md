@@ -39,7 +39,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Tools
 
-- Updated the UnitTest to ensure the correct policy version update for existing.
+- Updated the UnitTest to ensure the correct policy version update.
 
 ## 2025-03-03
 
