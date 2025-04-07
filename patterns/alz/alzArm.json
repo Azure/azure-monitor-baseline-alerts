@@ -1022,7 +1022,9 @@
             "name": "[variables('deploymentNames').policyDefinitionsWebDeploymentName]",
             "location": "[deployment().location]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('enterpriseScaleCompanyPrefix'))]",
-            "dependsOn": [],
+            "dependsOn": [
+              "[variables('deploymentNames').policyDefinitionsMonitoringDeploymentName]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
