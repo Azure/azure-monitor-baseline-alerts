@@ -62,6 +62,41 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
+    It "Check if policy version has been correctly incremented" -Skip:($ModifiedFiles -ne $null){
+      $ModifiedAddedFiles | ForEach-Object {
+        if (($_ -notcontains 'templates') -or ($_ -contains 'policy/')) {
+          $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
+          $PolicyFile = Split-Path $_ -Leaf
+          $PreviousPolicyDefinitionRawUrl = "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/$_"
+          $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
+          Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
+          $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
+
+          #Assembling custom version object for previous policy
+          $PreviousPolicyMetadataVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
+
+          #Assembling custom version object for current policy
+          $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
+
+          if (($CurrentPolicyMetadataVersion -ne $null ) -and ($PreviousPolicyMetadataVersion -ne $null)){
+            #Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($CurrentPolicyMetadataVersion). Previous metadata version is : $($PreviousPolicyMetadataVersion)"
+
+            $CurrentPolicyMetadataVersion.Major | Should -Be $PreviousPolicyMetadataVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
+
+            if($CurrentPolicyMetadataVersion.Minor -gt $PreviousPolicyMetadataVersion.Minor) {
+              $CurrentPolicyMetadataVersion.Patch | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Patch] version to be reset to 0. When incrementing the [Minor] version , ensure the [Patch] version of [$PolicyFile] is reset to 0."
+            }
+            elseif ($CurrentPolicyMetadataVersion.Minor -eq $PreviousPolicyMetadataVersion.Minor) {
+              $CurrentPolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyMetadataVersion.Patch -Because "Incrementing the [Patch] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Patch] version of [$PolicyFile] is incremented by 1."
+            }
+            else {
+              $CurrentPolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyMetadataVersion.Patch -Because "The [Patch] version of policy version cannot be decremented. Ensure the [Patch] version of [$PolicyFile] is set the same value it was."
+            }
+          }
+        }
+      }
+    }
+
     It "Check deprecated policy contains all required metadata" {
       $ModifiedAddedFiles | ForEach-Object {
         if (($_ -notcontains 'templates') -or ($_ -contains 'policy/')) {
@@ -124,15 +159,17 @@ Describe 'UnitTest-ModifiedPolicies' {
     <# Commenting this block since we use a different name for policy name and file name
     It "Check policy metadata name matches policy filename" {
       $ModifiedAddedFiles | ForEach-Object {
-        $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
-        $PolicyFile = Split-Path $_ -Leaf
-        $PolicyMetadataName = $PolicyJson.name
-        $PolicyFileNoExt = [System.IO.Path]::GetFileNameWithoutExtension($PolicyFile)
-        if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.ContEnterpriains("AzureUSGovernment")) {
-          $PolicyFileNoExt = $PolicyFileNoExt.Substring(0, $PolicyFileNoExt.IndexOf("."))
+      if (($_ -notcontains 'templates') -or ($_ -contains 'policy/')) {
+          $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
+          $PolicyFile = Split-Path $_ -Leaf
+          $PolicyMetadataName = $PolicyJson.name
+          $PolicyFileNoExt = [System.IO.Path]::GetFileNameWithoutExtension($PolicyFile)
+          if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.ContEnterpriains("AzureUSGovernment")) {
+            $PolicyFileNoExt = $PolicyFileNoExt.Substring(0, $PolicyFileNoExt.IndexOf("."))
+          }
+          # Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
+          $PolicyMetadataName | Should -Be $PolicyFileNoExt
         }
-        # Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
-        $PolicyMetadataName | Should -Be $PolicyFileNoExt
       }
     }#>
   }
