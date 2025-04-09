@@ -413,7 +413,8 @@ locals {
 }
 
 module "amba_alz" {
-  source = "../../"
+  source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
+  version = "0.1.0"
   providers = {
     azurerm = azurerm.management
   }
@@ -459,7 +460,7 @@ module "amba_policy" {
 This example demonstrates how to deploy the AMBA ALZ pattern using an existing custom management group hierarchy.
 
 1. Create the `./lib` directory.
-1. Create the `custom.alz_architecture_definition.json` file. Refer to examples/custom-architecture-definition for a sample.
+1. Create the `custom.alz_architecture_definition.json` file in the lib directory. Refer to examples/custom-architecture-definition for a sample.
 1. Adjust the management group names in `custom.alz_architecture_definition.json`.
 
 ```hcl
@@ -532,7 +533,8 @@ locals {
 }
 
 module "amba_alz" {
-  source = "../../"
+  source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
+  version = "0.1.0"
   providers = {
     azurerm = azurerm.management
   }
@@ -559,19 +561,6 @@ module "amba_policy" {
   }
 }
 ```
-
-## Role assignment
-
-You need to create two additional role assignments for each of the managed identities associated with the following policy assignments.
-
-- landingzones/Deploy-AMBA-HybridVM
-- landingzones/Deploy-AMBA-VM
-
-The managed identities of the listed Policy Assignments require the Managed Identity Operator  role to manage the User Assigned Managed Identity that was deployed by module avm-ptn-monitoring-amba-alz (output `user_assigned_managed_identity_resource_id`).
-
-If you bring your own user assigned managed identity this role must be granted to manage that identity.
-
-We plan to automate this step in the future.
 
 ## Next Steps
 
