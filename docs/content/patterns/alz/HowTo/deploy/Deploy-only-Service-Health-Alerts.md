@@ -18,7 +18,7 @@ Accessing Security Advisories in Azure Service Health now requires elevated acce
 > [Next Steps](../Deploy-only-Service-Health-Alerts#next-steps) </br>
 
 {{< hint type=Important >}}
-Updating from the _**preview**_ version isn't supported. If you deployed the _**preview**_ version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
+Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
 
 This guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When deploying one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions provided in the ALZ Pattern, which is recommended if you plan to deploy other Policy Set Definitions in the future. If you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions later. This document covers two deployment options:
@@ -36,7 +36,7 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-04-04/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
@@ -47,25 +47,25 @@ The following changes apply to all scenarios, whether you are aligned or unalign
   While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is recommended to configure at least one option.
   {{< /hint >}}
 
-  - Change the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
-  - Change the value of _```bringYourownUserAssignedManagedIdentity```_ to **Yes** if you have an existing user assigned managed identity with the _**Monitoring Reader**_ role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
-  - Change the value of _```bringYourownUserAssignedManagedIdentityResourceId```_. If you set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes**, insert the resource ID of your user assigned managed identity. If you left it with the default value of **No**, leave the value blank.
-  - Change the value of _```userAssignedManagedIdentityName```_ to a name of your preference. This parameter is used only if the _```bringYourownUserAssignedManagedIdentity```_ has been set to **No**.
-  - Change the value of _```managementSubscriptionId```_. If you set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **No**, enter the subscriptionId of the management subscription, otherwise leave the default value.
-  - Change the value of _```ALZMonitorResourceGroupName```_ to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
-  - Change the value of _```ALZMonitorResourceGroupTags```_ to specify the tags to be added to said resource group.
-  - Change the value of _```ALZMonitorResourceGroupLocation```_ to specify the location for said resource group.
-  - Change the value of _```ALZMonitorActionGroupEmail```_ to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
-  - Change the value of _```ALZLogicappResourceId```_ to the Logic app resource ID to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used.
-  - Change the value of _```ALZLogicappCallbackUrl```_ to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [_**Get-AzLogicAppTriggerCallbackUrl**_](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to _**Logic app designer**_, expand the trigger activity (_When an HTTP request is received_) and copy the value in the URL field using the 2-sheets icon.
+  - Change the value of *```enterpriseScaleCompanyPrefix```* to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
+  - Change the value of *```bringYourownUserAssignedManagedIdentity```* to **Yes** if you have an existing user assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
+  - Change the value of *```bringYourownUserAssignedManagedIdentityResourceId```*. If you set the *```bringYourownUserAssignedManagedIdentity```* parameter to **Yes**, insert the resource ID of your user assigned managed identity. If you left it with the default value of **No**, leave the value blank.
+  - Change the value of *```userAssignedManagedIdentityName```* to a name of your preference. This parameter is used only if the *```bringYourownUserAssignedManagedIdentity```* has been set to **No**.
+  - Change the value of *```managementSubscriptionId```*. If you set the *```bringYourownUserAssignedManagedIdentity```* parameter to **No**, enter the subscriptionId of the management subscription, otherwise leave the default value.
+  - Change the value of *```ALZMonitorResourceGroupName```* to the name of the resource group where the activity logs, resource health alerts, actions groups and alert processing rules will be deployed in.
+  - Change the value of *```ALZMonitorResourceGroupTags```* to specify the tags to be added to said resource group.
+  - Change the value of *```ALZMonitorResourceGroupLocation```* to specify the location for said resource group.
+  - Change the value of *```ALZMonitorActionGroupEmail```* to the email address(es) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no email notification is used.
+  - Change the value of *```ALZLogicappResourceId```* to the Logic app resource ID to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used.
+  - Change the value of *```ALZLogicappCallbackUrl```* to the Logic app callback url of the Logic app you want to use as action for the alerts (including Service Health alerts). Leave the value blank if no Logic app is used. To retrieve the callback url you can either use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic app in the Azure portal, go to ***Logic app designer***, expand the trigger activity (*When an HTTP request is received*) and copy the value in the URL field using the 2-sheets icon.
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Change the value of _```ALZArmRoleId```_ to the Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is required.
-  - Change the value of _```ALZEventHubResourceId```_ to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
-  - Change the value of _```ALZWebhookServiceUri```_ to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
-  - Change the value of _```ALZFunctionResourceId```_ to the Function resource ID to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.
-  - Change the value of _```ALZFunctionTriggerUrl```_ to the Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to _**Code + Test**_, select **Get function URL** from the menu top menu and copy the value in the URL field using the 2-sheets icon.
+  - Change the value of *```ALZArmRoleId```* to the Azure Resource Manager Role(s) where notifications of the alerts (including Service Health alerts) are sent to. Leave the value blank if no Azure Resource Manager Role notification is required.
+  - Change the value of *```ALZEventHubResourceId```* to the Event Hubs to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Event Hubs is used.
+  - Change the value of *```ALZWebhookServiceUri```* to the URI(s) to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Webhook is used.
+  - Change the value of *```ALZFunctionResourceId```* to the Function resource ID to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used.
+  - Change the value of *```ALZFunctionTriggerUrl```* to the Function App trigger url of the function to be used as action for the alerts (including Service Health alerts). Leave the value blank if no Function is used. To retrieve the Function App trigger url with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the menu top menu and copy the value in the URL field using the 2-sheets icon.
 
     ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
@@ -96,39 +96,39 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
   {{< /hint >}}
 
-To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_, _```enableAMBANotificationAssets```_, _```enableAMBAHybridVM```_, _```enableAMBAKeyManagement```_, _```enableAMBALoadBalancing```_, _```enableAMBANetworkChanges```_, _```enableAMBARecoveryServices```_, _```enableAMBAStorage```_, _```enableAMBAVM```_, or _```enableAMBAWeb```_.
+To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
 
 #### If you are aligned to ALZ
 
-- Change the value of _```platformManagementGroup```_ to the management group ID for Platform.
-- Change the value of _```IdentityManagementGroup```_ to the management group ID for Identity.
-- Change the value of _```managementManagementGroup```_ to the management group ID for Management.
-- Change the value of _```connectivityManagementGroup```_ to the management group ID for Connectivity.
-- Change the value of _```LandingZoneManagementGroup```_ to the management group ID for Landing Zones.
+- Change the value of *```platformManagementGroup```* to the management group ID for Platform.
+- Change the value of *```IdentityManagementGroup```* to the management group ID for Identity.
+- Change the value of *```managementManagementGroup```* to the management group ID for Management.
+- Change the value of *```connectivityManagementGroup```* to the management group ID for Connectivity.
+- Change the value of *```LandingZoneManagementGroup```* to the management group ID for Landing Zones.
 
 #### If you are unaligned to ALZ
 
-- Change the value of _```platformManagementGroup```_ to the management group ID for Platform. The same management group ID may be repeated.
-- Change the value of _```IdentityManagementGroup```_ to the management group ID for Identity. The same management group ID may be repeated.
-- Change the value of _```IdentityManagementGroup```_ to the management group ID for Identity. The same management group ID may be repeated.
-- Change the value of _```managementManagementGroup```_ to the management group ID for Management. The same management group ID may be repeated.
-- Change the value of _```connectivityManagementGroup```_ to the management group ID for Connectivity. The same management group ID may be repeated.
-- Change the value of _```LandingZoneManagementGroup```_ to the management group ID for Landing Zones. The same management group ID may be repeated.
+- Change the value of *```platformManagementGroup```* to the management group ID for Platform. The same management group ID may be repeated.
+- Change the value of *```IdentityManagementGroup```* to the management group ID for Identity. The same management group ID may be repeated.
+- Change the value of *```IdentityManagementGroup```* to the management group ID for Identity. The same management group ID may be repeated.
+- Change the value of *```managementManagementGroup```* to the management group ID for Management. The same management group ID may be repeated.
+- Change the value of *```connectivityManagementGroup```* to the management group ID for Connectivity. The same management group ID may be repeated.
+- Change the value of *```LandingZoneManagementGroup```* to the management group ID for Landing Zones. The same management group ID may be repeated.
 
 {{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_ , _```connectivityManagementGroup```_ and _```LZManagementGroup```_ with the same management group id.
+For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables *```identityManagementGroup```*, *```managementManagementGroup```* , *```connectivityManagementGroup```* and *```LZManagementGroup```* with the same management group id.
 {{< /hint >}}
 
 #### If you have a single management group
 
-- Change the value of _```platformManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
-- Change the value of _```IdentityManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
-- Change the value of _```managementManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
-- Change the value of _```connectivityManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
-- Change the value of _```LandingZoneManagementGroup```_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Change the value of *```platformManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Change the value of *```IdentityManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Change the value of *```managementManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Change the value of *```connectivityManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
+- Change the value of *```LandingZoneManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 
 {{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_ and _```LZManagementGroup```_ with the pseudo root management group ID.
+For ease of deployment and maintenance we have kept the same variables. Configure the variables *```enterpriseScaleCompanyPrefix```*, *```platformManagementGroup```*, *```identityManagementGroup```*, *```managementManagementGroup```*, *```connectivityManagementGroup```* and *```LZManagementGroup```* with the pseudo root management group ID.
 {{< /hint >}}
 
 ### 2. Example Parameter file
@@ -256,7 +256,7 @@ pseudoRootManagementGroup="The pseudo root management group ID parenting the Pla
 {{< hint type=Important >}}
 When running Azure CLI from PowerShell the variables have to start with a $.
 
-Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
+Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
 
 The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
@@ -266,7 +266,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-03-03/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
 ```
 
 </br>
@@ -344,7 +344,7 @@ pseudoRootManagementGroup="The pseudo root management group id parenting the ide
 {{< hint type=Important >}}
 When running Azure CLI from PowerShell the variables have to start with a $.
 
-Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should _coincide_ with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
+Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
 
 The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 {{< /hint >}}
@@ -376,7 +376,7 @@ az deployment mg create --name "amba-ServiceHealthAssignment" --template-file .\
 {{< hint type=important >}}
 The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
 
-The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should _coincide_ with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
+The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should *coincide* with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
 {{< /hint >}}
 
 ## Next steps

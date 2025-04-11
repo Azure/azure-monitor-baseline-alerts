@@ -5,11 +5,23 @@ weight: 40
 
 ### In this page
 
+> [Parameter Configuration](../Deploy-with-Azure-CLI#1-parameter-configuration) </br>
+> [Sample Parameter File](../Deploy-with-Azure-CLI#2-sample-parameter-file) </br>
 > [Configuring Variables for Deployment](../Deploy-with-Azure-CLI#3-configuring-variables-for-deployment) </br>
 > [Deploying AMBA-ALZ](../Deploy-with-Azure-CLI#4-deploying-amba-alz) </br>
 > [Next Steps](../Deploy-with-Azure-CLI#next-steps) </br>
 
-{{% include "parameterConfiguration.md" %}}
+{{< hint type=Important >}}
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+{{< /hint >}}
+
+## 1. Parameter Configuration
+
+{{% include "parameterConfiguration_1.md" %}}
+
+## 2. Sample Parameter File
+
+{{% include "parameterConfiguration_2.md" %}}
 
 ## 3. Configuring Variables for Deployment
 
@@ -50,7 +62,7 @@ If you have customized the policies as described in [How to modify individual po
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-03-03/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
+az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
 ```
 
 ## Next Steps

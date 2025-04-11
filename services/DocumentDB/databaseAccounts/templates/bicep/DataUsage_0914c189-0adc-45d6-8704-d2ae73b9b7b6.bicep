@@ -5,7 +5,7 @@ param alertName string
 @description('Description of alert')
 param alertDescription string = 'Total data usage reported at 5 minutes granularity'
 
-@description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
+@description('array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
 param targetResourceId array
 
@@ -31,16 +31,25 @@ param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
-  'Equals'
   'GreaterThan'
-  'GreaterThanOrEqual'
   'LessThan'
-  'LessThanOrEqual'
+  'GreaterOrLessThan'
 ])
-param operator string = 'GreaterThan'
+param operator string = 'GreaterThanOrLessThan'
 
-@description('The threshold value at which the alert is activated.')
-param threshold int = 2147483648
+@description('Tunes how \'noisy\' the Dynamic Thresholds alerts will be: \'High\' will result in more alerts while \'Low\' will result in fewer alerts.')
+@allowed([
+  'High'
+  'Medium'
+  'Low'
+])
+param alertSensitivity string = 'Low'
+
+@description('The number of periods to check in the alert evaluation.')
+param numberOfEvaluationPeriods int = 4
+
+@description('The number of unhealthy periods to alert on (must be lower or equal to numberOfEvaluationPeriods).')
+param minFailingPeriodsToAlert int = 4
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -50,20 +59,16 @@ param threshold int = 2147483648
   'Total'
   'Count'
 ])
-param timeAggregation string = 'Total'
+param timeAggregation string = 'Average'
 
-@description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
+@description('Period of time used to monitor alert activity based on the threshold. Must be between five minutes and one hour. ISO 8601 duration format.')
 @allowed([
-  'PT1M'
   'PT5M'
   'PT15M'
   'PT30M'
   'PT1H'
-  'PT6H'
-  'PT12H'
-  'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT1H'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -73,7 +78,7 @@ param windowSize string = 'PT5M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT1M'
+param evaluationFrequency string = 'PT15M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
@@ -104,13 +109,17 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       'odata.type': 'Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria'
       allOf: [
         {
+          criterionType: 'DynamicThresholdCriterion'
           name: '1st criterion'
           metricName: 'DataUsage'
           dimensions: []
           operator: operator
-          threshold: threshold
+          alertSensitivity: alertSensitivity
+          failingPeriods: {
+            numberOfEvaluationPeriods: numberOfEvaluationPeriods
+            minFailingPeriodsToAlert: minFailingPeriodsToAlert
+          }
           timeAggregation: timeAggregation
-          criterionType: 'StaticThresholdCriterion'
         }
       ]
     }

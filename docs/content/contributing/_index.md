@@ -15,7 +15,7 @@ Follow the below instructions, especially the pre-requisites, to get started con
 
 ## Quickstart Guide
 
-If you are looking to help contribute to the definition and guidance for Baseline Alerts, then this section will give you the shortcut way without having deal with the more advance components of this site.
+If you are looking to help contribute to the definition and guidance for Baseline Alerts, then this section will give you the shortcut way without having to deal with the more advanced components of this site.
 
 The example folder structure below highlights all of the key assets that define and/or support the content of this site:
 
@@ -51,9 +51,9 @@ You may need to add new resource provider and/or resource type folders as you de
   description: <alert description>
   type: <alert type>
   properties:
-    <list of properties that define the alert base on type>
+    <list of properties that define the alert based on type>
   references:
-  - <list of urls the contain additional guidance for the alert>
+  - <list of urls that contain additional guidance for the alert>
   deployments:
   - <a list of example deployment templates for the alert>
 ```
@@ -89,7 +89,7 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
 {{< hint type=note >}}
 Please note the following settings in the alert definition:
 
-- *verified:* Alert has verified by the PG.
+- *verified:* Alert has been verified by the PG.
 - *visible:* Alert is visible on the website.
 - *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
 {{< /hint >}}

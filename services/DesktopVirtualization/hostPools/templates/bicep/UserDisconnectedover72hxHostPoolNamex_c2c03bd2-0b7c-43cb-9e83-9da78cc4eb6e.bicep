@@ -48,7 +48,7 @@ param autoMitigate bool = true
 
 @description('Name of the metric used in the comparison to activate the alert.')
 @minLength(1)
-param query string = 'WVDConnections | where TimeGenerated > ago(24h) | where State == "Connected" | where _ResourceId contains "xHostPoolNamex" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join (WVDConnections   | where State == "Completed"   | project EndTime=TimeGenerated, CorrelationId) on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00) | sort by Duration desc'
+param query string = 'WVDConnections | where TimeGenerated > ago(24h) | where State == "Connected" | where _ResourceId contains "xHostPoolNamex" | project CorrelationId , UserName, ConnectionType, StartTime=TimeGenerated, SessionHostName | join(WVDConnections | where State == "Completed" | project EndTime=TimeGenerated, CorrelationId) on CorrelationId | project Duration = EndTime - StartTime, ConnectionType, UserName, SessionHostName | where Duration >= timespan(72:00:00) | sort by Duration desc'
 
 @description('Name of the measure column used in the alert evaluation.')
 param metricMeasureColumn string = ''
