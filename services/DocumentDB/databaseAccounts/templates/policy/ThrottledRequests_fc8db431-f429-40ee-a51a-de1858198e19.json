@@ -1,15 +1,15 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "d5a028d1-ae0e-4349-8a79-630f891c8235",
+  "name": "fc8db431-f429-40ee-a51a-de1858198e19",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Devices IotHubs d2c.telemetry.egress.dropped Alert",
-    "description": "Policy to Audit/Deploy Devices IotHubs d2c.telemetry.egress.dropped Alert",
+    "displayName": "Deploy DocumentDB databaseAccounts ThrottledRequests Alert",
+    "description": "Policy to Audit/Deploy DocumentDB databaseAccounts ThrottledRequests Alert",
     "metadata": {
       "version": "1.0.0-preview",
-      "category": "Devices",
+      "category": "DocumentDB",
       "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -31,7 +31,7 @@
           "3",
           "4"
         ],
-        "defaultValue": "1"
+        "defaultValue": "2"
       },
       "windowSize": {
         "type": "String",
@@ -64,7 +64,7 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M"
+        "defaultValue": "PT1M"
       },
       "autoMitigate": {
         "type": "String",
@@ -96,7 +96,7 @@
           "displayName": "Threshold",
           "description": "Threshold for the alert"
         },
-        "defaultValue": "0"
+        "defaultValue": "50"
       },
       "effect": {
         "type": "String",
@@ -137,7 +137,7 @@
         "allOf": [
           {
             "field": "type",
-            "equals": "Microsoft.Devices/IotHubs"
+            "equals": "Microsoft.DocumentDB/databaseAccounts"
           },
           {
             "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -152,20 +152,20 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-d2ctelemetryegressdropped')]",
+          "name": "[[concat(field('name'), '-ThrottledRequests')]",
           "existenceCondition": {
             "allOf": [
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                "equals": "Microsoft.Devices/IotHubs"
+                "equals": "Microsoft.DocumentDB/databaseAccounts"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
-                "equals": "d2c.telemetry.egress.dropped"
+                "equals": "ThrottledRequests"
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Devices/IotHubs/', field('fullName'))]"
+                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.DocumentDB/databaseAccounts/', field('fullName'))]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -189,7 +189,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                "equals": "Total"
+                "equals": "Count"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
@@ -197,7 +197,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-d2c.telemetry.egress.dropped-threshold-Override_'), field('tags._amba-d2c.telemetry.egress.dropped-threshold-Override_'), parameters('threshold'))]"
+                "equals": "[[if(contains(field('tags'), '_amba-ThrottledRequests-threshold-Override_'), field('tags._amba-ThrottledRequests-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -246,13 +246,13 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-d2ctelemetryegressdropped')]",
+                    "name": "[[concat(parameters('resourceName'), '-ThrottledRequests')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "description": "Metric Alert for Devices IotHubs d2c.telemetry.egress.dropped",
+                      "description": "Metric Alert for DocumentDB databaseAccounts ThrottledRequests",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [
@@ -263,12 +263,12 @@
                       "criteria": {
                         "allOf": [
                           {
-                            "name": "d2c.telemetry.egress.dropped",
-                            "metricNamespace": "Microsoft.Devices/IotHubs",
-                            "metricName": "d2c.telemetry.egress.dropped",
+                            "name": "ThrottledRequests",
+                            "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
+                            "metricName": "ThrottledRequests",
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
-                            "timeAggregation": "Total",
+                            "timeAggregation": "Count",
                             "criterionType": "StaticThresholdCriterion"
                           }
                         ],
@@ -322,7 +322,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-d2c.telemetry.egress.dropped-threshold-Override_'), field('tags._amba-d2c.telemetry.egress.dropped-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[[if(contains(field('tags'), '_amba-ThrottledRequests-threshold-Override_'), field('tags._amba-ThrottledRequests-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }
