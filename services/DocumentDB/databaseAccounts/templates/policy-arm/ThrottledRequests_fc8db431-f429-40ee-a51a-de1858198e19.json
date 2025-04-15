@@ -3,14 +3,14 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "displayName": {
-      "defaultValue": "Deploy Compute virtualMachines Disk Read Operations/Sec Alert",
+      "defaultValue": "Deploy DocumentDB databaseAccounts ThrottledRequests Alert",
       "type": "String",
       "metadata": {
         "description": "Display name of policy"
       }
     },
     "description": {
-      "defaultValue": "Policy to Audit/Deploy Compute virtualMachines Disk Read Operations/Sec Alert",
+      "defaultValue": "Policy to Audit/Deploy DocumentDB databaseAccounts ThrottledRequests Alert",
       "type": "String",
       "metadata": {
         "description": "Description of policy"
@@ -43,7 +43,7 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2021-06-01",
-      "name": "8bc489c0-d2f7-43c1-9bb7-478c9503fb2e",
+      "name": "fc8db431-f429-40ee-a51a-de1858198e19",
       "properties": {
         "policyType": "Custom",
         "mode": "All",
@@ -51,7 +51,7 @@
         "description": "[parameters('description')]",
         "metadata": {
           "version": "1.0.0-preview",
-          "category": "Compute",
+          "category": "DocumentDB",
           "preview": true,
           "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
           "_deployed_by_amba": "True"
@@ -70,7 +70,7 @@
               "3",
               "4"
             ],
-            "defaultValue": "3"
+            "defaultValue": "2"
           },
           "windowSize": {
             "type": "String",
@@ -135,7 +135,7 @@
               "displayName": "Threshold",
               "description": "Threshold for the alert"
             },
-            "defaultValue": "400"
+            "defaultValue": "50"
           },
           "effect": {
             "type": "String",
@@ -176,7 +176,7 @@
             "allOf": [
               {
                 "field": "type",
-                "equals": "Microsoft.Compute/virtualMachines"
+                "equals": "Microsoft.DocumentDB/databaseAccounts"
               },
               {
                 "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -191,20 +191,20 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-Disk Read OperationsSec')]",
+              "name": "[[concat(field('name'), '-ThrottledRequests')]",
               "existenceCondition": {
                 "allOf": [
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                    "equals": "Microsoft.Compute/virtualMachines"
+                    "equals": "Microsoft.DocumentDB/databaseAccounts"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
-                    "equals": "Disk Read Operations/Sec"
+                    "equals": "ThrottledRequests"
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/', field('fullName'))]"
+                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.DocumentDB/databaseAccounts/', field('fullName'))]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -228,7 +228,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                    "equals": "Average"
+                    "equals": "Count"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
@@ -236,7 +236,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                    "equals": "[[if(contains(field('tags'), '_amba-Disk Read Operations/Sec-threshold-Override_'), field('tags._amba-Disk Read Operations/Sec-threshold-Override_'), parameters('threshold'))]"
+                    "equals": "[[if(contains(field('tags'), '_amba-ThrottledRequests-threshold-Override_'), field('tags._amba-ThrottledRequests-threshold-Override_'), parameters('threshold'))]"
                   }
                 ]
               },
@@ -285,13 +285,13 @@
                       {
                         "type": "Microsoft.Insights/metricAlerts",
                         "apiVersion": "2018-03-01",
-                        "name": "[[concat(parameters('resourceName'), '-Disk Read OperationsSec')]",
+                        "name": "[[concat(parameters('resourceName'), '-ThrottledRequests')]",
                         "location": "global",
                         "tags": {
                           "_deployed_by_amba": true
                         },
                         "properties": {
-                          "description": "Metric Alert for Compute virtualMachines Disk Read Operations/Sec",
+                          "description": "Metric Alert for DocumentDB databaseAccounts ThrottledRequests",
                           "severity": "[[parameters('severity')]",
                           "enabled": "[[parameters('enabled')]",
                           "scopes": [
@@ -302,12 +302,12 @@
                           "criteria": {
                             "allOf": [
                               {
-                                "name": "Disk Read Operations/Sec",
-                                "metricNamespace": "Microsoft.Compute/virtualMachines",
-                                "metricName": "Disk Read Operations/Sec",
+                                "name": "ThrottledRequests",
+                                "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
+                                "metricName": "ThrottledRequests",
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
-                                "timeAggregation": "Average",
+                                "timeAggregation": "Count",
                                 "criterionType": "StaticThresholdCriterion"
                               }
                             ],
@@ -361,7 +361,7 @@
                       "value": "[[parameters('enabled')]"
                     },
                     "threshold": {
-                      "value": "[[if(contains(field('tags'), '_amba-Disk Read Operations/Sec-threshold-Override_'), field('tags._amba-Disk Read Operations/Sec-threshold-Override_'), parameters('threshold'))]"
+                      "value": "[[if(contains(field('tags'), '_amba-ThrottledRequests-threshold-Override_'), field('tags._amba-ThrottledRequests-threshold-Override_'), parameters('threshold'))]"
                     }
                   }
                 }
