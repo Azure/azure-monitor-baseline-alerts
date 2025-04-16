@@ -282,7 +282,7 @@ data "azapi_client_config" "current" {}
 provider "alz" {
   library_references = [{
     path = "platform/amba"
-    ref  = "2025.02.0"
+    ref  = "2025.04.0"
   }]
 }
 
@@ -414,7 +414,7 @@ locals {
 
 module "amba_alz" {
   source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
-  version = "0.1.0"
+  version = "0.1.1"
   providers = {
     azurerm = azurerm.management
   }
@@ -471,7 +471,7 @@ provider "alz" {
   library_references = [
     {
       path = "platform/amba"
-      ref  = "2025.02.0"
+      ref  = "2025.04.0"
     },
     {
       custom_url = "${path.root}/lib"
@@ -534,7 +534,7 @@ locals {
 
 module "amba_alz" {
   source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
-  version = "0.1.0"
+  version = "0.1.1"
   providers = {
     azurerm = azurerm.management
   }
