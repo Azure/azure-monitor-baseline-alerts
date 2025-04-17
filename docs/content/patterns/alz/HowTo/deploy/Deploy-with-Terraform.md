@@ -12,9 +12,10 @@ weight: 75
 > [Required Inputs](../Deploy-with-Terraform#Required-Inputs) </br>
 > [Optional Inputs](../Deploy-with-Terraform#Optional-Inputs) </br>
 > [Outputs](../Deploy-with-Terraform#Outputs) </br>
-> [Complete example of deploying AMBA ALZ](../Deploy-with-Terraform#Complete-example-of-deploying-AMBA-ALZ) </br>
-> [Custom Architecture](../Deploy-with-Terraform#Custom-Architecture) </br>
-> [Role assignment](../Deploy-with-Terraform#Role-assignment) </br>
+> [Requirements](../Deploy-with-Terraform#Requirements) </br>
+> [Example - Deploying AMBA ALZ](../Deploy-with-Terraform#Example-Deploying-AMBA-ALZ) </br>
+> [Example - Deploying a Custom Architecture](../Deploy-with-Terraform#Example-Deploying-a-Custom-Architecture) </br>
+> [Data Collection](../Deploy-with-Terraform#Data-Collection) </br>
 > [Next Steps](../Deploy-with-Terraform#Next-Steps) </br>
 
 ## Modules
@@ -27,25 +28,32 @@ Source: Azure/avm-ptn-alz/azurerm
 
 Version: 0.11.0
 
+Terraform registry: [avm-ptn-alz](https://registry.terraform.io/modules/Azure/avm-ptn-alz/azurerm/latest)
+
 ### <a name="module_avm_ptn_monitoring_amba_alz"></a> [avm\_ptn\_monitoring\_amba\_alz](#module\_avm\_ptn\_monitoring\_amba\_alz)
 
 Source: Azure/avm-ptn-monitoring-amba-alz/azurerm
 
-Version: 0.1.0
+Version: 0.1.1
 
+Terraform registry: [avm-ptn-monitoring-amba-alz](https://registry.terraform.io/modules/Azure/avm-ptn-monitoring-amba-alz/azurerm/latest)
+
+{{< hint type=note >}}
 Additionally, the "avm-ptn-monitoring-amba-alz" module calls the following resource modules:
 
-### <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group)
+- #### <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group)
 
-Source: Azure/avm-res-resources-resourcegroup/azurerm
+  Source: Azure/avm-res-resources-resourcegroup/azurerm
 
-Version: 0.2.1
+  Version: 0.2.1
 
-### <a name="module_user_assigned_managed_identity"></a> [user\_assigned\_managed\_identity](#module\_user\_assigned\_managed\_identity)
+- #### <a name="module_user_assigned_managed_identity"></a> [user\_assigned\_managed\_identity](#module\_user\_assigned\_managed\_identity)
 
-Source: Azure/avm-res-managedidentity-userassignedidentity/azurerm
+  Source: Azure/avm-res-managedidentity-userassignedidentity/azurerm
 
-Version: 0.3.3
+  Version: 0.3.3
+
+{{< /hint >}}
 
 ## Features avm-ptn-monitoring-amba-alz module
 
@@ -272,7 +280,19 @@ Description: The user assigned managed identity name
 
 Description: The resource id of the user assigned managed identity
 
-## Complete example of deploying AMBA ALZ
+## Requirements
+
+The following requirements are needed by this module:
+
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.9)
+
+- <a name="requirement_alz"></a> [alz](#requirement\_alz) (~> 0.17.4)
+
+- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.2)
+
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+
+## Example - Deploying AMBA ALZ
 
 This example demonstrates how to deploy the AMBA ALZ pattern using an existing management group hierarchy with default naming as used in the ALZ reference architecture. It shows how to use the variables to customize the deployment.
 
@@ -455,12 +475,12 @@ module "amba_policy" {
 }
 ```
 
-## Custom Architecture
+## Example - Deploying a Custom Architecture
 
 This example demonstrates how to deploy the AMBA ALZ pattern using an existing custom management group hierarchy.
 
 1. Create the `./lib` directory.
-1. Create the `custom.alz_architecture_definition.json` file in the lib directory. Refer to examples/custom-architecture-definition for a sample.
+1. Create the `custom.alz_architecture_definition.json` file in the lib directory. Refer to [examples/custom-architecture-definition](https://github.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/blob/main/examples/custom-architecture-definition) for a sample.
 1. Adjust the management group names in `custom.alz_architecture_definition.json`.
 
 ```hcl
@@ -561,6 +581,10 @@ module "amba_policy" {
   }
 }
 ```
+
+## Data Collection
+
+The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the repository. There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at <https://go.microsoft.com/fwlink/?LinkID=824704>. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.
 
 ## Next Steps
 
