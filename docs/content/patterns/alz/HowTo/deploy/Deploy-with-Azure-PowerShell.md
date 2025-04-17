@@ -5,11 +5,23 @@ weight: 50
 
 ### In this page
 
+> [Parameter Configuration](../Deploy-with-Azure-PowerShell#1-parameter-configuration) </br>
+> [Sample Parameter File](../Deploy-with-Azure-PowerShell#2-sample-parameter-file) </br>
 > [Configuring Variables for Deployment](../Deploy-with-Azure-PowerShell#3-configuring-variables-for-deployment) </br>
 > [Deploy Policy Definitions, Initiatives, and Policy Assignments with Default Settings](../Deploy-with-Azure-PowerShell#4-deploy-policy-definitions-initiatives-and-policy-assignments-with-default-settings) </br>
 > [Next Steps](../Deploy-with-Azure-PowerShell#next-steps) </br>
 
-{{% include "parameterConfiguration.md" %}}
+{{< hint type=Important >}}
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+{{< /hint >}}
+
+## 1. Parameter Configuration
+
+{{% include "parameterConfiguration_1.md" %}}
+
+## 2. Sample Parameter File
+
+{{% include "parameterConfiguration_2.md" %}}
 
 ## 3. Configuring Variables for Deployment
 
@@ -54,10 +66,11 @@ If you have customized the policies as described in [How to Modify Individual Po
 ```powershell
 New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
+
 {{< /hint >}}
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-03-03/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
 
 ## Next Steps

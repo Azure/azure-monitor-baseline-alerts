@@ -22,7 +22,7 @@ To adjust alert thresholds for one or more metric alerts, specify the relevant p
 
 Two versions of the parameter file are available:
 
-1. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) aligned with the latest release.
+1. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-04-04/patterns/alz/alzArm.param.json) aligned with the latest release.
 2. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned with the main branch.
 
 ### Applying Changes to the Parameter File
@@ -94,7 +94,7 @@ The following parameters can be changed for activity log, service health alert, 
 | ALZMonitorResourceGroupTags | Tags to be added to the resource group |
 | ALZMonitorResourceGroupLocation | Location of the resource group for the alerts |
 
-These parameters specify the resource group where activity log alerts will be placed. If the resource group does not exist, it will be created. The `tags` parameter can accept multiple tags if needed, but tags are only applied at the resource group level. By default, the `tags` parameter is set to a single tag with the name *environment* and the value *test*. You can add more tags as required or leave it empty.
+These parameters specify the resource group where activity log alerts will be placed. If the resource group does not exist, it will be created. The `tags` parameter can accept multiple tags if needed, but tags are only applied at the resource group level. By default, the `tags` parameter is set to a single tag with the name _environment_ and the value _test_. You can add more tags as required or leave it empty.
 
 ### Disabling Policies
 

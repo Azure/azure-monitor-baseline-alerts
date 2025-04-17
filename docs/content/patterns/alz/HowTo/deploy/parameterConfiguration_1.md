@@ -3,15 +3,11 @@ title: Parameter Configuration
 geekdocHidden: true
 ---
 
-{{< hint type=Important >}}
-Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
-{{< /hint >}}
 
-## 1. Parameter Configuration
 
 To begin, either download the appropriate parameter file for the version of AMBA-ALZ you are deploying or clone/fork the repository.
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-03-03/patterns/alz/alzArm.param.json) for the latest release.
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-04-03/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group.
@@ -105,113 +101,3 @@ For streamlined deployment and maintenance, we have retained the same variable n
 For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.
 {{< /hint >}}
 
-## 2. Sample Parameter File
-
-The parameter file below is a shortened version for demonstration purposes. Full examples are available in the provided samples.
-
-```json
-{
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "enterpriseScaleCompanyPrefix": {
-      "value": "contoso"
-    },
-    "platformManagementGroup": {
-      "value": "contoso-platform"
-    },
-    "IdentityManagementGroup": {
-      "value": "contoso-identity"
-    },
-    "managementManagementGroup": {
-      "value": "contoso-management"
-    },
-    "connectivityManagementGroup": {
-      "value": "contoso-connectivity"
-    },
-    "LandingZoneManagementGroup": {
-      "value": "contoso-landingzones"
-    },
-    "enableAMBAConnectivity": {
-      "value": "Yes"
-    },
-    "enableAMBAIdentity": {
-      "value": "Yes"
-    },
-    "enableAMBAManagement": {
-      "value": "Yes"
-    },
-    "enableAMBAServiceHealth": {
-      "value": "Yes"
-    },
-    "enableAMBANotificationAssets": {
-      "value": "Yes"
-    },
-    "enableAMBAHybridVM": {
-      "value": "Yes"
-    },
-    "enableAMBAKeyManagement": {
-      "value": "Yes"
-    },
-    "enableAMBALoadBalancing": {
-      "value": "Yes"
-    },
-    "enableAMBANetworkChanges": {
-      "value": "Yes"
-    },
-    "enableAMBARecoveryServices": {
-      "value": "Yes"
-    },
-    "enableAMBAStorage": {
-      "value": "Yes"
-    },
-    "enableAMBAVM": {
-      "value": "Yes"
-    },
-    "enableAMBAWeb": {
-      "value": "Yes"
-    },
-    "telemetryOptOut": {
-      "value": "No"
-    },
-    "bringYourOwnUserAssignedManagedIdentity": {
-      "value": "No"
-    },
-    "bringYourOwnUserAssignedManagedIdentityResourceId": {
-      "value": ""
-    },
-    "userAssignedManagedIdentityName": {
-      "value": "id-amba-prod-001"
-    },
-    "managementSubscriptionId": {
-      "value": ""
-    },
-    "ALZMonitorResourceGroupName": {
-      "value": "rg-amba-monitoring-001"
-    },
-    "ALZMonitorResourceGroupLocation": {
-      "value": "eastus"
-    },
-    "ALZMonitorResourceGroupTags": {
-      "value": {
-        "Project": "amba-monitoring"
-      }
-    },
-    "ALZMonitorDisableTagName": {
-      "value": "MonitorDisable"
-    },
-    "ALZMonitorDisableTagValues": {
-      "value": [
-        "true",
-        "Test",
-        "Dev",
-        "Sandbox"
-      ]
-    },
-    .
-    .
-    .
-    .
-  }
-}
-```

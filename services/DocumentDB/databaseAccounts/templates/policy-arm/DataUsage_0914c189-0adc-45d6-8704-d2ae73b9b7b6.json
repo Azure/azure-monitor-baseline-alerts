@@ -79,16 +79,12 @@
               "description": "Window size for the alert"
             },
             "allowedValues": [
-              "PT1M",
               "PT5M",
               "PT15M",
               "PT30M",
-              "PT1H",
-              "PT6H",
-              "PT12H",
-              "P1D"
+              "PT1H"
             ],
-            "defaultValue": "PT5M"
+            "defaultValue": "PT1H"
           },
           "evaluationFrequency": {
             "type": "String",
@@ -103,7 +99,20 @@
               "PT30M",
               "PT1H"
             ],
-            "defaultValue": "PT1M"
+            "defaultValue": "PT15M"
+          },
+          "alertSensitivity": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Alert Sensitivity",
+              "description": "Alert Sensitivity for the alert"
+            },
+            "allowedValues": [
+              "Low",
+              "Medium",
+              "High"
+            ],
+            "defaultValue": "Low"
           },
           "autoMitigate": {
             "type": "String",
@@ -128,14 +137,6 @@
               "false"
             ],
             "defaultValue": "true"
-          },
-          "threshold": {
-            "type": "String",
-            "metadata": {
-              "displayName": "Threshold",
-              "description": "Threshold for the alert"
-            },
-            "defaultValue": "2147483648"
           },
           "effect": {
             "type": "String",
@@ -227,16 +228,24 @@
                     "equals": "[[parameters('autoMitigate')]"
                   },
                   {
-                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                    "equals": "Total"
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                    "equals": "Average"
                   },
                   {
-                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
-                    "equals": "GreaterThan"
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
+                    "equals": "GreaterThanOrLessThan"
                   },
                   {
-                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                    "equals": "[[if(contains(field('tags'), '_amba-DataUsage-threshold-Override_'), field('tags._amba-DataUsage-threshold-Override_'), parameters('threshold'))]"
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
+                    "equals": "[[parameters('alertSensitivity')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert",
+                    "equals": 4
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods",
+                    "equals": 4
                   }
                 ]
               },
@@ -270,13 +279,13 @@
                       "evaluationFrequency": {
                         "type": "String"
                       },
+                      "alertSensitivity": {
+                        "type": "String"
+                      },
                       "autoMitigate": {
                         "type": "String"
                       },
                       "enabled": {
-                        "type": "String"
-                      },
-                      "threshold": {
                         "type": "String"
                       }
                     },
@@ -305,13 +314,17 @@
                                 "name": "DataUsage",
                                 "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
                                 "metricName": "DataUsage",
-                                "operator": "GreaterThan",
-                                "threshold": "[[parameters('threshold')]",
-                                "timeAggregation": "Total",
-                                "criterionType": "StaticThresholdCriterion"
+                                "operator": "GreaterThanOrLessThan",
+                                "alertSensitivity": "[[parameters('alertSensitivity')]",
+                                "failingPeriods": {
+                                  "minFailingPeriodsToAlert": 4,
+                                  "numberOfEvaluationPeriods": 4
+                                },
+                                "timeAggregation": "Average",
+                                "criterionType": "DynamicThresholdCriterion"
                               }
                             ],
-                            "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
                           },
                           "autoMitigate": "[[parameters('autoMitigate')]",
                           "parameters": {
@@ -324,14 +337,14 @@
                             "evaluationFrequency": {
                               "value": "[[parameters('evaluationFrequency')]"
                             },
+                            "alertSensitivity": {
+                              "value": "[[parameters('alertSensitivity')]"
+                            },
                             "autoMitigate": {
                               "value": "[[parameters('autoMitigate')]"
                             },
                             "enabled": {
                               "value": "[[parameters('enabled')]"
-                            },
-                            "threshold": {
-                              "value": "[[parameters('threshold')]"
                             }
                           }
                         }
@@ -354,14 +367,14 @@
                     "evaluationFrequency": {
                       "value": "[[parameters('evaluationFrequency')]"
                     },
+                    "alertSensitivity": {
+                      "value": "[[parameters('alertSensitivity')]"
+                    },
                     "autoMitigate": {
                       "value": "[[parameters('autoMitigate')]"
                     },
                     "enabled": {
                       "value": "[[parameters('enabled')]"
-                    },
-                    "threshold": {
-                      "value": "[[if(contains(field('tags'), '_amba-DataUsage-threshold-Override_'), field('tags._amba-DataUsage-threshold-Override_'), parameters('threshold'))]"
                     }
                   }
                 }
