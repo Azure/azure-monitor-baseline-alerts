@@ -7,7 +7,7 @@ geekdocCollapseSection: true
 
 The Retrieval-Augmented Generation (RAG) pattern is an industry-standard approach to building applications that use large language models to reason over specific or proprietary data that is not already known to the large language model.
 
-This page provides the alert settings for AI RAG pattern setup. It contains relevant metrics and threshold recommendations for key services involved in a RAG pattern architecture.For a reference architecture design of RAG based on Cloud Adoption Framework please see [Generative AI Architectures & Guides](hhttps://learn.microsoft.com/en-us/azure/cloud-adoption-framework/scenarios/ai/platform/architectures#generative-ai-architectures-and-guides)
+This page provides the alert settings for AI RAG pattern setup. It contains relevant metrics and threshold recommendations for key services involved in a RAG pattern architecture.For a reference architecture design of RAG based on Cloud Adoption Framework please see [Azure OpenAI chat baseline architecture in an Azure landing zone](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/azure-openai-baseline-landing-zone)
 <!--Below is a basic architecture of RAG implementation
 
 
