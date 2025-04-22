@@ -80,6 +80,8 @@ process {
                 $alertTemplate = $alertTemplate -replace "##QUERY##", $alert.properties.query
                 $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", $alert.properties.dimensions
                 $alertTemplate = $alertTemplate -replace "##OPERATION_NAME##", $alert.properties.operationName
+                $policyEffectName = $alert.properties.metricName -replace "[^a-zA-Z0-9 _]", ""
+                $alertTemplate = $alertTemplate -replace "##POLICY_EFFECT_NAME##", $policyEffectName
                 if (-not (Test-Path -Path $policyDirectory)) {
                     New-Item -ItemType Directory -Path $policyDirectory -Force
                 }

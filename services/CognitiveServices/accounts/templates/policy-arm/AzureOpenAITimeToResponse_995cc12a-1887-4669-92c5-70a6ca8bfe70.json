@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.CognitiveServices/accounts/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -228,7 +228,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
-                    "equals": "Total"
+                    "equals": "Average"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
@@ -307,7 +307,7 @@
                                 "metricName": "AzureOpenAITimeToResponse",
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
-                                "timeAggregation": "Total",
+                                "timeAggregation": "Average",
                                 "criterionType": "StaticThresholdCriterion"
                               }
                             ],

@@ -1,12 +1,17 @@
 ---
-title: Platform Monitoring Packs
+title: PaaS Monitoring Packs
 geekdocCollapseSection: true
 weight: 50
 ---
 
 | Pack | Description |
 |---|---|
-| [Web Apps](./AA) | Web Apps Monitoring Pack|
+| [Logic Apps](./LogicApps) | Logic Apps Monitoring Pack|
+| [Azure SQL](./server) | Azure SQL Monitoring Pack|
+| [SQL Managed Instance](./SQLMI) | SQL Managed Instance Monitoring Pack|
+| [Storage](./Storage) | Azure Storage Monitoring Pack|
+| [Web Apps](./WebApp) | Web Apps Monitoring Pack|
+| [Automation Account](./AA) | Web Apps Monitoring Pack|
 | [Key Vault](./KeyVault) | Key Vault Monitoring Pack|
 | [Application Gateway](./AppGW) | Application Gateway Monitoring Pack|
 | [Azure Front Door](./AzFD) | Azure Front Door Monitoring Pack|
