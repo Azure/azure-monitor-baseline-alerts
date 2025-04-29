@@ -1,0 +1,182 @@
+﻿
+# Define the root directory to start searching
+$policiesRootDir = "D:\Sviluppo\azure-monitor-baseline-alerts\services"
+$alertTablesRoorDir = "D:\Sviluppo\azure-monitor-baseline-alerts\docs\content\patterns\alz\getting-started"
+$exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
+
+$severityMapping = [ordered]@{
+    "0" = "Critical"
+    "1" = "Error"
+    "2" = "Warning"
+    "3" = "Informational"
+    "4" = "Verbose"
+}
+
+# Define source table file heading and structure
+$activityLogAlertTableFile = $alertTablesRoorDir + "\Activity-Log-Alerts-Table.md"
+$LogSearchAlertTableFile = $alertTablesRoorDir + "\Log-Search-Alerts-Table.md"
+$metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
+
+# appending lines to Activity Log source table files
+"---" | Out-File $activityLogAlertTableFile -Encoding UTF8
+"title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append -NoNewline
+"`n" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"| Alert Policy Name | Alert Name | Target Resource Type | Alert Scope | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"| ----------------- | ---------- | -------------------- | ----------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+
+# appending lines to Log Search source table files
+"---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
+"title: Metrics alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append -NoNewline
+"`n" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"| Alert Policy Name | Alert Name | Target Resource Type | Alert Scope | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"| ----------------- | ---------- | -------------------- | ----------- | -------- | --------- | -------- | ------- |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+
+# appending lines to Metric source table files
+"---" | Out-File $metricAlertTableFile -Encoding UTF8
+"title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $metricAlertTableFile -Encoding UTF8 -Append -NoNewline
+"`n" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"| Alert Policy Name | Alert Name | Target Resource Type | Alerts Scope | Metric | Aggregation | Operator | Threshold | Severity | Enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"| ----------------- | ---------- | -------------------- | ------------ | ------ | ----------- | -------- | --------- | -------- | ------- |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+
+
+# Get all JSON files under the root directory and its subdirectories
+$jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Where-Object { ($_.FullName -notlike "*\templates\*") -and ($_.Name -notlike "Not_In_Use_*") -and ($_.Name -notIn $exclusionFileList) }
+
+# Loop through each JSON file
+foreach ($file in $jsonFiles) {
+  try {
+
+    #resetting variables
+    $jsonContent = $null
+    $alertType = $null
+    $policyName = $null
+    $alertName = $null
+    $alertScope = $null
+    $targetResourceType = $null
+    $metric = $null
+    $aggregation = $null
+    $operator = $null
+    $threshold = $null
+    $severity = $null
+    $enabled = $null
+
+
+    # Read the JSON file content
+    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+
+    # Get alert type
+    $alertType = $jsonContent.properties.policyRule.then.details.type
+
+    switch ($alertType) {
+      # Activitiy Log source file
+      "Microsoft.Insights/activityLogAlerts" {
+
+        # Process the JSON content
+        $policyName = $jsonContent.properties.displayName
+        if ($jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.count -eq 1) {
+          $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
+          $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.scopes
+
+        }
+        else {
+          $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.name
+          $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.scopes
+        }
+        if ([regex]::Matches($alertScope, '(\b\w+\b)').Success) {
+          $alertScope = [regex]::Matches($alertScope, '(\b\w+\b)').Groups[1].Value
+        }
+        $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
+        $severity = $severityMapping["4"]
+        $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
+
+        # Appending the content to the file
+        "| $policyName | $alertName | $targetResourceType | $alertScope | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+      }
+
+      #Log-Search source file
+      "Microsoft.Insights/scheduledQueryRules" {
+
+        # Process the JSON content
+        $policyName = $jsonContent.properties.displayName
+        if ($jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.count -eq 1) {
+          $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
+          if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
+            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[5].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+          }
+          $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.scopes
+        }
+        else {
+          $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.name
+          if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
+            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+          }
+          $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.scopes
+        }
+        $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
+        if ([regex]::Match($alertScope, '(\w+)').Success) {
+          $alertScope = [regex]::Match($alertScope, '(\w+)').Groups[1].Value
+        }
+        #$targetResourceType = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.targetResourceTypes
+
+        $operator = $jsonContent.properties.parameters.operator.defaultValue
+        $threshold = $jsonContent.properties.parameters.threshold.defaultValue
+        $severity = $severityMapping[$jsonContent.properties.parameters.severity.defaultValue]
+        $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
+
+        # Appending the content to the file
+        "| $policyName | $alertName | $targetResourceType | $alertScope | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+      }
+
+      #Metric source file
+      "Microsoft.Insights/metricAlerts" {
+
+        # Process the JSON content
+        $policyName = $jsonContent.properties.displayName
+        $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
+        if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
+          $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[4].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+        }
+        #$targetResourceType = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.metricNameSpace
+        $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
+        $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.scopes
+        if ([regex]::Matches($alertScope, '(\b\w+\b)').Success) {
+          $alertScope = [regex]::Matches($alertScope, '(\b\w+\b)').Groups[2].Value
+        }
+        $metric = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.metricName
+        $aggregation = $jsonContent.properties.parameters.aggregation.defaultValue
+        if([string]::IsNullOrEmpty($aggregation)) {
+          $aggregation = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.timeAggregation
+        }
+        if([string]::IsNullOrEmpty($operator)) {
+          $operator = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.operator
+        }
+        $threshold = $jsonContent.properties.parameters.threshold.defaultValue
+        if([string]::IsNullOrEmpty($threshold)) {
+          $threshold = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.threshold
+          if([string]::IsNullOrEmpty($threshold)) {
+            $threshold = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.criterionType
+          }
+        }
+        $severity = $severityMapping[$jsonContent.properties.parameters.severity.defaultValue]
+        $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
+
+        # Appending the content to the file
+        "| $policyName | $alertName | $targetResourceType | $alertScope | $metric | $aggregation | $operator | $threshold | $severity | $enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+      }
+
+
+
+    }
+       
+       
+  }
+  catch {
+    Write-Error "Failed to process file: $($file.FullName). Error: $_"
+  }
+}

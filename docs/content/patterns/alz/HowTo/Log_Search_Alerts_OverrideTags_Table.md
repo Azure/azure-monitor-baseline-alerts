@@ -1,5 +1,5 @@
 ---
-title: Log-search alerts table
+title: Log-search alerts override tags table
 geekdocHidden: true
 ---
 

@@ -6,10 +6,9 @@ weight: 30
 
 ### In this page
 
-> [AMBA-ALZ Pattern Metric Alerts Settings](../Alerts-Details#amba-alz-pattern-metric-alerts-settings) </br>
 > [AMBA-ALZ Pattern Activity Log Alerts](../Alerts-Details#amba-alz-pattern-activity-log-alerts) </br>
-> [VM Insights Log Alerts](../Alerts-Details#vm-insights-log-alerts) </br>
-> [Recovery Vault Alerts](../Alerts-Details#recovery-vault-alerts) </br>
+> [AMBA-ALZ Pattern Log-Search Alerts](../Alerts-Details#amba-alz-pattern-log-search-alerts) </br>
+> [AMBA-ALZ Pattern Metric Alerts Settings](../Alerts-Details#amba-alz-pattern-metric-alerts-settings) </br>
 
 To download specific alerts for the AMBA-ALZ pattern, click the Download icon (highlighted in red below) in the top right corner of the page.
 
@@ -20,6 +19,16 @@ For details on which policy alert rules are included in the AMBA-ALZ pattern, vi
 The provided resources, metric alerts, and configurations are intended as a starting point to address key monitoring questions such as "What should we monitor in Azure?" and "What alert settings should we use?". These settings cover the most common components of an Azure Landing Zone. However, we recommend customizing these settings to better suit your specific monitoring needs and Azure usage.
 
 If you have suggestions for additional resources to include, open an Issue on this page with the Azure resource provider and settings you would like to see implemented. While we cannot guarantee implementation, we will carefully consider all suggestions. Alternatively, if you wish to contribute directly, follow the steps in the [Contributor Guide](../../../../contributing).
+
+## AMBA-ALZ Pattern Activity Log Alerts
+
+Refer to the following sections to quickly identify any Service Health issues with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
+
+{{% include "Activity-Log-Alerts-Table.md" %}}
+
+## AMBA-ALZ Pattern Log-Search Alerts
+
+{{% include "Log-Search-Alerts-Table.md" %}}
 
 ## AMBA-ALZ Pattern Metric Alerts Settings
 
@@ -33,44 +42,6 @@ Only a limited number of resources support metric alert rules scoped at the subs
 The table is designed to minimize horizontal scrolling, but it contains substantial information. We recommend clicking on the specific alert name to directly access the JSON definition of the alert.
 {{< /hint >}}
 
-{{< alzMetricAlerts >}}
+{{% include "Metric-Alerts-Table.md" %}}
 
 <sup>1</sup> For more details on why the availability alert thresholds are lower than 100% in this solution when the product group documentation recommends 100%, see the [FAQ](../../Resources/FAQ).
-
-## AMBA-ALZ Pattern Activity Log Alerts
-
-### Activity Log Resource Health
-
-Refer to the following sections to quickly identify any Service Health issues with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
-
-{{< alzActivityLogResourceHealthAlerts >}}
-
-### Service Health Alerts
-
-{{< alzActivityLogServiceHealthAlerts >}}
-
-### Activity Log Administrative
-
-The table below lists several operational Activity Log alerts designed to notify your team when specific resources are deleted.
-
-While there is no specific guidance per resource type, the provided information offers general advice on alerting for the deletion of particular resources. This list may expand in the future, and you are encouraged to create your own alerts following the pattern used for these Activity Log alerts.
-
-{{< alzActivityLogAdministrativeAlerts >}}
-
-## VM Insights Log Alerts
-
-Once VM Insights is enabled in your environment, the following alert rules can be configured via the Baseline Alerts framework.
-
-N/A: Not applicable, not used in the query or used as a parameter.
-
-{{< alzVMInsightsLogAlerts >}}
-
-## Recovery Vault Alerts
-
-The following policy disables the classic alerts available in Azure Backup and enables the Azure Monitor alerts.
-
-Security Alerts and Job Failure alerts are summarized in the "[Using Backup Center](https://learn.microsoft.com/en-us/azure/backup/backup-azure-monitoring-built-in-monitor?tabs=recovery-services-vaults#azure-monitor-alerts-for-azure-backup)" documentation.
-
-| PolicyName                                                                                                                                                                                    | Component                         | Category                                                                                              | Scope    | Support for Multiple Resources | Verified | References                                                                                                                                                                                                                                                                                                            |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|-------------------------------------------------------------------------------------------------------|----------|--------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Deploy RV Backup Health Monitoring Alerts](../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json) | Microsoft.RecoveryServices/Vaults | Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations | Resource | No                             | Y        | [Azure Monitor Alerts for Azure Backup](https://learn.microsoft.com/en-us/azure/backup/backup-azure-monitoring-built-in-monitor?tabs=recovery-services-vaults#azure-monitor-alerts-for-azure-backup) <br> [Move to Azure Monitor Alerts](https://learn.microsoft.com/en-us/azure/backup/move-to-azure-monitor-alerts) |

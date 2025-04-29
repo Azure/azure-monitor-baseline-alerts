@@ -1,5 +1,5 @@
 ---
-title: Metrics alerts table
+title: Metrics alerts override tags table
 geekdocHidden: true
 ---
 
