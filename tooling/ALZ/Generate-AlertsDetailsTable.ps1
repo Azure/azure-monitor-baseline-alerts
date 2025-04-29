@@ -1,7 +1,7 @@
 ﻿
 # Define the root directory to start searching
-$policiesRootDir = "D:\Sviluppo\azure-monitor-baseline-alerts\services"
-$alertTablesRoorDir = "D:\Sviluppo\azure-monitor-baseline-alerts\docs\content\patterns\alz\getting-started"
+$policiesRootDir = ".\services"
+$alertTablesRoorDir = ".\docs\content\patterns\alz\getting-started"
 $exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
 
 $severityMapping = [ordered]@{
