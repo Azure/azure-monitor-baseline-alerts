@@ -35,7 +35,7 @@ param alertSeverity int = 3
   'LessThan'
   'GreaterOrLessThan'
 ])
-param operator string = 'GreaterThanOrLessThan'
+param operator string = 'GreaterOrLessThan'
 
 @description('Tunes how \'noisy\' the Dynamic Thresholds alerts will be: \'High\' will result in more alerts while \'Low\' will result in fewer alerts.')
 @allowed([
