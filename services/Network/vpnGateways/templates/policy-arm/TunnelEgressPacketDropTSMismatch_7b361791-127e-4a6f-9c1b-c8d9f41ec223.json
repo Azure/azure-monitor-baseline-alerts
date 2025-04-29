@@ -205,7 +205,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/vpnGateways/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -353,7 +353,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"
