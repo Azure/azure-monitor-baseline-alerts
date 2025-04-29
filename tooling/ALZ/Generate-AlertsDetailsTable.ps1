@@ -17,7 +17,7 @@ $activityLogAlertTableFile = $alertTablesRoorDir + "\Activity-Log-Alerts-Table.m
 $LogSearchAlertTableFile = $alertTablesRoorDir + "\Log-Search-Alerts-Table.md"
 $metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
 
-# appending lines to Activity Log source table files
+# Appending lines to Activity Log source table files
 "---" | Out-File $activityLogAlertTableFile -Encoding UTF8
 "title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
@@ -26,7 +26,7 @@ $metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 
-# appending lines to Log Search source table files
+# Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
 "title: Metrics alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
@@ -35,7 +35,7 @@ $metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "| ----------------- | ---------- | ----------- | -------------------- | ----------------- | -------------------- |--------- | --------- | -------- | ------- |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 
-# appending lines to Metric source table files
+# Appending lines to Metric source table files
 "---" | Out-File $metricAlertTableFile -Encoding UTF8
 "title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
@@ -56,6 +56,7 @@ foreach ($file in $jsonFiles) {
     $jsonContent = $null
     $alertType = $null
     $policyName = $null
+    $policyNameURL = $null
     $alertName = $null
     $alertScope = $null
     $targetResourceType = $null
@@ -70,6 +71,10 @@ foreach ($file in $jsonFiles) {
 
     # Read the JSON file content
     $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+
+    # Generating the policy name URL
+    $policyNameURL = $($file.FullName -split('azure-monitor-baseline-alerts'))[1]
+    $policyNameURL = '../../../..'+$policyNameURL -replace '\\', '/'
 
     # Get alert type
     $alertType = $jsonContent.properties.policyRule.then.details.type
@@ -101,7 +106,7 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| $policyName | $alertName | $alertScope | $targetResourceType | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 
       }
 
@@ -159,11 +164,11 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| $policyName | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 
       }
 
-      #Metric alerts' source file
+      # Metric alerts' source file
       "Microsoft.Insights/metricAlerts" {
 
         # Process the JSON content
@@ -212,7 +217,7 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| $policyName | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $metric | $aggregation | $operator | $threshold | $severity | $enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $metric | $aggregation | $operator | $threshold | $severity | $enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
 
       }
     }
