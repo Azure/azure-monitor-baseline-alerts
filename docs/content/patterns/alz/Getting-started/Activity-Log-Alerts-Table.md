@@ -16,9 +16,9 @@ geekdocHidden: true
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log VPN Gateway Delete Alert | ActivityVPNGatewayDelete | Microsoft.Network/vpnGateways | subscription | Verbose | true |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Delete Alert | ActivityLAWorkspaceDelete | Microsoft.OperationalInsights/workspaces | subscription | Verbose | true |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Regenerate Key Alert | ActivityLAWorkspaceRegenKey | Microsoft.OperationalInsights/workspaces | subscription | Verbose | true |
-| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Resource Health Unhealthy Alert | ResourceHealthUnhealthyAlert ResourceHealthUnhealthyAlert | Microsoft.Resources/subscriptions | subscription | Verbose | true |
-| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Advisory Alert | ServiceHealthAdvisoryEvent ServiceHealthAdvisoryEvent | Microsoft.Resources/subscriptions | subscription | Verbose | true |
-| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Incident Alert | ServiceHealthIncident ServiceHealthIncident | Microsoft.Resources/subscriptions | subscription | Verbose | true |
-| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Maintenance Alert | ServiceHealthPlannedMaintenance ServiceHealthPlannedMaintenance | Microsoft.Resources/subscriptions | subscription | Verbose | true |
-| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Security Advisory Alert | ServiceHealthSecurityIncident ServiceHealthSecurityIncident | Microsoft.Resources/subscriptions | subscription | Verbose | true |
+| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Resource Health Unhealthy Alert | ResourceHealthUnhealthyAlert | Microsoft.Resources/subscriptions | subscription | Verbose | true |
+| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Advisory Alert | ServiceHealthAdvisoryEvent | Microsoft.Resources/subscriptions | subscription | Verbose | true |
+| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Incident Alert | ServiceHealthIncident | Microsoft.Resources/subscriptions | subscription | Verbose | true |
+| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Maintenance Alert | ServiceHealthPlannedMaintenance | Microsoft.Resources/subscriptions | subscription | Verbose | true |
+| Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Security Advisory Alert | ServiceHealthSecurityIncident | Microsoft.Resources/subscriptions | subscription | Verbose | true |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Storage Account Delete Alert | Activity Log Storage Account Delete | Microsoft.Storage/storageAccounts | subscription | Verbose | true |

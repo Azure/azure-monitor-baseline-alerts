@@ -5,11 +5,11 @@ $alertTablesRoorDir = "D:\Sviluppo\azure-monitor-baseline-alerts\docs\content\pa
 $exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
 
 $severityMapping = [ordered]@{
-    "0" = "Critical"
-    "1" = "Error"
-    "2" = "Warning"
-    "3" = "Informational"
-    "4" = "Verbose"
+  "0" = "Critical"
+  "1" = "Error"
+  "2" = "Warning"
+  "3" = "Informational"
+  "4" = "Verbose"
 }
 
 # Define source table file heading and structure
@@ -52,7 +52,7 @@ $jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Wher
 foreach ($file in $jsonFiles) {
   try {
 
-    #resetting variables
+    # Cleaning-up variables
     $jsonContent = $null
     $alertType = $null
     $policyName = $null
@@ -66,7 +66,6 @@ foreach ($file in $jsonFiles) {
     $severity = $null
     $enabled = $null
 
-
     # Read the JSON file content
     $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
 
@@ -74,7 +73,7 @@ foreach ($file in $jsonFiles) {
     $alertType = $jsonContent.properties.policyRule.then.details.type
 
     switch ($alertType) {
-      # Activitiy Log source file
+      # Activitiy Log alerts' source file
       "Microsoft.Insights/activityLogAlerts" {
 
         # Process the JSON content
@@ -88,6 +87,7 @@ foreach ($file in $jsonFiles) {
           $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.name
           $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.scopes
         }
+
         if ([regex]::Matches($alertScope, '(\b\w+\b)').Success) {
           $alertScope = [regex]::Matches($alertScope, '(\b\w+\b)').Groups[1].Value
         }
@@ -99,7 +99,7 @@ foreach ($file in $jsonFiles) {
         "| $policyName | $alertName | $targetResourceType | $alertScope | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
       }
 
-      #Log-Search source file
+      #Log-Search alerts' source file
       "Microsoft.Insights/scheduledQueryRules" {
 
         # Process the JSON content
@@ -107,22 +107,29 @@ foreach ($file in $jsonFiles) {
         if ($jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.count -eq 1) {
           $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
           if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[5].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[5].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
           }
           $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.scopes
         }
         else {
           $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.name
           if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+            $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
           }
           $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.scopes
         }
         $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
-        if ([regex]::Match($alertScope, '(\w+)').Success) {
-          $alertScope = [regex]::Match($alertScope, '(\w+)').Groups[1].Value
+        if ([regex]::Matches($alertScope, '(\w+)').Success) {
+          if ($file.Name -like "deploy-laworkspace-daily*") {
+            $alertScope = [regex]::Matches($alertScope, '(\w+)').Groups[2].Value
+          }
+          elseif ($file.Name -like "deploy-AppInsightsThrottling*") {
+            $alertScope = [regex]::Matches($alertScope, '(\w+)').Groups[4].Value + "-" + [regex]::Matches($alertScope, '(\w+)').Groups[12].Value
+          }
+          else {
+            $alertScope = [regex]::Match($alertScope, '(\w+)').Groups[1].Value
+          }
         }
-        #$targetResourceType = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.properties.targetResourceTypes
 
         $operator = $jsonContent.properties.parameters.operator.defaultValue
         $threshold = $jsonContent.properties.parameters.threshold.defaultValue
@@ -133,14 +140,14 @@ foreach ($file in $jsonFiles) {
         "| $policyName | $alertName | $targetResourceType | $alertScope | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
       }
 
-      #Metric source file
+      #Metric alerts' source file
       "Microsoft.Insights/metricAlerts" {
 
         # Process the JSON content
         $policyName = $jsonContent.properties.displayName
         $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
         if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-          $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[4].Value+"-"+[regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+          $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[4].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
         }
         #$targetResourceType = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.metricNameSpace
         $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
@@ -150,16 +157,16 @@ foreach ($file in $jsonFiles) {
         }
         $metric = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.metricName
         $aggregation = $jsonContent.properties.parameters.aggregation.defaultValue
-        if([string]::IsNullOrEmpty($aggregation)) {
+        if ([string]::IsNullOrEmpty($aggregation)) {
           $aggregation = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.timeAggregation
         }
-        if([string]::IsNullOrEmpty($operator)) {
+        if ([string]::IsNullOrEmpty($operator)) {
           $operator = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.operator
         }
         $threshold = $jsonContent.properties.parameters.threshold.defaultValue
-        if([string]::IsNullOrEmpty($threshold)) {
+        if ([string]::IsNullOrEmpty($threshold)) {
           $threshold = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.threshold
-          if([string]::IsNullOrEmpty($threshold)) {
+          if ([string]::IsNullOrEmpty($threshold)) {
             $threshold = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.criterionType
           }
         }
@@ -173,8 +180,6 @@ foreach ($file in $jsonFiles) {
 
 
     }
-       
-       
   }
   catch {
     Write-Error "Failed to process file: $($file.FullName). Error: $_"
