@@ -25,6 +25,8 @@ Describe 'UnitTest-ModifiedPolicies' {
     }
 
     $ModifiedAddedFiles = $ModifiedFiles + $AddedFiles
+
+    $ModifiedAddedFiles = $ModifiedAddedFiles | Where-Object {($_ -notcontains 'templates') -or ($_ -contains 'policy/') -and ($_ -like "*.json")}
   }
 
   Context "Validate policy metadata" {
