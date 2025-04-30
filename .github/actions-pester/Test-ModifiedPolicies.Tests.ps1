@@ -2,7 +2,7 @@ Describe 'UnitTest-ModifiedPolicies' {
   BeforeAll {
     Import-Module -Name $PSScriptRoot\PolicyPesterTestHelper.psm1 -Force # -Verbose
 
-    $ModifiedFiles = @(Get-PolicyFiles -DiffFilter "M") | Where-Object {($_ -notcontains 'templates') -or ($_ -contains 'policy/') -and ($_ -like "*.json")}
+    $ModifiedFiles = @(Get-PolicyFiles -DiffFilter "M") | Where-Object {($_ -notlike '*/templates/*') -or ($_ -like '*/policy/*') -and ($_ -like "*.json")}
     if ($ModifiedFiles -ne $null) {
       Write-Warning "These are the modified policies:"
       $ModifiedFiles | ForEach-Object {
@@ -13,7 +13,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       Write-Information "There are no modified policies"
     }
 
-    $AddedFiles = @(Get-PolicyFiles -DiffFilter "A") | Where-Object {($_ -notcontains 'templates') -or ($_ -contains 'policy/') -and ($_ -like "*.json")}
+    $AddedFiles = @(Get-PolicyFiles -DiffFilter "A") | Where-Object {($_ -notlike '*/templates/*') -or ($_ -like '*/policy/*') -and ($_ -like "*.json")}
     if ($AddedFiles -ne $null) {
       Write-Warning "These are the added policies:"
       $AddedFiles | ForEach-Object {
