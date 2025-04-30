@@ -30,7 +30,7 @@ Describe 'UnitTest-ModifiedPolicies' {
 
   Context "Validate policy metadata" {
 
-    It "Check policy metadata version exists" -Skip:($ModifiedAddedFiles -ne $null){
+    It "Check policy metadata version exists" -Skip:($ModifiedAddedFiles -ne $null) {
       $ModifiedAddedFiles | ForEach-Object {
 
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
