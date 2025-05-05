@@ -67,7 +67,7 @@ param resourceIdColumn string = '_ResourceId'
 param operator string = 'LessThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 10
+param threshold int = 20
 
 @description('The number of periods to check in the alert evaluation.')
 param numberOfEvaluationPeriods int = 1
@@ -120,7 +120,7 @@ param windowSize string = 'PT15M'
   'PT6H'
   'P1D'
 ])
-param evaluationFrequency string = 'PT5M'
+param evaluationFrequency string = 'PT15M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()

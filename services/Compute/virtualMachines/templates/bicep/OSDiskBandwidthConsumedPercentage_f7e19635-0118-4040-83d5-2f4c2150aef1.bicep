@@ -63,7 +63,7 @@ param timeAggregation string = 'Average'
   'PT12H'
   'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT1M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([

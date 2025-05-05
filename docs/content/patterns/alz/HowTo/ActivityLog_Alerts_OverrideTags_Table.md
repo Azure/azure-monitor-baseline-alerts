@@ -1,5 +1,5 @@
 ---
-title: Activity Log alerts table
+title: Activity Log alerts override tags table
 geekdocHidden: true
 ---
 
