@@ -22,6 +22,8 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
+To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
 ## 2025-04-04
 
 ### New Features
@@ -57,8 +59,8 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Documentation Updates
 
-- The [The Azure Landing Zones (ALZ) Pattern](../../Overview/ALZ-Pattern) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
-- The [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts) page contains a info box to raise awarenes about an upcoming change in the Azure Service health space which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- The [The Azure Landing Zones (ALZ) Pattern](../../Overview/ALZ-Pattern) page contains an info box to raise awareness about an upcoming change in the Azure Service health space, which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
+- The [Deploy only Service Health Alerts](../../HowTo/deploy/Deploy-only-Service-Health-Alerts) page contains an info box to raise awareness about an upcoming change in the Azure Service health space, which has no impact on the AMBA-ALZ functionalities.has been aligned with the alerts.
 - Added a new entry in the [Known Issues](../../Resources/Known-Issues) page to help customer resolving common errors during the AMBA-ALZ update from previous versions
 
 ### Tools
@@ -79,7 +81,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
   Detailed information on how to use this new feature can be found in the [Exclude logical volumes](../../HowTo/Exclude-Logical-Volumes) page.
 
-- Optimization of calls to Azure Resource Graph inside log-search alert queries. This optimization should reduce and mitigate the throttling issue.
+- Optimizations of calls to Azure Resource Graph inside log-search alert queries. This optimization should reduce and mitigate the throttling issue.
 
 ### Bug Fixes
 
@@ -89,9 +91,9 @@ To update your deployment with the latest release, refer to the [Update to new r
 ### Documentation Updates
 
 - The [Policy Initiatives](../../Getting-started/Policy-Initiatives.md) page has been aligned with the alerts.
-- The [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-your-own-Managed-Identity) page has been updated to list the policy initiatives that makes use of Managed Identity for log-search alerts.
-- An ***In this page*** section with links to contained paragraphs has been added at top of each page to increase the navigation experience.
-- Broken links fixed.
+- The [Bring Your Own User Assigned Managed Identity](../../HowTo/Bring-your-own-Managed-Identity) page has been updated with list the policy initiatives that make use of Managed Identity for log-search alerts.
+- An ***In this page*** section with links to contained paragraphs has been added at the top of each page to increase the navigation experience.
+- Broken links are fixed.
 
 ### Tools
 
@@ -109,7 +111,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 - Added new policies to create Alert rules for Route Table activity:
   - [Preview] Deploy Activity Log Routes Delete Alert
   - [Preview] Deploy Activity Log Route Table Delete Alert
-- Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
+- Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as a filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
 
 ### Bug Fixes
 
@@ -135,7 +137,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### Bug Fixes
 
-- Resolved [[#400](https://github.com/Azure/azure-monitor-baseline-alerts/pull/400)]: Fix for log alerts policy remediation not working when ALZMonitorDisableTagName parameter value contains dashes.
+- Resolved [[#400](https://github.com/Azure/azure-monitor-baseline-alerts/pull/400)]: Fix for log alerts policy remediation not working when the ALZMonitorDisableTagName parameter value contains dashes.
 
 ### Documentation Updates
 
@@ -147,7 +149,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 ### Tools
 
 - **Automation:**
-  - Created workflow to assign issues to the relevant owner based on labels.
+  - Created a workflow to assign issues to the relevant owner based on labels.
   - Added GitHub action to validate yml schemas.
 
 ## 2024-11-01
@@ -184,7 +186,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 ### New Features
 
-- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure Portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
+- **AMBA Portal Accelerator**: Launched the Azure Monitor Baseline Alerts Accelerator in preview, enabling quick and confident alert deployment through the Azure portal UI. For detailed instructions, see [Deploy via the Azure Portal (Preview)](../../HowTo/deploy/Deploy-via-Azure-Portal-UI).
 - **Modular Initiatives**: Deprecated the former Landing Zone Initiative in favor of a modular approach with distinct components. For more details, visit [Policy Initiatives](../../Getting-started/Policy-Initiatives).
 
   - Key Management

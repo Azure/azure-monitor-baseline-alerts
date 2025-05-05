@@ -1,0 +1,24 @@
+---
+title: ActivityLog alerts table
+geekdocHidden: true
+---
+
+| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |
+| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Application Insights Delete Alert](../../../../services/Insights/components/Deploy-ActivityLog-AppInsights-Del.json) | ActivityAppInsightsDelete | subscription | microsoft.insights/components | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Managed HSMs Delete Alert](../../../../services/KeyVault/managedHSMs/Deploy-ActivityLog-HSMs-Del.json) | ActivityManagedHSMDelete | subscription | microsoft.keyvault/managedHSMs | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Key Vault Delete Alert](../../../../services/KeyVault/vaults/Deploy-ActivityLog-KeyVault-Del.json) | ActivityKeyVaultDelete | subscription | microsoft.keyvault/vaults | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Azure FireWall Delete Alert](../../../../services/Network/azureFirewalls/Deploy-ActivityLog-AzureFirewall-Del.json) | ActivityAzureFirewallDelete | subscription | Microsoft.Network/azureFirewalls | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log NSG Delete Alert](../../../../services/Network/networkSecurityGroups/Deploy-ActivityLog-NSG-Del.json) | ActivityNSGDelete | subscription | Microsoft.Network/networkSecurityGroups | Verbose | true |
+| [[Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Route Table Delete Alert](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Delete.json) | ActivityUDRDelete | subscription | Microsoft.Network/routeTables | Verbose | true |
+| [[Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Routes Delete Alert](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Routes-Delete.json) | ActivityUDRRoutesDelete | subscription | Microsoft.Network/routeTables | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Route Table Update Alert](../../../../services/Network/routeTables/Deploy-ActivityLog-RouteTable-Update.json) | ActivityUDRUpdate | subscription | Microsoft.Network/routeTables | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log VPN Gateway Delete Alert](../../../../services/Network/vpnGateways/Deploy-ActivityLog-VPNG-Del.json) | ActivityVPNGatewayDelete | subscription | Microsoft.Network/vpnGateways | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Delete Alert](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json) | ActivityLAWorkspaceDelete | subscription | Microsoft.OperationalInsights/workspaces | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Regenerate Key Alert](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json) | ActivityLAWorkspaceRegenKey | subscription | Microsoft.OperationalInsights/workspaces | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Resource Health Unhealthy Alert](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json) | ResourceHealthUnhealthyAlert | subscription | Microsoft.Resources/subscriptions | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Advisory Alert](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Health.json) | ServiceHealthAdvisoryEvent | subscription | Microsoft.Resources/subscriptions | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Incident Alert](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json) | ServiceHealthIncident | subscription | Microsoft.Resources/subscriptions | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Maintenance Alert](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Maintenance.json) | ServiceHealthPlannedMaintenance | subscription | Microsoft.Resources/subscriptions | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Security Advisory Alert](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Security.json) | ServiceHealthSecurityIncident | subscription | Microsoft.Resources/subscriptions | Verbose | true |
+| [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Storage Account Delete Alert](../../../../services/Storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json) | Activity Log Storage Account Delete | subscription | Microsoft.Storage/storageAccounts | Verbose | true |
