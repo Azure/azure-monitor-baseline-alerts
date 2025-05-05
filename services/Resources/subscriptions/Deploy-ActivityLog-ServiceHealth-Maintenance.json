@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Maintenance Alert",
     "description": "Policy to audit/deploy Service Health Maintenance Alert",
     "metadata": {
-      "version": "1.3.1",
+      "version": "1.4.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -258,7 +258,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ServiceHealthMaintenance",
+                    "name": "ServiceHealthPlannedMaintenance",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
@@ -285,7 +285,6 @@
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthPlannedMaintenance",
@@ -295,48 +294,7 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": [
-                                  {
-                                    "actionGroupId": "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001')]"
-                                  }
-                                ]
-                              },
-                              "description": "Service Health Planned Maintenance Alert",
-                              "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
-                              "condition": {
-                                "allOf": [
-                                  {
-                                    "field": "category",
-                                    "equals": "ServiceHealth"
-                                  },
-                                  {
-                                    "field": "properties.incidentType",
-                                    "equals": "Maintenance"
-                                  }
-                                ]
-                              },
-                              "parameters": {
-                                "enabled": {
-                                  "value": "[[parameters('enabled')]"
-                                }
-                              }
-                            }
-                          },
-                          {
-                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
-                            "type": "microsoft.insights/activityLogAlerts",
-                            "apiVersion": "2020-10-01",
-                            "name": "ServiceHealthPlannedMaintenance",
-                            "location": "global",
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "actions": {
-                                "actionGroups": "[[variables('varActionGroupIds')]"
+                                "actionGroups": "[[if(empty(parameters('BYOActionGroup')), array(createObject('actionGroupId', concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'))), variables('varActionGroupIds'))]"
                               },
                               "description": "Service Health Planned Maintenance Alert",
                               "enabled": "[[parameters('enabled')]",
