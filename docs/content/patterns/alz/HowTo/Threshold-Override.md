@@ -56,18 +56,18 @@ The sample values in the tables ***are not meant*** to serve as recommendations 
 
 </br>
 
-### Log-search alerts table
+### Log-search alerts override tags table
 
-{{% include "Log_Search_Alerts_Table.md" %}}
-
-</br>
-
-### Metric alerts table
-
-{{% include "Metrics_Alerts_Table.md" %}}
+{{% include "Log_Search_Alerts_OverrideTags_Table.md" %}}
 
 </br>
 
-### Activity Log alerts table
+### Metric alerts override tags table
 
-{{% include "ActivityLog_Alerts_Table.md" %}}
+{{% include "Metrics_Alerts_OverrideTags_Table.md" %}}
+
+</br>
+
+### Activity Log alerts override tags table
+
+{{% include "ActivityLog_Alerts_OverrideTags_Table.md" %}}
