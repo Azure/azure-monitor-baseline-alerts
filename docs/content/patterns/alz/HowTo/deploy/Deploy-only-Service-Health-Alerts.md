@@ -34,7 +34,12 @@ In this example we will deploy the Service Health Policy Set Definition via Azur
 
 ### 1. Parameter configuration
 
-To start, you can either download a copy of the parameter file according the version of AMBA-ALZ you are going to deploy or clone/fork the repository.
+To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
+
+  {{< hint type=note >}}
+  Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
+  {{< /hint >}}
+
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-04-04/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
@@ -244,7 +249,7 @@ The parameter file shown below has been truncated for brevity, compared to the s
 
 ### 3. Configuring variables for deployment
 
-Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log into Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
+Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded and log into Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 Run the following commands:
 
@@ -263,10 +268,10 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 
 ### 4. Deploying AMBA-ALZ
 
-Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
+Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters alzArm.param.json
 ```
 
 </br>
@@ -332,7 +337,7 @@ Make sure you have the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure
 
 ### 4. Configuring variables for deployment
 
-Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the root of the cloned repo and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
+Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 Run the following commands:
 

@@ -27,7 +27,7 @@ Updating from the _**preview**_ version is not supported. If you deployed the _*
 
 The following commands are applicable to all scenarios, whether aligned with ALZ, unaligned, or managing a single management group.
 
-Open your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) and navigate to the root directory of the cloned repository. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
+Open your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) to navigate to the folder where the parameter file was downloaded. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
 
 Execute the following commands:
 
@@ -48,7 +48,7 @@ The `location` variable specifies the deployment region. It is not required to d
 
 The following commands are applicable to all scenarios, whether aligned with ALZ, unaligned, or managing a single management group.
 
-Use your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) to navigate to the root directory of the cloned repository. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
+Use your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) to navigate to the folder where the parameter file was downloaded. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
 
 {{< hint type=note >}}
 For testing purposes, it is recommended to deploy in a safe environment first. When preparing for a production deployment, refer to the [Customize Policy Assignment](../Customize-Policy-Assignment) guide to deploy and enable alerts in a controlled and secure manner.
@@ -62,7 +62,7 @@ If you have customized the policies as described in [How to modify individual po
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters ".\patterns\alz\alzArm.param.json"
+az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters "alzArm.param.json"
 ```
 
 ## Next Steps

@@ -27,7 +27,7 @@ Updating from the _**preview**_ version is not supported. If you deployed the _*
 
 These steps are applicable to all scenarios, whether aligned or unaligned with ALZ, or if you have a single management group.
 
-1. Open a PowerShell prompt and navigate to the root of the cloned repository.
+1. Open a PowerShell prompt and navigate to the folder where the parameter file was downloaded.
 2. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives.
 
 Execute the following commands:
@@ -56,7 +56,7 @@ Before starting the deployment, ensure you have logged in using the `Connect-AzA
 
 These steps are applicable to all scenarios, whether aligned or unaligned with ALZ, or if you have a single management group.
 
-If you have closed your previous session, open a PowerShell prompt and navigate to the root of the cloned repository. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives. Then, run the following command:
+If you have closed your previous session, open a PowerShell prompt and navigate to the folder where the parameter file was downloaded. Log in to Azure with an account that has at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and initiatives. Then, run the following command:
 
 {{< hint type=note >}}
 For testing purposes, it is recommended to deploy in a safe environment first. When preparing for production deployment, refer to the [Customize Policy Assignment](../Customize-Policy-Assignment) guide to deploy and enable alerts in a controlled manner.
@@ -70,7 +70,7 @@ New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupI
 {{< /hint >}}
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
 ```
 
 ## Next Steps
