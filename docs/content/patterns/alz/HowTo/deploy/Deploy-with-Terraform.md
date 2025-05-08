@@ -5,65 +5,61 @@ weight: 75
 
 ### On this page
 
-> [Modules](../Deploy-with-Terraform#Modules) </br>
-> [Features `avm-ptn-monitoring-amba-alz` module](../Deploy-with-Terraform#Features-avm-ptn-monitoring-amba-alz-module) </br>
-> [Features `avm-ptn-alz` module](../Deploy-with-Terraform#Features-avm-ptn-alz-module) </br>
-> [AzAPI Provider](../Deploy-with-Terraform#AzAPI-Provider) </br>
-> [Required Inputs](../Deploy-with-Terraform#Required-Inputs) </br>
-> [Optional Inputs](../Deploy-with-Terraform#Optional-Inputs) </br>
-> [Outputs](../Deploy-with-Terraform#Outputs) </br>
-> [Requirements](../Deploy-with-Terraform#Requirements) </br>
-> [Example - Deploying AMBA ALZ](../Deploy-with-Terraform#Example-Deploying-AMBA-ALZ) </br>
-> [Example - Deploying a Custom Architecture](../Deploy-with-Terraform#Example-Deploying-a-Custom-Architecture) </br>
-> [Data Collection](../Deploy-with-Terraform#Data-Collection) </br>
-> [Next Steps](../Deploy-with-Terraform#Next-Steps) </br>
+> [Modules](./#modules) </br>
+> [AzAPI Provider](./#azapi-provider) </br>
+> [Required Inputs](./#required-inputs) </br>
+> [Optional Inputs](./#optional-inputs) </br>
+> [Outputs](./#outputs) </br>
+> [Requirements](./#requirements) </br>
+> [Example of deploying AMBA-ALZ](./#example-of-deploying-amba-alz) </br>
+> [Example of deploying a Custom Architecture](./#example-of-deploying-a-custom-architecture) </br>
+> [Data Collection](./#data-collection) </br>
+> [Next Steps](./#next-steps) </br>
 
 ## Modules
 
-For a complete deployment of the AMBA ALZ pattern you will need the following 2 modules:
+For a complete deployment of the AMBA-ALZ pattern you will need the following 2 modules:
 
-### <a name="module_avm_ptn_alz"></a> [avm\_ptn\_alz](#module\_avm\_ptn\_alz)
+### avm_ptn_alz
 
-Source: Azure/avm-ptn-alz/azurerm
+>Source: <a href="https://github.com/Azure/terraform-azurerm-avm-ptn-alz" target="_blank">Azure/avm-ptn-alz/azurerm</a>
+>
+>Version: 0.11.0
+>
+>Terraform registry: <a href="https://registry.terraform.io/modules/Azure/avm-ptn-alz/azurerm/latest" target="_blank">avm-ptn-alz</a>
 
-Version: 0.11.0
+This module is responsible for the deployment of the following resources:
 
-Terraform registry: [avm-ptn-alz](https://registry.terraform.io/modules/Azure/avm-ptn-alz/azurerm/latest)
+- Resource Group.
+- User Assigned Managed Identity.
+- Monitoring Reader Role Assignment for the User Assigned Managed Identity.
 
-### <a name="module_avm_ptn_monitoring_amba_alz"></a> [avm\_ptn\_monitoring\_amba\_alz](#module\_avm\_ptn\_monitoring\_amba\_alz)
+### avm_ptn_monitoring_amba_alz
 
-Source: Azure/avm-ptn-monitoring-amba-alz/azurerm
-
-Version: 0.1.1
-
-Terraform registry: [avm-ptn-monitoring-amba-alz](https://registry.terraform.io/modules/Azure/avm-ptn-monitoring-amba-alz/azurerm/latest)
-
-{{< hint type=note >}}
+>Source: <a href="https://github.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz" target="_blank">Azure/avm-ptn-monitoring-amba-alz/azurerm</a>
+>
+>Version: 0.1.1
+>
+>Terraform registry: <a href="https://registry.terraform.io/modules/Azure/avm-ptn-monitoring-amba-alz/azurerm/latest" target="_blank">avm-ptn-monitoring-amba-alz</a>
+>
+>{{< hint type=note >}}
 Additionally, the "avm-ptn-monitoring-amba-alz" module calls the following resource modules:
 
-- #### <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group)
+- #### resource_group
 
-  Source: Azure/avm-res-resources-resourcegroup/azurerm
+  Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-resources-resourcegroup" target="_blank">Azure/avm-res-resources-resourcegroup/azurerm</a>
 
   Version: 0.2.1
 
-- #### <a name="module_user_assigned_managed_identity"></a> [user\_assigned\_managed\_identity](#module\_user\_assigned\_managed\_identity)
+- #### user_assigned_managed_identity
 
-  Source: Azure/avm-res-managedidentity-userassignedidentity/azurerm
+  Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-managedidentity-userassignedidentity" target="_blank">Azure/avm-res-managedidentity-userassignedidentity/azurerm</a>
 
   Version: 0.3.3
 
-{{< /hint >}}
+>{{< /hint >}}
 
-## Features avm-ptn-monitoring-amba-alz module
-
-- Deployment of Resource Group.
-- Deployment of User Assigned Managed Identity.
-- Deployment of Monitoring Reader Role Assignment for the User Assigned Managed Identity.
-
-## Features avm-ptn-alz module
-
-In the context of deploying AMBA ALZ, the following features are used:
+This module is responsible for the deployment of the following resources used the context of deploying AMBA-ALZ:
 
 - Deploy policy assets (definitions, assignments, and initiatives) according to the supplied architecture and associated archetypes
 - Modify policy assignments:
@@ -81,17 +77,18 @@ We use the AzAPI provider to interact with the Azure APIs.
 The new features allow us to be more efficient and reliable, with orders of magnitude speed improvements and retry logic for transient errors.
 
 <!-- markdownlint-disable MD013 -->
+
 ## Required Inputs
 
 The following input variables are required:
 
-### <a name="input_location"></a> [location](#input\_location)
+### location
 
 Description: Azure region where the resource should be deployed.
 
 Type: `string`
 
-### <a name="input_root_management_group_name"></a> [root\_management\_group\_name](#input\_root\_management\_group\_name)
+### root_management_group_name
 
 Description: The name (ID) of the management group.
 
@@ -101,7 +98,7 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
-### <a name="input_description"></a> [description](#input\_description)
+### description
 
 Description: The description used for the role assignment to identify the resource as deployed by AMBA.
 
@@ -109,7 +106,7 @@ Type: `string`
 
 Default: `"_deployed_by_amba"`
 
-### <a name="input_enable_telemetry"></a> [enable\_telemetry](#input\_enable\_telemetry)
+### enable_telemetry
 
 Description: This variable controls whether or not telemetry is enabled for the module.
 For more information see <https://aka.ms/avm/telemetryinfo>.
@@ -119,7 +116,7 @@ Type: `bool`
 
 Default: `true`
 
-### <a name="input_lock"></a> [lock](#input\_lock)
+### lock
 
 Description: Controls the Resource Lock configuration for this resource. The following properties can be specified:
 
@@ -137,7 +134,7 @@ object({
 
 Default: `null`
 
-### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
+### resource_group_name
 
 Description: The resource group where the resources will be deployed.
 
@@ -145,7 +142,7 @@ Type: `string`
 
 Default: `"rg-amba-monitoring-001"`
 
-### <a name="input_retries"></a> [retries](#input\_retries)
+### retries
 
 Description: The retry settings to apply to the CRUD operations. Value is a nested object, the top level keys are the resources and the values are an object with the following attributes:
 
@@ -176,7 +173,7 @@ object({
 
 Default: `{}`
 
-### <a name="input_role_assignments"></a> [role\_assignments](#input\_role\_assignments)
+### role_assignments
 
 Description: A map of role assignments to create on this resource. The map key is deliberately arbitrary to avoid issues where map keys maybe unknown at plan time.
 
@@ -206,7 +203,7 @@ map(object({
 
 Default: `{}`
 
-### <a name="input_role_definition_id"></a> [role\_definition\_id](#input\_role\_definition\_id)
+### role_definition
 
 Description: The role definition ID to assign to the User Assigned Managed Identity. Defaults to Monitoring Reader.
 
@@ -214,7 +211,7 @@ Type: `string`
 
 Default: `"43d0d8ad-25c7-4714-9337-8ba259a9fe05"`
 
-### <a name="input_tags"></a> [tags](#input\_tags)
+### tags
 
 Description: (Optional) Tags of the resource.
 
@@ -222,7 +219,7 @@ Type: `map(string)`
 
 Default: `null`
 
-### <a name="input_timeouts"></a> [timeouts](#input\_timeouts)
+### timeouts
 
 Description: A map of timeouts to apply to the creation and destruction of resources.
 If using retry, the maximum elapsed retry time is governed by this value.
@@ -252,7 +249,7 @@ object({
 
 Default: `{}`
 
-### <a name="input_user_assigned_managed_identity_name"></a> [user\_assigned\_managed\_identity\_name](#input\_user\_assigned\_managed\_identity\_name)
+### user_assigned_managed_identity_name
 
 Description: The name of the user-assigned managed identity.
 
@@ -264,19 +261,19 @@ Default: `"id-amba-prod-001"`
 
 The following outputs are exported:
 
-### <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name)
+### resource_group_name
 
 Description: The resource group name
 
-### <a name="output_resource_id"></a> [resource\_id](#output\_resource\_id)
+### resource_id
 
 Description: The resource id of the resource group
 
-### <a name="output_user_assigned_managed_identity_name"></a> [user\_assigned\_managed\_identity\_name](#output\_user\_assigned\_managed\_identity\_name)
+### user_assigned_managed_identity_name
 
 Description: The user assigned managed identity name
 
-### <a name="output_user_assigned_managed_identity_resource_id"></a> [user\_assigned\_managed\_identity\_resource\_id](#output\_user\_assigned\_managed\_identity\_resource\_id)
+### user_assigned_managed_identity_resource_id
 
 Description: The resource id of the user assigned managed identity
 
@@ -284,17 +281,17 @@ Description: The resource id of the user assigned managed identity
 
 The following requirements are needed by this module:
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.9)
+- <a href="https://github.com/hashicorp/terraform" target="_blank">terraform</a> (~> 1.9)
 
-- <a name="requirement_alz"></a> [alz](#requirement\_alz) (~> 0.17.4)
+- <a href="https://github.com/Azure/terraform-provider-alz" target="_blank">alz</a> (~> 0.17.4)
 
-- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.2)
+- <a href="https://github.com/Azure/terraform-provider-azapi" target="_blank">azapi</a> (~> 2.2)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a href="https://github.com/hashicorp/terraform-provider-azurerm" target="_blank">azurem</a> (~> 4.0)
 
-## Example - Deploying AMBA ALZ
+## Example of deploying AMBA-ALZ
 
-This example demonstrates how to deploy the AMBA ALZ pattern using an existing management group hierarchy with default naming as used in the ALZ reference architecture. It shows how to use the variables to customize the deployment.
+This example demonstrates how to deploy the AMBA-ALZ pattern using an existing management group hierarchy with default naming as used in the ALZ reference architecture. It shows how to use the variables to customize the deployment.
 
 ```hcl
 data "azapi_client_config" "current" {}
@@ -475,9 +472,9 @@ module "amba_policy" {
 }
 ```
 
-## Example - Deploying a Custom Architecture
+## Example of deploying a Custom Architecture
 
-This example demonstrates how to deploy the AMBA ALZ pattern using an existing custom management group hierarchy.
+This example demonstrates how to deploy the AMBA-ALZ pattern using an existing custom management group hierarchy.
 
 1. Create the `./lib` directory.
 1. Create the `custom.alz_architecture_definition.json` file in the lib directory. Refer to [examples/custom-architecture-definition](https://github.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/blob/main/examples/custom-architecture-definition) for a sample.
