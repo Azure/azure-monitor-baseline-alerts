@@ -7,9 +7,9 @@ weight: 30
 ### In this page
 
 > [Overview](../Alerts-Details#overview) </br>
-> [AMBA-ALZ Pattern Activity Log Alerts](../Alerts-Details#amba-alz-pattern-activity-log-alerts) </br>
-> [AMBA-ALZ Pattern Log-Search Alerts](../Alerts-Details#amba-alz-pattern-log-search-alerts) </br>
-> [AMBA-ALZ Pattern Metric Alerts Settings](../Alerts-Details#amba-alz-pattern-metric-alerts-settings) </br>
+> [AMBA-ALZ Pattern: Activity Log Alerts](../Alerts-Details#amba-alz-pattern-activity-log-alerts) </br>
+> [AMBA-ALZ Pattern: Log-Search Alerts](../Alerts-Details#amba-alz-pattern-log-search-alerts) </br>
+> [AMBA-ALZ Pattern: Metric Alerts](../Alerts-Details#amba-alz-pattern-metric-alerts) </br>
 
 ## Overview
 
@@ -25,7 +25,7 @@ The tables are designed to minimize horizontal scrolling, but they contains subs
 
 </br>
 
-## AMBA-ALZ Pattern Activity Log Alerts
+## AMBA-ALZ Pattern: Activity Log Alerts
 
 Refer to the following sections to quickly identify any Activity Log based alert, such as Service Health alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.
@@ -34,7 +34,7 @@ The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Seve
 
 </br>
 
-## AMBA-ALZ Pattern Log-Search Alerts
+## AMBA-ALZ Pattern: Log-Search Alerts
 
 Refer to the following sections to quickly identify any Log-Search based alert, such as Azure Virtual Machine or Hybrid Virtual Machine alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.
@@ -43,7 +43,7 @@ The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Seve
 
 </br>
 
-## AMBA-ALZ Pattern Metric Alerts Settings
+## AMBA-ALZ Pattern: Metric Alerts
 
 Refer to the following sections to quickly identify any Metric based alert, such as Azure Firewall, KeyVault, or Network alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.

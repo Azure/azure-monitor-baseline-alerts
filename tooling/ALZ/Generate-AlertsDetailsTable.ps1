@@ -75,6 +75,9 @@ foreach ($file in $jsonFiles) {
     # Generating the policy name URL
     $policyNameURL = $($file.FullName -split('azure-monitor-baseline-alerts'))[1]
     $policyNameURL = '../../../..'+$policyNameURL -replace '\\', '/'
+    #$policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/"+$file.Name
+    #$policyNameURL = $policyNameURL -replace 'json', 'html'
+    #$policyNameURL = $policyNameURL -replace '-', '_'
 
     # Get alert type
     $alertType = $jsonContent.properties.policyRule.then.details.type
