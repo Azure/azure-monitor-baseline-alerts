@@ -1,0 +1,3649 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "<img width='200' src='https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/docs/static/img/amba_logo.png'>"
+      },
+      "customWidth": "30",
+      "name": "CustomerLogo"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "# Azure Infrastructure Monitoring Dashboards #"
+      },
+      "name": "workbookTitle"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "63c2fcd8-71d2-49e8-ad26-a1a3675868fc",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscriptions",
+            "label": "Subscription(s)",
+            "type": 6,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type == \"microsoft.operationalinsights/workspaces\"\r\n| distinct subscriptionId\r\n| project value = subscriptionId, label = subscriptionId, selected = true",
+            "crossComponentResources": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "e249244e-b556-4ecb-aae0-36843bc5a5a7",
+            "version": "KqlParameterItem/1.0",
+            "name": "Workspaces",
+            "label": "Workspace(s)",
+            "type": 5,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type == \"microsoft.operationalinsights/workspaces\"\r\n| project value = id, label = name, selected = true",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::1",
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "timeContextFromParameter": "TimeRange",
+            "defaultValue": "value::1",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources",
+            "value": [
+              "/subscriptions/ee89ad70-85a5-4845-93a5-0bfcae1051c5/resourceGroups/rg-Monitoring/providers/Microsoft.OperationalInsights/workspaces/log-Demos-001"
+            ]
+          },
+          {
+            "id": "5e8549d6-22aa-47e0-a84b-bf1848cd44cc",
+            "version": "KqlParameterItem/1.0",
+            "name": "TimeRange",
+            "type": 4,
+            "isRequired": true,
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ],
+              "allowCustom": true
+            },
+            "value": {
+              "durationMs": 1209600000
+            },
+            "label": "Time range"
+          },
+          {
+            "id": "d4354e02-6b2e-41be-b23d-16d8e6292b67",
+            "version": "KqlParameterItem/1.0",
+            "name": "Help",
+            "label": "Show Help",
+            "type": 10,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "jsonData": "[\r\n  { \"value\": \"Yes\", \"label\": \"Yes\"},\r\n  { \"value\": \"No\", \"label\": \"No\", \"selected\":true },\r\n  { \"value\": \"ChangeLog\", \"label\": \"Change Log\"}\r\n]\r\n",
+            "timeContext": {
+              "durationMs": 5184000000
+            },
+            "timeContextFromParameter": "TimeRange",
+            "value": "Yes"
+          }
+        ],
+        "style": "pills",
+        "queryType": 1,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "Parameters"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": ">&nbsp;\r\n>\r\n>** Author **\r\n>[Bruno Gabrielli](mailto:bruno.gabrielli@microsoft.com)\r\n>\r\n>** Version 1.0 **\r\n>2025-04-09\r\n>- Initial version.\r\n>\r\n>&nbsp;"
+      },
+      "conditionalVisibility": {
+        "parameterName": "Help",
+        "comparison": "isEqualTo",
+        "value": "ChangeLog"
+      },
+      "name": "changeLog",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "></br>\r\n># Get Started #\r\n>\r\n>-------------------------\r\n>\r\n>Welcome to the Azure Infrastructure Monitoring Dashboards. This workbook is designed to provide you with an understanding of:\r\n>\r\n>**Compute resources**:\r\n>\t1. **Overall virtual machines, virtual machine scale sets (only uniform instances) and disks health status** - This section provides you with both an aggregated summary of all your virtual machines, virtual machine scale sets (only uniform instances) and disks health status comparing the current values to the recommended thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t2. **Detailed virtual machines status** - The ***Virtual Machines*** tab provides you with detailed information about Available Memory %, Processor Utilization %, Network Read and Network Write bytes/sec for each virtual machine (either *Azure* or *Hybrid*) sending VM Insights data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t3. **Detailed virtual machine scale sets status** - The ***Virtual Machine Scale Sets (Uniform Instances)*** tab provides you with detailed information about Available Memory %, Processor Utilization %, Network Read and Network Write bytes/sec for each virtual machine scale set sending VM Insights data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t4. **Detailed disks status** - The ***Disks*** tab provides you with detailed information about Free Space %, Read Latency and Write Latency ms for each disk attached to a virtual machine (either *Azure* or *Hybrid*) sending VM Insights data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>For additional information about the Azure Application Gateway logging see, [Use Log Analytics to examine Application Gateway Web Application Firewall (WAF) Logs](https://docs.microsoft.com/en-us/azure/application-gateway/log-analytics)\r\n>\r\n>**Apps resources**:\r\n>\t1. **Overall Web Apps, AKS, Container Registries, Redis Cache and Service Bus status** - This section provides you with an aggregated summary of all your Web Apps, AKS, Container Registries, Redis Cache and Service Bus health status comparing the current values to the recommended thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t2. **Detailed Web Apps status** - The ***Web Apps*** tab provides you with detailed information about Response Time, CPU Time, Private Bytes and Requests in Application Quees for each Web Application sending data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t3. **Detailed AKS status** - The ***AKS*** tab provides you with detailed information about Node CPU Usage Percentage, Node Memory Working Set Percentage, Node Disk Usage Percentage and Unscheduled Pods Count for each AKS cluster sending data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>\r\n>\t4. **Container Registries** - The ***Container Registry*** tab provides you with detailed information about Storage Used for each instance sending data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>For additional information about the Azure Application Gateway logging see, [Use Log Analytics to examine Application Gateway Web Application Firewall (WAF) Logs](https://docs.microsoft.com/en-us/azure/application-gateway/log-analytics)\r\n>\r\n>\t5. **Redis Cache** - The ***Redis Cache*** tab provides you with detailed information about Percent Processor Time, Used Memory Percentage, Cache Latency and Errors for each instance sending data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>For additional information about the Azure Application Gateway logging see, [Use Log Analytics to examine Application Gateway Web Application Firewall (WAF) Logs](https://docs.microsoft.com/en-us/azure/application-gateway/log-analytics)\r\n>\r\n>\t6. **Service Bus** - The ***Service Bus*** tab provides you with detailed information about User Errors, Server Errors and Throttled Requests for each instance sending data to a Log Analytics Workspace. The information is showed using colors that change according to the recommended the thresholds defined by the [Azure Monitor Baseline Alerts](https://aka.ms/amba) solution.\r\n>For additional information about the Azure Application Gateway logging see, [Use Log Analytics to examine Application Gateway Web Application Firewall (WAF) Logs](https://docs.microsoft.com/en-us/azure/application-gateway/log-analytics)\r\n>\r\n>## Prerequistes ##\r\n>\r\n>- A [Log Analytics workspace.](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/design-logs-deployment?WT.mc_id=Portal-fx)\r\n>- [VMInsights](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-overview) enabled and configured for virtual machines (either *Azure* or *Hybrid*) and virtual machine scale sets.\r\n>\r\n></br>"
+      },
+      "conditionalVisibility": {
+        "parameterName": "Help",
+        "comparison": "isEqualTo",
+        "value": "Yes"
+      },
+      "name": "getStarted"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "### How to use\r\n\r\nSelect a data source, workspace scope, workspace(s) and resource scope.\r\nExamine the key performance indicators for your resources by expanding the row for a resource type.\r\nRecommended KPIs and thresholds used in this dashboard come from [Azure Monitor Baseline Alerts](https://https://aka.ms/amba/).\r\nSee dashboard description for more details on linking to other Infrastructure Monitor dashboards."
+      },
+      "customWidth": "45",
+      "name": "text - 6",
+      "styleSettings": {
+        "margin": "10px",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "### Key:\r\n\r\n- Green\\Healthy  - None of the resources of that resource type have KPIs that are exceeding thresholds.\r\n- Yellow\\Warning - At least one resource of that resource type has one KPI exceeding a threshold.\r\n- Red\\Unhealthy  - At least one resource of that resource type has two or more KPIs exceeding a threshold."
+      },
+      "customWidth": "45",
+      "name": "text - 7",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "40b2749c-e588-4aae-9a16-2f1abd590d2b",
+            "cellValue": "selectedTab",
+            "linkTarget": "parameter",
+            "linkLabel": "Compute",
+            "subTarget": "Compute",
+            "preText": "Compute",
+            "style": "link"
+          },
+          {
+            "id": "44ddaf0a-7fea-4995-a4a1-fdc0721609fa",
+            "cellValue": "selectedTab",
+            "linkTarget": "parameter",
+            "linkLabel": "Apps",
+            "subTarget": "Apps",
+            "preText": "Apps",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 8"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace in ('Processor', 'Memory', 'Network') and Name in ('UtilizationPercentage', 'AvailableMB', 'ReadBytesPerSecond', 'WriteBytesPerSecond')\r\n| summarize\r\n  kpi1 = avgif((toreal(Val) / (toreal(todynamic(Tags)['vm.azm.ms/memorySizeMB']))) * 100.0, Name == 'AvailableMB'),\r\n  kpi2 = avgif(Val, Name == 'UtilizationPercentage'),\r\n  kpi3 = avgif(Val, Name == 'ReadBytesPerSecond'),\r\n  kpi4 = avgif(Val, Name == 'WriteBytesPerSecond') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3) \r\n| extend kpi4 = iff(isnan(kpi4), 0.0, kpi4) \r\n| extend health1 = iff(kpi1 < 10, 1, 0)\r\n| extend health2 = iff(kpi2 > 85, 1, 0)\r\n| extend health3 = iff(kpi3 > 10000000, 1, 0)\r\n| extend health4 = iff(kpi4 > 10000000, 1, 0)\r\n| extend health = health1 + health2 + health3 + health4\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health",
+              "size": 1,
+              "title": "Virtual Machines",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "33",
+            "showPin": true,
+            "name": "aggregated_VM",
+            "styleSettings": {
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "InsightsMetrics\r\n| where _ResourceId has '/microsoft.compute/virtualmachinescalesets/'\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace in ('Processor', 'Memory', 'Network') and Name in ('UtilizationPercentage', 'AvailableMB', 'ReadBytesPerSecond', 'WriteBytesPerSecond')\r\n| summarize\r\n  kpi1 = avgif((toreal(Val) / (toreal(todynamic(Tags)['vm.azm.ms/memorySizeMB']))) * 100.0, Name == 'AvailableMB'),\r\n  kpi2 = avgif(Val, Name == 'UtilizationPercentage'),\r\n  kpi3 = avgif(Val, Name == 'ReadBytesPerSecond'),\r\n  kpi4 = avgif(Val, Name == 'WriteBytesPerSecond') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3) \r\n| extend kpi4 = iff(isnan(kpi4), 0.0, kpi4)\r\n| extend health1 = iff(kpi1 < 10, 1, 0)\r\n| extend health2 = iff(kpi2 > 85, 1, 0)\r\n| extend health3 = iff(kpi3 > 10000000, 1, 0)\r\n| extend health4 = iff(kpi4 > 10000000, 1, 0)\r\n| extend health = health1 + health2 + health3 + health4\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health\r\n",
+              "size": 1,
+              "title": "Virtual Machines Scale Sets (Uniform Instances)",
+              "noDataMessage": "No Data",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": ">",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "33",
+            "showPin": true,
+            "name": "aggregated_VMSS",
+            "styleSettings": {
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace == 'LogicalDisk' and Name in ('FreeSpacePercentage', 'ReadLatencyMs', 'WriteLatencyMs')\r\n| extend Disk=tostring(todynamic(Tags)['vm.azm.ms/mountId'])\r\n| summarize\r\n    kpi1 = avgif(Val, Name == 'FreeSpacePercentage'),\r\n    kpi2 = avgif(Val, Name == 'ReadLatencyMs'),\r\n    kpi3 = avgif(Val, Name == 'WriteLatencyMs') by _ResourceId, Disk\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3) \r\n| extend health1 = iff(kpi1 < 10, 1, 0)\r\n| extend health2 = iff(kpi2 > 30, 1, 0)\r\n| extend health3 = iff(kpi3 > 30, 1, 0)\r\n| extend health = health1 + health2 + health3\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health",
+              "size": 1,
+              "title": "Disks",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "33",
+            "showPin": true,
+            "name": "aggregated_DISKS",
+            "styleSettings": {
+              "showBorder": true
+            }
+          },
+          {
+            "type": 11,
+            "content": {
+              "version": "LinkItem/1.0",
+              "style": "tabs",
+              "links": [
+                {
+                  "id": "cc9bf1ee-cb96-4e8b-a452-e6ea79627271",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Virtual Machines",
+                  "subTarget": "VM",
+                  "style": "link"
+                },
+                {
+                  "id": "a4538e96-33ab-4148-a775-0a54c5f812b8",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Virtual Machines Scale Sets (Uniform Instances)",
+                  "subTarget": "VMSS",
+                  "style": "link"
+                },
+                {
+                  "id": "87bef1a8-0078-4886-a33b-0516a77f0568",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Disks",
+                  "subTarget": "DISK",
+                  "style": "link"
+                }
+              ]
+            },
+            "name": "links - 8"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Memory' and Name has 'AvailableMB'\r\n| summarize arg_max(TimeGenerated, *) by _ResourceId\r\n| extend kpi1 = (toreal(Val) / (toreal(todynamic(Tags)['vm.azm.ms/memorySizeMB'])) * 100.0)\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Available Memory Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10,
+                            "max": 10,
+                            "palette": "redGreen",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VM-MemoryPerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Processor' and Name has 'UtilizationPercentage'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "title": "Processor Utilization Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 85,
+                            "max": 85,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VM-CPUPerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Network' and Name has 'ReadBytesPerSecond'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "title": "Network Read (bytes/sec)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10000000,
+                            "max": 10000000,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes/sec"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VM-NetworkRead",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Network' and Name has 'WriteBytesPerSecond'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Network Write (bytes/sec)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "26.1429ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "max": 10000000,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes/sec"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VM-NetworkWrite",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "VM"
+            },
+            "name": "grp_VM-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has '/microsoft.compute/virtualmachinescalesets/'\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Memory' and Name has 'AvailableMB'\r\n| summarize kpi1 = max((toreal(Val) / (toreal(todynamic(Tags)['vm.azm.ms/memorySizeMB']))) * 100.0) by _ResourceId\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Available Memory Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10,
+                            "max": 10,
+                            "palette": "redGreen",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 1
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VMSS-MemoryPerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has '/microsoft.compute/virtualmachinescalesets/'\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Processor' and Name has 'UtilizationPercentage'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "title": "Processor Utilization Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 85,
+                            "max": 85,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VMSS-CPUPerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has '/microsoft.compute/virtualmachinescalesets/'\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Network' and Name has 'ReadBytesPerSecond'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "title": "Network Read (bytes/sec)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10000000,
+                            "max": 10000000,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes/sec"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VMSS-NetworkRead",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has '/microsoft.compute/virtualmachinescalesets/'\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'Network' and Name has 'WriteBytesPerSecond'\r\n| summarize arg_max(TimeGenerated, Val) by _ResourceId\r\n| project _ResourceId, kpi1 = Val",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Network Write (bytes/sec)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "26.1429ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "max": 10000000,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes/sec"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VMSS-NetworkWrite",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "VMSS"
+            },
+            "name": "grp_VMSS-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'LogicalDisk' and Name has 'FreeSpacePercentage'\r\n| extend Disk=tostring(todynamic(Tags)['vm.azm.ms/mountId'])\r\n| summarize kpi1 = arg_max(TimeGenerated, Val) by _ResourceId, Disk\r\n| project _ResourceId, Disk, kpi1= Val",
+                    "size": 3,
+                    "title": "Free Space Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10,
+                            "max": 10,
+                            "palette": "redGreen"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_2",
+                          "sortOrder": 1
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_2",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "33",
+                  "showPin": true,
+                  "name": "DISKS-FreeSpacePerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'LogicalDisk' and Name has 'ReadLatencyMs'\r\n| extend Disk=tostring(todynamic(Tags)['vm.azm.ms/mountId'])\r\n| summarize kpi1 = arg_max(TimeGenerated, Val) by _ResourceId, Disk\r\n| project _ResourceId, Disk, kpi1= Val",
+                    "size": 0,
+                    "title": "Read Latency (ms)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 30,
+                            "max": 30,
+                            "palette": "greenRed"
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_2",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Latency (ms)"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_2",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "33",
+                  "showPin": true,
+                  "name": "DISKS-ReadLatency",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "InsightsMetrics\r\n| where _ResourceId has_any ('/microsoft.compute/virtualmachines/', '/microsoft.hybridcompute/machines/')\r\n| where Origin == 'vm.azm.ms'\r\n| where Namespace has 'LogicalDisk' and Name has 'WriteLatencyMs'\r\n| extend Disk=tostring(todynamic(Tags)['vm.azm.ms/mountId'])\r\n| summarize kpi1 = arg_max(TimeGenerated, Val) by _ResourceId, Disk\r\n| project _ResourceId, Disk, kpi1= Val",
+                    "size": 0,
+                    "title": "Write Latency (ms)",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 30,
+                            "max": 30,
+                            "palette": "greenRed"
+                          },
+                          "numberFormat": {
+                            "unit": 23,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_2",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Latency (ms)"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_2",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "33",
+                  "showPin": true,
+                  "name": "DISKS-WriteLatency",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "DISK"
+            },
+            "name": "grp_DISKS-Details"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "selectedTab",
+        "comparison": "isEqualTo",
+        "value": "Compute"
+      },
+      "name": "grp_Compute",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.web/sites/'\r\n| where MetricName in('HttpResponseTime', 'CpuTime', 'PrivateBytes', 'RequestsInApplicationQueue' )\r\n| summarize\r\n  kpi1 = avgif(Total, MetricName == 'HttpResponseTime'),\r\n  kpi2 = avgif(Total, MetricName == 'CpuTime'),\r\n  kpi3 = avgif(Total, MetricName == 'PrivateBytes'),\r\n  kpi4 = avgif(Total, MetricName == 'RequestsInApplicationQueue') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3) \r\n| extend kpi4 = iff(isnan(kpi4), 0.0, kpi4) \r\n| extend health1 = iff(kpi1>5, 1, 0)\r\n| extend health2 = iff(kpi2>120, 1, 0)\r\n| extend health3 = iff(kpi3>1200000000, 1, 0)\r\n| extend health4 = iff(kpi4>10, 1, 0)\r\n| extend health = health1 + health2 + health3 + health4\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health",
+              "size": 1,
+              "title": "Web Apps",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "20",
+            "showPin": true,
+            "name": "aggregated_WebApps",
+            "styleSettings": {
+              "margin": "2",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerservice/managedclusters/'\r\n| where MetricName in('node_cpu_usage_percentage', 'node_memory_working_set_percentage', 'node_disk_usage_percentage', 'cluster_autoscaler_unschedulable_pods_count' )\r\n| summarize\r\n  kpi1 = avgif(Average, MetricName == 'node_cpu_usage_percentage'),\r\n  kpi2 = avgif(Average, MetricName == 'node_memory_working_set_percentage'),\r\n  kpi3 = avgif(Average, MetricName == 'node_disk_usage_percentage'),\r\n  kpi4 = avgif(Average, MetricName == 'cluster_autoscaler_unschedulable_pods_count') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3)\r\n| extend kpi4 = iff(isnan(kpi4), 0.0, kpi4)\r\n| extend health1 = iff(kpi1 > 95, 1, 0)\r\n| extend health2 = iff(kpi2 > 100, 1, 0)\r\n| extend health3 = iff(kpi3 > 80, 1, 0)\r\n| extend health4 = iff(kpi4 > 0, 1, 0)\r\n| extend health = health1 + health2 + health3 + health4\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health\r\n",
+              "size": 1,
+              "title": "AKS",
+              "noDataMessage": "No data",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "20",
+            "showPin": true,
+            "name": "aggregated_AKS",
+            "styleSettings": {
+              "margin": "2",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerregistry/registries/'\r\n| where MetricName in('StorageUsed')\r\n| summarize\r\n  kpi1 = avgif(Total, MetricName == 'StorageUsed') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend health1 = iff(kpi1 > 429496729600, 1, 0)\r\n| extend health = health1\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health",
+              "size": 1,
+              "title": "Container Registries",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "tileSettings": {
+                "leftContent": {
+                  "columnMatch": "health",
+                  "formatter": 18,
+                  "formatOptions": {
+                    "thresholdsOptions": "colors",
+                    "thresholdsGrid": [
+                      {
+                        "operator": "==",
+                        "thresholdValue": "1",
+                        "representation": "yellow",
+                        "text": "Warning"
+                      },
+                      {
+                        "operator": ">",
+                        "thresholdValue": "1",
+                        "representation": "redBright",
+                        "text": "Unhealthy"
+                      },
+                      {
+                        "operator": "==",
+                        "thresholdValue": "-1",
+                        "representation": "gray",
+                        "text": "No data"
+                      },
+                      {
+                        "operator": "Default",
+                        "thresholdValue": null,
+                        "representation": "green",
+                        "text": "Healthy"
+                      }
+                    ]
+                  }
+                },
+                "showBorder": false,
+                "size": "full"
+              },
+              "graphSettings": {
+                "type": 0
+              },
+              "statSettings": {
+                "valueField": "health",
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "20",
+            "showPin": true,
+            "name": "aggregated_ContReg",
+            "styleSettings": {
+              "margin": "2",
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureMetrics\r\n| where _ResourceId has 'microsoft.cache/redis'\r\n| where MetricName in('percentProcessorTime', 'usedmemorypercentage', 'cacheLatency', 'errors' )\r\n| summarize\r\n  kpi1 = avgif(Average, MetricName == 'percentProcessorTime'),\r\n  kpi2 = avgif(Average, MetricName == 'usedmemorypercentage'),\r\n  kpi3 = avgif(Average, MetricName == 'cacheLatency'),\r\n  kpi4 = avgif(Maximum, MetricName == 'errors') by _ResourceId\r\n| extend kpi1 = iff(isnan(kpi1), 0.0, kpi1)\r\n| extend kpi2 = iff(isnan(kpi2), 0.0, kpi2) \r\n| extend kpi3 = iff(isnan(kpi3), 0.0, kpi3)\r\n| extend kpi4 = iff(isnan(kpi4), 0.0, kpi4)\r\n| extend health1 = iff(kpi1 > 80, 1, 0)\r\n| extend health2 = iff(kpi2 > 90, 1, 0)\r\n| extend health3 = iff(kpi3 > 10000, 1, 0)\r\n| extend health4 = iff(kpi4 > 0, 1, 0)\r\n| extend health = health1 + health2 + health3 + health4\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health\r\n",
+              "size": 1,
+              "title": "Redis Cache",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat",
+              "statSettings": {
+                "valueAggregation": "None",
+                "colorSettings": {
+                  "type": "thresholds",
+                  "mode": "background",
+                  "heatmapPalette": "greenRed",
+                  "thresholdsGrid": [
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Unhealthy",
+                      "representation": "redBright"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Warning",
+                      "representation": "yellow"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "Healthy",
+                      "representation": "green"
+                    },
+                    {
+                      "sourceColumn": "health",
+                      "operator": "==",
+                      "thresholdValue": "No data",
+                      "representation": "gray"
+                    }
+                  ]
+                },
+                "iconSettings": {
+                  "thresholdsGrid": []
+                },
+                "tagText": "",
+                "valueFontStyle": "auto"
+              }
+            },
+            "customWidth": "20",
+            "showPin": true,
+            "name": "aggregated_RedisCache",
+            "styleSettings": {
+              "margin": "2"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "AzureDiagnostics\r\n| where _ResourceId has '/microsoft.servicebus/namespaces/'\r\n| where Category == 'DiagnosticErrorLogs'\r\n| summarize\r\n  kpi1 = countif(OperationResult_s =~ 'ClientError'), \r\n  kpi2 = countif(OperationResult_s =~ 'ServerBusy'),\r\n  kpi3 = countif(OperationResult_s =~ 'QuotaExceeded') by _ResourceId\r\n| extend kpi1 = iff(isnan(toreal(kpi1)), 0.0, toreal(kpi1))\r\n| extend kpi2 = iff(isnan(toreal(kpi2)), 0.0, toreal(kpi2)) \r\n| extend kpi3 = iff(isnan(toreal(kpi3)), 0.0, toreal(kpi3))\r\n| extend health1 = iff(kpi1 > 0, 1, 0)\r\n| extend health2 = iff(kpi2 > 0, 1, 0)\r\n| extend health3 = iff(kpi3 > 10, 1, 0)\r\n| extend health = health1 + health2 + health3\r\n| summarize health = sum(health), rowCount = count()\r\n| extend health = iff(rowCount == 0, 'No data', iff(health == 0, 'Healthy', iff(health == 1, 'Warning', 'Unhealthy')))\r\n| project health\r\n",
+              "size": 1,
+              "title": "Service Bus",
+              "timeContextFromParameter": "TimeRange",
+              "showRefreshButton": true,
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces",
+              "crossComponentResources": [
+                "{Workspaces}"
+              ],
+              "visualization": "stat"
+            },
+            "customWidth": "20",
+            "showPin": true,
+            "name": "aggregated_ServiceBus",
+            "styleSettings": {
+              "margin": "2"
+            }
+          },
+          {
+            "type": 11,
+            "content": {
+              "version": "LinkItem/1.0",
+              "style": "tabs",
+              "links": [
+                {
+                  "id": "cc9bf1ee-cb96-4e8b-a452-e6ea79627271",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Web Apps",
+                  "subTarget": "WA",
+                  "style": "link"
+                },
+                {
+                  "id": "a4538e96-33ab-4148-a775-0a54c5f812b8",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "AKS",
+                  "subTarget": "AKS",
+                  "style": "link"
+                },
+                {
+                  "id": "87bef1a8-0078-4886-a33b-0516a77f0568",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Container Registry",
+                  "subTarget": "CR",
+                  "style": "link"
+                },
+                {
+                  "id": "fdc89f22-a203-4488-842d-dc5dc898693e",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Redis Cahe",
+                  "subTarget": "RC",
+                  "style": "link"
+                },
+                {
+                  "id": "17610886-a4ba-499b-9b9c-5890a9494034",
+                  "cellValue": "selectedTab",
+                  "linkTarget": "parameter",
+                  "linkLabel": "Service Bus",
+                  "subTarget": "SB",
+                  "style": "link"
+                }
+              ]
+            },
+            "name": "links - 8"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.web/sites/'\r\n| where MetricName in ('HttpResponseTime')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Response Time",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 5,
+                            "max": 5,
+                            "palette": "redGreen",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 1
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "WA-ResponseTime",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.web/sites/'\r\n| where MetricName in ('CpuTime')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "CPU Time",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 120,
+                            "max": 120,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "WA-CPUTime",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.web/sites/'\r\n| where MetricName in ('PrivateBytes')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Private Bytes",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 1200000000,
+                            "max": 1200000000,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Computer"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes/sec"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "WA-PrivateBytes",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.web/sites/'\r\n| where MetricName in ('RequestsInApplicationQueue')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Requests In Application Queue",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "26.1429ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 10,
+                            "max": 10,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "MetricName",
+                          "sortOrder": 1
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "MetricName",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "VA-RequestsInApplicationQueue",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "WA"
+            },
+            "name": "grp_WA-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerservice/managedclusters/'\r\n| where MetricName in('node_cpu_usage_percentage')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Node CPU Usage Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 95,
+                            "max": 95,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 1
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Node"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 1
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "AKS-NodeCPUUsagePerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerservice/managedclusters/'\r\n| where MetricName in('node_memory_working_set_percentage')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Node Memory Working Set Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 100,
+                            "max": 100,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 1,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 2
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "NOde"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "AKS-MemoryWorkingSetPerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerservice/managedclusters/'\r\n| where MetricName in('node_disk_usage_percentage')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Node Disk Usage Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "32.5ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 80,
+                            "max": 80,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Node"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "%"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "AKS-DiskUsagePerc",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerservice/managedclusters/'\r\n| where MetricName in('cluster_autoscaler_unschedulable_pods_count')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "aggregation": 2,
+                    "title": "Unscheduled Pods Count",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true,
+                            "customColumnWidthSetting": "26.1429ch"
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 0,
+                            "max": 0,
+                            "palette": "greenRed",
+                            "customColumnWidthSetting": "188px"
+                          },
+                          "numberFormat": {
+                            "unit": 0,
+                            "options": {
+                              "style": "decimal",
+                              "maximumFractionDigits": 0
+                            }
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "sortBy": [
+                        {
+                          "itemKey": "$gen_bar_kpi1_1",
+                          "sortOrder": 2
+                        }
+                      ],
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Node"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Pods Count"
+                        }
+                      ]
+                    },
+                    "sortBy": [
+                      {
+                        "itemKey": "$gen_bar_kpi1_1",
+                        "sortOrder": 2
+                      }
+                    ],
+                    "tileSettings": {
+                      "leftContent": {
+                        "columnMatch": "health",
+                        "formatter": 18,
+                        "formatOptions": {
+                          "thresholdsOptions": "colors",
+                          "thresholdsGrid": [
+                            {
+                              "operator": "==",
+                              "thresholdValue": "1",
+                              "representation": "yellow",
+                              "text": "Warning"
+                            },
+                            {
+                              "operator": ">",
+                              "thresholdValue": "1",
+                              "representation": "redBright",
+                              "text": "Unhealthy"
+                            },
+                            {
+                              "operator": "==",
+                              "thresholdValue": "-1",
+                              "representation": "gray",
+                              "text": "No data"
+                            },
+                            {
+                              "operator": "Default",
+                              "thresholdValue": null,
+                              "representation": "green",
+                              "text": "Healthy"
+                            }
+                          ]
+                        }
+                      },
+                      "showBorder": false,
+                      "size": "full"
+                    },
+                    "graphSettings": {
+                      "type": 0
+                    },
+                    "statSettings": {
+                      "valueField": "health",
+                      "valueAggregation": "Sum",
+                      "colorSettings": {
+                        "type": "thresholds",
+                        "mode": "background",
+                        "heatmapPalette": "greenRed",
+                        "thresholdsGrid": [
+                          {
+                            "sourceColumn": "health",
+                            "operator": ">",
+                            "thresholdValue": "1",
+                            "representation": "redBright"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "1",
+                            "representation": "yellow"
+                          },
+                          {
+                            "sourceColumn": "health",
+                            "operator": "==",
+                            "thresholdValue": "0",
+                            "representation": "green"
+                          }
+                        ]
+                      },
+                      "iconSettings": {
+                        "thresholdsGrid": []
+                      },
+                      "tagText": "",
+                      "valueFontStyle": "auto"
+                    },
+                    "chartSettings": {
+                      "xSettings": {
+                        "label": ""
+                      },
+                      "ySettings": {
+                        "max": 100
+                      }
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "AKS-UnscheduledPodsCount",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "AKS"
+            },
+            "name": "grp_AKS-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has '/microsoft.containerregistry/registries/'\r\n| where MetricName in('StorageUsed')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Storage Used",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table",
+                    "gridSettings": {
+                      "formatters": [
+                        {
+                          "columnMatch": "_ResourceId",
+                          "formatter": 13,
+                          "formatOptions": {
+                            "linkTarget": "Resource",
+                            "linkIsContextBlade": true,
+                            "showIcon": true
+                          }
+                        },
+                        {
+                          "columnMatch": "kpi1",
+                          "formatter": 3,
+                          "formatOptions": {
+                            "min": 429496729600,
+                            "max": 429496729600,
+                            "palette": "greenRed"
+                          }
+                        }
+                      ],
+                      "rowLimit": 10000,
+                      "filter": true,
+                      "labelSettings": [
+                        {
+                          "columnId": "_ResourceId",
+                          "label": "Container Registry"
+                        },
+                        {
+                          "columnId": "kpi1",
+                          "label": "Bytes"
+                        }
+                      ]
+                    }
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "CR-StorageUsed",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "CR"
+            },
+            "name": "grp_CR-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has 'microsoft.cache/redis'\r\n| where MetricName in('percentProcessorTime')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Percent Processor Time",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table"
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "RC-percentProcessorTime",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has 'microsoft.cache/redis'\r\n| where MetricName in('usedmemorypercentage')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Used Memory Percentage",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table"
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "RC-UsedMemoryPercentage",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has 'microsoft.cache/redis'\r\n| where MetricName in('cacheLatency')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Cache Latency",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table"
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "RC-CacheLatency",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureMetrics\r\n| where _ResourceId has 'microsoft.cache/redis'\r\n| where MetricName in('errors')\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Errors",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "RC-Errors",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "RC"
+            },
+            "name": "grp_RC-Details"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "items": [
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureDiagnostics\r\n| where _ResourceId has '/microsoft.servicebus/namespaces/'\r\n| where Category == 'DiagnosticErrorLogs'\r\n| where OperationResult_s =~ 'ClientError'\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "User Errors",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ],
+                    "visualization": "table"
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "SB-UserErrors",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureDiagnostics\r\n| where _ResourceId has '/microsoft.servicebus/namespaces/'\r\n| where Category == 'DiagnosticErrorLogs'\r\n| where OperationResult_s =~ 'ServerBusy'\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Server Errors",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "SB-ServerErrores",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "AzureDiagnostics\r\n| where _ResourceId has '/microsoft.servicebus/namespaces/'\r\n| where Category == 'DiagnosticErrorLogs'\r\n| where OperationResult_s =~ 'QuotaExceeded'\r\n| summarize arg_max(TimeGenerated, Total) by _ResourceId\r\n| extend kpi1 = Total\r\n| project _ResourceId, kpi1",
+                    "size": 0,
+                    "title": "Throttled Requests",
+                    "noDataMessage": "No data",
+                    "timeContextFromParameter": "TimeRange",
+                    "showRefreshButton": true,
+                    "queryType": 0,
+                    "resourceType": "microsoft.operationalinsights/workspaces",
+                    "crossComponentResources": [
+                      "{Workspaces}"
+                    ]
+                  },
+                  "customWidth": "25",
+                  "showPin": true,
+                  "name": "SB-ThrottledRequests",
+                  "styleSettings": {
+                    "margin": "2",
+                    "showBorder": true
+                  }
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "selectedTab",
+              "comparison": "isEqualTo",
+              "value": "SB"
+            },
+            "name": "grp_SB-Details"
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "selectedTab",
+        "comparison": "isEqualTo",
+        "value": "Apps"
+      },
+      "name": "grp_APPS",
+      "styleSettings": {
+        "showBorder": true
+      }
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
