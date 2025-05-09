@@ -6,8 +6,9 @@ weight: 95
 
 ### In this page
 
-> [Overview](../Bring-your-own-Notifications#overview) </br>
-> [How this feature works](../Bring-your-own-Notifications#how-this-feature-works) </br>
+> [Overview](#overview) </br>
+> [How this feature works](#how-this-feature-works) </br>
+> [Conditional deployment behavior](#conditional-deployment-behavior) </br>
 
 ## Overview
 
@@ -24,6 +25,15 @@ For brownfield customers opting to use their own notification assets, they need 
 Conversely, if they choose to use the assets provided by AMBA-ALZ or if they are greenfield customers, they should leave the ***BYOActionGroup*** and ***BYOAlertProcessingRule*** parameters empty and populate the other parameters (***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId***, and ***ALZFunctionTriggerUrl***):
 
 ![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
+
+{{< hint type=Note >}}
+The steps for retrieving the resource ID for the notification type is documented in the _**Parameter Configuration**_ paragraph present in one of the following deployment guides:
+
+- For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
+- For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
+- For deploying with Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
+- For deploying with Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
+{{< /hint >}}
 
 ## Conditional deployment behavior
 
