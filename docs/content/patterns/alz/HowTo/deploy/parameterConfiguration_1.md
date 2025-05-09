@@ -5,7 +5,11 @@ geekdocHidden: true
 
 
 
-To begin, either download the appropriate parameter file for the version of AMBA-ALZ you are deploying or clone/fork the repository.
+To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
+
+  {{< hint type=note >}}
+  Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
+  {{< /hint >}}
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-04-03/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
