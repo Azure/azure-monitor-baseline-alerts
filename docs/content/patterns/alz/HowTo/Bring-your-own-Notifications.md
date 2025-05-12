@@ -27,7 +27,7 @@ Conversely, if they choose to use the assets provided by AMBA-ALZ or if they are
 ![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
 
 {{< hint type=Note >}}
-The steps for retrieving the resource ID for the notification type is documented in the _**Parameter Configuration**_ paragraph present in one of the following deployment guides:
+The steps for retrieving the resource ID for the notification type is documented in the ***Parameter Configuration*** paragraph present in one of the following deployment guides:
 
 - For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
 - For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
@@ -75,6 +75,6 @@ To switch, customers need to:
 - Update the parameter file to match one of the three scenarios discussed.
 - Redeploy the ALZ pattern.
 - Run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives.
-- Remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
+- Remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (*<b>***</b> only if moving from ALZ notification assets to BYON*)
 
 The code will reconfigure the Service Health alerts to use either the customer's action groups or the ALZ pattern notification assets based on the selected scenario.
