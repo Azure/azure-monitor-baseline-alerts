@@ -28,7 +28,7 @@ $metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
 
 # Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
-"title: Metrics alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"title: Log-Search alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append -NoNewline
 "`n" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
