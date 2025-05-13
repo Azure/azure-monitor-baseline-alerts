@@ -39,7 +39,8 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRoorDir + "\M
 # Get all JSON files under the root directory and its subdirectories
 $jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Where-Object { ($_.FullName -notlike "*\templates\*") -and ($_.Name -notlike "Not_In_Use_*") -and ($_.Name -notIn $exclusionFileList) }
 
-# Setting the regex for override tag names
+# Setting the regex patterns
+$alertNameRegex = [regex]::New('(\b\w+\b)')
 $overrideTagNameRegex = [regex]::New('(_amba-(.*?)-[o|O]verride_)')
 
 # Loop through each JSON file
@@ -58,6 +59,7 @@ foreach ($file in $jsonFiles) {
     $thresholdOverrideSample = $null
     $maximum = $null
     $overrideStartingAt = $null
+    $OutNumber = $null
 
     # Read the JSON file content
     $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
@@ -101,13 +103,13 @@ foreach ($file in $jsonFiles) {
         if ($jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.count -eq 1) {
 
           $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
-          if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-            if ([regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value -eq "subscription") {
-              $alertName = "subscription().displayName-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+          if ([regex]::Matches($alertName, $alertNameRegex).Success) {
+            if ([regex]::Matches($alertName, $alertNameRegex).Groups[3].Value -eq "subscription") {
+              $alertName = "subscription().displayName-" + [regex]::Matches($alertName, $alertNameRegex).Groups[6].Value
 
             }
             else {
-              $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[5].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+              $alertName = [regex]::Matches($alertName, $alertNameRegex).Groups[5].Value + "-" + [regex]::Matches($alertName, $alertNameRegex).Groups[6].Value
 
             }
 
@@ -134,13 +136,13 @@ foreach ($file in $jsonFiles) {
         else {
 
           $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources[1].properties.template.resources.name
-          if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-            if ([regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value -eq "subscription") {
-              $alertName = "subscription().displayName-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+          if ([regex]::Matches($alertName, $alertNameRegex).Success) {
+            if ([regex]::Matches($alertName, $alertNameRegex).Groups[3].Value -eq "subscription") {
+              $alertName = "subscription().displayName-" + [regex]::Matches($alertName, $alertNameRegex).Groups[6].Value
 
             }
             else {
-              $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[3].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+              $alertName = [regex]::Matches($alertName, $alertNameRegex).Groups[3].Value + "-" + [regex]::Matches($alertName, $alertNameRegex).Groups[6].Value
 
             }
 
@@ -170,25 +172,35 @@ foreach ($file in $jsonFiles) {
         $operator = $jsonContent.properties.parameters.operator.defaultValue
         $threshold = $jsonContent.properties.parameters.threshold.defaultValue
 
-        [Int32]$OutNumber = $null
-
         if ([Int32]::TryParse($threshold, [ref]$OutNumber)) {
           $tagValueType = "Number"
           $overrideStartingAt = $OutNumber
+
+        }
+        elseif ([Int32]::TryParse($threshold, [ref]$OutNumber))
+        {
+          $tagValueType = "Number"
+          $overrideStartingAt = $OutNumber
+
         }
         else {
           $tagValueType = "String"
 
         }
 
-        if (($operator -eq "GreaterThan") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
 
-          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt /5))
-          $thresholdOverrideSample = Get-Random -Minimum $overrideStartingAt -Maximum $maximum
+
+        if (($operator -like "GreaterThan*") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
+
+          $thresholdOverrideSample = Get-Random -Minimum 0 -Maximum $overrideStartingAt
+          $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
+
 
         }
         elseif (($operator -eq "LessThan") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
-          $thresholdOverrideSample = Get-Random -Minimum 0 -Maximum $overrideStartingAt
+          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt/5.0))
+          $thresholdOverrideSample = Get-Random -Minimum $overrideStartingAt -Maximum $maximum
+          $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
 
         }
         else {
@@ -207,18 +219,29 @@ foreach ($file in $jsonFiles) {
         # Retrieving relevant alert properties from the JSON content
         $alertName = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.name
 
-        if ([regex]::Matches($alertName, '(\b\w+\b)').Success) {
-          $alertName = [regex]::Matches($alertName, '(\b\w+\b)').Groups[4].Value + "-" + [regex]::Matches($alertName, '(\b\w+\b)').Groups[6].Value
+        if ([regex]::Matches($alertName, $alertNameRegex).Success) {
+          $alertName = [regex]::Matches($alertName, $alertNameRegex).Groups[4].Value + "-" + [regex]::Matches($alertName, $alertNameRegex).Groups[6].Value
+
+          $overrideTagName = $jsonContent.properties.policyRule.then.details.deployment.properties.parameters.threshold.value
+          if ([regex]::Matches($overrideTagName, $overrideTagNameRegex)) {
+            $overrideTagName = [regex]::Matches($overrideTagName, $overrideTagNameRegex).Groups[1].Value
+            $overrideTagName = $overrideTagName -replace "_", "\_"
+            $overrideTagName = "***$overrideTagName***"
+
+          }
+          else {
+            # Setting constants for Activity Log Alerts
+            $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable***</span> "
+            $tagValueType = " <span style=""color:DarkOrange"">***N/A***</span> "
+            $operator = " <span style=""color:DarkOrange"">***N/A***</span> "
+            $threshold = " <span style=""color:DarkOrange"">***N/A***</span> "
+            $thresholdOverrideSample = " <span style=""color:DarkOrange"">***N/A***</span> "
+
+          }
 
         }
 
         $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
-        $alertScope = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.scopes
-
-        if ([regex]::Matches($alertScope, '(\b\w+\b)').Success) {
-          $alertScope = [regex]::Matches($alertScope, '(\b\w+\b)').Groups[2].Value
-
-        }
 
         if ([string]::IsNullOrEmpty($operator)) {
           $operator = $jsonContent.properties.policyRule.then.details.deployment.properties.template.resources.properties.criteria.allOf.operator
@@ -235,9 +258,57 @@ foreach ($file in $jsonFiles) {
           }
         }
 
-        $overrideTagName =
-        $tagValueType =
-        $thresholdOverrideSample =
+        if ([Int32]::TryParse($threshold, [ref]$OutNumber)) {
+          $tagValueType = "Number"
+          $overrideStartingAt = $OutNumber
+          if ($OutNumber -le 1) {
+            $overrideStartingAt = 10
+
+          }
+          else{
+            $overrideStartingAt = $OutNumber
+
+          }
+
+        }
+        elseif ([Decimal]::TryParse($threshold, [ref]$OutNumber))
+        {
+          $tagValueType = "Number"
+          $overrideStartingAt = $OutNumber
+          if ($OutNumber -le 1) {
+            $overrideStartingAt = 10
+
+          }
+          else{
+            $overrideStartingAt = $OutNumber
+
+          }
+
+        }
+        else {
+          $tagValueType = "String"
+
+        }
+
+        if (($operator -like "GreaterThan*") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
+
+          $thresholdOverrideSample = Get-Random -Minimum 0 -Maximum $overrideStartingAt
+          $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
+
+
+        }
+        elseif (($operator -eq "LessThan") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
+          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt/5.0))
+          $thresholdOverrideSample = Get-Random -Minimum $overrideStartingAt -Maximum $maximum
+          $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
+
+        }
+        else {
+          $thresholdOverrideSample = " <span style=""color:DarkOrange"">***N/A***</span> "
+
+        }
+
+
 
         # Appending the content to the file
         "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
