@@ -113,7 +113,7 @@ Function Search-AzGraphRecursive {
             # resource graph returns pages of 100 resources, if there are more than 100 resources in a batch, recursively query for more
             If ($batchResult.count -eq 100 -and $batchResult.SkipToken) {
                 $result += $batchResult
-                Search-AzGraphRecursive -query $query -managementGroupNames $managementGroupNames -skipToken $batchResult.SkipToken
+                Search-AzGraphRecursive -query $query -managementGroupNames $managementGroupBatch -skipToken $batchResult.SkipToken
             }
             else {
                 $result +=$batchResult
