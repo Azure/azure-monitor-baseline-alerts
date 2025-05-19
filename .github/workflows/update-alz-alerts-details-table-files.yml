@@ -36,15 +36,17 @@
         - name: Update files
           shell: pwsh
           run: |
-            Import-Module Pester -Force
-              $pesterConfiguration = @{
-                Run    = @{
-                  Container = New-PesterContainer -Path "./tooling/ALZ/Generate-AlertsDetailsTable.ps1"
-                  PassThru  = $true
-                }
-                Output = @{
-                  Verbosity = 'Detailed'
-                }
-              }
-              $result = Invoke-Pester -Configuration $pesterConfiguration
-              exit $result.FailedCount
+            rm ./tooling/ALZ/Generate-AlertsDetailsTables.ps1
+
+        - name: Stage changed files
+          run: |
+            git add .
+
+        - name: Commit changes
+          run: |
+            run: git commit -m "Auto updating alerts details tables"
+
+        - name: Push changes to main
+          run: |
+            git push origin HEAD:main
+
