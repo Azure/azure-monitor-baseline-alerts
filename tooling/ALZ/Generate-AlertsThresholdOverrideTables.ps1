@@ -42,6 +42,7 @@ $jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Wher
 # Setting the regex patterns
 $alertNameRegex = [regex]::New('(\b\w+\b)')
 $overrideTagNameRegex = [regex]::New('(_amba-(.*?)-[o|O]verride_)')
+$timespanRegex = [regex]::New('^\d+[smhd]$')
 
 # Loop through each JSON file
 foreach ($file in $jsonFiles) {
@@ -177,10 +178,9 @@ foreach ($file in $jsonFiles) {
           $overrideStartingAt = $OutNumber
 
         }
-        elseif ([Int32]::TryParse($threshold, [ref]$OutNumber))
+        elseif ([regex]::Matches($threshold, $timespanRegex))
         {
-          $tagValueType = "Number"
-          $overrideStartingAt = $OutNumber
+            $tagValueType = "Timespan (string)"
 
         }
         else {

@@ -1,0 +1,52 @@
+---
+  name: Update ALZ override threshold table files
+
+  ##########################################
+  # Start the job on PR for all branches #
+  ##########################################
+
+  # yamllint disable-line rule:truthy
+  on:
+    pull_request:
+      types:
+        - opened
+        - reopened
+        - synchronize
+        - ready_for_review
+      paths:
+        - "services/**.json"
+
+    workflow_dispatch: {}
+
+  ###############
+  # Set the Job #
+  ###############
+
+  jobs:
+    update-alz-override-threshold-table-files:
+      name: Update ALZ override threshold table files with new, modified or removed tags and values
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Update files
+          shell: pwsh
+          run: |
+            rm ./tooling/ALZ/Generate-AlertsThresholdOverrideTables.ps1
+
+        - name: Stage changed files
+          run: |
+            git add .
+
+        - name: Commit changes
+          run: |
+            run: git commit -m "Auto updating alerts override threshold tables"
+
+        - name: Push changes to main
+          run: |
+            git push origin HEAD:main
+
