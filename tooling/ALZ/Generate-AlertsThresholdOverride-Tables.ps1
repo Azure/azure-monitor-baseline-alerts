@@ -2,14 +2,18 @@
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
 $thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
-$exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
 
-# Define source table file heading and structure
+# Define policy definitions to be excluded from the search
+$exclusionFileList = @(
+  'Deploy-ActivityLog-SearchService-Del.json'
+)
+
+# Define source table file names
 $activityLogAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\ActivityLog_Alerts_OverrideTags_Table.md"
 $LogSearchAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\Log_Search_Alerts_OverrideTags_Table.md"
 $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\Metrics_Alerts_OverrideTags_Table.md"
 
-# Appending lines to Activity Log source table files
+# Define source table file heading and structure
 "---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8
 "title: Activity Log alerts override tags table" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
@@ -18,7 +22,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 
-# Appending lines to Log Search source table files
+## Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8
 "title: Log-search alerts override tags table" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
@@ -27,7 +31,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 
-# Appending lines to Metric source table files
+## Appending lines to Metric source table files
 "---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8
 "title: Metric alerts override tags table" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
@@ -36,7 +40,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 "| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
 
-# Get all JSON files under the root directory and its subdirectories
+## Get all JSON files under the root directory and its subdirectories
 $jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Where-Object { ($_.FullName -notlike "*\templates\*") -and ($_.Name -notlike "Not_In_Use_*") -and ($_.Name -notIn $exclusionFileList) }
 
 # Setting the regex patterns

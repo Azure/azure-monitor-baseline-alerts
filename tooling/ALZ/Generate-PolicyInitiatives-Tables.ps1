@@ -9,11 +9,11 @@ $exclusionFileList = @(
   'Deploy-ActivityLog-SearchService-Del.json'
 )
 
-# Define an array of procesed policy definition files
+# Define an array of processed policy definition files
 $processedPolicyDefinitionFiles = New-Object System.Collections.ArrayList
 
-# Define source table file heading and structure
-$policyInitiativeTableFileSuffix = "-PolicyInitiative-Table.md"
+# Define source table files' suffix
+$policyInitiativeTableFileNameSuffix = "-PolicyInitiative-Table.md"
 
 # Get all JSON files under the root directory and its subdirectories
 $policyDefinitionJsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Where-Object { ($_.FullName -notlike "*\templates\*") -and ($_.Name -notlike "Not_In_Use_*") -and ($_.Name -notIn $exclusionFileList) }
@@ -24,57 +24,77 @@ $policyInitiativeJsonFiles = Get-ChildItem -Path $policyInitiativesRootDir -Recu
 ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
   try {
 
+    # Cleaning-up variables
+    $jsonContent = $null
+    $policyInitiativeName = $null
+    $policyInitiativeTableFileName = $null
+    $policyReferences = $null
+
     # Reading policyInitiative JSON file content
     $jsonContent = Get-Content -Path $policyInitiativeJsonFile.FullName -Raw | ConvertFrom-Json
 
     # Extract the policy initiative name
     $policyInitiativeName = $jsonContent.name
 
-    # Create the policy initiative table file
-    $policyInitiativeTableFile = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileSuffix
+    # Assembling the policy initiative table file name
+    $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
 
-    # Appending lines to Policy Initiative source table files
-    "---" | Out-File $policyInitiativeTableFile -Encoding UTF8
-    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
-    "geekdocHidden: true" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
-    "---" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append -NoNewline
-    "`n" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
-    "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
-    "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
+    # Define source table file heading and structure
+    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
+    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
+    "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
     # Getting policy reference IDs and
     $policyReferences = $jsonContent.properties.policyDefinitions
 
     ForEach ($policyReference in $policyReferences) {
+      # Cleaning-up variables
+      $policyReferenceID = $null
+      $policyDefinitionID = $null
+
       # Extracting policy reference ID
       $policyReferenceID = $policyReference.policyDefinitionReferenceId
       $policyDefinitionID = $policyReference.policyDefinitionId -replace '/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/', ''
 
       # Read the JSON file content
       ForEach ($policyDefinitionJsonFile in $policyDefinitionJsonFiles) {
+        # Cleaning-up variables
+        $policyDefinitionJsonContent = $null
+        $policyName = $null
+        $policyDefaultEffect = $null
+        $policyCodeURL = $null
+
         # Reading policy definition file
-        if ($policyDefinitionJsonFile.FullName -notIn $processedPolicyDefinitionFiles) {
+        if ( ($policyDefinitionJsonFile.FullName -notin $exclusionFileList) -and ($policyDefinitionJsonFile.FullName -notIn $processedPolicyDefinitionFiles) ) {
           $policyDefinitionJsonContent = Get-Content -Path $policyDefinitionJsonFile.FullName -Raw | ConvertFrom-Json
 
           if ( $policyDefinitionJsonContent.name -eq $policyDefinitionID) {
             # Adding the policy definition file to the processed list
-            $processedPolicyDefinitionFiles.Add($policyDefinitionJsonFile.FullName) | Out-Null
+            #$processedPolicyDefinitionFiles.Add($policyDefinitionJsonFile.FullName) | Out-Null
 
             # Extracting policy name
             $policyName = $policyDefinitionJsonContent.properties.displayName
-            $defaultPolicyEffect = $policyDefinitionJsonContent.properties.parameters.effect.defaultValue
+            $policyDefaultEffect = $policyDefinitionJsonContent.properties.parameters.effect.defaultValue
+            if( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
+              $policyDefaultEffect = $policyDefinitionJsonContent.properties.policyRule.then.effect
+            }
 
             # Assembling the policy definition code URL
             $policyCodeURL = $($policyDefinitionJsonFile.FullName -split('azure-monitor-baseline-alerts'))[1]
             $policyCodeURL = '../../../..'+$policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
-            "| $policyName | $policyReferenceID | $policyCodeURL | $defaultPolicyEffect |" | Out-File $policyInitiativeTableFile -Encoding UTF8 -Append
+            "| $policyName | $policyReferenceID | $policyCodeURL | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
             # Exiting loop
             break
 
           }
+
         }
 
       }
@@ -84,6 +104,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
   }
   catch {
     Write-Error "Failed to process file: $($policyInitiativeJsonFile.FullName). Error: $_"
+
   }
 
 }
