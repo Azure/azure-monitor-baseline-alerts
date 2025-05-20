@@ -102,7 +102,7 @@ This initiative is intended for relevant policy assignment service health alerts
 
 This initiative is intended for relevant policy assignment to notification in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-NotificationAssets-PolicyInitiative-Table.md" %}}
+{{% include "Notification-Assets-PolicyInitiative-Table.md" %}}
 
 ## Landing Zone initiative (Deprecated)
 
