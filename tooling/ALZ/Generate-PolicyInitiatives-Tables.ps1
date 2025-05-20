@@ -67,6 +67,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
         $policyName = $null
         $policyDefaultEffect = $null
         $policyCodeURL = $null
+        $policyCodeFileName = $null
 
         # Reading policy definition file
         if ( ($policyDefinitionJsonFile.FullName -notin $exclusionFileList) -and ($policyDefinitionJsonFile.FullName -notIn $processedPolicyDefinitionFiles) ) {
@@ -83,12 +84,15 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
               $policyDefaultEffect = $policyDefinitionJsonContent.properties.policyRule.then.effect
             }
 
+            # Extracting policy code file name
+            $policyCodeFileName = $policyDefinitionJsonFile.Name
+
             # Assembling the policy definition code URL
             $policyCodeURL = $($policyDefinitionJsonFile.FullName -split('azure-monitor-baseline-alerts'))[1]
             $policyCodeURL = '../../../..'+$policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
-            "| $policyName | $policyReferenceID | $policyCodeURL | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+            "| $policyName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
             # Exiting loop
             break
