@@ -107,7 +107,7 @@ This initiative is intended for relevant policy assignment to notification in AM
 ## Landing Zone initiative (Deprecated)
 
 {{< hint type=note >}}
-This initiative has been ***DEPRECATED*** and the content is still included in the documentation foras reference purpose only.
+This initiative has been ***DEPRECATED*** and the content is still included in the documentation for reference purpose only.
 {{< /hint >}}
 
 This initiative is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
