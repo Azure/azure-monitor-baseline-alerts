@@ -15,7 +15,7 @@ weight: 75
 
 - **Example of deploying AMBA-ALZ**: This example demonstrates how to deploy the AMBA-ALZ pattern using an existing management group hierarchy with default naming as used in the [ALZ Architecture Definition](https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/refs/heads/main/platform/alz/architecture_definitions/alz.alz_architecture_definition.json).
 - **Example of deploying a Custom Architecture**: This example demonstrates how to deploy the AMBA-ALZ pattern using an existing custom management group hierarchy.
-- **Example of deploying with Custom Policy Assignments**: It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed.
+- **Example of deploying with Custom Policy Assignments**: It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well.
 
 ## Example of deploying AMBA-ALZ
 
@@ -98,7 +98,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
 ## Example of deploying with Custom Policy Assignments
 
-It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed:
+It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well:
 
 - Deploy using a custom management group hierarchy defined by architecture definition file in the local library.
 - Use a custom root archetype to ensure that the Service Health policy definitions and assignments are deployed.
