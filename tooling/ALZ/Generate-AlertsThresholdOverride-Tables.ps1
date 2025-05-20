@@ -1,13 +1,13 @@
 ﻿
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
-$thresholdOverrideTablesRoorDir = ".\docs\content\patterns\alz\HowTo"
+$thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
 $exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
 
 # Define source table file heading and structure
-$activityLogAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRoorDir + "\ActivityLog_Alerts_OverrideTags_Table.md"
-$LogSearchAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRoorDir + "\Log_Search_Alerts_OverrideTags_Table.md"
-$metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRoorDir + "\Metrics_Alerts_OverrideTags_Table.md"
+$activityLogAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\ActivityLog_Alerts_OverrideTags_Table.md"
+$LogSearchAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\Log_Search_Alerts_OverrideTags_Table.md"
+$metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\Metrics_Alerts_OverrideTags_Table.md"
 
 # Appending lines to Activity Log source table files
 "---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8
