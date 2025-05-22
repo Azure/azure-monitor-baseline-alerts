@@ -45,6 +45,7 @@
 
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+    .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ResourceAndServiceHealth
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-HybridVM
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-VM
     .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
@@ -184,7 +185,7 @@ function Enumerate-PolicySet {
   $policies = $policySet.properties.policyDefinitions
 
   # Iterate through the policies in the policy set
-  If ($policyAssignmentObject.properties.policyDefinitionId -match "/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ServiceHealth") {
+  If ($policyAssignmentObject.properties.policyDefinitionId -match "/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ResourceAndServiceHealth") {
     $policyDefinitionReferenceId = "Deploy_ServiceHealth_ActionGroups"
     Start-PolicyRemediation -azureEnvironmentURI $azureEnvironmentURI -managementGroupName $managementGroupName -policyAssignmentName $name -policyAssignmentId $policyAssignmentId -policyDefinitionReferenceId $policyDefinitionReferenceId
     Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
