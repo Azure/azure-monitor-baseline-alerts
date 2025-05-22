@@ -25,6 +25,11 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 1. Open Visual Studio Code or another preferred tool.
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
+
+    {{< hint type=note >}}
+    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
+    {{< /hint >}}
+
 1. Download `terraform.tf`
 
     ```powershell
@@ -69,6 +74,11 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 1. Open Visual Studio Code or another preferred tool.
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
+
+    {{< hint type=note >}}
+    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
+    {{< /hint >}}
+
 1. Download `terraform.tf`
 
     ```powershell
@@ -118,6 +128,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
     ```
 
 1. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
+1. Return to the `tf-amba-alz` directory in the terminal. `cd..`
 1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
@@ -135,6 +146,11 @@ Deployment:
 1. Open Visual Studio Code or another preferred tool.
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
+
+    {{< hint type=note >}}
+    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
+    {{< /hint >}}
+
 1. Download `terraform.tf`
 
     ```powershell
@@ -190,6 +206,7 @@ Deployment:
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/lib/root.alz_archetype_definition.json -OutFile root.alz_archetype_definition.json
     ```
 
+1. Return to the `tf-amba-alz` directory in the terminal. `cd..`
 1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
