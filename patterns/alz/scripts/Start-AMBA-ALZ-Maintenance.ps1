@@ -10,14 +10,24 @@
 # SOFTWARE.
 
 <#
-.DESCRIPTION
+        .NOTES
+    AUTHORS:  Arjen Huitema, Bruno Gabrielli
+    LASTEDIT: May 22nd, 2025
+
+    - VERSION: 1.1 // May 22nd, 2025
+      - Added logic to query and remove old SH alerts created by the custom AMBA-ALZ policy
+
+    - VERSION: 1.0 // Oct 15th, 2024
+      - Initial version of the script
+
+    .DESCRIPTION
     This script is intended to consolidate previous maintenance scripts. It allow customers to:
     - remove ALL resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
     - remove ONLY the deployment entries of AMBA-ALZ happening at the pseudo root management group level
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ version older than 2024-03-01
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
-    - remove ONLY SH alerts deployed by the AMBA-ALZ pattern before the adoption of Built-in SH policy (release 2025-07-04)
+    - remove ONLY SH alerts deployed by the AMBA-ALZ pattern using the custom policy before the adoption of Built-in SH policy (release 2025-07-04)
     - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
     - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
     - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
