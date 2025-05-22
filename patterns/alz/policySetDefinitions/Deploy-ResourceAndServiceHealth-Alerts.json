@@ -212,18 +212,6 @@
         "defaultValue": ""
       }
     },
-    "variables": {
-      "copy": [
-        {
-          "name": "varActionGroupIds",
-          "count": "[length(parameters('BYOActionGroup'))]",
-          "mode": "serial",
-          "input": {
-            "actionGroupId": "[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
-          }
-        }
-      ]
-    },
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
@@ -328,7 +316,21 @@
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "actionGroups": {
-            "value": "[[if(empty(parameters('BYOActionGroup')), concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'), variables('varActionGroupIds'))]"
+            "value": "[[parameters('BYOActionGroup')]"
+          },
+          "actionGroupResources": {
+            "value": {
+              "actionGroupEmail": "[[parameters('ALZMonitorActionGroupEmail')]",
+              "logicappResourceId": "[[parameters('ALZLogicappResourceId')]",
+              "logicappCallbackUrl": "[[parameters('ALZLogicappCallbackUrl')]",
+              "eventHubResourceId": "[[parameters('ALZEventHubResourceId')]",
+              "webhookServiceUri": "[[parameters('ALZWebhookServiceUri')]",
+              "functionResourceId": "[[parameters('ALZFunctionResourceId')]",
+              "functionTriggerUrl": "[[parameters('ALZFunctionTriggerUrl')]"
+            }
+          },
+          "actionGroupRoleIds": {
+            "value": "[[parameters('ALZArmRoleId')]"
           },
           "createNewActionGroup": {
             "value": "false"
