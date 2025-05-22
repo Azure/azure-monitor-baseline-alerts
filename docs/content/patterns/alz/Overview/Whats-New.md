@@ -109,8 +109,8 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
   - Deploy Activity Log Application Insights Delete Alert (Preview)
   - Deploy Application Insights Throttling Limit Reached Alert (Preview)
 - Added new policies to create Alert rules for Route Table activity:
-  - [Preview] Deploy Activity Log Routes Delete Alert
-  - [Preview] Deploy Activity Log Route Table Delete Alert
+  - [Preview]: Deploy Activity Log Routes Delete Alert
+  - [Preview]: Deploy Activity Log Route Table Delete Alert
 - Alert Processing Rule flexibility: Alert Processing Rule policy now includes new parameters to specify which severities are including as a filter. By default the Alert Processing Rule includes all 5 severities from ***Sev0*** to ***Sev4***. Customer can leave the default values or remove the unnecessary ones to reduce the number of alerts that will be processed by the Alert Processing Rule
 
 ### Bug Fixes
