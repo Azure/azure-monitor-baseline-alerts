@@ -15,7 +15,7 @@
     LASTEDIT: May 22nd, 2025
 
     - VERSION: 1.1 // May 22nd, 2025
-      - Added logic to query and remove old SH alerts created by the custom AMBA-ALZ policy
+      - Added logic to query and remove legacy SH alerts created by the deprecated custom AMBA-ALZ policy
 
     - VERSION: 1.0 // Oct 15th, 2024
       - Initial version of the script
@@ -27,7 +27,7 @@
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ version older than 2024-03-01
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
-    - remove ONLY SH alerts deployed by the AMBA-ALZ pattern using the custom policy before the adoption of Built-in SH policy (release 2025-07-04)
+    - remove ONLY the legacy ServiceHealth alerts and actiongroups deployed by the AMBA-ALZ pattern before the adoption of Built-in SH policy (release 2025-07-04)
     - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
     - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
     - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
@@ -53,7 +53,7 @@
         - OldNotificationAssets
         - NotificationAssets
         - Alerts
-        - SHAlerts
+        - LegacySH
         - PolicyAssignments
         - PolicyDefinitions
         - OrphanedAlerts
@@ -331,12 +331,22 @@ Function Get-ALZ-OldAlertProcessingRules {
 
 Function Get-ALZ-OldActionGroups {
   # get action groups to delete
-  $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | project id"
+  $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | where name =~ 'AmbaActionGr' | where properties.groupShortName=~ 'AmbaActionGr' | project id"
   $oldActionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
   Write-Host "- Found '$($oldActionGroupIds.Count)' action group(s) with name 'AmbaActionGr', short name 'AmbaActionGr' and tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $oldActionGroupIds
+}
+
+Function Get-ALZ-SHActionGroups {
+  # get action groups to delete
+  $query = "resources | where type =~ 'Microsoft.Insights/actionGroups' | where tags['_deployed_by_amba'] =~ 'True' | where name has 'ag-AMBA-SH-' | where properties.groupShortName has 'SH-ActGrp' | project id"
+  $shaActionGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+  Write-Host "- Found '$($shaActionGroupIds.Count)' action group(s) with name starting with 'ag-AMBA-SH-', short name 'SH-ActGrp' and tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+
+  # Returning items
+  $shaActionGroupIds
 }
 
 #endregion
@@ -563,6 +573,58 @@ Switch ($cleanItems) {
     }
   }
 
+  "LegacySH" {
+    # Invoking function to retrieve legacy SH alerts
+    $shAlertsToBeDeleted = Get-ALZ-SHAlerts
+
+    If ($shAlertsToBeDeleted.count -gt 0) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete legacy Service Health alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+        # Invoking function to delete alerts
+        Delete-ALZ-Alerts -fAlertsToBeDeleted $shAlertsToBeDeleted
+      }
+    }
+
+    # Invoking function to retrieve legacy SH action groups
+    $shAgToBeDeleted = Get-ALZ-SHActionGroups
+
+    If (($shAgToBeDeleted.count -gt 0)) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete legacy service Health action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+        # Invoking function to delete action groups
+        Delete-ALZ-ActionGroups -fAgToBeDeleted $shAgToBeDeleted
+      }
+    }
+  }
+
+  <# Removal of SH alerts and Action Groups
+  "SHAlerts" {
+    # Invoking function to retrieve legacy SH alerts
+    $shAlertsToBeDeleted = Get-ALZ-SHAlerts
+
+    If ($shAlertsToBeDeleted.count -gt 0) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete legacy Service Health alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+        # Invoking function to delete alerts
+        Delete-ALZ-Alerts -fAlertsToBeDeleted $shAlertsToBeDeleted
+      }
+    }
+  }
+
+  "SHActionGroups" {
+    # Invoking function to retrieve SH legacy action groups
+    $shAgToBeDeleted = Get-ALZ-SHActionGroups
+
+    If (($shAgToBeDeleted.count -gt 0)) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete legacy Service Health action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+        # Invoking function to delete action groups
+        Delete-ALZ-ActionGroups -fAgToBeDeleted $shAgToBeDeleted
+      }
+    }
+  }
+  #>
+
   "Alerts" {
     # Invoking function to retrieve alerts
     $alertsToBeDeleted = Get-ALZ-Alerts
@@ -572,19 +634,6 @@ Switch ($cleanItems) {
 
         # Invoking function to delete alerts
         Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted
-      }
-    }
-  }
-
-  "SHAlerts" {
-    # Invoking function to retrieve old SH alerts
-    $shAlertsToBeDeleted = Get-ALZ-SHAlerts
-
-    If ($shAlertsToBeDeleted.count -gt 0) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete old Service Health alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
-
-        # Invoking function to delete alerts
-        Delete-ALZ-Alerts -fAlertsToBeDeleted $shAlertsToBeDeleted
       }
     }
   }
