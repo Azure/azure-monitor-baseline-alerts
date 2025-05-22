@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "18213253096554594436"
+      "templateHash": "15748355936693349117"
     }
   },
   "parameters": {
@@ -227,6 +227,33 @@
               "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
             }
           },
+          "ShaBuiltInAlertRuleName": {
+            "type": "string",
+            "defaultValue": "ServiceHealthSubscriptionAlertRule",
+            "metadata": {
+              "displayName": "Alert Rule Name",
+              "description": "Name of the alert rule"
+            }
+          },
+          "ShaBuiltInEventTypes": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "Event Types",
+              "description": "Event types to include in the alert rule"
+            },
+            "allowedValues": [
+              "Service Issues",
+              "Planned Maintenance",
+              "Health Advisories",
+              "Security Advisories"
+            ],
+            "defaultValue": [
+              "Service Issues",
+              "Planned Maintenance",
+              "Health Advisories",
+              "Security Advisories"
+            ]
+          },
           "ALZMonitorActionGroupEmail": {
             "type": "Array",
             "defaultValue": [],
@@ -414,6 +441,12 @@
               },
               "createNewActionGroup": {
                 "value": "false"
+              },
+              "alertRuleName": {
+                "value": "[[[parameters('ShaBuiltInAlertRuleName')]"
+              },
+              "eventTypes": {
+                "value": "[[[parameters('ShaBuiltInEventTypes')]"
               }
             }
           }
