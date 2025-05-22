@@ -107,7 +107,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
     New-Item -name lib -ItemType directory
     ```
 
-1. Create the `custom.alz_architecture_definition.json` file in the `lib` directory.
+1. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
 
     ```cmd
     cd .\lib\
@@ -173,7 +173,7 @@ Deployment:
     New-Item -name lib -ItemType directory
     ```
 
-1. Create the `custom.alz_architecture_definition.json` file in the `lib` directory.
+1. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
 
     ```cmd
     cd .\lib\
@@ -184,7 +184,7 @@ Deployment:
     ```
 
 1. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
-1. Create the `root.alz_archetype_definition.json` file in the `lib` directory.
+1. Download the `root.alz_archetype_definition.json` file to the `lib` directory.
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/lib/root.alz_archetype_definition.json -OutFile root.alz_archetype_definition.json
