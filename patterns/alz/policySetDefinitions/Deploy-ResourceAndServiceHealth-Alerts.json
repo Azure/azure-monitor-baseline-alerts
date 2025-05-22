@@ -216,10 +216,10 @@
       "copy": [
         {
           "name": "varActionGroupIds",
-          "count": "[[length(parameters('BYOActionGroup'))]",
+          "count": "[length(parameters('BYOActionGroup'))]",
           "mode": "serial",
           "input": {
-            "actionGroupId": "[[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
+            "actionGroupId": "[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
           }
         }
       ]
@@ -328,7 +328,7 @@
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "actionGroups": {
-            "value": "[[if(empty(parameters('BYOActionGroup')), concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'), parameters('BYOActionGroup'))]"
+            "value": "[[if(empty(parameters('BYOActionGroup')), concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'), variables('varActionGroupIds'))]"
           },
           "createNewActionGroup": {
             "value": "false"
