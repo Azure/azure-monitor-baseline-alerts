@@ -1,16 +1,14 @@
 {
   "type": "Microsoft.Authorization/policySetDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Alerting-ServiceHealth",
+  "name": "Alerting-ResourceAndServiceHealth",
   "properties": {
-    "displayName": "[Deprecated]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Service Health",
-    "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health.",
+    "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for both Resource and Service Health",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Resource and Service Health Events such as Service issues, Planned maintenance, Health advisories, Security advisories, and Resource health.",
     "metadata": {
-      "version": "1.5.3-deprecated",
+      "version": "1.0.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "deprecated": true,
-      "supersededBy": "Alerting-ResourceAndServiceHealth",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
@@ -84,7 +82,7 @@
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
-      "SvcHlthAdvisoryAlertState": {
+      "ShaBuiltInAlertState": {
         "type": "string",
         "defaultValue": "true",
         "metadata": {
@@ -92,7 +90,7 @@
           "description": "State of the Service Health Advisory alert"
         }
       },
-      "serviceHealthAdvisoryPolicyEffect": {
+      "ShaBuiltInPolicyEffect": {
         "type": "string",
         "defaultValue": "deployIfNotExists",
         "allowedValues": [
@@ -101,66 +99,6 @@
         ],
         "metadata": {
           "displayName": "Service Health Advisory Alert Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
-        }
-      },
-      "SvcHlthIncidentAlertState": {
-        "type": "string",
-        "defaultValue": "true",
-        "metadata": {
-          "displayName": "Service Health Incident Alert State",
-          "description": "State of the Service Health Incident alert"
-        }
-      },
-      "serviceHealthIncidentPolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Service Health Incident Alert Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
-        }
-      },
-      "SvcHlthMaintenanceAlertState": {
-        "type": "string",
-        "defaultValue": "true",
-        "metadata": {
-          "displayName": "Service Health Maintenance Alert State",
-          "description": "State of the Service Health Maintenance alert"
-        }
-      },
-      "serviceHealthMaintenancePolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Service Health Maintenance Alert Policy Effect",
-          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
-        }
-      },
-      "svcHlthSecAdvisoryAlertState": {
-        "type": "string",
-        "defaultValue": "true",
-        "metadata": {
-          "displayName": "Service Health Security Advisory Alert State",
-          "description": "State of the Service Health Security Advisory alert"
-        }
-      },
-      "serviceHealthSecurityPolicyEffect": {
-        "type": "string",
-        "defaultValue": "deployIfNotExists",
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "metadata": {
-          "displayName": "Service Health Security Advisory Alert Policy Effect",
           "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
         }
       },
@@ -328,80 +266,14 @@
         }
       },
       {
-        "policyDefinitionReferenceId": "ALZ_SvcHlthAdvisory",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_HealthAdvisory",
+        "policyDefinitionReferenceId": "ALZ_SHA_BuiltIn",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/5767665a-09c7-46e5-bdca-58b0a2bd72fa",
         "parameters": {
           "enabled": {
-            "value": "[[parameters('SvcHlthAdvisoryAlertState')]"
+            "value": "[[parameters('ShaBuiltInAlertState')]"
           },
           "effect": {
-            "value": "[[parameters('serviceHealthAdvisoryPolicyEffect')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "alertResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "BYOActionGroup": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_SvcHlthIncident",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Incident",
-        "parameters": {
-          "enabled": {
-            "value": "[[parameters('SvcHlthIncidentAlertState')]"
-          },
-          "effect": {
-            "value": "[[parameters('serviceHealthIncidentPolicyEffect')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "alertResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "BYOActionGroup": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_SvcHlthMaintenance",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Maintenance",
-        "parameters": {
-          "enabled": {
-            "value": "[[parameters('SvcHlthMaintenanceAlertState')]"
-          },
-          "effect": {
-            "value": "[[parameters('serviceHealthMaintenancePolicyEffect')]"
+            "value": "[[parameters('ShaBuiltInPolicyEffect')]"
           },
           "alertResourceGroupName": {
             "value": "[[parameters('ALZMonitorResourceGroupName')]"
@@ -414,48 +286,6 @@
           },
           "BYOActionGroup": {
             "value": "[[parameters('BYOActionGroup')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_svcHlthSecAdvisory",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_SecurityAdvisory",
-        "parameters": {
-          "enabled": {
-            "value": "[[parameters('svcHlthSecAdvisoryAlertState')]"
-          },
-          "effect": {
-            "value": "[[parameters('serviceHealthSecurityPolicyEffect')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "alertResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "BYOActionGroup": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
           }
         }
       }
