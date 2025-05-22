@@ -23,7 +23,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 
 1. Create a new directory, for example `tf-amba-alz`.
 1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O).
+1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+1. Open a Terminal (PowerShell).
 1. Download `terraform.tf`
 
     ```powershell
@@ -42,9 +43,21 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/complete/variables.tf -OutFile variables.tf
     ```
 
+1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+
+    ```hcl
+    source = "../../"
+    ```
+
+    With:
+
+    ```hcl
+    source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
+    version = "0.1.1"
+    ```
+
 1. Review the variables in `variables.tf` and update default values as needed.
-1. Open a Terminal.
-1. Log in to Azure: `Login-AzAccount`
+1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
 
@@ -54,7 +67,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
 1. Create a new directory, for example `tf-amba-alz`.
 1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O).
+1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+1. Open a Terminal (PowerShell).
 1. Download `terraform.tf`
 
     ```powershell
@@ -71,6 +85,19 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-architecture-definition/variables.tf -OutFile variables.tf
+    ```
+
+1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+
+    ```hcl
+    source = "../../"
+    ```
+
+    With:
+
+    ```hcl
+    source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
+    version = "0.1.1"
     ```
 
 1. Review the variables in `variables.tf` and update default values as needed.
@@ -91,8 +118,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
     ```
 
 1. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
-1. Open a Terminal.
-1. Log in to Azure: `Login-AzAccount`
+1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
 
@@ -107,7 +133,8 @@ Deployment:
 
 1. Create a new directory, for example `tf-amba-alz`.
 1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O).
+1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+1. Open a Terminal (PowerShell).
 1. Download `terraform.tf`
 
     ```powershell
@@ -124,6 +151,19 @@ Deployment:
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/variables.tf -OutFile variables.tf
+    ```
+
+1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+
+    ```hcl
+    source = "../../"
+    ```
+
+    With:
+
+    ```hcl
+    source  = "Azure/avm-ptn-monitoring-amba-alz/azurerm"
+    version = "0.1.1"
     ```
 
 1. Review the variables in `variables.tf` and update default values as needed.
@@ -150,8 +190,7 @@ Deployment:
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/lib/root.alz_archetype_definition.json -OutFile root.alz_archetype_definition.json
     ```
 
-1. Open a Terminal.
-1. Log in to Azure: `Login-AzAccount`
+1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
 
