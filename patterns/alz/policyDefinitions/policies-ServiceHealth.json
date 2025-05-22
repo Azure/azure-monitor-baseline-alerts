@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "3361207707099615019"
+      "templateHash": "1493843036978583225"
     }
   },
   "parameters": {
@@ -439,7 +439,7 @@
                 "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
               },
               "actionGroups": {
-                "value": "[[[if(empty(parameters('BYOActionGroup')), concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'), parameters('BYOActionGroup'))]"
+                "value": "[[[if(empty(parameters('BYOActionGroup')), array(createObject('actionGroupId', concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'))), parameters('BYOActionGroup'))]"
               },
               "createNewActionGroup": {
                 "value": "false"
