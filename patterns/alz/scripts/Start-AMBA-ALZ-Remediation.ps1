@@ -184,7 +184,7 @@ function Enumerate-PolicySet {
   $policies = $policySet.properties.policyDefinitions
 
   # Iterate through the policies in the policy set
-  If ($policyAssignmentObject.properties.policyDefinitionId -match "/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ResourceAndServiceHealth") {
+  If ($policyAssignmentObject.properties.policyDefinitionId -match "/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ServiceHealth") {
     $policyDefinitionReferenceId = "Deploy_ServiceHealth_ActionGroups"
     Start-PolicyRemediation -azureEnvironmentURI $azureEnvironmentURI -managementGroupName $managementGroupName -policyAssignmentName $name -policyAssignmentId $policyAssignmentId -policyDefinitionReferenceId $policyDefinitionReferenceId
     Write-Host " Waiting for 5 minutes while remediating the 'Deploy Service Health Action Group' policy before continuing." -ForegroundColor Cyan
