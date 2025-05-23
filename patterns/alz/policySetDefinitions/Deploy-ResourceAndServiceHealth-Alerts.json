@@ -212,139 +212,216 @@
         "defaultValue": ""
       }
     },
-    "policyDefinitions": [
-      {
-        "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups",
-        "parameters": {
-          "ALZMonitorResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "ALZMonitorResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "ALZMonitorResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "ALZMonitorActionGroupEmail": {
-            "value": "[[parameters('ALZMonitorActionGroupEmail')]"
-          },
-          "ALZLogicappResourceId": {
-            "value": "[[parameters('ALZLogicappResourceId')]"
-          },
-          "ALZLogicappCallbackUrl": {
-            "value": "[[parameters('ALZLogicappCallbackUrl')]"
-          },
-          "ALZArmRoleId": {
-            "value": "[[parameters('ALZArmRoleId')]"
-          },
-          "ALZEventHubResourceId": {
-            "value": "[[parameters('ALZEventHubResourceId')]"
-          },
-          "ALZWebhookServiceUri": {
-            "value": "[[parameters('ALZWebhookServiceUri')]"
-          },
-          "ALZFunctionResourceId": {
-            "value": "[[parameters('ALZFunctionResourceId')]"
-          },
-          "ALZFunctionTriggerUrl": {
-            "value": "[[parameters('ALZFunctionTriggerUrl')]"
-          },
-          "BYOActionGroup": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "BYOAlertProcessingRule": {
-            "value": "[[parameters('BYOAlertProcessingRule')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+    "variables": {
+      "copy": [
+        {
+          "name": "varLogicAppReceivers",
+          "count": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').logicappResourceId)), 0, 1)]",
+          "mode": "serial",
+          "input": {
+            "name": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').logicappResourceId)), 'SHLA', concat('SHLA-', last(split(parameters('actionGroupResources').logicappResourceId, '/'))))]",
+            "resourceId": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').logicappResourceId)), null(), trim(parameters('actionGroupResources').logicappResourceId))]",
+            "callbackUrl": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').logicappCallbackUrl)), null(), trim(parameters('actionGroupResources').logicappCallbackUrl))]",
+            "useCommonAlertSchema": true
+          }
+        },
+        {
+          "name": "varAzureFunctionReceivers",
+          "count": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').functionResourceId)), 0, 1)]",
+          "mode": "serial",
+          "input": {
+            "name": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').functionResourceId)), 'SHFunc', concat('SHFunc-', last(split(parameters('actionGroupResources').functionResourceId, '/'))))]",
+            "functionAppResourceId": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').functionResourceId)), null(), split(trim(parameters('actionGroupResources').functionResourceId),'/functions/')[0])]",
+            "functionName": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').functionResourceId)), null(), if(greaterOrEquals(length(split(trim(parameters('actionGroupResources').functionResourceId), '/')), 11), split(trim(parameters('actionGroupResources').functionResourceId), '/')[10], 'defaultName'))]",
+            "httpTriggerUrl": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').functionTriggerUrl)), null(), trim(parameters('actionGroupResources').functionTriggerUrl))]",
+            "useCommonAlertSchema": true
+          }
+        },
+        {
+          "name": "varEmailReceivers",
+          "count": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').actionGroupEmail)), 0, length(parameters('actionGroupResources').actionGroupEmail))]",
+          "mode": "serial",
+          "input": {
+            "name": "[concat('SHMail-',parameters('actionGroupResources').actionGroupEmail[copyIndex('varEmailReceivers')])]",
+            "emailAddress": "[trim(parameters('actionGroupResources').actionGroupEmail[copyIndex('varEmailReceivers')])]",
+            "useCommonAlertSchema": true
+          }
+        },
+        {
+          "name": "varArmRoleReceivers",
+          "count": "[length(parameters('actionGroupRoleIds'))]",
+          "mode": "serial",
+          "input": {
+            "name": "[concat('SHARM-', parameters('actionGroupRoleIds')[copyIndex('varArmRoleReceivers')])]",
+            "roleId": "[variables('varArmRoleGuidMap')[parameters('actionGroupRoleIds')[copyIndex('varArmRoleReceivers')]]]",
+            "useCommonAlertSchema": true
+          }
+        },
+        {
+          "name": "varEventHubReceivers",
+          "count": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').eventHubResourceId)), 0, length(parameters('actionGroupResources').eventHubResourceId))]",
+          "mode": "serial",
+          "input": {
+            "name": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').eventHubResourceId[copyIndex('varEventHubReceivers')])), 'SHLA', concat('SHLA-', last(split(parameters('actionGroupResources').eventHubResourceId[copyIndex('varEventHubReceivers')], '/'))))]",
+            "subscriptionId": "[if(empty(parameters('actionGroupResources').eventHubResourceId), null(), split(trim(parameters('actionGroupResources').eventHubResourceId[copyIndex('varEventHubReceivers')]),'/')[2])]",
+            "eventHubNameSpace": "[if(empty(parameters('actionGroupResources').eventHubResourceId), null(), split(trim(parameters('actionGroupResources').eventHubResourceId[copyIndex('varEventHubReceivers')]),'/')[8])]",
+            "eventHubName": "[if(empty(parameters('actionGroupResources').eventHubResourceId), null(), split(trim(parameters('actionGroupResources').eventHubResourceId[copyIndex('varEventHubReceivers')]),'/')[10])]",
+            "useCommonAlertSchema": true,
+            "tenantId": "[subscription().tenantId]"
+          }
+        },
+        {
+          "name": "varWebhookReceivers",
+          "count": "[if(or(empty(parameters('actionGroupResources')), empty(parameters('actionGroupResources').webhookServiceUri)), 0, length(parameters('actionGroupResources').webhookServiceUri))]",
+          "mode": "serial",
+          "input": {
+            "name": "[concat('SHWh-',parameters('actionGroupResources').webhookServiceUri[copyIndex('varWebhookReceivers')])]",
+            "identifierUri": "null()",
+            "objectId": "null()",
+            "serviceUri": "[trim(parameters('actionGroupResources').webhookServiceUri[copyIndex('varWebhookReceivers')])]",
+            "useCommonAlertSchema": true,
+            "tenantId": "null()",
+            "useAadAuth": "false"
           }
         }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
-        "parameters": {
-          "enabled": {
-            "value": "[[parameters('ResHlthUnhealthyAlertState')]"
-          },
-          "effect": {
-            "value": "[[parameters('ResHlthUnhealthyPolicyEffect')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[[parameters('ALZMonitorResourceGroupTags')]"
-          },
-          "alertResourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "BYOActionGroup": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "MonitorDisableTagName": {
-            "value": "[[parameters('ALZMonitorDisableTagName')]"
-          },
-          "MonitorDisableTagValues": {
-            "value": "[[parameters('ALZMonitorDisableTagValues')]"
-          }
-        }
-      },
-      {
-        "policyDefinitionReferenceId": "ALZ_SHA_BuiltIn",
-        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fa66d82b-10a1-42cc-bdd8-1411e6ad2f1a/providers/Microsoft.Authorization/policyDefinitions/8e3bbe6d-778b-4559-aa05-131c6fc64744",
-        "parameters": {
-          "enabled": {
-            "value": "[[parameters('ShaBuiltInAlertState')]"
-          },
-          "effect": {
-            "value": "[[parameters('ShaBuiltInPolicyEffect')]"
-          },
-          "resourceGroupName": {
-            "value": "[[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "additionalTags": {
-            "value": {
-              "_deployed_by_amba": true
-            }
-          },
-          "resourceGroupLocation": {
-            "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "actionGroups": {
-            "value": "[[parameters('BYOActionGroup')]"
-          },
-          "actionGroupResources": {
-            "value": {
-              "actionGroupEmail": "[[parameters('ALZMonitorActionGroupEmail')]",
-              "logicappResourceId": "[[parameters('ALZLogicappResourceId')]",
-              "logicappCallbackUrl": "[[parameters('ALZLogicappCallbackUrl')]",
-              "eventHubResourceId": "[[parameters('ALZEventHubResourceId')]",
-              "webhookServiceUri": "[[parameters('ALZWebhookServiceUri')]",
-              "functionResourceId": "[[parameters('ALZFunctionResourceId')]",
-              "functionTriggerUrl": "[[parameters('ALZFunctionTriggerUrl')]"
-            }
-          },
-          "actionGroupRoleIds": {
-            "value": "[[parameters('ALZArmRoleId')]"
-          },
-          "createNewActionGroup": {
-            "value": "[[if(empty(parameters('BYOActionGroup')), 'true', 'false')]"
-          },
-          "alertRuleName": {
-            "value": "[[parameters('ShaBuiltInAlertRuleName')]"
-          },
-          "eventTypes": {
-            "value": "[[parameters('ShaBuiltInEventTypes')]"
-          }
+      ]
+    }
+  },
+  "policyDefinitions": [
+    {
+      "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
+      "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups",
+      "parameters": {
+        "ALZMonitorResourceGroupName": {
+          "value": "[[parameters('ALZMonitorResourceGroupName')]"
+        },
+        "ALZMonitorResourceGroupTags": {
+          "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+        },
+        "ALZMonitorResourceGroupLocation": {
+          "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+        },
+        "ALZMonitorActionGroupEmail": {
+          "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+        },
+        "ALZLogicappResourceId": {
+          "value": "[[parameters('ALZLogicappResourceId')]"
+        },
+        "ALZLogicappCallbackUrl": {
+          "value": "[[parameters('ALZLogicappCallbackUrl')]"
+        },
+        "ALZArmRoleId": {
+          "value": "[[parameters('ALZArmRoleId')]"
+        },
+        "ALZEventHubResourceId": {
+          "value": "[[parameters('ALZEventHubResourceId')]"
+        },
+        "ALZWebhookServiceUri": {
+          "value": "[[parameters('ALZWebhookServiceUri')]"
+        },
+        "ALZFunctionResourceId": {
+          "value": "[[parameters('ALZFunctionResourceId')]"
+        },
+        "ALZFunctionTriggerUrl": {
+          "value": "[[parameters('ALZFunctionTriggerUrl')]"
+        },
+        "BYOActionGroup": {
+          "value": "[[parameters('BYOActionGroup')]"
+        },
+        "BYOAlertProcessingRule": {
+          "value": "[[parameters('BYOAlertProcessingRule')]"
+        },
+        "MonitorDisableTagName": {
+          "value": "[[parameters('ALZMonitorDisableTagName')]"
+        },
+        "MonitorDisableTagValues": {
+          "value": "[[parameters('ALZMonitorDisableTagValues')]"
         }
       }
-    ],
-    "policyType": "Custom",
-    "policyDefinitionGroups": null
-  }
+    },
+    {
+      "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
+      "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
+      "parameters": {
+        "enabled": {
+          "value": "[[parameters('ResHlthUnhealthyAlertState')]"
+        },
+        "effect": {
+          "value": "[[parameters('ResHlthUnhealthyPolicyEffect')]"
+        },
+        "alertResourceGroupName": {
+          "value": "[[parameters('ALZMonitorResourceGroupName')]"
+        },
+        "alertResourceGroupTags": {
+          "value": "[[parameters('ALZMonitorResourceGroupTags')]"
+        },
+        "alertResourceGroupLocation": {
+          "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+        },
+        "BYOActionGroup": {
+          "value": "[[parameters('BYOActionGroup')]"
+        },
+        "MonitorDisableTagName": {
+          "value": "[[parameters('ALZMonitorDisableTagName')]"
+        },
+        "MonitorDisableTagValues": {
+          "value": "[[parameters('ALZMonitorDisableTagValues')]"
+        }
+      }
+    },
+    {
+      "policyDefinitionReferenceId": "ALZ_SHA_BuiltIn",
+      "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fa66d82b-10a1-42cc-bdd8-1411e6ad2f1a/providers/Microsoft.Authorization/policyDefinitions/8e3bbe6d-778b-4559-aa05-131c6fc64744",
+      "parameters": {
+        "enabled": {
+          "value": "[[parameters('ShaBuiltInAlertState')]"
+        },
+        "effect": {
+          "value": "[[parameters('ShaBuiltInPolicyEffect')]"
+        },
+        "resourceGroupName": {
+          "value": "[[parameters('ALZMonitorResourceGroupName')]"
+        },
+        "additionalTags": {
+          "value": {
+            "_deployed_by_amba": true
+          }
+        },
+        "resourceGroupLocation": {
+          "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+        },
+        "actionGroups": {
+          "value": "[[parameters('BYOActionGroup')]"
+        },
+        "actionGroupResources": {
+          "value": {
+            "actionGroupEmail": {
+              "value": "[[parameters('ALZMonitorActionGroupEmail')]"
+            },
+            "logicappResourceId": "[[if(empty(parameters('ALZLogicappResourceId')), null(), trim(parameters('ALZLogicappResourceId')))]",
+            "logicappCallbackUrl": "[[if(empty(parameters('ALZLogicappCallbackUrl')), null(), trim(parameters('ALZLogicappCallbackUrl')))]",
+            "eventHubResourceId": "[[if(empty(parameters('ALZEventHubResourceId')), null, trim(parameters('ALZEventHubResourceId')))]",
+            "webhookServiceUri": "[[if(empty(parameters('ALZWebhookServiceUri')), null, trim(parameters('ALZWebhookServiceUri')))]",
+            "functionResourceId": "[[if(empty(parameters('ALZFunctionResourceId')), null(), split(trim(parameters('ALZFunctionResourceId')),'/functions/')[0])]",
+            "functionTriggerUrl": "[[if(empty(parameters('ALZFunctionTriggerUrl')), null(), trim(parameters('ALZFunctionTriggerUrl')))]"
+          }
+        },
+        "actionGroupRoleIds": {
+          "value": "[[parameters('ALZArmRoleId')]"
+        },
+        "createNewActionGroup": {
+          "value": "[[if(empty(parameters('BYOActionGroup')), 'true', 'false')]"
+        },
+        "alertRuleName": {
+          "value": "[[parameters('ShaBuiltInAlertRuleName')]"
+        },
+        "eventTypes": {
+          "value": "[[parameters('ShaBuiltInEventTypes')]"
+        }
+      }
+    }
+  ],
+  "policyType": "Custom",
+  "policyDefinitionGroups": null
+}
 }
