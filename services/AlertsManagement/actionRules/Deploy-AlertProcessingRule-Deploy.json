@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Notification Assets",
     "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.5.1",
+      "version": "1.6.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -299,7 +299,7 @@
                       "mode": "serial",
                       "input": {
                         "name": "[[concat('AlzARM-', indexOf(parameters('ALZArmRoleId'), parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
-                        "roleId": "[[variables('varArmRoleGuidMap')trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
+                        "roleId": "[[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])variables('varArmRoleGuidMap')]",
                         "useCommonAlertSchema": true
                       }
                     },
