@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "15818840104760714208"
+      "templateHash": "13321424547431553907"
     }
   },
   "parameters": {
@@ -854,7 +854,15 @@
                 "value": "[[[parameters('BYOActionGroup')]"
               },
               "actionGroupResources": {
-                "value": "[[[union(parameters('ALZMonitorActionGroupEmail'), parameters('ALZLogicappResourceId'), parameters('ALZEventHubResourceId'), parameters('ALZWebhookServiceUri'), parameters('ALZFunctionResourceId'))]"
+                "value": {
+                  "ActionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
+                  "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
+                  "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
+                  "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
+                  "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
+                  "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
+                  "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
+                }
               },
               "actionGroupRoleIds": {
                 "value": "[[[parameters('ALZArmRoleId')]"
