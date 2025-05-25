@@ -108,8 +108,8 @@ The following instructions apply universally, regardless of your alignment with 
   },
   "ALZArmRoleId": {
       "value": [
-          "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
-          "b24988ac-6180-42a0-ab88-20f7382dd24c"
+          "Owner",
+          "Contributor"
       ]
   },
   "ALZWebhookServiceUri": {
