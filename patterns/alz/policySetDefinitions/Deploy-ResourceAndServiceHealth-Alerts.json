@@ -211,17 +211,7 @@
         "defaultValue": []
       }
     },
-    "variables": {
-      "varActionGroupResources": {
-        "ActionGroupEmail": "[[parameters('ALZMonitorActionGroupEmail')]",
-        "logicappResourceId": "[[parameters('ALZLogicappResourceId')]",
-        "logicappCallbackUrl": "[[parameters('ALZLogicappCallbackUrl')]",
-        "eventHubResourceId": "[[parameters('ALZEventHubResourceId')]",
-        "webhookServiceUri": "[[parameters('ALZWebhookServiceUri')]",
-        "functionResourceId": "[[parameters('ALZFunctionResourceId')]",
-        "functionTriggerUrl": "[[parameters('ALZFunctionTriggerUrl')]"
-      }
-    },
+    "variables": {},
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
@@ -275,7 +265,7 @@
             "value": "[[parameters('BYOActionGroup')]"
           },
           "actionGroupResources": {
-            "value": "[[variables('varActionGroupResources')]"
+            "value": "[[union(parameters('ALZMonitorActionGroupEmail'), parameters('ALZLogicappResourceId'), parameters('ALZEventHubResourceId'), parameters('ALZWebhookServiceUri'), parameters('ALZFunctionResourceId'))]]"
           },
           "actionGroupRoleIds": {
             "value": "[[parameters('ALZArmRoleId')]"
