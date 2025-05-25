@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "305914000971575548"
+      "templateHash": "11652068569094297914"
     }
   },
   "parameters": {
@@ -800,86 +800,89 @@
             "defaultValue": []
           }
         },
-        "policyDefinitions": [
-          {
-            "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
-            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
-            "parameters": {
-              "enabled": {
-                "value": "[[[parameters('ResHlthUnhealthyAlertState')]"
-              },
-              "effect": {
-                "value": "[[[parameters('ResHlthUnhealthyPolicyEffect')]"
-              },
-              "alertResourceGroupName": {
-                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
-              },
-              "alertResourceGroupTags": {
-                "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
-              },
-              "alertResourceGroupLocation": {
-                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
-              },
-              "MonitorDisableTagName": {
-                "value": "[[[parameters('ALZMonitorDisableTagName')]"
-              },
-              "MonitorDisableTagValues": {
-                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
-              }
-            }
+        "variables": {
+          "varActionGroupResources": {
+            "ActionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
+            "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
+            "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
+            "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
+            "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
+            "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
+            "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
           },
-          {
-            "policyDefinitionReferenceId": "ALZ_SHA_BuiltIn",
-            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fa66d82b-10a1-42cc-bdd8-1411e6ad2f1a/providers/Microsoft.Authorization/policyDefinitions/8e3bbe6d-778b-4559-aa05-131c6fc64744",
-            "parameters": {
-              "enabled": {
-                "value": "[[[parameters('ShaBuiltInAlertState')]"
-              },
-              "effect": {
-                "value": "[[[parameters('ShaBuiltInPolicyEffect')]"
-              },
-              "resourceGroupName": {
-                "value": "[[[parameters('ALZMonitorResourceGroupName')]"
-              },
-              "additionalTags": {
-                "value": {
-                  "_deployed_by_amba": true
+          "policyDefinitions": [
+            {
+              "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
+              "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
+              "parameters": {
+                "enabled": {
+                  "value": "[[[parameters('ResHlthUnhealthyAlertState')]"
+                },
+                "effect": {
+                  "value": "[[[parameters('ResHlthUnhealthyPolicyEffect')]"
+                },
+                "alertResourceGroupName": {
+                  "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+                },
+                "alertResourceGroupTags": {
+                  "value": "[[[parameters('ALZMonitorResourceGroupTags')]"
+                },
+                "alertResourceGroupLocation": {
+                  "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+                },
+                "MonitorDisableTagName": {
+                  "value": "[[[parameters('ALZMonitorDisableTagName')]"
+                },
+                "MonitorDisableTagValues": {
+                  "value": "[[[parameters('ALZMonitorDisableTagValues')]"
                 }
-              },
-              "resourceGroupLocation": {
-                "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
-              },
-              "actionGroups": {
-                "value": "[[[parameters('BYOActionGroup')]"
-              },
-              "actionGroupResources": {
-                "value": {
-                  "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
-                  "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
-                  "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
-                  "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
-                  "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
-                  "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
-                  "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
+              }
+            },
+            {
+              "policyDefinitionReferenceId": "ALZ_SHA_BuiltIn",
+              "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/fa66d82b-10a1-42cc-bdd8-1411e6ad2f1a/providers/Microsoft.Authorization/policyDefinitions/8e3bbe6d-778b-4559-aa05-131c6fc64744",
+              "parameters": {
+                "enabled": {
+                  "value": "[[[parameters('ShaBuiltInAlertState')]"
+                },
+                "effect": {
+                  "value": "[[[parameters('ShaBuiltInPolicyEffect')]"
+                },
+                "resourceGroupName": {
+                  "value": "[[[parameters('ALZMonitorResourceGroupName')]"
+                },
+                "additionalTags": {
+                  "value": {
+                    "_deployed_by_amba": true
+                  }
+                },
+                "resourceGroupLocation": {
+                  "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+                },
+                "actionGroups": {
+                  "value": "[[[parameters('BYOActionGroup')]"
+                },
+                "actionGroupResources": {
+                  "value": "[[[variables('varActionGroupResources')]"
+                },
+                "actionGroupRoleIds": {
+                  "value": "[[[parameters('ALZArmRoleId')]"
+                },
+                "createNewActionGroup": {
+                  "value": "[[[if(empty(parameters('BYOActionGroup')), 'true', 'false')]"
+                },
+                "alertRuleName": {
+                  "value": "[[[parameters('ShaBuiltInAlertRuleName')]"
+                },
+                "eventTypes": {
+                  "value": "[[[parameters('ShaBuiltInEventTypes')]"
                 }
-              },
-              "actionGroupRoleIds": {
-                "value": "[[[parameters('ALZArmRoleId')]"
-              },
-              "createNewActionGroup": {
-                "value": "[[[if(empty(parameters('BYOActionGroup')), 'true', 'false')]"
-              },
-              "alertRuleName": {
-                "value": "[[[parameters('ShaBuiltInAlertRuleName')]"
-              },
-              "eventTypes": {
-                "value": "[[[parameters('ShaBuiltInEventTypes')]"
               }
             }
-          }
-        ],
-        "policyType": "Custom",
-        "policyDefinitionGroups": null
+          ],
+          "policyType": "Custom",
+          "policyDefinitionGroups": null
+        }
       }
     },
     "cloudEnv": "[environment().name]",
