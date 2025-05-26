@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "6003432512955417829"
+      "templateHash": "10973239107816401143"
     }
   },
   "parameters": {
@@ -800,7 +800,17 @@
             "defaultValue": []
           }
         },
-        "variables": {},
+        "variables": {
+          "varActionGroupResources": {
+            "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
+            "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
+            "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
+            "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
+            "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
+            "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
+            "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
+          }
+        },
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
@@ -854,15 +864,7 @@
                 "value": "[[[parameters('BYOActionGroup')]"
               },
               "actionGroupResources": {
-                "value": {
-                  "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
-                  "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
-                  "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
-                  "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
-                  "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
-                  "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
-                  "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
-                }
+                "value": "[[[variables('varActionGroupResources')]"
               },
               "actionGroupRoleIds": {
                 "value": "[[[parameters('ALZArmRoleId')]"
