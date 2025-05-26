@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "5278802422491051997"
+      "templateHash": "12116197047288348686"
     }
   },
   "parameters": {
@@ -798,17 +798,18 @@
               "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
             },
             "defaultValue": []
-          }
-        },
-        "variables": {
-          "varActionGroupResources": {
-            "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
-            "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
-            "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
-            "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
-            "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
-            "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
-            "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
+          },
+          "actionGroupResources": {
+            "type": "object",
+            "defaultValue": {
+              "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
+              "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
+              "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
+              "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
+              "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
+              "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
+              "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
+            }
           }
         },
         "policyDefinitions": [
@@ -864,7 +865,7 @@
                 "value": "[[[parameters('BYOActionGroup')]"
               },
               "actionGroupResources": {
-                "value": "[[variables('varActionGroupResources')]"
+                "value": "[[parameters('actionGroupResources')]"
               },
               "actionGroupRoleIds": {
                 "value": "[[[parameters('ALZArmRoleId')]"

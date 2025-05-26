@@ -209,17 +209,18 @@
           "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
         },
         "defaultValue": []
-      }
-    },
-    "variables": {
-      "varActionGroupResources": {
-        "actionGroupEmail": "[[parameters('ALZMonitorActionGroupEmail')]",
-        "logicappResourceId": "[[parameters('ALZLogicappResourceId')]",
-        "logicappCallbackUrl": "[[parameters('ALZLogicappCallbackUrl')]",
-        "eventHubResourceId": "[[parameters('ALZEventHubResourceId')]",
-        "webhookServiceUri": "[[parameters('ALZWebhookServiceUri')]",
-        "functionResourceId": "[[parameters('ALZFunctionResourceId')]",
-        "functionTriggerUrl": "[[parameters('ALZFunctionTriggerUrl')]"
+      },
+      "actionGroupResources": {
+        "type": "object",
+        "defaultValue": {
+          "actionGroupEmail": "[[parameters('ALZMonitorActionGroupEmail')]",
+          "logicappResourceId": "[[parameters('ALZLogicappResourceId')]",
+          "logicappCallbackUrl": "[[parameters('ALZLogicappCallbackUrl')]",
+          "eventHubResourceId": "[[parameters('ALZEventHubResourceId')]",
+          "webhookServiceUri": "[[parameters('ALZWebhookServiceUri')]",
+          "functionResourceId": "[[parameters('ALZFunctionResourceId')]",
+          "functionTriggerUrl": "[[parameters('ALZFunctionTriggerUrl')]"
+        }
       }
     },
     "policyDefinitions": [
@@ -275,7 +276,7 @@
             "value": "[[parameters('BYOActionGroup')]"
           },
           "actionGroupResources": {
-            "value": "[variables('varActionGroupResources')]"
+            "value": "[parameters('actionGroupResources')]"
           },
           "actionGroupRoleIds": {
             "value": "[[parameters('ALZArmRoleId')]"
