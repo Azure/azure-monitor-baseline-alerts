@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "9183647186658862007"
+      "templateHash": "13355315746719344024"
     }
   },
   "parameters": {
@@ -798,6 +798,22 @@
               "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
             },
             "defaultValue": []
+          },
+          "AlzShActionGroupResources": {
+            "type": "object",
+            "metadata": {
+              "displayName": "Service Health Action Group Resources",
+              "description": "Action Group resources to be used for the Service Health Advisory alert"
+            },
+            "defaultValue": {
+              "actionGroupEmail": [],
+              "logicappResourceId": [],
+              "logicappCallbackUrl": [],
+              "eventHubResourceId": [],
+              "webhookServiceUri": [],
+              "functionResourceId": [],
+              "functionTriggerUrl": []
+            }
           }
         },
         "policyDefinitions": [
@@ -853,15 +869,7 @@
                 "value": "[[[parameters('BYOActionGroup')]"
               },
               "actionGroupResources": {
-                "value": {
-                  "actionGroupEmail": "[[[parameters('ALZMonitorActionGroupEmail')]",
-                  "logicappResourceId": "[[[parameters('ALZLogicappResourceId')]",
-                  "logicappCallbackUrl": "[[[parameters('ALZLogicappCallbackUrl')]",
-                  "eventHubResourceId": "[[[parameters('ALZEventHubResourceId')]",
-                  "webhookServiceUri": "[[[parameters('ALZWebhookServiceUri')]",
-                  "functionResourceId": "[[[parameters('ALZFunctionResourceId')]",
-                  "functionTriggerUrl": "[[[parameters('ALZFunctionTriggerUrl')]"
-                }
+                "value": "[[[parameters('AlzShActionGroupResources')]"
               },
               "actionGroupRoleIds": {
                 "value": "[[[parameters('ALZArmRoleId')]"
