@@ -7,17 +7,108 @@ weight: 25
 ### In this page
 
 > [Introduction](../Preview-Deploy-Changes#introduction) </br>
-> [ARM What-If Deployment](../Preview-Deploy-Changes#arm-what-if-deployment) </br>
-> [Parsing ARM What-If Output](../Preview-Deploy-Changes#parsing-arm-what-if-output) </br>
+> [How does it work](../Preview-Deploy-Changes#how-does-it-work) </br>
+> [Preview deployment changes using PowerShell](../Preview-Deploy-Changes#preview-deployment-changes-using-powershell) </br>
+> [Preview deployment changes using the GitHub workflow](../Preview-Deploy-Changes#preview-deployment-changes-using-the-github-workflow) </br>
 > [Next Steps](../Preview-Deploy-Changes#next-steps) </br>
 
 ## Introduction
 
 This document provides guidance on using the `az cli what-if` parameter to preview changes before deploying the Azure Monitor Baseline Alerts (AMBA) pattern.
 
-### ARM What-If Deployment
+### How does it work
 
 The `az deployment mg what-if` command allows you to preview the changes that would be made by an ARM template deployment without actually applying those changes. This is particularly useful for understanding the impact of deploying the Azure Monitor Baseline Alerts (AMBA) pattern.
+
+By capturing the output of the `az deployment mg what-if` command, you can analyze the changes that would occur, including resources that will be created, modified, or deleted. This helps in assessing the impact of the deployment and ensuring that it aligns with your expectations before proceeding with the actual deployment.
+
+First follow the steps in the [Deploy with Azure CLI](../Deploy-with-Azure-CLI) section to set up your parameters and variable as required for your target environment. However, in [Step 4 "Deploying AMBA-ALZ"](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/HowTo/deploy/Deploy-with-Azure-CLI/#4-deploying-amba-alz), instead of running the `az deployment mg create` command, you will run the `az deployment mg what-if` command to preview the changes.
+
+```bash
+az deployment mg what-if \
+  --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json \
+  --location $location \
+  --management-group-id $pseudoRootManagementGroup \
+  --parameters "alzArm.param.json"
+```
+
+### Preview deployment changes using PowerShell
+
+The PowerShell script expects an input, which is the output from the `az deployment mg what-if` command. You can capture the output to a file by appending `| tee amba-what-if-output.txt` to the command.
+
+```bash
+az deployment mg what-if \
+  --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json \
+  --location $location \
+  --management-group-id $pseudoRootManagementGroup \
+  --parameters "alzArm.param.json" | tee amba-what-if-output.txt
+```
+
+Using the output from the `az deployment mg what-if` command, you can parse it using the following PowerShell script to summarize the changes that would occur if the deployment were to proceed.
+
+```powershell
+# Get the content from the log file
+    $content = Get-Content -Path "./amba-what-if-output.txt"
+
+    # Define the patterns to search for and their corresponding messages
+    $patternMessageMap = @{
+      # Patterns for policies that will be added
+      '\+ Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be added:"
+      '\+ Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be added:"
+      '\+ Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be added:"
+      '\+ Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be added:"
+
+      # Patterns for policies that will be modified
+      '~ Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be modified:"
+      '~ Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be modified:"
+      '~ Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be modified:"
+      '~ Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be modified:"
+
+      # Patterns for policies that will be removed
+      '- Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be removed:"
+      '- Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be removed:"
+      '- Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be removed:"
+      '- Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be removed:"
+    }
+
+    # Iterate through each pattern in the map
+    foreach ($pattern in $patternMessageMap.Keys) {
+      # Use Select-String to find matches for the current pattern in the content
+      $matches = $content | Select-String -Pattern $pattern
+      if ($matches) {
+        # Get the count of matches and output the message with the count
+        $count = $matches.Count
+        Write-Host "$count $($patternMessageMap[$pattern])"
+
+        # Process each match to remove the timestamp and write the clean line
+        $matches | ForEach-Object {
+          # Remove the timestamp using a regex pattern
+          $cleanLine = $_.Line -replace '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s+', ''
+          # Output the clean line
+          Write-Output $cleanLine
+        }
+        
+        # Output a blank line for readability
+        Write-Output ""
+      }
+    }
+```
+
+### Preview deployment changes using the GitHub workflow
+
+{{< hint type=Note >}}
+In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
+
+For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
+
+The `Location` variable is used by the `az deployment mg` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
+
+The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
+
+Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-04-04`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+{{< /hint >}}
+
+Using the same method described in the [Preview deployment changes using PowerShell](../Preview-Deploy-Changes#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
 {{< hint type=Note >}}
 The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
@@ -32,32 +123,8 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
       --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz/alzArm.json \
       --location ${{ env.Location }} \
       --management-group-id ${{ env.ManagementGroupPrefix }} \
-      --parameters ./azure_monitor_baseline_alerts/alzArm.param.json
-```
-
-### Parsing ARM What-If Output
-
-The output of the `az deployment mg what-if` command will provide detailed output of the changes that would be made if the deployment were to proceed. This includes information about resources that will be created, modified, or deleted, along with their properties.
-
-However, this output can be quite verbose and may not be easily readable. To make it more manageable, you can capture the output to a file, and then parse it for the specific changes that will occur.
-
-**Capture Output to a File:**
-You can modify the command to redirect the `az deployment mg what-if` output to a file for easier analysis. Here’s how you can do that:
-
-```yaml
-- name: Azure CLI What-If Deploy AMBA ARM Template
-  id: deploy_amba
-  shell: bash
-  run: |
-    az deployment mg what-if \
-      --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz/alzArm.json \
-      --location ${{ env.Location }} \
-      --management-group-id ${{ env.ManagementGroupPrefix }} \
       --parameters ./azure_monitor_baseline_alerts/alzArm.param.json | tee amba-what-if-output.txt
 ```
-
-**Parse the Output:**
-The following PowerShell script can be used to parse the output file and summarize the changes:
 
 ```yaml
 - name: Parse What-If Output for Changes
