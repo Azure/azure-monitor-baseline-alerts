@@ -13,6 +13,7 @@ Accessing Security Advisories in Azure Service Health now requires elevated acce
 
 ### In this page
 
+> [Overview]() </br>
 > [Quick deployment](../Deploy-only-Service-Health-Alerts#quick-deployment) </br>
 > [Custom deployment](../Deploy-only-Service-Health-Alerts#custom-deployment) </br>
 > [Next Steps](../Deploy-only-Service-Health-Alerts#next-steps) </br>
@@ -21,7 +22,8 @@ Accessing Security Advisories in Azure Service Health now requires elevated acce
 Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
 {{< /hint >}}
 
-This guide describes the steps to use the ALZ pattern to implement Service Health Alerts. When deploying one Policy Set Definition, like Service Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions provided in the ALZ Pattern, which is recommended if you plan to deploy other Policy Set Definitions in the future. If you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions later. This document covers two deployment options:
+## Overview
+This guide describes the steps to use the AMBA-ALZ pattern to implement Service Health and Resource Health alerts. When deploying one Policy Set Definition, like Service Health and Resource Health, you will only need the Policy Definitions required by that Policy Set Definition. You can still choose to deploy all Policy Definitions provided in the ALZ Pattern, which is recommended if you plan to deploy other Policy Set Definitions in the future. If you first deploy a subset of the Policy Definitions, you can easily deploy additional definitions later. This document covers two deployment options:
 
 1. [Quick Deployment](../Deploy-only-Service-Health-Alerts/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions and Policy Set Definitions, but assigns only the Service Health Policy Set Definition.
 2. [Custom Deployment](../Deploy-only-Service-Health-Alerts/#custom-deployment): Deploys only the Policy Definitions and Policy Set Definition needed for the Service Health Alerts, and assigns only the Service Health Policy Set Definition.
@@ -70,7 +72,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
+  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role name(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
 
     Azure only supports the following ***built-in*** roles for Azure Resource Manager Role notification:
 
@@ -121,7 +123,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Alert Processing Rules](../../../media/AlertProcessingRule_ResourceID_1.png)
 
-    ![Selected lert processing rule](../../../media/AlertProcessingRule_ResourceID_2.png)
+    ![Selected alert processing rule](../../../media/AlertProcessingRule_ResourceID_2.png)
 
     ![Alert Processing Rule JSON View ID](../../../media/AlertProcessingRule_ResourceID_3.png)
 
@@ -331,57 +333,12 @@ az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/a
 
 ## Custom deployment
 
-### 1. Create a copy of policies.bicep
-
-To create a copy of a Bicep policy file (policies.bicep), you can use standard file copying techniques based on your operating system and programming language of choice. For example, run the following command in PowerShell:
-
-```powershell
-Copy-Item -Path .\patterns\alz\templates\policies.bicep -Destination .\patterns\alz\templates\policies-sh.bicep
-```
-
-### 2. Edit policies-sh.bicep
-
-Open the newly created Bicep file in your favorite text editor, such as Visual Studio Code (VS Code). Edit the variables ```loadPolicyDefinitions``` and ```loadPolicySetDefinitions``` in your Bicep file to include only the relevant policy definitions. You should delete or comment out the unnecessary lines. In bicep use ``` // ``` to comment a line. The example below shows the lines you need to keep for the Service Health Policy Set Definition.
-
-#### loadPolicyDefinitions variable
-
-```bicep
-{
-  var loadPolicyDefinitions = {
-    All: [
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json')
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json')
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Health.json')
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Incident.json')
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Maintenance.json')
-      loadTextContent('../../../services/Resources/subscriptions/Deploy-ActivityLog-ServiceHealth-Security.json')
-    ]
-    AzureCloud: []
-    AzureChinaCloud: []
-    AzureUSGovernment: []
-  }
-}
-```
-
-#### loadPolicySetDefinitions variable
-
-```bicep
-var loadPolicySetDefinitions = {
-  All: [
-    loadTextContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json')
-  ]
-  AzureCloud: []
-  AzureChinaCloud: []
-  AzureUSGovernment: []
-}
-```
-
-### 3. Build policies-sh.json
+### 1. Build policies-ServiceHealth.json
 
 To compile your Bicep file and generate the corresponding JSON ARM template file, you can use the bicep build command. Follow these steps:
 
 ```bash
-bicep build .\patterns\alz\templates\policies-sh.bicep --outfile .\patterns\alz\policyDefinitions\policies-sh.json
+bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\patterns\alz\policyDefinitions\policies-ServiceHealth.json
 ```
 
 {{< hint type=note >}}
@@ -412,7 +369,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 To deploy policy definitions to the intermediate management group, run the following command:
 
 ```bash
-az deployment mg create --name "amba-ServiveHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
+az deployment mg create --name "amba-ServiveHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-ServiceHealth.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
 
 {{< hint type=note >}}
@@ -420,7 +377,7 @@ The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the foll
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-ServiveHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
+az deployment mg create --name "amba-ServiveHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-ServiceHealth.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
 ```
 
 ### 6. Assign the Service Health Policy Set Definition

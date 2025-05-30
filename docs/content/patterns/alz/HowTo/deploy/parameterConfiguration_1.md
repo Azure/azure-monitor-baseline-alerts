@@ -39,7 +39,7 @@ The following instructions apply universally, regardless of your alignment with 
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
+  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role name(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
 
     Azure only supports the following ***built-in*** roles for Azure Resource Manager Role notification:
 
