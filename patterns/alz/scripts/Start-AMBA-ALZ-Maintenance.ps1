@@ -321,7 +321,7 @@ Function Get-ALZ-Deployments {
 Function Get-ALZ-AlertProcessingRules {
   # get alert processing rules to delete
   #$query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True'| project id"
-  $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name startswith 'apr-AMBA-' and properties.description startswith 'AMBA Notification Assets - ' and tags['_deployed_by_amba'] =~ 'True'| project id"
+  $query = "resources | where type =~ 'Microsoft.AlertsManagement/actionRules' | where tags['_deployed_by_amba'] =~ 'True' and name startswith 'apr-AMBA-' and properties.description startswith 'AMBA Notification Assets - ' | project id"
   $alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
   Write-Host "- Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
