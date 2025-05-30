@@ -37,16 +37,21 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     $policyInitiativeName = $jsonContent.name
 
     # Assembling the policy initiative table file name
-    $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
+    if ( $policyInitiativeName -ne "Alerting-Connectivity-2") {
+      $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
 
-    # Define source table file heading and structure
-    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
-    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
-    "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+      # Define source table file heading and structure
+      "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
+      "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+      "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+      "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
+      "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+      "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+      "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    }
+    else {
+      $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + "Alerting-Connectivity" + $policyInitiativeTableFileNameSuffix
+    }
 
     # Getting policy reference IDs and
     $policyReferences = $jsonContent.properties.policyDefinitions
