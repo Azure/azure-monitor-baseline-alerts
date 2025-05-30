@@ -630,6 +630,7 @@
             "policyDefinitionsWebDeploymentName": "[take(concat('amba-Policy-Web', variables('deploymentSuffix')), 64)]",
             "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
+            "AMBAConnectivityDeploymentName-2": "[take(concat('amba-Connectivity-2', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
@@ -1136,7 +1137,7 @@
             "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
-            "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
+            "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName-2]",
             "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
             "dependsOn": [
               "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
