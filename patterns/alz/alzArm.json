@@ -595,6 +595,7 @@
             "policyDefinitionsWeb": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Web.json')]",
             "policySetDefinitions": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets.json')]",
             "AMBAConnectivityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment.json')]",
+            "AMBAConnectivityInitiative2": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment2.json')]",
             "AMBAIdentityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-IdentityAssignment.json')]",
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
@@ -1126,6 +1127,36 @@
                     },
                     "policyAssignmentExclusions": {
                         "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
+                    }
+                }
+            }
+        },
+                // Assigning AMBA Connectivity 2 PolicySet to the connectivity management group if condition is true
+        {
+            "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
+            "location": "[deployment().location]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAConnectivityInitiative2]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersConnectivity')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
                     }
                 }
             }
