@@ -127,44 +127,6 @@
                 "equals": "[[parameters('enabled')]"
               },
               {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": true
-                      },
-                      {
-                        "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                        "contains": "ag-AMBA-SH-"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": false
-                      },
-                      {
-                        "count": {
-                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
-                          "where": {
-                            "anyOf": [
-                              {
-                                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "in": "[[parameters('BYOActionGroup')]"
-                              }
-                            ]
-                          }
-                        },
-                        "greaterOrEquals": 1
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
                 "count": {
                   "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
                   "where": {
