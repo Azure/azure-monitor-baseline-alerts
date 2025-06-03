@@ -57,8 +57,8 @@ process {
                 }
                 if ($alert.PSObject.Properties.Name -contains "kind") {
                     $kindString = [Environment]::NewLine + '          ' + '{' +
-                                  [Environment]::NewLine + '          ' + '   "field": "kind",' +
-                                  [Environment]::NewLine + '          ' + '   "in": ['
+                                  [Environment]::NewLine + '          ' + '  "field": "kind",' +
+                                  [Environment]::NewLine + '          ' + '  "in": ['
                     foreach ($kind in $alert.kind) {
                         $kindString += '"' + $kind + '",'
                     }

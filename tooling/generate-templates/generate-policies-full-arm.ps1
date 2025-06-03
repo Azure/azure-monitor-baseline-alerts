@@ -56,13 +56,13 @@ process {
                     $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/Deploy $($serviceName) $($alert.properties.metricName) Alert"
                 }
                 if ($alert.PSObject.Properties.Name -contains "kind") {
-                    $kindString = [Environment]::NewLine + '          ' + '{' +
-                                  [Environment]::NewLine + '          ' + '   "field": "kind",' +
-                                  [Environment]::NewLine + '          ' + '   "in": ['
+                    $kindString = [Environment]::NewLine + '              ' + '{' +
+                                  [Environment]::NewLine + '              ' + '  "field": "kind",' +
+                                  [Environment]::NewLine + '              ' + '  "in": ['
                     foreach ($kind in $alert.kind) {
                         $kindString += '"' + $kind + '",'
                     }
-                    $kindString = $kindString.TrimEnd(',') + ']' + [Environment]::NewLine+ '          },'
+                    $kindString = $kindString.TrimEnd(',') + ']' + [Environment]::NewLine+ '              },'
                     $alertTemplate = $alertTemplate -replace "##POLICY_KIND##", $kindString
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_KIND##", ""
