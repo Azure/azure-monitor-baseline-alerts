@@ -6,7 +6,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Load Balancing",
     "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door.",
     "metadata": {
-      "version": "1.1.2",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -1074,6 +1074,14 @@
         "metadata": {
           "displayName": "AGW Unhealthy Host Count Alert State",
           "description": "Alert state for the alert"
+        }
+      },
+        "AGWUnhealthyHostCountThreshold": {
+        "type": "string",
+        "defaultValue": "20",
+        "metadata": {
+          "displayName": "AGW Unhealthy Host Count Threshold",
+          "description": "Threshold for the alert"
         }
       },
       "LBDatapathAvailabilityAlertSeverity": {
@@ -2267,6 +2275,9 @@
           },
           "enabled": {
             "value": "[[parameters('AGWUnhealthyHostCountAlertState')]"
+          },
+           "threshold": {
+            "value": "[[parameters('AGWUnhealthyHostCountThreshold')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"

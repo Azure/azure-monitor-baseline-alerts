@@ -421,6 +421,10 @@
             "type": "object",
             "defaultValue": {}
         },
+          "policyAssignmentParametersConnectivity_2": {
+            "type": "object",
+            "defaultValue": {}
+        },
         "policyAssignmentParametersIdentity": {
             "type": "object",
             "defaultValue": {}
@@ -568,6 +572,7 @@
         },
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
+        "policyAssignmentParametersConnectivity_2": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersConnectivity_2'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
@@ -595,6 +600,7 @@
             "policyDefinitionsWeb": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Web.json')]",
             "policySetDefinitions": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets.json')]",
             "AMBAConnectivityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment.json')]",
+            "AMBAConnectivityInitiative_2": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment2.json')]",
             "AMBAIdentityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-IdentityAssignment.json')]",
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
@@ -629,6 +635,7 @@
             "policyDefinitionsWebDeploymentName": "[take(concat('amba-Policy-Web', variables('deploymentSuffix')), 64)]",
             "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
+            "AMBAConnectivityDeploymentName_2": "[take(concat('amba-Connectivity-2', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
@@ -1126,6 +1133,36 @@
                     },
                     "policyAssignmentExclusions": {
                         "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
+                    }
+                }
+            }
+        },
+                // Assigning AMBA Connectivity 2 PolicySet to the connectivity management group if condition is true
+        {
+            "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName_2]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
+            "location": "[deployment().location]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAConnectivityInitiative_2]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersConnectivity_2')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
                     }
                 }
             }
