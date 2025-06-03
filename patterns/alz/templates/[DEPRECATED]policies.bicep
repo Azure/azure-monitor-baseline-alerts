@@ -197,7 +197,6 @@ var loadPolicyDefinitions = {
 var loadPolicySetDefinitions = {
   All: [
     string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
-    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts-1.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
