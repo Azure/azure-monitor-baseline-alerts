@@ -6,6 +6,7 @@ weight: 09
 
 ### In this page
 
+> [2025-06-03](../Whats-New#2025-06-03) </br>
 > [2025-04-04](../Whats-New#2025-04-04) </br>
 > [2025-03-03](../Whats-New#2025-03-03) </br>
 > [2025-02-05](../Whats-New#2025-02-05) </br>
@@ -23,6 +24,50 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
+## 2025-06-03
+
+### New Features
+
+- Added the following new alerts to the Connectivity Initiative:
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - P2S Bandwidth Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - User Vpn Route Count Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - User Vpn Route Count Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hubs Bgp Peer Status Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Count Of Routes Learned From Peer Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hubs Count Of Routes Advertised To Peer Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Spoke VM Utilization Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Routing Infrastructure Units Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hub Data Processed Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - AFW ApplicationRuleHit Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Express Route Gateway Active Flows Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - AFW NetworkRuleHit Alert
+
+### Bug Fixes
+
+### Documentation Updates
+
+- Added the documentation to deploy AMBA-ALZ using Terraform.
+- Enhanced the consistency of display name of AMBA-ALZ policy definitions, policySet definitions and policy assignments. This enhancement will ease the search of AMBA-ALZ  items in the Azure Policy.
+- Alert Details page has been update with relevant content. Also the link to the policy definition code, is not pointing to the corresponding policy in [AzPolicyAdvertizer](https://www.azadvertizer.net/azpolicyadvertizer_all.html).
+- Deployment guides have been made clearer about the use and location of parameter file.
+- Deployment guides have been enhanced with steps to retrieve the following information used by the notification asset policy:
+  - Logic App rsource id
+  - Logic App callback Url
+  - Event Hub resource id
+  - Function App resource id
+  - Function App trigger Url
+  - BYO Action Group resource id
+  - BYO Alert Processing Rule resource id
+
+- Policy Initiatives page has been update with relevant content.
+
+### Tools
+
+- The maintenance script has been fixed to resolve a bug causing infinite recursion on very significant environments. See the [[fix: The remove script causes infinite recursion](https://github.com/Azure/azure-monitor-baseline-alerts/pull/631/files)]
+- Internal unit test enhancement to check and enforce the following:
+  - Correct version change for both Policy definitions and policySet definitions
+  - Version parsing function to allow the check for version suffixes like *-preview* or *-deprecated*
 
 ## 2025-04-04
 
