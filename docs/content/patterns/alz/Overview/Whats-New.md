@@ -45,6 +45,8 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### Bug Fixes
 
+- Fixed [[#642](https://github.com/Azure/azure-monitor-baseline-alerts/issues/642)]: [General workload issue]: PSD Alerting-LoadBalancing is missing param "Threshold" for Deploy_AG_UnhealthyHostCount_Alert.
+
 ### Documentation Updates
 
 - Added the documentation to deploy AMBA-ALZ using Terraform.
