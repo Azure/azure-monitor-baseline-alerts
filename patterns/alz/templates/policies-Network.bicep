@@ -107,6 +107,18 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-Ingress-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropCount-Alert.json')
     loadTextContent('../../../services/Network/vpnGateways/Deploy-VPNG-IngressPacketDropMismatch-Alert.json')
+    loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-ApplicationRuleHit-Alert.json')
+    loadTextContent('../../../services/Network/azureFirewalls/Deploy-AFW-NetworkRuleHit-Alert.json')
+    loadTextContent('../../../services/Network/expressRouteGateways/Deploy-ERG-ExpressRouteGatewayActiveFlows-Alert.json')
+    loadTextContent('../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SBandwidth-Alert.json')
+    loadTextContent('../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SConnectionCount-Alert.json')
+    loadTextContent('../../../services/Network/p2svpngateways/Deploy-p2svpngateways-UserVpnRouteCount-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-BgpPeerStatus-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-CountOfRoutesAdvertisedToPeer-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-CountOfRoutesLearnedFromPeer-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-RoutingInfrastructureUnits-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-SpokeVMUtilization-Alert.json')
+    loadTextContent('../../../services/Network/virtualhubs/Deploy-VirtualHubs-VirtualHubDataProcessed-Alert.json')
     // Used in LoadBalancing Policy Set Definition
     loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-ApplicationGatewayTotalTime-Alert.json')
     loadTextContent('../../../services/Network/applicationGateways/Deploy-AGW-BackendLastByteResponseTime-Alert.json')
@@ -151,6 +163,7 @@ var loadPolicyDefinitions = {
 var loadPolicySetDefinitions = {
   All: [
     string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts-2.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-LoadBalancing-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-NetworkChanges-Alerts.json'))
   ]
