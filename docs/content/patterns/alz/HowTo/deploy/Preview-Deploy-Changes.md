@@ -20,11 +20,13 @@ We can use this command to preview the changes that would be made by deploying t
 
 ### How does it work
 
-The `az deployment mg what-if` command allows you to preview the changes that would be made by an ARM template deployment without actually applying those changes. This is particularly useful for understanding the impact of deploying the Azure Monitor Baseline Alerts (AMBA) pattern.
+The `what-if` command allows you to preview the changes that would be made by an ARM template deployment without actually applying those changes. This is particularly useful for understanding the impact of deploying the Azure Monitor Baseline Alerts (AMBA) pattern.
 
-By capturing the output of the `az deployment mg what-if` command, you can analyze the changes that would occur, including resources that will be created, modified, or deleted. This helps in assessing the impact of the deployment and ensuring that it aligns with your expectations before proceeding with the actual deployment.
+By capturing the output of the `what-if` command, you can analyze the changes that would occur, including resources that will be created, modified, or deleted. This helps in assessing the impact of the deployment and ensuring that it aligns with your expectations before proceeding with the actual deployment.
 
-First follow the steps in the [Deploy with Azure CLI](../Deploy-with-Azure-CLI) section to set up your parameters and variable as required for your target environment. However, in [Step 4 "Deploying AMBA-ALZ"](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/HowTo/deploy/Deploy-with-Azure-CLI/#4-deploying-amba-alz), instead of running the `az deployment mg create` command, you will run the `az deployment mg what-if` command to preview the changes.
+Set up your parameters and variable as required for your target environment. If using the **Azure CLI**, follow the steps in the [Deploy with Azure CLI](../Deploy-with-Azure-CLI) section. If using **PowerShell**, follow the steps in the [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell) section. On the final "Deploy" step, use the following what-if command instead of the deployment command to preview the changes.
+
+**Azure CLI:**
 
 ```bash
 az deployment mg what-if \
@@ -34,25 +36,31 @@ az deployment mg what-if \
   --parameters "alzArm.param.json"
 ```
 
-### Preview deployment changes using PowerShell
-
-Using PowerShell with the Azure CLI for deployments uses the following syntax: `az <module> <command> [parameters]`. To deploy a resource using Azure CLI in PowerShell, you need to ensure the [az module](https://learn.microsoft.com/en-us/powershell/azure/install-azps-windows?view=azps-14.0.0&tabs=powershell&pivots=windows-psgallery#installation) is installed and authenticated. For example, to create a resource group, you can run:
+**Azure PowerShell:**
 
 ```powershell
-az group create --name MyResourceGroup --location eastus
+New-AzManagementGroupDeployment `
+  -Location $location `
+  -ManagementGroupId $pseudoRootManagementGroup `
+  -TemplateFile "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json" `
+  -TemplateParameterFile "alzArm.param.json" `
+  -WhatIf
 ```
 
-This example PowerShell script expects an input, which is the output from the `az deployment mg what-if` command. You can capture the output to a file by appending `| tee amba-what-if-output.txt` to the command.
+### Preview deployment changes using PowerShell
 
-```bash
-az deployment mg what-if \
-  --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json \
-  --location $location \
-  --management-group-id $pseudoRootManagementGroup \
-  --parameters "alzArm.param.json" | tee amba-what-if-output.txt
+Using PowerShell for deployments uses the following syntax: `New-AzManagementGroupDeployment -ManagementGroupId <String> -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzManagementGroupDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
+
+```powershell
+New-AzManagementGroupDeployment `
+  -Location $location `
+  -ManagementGroupId $pseudoRootManagementGroup `
+  -TemplateFile "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json" `
+  -TemplateParameterFile "alzArm.param.json" `
+  -WhatIf | Tee-Object -FilePath amba-what-if-output.txt
 ```
 
-Using the output from the `az deployment mg what-if` command, you can parse it using the following PowerShell script to summarize the changes that would occur if the deployment were to proceed.
+Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you can parse it using the following PowerShell script to summarize the changes that would occur if the deployment were to proceed.
 
 ```powershell
 # Get the content from the log file
