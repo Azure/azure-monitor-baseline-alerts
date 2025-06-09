@@ -18,7 +18,7 @@ Per the [ARM template deployment what-if operation](https://learn.microsoft.com/
 
 We can use this command to preview the changes that would be made by deploying the Azure Monitor Baseline Alerts (AMBA).
 
-### How does it work
+## How does it work
 
 The `what-if` command allows you to preview the changes that would be made by an ARM template deployment without actually applying those changes. This is particularly useful for understanding the impact of deploying the Azure Monitor Baseline Alerts (AMBA) pattern.
 
@@ -47,7 +47,7 @@ New-AzManagementGroupDeployment `
   -WhatIf
 ```
 
-### Preview deployment changes using PowerShell
+## Preview deployment changes using PowerShell
 
 Using PowerShell for deployments uses the following syntax: `New-AzManagementGroupDeployment -ManagementGroupId <String> -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzManagementGroupDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
 
@@ -103,14 +103,14 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
           # Output the clean line
           Write-Output $cleanLine
         }
-        
+
         # Output a blank line for readability
         Write-Output ""
       }
     }
 ```
 
-### Preview deployment changes using the GitHub workflow
+## Preview deployment changes using the GitHub workflow
 
 {{< hint type=Note >}}
 In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
@@ -193,7 +193,7 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
           Write-Output $cleanLine
           "$cleanLine" >> $env:GITHUB_STEP_SUMMARY
         }
-        
+
         # Output a blank line for readability
         Write-Output ""
         '```' >> $env:GITHUB_STEP_SUMMARY
@@ -207,6 +207,7 @@ A full example of the GitHub Action Workflow file can be found in the AMBA repo 
 By using the `$env:GITHUB_STEP_SUMMARY` variable, the output will be formatted and displayed in the GitHub Actions summary, making it easier to review the changes that would be applied by the deployment.
 
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-1.png)
+
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-2.png)
 
 ## Next Steps
