@@ -15,7 +15,7 @@ weight: 40
 > [Network Changes Initiative](../Policy-Initiatives#network-changes-initiative) </br>
 > [Recovery Services Initiative](../Policy-Initiatives#recovery-services-initiative) </br>
 > [Storage Initiative](../Policy-Initiatives#storage-initiative) </br>
-> [VM Initiative](../Policy-Initiatives#vm-initiative) </br>
+> [Azure VM Initiative](../Policy-Initiatives#azure-vm-initiative) </br>
 > [Web Initiative](../Policy-Initiatives#web-initiative) </br>
 > [Hybrid VM Initiative](../Policy-Initiatives#hybrid-vm-initiative) </br>
 > [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
@@ -74,7 +74,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 
 {{% include "Alerting-Storage-PolicyInitiative-Table.md" %}}
 
-## VM initiative
+## Azure VM initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
