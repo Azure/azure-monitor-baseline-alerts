@@ -67,6 +67,18 @@ process {
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_KIND##", ""
                 }
+                if ($alert.PSObject.Properties.Name -contains "tier") {
+                    $tierString = [Environment]::NewLine + '              ' + '{' +
+                                  [Environment]::NewLine + '              ' + '  "field": "' + $alert.properties.metricNamespace + '/sku.tier",' +
+                                  [Environment]::NewLine + '              ' + '  "in": ['
+                    foreach ($tier in $alert.tier) {
+                        $tierString += '"' + $tier + '",'
+                    }
+                    $tierString = $tierString.TrimEnd(',') + ']' + [Environment]::NewLine+ '              },'
+                    $alertTemplate = $alertTemplate -replace "##POLICY_TIER##", $tierString
+                } else {
+                    $alertTemplate = $alertTemplate -replace "##POLICY_TIER##", ""
+                }
                 $category = $alert.properties.metricNamespace -replace "Microsoft.", ""
                 $category = $category -replace "/.+", ""
                 $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
