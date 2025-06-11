@@ -3,7 +3,7 @@ title: Alerting-Connectivity-2 Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - P2S Bandwidth Alert | ALZ_P2SVPNGatewaysP2SBandwidth | [Deploy-p2svpngateways-P2SBandwidth-Alert.json](../../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SBandwidth-Alert.json) | deployIfNotExists |
 | [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - User Vpn Route Count Alert | ALZ_P2SVPNGatewaysP2SConnectionCount | [Deploy-p2svpngateways-P2SConnectionCount-Alert.json](../../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SConnectionCount-Alert.json) | deployIfNotExists |

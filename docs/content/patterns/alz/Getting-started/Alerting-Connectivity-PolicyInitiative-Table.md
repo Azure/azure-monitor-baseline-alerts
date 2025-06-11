@@ -3,7 +3,7 @@ title: Alerting-Connectivity Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ExpressRoute Circuits QosDropBitsInPerSecond Alert | ALZ_ERCIRQoSDropBitsinPerSec | [Deploy-ERCIR-QOSDropsBitsIn-Alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsIn-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ExpressRoute Circuits QosDropBitsOutPerSecond Alert | ALZ_ERCIRQoSDropBitsoutPerSec | [Deploy-ERCIR-QOSDropsBitsOut-Alert.json](../../../../services/Network/expressRouteCircuits/Deploy-ERCIR-QOSDropsBitsOut-Alert.json) | deployIfNotExists |

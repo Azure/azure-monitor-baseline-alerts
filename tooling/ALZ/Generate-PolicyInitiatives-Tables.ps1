@@ -1,8 +1,8 @@
 ﻿# Defining input params
 param (
-    [Parameter(Mandatory = $false)]
-    [string]
-    $policyInitiativesTablesRootDir
+  [Parameter(Mandatory = $false)]
+  [string]
+  $policyInitiativesTablesRootDir
 )
 
 # Define the root directory to start searching
@@ -53,7 +53,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
     "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
     "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
     "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
     # Getting policy reference IDs and
@@ -88,7 +88,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             # Extracting policy name
             $policyName = $policyDefinitionJsonContent.properties.displayName
             $policyDefaultEffect = $policyDefinitionJsonContent.properties.parameters.effect.defaultValue
-            if( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
+            if ( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
               $policyDefaultEffect = $policyDefinitionJsonContent.properties.policyRule.then.effect
             }
 
@@ -96,8 +96,8 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             $policyCodeFileName = $policyDefinitionJsonFile.Name
 
             # Assembling the policy definition code URL
-            $policyCodeURL = $($policyDefinitionJsonFile.FullName -split('azure-monitor-baseline-alerts'))[1]
-            $policyCodeURL = '../../../..'+$policyCodeURL -replace '\\', '/'
+            $policyCodeURL = $($policyDefinitionJsonFile.FullName -split ('azure-monitor-baseline-alerts'))[1]
+            $policyCodeURL = '../../../..' + $policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
             "| $policyName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append

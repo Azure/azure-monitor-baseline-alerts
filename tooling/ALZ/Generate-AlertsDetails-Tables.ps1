@@ -1,9 +1,9 @@
 ﻿
 # Defining input params
 param (
-    [Parameter(Mandatory = $false)]
-    [string]
-    $alertTablesRootDir
+  [Parameter(Mandatory = $false)]
+  [string]
+  $alertTablesRootDir
 )
 
 # Define the root directory to start searching
@@ -91,7 +91,7 @@ foreach ($file in $jsonFiles) {
     # Generating the policy name URL
     #$policyNameURL = $($file.FullName -split('azure-monitor-baseline-alerts'))[1]
     #$policyNameURL = '../../../..'+$policyNameURL -replace '\\', '/'
-    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/"+$jsonContent.name+".html"
+    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/" + $jsonContent.name + ".html"
 
     # Get alert type
     $alertType = $jsonContent.properties.policyRule.then.details.type
