@@ -1,7 +1,16 @@
 ﻿
+# Defining input params
+param (
+    [Parameter(Mandatory = $false)]
+    [string]
+    $thresholdOverrideTablesRootDir
+)
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
-$thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
+If ([string]::IsNullOrEmpty($thresholdOverrideTablesRootDir)) {
+  $thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
+}
 
 # Define policy definitions to be excluded from the search
 $exclusionFileList = @(
