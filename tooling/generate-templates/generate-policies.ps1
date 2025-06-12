@@ -79,6 +79,28 @@ process {
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_TIER##", ""
                 }
+                if ($alert.properties.dimensions -ne $null) {
+                  foreach ($dimension in $alert.properties.dimensions) {
+                    $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '              ' + '{' +
+                       [Environment]::NewLine + '              ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
+                       [Environment]::NewLine + '              ' + '  "equals": "' + $dimension.name + '"' +
+                       [Environment]::NewLine + '              ' + '},' +
+                       [Environment]::NewLine + '              ' + '{' +
+                       [Environment]::NewLine + '              ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].operator",' +
+                       [Environment]::NewLine + '              ' + '  "equals": "' + $dimension.operator + '"' +
+                       [Environment]::NewLine + '              ' + '},'
+                       foreach ($dimValue in $alert.properties.dimensions.values) {
+                         $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '              ' + '{' +
+                             [Environment]::NewLine + '              ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].values[*]",' +
+                             [Environment]::NewLine + '              ' + '  "equals": "' + $dimValue + '"' +
+                             [Environment]::NewLine + '              ' + '},'
+                       }
+                  }
+                  $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RULE##", $dimensionRuleString
+                  $dimensionRuleString = ""
+                } else {
+                    $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RULE##", ""
+                }
                 $category = $alert.properties.metricNamespace -replace "Microsoft.", ""
                 $category = $category -replace "/.+", ""
                 $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
