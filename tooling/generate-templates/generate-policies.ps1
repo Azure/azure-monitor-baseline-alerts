@@ -124,7 +124,15 @@ process {
                 $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
                 $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
                 $alertTemplate = $alertTemplate -replace "##QUERY##", $alert.properties.query
-                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", $alert.properties.dimensions
+
+                if ($alert.properties.dimensions -ne $null) {
+                  $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RES##", ([Environment]::NewLine + '                          ' +
+                    '  "dimensions": ' + "[" + ($alert.properties.dimensions | ConvertTo-Json -Compress) + "],")
+                }
+                else {
+                  $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RES##", ""
+                }
+
                 $alertTemplate = $alertTemplate -replace "##OPERATION_NAME##", $alert.properties.operationName
                 $policyEffectName = $alert.properties.metricName -replace "[^a-zA-Z0-9 _]", ""
                 $alertTemplate = $alertTemplate -replace "##POLICY_EFFECT_NAME##", $policyEffectName
