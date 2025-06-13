@@ -1,8 +1,16 @@
-﻿
+﻿# Defining input params
+param (
+  [Parameter(Mandatory = $false)]
+  [string]
+  $policyInitiativesTablesRootDir
+)
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
 $policyInitiativesRootDir = ".\patterns\alz\policySetDefinitions"
-$policyInitiativesTablesRootDir = ".\docs\content\patterns\alz\getting-started"
+If ([string]::IsNullOrEmpty($policyInitiativesTablesRootDir)) {
+  $policyInitiativesTablesRootDir = ".\docs\content\patterns\alz\getting-started"
+}
 
 # Define policy definitions to be excluded from the search
 $exclusionFileList = @(
@@ -37,21 +45,16 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     $policyInitiativeName = $jsonContent.name
 
     # Assembling the policy initiative table file name
-    if ( $policyInitiativeName -ne "Alerting-Connectivity-2") {
-      $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
+    $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
 
-      # Define source table file heading and structure
-      "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
-      "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-      "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-      "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
-      "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-      "| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-      "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    }
-    else {
-      $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + "Alerting-Connectivity" + $policyInitiativeTableFileNameSuffix
-    }
+    # Define source table file heading and structure
+    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
+    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
+    "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
     # Getting policy reference IDs and
     $policyReferences = $jsonContent.properties.policyDefinitions
@@ -85,7 +88,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             # Extracting policy name
             $policyName = $policyDefinitionJsonContent.properties.displayName
             $policyDefaultEffect = $policyDefinitionJsonContent.properties.parameters.effect.defaultValue
-            if( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
+            if ( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
               $policyDefaultEffect = $policyDefinitionJsonContent.properties.policyRule.then.effect
             }
 
@@ -93,8 +96,8 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             $policyCodeFileName = $policyDefinitionJsonFile.Name
 
             # Assembling the policy definition code URL
-            $policyCodeURL = $($policyDefinitionJsonFile.FullName -split('azure-monitor-baseline-alerts'))[1]
-            $policyCodeURL = '../../../..'+$policyCodeURL -replace '\\', '/'
+            $policyCodeURL = $($policyDefinitionJsonFile.FullName -split ('azure-monitor-baseline-alerts'))[1]
+            $policyCodeURL = '../../../..' + $policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
             "| $policyName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
