@@ -79,6 +79,19 @@ process {
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_TIER##", ""
                 }
+                if ($alert.properties.dimensions -ne $null) {
+                  $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '              ' + '{' +
+                       [Environment]::NewLine + '              ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
+                       [Environment]::NewLine + '              ' + '  "in": ['
+                  foreach ($dimension in $alert.properties.dimensions) {
+                      $dimensionRuleString += '"' + $dimension.name + '",'
+                  }
+                  $dimensionRuleString = $dimensionRuleString.TrimEnd(',') + ']' + [Environment]::NewLine + '              },'
+                  $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RULE##", $dimensionRuleString
+                  $dimensionRuleString = ""
+                } else {
+                    $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RULE##", ""
+                }
                 $category = $alert.properties.metricNamespace -replace "Microsoft.", ""
                 $category = $category -replace "/.+", ""
                 $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
@@ -102,7 +115,20 @@ process {
                 $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
                 $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
                 $alertTemplate = $alertTemplate -replace "##QUERY##", $alert.properties.query
-                $alertTemplate = $alertTemplate -replace "##DIMENSIONS##", $alert.properties.dimensions
+
+                if ($alert.properties.dimensions -ne $null) {
+                  if ($alert.properties.dimensions.Count -eq 1) {
+                    $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RES##", ([Environment]::NewLine + '                          ' +
+                      '  "dimensions": ' + "[" + ($alert.properties.dimensions | ConvertTo-Json -Compress) + "],")
+                  } else {
+                    $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RES##", ([Environment]::NewLine + '                          ' +
+                      '  "dimensions": ' + ($alert.properties.dimensions | ConvertTo-Json -Compress) + ",")
+                  }
+                }
+                else {
+                  $alertTemplate = $alertTemplate -replace "##DIMENSIONS_RES##", ""
+                }
+
                 $alertTemplate = $alertTemplate -replace "##OPERATION_NAME##", $alert.properties.operationName
                 $policyEffectName = $alert.properties.metricName -replace "[^a-zA-Z0-9 _]", ""
                 $alertTemplate = $alertTemplate -replace "##POLICY_EFFECT_NAME##", $policyEffectName

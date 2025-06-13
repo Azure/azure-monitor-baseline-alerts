@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["clustername"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-UsageAverage-threshold-Override_'), field('tags._amba-UsageAverage-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "UsageAverage",
                             "metricNamespace": "Microsoft.AVS/privateClouds",
                             "metricName": "UsageAverage",
+                            "dimensions": [{"operator":"Include","name":"clustername","values":["*"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",

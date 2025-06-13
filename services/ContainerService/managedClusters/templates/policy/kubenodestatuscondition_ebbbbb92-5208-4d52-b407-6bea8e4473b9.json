@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["status2"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-kube_node_status_condition-threshold-Override_'), field('tags._amba-kube_node_status_condition-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "kube_node_status_condition",
                             "metricNamespace": "Microsoft.ContainerService/managedClusters",
                             "metricName": "kube_node_status_condition",
+                            "dimensions": [{"operator":"Include","name":"status2","values":["NotReady","Unknown"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Total",

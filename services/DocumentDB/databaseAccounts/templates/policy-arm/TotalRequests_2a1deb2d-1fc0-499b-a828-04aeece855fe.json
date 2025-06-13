@@ -236,6 +236,10 @@
                     "equals": "GreaterOrLessThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["StatusCode"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
                     "equals": "[[parameters('alertSensitivity')]"
                   },
@@ -314,6 +318,7 @@
                                 "name": "TotalRequests",
                                 "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
                                 "metricName": "TotalRequests",
+                                "dimensions": [{"operator":"Include","name":"StatusCode","values":["429"]}],
                                 "operator": "GreaterOrLessThan",
                                 "alertSensitivity": "[[parameters('alertSensitivity')]",
                                 "failingPeriods": {

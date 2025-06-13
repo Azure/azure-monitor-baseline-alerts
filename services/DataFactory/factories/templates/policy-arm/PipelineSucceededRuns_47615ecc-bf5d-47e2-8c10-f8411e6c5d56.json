@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Name"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-PipelineSucceededRuns-threshold-Override_'), field('tags._amba-PipelineSucceededRuns-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "PipelineSucceededRuns",
                                 "metricNamespace": "Microsoft.DataFactory/factories",
                                 "metricName": "PipelineSucceededRuns",
+                                "dimensions": [{"operator":"Include","name":"Name","values":["productrecommendation"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",

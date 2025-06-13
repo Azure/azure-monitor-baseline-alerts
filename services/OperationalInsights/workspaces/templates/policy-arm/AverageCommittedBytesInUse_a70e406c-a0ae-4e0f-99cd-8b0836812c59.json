@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Computer"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-Average_% Committed Bytes In Use-threshold-Override_'), field('tags._amba-Average_% Committed Bytes In Use-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "Average_% Committed Bytes In Use",
                                 "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                                 "metricName": "Average_% Committed Bytes In Use",
+                                "dimensions": [{"operator":"Include","name":"Computer","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",

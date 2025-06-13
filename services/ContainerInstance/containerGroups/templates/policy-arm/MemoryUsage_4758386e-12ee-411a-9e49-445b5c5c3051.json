@@ -236,6 +236,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["containerName"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
                     "equals": "[[parameters('alertSensitivity')]"
                   },
@@ -314,6 +318,7 @@
                                 "name": "MemoryUsage",
                                 "metricNamespace": "Microsoft.ContainerInstance/containerGroups",
                                 "metricName": "MemoryUsage",
+                                "dimensions": [{"operator":"Include","name":"containerName","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "alertSensitivity": "[[parameters('alertSensitivity')]",
                                 "failingPeriods": {

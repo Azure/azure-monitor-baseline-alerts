@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["SourceName","DestinationName","TestGroupName","TestConfigurationName"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-TestResult-threshold-Override_'), field('tags._amba-TestResult-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "TestResult",
                                 "metricNamespace": "Microsoft.Network/networkWatchers/connectionMonitors",
                                 "metricName": "TestResult",
+                                "dimensions": [{"operator":"Include","name":"SourceName","values":["*"]},{"operator":"Include","name":"DestinationName","values":["*"]},{"operator":"Include","name":"TestGroupName","values":["*"]},{"operator":"Include","name":"TestConfigurationName","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Maximum",
