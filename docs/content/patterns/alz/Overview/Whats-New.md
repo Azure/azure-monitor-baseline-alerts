@@ -51,10 +51,10 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 - Added the documentation to deploy AMBA-ALZ using Terraform.
 - Enhanced the consistency of display name of AMBA-ALZ policy definitions, policySet definitions and policy assignments. This enhancement will ease the search of AMBA-ALZ  items in the Azure Policy.
-- Alert Details page has been update with relevant content. Also the link to the policy definition code, is not pointing to the corresponding policy in [AzPolicyAdvertizer](https://www.azadvertizer.net/azpolicyadvertizer_all.html).
+- Alerts Details page has been updated with relevant content. Also the link to the policy definition code, is not pointing to the corresponding policy in [AzPolicyAdvertizer](https://www.azadvertizer.net/azpolicyadvertizer_all.html).
 - Deployment guides have been made clearer about the use and location of parameter file.
 - Deployment guides have been enhanced with steps to retrieve the following information used by the notification asset policy:
-  - Logic App rsource id
+  - Logic App resource id
   - Logic App callback Url
   - Event Hub resource id
   - Function App resource id
