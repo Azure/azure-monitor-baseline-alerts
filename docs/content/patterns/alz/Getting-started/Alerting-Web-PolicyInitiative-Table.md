@@ -3,7 +3,7 @@ title: Alerting-Web Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - App Service Plan CPU Percentage Alert | ALZ_WSFCPUPercentage | [Deploy-WSF-CPUPercentage-Alert.json](../../../../services/Web/serverFarms/Deploy-WSF-CPUPercentage-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - App Service Plan Memory Percentage Alert | ALZ_WSFMemoryPercentage | [Deploy-WSF-MemoryPercentage-Alert.json](../../../../services/Web/serverFarms/Deploy-WSF-MemoryPercentage-Alert.json) | deployIfNotExists |

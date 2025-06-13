@@ -3,7 +3,7 @@ title: Alerting-KeyManagement Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Key Vault Requests Alert | ALZ_KVRequest | [Deploy-KV-Requests-Alert.json](../../../../services/KeyVault/vaults/Deploy-KV-Requests-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Key Vault Availability Alert | ALZ_KvAvailability | [Deploy-KV-Availability-Alert.json](../../../../services/KeyVault/vaults/Deploy-KV-Availability-Alert.json) | disabled |
