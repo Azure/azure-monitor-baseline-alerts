@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["ShardId","primary"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-allpercentprocessortime-threshold-Override_'), field('tags._amba-allpercentprocessortime-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "allpercentprocessortime",
                                 "metricNamespace": "Microsoft.Cache/Redis",
                                 "metricName": "allpercentprocessortime",
+                                "dimensions": [{"operator":"Include","name":"ShardId","values":["*"]},{"operator":"include","name":"primary","values":["true"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",
