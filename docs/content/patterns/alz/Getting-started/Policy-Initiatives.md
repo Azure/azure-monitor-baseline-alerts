@@ -7,7 +7,8 @@ weight: 40
 ### In this page
 
 > [Overview](../Policy-Initiatives#overview) </br>
-> [Connectivity Initiative](../Policy-Initiatives#connectivity-initiative) </br>
+> [Connectivity Initiative - Part #1](../Policy-Initiatives#connectivity-initiative---part-1) </br>
+> [Connectivity Initiative - Part #2](../Policy-Initiatives#connectivity-initiative---part-2) </br>
 > [Management Initiative](../Policy-Initiatives#management-initiative) </br>
 > [Identity Initiative](../Policy-Initiatives#identity-initiative) </br>
 > [Key Management Initiative](../Policy-Initiatives#key-management-initiative) </br>
@@ -26,11 +27,17 @@ weight: 40
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
 
-## Connectivity initiative
+## Connectivity initiative - Part #1
 
 This initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-Connectivity-PolicyInitiative-Table.md" %}}
+
+## Connectivity initiative - Part #2
+
+This second part of the initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{% include "Alerting-Connectivity-2-PolicyInitiative-Table.md" %}}
 
 ## Management initiative
 
