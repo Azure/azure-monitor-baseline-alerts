@@ -3,7 +3,7 @@ title: Alerting-LoadBalancing Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - PIP Bytes in DDoS Attack Alert | ALZ_PIPBytesInDDoS | [Deploy-PIP-BytesInDDOSAttack-Alert.json](../../../../services/Network/publicIPAddresses/Deploy-PIP-BytesInDDOSAttack-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - PIP DDoS Attack Alert | ALZ_PIPDDoSAttack | [Deploy-PIP-DDOSAttack-Alert.json](../../../../services/Network/publicIPAddresses/Deploy-PIP-DDOSAttack-Alert.json) | deployIfNotExists |

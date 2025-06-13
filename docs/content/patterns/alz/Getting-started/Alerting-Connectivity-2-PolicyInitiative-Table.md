@@ -1,0 +1,19 @@
+---
+title: Alerting-Connectivity-2 Policy Initiative table
+geekdocHidden: true
+---
+
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| ------------ | ------------------- | ------------------ | --------------------- |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - P2S Bandwidth Alert | ALZ_P2SVPNGatewaysP2SBandwidth | [Deploy-p2svpngateways-P2SBandwidth-Alert.json](../../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SBandwidth-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - User Vpn Route Count Alert | ALZ_P2SVPNGatewaysP2SConnectionCount | [Deploy-p2svpngateways-P2SConnectionCount-Alert.json](../../../../services/Network/p2svpngateways/Deploy-p2svpngateways-P2SConnectionCount-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - User Vpn Route Count Alert | ALZ_P2SVPNGatewaysUserVpnRouteCount | [Deploy-p2svpngateways-UserVpnRouteCount-Alert.json](../../../../services/Network/p2svpngateways/Deploy-p2svpngateways-UserVpnRouteCount-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hubs Bgp Peer Status Alert | ALZ_VirtualHubsBgpPeerStatus | [Deploy-VirtualHubs-BgpPeerStatus-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-BgpPeerStatus-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Count Of Routes Learned From Peer Alert | ALZ_VirtualHubsCountOfRoutesLearnedFromPeer | [Deploy-VirtualHubs-CountOfRoutesLearnedFromPeer-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-CountOfRoutesLearnedFromPeer-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hubs Count Of Routes Advertised To Peer Alert | ALZ_VirtualHubsCountOfRoutesAdvertisedToPeer | [Deploy-VirtualHubs-CountOfRoutesAdvertisedToPeer-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-CountOfRoutesAdvertisedToPeer-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Spoke VM Utilization Alert | ALZ_VirtualHubsSpokeVMUtilization | [Deploy-VirtualHubs-SpokeVMUtilization-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-SpokeVMUtilization-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Routing Infrastructure Units Alert | ALZ_VirtualHubsRoutingInfrastructureUnits | [Deploy-VirtualHubs-RoutingInfrastructureUnits-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-RoutingInfrastructureUnits-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Virtual Hub Data Processed Alert | ALZ_VirtualHubsVirtualHubDataProcessed | [Deploy-VirtualHubs-VirtualHubDataProcessed-Alert.json](../../../../services/Network/virtualhubs/Deploy-VirtualHubs-VirtualHubDataProcessed-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - AFW ApplicationRuleHit Alert | ALZ_AFWApplicationRuleHit | [Deploy-AFW-ApplicationRuleHit-Alert.json](../../../../services/Network/azureFirewalls/Deploy-AFW-ApplicationRuleHit-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Express Route Gateway Active Flows Alert | ALZ_ERGwExpressRouteGatewayActiveFlows | [Deploy-ERG-ExpressRouteGatewayActiveFlows-Alert.json](../../../../services/Network/expressRouteGateways/Deploy-ERG-ExpressRouteGatewayActiveFlows-Alert.json) | disabled |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - AFW NetworkRuleHit Alert | ALZ_AFWNetworkRuleHit | [Deploy-AFW-NetworkRuleHit-Alert.json](../../../../services/Network/azureFirewalls/Deploy-AFW-NetworkRuleHit-Alert.json) | deployIfNotExists |

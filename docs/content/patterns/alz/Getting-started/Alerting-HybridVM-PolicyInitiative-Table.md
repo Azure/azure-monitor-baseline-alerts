@@ -3,7 +3,7 @@ title: Alerting-HybridVM Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Hybrid VM HeartBeat Alert | ALZ_HybridVMHeartBeatRG | [Deploy-Hybrid-VM-HeartBeat-Alert.json](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-HeartBeat-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Hybrid VM Network Read Alert | ALZ_HybridVMNetworkIn | [Deploy-Hybrid-VM-NetworkIn-Alert.json](../../../../services/HybridCompute/machines/Deploy-Hybrid-VM-NetworkIn-Alert.json) | deployIfNotExists |
