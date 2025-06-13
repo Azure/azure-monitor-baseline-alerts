@@ -1,7 +1,16 @@
 ﻿
+# Defining input params
+param (
+  [Parameter(Mandatory = $false)]
+  [string]
+  $thresholdOverrideTablesRootDir
+)
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
-$thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
+If ([string]::IsNullOrEmpty($thresholdOverrideTablesRootDir)) {
+  $thresholdOverrideTablesRootDir = ".\docs\content\patterns\alz\HowTo"
+}
 
 # Define policy definitions to be excluded from the search
 $exclusionFileList = @(
@@ -182,9 +191,8 @@ foreach ($file in $jsonFiles) {
           $overrideStartingAt = $OutNumber
 
         }
-        elseif ([regex]::Matches($threshold, $timespanRegex))
-        {
-            $tagValueType = "Timespan (string)"
+        elseif ([regex]::Matches($threshold, $timespanRegex)) {
+          $tagValueType = "Timespan (string)"
 
         }
         else {
@@ -202,7 +210,7 @@ foreach ($file in $jsonFiles) {
 
         }
         elseif (($operator -eq "LessThan") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
-          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt/5.0))
+          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt / 5.0))
           $thresholdOverrideSample = Get-Random -Minimum $overrideStartingAt -Maximum $maximum
           $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
 
@@ -269,21 +277,20 @@ foreach ($file in $jsonFiles) {
             $overrideStartingAt = 10
 
           }
-          else{
+          else {
             $overrideStartingAt = $OutNumber
 
           }
 
         }
-        elseif ([Decimal]::TryParse($threshold, [ref]$OutNumber))
-        {
+        elseif ([Decimal]::TryParse($threshold, [ref]$OutNumber)) {
           $tagValueType = "Number"
           $overrideStartingAt = $OutNumber
           if ($OutNumber -le 1) {
             $overrideStartingAt = 10
 
           }
-          else{
+          else {
             $overrideStartingAt = $OutNumber
 
           }
@@ -302,7 +309,7 @@ foreach ($file in $jsonFiles) {
 
         }
         elseif (($operator -eq "LessThan") -and ($tagValueType -eq "Number") -and ($overrideTagName -notlike "*Not Applicable*")) {
-          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt/5.0))
+          $maximum = $overrideStartingAt + ([System.Math]::Round($overrideStartingAt / 5.0))
           $thresholdOverrideSample = Get-Random -Minimum $overrideStartingAt -Maximum $maximum
           $thresholdOverrideSample = [System.Math]::Round($thresholdOverrideSample)
 

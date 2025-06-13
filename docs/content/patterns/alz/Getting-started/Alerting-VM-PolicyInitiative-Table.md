@@ -3,7 +3,7 @@ title: Alerting-VM Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VM HeartBeat Alert | ALZ_VMHeartBeatRG | [Deploy-VM-HeartBeat-Alert.json](../../../../services/Compute/virtualMachines/Deploy-VM-HeartBeat-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VM Network Read Alert | ALZ_VMNetworkIn | [Deploy-VM-NetworkIn-Alert.json](../../../../services/Compute/virtualMachines/Deploy-VM-NetworkIn-Alert.json) | deployIfNotExists |
