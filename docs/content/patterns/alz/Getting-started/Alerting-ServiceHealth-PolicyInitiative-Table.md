@@ -3,7 +3,7 @@ title: Alerting-ServiceHealth Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Action Group | ALZ_ServiceHealth_ActionGroups | [Deploy-ServiceHealth-ActionGroups.json](../../../../services/Resources/subscriptions/Deploy-ServiceHealth-ActionGroups.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Resource Health Unhealthy Alert | ALZ_ResHlthUnhealthy | [Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json](../../../../services/Resources/subscriptions/Deploy-ActivityLog-ResourceHealth-UnHealthly-Alert.json) | disabled |

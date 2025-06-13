@@ -1,53 +1,53 @@
 ---
-  name: Update ALZ policy initiative table files
+    name: Check Policy Initiative Table files
 
-  ##########################################
-  # Start the job on PR for all branches #
-  ##########################################
+    ##########################################
+    # Start the job on PR for all branches #
+    ##########################################
 
-  # yamllint disable-line rule:truthy
-  on:
-    pull_request:
-      types:
-        - opened
-        - reopened
-        - synchronize
-        - ready_for_review
-      paths:
-        - "services/**.json"
-        - "patterns/alz/policySetDefinitions/**.json"
+    # yamllint disable-line rule:truthy
+    on:
+      pull_request:
+        types:
+          - opened
+          - reopened
+          - synchronize
+          - ready_for_review
 
-    workflow_dispatch: {}
+        paths:
+          - "patterns/alz/policySetDefinitions/**.json"
+          - "services/**.json"
+          - "!services/**/template/**.json"
 
-  ###############
-  # Set the Job #
-  ###############
+      workflow_dispatch: {}
 
-  jobs:
-    update-alz-policy-initiative-table-files:
-      name: Update ALZ policy initiative table files with new, modified or removed tags and values
-      runs-on: ubuntu-latest
+    ###############
+    # Set the Job #
+    ###############
 
-      steps:
-        - name: Check out repository
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0
+    jobs:
+      check-files:
+        name: Check Policy Initiative Table files
+        runs-on: windows-latest
 
-        - name: Update files
-          shell: pwsh
-          run: |
-            rm ./tooling/ALZ/Generate-PolicyInitiatives-Tables.ps1
+        steps:
+          - name: Check out repository
+            uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
 
-        - name: Stage changed files
-          run: |
-            git add .
-
-        - name: Commit changes
-          run: |
-            run: git commit -m "Auto updating policy initiatives tables"
-
-        - name: Push changes to main
-          run: |
-            git push origin HEAD:main
-
+          - name: Check tables update
+            shell: pwsh
+            run: |
+              Import-Module Pester -Force
+                $pesterConfiguration = @{
+                  Run    = @{
+                    Container = New-PesterContainer -Path "./.github/actions-pester/Test-PolicyInitiatives-Tables-Update.Tests.ps1"
+                    PassThru  = $true
+                  }
+                  Output = @{
+                    Verbosity = 'Detailed'
+                  }
+                }
+                $result = Invoke-Pester -Configuration $pesterConfiguration
+                exit $result.FailedCount

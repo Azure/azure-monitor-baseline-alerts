@@ -1,7 +1,16 @@
 ﻿
+# Defining input params
+param (
+  [Parameter(Mandatory = $false)]
+  [string]
+  $alertTablesRootDir
+)
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
-$alertTablesRoorDir = ".\docs\content\patterns\alz\getting-started"
+If ([string]::IsNullOrEmpty($alertTablesRootDir)) {
+  $alertTablesRootDir = ".\docs\content\patterns\alz\getting-started"
+}
 
 # Define policy definitions to be excluded from the search
 $exclusionFileList = @(
@@ -18,9 +27,9 @@ $severityMapping = [ordered]@{
 }
 
 # Define source table file names
-$activityLogAlertTableFile = $alertTablesRoorDir + "\Activity-Log-Alerts-Table.md"
-$LogSearchAlertTableFile = $alertTablesRoorDir + "\Log-Search-Alerts-Table.md"
-$metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
+$activityLogAlertTableFile = $alertTablesRootDir + "\Activity-Log-Alerts-Table.md"
+$LogSearchAlertTableFile = $alertTablesRootDir + "\Log-Search-Alerts-Table.md"
+$metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 
 # Define source table file heading and structure
 
@@ -82,7 +91,7 @@ foreach ($file in $jsonFiles) {
     # Generating the policy name URL
     #$policyNameURL = $($file.FullName -split('azure-monitor-baseline-alerts'))[1]
     #$policyNameURL = '../../../..'+$policyNameURL -replace '\\', '/'
-    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/"+$jsonContent.name+".html"
+    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/" + $jsonContent.name + ".html"
 
     # Get alert type
     $alertType = $jsonContent.properties.policyRule.then.details.type
