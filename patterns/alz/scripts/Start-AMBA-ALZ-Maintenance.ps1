@@ -347,7 +347,7 @@ Function Delete-ALZ-Alerts($fAlertsToBeDeleted) {
 Function Delete-ALZ-ResourceGroups($fRgToBeDeleted) {
   # delete resource groups
   Write-Host "`n-- Deleting empty resource groups ..." -ForegroundColor Yellow
-  $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -Id $_ -Force } | Out-Null
+  $fRgToBeDeleted | ForEach-Object { Remove-AzResource -ResourceId $_ -Force } | Out-Null
   Write-Host "---- Done deleting empty resource groups ..." -ForegroundColor Cyan
 }
 
