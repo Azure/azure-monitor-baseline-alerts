@@ -3,7 +3,7 @@ title: Alerting-Management Policy Initiative table
 geekdocHidden: true
 ---
 
-| Policy  Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
 | ------------ | ------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Delete Alert | ALZ_activityLAWDelete | [Deploy-ActivityLog-LAWorkspace-Del.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log LA Workspace Regenerate Key Alert | ALZ_activityLAWKeyRegen | [Deploy-ActivityLog-LAWorkspace-KeyRegen.json](../../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json) | deployIfNotExists |

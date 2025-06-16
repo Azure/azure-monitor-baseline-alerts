@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["clustername"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-EffectiveCpuAverage-threshold-Override_'), field('tags._amba-EffectiveCpuAverage-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "EffectiveCpuAverage",
                                 "metricNamespace": "Microsoft.AVS/privateClouds",
                                 "metricName": "EffectiveCpuAverage",
+                                "dimensions": [{"operator":"Include","name":"clustername","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",
