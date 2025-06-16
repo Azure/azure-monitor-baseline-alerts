@@ -235,6 +235,10 @@
                     "equals": "GreaterThanOrEqual"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["healthStatus"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-RestoreHealthEvent-threshold-Override_'), field('tags._amba-RestoreHealthEvent-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "RestoreHealthEvent",
                                 "metricNamespace": "Microsoft.RecoveryServices/vaults",
                                 "metricName": "RestoreHealthEvent",
+                                "dimensions": [{"operator":"Exclude","name":"healthStatus","values":["healthy"]}],
                                 "operator": "GreaterThanOrEqual",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Count",

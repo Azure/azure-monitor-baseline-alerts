@@ -235,6 +235,10 @@
                     "equals": "LessThanOrEqual"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["EndpointName"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-QpsByEndpoint-threshold-Override_'), field('tags._amba-QpsByEndpoint-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "QpsByEndpoint",
                                 "metricNamespace": "Microsoft.Network/trafficmanagerprofiles",
                                 "metricName": "QpsByEndpoint",
+                                "dimensions": [{"operator":"Include","name":"EndpointName","values":["*"]}],
                                 "operator": "LessThanOrEqual",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",

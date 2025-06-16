@@ -196,6 +196,10 @@
                 "equals": "GreaterThanOrEqual"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["Computer"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-Average_% IO Wait Time-threshold-Override_'), field('tags._amba-Average_% IO Wait Time-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "Average_% IO Wait Time",
                             "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                             "metricName": "Average_% IO Wait Time",
+                            "dimensions": [{"operator":"Include","name":"Computer","values":["*"]}],
                             "operator": "GreaterThanOrEqual",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",

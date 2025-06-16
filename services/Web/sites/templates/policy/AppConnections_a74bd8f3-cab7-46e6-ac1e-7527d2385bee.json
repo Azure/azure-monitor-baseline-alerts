@@ -200,6 +200,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["Instance"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-AppConnections-threshold-Override_'), field('tags._amba-AppConnections-threshold-Override_'), parameters('threshold'))]"
               }
@@ -270,6 +274,7 @@
                             "name": "AppConnections",
                             "metricNamespace": "Microsoft.Web/sites",
                             "metricName": "AppConnections",
+                            "dimensions": [{"operator":"Include","name":"Instance","values":["*"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Maximum",

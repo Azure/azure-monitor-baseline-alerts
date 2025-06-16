@@ -194,7 +194,7 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                 "equals": "##OPERATOR##"
-              },
+              },##DIMENSIONS_RULE##
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-##METRIC_NAME##-threshold-Override_'), field('tags._amba-##METRIC_NAME##-threshold-Override_'), parameters('threshold'))]"
@@ -265,7 +265,7 @@
                           {
                             "name": "##METRIC_NAME##",
                             "metricNamespace": "##METRIC_NAMESPACE##",
-                            "metricName": "##METRIC_NAME##",
+                            "metricName": "##METRIC_NAME##",##DIMENSIONS_RES##
                             "operator": "##OPERATOR##",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "##TIME_AGGREGATION##",

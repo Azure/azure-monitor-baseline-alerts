@@ -196,6 +196,10 @@
                 "equals": "GreaterThanOrEqual"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["FailureKind"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-IngestionResult-threshold-Override_'), field('tags._amba-IngestionResult-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "IngestionResult",
                             "metricNamespace": "Microsoft.Kusto/clusters",
                             "metricName": "IngestionResult",
+                            "dimensions": [{"operator":"Include","name":"FailureKind","values":["Permanent"]}],
                             "operator": "GreaterThanOrEqual",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Total",

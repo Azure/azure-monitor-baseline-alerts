@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["ResponseType","authentication"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-Transactions-threshold-Override_'), field('tags._amba-Transactions-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "Transactions",
                             "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
                             "metricName": "Transactions",
+                            "dimensions": [{"operator":"Include","name":"ResponseType","values":["Success"]},{"operator":"include","name":"authentication","values":["anonymous"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Total",
