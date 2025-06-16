@@ -235,6 +235,10 @@
                     "equals": "LessThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["EntityName"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-OutgoingMessages-threshold-Override_'), field('tags._amba-OutgoingMessages-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "OutgoingMessages",
                                 "metricNamespace": "Microsoft.EventHub/namespaces",
                                 "metricName": "OutgoingMessages",
+                                "dimensions": [{"operator":"Include","name":"EntityName","values":["application-logs"]}],
                                 "operator": "LessThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",

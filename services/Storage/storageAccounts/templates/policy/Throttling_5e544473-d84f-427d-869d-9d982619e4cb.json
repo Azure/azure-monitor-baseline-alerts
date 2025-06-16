@@ -196,6 +196,10 @@
                 "equals": "GreaterThanOrEqual"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["ResponseType","FileShare"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-Transactions-threshold-Override_'), field('tags._amba-Transactions-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "Transactions",
                             "metricNamespace": "Microsoft.Storage/storageAccounts/fileServices",
                             "metricName": "Transactions",
+                            "dimensions": [{"name":"ResponseType","operator":"Include","values":["SuccessWithThrottling SuccessWithShareIopsThrottling ClientShareIopsThrottlingError"]},{"name":"FileShare","operator":"Include","values":["SuccessWithShareEgressThrottling SuccessWithShareIngressThrottling SuccessWithShareIopsThrottling ClientShareEgressThrottlingError ClientShareIngressThrottlingError ClientShareIopsThrottlingError"]}],
                             "operator": "GreaterThanOrEqual",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Total",

@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Source","EventLog","Computer","EventID"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-Event-threshold-Override_'), field('tags._amba-Event-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "Event",
                                 "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                                 "metricName": "Event",
+                                "dimensions": [{"operator":"Include","name":"Source","values":["service control manager"]},{"operator":"Include","name":"EventLog","values":["system"]},{"operator":"Include","name":"Computer","values":["*"]},{"operator":"Include","name":"EventID","values":["7031","7024","7034"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Count",

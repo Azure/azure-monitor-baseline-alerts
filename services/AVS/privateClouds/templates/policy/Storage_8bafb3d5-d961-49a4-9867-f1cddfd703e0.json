@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["dsname"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-DiskUsedPercentage-threshold-Override_'), field('tags._amba-DiskUsedPercentage-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "DiskUsedPercentage",
                             "metricNamespace": "Microsoft.AVS/privateClouds",
                             "metricName": "DiskUsedPercentage",
+                            "dimensions": [{"operator":"Include","name":"dsname","values":["*"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",

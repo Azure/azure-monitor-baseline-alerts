@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["Status"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-TotalUpdateDeploymentMachineRuns-threshold-Override_'), field('tags._amba-TotalUpdateDeploymentMachineRuns-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "TotalUpdateDeploymentMachineRuns",
                             "metricNamespace": "Microsoft.Automation/automationAccounts",
                             "metricName": "TotalUpdateDeploymentMachineRuns",
+                            "dimensions": [{"operator":"Include","name":"Status","values":["Failed"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Total",
