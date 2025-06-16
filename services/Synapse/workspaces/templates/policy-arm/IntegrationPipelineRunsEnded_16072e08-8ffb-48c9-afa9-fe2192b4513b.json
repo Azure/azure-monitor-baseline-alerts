@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Result"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-IntegrationPipelineRunsEnded-threshold-Override_'), field('tags._amba-IntegrationPipelineRunsEnded-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "IntegrationPipelineRunsEnded",
                                 "metricNamespace": "Microsoft.Synapse/workspaces",
                                 "metricName": "IntegrationPipelineRunsEnded",
+                                "dimensions": [{"operator":"Include","name":"Result","values":["Failed"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",

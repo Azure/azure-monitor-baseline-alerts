@@ -196,6 +196,10 @@
                 "equals": "LessThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["Computer","ObjectName"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-Average_% Idle Time-threshold-Override_'), field('tags._amba-Average_% Idle Time-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "Average_% Idle Time",
                             "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                             "metricName": "Average_% Idle Time",
+                            "dimensions": [{"operator":"Include","name":"Computer","values":["*"]},{"operator":"Include","name":"ObjectName","values":["logicaldisk"]}],
                             "operator": "LessThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
