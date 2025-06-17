@@ -79,6 +79,18 @@ process {
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_TIER##", ""
                 }
+                if ($alert.PSObject.Properties.Name -contains "gatewayType") {
+                    $gatewayTypeString = [Environment]::NewLine + '          ' + '{' +
+                                  [Environment]::NewLine + '          ' + '  "field": "' + $alert.properties.metricNamespace + '/gatewayType",' +
+                                  [Environment]::NewLine + '          ' + '  "in": ['
+                    foreach ($gatewayType in $alert.gatewayType) {
+                        $gatewayTypeString += '"' + $gatewayType + '",'
+                    }
+                    $gatewayTypeString = $gatewayTypeString.TrimEnd(',') + ']' + [Environment]::NewLine+ '          },'
+                    $alertTemplate = $alertTemplate -replace "##POLICY_GWTYPE##", $gatewayTypeString
+                } else {
+                    $alertTemplate = $alertTemplate -replace "##POLICY_GWTYPE##", ""
+                }
                 if ($alert.properties.dimensions -ne $null) {
                   $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '              ' + '{' +
                        [Environment]::NewLine + '              ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
