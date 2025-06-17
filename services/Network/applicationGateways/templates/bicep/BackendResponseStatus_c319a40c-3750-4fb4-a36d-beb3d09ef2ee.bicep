@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'BackendResponseStatus'
           dimensions: [
             {
-              name: 'httpstatusgroup'
-              operator: 'include'
+              name: 'HttpStatusGroup'
+              operator: 'Include'
               values: ['5xx']
             }]
           operator: operator

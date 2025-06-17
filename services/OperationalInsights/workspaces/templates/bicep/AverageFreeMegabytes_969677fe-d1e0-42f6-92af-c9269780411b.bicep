@@ -108,13 +108,13 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Average_Free Megabytes'
           dimensions: [
             {
-              name: 'computer'
-              operator: 'include'
+              name: 'Computer'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'instancename'
-              operator: 'include'
+              name: 'InstanceName'
+              operator: 'Include'
               values: ['c:','/']
             }]
           operator: operator

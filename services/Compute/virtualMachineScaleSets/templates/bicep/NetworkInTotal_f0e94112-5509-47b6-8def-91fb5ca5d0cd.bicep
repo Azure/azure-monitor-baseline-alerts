@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Network In Total'
           dimensions: [
             {
-              name: 'vmname'
-              operator: 'include'
+              name: 'VMName'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

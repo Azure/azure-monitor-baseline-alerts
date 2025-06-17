@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'IngestionResult'
           dimensions: [
             {
-              name: 'failurekind'
-              operator: 'include'
-              values: ['permanent']
+              name: 'FailureKind'
+              operator: 'Include'
+              values: ['Permanent']
             }]
           operator: operator
           threshold: threshold

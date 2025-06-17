@@ -40,7 +40,7 @@ param alertSeverity int = 3
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 107374182400
+param threshold int = 500000000000000
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -63,7 +63,7 @@ param timeAggregation string = 'Average'
   'PT12H'
   'P1D'
 ])
-param windowSize string = 'P1D'
+param windowSize string = 'PT1H'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -73,7 +73,7 @@ param windowSize string = 'P1D'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT5M'
+param evaluationFrequency string = 'PT1H'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()
