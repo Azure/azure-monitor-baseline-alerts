@@ -374,8 +374,8 @@ Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted) {
 
 Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted) {
   # delete role assignments
-  Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-  $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+  Write-Host "-- Deleting role assignments ..." -ForegroundColor Yellow
+  #$fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
   Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
@@ -512,7 +512,8 @@ Switch ($cleanItems) {
           $emptyRgToBeDeleted = Check-ALZ-EmptyResourceGroups -fRgToBeChecked $rgToBeDeleted
 
           If ($emptyRgToBeDeleted.count -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $emptyRgToBeDeleted }
-          If (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) { Write-Host "---- Found '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant and delete them manually." -ForegroundColor red }
+          elseif ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) { Write-Host "---- Found '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant and delete them manually." -ForegroundColor red }
+
         }
       }
     }
