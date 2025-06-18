@@ -505,7 +505,7 @@ Switch ($cleanItems) {
         # Invoking function to delete empty resource groups
         If ($rgToBeDeleted.count -gt 0) {
 
-          Write-Host "- Ensuring resource group(s) deployed by AMBA-ALZ are empty before deleting them ..."
+          Write-Host "`n- Ensuring resource group(s) deployed by AMBA-ALZ are empty before deleting them ..."
           Start-Sleep 20s
 
           # Invoking function to ensure rgs are empty
