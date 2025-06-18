@@ -171,15 +171,6 @@ Function Get-ALZ-OrphanedAlerts {
   If ($alertResources.count -gt 0) {
     $tempArrayList = [System.Collections.ArrayList]::new()
     $orphanedAlerts = [System.Collections.ArrayList]::Synchronized($tempArrayList)
-    <#ForEach ($alert in $alertResources) {
-            $scope = $($alert.scope.replace('"]', '')).replace('["', '')
-            $query = "Resources | where id =~ '$scope' | project id"
-            $resourceId = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id
-
-            If (-NOT $resourceId) {
-                $orphanedAlerts.add($alert.id)
-            }
-        }#>
 
     $alertResources | ForEach-Object -Parallel {
       $arr = $using:orphanedAlerts
@@ -346,8 +337,8 @@ Function Delete-ALZ-Alerts($fAlertsToBeDeleted) {
 
 Function Delete-ALZ-ResourceGroups($fRgToBeDeleted) {
   # delete resource groups
-  Write-Host "`n-- Deleting empty resource groups ..." -ForegroundColor Yellow
-  $fRgToBeDeleted | ForEach-Object { Remove-AzResource -ResourceId $_ -Force } | Out-Null
+  Write-Host "-- Deleting empty resource groups ..." -ForegroundColor Yellow
+  $fRgToBeDeleted | ForEach-Object -Parallel { Remove-AzResource -ResourceId $_ -Force } | Out-Null
   Write-Host "---- Done deleting empty resource groups ..." -ForegroundColor Cyan
 }
 
@@ -374,8 +365,8 @@ Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted) {
 
 Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted) {
   # delete role assignments
-  Write-Host "-- Deleting role assignments ..." -ForegroundColor Yellow
-  #$fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+  Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
+  $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false -ErrorAction SilentlyContinue} | Out-Null
   Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
