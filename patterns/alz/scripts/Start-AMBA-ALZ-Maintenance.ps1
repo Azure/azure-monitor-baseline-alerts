@@ -503,7 +503,7 @@ Switch ($cleanItems) {
           $emptyRgToBeDeleted = Check-ALZ-EmptyResourceGroups -fRgToBeChecked $rgToBeDeleted
 
           If ($emptyRgToBeDeleted.count -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $emptyRgToBeDeleted }
-          elseif ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) { Write-Host "---- Found '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant and delete them manually." -ForegroundColor red }
+          if ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) { Write-Host "---- There are '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant. Should they be not, manually delete the resource group(s) and the contained resource(s)." -ForegroundColor red }
 
         }
       }
