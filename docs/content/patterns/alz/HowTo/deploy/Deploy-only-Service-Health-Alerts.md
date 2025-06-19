@@ -313,7 +313,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --name "amba-MainDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters alzArm.param.json
 ```
 
 </br>
@@ -401,7 +401,7 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 To deploy policy definitions to the intermediate management group, run the following command:
 
 ```bash
-az deployment mg create --name "amba-ServiveHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
+az deployment mg create --name "amba-ServiceHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
 
 {{< hint type=note >}}
@@ -409,7 +409,7 @@ The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the foll
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-ServiveHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
+az deployment mg create --name "amba-ServiceHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-sh.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
 ```
 
 ### 6. Assign the Service Health Policy Set Definition
