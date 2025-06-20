@@ -111,7 +111,7 @@
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
           "name": "##ALERT_NAME##",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -133,26 +133,14 @@
                           },
                           {
                             "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "Administrative"
-                          }
-                        ]
-                      },
-                      {
-                        "allOf": [
-                          {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                            "equals": "operationName"
-                          },
-                          {
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "##OPERATION_NAME##"
+                            "equals": "ResourceHealth"
                           }
                         ]
                       }
                     ]
                   }
                 },
-                "equals": 2
+                "equals": 1
               }
             ]
           },
@@ -192,7 +180,7 @@
                     "name": "##ALERT_NAME##",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                      "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -227,16 +215,30 @@
                                 "allOf": [
                                   {
                                     "field": "category",
-                                    "equals": "Administrative"
+                                    "equals": "ResourceHealth"
                                   },
                                   {
-                                    "field": "operationName",
-                                    "equals": "##OPERATION_NAME##"
+                                    "anyOf": [
+                                      {
+                                        "field": "properties.cause",
+                                        "equals": "PlatformInitiated"
+                                      },
+                                      {
+                                        "field": "properties.cause",
+                                        "equals": "UserInitiated"
+                                      }
+                                    ]
                                   },
                                   {
-                                    "field": "status",
-                                    "containsAny": [
-                                      "succeeded"
+                                    "anyOf": [
+                                      {
+                                        "field": "properties.currentHealthStatus",
+                                        "equals": "Degraded"
+                                      },
+                                      {
+                                        "field": "properties.currentHealthStatus",
+                                        "equals": "Unavailable"
+                                      }
                                     ]
                                   }
                                 ]

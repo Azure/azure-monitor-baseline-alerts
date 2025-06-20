@@ -72,7 +72,7 @@
         "type": "String",
         "metadata": {
           "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
       },
@@ -111,7 +111,7 @@
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
           "name": "##ALERT_NAME##",
-          "existenceScope": "resourcegroup",
+          "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -133,7 +133,7 @@
                           },
                           {
                             "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "Administrative"
+                            "equals": "ServiceHealth"
                           }
                         ]
                       },
@@ -141,11 +141,11 @@
                         "allOf": [
                           {
                             "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                            "equals": "operationName"
+                            "equals": "properties.incidentType"
                           },
                           {
                             "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                            "equals": "##OPERATION_NAME##"
+                            "equals": "##INCIDENT_TYPE##"
                           }
                         ]
                       }
@@ -192,7 +192,7 @@
                     "name": "##ALERT_NAME##",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
-                      "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                      "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                     ],
                     "properties": {
                       "mode": "Incremental",
@@ -227,17 +227,11 @@
                                 "allOf": [
                                   {
                                     "field": "category",
-                                    "equals": "Administrative"
+                                    "equals": "ServiceHealth"
                                   },
                                   {
-                                    "field": "operationName",
-                                    "equals": "##OPERATION_NAME##"
-                                  },
-                                  {
-                                    "field": "status",
-                                    "containsAny": [
-                                      "succeeded"
-                                    ]
+                                    "field": "properties.incidentType",
+                                    "equals": "##INCIDENT_TYPE##"
                                   }
                                 ]
                               },

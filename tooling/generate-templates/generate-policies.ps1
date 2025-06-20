@@ -206,6 +206,51 @@ process {
                 # Write the policy template to a file
                 Out-File -FilePath "$($policyPathName)templates\policy\$($policyFileName)_$($alert.guid).json" -InputObject $alertTemplate
             }
+
+            # Generate policy templates for activity log alerts
+            if ($alert.type -eq "ActivityLog") {
+              if ($alert.properties.category -eq "Administrative") {
+                $alertTemplate = Get-Content ".\policy\activity-administrative.json"
+
+              } elseif ($alert.properties.category -eq "ResourceHealth") {
+                $alertTemplate = Get-Content ".\policy\activity-resourcehealth.json"
+              } elseif ($alert.properties.category -eq "ServiceHealth") {
+                $alertTemplate = Get-Content ".\policy\activity-servicehealth.json"
+              }
+
+                $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", (('Deploy_' + $alert.name) -replace ' ', '_')
+                if ($alert.deployments.name -ne $null) {
+                    $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", $alert.deployments.name
+                    $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/$($alert.deployments.name)"
+                }
+                if ($alert.deployments.name -eq $null) {
+                    $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", "Deploy $($alert.name) Alert"
+                    $alertTemplate = $alertTemplate -replace "##POLICY_DESCRIPTION##", "Policy to Audit/Deploy $($alert.name) Alert"
+                }
+
+                $parts = $policyPathName -split '\\'
+                $secondToLastIndex = $parts.Length - 2
+                $thirdToLastIndex = $parts.Length - 3
+                $category = $parts[$thirdToLastIndex]
+                $resourceType = 'Microsoft.' + $parts[$thirdToLastIndex] + '/' + $parts[$secondToLastIndex]
+
+                $alertTemplate = $alertTemplate -replace "##POLICY_CATEGORY##", $category
+                $alertTemplate = $alertTemplate -replace "##RESOURCE_TYPE##", $resourceType
+                $alertName = $alert.name -replace "[^a-zA-Z_]", ""
+                $alertTemplate = $alertTemplate -replace "##ALERT_NAME##", $alertName
+                $alertTemplate = $alertTemplate -replace "##ALERT_DESCRIPTION##", $alert.description
+                $alertTemplate = $alertTemplate -replace "##OPERATION_NAME##", $alert.properties.operationName
+                $alertTemplate = $alertTemplate -replace "##INCIDENT_TYPE##", $alert.properties.incidentType
+
+                if (-not (Test-Path -Path $policyDirectory)) {
+                  New-Item -ItemType Directory -Path $policyDirectory -Force
+                }
+                if ($policyFileName -eq "") {
+                    $policyFileName = $alert.name -replace "[^a-zA-Z0-9-]", ""
+                }
+                # Write the policy template to a file
+                Out-File -FilePath "$($policyPathName)templates\policy\$($policyFileName)_$($alert.guid).json" -InputObject $alertTemplate
+            }
         }
     } -ThrottleLimit 10
 }
