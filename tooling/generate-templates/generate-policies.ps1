@@ -242,6 +242,77 @@ process {
                 $alertTemplate = $alertTemplate -replace "##OPERATION_NAME##", $alert.properties.operationName
                 $alertTemplate = $alertTemplate -replace "##INCIDENT_TYPE##", $alert.properties.incidentType
 
+                if ($alert.properties.category -eq "ResourceHealth") {
+                  if ($alert.properties.causes -ne $null) {
+                    $causesString = $causesString + ',' + [Environment]::NewLine + '                                  ' + '{' +
+                        [Environment]::NewLine + '                                    ' + '"anyOf": ['
+                    foreach ($cause in $alert.properties.causes) {
+                        $causesString += [Environment]::NewLine + '                                      {'
+                        $causesString += [Environment]::NewLine + '                                        ' + '"field": "properties.cause",'
+                        $causesString += [Environment]::NewLine + '                                        "equals": "' + $cause + '"'
+                        $causesString += [Environment]::NewLine + '                                      },'
+                    }
+                    $causesString = $causesString.TrimEnd(',') + [Environment]::NewLine + '                                    ' + '] ' +
+                                    [Environment]::NewLine + '                                  }'
+                    $alertTemplate = $alertTemplate -replace "##CAUSES##", $causesString
+                    $causesString = ""
+                  } else {
+                      $alertTemplate = $alertTemplate -replace "##CAUSES##", ""
+                  }
+
+                  if ($alert.properties.currentHealthStatus -ne $null) {
+                    $currentHealthStatusString = $currentHealthStatusString + ',' + [Environment]::NewLine + '                                  ' + '{' +
+                        [Environment]::NewLine + '                                    ' + '"anyOf": ['
+                    foreach ($status in $alert.properties.currentHealthStatus) {
+                        $currentHealthStatusString += [Environment]::NewLine + '                                      {'
+                        $currentHealthStatusString += [Environment]::NewLine + '                                        ' + '"field": "properties.currentHealthStatus",'
+                        $currentHealthStatusString += [Environment]::NewLine + '                                        "equals": "' + $status + '"'
+                        $currentHealthStatusString += [Environment]::NewLine + '                                      },'
+                    }
+                    $currentHealthStatusString = $currentHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                    ' + '] ' +
+                                    [Environment]::NewLine + '                                  }'
+                    $alertTemplate = $alertTemplate -replace "##CUR_HEALTH_STATUS##", $currentHealthStatusString
+                    $currentHealthStatusString = ""
+                  } else {
+                      $alertTemplate = $alertTemplate -replace "##CUR_HEALTH_STATUS##", ""
+                  }
+
+                  if ($alert.properties.status -ne $null) {
+                    $statusString = $statusString + ',' + [Environment]::NewLine + '                                  ' + '{' +
+                        [Environment]::NewLine + '                                    ' + '"anyOf": ['
+                    foreach ($status in $alert.properties.status) {
+                        $statusString += [Environment]::NewLine + '                                      {'
+                        $statusString += [Environment]::NewLine + '                                        ' + '"field": "properties.status",'
+                        $statusString += [Environment]::NewLine + '                                        "equals": "' + $status + '"'
+                        $statusString += [Environment]::NewLine + '                                      },'
+                    }
+                    $statusString = $statusString.TrimEnd(',') + [Environment]::NewLine + '                                    ' + '] ' +
+                                    [Environment]::NewLine + '                                  }'
+                    $alertTemplate = $alertTemplate -replace "##STATUS##", $statusString
+                    $statusString = ""
+                  } else {
+                      $alertTemplate = $alertTemplate -replace "##STATUS##", ""
+                  }
+
+                  if ($alert.properties.previousHealthStatus -ne $null) {
+                    $previousHealthStatusString = $previousHealthStatusString + ',' + [Environment]::NewLine + '                                  ' + '{' +
+                        [Environment]::NewLine + '                                    ' + '"anyOf": ['
+                    foreach ($status in $alert.properties.previousHealthStatus) {
+                        $previousHealthStatusString += [Environment]::NewLine + '                                      {'
+                        $previousHealthStatusString += [Environment]::NewLine + '                                        ' + '"field": "properties.previousHealthStatus",'
+                        $previousHealthStatusString += [Environment]::NewLine + '                                        "equals": "' + $status + '"'
+                        $previousHealthStatusString += [Environment]::NewLine + '                                      },'
+                    }
+                    $previousHealthStatusString = $previousHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                    ' + '] ' +
+                                    [Environment]::NewLine + '                                  }'
+                    $alertTemplate = $alertTemplate -replace "##PREV_HEALTH_STATUS##", $previousHealthStatusString
+                    $previousHealthStatusString = ""
+                  } else {
+                      $alertTemplate = $alertTemplate -replace "##PREV_HEALTH_STATUS##", ""
+                  }
+
+                }
+
                 if (-not (Test-Path -Path $policyDirectory)) {
                   New-Item -ItemType Directory -Path $policyDirectory -Force
                 }
