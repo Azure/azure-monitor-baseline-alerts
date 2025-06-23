@@ -217,6 +217,7 @@ process {
                 $alertTemplate = Get-Content ".\policy\activity-servicehealth-full-arm.json"
               }
 
+                $alertTemplate = $alertTemplate -replace "##TELEMETRY_PID##", 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d'
                 $alertTemplate = $alertTemplate -replace "##POLICY_NAME##", (('Deploy_' + $alert.name) -replace ' ', '_')
                 if ($alert.deployments.name -ne $null) {
                     $alertTemplate = $alertTemplate -replace "##POLICY_DISPLAY_NAME##", $alert.deployments.name
