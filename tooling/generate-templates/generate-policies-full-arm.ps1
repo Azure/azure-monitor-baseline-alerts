@@ -252,7 +252,7 @@ process {
                         $causesString += [Environment]::NewLine + '                                            "equals": "' + $cause + '"'
                         $causesString += [Environment]::NewLine + '                                          },'
                     }
-                    $causesString = $causesString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + '] ' +
+                    $causesString = $causesString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + ']' +
                                     [Environment]::NewLine + '                                      }'
                     $alertTemplate = $alertTemplate -replace "##CAUSES##", $causesString
                     $causesString = ""
@@ -269,7 +269,7 @@ process {
                         $currentHealthStatusString += [Environment]::NewLine + '                                            "equals": "' + $status + '"'
                         $currentHealthStatusString += [Environment]::NewLine + '                                          },'
                     }
-                    $currentHealthStatusString = $currentHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + '] ' +
+                    $currentHealthStatusString = $currentHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + ']' +
                                     [Environment]::NewLine + '                                      }'
                     $alertTemplate = $alertTemplate -replace "##CUR_HEALTH_STATUS##", $currentHealthStatusString
                     $currentHealthStatusString = ""
@@ -286,7 +286,7 @@ process {
                         $statusString += [Environment]::NewLine + '                                            "equals": "' + $status + '"'
                         $statusString += [Environment]::NewLine + '                                          },'
                     }
-                    $statusString = $statusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + '] ' +
+                    $statusString = $statusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + ']' +
                                     [Environment]::NewLine + '                                      }'
                     $alertTemplate = $alertTemplate -replace "##STATUS##", $statusString
                     $statusString = ""
@@ -303,7 +303,7 @@ process {
                         $previousHealthStatusString += [Environment]::NewLine + '                                            "equals": "' + $status + '"'
                         $previousHealthStatusString += [Environment]::NewLine + '                                          },'
                     }
-                    $previousHealthStatusString = $previousHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + '] ' +
+                    $previousHealthStatusString = $previousHealthStatusString.TrimEnd(',') + [Environment]::NewLine + '                                        ' + ']' +
                                     [Environment]::NewLine + '                                      }'
                     $alertTemplate = $alertTemplate -replace "##PREV_HEALTH_STATUS##", $previousHealthStatusString
                     $previousHealthStatusString = ""
