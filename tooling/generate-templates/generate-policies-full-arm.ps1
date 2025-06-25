@@ -69,7 +69,7 @@ process {
                 }
                 if ($alert.PSObject.Properties.Name -contains "unsupportedSKU") {
                     $unsupportedSKUString = [Environment]::NewLine + '              ' + '{' +
-                                  [Environment]::NewLine + '              ' + '  "field": "properties.sku",' +
+                                  [Environment]::NewLine + '              ' + '  "field": "' + $alert.properties.metricNamespace + '/sku",' +
                                   [Environment]::NewLine + '              ' + '  "notIn": ['
                     foreach ($unsupportedSKU in $alert.unsupportedSKU) {
                         $unsupportedSKUString += '"' + $unsupportedSKU + '",'
