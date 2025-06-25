@@ -67,6 +67,18 @@ process {
                 } else {
                     $alertTemplate = $alertTemplate -replace "##POLICY_KIND##", ""
                 }
+                if ($alert.PSObject.Properties.Name -contains "unsupportedSKU") {
+                    $unsupportedSKUString = [Environment]::NewLine + '              ' + '{' +
+                                  [Environment]::NewLine + '              ' + '  "field": "' + $alert.properties.metricNamespace + '/sku",' +
+                                  [Environment]::NewLine + '              ' + '  "notIn": ['
+                    foreach ($unsupportedSKU in $alert.unsupportedSKU) {
+                        $unsupportedSKUString += '"' + $unsupportedSKU + '",'
+                    }
+                    $unsupportedSKUString = $unsupportedSKUString.TrimEnd(',') + ']' + [Environment]::NewLine+ '              },'
+                    $alertTemplate = $alertTemplate -replace "##POLICY_UNSUPPORTEDSKU##", $unsupportedSKUString
+                } else {
+                    $alertTemplate = $alertTemplate -replace "##POLICY_UNSUPPORTEDSKU##", ""
+                }
                 if ($alert.PSObject.Properties.Name -contains "tier") {
                     $tierString = [Environment]::NewLine + '              ' + '{' +
                                   [Environment]::NewLine + '              ' + '  "field": "' + $alert.properties.metricNamespace + '/sku.tier",' +
