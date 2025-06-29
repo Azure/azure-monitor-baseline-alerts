@@ -1,4 +1,4 @@
-Describe 'UnitTest-PolicyInitiatives-Tables-Update.' {
+Describe 'UnitTest-PolicyInitiatives-Tables-Update' {
   BeforeAll {
 
     if(!(Test-Path "buildoutPolicyInitiatives")) {
@@ -10,7 +10,7 @@ Describe 'UnitTest-PolicyInitiatives-Tables-Update.' {
 
   Context "Check Policy Initiative tables update" {
 
-    It "Check Alerts Details table for ActivityLog alerts update done" {
+    It "Check Policy Initiatives table update done" {
 
       # Setting files location
       $prFilePath = "./docs/content/patterns/alz/getting-started/"
