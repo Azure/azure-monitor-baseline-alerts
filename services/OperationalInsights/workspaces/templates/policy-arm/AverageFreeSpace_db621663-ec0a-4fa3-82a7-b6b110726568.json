@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-Average_% Free Space')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-Average_ Free Space')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -233,6 +233,10 @@
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                     "equals": "LessThan"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Computer"]
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -285,7 +289,7 @@
                       {
                         "type": "Microsoft.Insights/metricAlerts",
                         "apiVersion": "2018-03-01",
-                        "name": "[[concat(parameters('resourceName'), '-Average_% Free Space')]",
+                        "name": "[[concat(parameters('resourceName'), '-Average_ Free Space')]",
                         "location": "global",
                         "tags": {
                           "_deployed_by_amba": true
@@ -305,6 +309,7 @@
                                 "name": "Average_% Free Space",
                                 "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                                 "metricName": "Average_% Free Space",
+                                "dimensions": [{"operator":"Include","name":"Computer","values":["*"]}],
                                 "operator": "LessThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",
@@ -340,7 +345,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

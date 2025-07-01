@@ -179,6 +179,10 @@
                 "equals": "Microsoft.Web/sites"
               },
               {
+                "field": "kind",
+                "in": ["app","app,container,windows","functionapp"]
+              },
+              {
                 "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
                 "notIn": "[[parameters('MonitorDisableTagValues')]"
               }
@@ -191,7 +195,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-RequestsInApplicationQueue')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-RequestsInApplicationQueue')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +208,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/sites/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -233,6 +237,10 @@
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                     "equals": "GreaterThan"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["Instance"]
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -305,6 +313,7 @@
                                 "name": "RequestsInApplicationQueue",
                                 "metricNamespace": "Microsoft.Web/sites",
                                 "metricName": "RequestsInApplicationQueue",
+                                "dimensions": [{"operator":"Include","name":"Instance","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Maximum",
@@ -340,7 +349,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

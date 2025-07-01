@@ -1,15 +1,15 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_Hybrid_VM_HeartBeat_Alert",
+  "name": "Deploy_Hybrid_Machine_Heartbeat_Alert",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Hybrid VM HeartBeat Alert",
-    "description": "Policy to audit/deploy Hybrid VM HeartBeat Alert",
+    "displayName": "Deploy Hybrid Machine HeartBeat Alert for all Machines in the subscription",
+    "description": "Policy to Audit/Deploy Hybrid Machine HeartBeat Alert for all Machines in the subscription",
     "metadata": {
-      "version": "1.4.0",
-      "category": "Hybrid Compute",
+      "version": "1.0.0-preview",
+      "category": "HybridCompute",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -82,9 +82,9 @@
           "displayName": "TimeAggregation"
         },
         "allowedValues": [
-          "Count"
+          "Average"
         ],
-        "defaultValue": "Count"
+        "defaultValue": "Average"
       },
       "windowSize": {
         "type": "String",
@@ -101,7 +101,7 @@
           "PT12H",
           "PT24H"
         ],
-        "defaultValue": "PT6H"
+        "defaultValue": "PT15M"
       },
       "evaluationFrequency": {
         "type": "String",
@@ -185,16 +185,6 @@
         },
         "defaultValue": "1"
       },
-      "computersToInclude": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Computers to be included to be monitored",
-          "description": "Array of Computer to be monitored"
-        },
-        "defaultValue": [
-          "*"
-        ]
-      },
       "effect": {
         "type": "String",
         "metadata": {
@@ -210,7 +200,7 @@
       "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
-          "displayName": "ALZ Monitoring disabled tag name",
+          "displayName": "Monitoring disabled tag name",
           "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
         },
         "defaultValue": "MonitorDisable"
@@ -218,7 +208,7 @@
       "MonitorDisableTagValues": {
         "type": "Array",
         "metadata": {
-          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "displayName": "Monitoring disabled tag values(s)",
           "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": [
@@ -256,7 +246,7 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[[concat(subscription().displayName, '-HybridVMHeartBeatAlert')]"
+                "equals": "[[concat(subscription().displayName, '-HybridMachineHeartbeatAlert')]"
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
@@ -300,7 +290,7 @@
               },
               {
                 "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
-                "equals": "[[format('let policyThresholdString = \"{0}\"; let resourceTagging = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | where tags.[\"{1}\"] !in~ (\"{2}\") | project _ResourceId = tolower(id), resourceTags = tags); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | join hint.remote=left kind=inner (resourceTagging ) on _ResourceId | project-away _ResourceId1 | extend newThresholdString = tostring(resourceTags.[\"{3}\"]) | extend appliedThreshold = iif(isempty(newThresholdString), toint(policyThresholdString), toint(newThresholdString)) | where Duration > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Duration, appliedThreshold', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), '_amba-Heartbeat-threshold-Override_')]"
+                "equals": "[format('Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId')]"
               },
               {
                 "field": "identity.userAssignedIdentities",
@@ -364,9 +354,6 @@
                   "evaluationPeriods": {
                     "type": "String"
                   },
-                  "computersToInclude": {
-                    "type": "array"
-                  },
                   "MonitorDisableTagName": {
                     "type": "String"
                   },
@@ -386,7 +373,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "HybridVMHeartBeatAlert",
+                    "name": "HybridMachineHeartbeatAlert",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -415,7 +402,7 @@
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "apiVersion": "2022-08-01-preview",
-                            "name": "[[concat(subscription().displayName, '-HybridVMHeartBeatAlert')]",
+                            "name": "[[concat(subscription().displayName, '-HybridMachineHeartbeatAlert')]",
                             "location": "[[parameters('alertResourceGroupLocation')]",
                             "identity": {
                               "type": "UserAssigned",
@@ -427,8 +414,8 @@
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "displayName": "[[concat(subscription().displayName, '-HybridVMHeartBeatAlert')]",
-                              "description": "Log Alert for Virtual Machine Heartbeat",
+                              "displayName": "[[concat(subscription().displayName, '-HybridMachineHeartbeatAlert')]",
+                              "description": "Log Alert for Hybrid Machine Heartbeat",
                               "severity": "[[parameters('severity')]",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -442,18 +429,13 @@
                               "criteria": {
                                 "allOf": [
                                   {
-                                    "query": "[[format('let policyThresholdString = \"{0}\"; let resourceTagging = (arg(\"\").resources | where type =~ \"Microsoft.HybridCompute/machines\" | where tags.[\"{1}\"] !in~ (\"{2}\") | project _ResourceId = tolower(id), resourceTags = tags); Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | join hint.remote=left kind=inner (resourceTagging ) on _ResourceId | project-away _ResourceId1 | extend newThresholdString = tostring(resourceTags.[\"{3}\"]) | extend appliedThreshold = iif(isempty(newThresholdString), toint(policyThresholdString), toint(newThresholdString)) | where Duration > appliedThreshold | project TimeGenerated, Computer, _ResourceId, Duration, appliedThreshold', parameters('threshold'), parameters('MonitorDisableTagName'), join(parameters('MonitorDisableTagValues'), '\",\"'), '_amba-Heartbeat-threshold-Override_')]",
+                                    "query": "[format('Heartbeat | where _ResourceId has \"Microsoft.HybridCompute/machines\" | summarize TimeGenerated=max(TimeGenerated) by Computer, _ResourceId | extend Duration = datetime_diff(\"minute\",now(),TimeGenerated) | summarize AggregatedValue = min(Duration) by Computer, bin(TimeGenerated,5m), _ResourceId')]",
                                     "threshold": 0,
                                     "operator": "[[parameters('operator')]",
                                     "resourceIdColumn": "_ResourceId",
+                                    "metricMeasureColumn": "AggregatedValue",
                                     "timeAggregation": "[[parameters('timeAggregation')]",
-                                    "dimensions": [
-                                      {
-                                        "name": "Computer",
-                                        "operator": "Include",
-                                        "values": "[[parameters('computersToInclude')]"
-                                      }
-                                    ],
+                                    "dimensions": [{"name":"Computer","operator":"Include","values":["*"]}],
                                     "failingPeriods": {
                                       "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
                                       "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
@@ -505,9 +487,6 @@
                                 },
                                 "evaluationPeriods": {
                                   "value": "[[parameters('evaluationPeriods')]"
-                                },
-                                "computersToInclude": {
-                                  "value": "[[parameters('computersToInclude')]"
                                 },
                                 "MonitorDisableTagName": {
                                   "value": "[[parameters('MonitorDisableTagName')]"
@@ -586,9 +565,6 @@
                 },
                 "evaluationPeriods": {
                   "value": "[[parameters('evaluationPeriods')]"
-                },
-                "computersToInclude": {
-                  "value": "[[parameters('computersToInclude')]"
                 },
                 "MonitorDisableTagName": {
                   "value": "[[parameters('MonitorDisableTagName')]"

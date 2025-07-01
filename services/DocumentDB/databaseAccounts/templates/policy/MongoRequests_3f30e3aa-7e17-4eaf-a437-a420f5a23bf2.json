@@ -40,14 +40,10 @@
           "description": "Window size for the alert"
         },
         "allowedValues": [
-          "PT1M",
           "PT5M",
           "PT15M",
           "PT30M",
-          "PT1H",
-          "PT6H",
-          "PT12H",
-          "P1D"
+          "PT1H"
         ],
         "defaultValue": "PT5M"
       },
@@ -65,6 +61,19 @@
           "PT1H"
         ],
         "defaultValue": "PT1M"
+      },
+      "alertSensitivity": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Alert Sensitivity",
+          "description": "Alert Sensitivity for the alert"
+        },
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "defaultValue": "Low"
       },
       "autoMitigate": {
         "type": "String",
@@ -89,14 +98,6 @@
           "false"
         ],
         "defaultValue": "true"
-      },
-      "threshold": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Threshold",
-          "description": "Threshold for the alert"
-        },
-        "defaultValue": "9"
       },
       "effect": {
         "type": "String",
@@ -152,7 +153,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-MongoRequests')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-MongoRequests')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +166,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.DocumentDB/databaseAccounts/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -188,16 +189,24 @@
                 "equals": "[[parameters('autoMitigate')]"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation",
                 "equals": "Count"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
-                "equals": "GreaterThan"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
+                "equals": "GreaterOrLessThan"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-MongoRequests-threshold-Override_'), field('tags._amba-MongoRequests-threshold-Override_'), parameters('threshold'))]"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
+                "equals": "[[parameters('alertSensitivity')]"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert",
+                "equals": 4
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods",
+                "equals": 4
               }
             ]
           },
@@ -231,13 +240,13 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
+                  "alertSensitivity": {
+                    "type": "String"
+                  },
                   "autoMitigate": {
                     "type": "String"
                   },
                   "enabled": {
-                    "type": "String"
-                  },
-                  "threshold": {
                     "type": "String"
                   }
                 },
@@ -266,13 +275,17 @@
                             "name": "MongoRequests",
                             "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
                             "metricName": "MongoRequests",
-                            "operator": "GreaterThan",
-                            "threshold": "[[parameters('threshold')]",
+                            "operator": "GreaterOrLessThan",
+                            "alertSensitivity": "[[parameters('alertSensitivity')]",
+                            "failingPeriods": {
+                              "minFailingPeriodsToAlert": 4,
+                              "numberOfEvaluationPeriods": 4
+                            },
                             "timeAggregation": "Count",
-                            "criterionType": "StaticThresholdCriterion"
+                            "criterionType": "DynamicThresholdCriterion"
                           }
                         ],
-                        "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                        "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
                       },
                       "autoMitigate": "[[parameters('autoMitigate')]",
                       "parameters": {
@@ -285,14 +298,14 @@
                         "evaluationFrequency": {
                           "value": "[[parameters('evaluationFrequency')]"
                         },
+                        "alertSensitivity": {
+                          "value": "[[parameters('alertSensitivity')]"
+                        },
                         "autoMitigate": {
                           "value": "[[parameters('autoMitigate')]"
                         },
                         "enabled": {
                           "value": "[[parameters('enabled')]"
-                        },
-                        "threshold": {
-                          "value": "[[parameters('threshold')]"
                         }
                       }
                     }
@@ -301,7 +314,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"
@@ -315,14 +328,14 @@
                 "evaluationFrequency": {
                   "value": "[[parameters('evaluationFrequency')]"
                 },
+                "alertSensitivity": {
+                  "value": "[[parameters('alertSensitivity')]"
+                },
                 "autoMitigate": {
                   "value": "[[parameters('autoMitigate')]"
                 },
                 "enabled": {
                   "value": "[[parameters('enabled')]"
-                },
-                "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-MongoRequests-threshold-Override_'), field('tags._amba-MongoRequests-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

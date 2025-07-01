@@ -1,0 +1,52 @@
+---
+    name: Check Alerts Details Table files
+
+    ##########################################
+    # Start the job on PR for all branches #
+    ##########################################
+
+    # yamllint disable-line rule:truthy
+    on:
+      pull_request:
+        types:
+          - opened
+          - reopened
+          - synchronize
+          - ready_for_review
+
+        paths:
+          - "services/**.json"
+          - "!services/**/template/**.json"
+
+      workflow_dispatch: {}
+
+    ###############
+    # Set the Job #
+    ###############
+
+    jobs:
+      check-files:
+        name: Check Alerts Details Table files
+        runs-on: windows-latest
+
+        steps:
+          - name: Check out repository
+            uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
+
+          - name: Check tables update
+            shell: pwsh
+            run: |
+              Import-Module Pester -Force
+                $pesterConfiguration = @{
+                  Run    = @{
+                    Container = New-PesterContainer -Path "./.github/actions-pester/Test-AlertsDetails-Tables-Update.Tests.ps1"
+                    PassThru  = $true
+                  }
+                  Output = @{
+                    Verbosity = 'Detailed'
+                  }
+                }
+                $result = Invoke-Pester -Configuration $pesterConfiguration
+                exit $result.FailedCount

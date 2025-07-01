@@ -89,7 +89,7 @@ Describe "UnitTest-CompareEslzTerraform-Sync" {
 
         $alzArmParamName = $_
 
-        if (($alzArmParamName -notlike "policyAssignmentParameters*") -and ($alzArmParamName -notlike "ALZMonitorResourceGroupTags")) {
+        if (($alzArmParamName -notlike "policyAssignment*") -and ($alzArmParamName -notlike "ALZMonitorResourceGroupTags")) {
 
           #Executing only if param is not excluded
           if($alzArmParamName -notin $ExcludeParams) {

@@ -140,6 +140,14 @@
             "equals": "Microsoft.Sql/servers/databases"
           },
           {
+            "field": "kind",
+            "in": ["v12.0,user","v12.0,user,vcore","v12.0,user,vcore,hyperscale","v12.0,user,vcore,serverless","v12.0,user,vcore,hyperscale,serverless"]
+          },
+          {
+            "field": "Microsoft.Sql/servers/databases/sku.tier",
+            "in": ["Basic","Standard","Premium","GeneralPurpose","BusinessCritical","Hyperscale"]
+          },
+          {
             "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
@@ -152,7 +160,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-sql_instance_memory_percent')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-sql_instance_memory_percent')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +173,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Sql/servers/databases/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -301,7 +309,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"

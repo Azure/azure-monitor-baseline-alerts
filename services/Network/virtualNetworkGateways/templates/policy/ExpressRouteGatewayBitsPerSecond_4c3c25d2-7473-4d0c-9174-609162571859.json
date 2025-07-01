@@ -140,6 +140,10 @@
             "equals": "Microsoft.Network/virtualNetworkGateways"
           },
           {
+            "field": "Microsoft.Network/virtualNetworkGateways/gatewayType",
+            "in": ["ExpressRoute"]
+          },
+          {
             "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
           }
@@ -152,7 +156,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-ExpressRouteGatewayBitsPerSecond')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-ExpressRouteGatewayBitsPerSecond')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +169,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworkGateways/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -301,7 +305,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"
