@@ -5,10 +5,22 @@ weight: 70
 
 ### In this page
 
+> [Parameter Configuration](../Deploy-with-GitHub-Actions#1-parameter-configuration) </br>
+> [Sample Parameter File](../Deploy-with-GitHub-Actions#2-sample-parameter-file) </br>
 > [Configure and Run the Workflow](../Deploy-with-GitHub-Actions#3-configure-and-run-the-workflow) </br>
 > [Next Steps](../Deploy-with-GitHub-Actions#next-steps) </br>
 
-{{% include "parameterConfiguration.md" %}}
+{{< hint type=Important >}}
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+{{< /hint >}}
+
+## 1. Parameter Configuration
+
+{{% include "parameterConfiguration_1.md" %}}
+
+## 2. Sample Parameter File
+
+{{% include "parameterConfiguration_2.md" %}}
 
 ## 3. Configure and Run the Workflow
 

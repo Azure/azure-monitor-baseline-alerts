@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 3
+param alertSeverity int = 2
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([

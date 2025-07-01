@@ -152,7 +152,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-allpercentprocessortime')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-allpercentprocessortime')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +165,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Cache/Redis/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -194,6 +194,10 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                 "equals": "GreaterThan"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["ShardId","primary"]
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -266,6 +270,7 @@
                             "name": "allpercentprocessortime",
                             "metricNamespace": "Microsoft.Cache/Redis",
                             "metricName": "allpercentprocessortime",
+                            "dimensions": [{"operator":"Include","name":"ShardId","values":["*"]},{"operator":"include","name":"primary","values":["true"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
@@ -301,7 +306,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"

@@ -88,7 +88,7 @@
               "PT12H",
               "P1D"
             ],
-            "defaultValue": "P1D"
+            "defaultValue": "PT1H"
           },
           "evaluationFrequency": {
             "type": "String",
@@ -103,7 +103,7 @@
               "PT30M",
               "PT1H"
             ],
-            "defaultValue": "PT5M"
+            "defaultValue": "PT1H"
           },
           "autoMitigate": {
             "type": "String",
@@ -135,7 +135,7 @@
               "displayName": "Threshold",
               "description": "Threshold for the alert"
             },
-            "defaultValue": "107374182400"
+            "defaultValue": "500000000000000"
           },
           "effect": {
             "type": "String",
@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-BlobCapacity')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-BlobCapacity')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Storage/storageAccounts/blobServices/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -340,7 +340,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

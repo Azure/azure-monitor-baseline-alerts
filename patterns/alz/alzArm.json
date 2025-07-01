@@ -367,7 +367,61 @@
                 "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
             }
         },
+        "policyAssignmentExclusionList": {
+            "type": "object",
+            "defaultValue": {
+              "notificationAssetsAssignmentExcludedResources": {
+                "value": []
+              },
+              "serviceHealthAssignmentExcludedResources": {
+                "value": []
+              },
+              "connectivityAssignmentExcludedResources": {
+                "value": []
+              },
+              "identityAssignmentExcludedResources": {
+                "value": []
+              },
+              "hybridVmAssignmentLandingZonesExcludedResources": {
+                "value": []
+              },
+              "hybridVmAssignmentPlatformExcludedResources": {
+                "value": []
+              },
+              "managementAssignmentExcludedResources": {
+                "value": []
+              },
+              "keyManagementAssignmentExcludedResources": {
+                "value": []
+              },
+              "loadBalancingAssignmentExcludedResources": {
+                "value": []
+              },
+              "networkChangesAssignmentExcludedResources": {
+                "value": []
+              },
+              "recoveryServicesAssignmentExcludedResources": {
+                "value": []
+              },
+              "StorageAssignmentExcludedResources": {
+                "value": []
+              },
+              "vmAssignmentLandingZonesExcludedResources": {
+                "value": []
+              },
+              "vmAssignmentPlatformExcludedResources": {
+                "value": []
+              },
+              "webAssignmentExcludedResources": {
+                "value": []
+              }
+            }
+        },
         "policyAssignmentParametersConnectivity": {
+            "type": "object",
+            "defaultValue": {}
+        },
+          "policyAssignmentParametersConnectivity_2": {
             "type": "object",
             "defaultValue": {}
         },
@@ -518,6 +572,7 @@
         },
         // Declaring the policy assignment parameters that will be used for all policy assignments
         "policyAssignmentParametersConnectivity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersConnectivity'))]",
+        "policyAssignmentParametersConnectivity_2": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersConnectivity_2'))]",
         "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
         "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
         "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
@@ -545,6 +600,7 @@
             "policyDefinitionsWeb": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Web.json')]",
             "policySetDefinitions": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets.json')]",
             "AMBAConnectivityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment.json')]",
+            "AMBAConnectivityInitiative_2": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment2.json')]",
             "AMBAIdentityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-IdentityAssignment.json')]",
             "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
             "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
@@ -579,6 +635,7 @@
             "policyDefinitionsWebDeploymentName": "[take(concat('amba-Policy-Web', variables('deploymentSuffix')), 64)]",
             "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
             "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
+            "AMBAConnectivityDeploymentName_2": "[take(concat('amba-Connectivity-2', variables('deploymentSuffix')), 64)]",
             "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
             "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
@@ -609,6 +666,7 @@
             "pidCuaVMDeploymentName": "[take(concat('amba-pid-VM-', variables('cuaidVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
             "pidCuaWebDeploymentName": "[take(concat('amba-pid-Web-', variables('cuaidWeb'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
         },
+        // Declaring PIDs
         "cuaid": "d6b3b08c-5825-4b89-a62b-e3168d3d8fb0",
         "cuaidConnectivity": "2d69aa07-8780-4697-a431-79882cb9f00e",
         "cuaidIdentity": "8d257c20-97bf-4d14-acb3-38dd1436d13a",
@@ -1042,6 +1100,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersConnectivity')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1069,6 +1130,39 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersIdentity')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
+                    }
+                }
+            }
+        },
+                // Assigning AMBA Connectivity 2 PolicySet to the connectivity management group if condition is true
+        {
+            "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-10-01",
+            "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName_2]",
+            "scope": "[concat('Microsoft.Management/managementGroups/', parameters('connectivityManagementGroup'))]",
+            "dependsOn": [
+              "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+            ],
+            "location": "[deployment().location]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('deploymentUris').AMBAConnectivityInitiative_2]"
+                },
+                "parameters": {
+                    "topLevelManagementGroupPrefix": {
+                        "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+                    },
+                    "policyAssignmentParameters": {
+                        "value": "[variables('policyAssignmentParametersConnectivity_2')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1103,6 +1197,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersManagement')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').managementAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1130,6 +1227,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersServiceHealth')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').serviceHealthAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1157,6 +1257,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersNotificationAssets')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').notificationAssetsAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1194,6 +1297,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersHybridVM')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').hybridVMAssignmentLandingZonesExcludedResources.value]"
                     }
                 }
             }
@@ -1231,6 +1337,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersHybridVM')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').hybridVMAssignmentPlatformExcludedResources.value]"
                     }
                 }
             }
@@ -1258,6 +1367,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersKeyManagement')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').keyManagementAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1285,6 +1397,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersLoadBalancing')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').loadBalancingAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1312,6 +1427,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersNetworkChanges')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').networkChangesAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1339,6 +1457,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersRecoveryServices')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').recoveryServicesAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1366,6 +1487,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersStorage')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').storageAssignmentExcludedResources.value]"
                     }
                 }
             }
@@ -1403,6 +1527,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersVM')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').vmAssignmentLandingZonesExcludedResources.value]"
                     }
                 }
             }
@@ -1440,6 +1567,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersVM')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').vmAssignmentPlatformExcludedResources.value]"
                     }
                 }
             }
@@ -1477,6 +1607,9 @@
                     },
                     "policyAssignmentParameters": {
                         "value": "[variables('policyAssignmentParametersWeb')]"
+                    },
+                    "policyAssignmentExclusions": {
+                        "value": "[parameters('policyAssignmentExclusionList').webAssignmentExcludedResources.value]"
                     }
                 }
             }

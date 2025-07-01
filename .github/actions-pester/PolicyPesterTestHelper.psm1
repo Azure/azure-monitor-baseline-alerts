@@ -131,3 +131,33 @@ function ConvertTo-OrderedHashtable {
 
     return $orderedLevel
 }
+
+function Convert-PolicyVersion
+{
+    param (
+        [Parameter()]
+        [String]$policyVersion
+    )
+
+    $regex = "^(?<Major>\d+)\.(?<Minor>\d+)\.(?<Patch>\d+)(-(?<Suffix>[a-zA-Z0-9]+))?$"
+
+    if ($policyVersion -match $regex) {
+      $major = $matches['Major']
+      $minor = $matches['Minor']
+      $patch = $matches['Patch']
+      $suffix = $matches['Suffix']
+
+      $policyVersionObject = [PSCustomObject]@{
+        Major = $major
+        Minor = $minor
+        Patch = $patch
+        Suffix = $suffix
+      }
+    }
+    else {
+      Write-Error "Invalid policy version format. Expected format: 'major.minor.patch[-suffix]'."
+      return $null
+    }
+
+    return $policyVersionObject
+}

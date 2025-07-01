@@ -18,6 +18,7 @@ weight: 80
 > [Can I use AMBA-ALZ without cloning/forking a GitHub repository](../FAQ#can-i-use-amba-alz-without-cloningforking-a-github-repository) </br>
 > [Can I deploy a local template by using -TemplateFile](../FAQ#can-i-deploy-a-local-template-by-using--templatefile) </br>
 > [What characters can I use when creating Azure resources or renaming Azure subscriptions?](../FAQ#what-characters-can-i-use-when-creating-azure-resources-or-renaming-azure-subscriptions) </br>
+> [Can I exclude Management Groups or Subscriptions from policy assignment?](../FAQ#can-i-exclude-management-groups-or-subscriptions-from-policy-assignment) </br>
 
 ## Do I need to have Azure Landing zones deployed for this to work?
 
@@ -94,3 +95,44 @@ weight: 80
 > - Resource creation will fail.
 > - Deployment of action groups and/or alert processing rules will fail. For AMBA-specific issues, refer to the [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) section in the [Known Issues](../Known-Issues) documentation.
 > - Editing action groups will result in an Azure portal page error. For AMBA-specific issues, refer to the [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) section in the [Known Issues](../Known-Issues) documentation.
+
+## Can I exclude Management Groups or Subscriptions from policy assignment?
+
+> {{< hint type=Note >}} For deployments (update or new) happening after <ins>**March 2025 the 25th**</ins> using the code in either the _**main**_ branch or any _**new**_ release, it is possible to configure some new parameters to perform the exclusion at scale during the deployment. Read more at [Exclude Management Groups and/or Subscription from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).{{< /hint >}}
+>
+> When deploying at scale, we include all management groups and subscriptions under the pseudo root management group hierarchy. This might results in the inclusion of unwanted or unnecessary resources. Should this be the case, it is possible to exclude them after the deployment. To do so, it is necessary to:
+>
+> 1. Open the <a href="https://portal.azure.com" target="_blank">Azure portal</a> and navigate to _**Policy**_
+>
+>     ![Policy](../../media/ManualExclusion-1.png)
+>
+> 2. Click on _**Assignment**_
+>
+>     ![Assignments blade](../../media/ManualExclusion-2.png)
+>
+> 3. Click on _**Scope**_, set the scope to management group the relevant assignment is targeted to (for example the **Identity**) and click _**Select**_
+>
+>     ![Scope](../../media/ManualExclusion-3.png)
+>
+> 4. Select and click on the assignment to perform the exclusion on. _Notice that the list will include both the assignments inherited from the parent MG those applied to child management groups._
+>
+>     ![Assignments items](../../media/ManualExclusion-4.png)
+>
+> 5. In the assignment blade, click on _**Edit**_
+>
+>     ![Edit assignment](../../media/ManualExclusion-5.png)
+>
+> 6. Click on the ellipsis next to the _**Exclusion**_ box to select what to exclude. A new context windows, will show the hierarchy of resouces that could be added to the exclusion scope based on the assigned scope. _Notice that the list will include the parent scope and only child resources._ Make the selection, click _**Add to Selected Scope**_ and then click _**Save**_
+>
+>     ![Set exclusion scope](../../media/ManualExclusion-6.png)
+>
+> 7. Now the _**Exclusion**_ contains the excluded resource names. Click on _**Review + Save**_
+>
+>     ![Review + Save](../../media/ManualExclusion-7.png)
+>
+> 8. and then _**Save**_
+>
+>     ![Save](../../media/ManualExclusion-8.png)
+>
+> 9. If remediation has been already performed, it will be necessary to delete the related alerts. If not, perform the remediation according to guidance provided at [Remediate Policies](../../HowTo/deploy/Remediate-Policies). Alerts for resources in the excluded scope will not be created.
+>

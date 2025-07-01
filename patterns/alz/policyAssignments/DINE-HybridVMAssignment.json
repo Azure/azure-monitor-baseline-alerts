@@ -21,6 +21,10 @@
       "type": "object",
       "defaultValue": {}
     },
+    "policyAssignmentExclusions": {
+      "type": "array",
+      "defaultValue": []
+    },
     "scope": {
       "type": "String",
       "metadata": {
@@ -54,8 +58,8 @@
     },
     "policyAssignmentNames": {
       "ambaHybridVM": "Deploy-AMBA-HybridVM",
-      "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.",
-      "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines"
+      "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Azure Arc-enabled Servers.",
+      "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Hybrid Virtual Machines"
     },
     "nonComplianceMessage": {
       "message": "Alerting {enforcementMode} be deployed to Azure services.",
@@ -88,6 +92,7 @@
             "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
           }
         ],
+        "notScopes": "[parameters('policyAssignmentExclusions')]",
         "parameters": "[parameters('policyAssignmentParameters')]",
         "metadata": {
           "_deployed_by_amba": true

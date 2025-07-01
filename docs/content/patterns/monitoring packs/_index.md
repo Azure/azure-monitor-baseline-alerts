@@ -15,25 +15,17 @@ geekdocCollapseSection: true
 
 - Create a framework for collaboration that will make it easy to add new monitored technologies.
 
-For a details about the solution, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
+For a details about the solution and setup, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
 
 ## Pre-requisites and recommendations
 
 - Azure Subscription - an Azure subscription to deploy the components
 - A Management group structure with at least one management group. Most of the elements like policies and permissions need to be deployed at a management group level.
 
-## Setup
-
-The Main solution can be deployed by clicking the link below.
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fmonstar.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fsetup.json)
-
-[![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fmonstar.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fsetup.json)
-
 ## Monitoring Packs
 
 ### [IaaS Packs](./IaaS)
 
-### [PaaS Packs](./PaaS/)
+### [Services Packs](./Services/)
 
-### [Platform Packs](./Platform/)
+

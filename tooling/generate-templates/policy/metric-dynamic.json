@@ -139,7 +139,7 @@
           {
             "field": "type",
             "equals": "##METRIC_NAMESPACE##"
-          },
+          },##POLICY_KIND####POLICY_UNSUPPORTEDSKU####POLICY_TIER####POLICY_GWTYPE##
           {
             "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[[parameters('MonitorDisableTagValues')]"
@@ -153,7 +153,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-##METRIC_NAME##')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-##POLICY_EFFECT_NAME##')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -166,7 +166,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/##METRIC_NAMESPACE##/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -195,7 +195,7 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
                 "equals": "##OPERATOR##"
-              },
+              },##DIMENSIONS_RULE##
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
                 "equals": "[[parameters('alertSensitivity')]"
@@ -255,7 +255,7 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-##METRIC_NAME##')]",
+                    "name": "[[concat(parameters('resourceName'), '-##POLICY_EFFECT_NAME##')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
@@ -274,7 +274,7 @@
                           {
                             "name": "##METRIC_NAME##",
                             "metricNamespace": "##METRIC_NAMESPACE##",
-                            "metricName": "##METRIC_NAME##",
+                            "metricName": "##METRIC_NAME##",##DIMENSIONS_RES##
                             "operator": "##OPERATOR##",
                             "alertSensitivity": "[[parameters('alertSensitivity')]",
                             "failingPeriods": {
@@ -314,7 +314,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"

@@ -135,7 +135,7 @@
               "displayName": "Threshold",
               "description": "Threshold for the alert"
             },
-            "defaultValue": "1"
+            "defaultValue": "0"
           },
           "effect": {
             "type": "String",
@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-UpdateAccountKeys')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-UpdateAccountKeys')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.DocumentDB/databaseAccounts/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -232,7 +232,11 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
-                    "equals": "GreaterThanOrEqual"
+                    "equals": "GreaterThan"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["KeyType"]
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -305,7 +309,8 @@
                                 "name": "UpdateAccountKeys",
                                 "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
                                 "metricName": "UpdateAccountKeys",
-                                "operator": "GreaterThanOrEqual",
+                                "dimensions": [{"operator":"Include","name":"KeyType","values":["*"]}],
+                                "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Count",
                                 "criterionType": "StaticThresholdCriterion"
@@ -340,7 +345,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

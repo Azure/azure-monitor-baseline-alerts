@@ -84,7 +84,7 @@ The other monitoring initiatives are assigned to specific platform landing zone 
 
 ![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
 
-*Download a [Visio file](../../media/AMBA-Diagrams.vsdx) of this architecture.*
+*Download a [Visio file](../../../media/AMBA-Diagrams.vsdx) of this architecture.*
 
 If your management group hierarchy matches this structure, you can proceed directly to your preferred deployment method:
 
