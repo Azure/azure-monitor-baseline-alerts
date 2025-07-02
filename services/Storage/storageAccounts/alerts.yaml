@@ -16,8 +16,8 @@
     metricName: Availability
     metricNamespace: Microsoft.Storage/storageAccounts
     severity: 1
-    windowSize: PT5M
-    evaluationFrequency: PT5M
+    windowSize: PT1M
+    evaluationFrequency: PT1M
     timeAggregation: Average
     operator: LessThan
     threshold: 100
@@ -138,7 +138,7 @@
     storage accounts and Blob storage accounts, it is the same as BlobCapacity or
     FileCapacity.
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -156,7 +156,7 @@
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 2251800000000000.0
+    threshold: 500000000000000.0
     enabled: true
   references:
   - name: Account Level Metrics
@@ -229,7 +229,7 @@
   description: The amount of storage used by the storage account's Blob service in
     bytes.
   type: Metric
-  verified: false
+  verified: true
   visible: true
   tags:
   - auto-generated
@@ -238,12 +238,12 @@
     metricName: BlobCapacity
     metricNamespace: Microsoft.Storage/storageAccounts/blobServices
     severity: 3
-    windowSize: P1D
-    evaluationFrequency: PT5M
+    windowSize: PT1H
+    evaluationFrequency: PT1H
     timeAggregation: Average
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
-    threshold: 107374182400.0
+    threshold: 500000000000000.0
     enabled: true
   references:
   - name: Blob Storage Metrics
@@ -319,7 +319,7 @@
   description: The number of blob objects stored in the storage account.
   type: Metric
   verified: false
-  visible: true
+  visible: false
   tags:
   - auto-generated
   - agc-277
@@ -438,10 +438,10 @@
     operator: GreaterThan
     criterionType: StaticThresholdCriterion
     dimensions:
-    - operator: include
-      name: responsetype
+    - operator: Include
+      name: ResponseType
       values:
-      - success
+      - Success
     - operator: include
       name: authentication
       values:

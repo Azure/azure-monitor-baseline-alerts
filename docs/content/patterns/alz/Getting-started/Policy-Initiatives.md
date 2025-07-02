@@ -7,7 +7,8 @@ weight: 40
 ### In this page
 
 > [Overview](../Policy-Initiatives#overview) </br>
-> [Connectivity Initiative](../Policy-Initiatives#connectivity-initiative) </br>
+> [Connectivity Initiative - Part #1](../Policy-Initiatives#connectivity-initiative---part-1) </br>
+> [Connectivity Initiative - Part #2](../Policy-Initiatives#connectivity-initiative---part-2) </br>
 > [Management Initiative](../Policy-Initiatives#management-initiative) </br>
 > [Identity Initiative](../Policy-Initiatives#identity-initiative) </br>
 > [Key Management Initiative](../Policy-Initiatives#key-management-initiative) </br>
@@ -15,7 +16,7 @@ weight: 40
 > [Network Changes Initiative](../Policy-Initiatives#network-changes-initiative) </br>
 > [Recovery Services Initiative](../Policy-Initiatives#recovery-services-initiative) </br>
 > [Storage Initiative](../Policy-Initiatives#storage-initiative) </br>
-> [VM Initiative](../Policy-Initiatives#vm-initiative) </br>
+> [Azure VM Initiative](../Policy-Initiatives#azure-vm-initiative) </br>
 > [Web Initiative](../Policy-Initiatives#web-initiative) </br>
 > [Hybrid VM Initiative](../Policy-Initiatives#hybrid-vm-initiative) </br>
 > [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
@@ -26,11 +27,17 @@ weight: 40
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
 
-## Connectivity initiative
+## Connectivity initiative - Part #1
 
 This initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-Connectivity-PolicyInitiative-Table.md" %}}
+
+## Connectivity initiative - Part #2
+
+This second part of the initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{% include "Alerting-Connectivity-2-PolicyInitiative-Table.md" %}}
 
 ## Management initiative
 
@@ -74,7 +81,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 
 {{% include "Alerting-Storage-PolicyInitiative-Table.md" %}}
 
-## VM initiative
+## Azure VM initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 

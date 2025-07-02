@@ -235,6 +235,10 @@
                     "equals": "LessThanOrEqual"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["OriginGroup"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-OriginHealthPercentage-threshold-Override_'), field('tags._amba-OriginHealthPercentage-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "OriginHealthPercentage",
                                 "metricNamespace": "Microsoft.Cdn/profiles",
                                 "metricName": "OriginHealthPercentage",
+                                "dimensions": [{"operator":"Include","name":"OriginGroup","values":["render"]}],
                                 "operator": "LessThanOrEqual",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Average",

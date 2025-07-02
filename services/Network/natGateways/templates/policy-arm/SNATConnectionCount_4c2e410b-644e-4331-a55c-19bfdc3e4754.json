@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["ConnectionState"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-SNATConnectionCount-threshold-Override_'), field('tags._amba-SNATConnectionCount-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "SNATConnectionCount",
                                 "metricNamespace": "Microsoft.Network/natGateways",
                                 "metricName": "SNATConnectionCount",
+                                "dimensions": [{"operator":"Include","name":"ConnectionState","values":["Failed"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",

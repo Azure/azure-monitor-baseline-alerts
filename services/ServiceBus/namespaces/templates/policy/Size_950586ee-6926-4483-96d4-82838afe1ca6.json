@@ -196,6 +196,10 @@
                 "equals": "GreaterThan"
               },
               {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["EntityName"]
+              },
+              {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                 "equals": "[[if(contains(field('tags'), '_amba-Size-threshold-Override_'), field('tags._amba-Size-threshold-Override_'), parameters('threshold'))]"
               }
@@ -266,6 +270,7 @@
                             "name": "Size",
                             "metricNamespace": "Microsoft.ServiceBus/namespaces",
                             "metricName": "Size",
+                            "dimensions": [{"operator":"Include","name":"EntityName","values":["*"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",

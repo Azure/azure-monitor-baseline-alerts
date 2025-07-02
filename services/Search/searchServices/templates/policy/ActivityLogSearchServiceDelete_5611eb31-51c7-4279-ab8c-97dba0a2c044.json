@@ -1,15 +1,16 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_SearchService_Delete",
+  "name": "Deploy_Activity_Log_Search_Service_Delete",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
     "displayName": "Deploy Activity Log Search Service Delete Alert",
-    "description": "Policy to Deploy Activity Log Search Service Delete Alert",
+    "description": "Policy to Audit/Deploy Activity Log Search Service Delete Alert",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.0.0-preview",
       "category": "Search",
+      "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -44,7 +45,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "Project": "amba-monitoring"
+          "_deployed_by_amba": true
         }
       },
       "alertResourceGroupLocation": {
@@ -109,6 +110,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
+          "name": "ActivityLogSearchServiceDelete",
           "existenceScope": "resourcegroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
@@ -138,11 +140,11 @@
                       {
                         "allOf": [
                           {
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].field",
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
                             "equals": "operationName"
                           },
                           {
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals",
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
                             "equals": "Microsoft.Search/searchServices/delete"
                           }
                         ]
@@ -159,7 +161,7 @@
             "properties": {
               "mode": "incremental",
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
                   "alertResourceGroupName": {
@@ -187,7 +189,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ActivitySearchServiceDelete",
+                    "name": "ActivityLogSearchServiceDelete",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -210,13 +212,13 @@
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ActivitySearchServiceDelete",
+                            "name": "ActivityLogSearchServiceDelete",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "description": "Activity Log Search Service Delete",
+                              "description": "Activity Log Alert for Search Service Delete",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().id]"

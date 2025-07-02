@@ -235,6 +235,10 @@
                     "equals": "GreaterThan"
                   },
                   {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["StatusCode"]
+                  },
+                  {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
                     "equals": "[[if(contains(field('tags'), '_amba-ThrottledRequests-threshold-Override_'), field('tags._amba-ThrottledRequests-threshold-Override_'), parameters('threshold'))]"
                   }
@@ -305,6 +309,7 @@
                                 "name": "ThrottledRequests",
                                 "metricNamespace": "Microsoft.DocumentDB/databaseAccounts",
                                 "metricName": "ThrottledRequests",
+                                "dimensions": [{"operator":"Include","name":"StatusCode","values":["429"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Count",

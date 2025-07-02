@@ -1,9 +1,23 @@
 ﻿
+# Defining input params
+param (
+  [Parameter(Mandatory = $false)]
+  [string]
+  $alertTablesRootDir
+)
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
-$alertTablesRoorDir = ".\docs\content\patterns\alz\getting-started"
-$exclusionFileList = 'Deploy-ActivityLog-SearchService-Del.json'
+If ([string]::IsNullOrEmpty($alertTablesRootDir)) {
+  $alertTablesRootDir = ".\docs\content\patterns\alz\getting-started"
+}
 
+# Define policy definitions to be excluded from the search
+$exclusionFileList = @(
+  'Deploy-ActivityLog-SearchService-Del.json'
+)
+
+# Mapping severity values to their corresponding names
 $severityMapping = [ordered]@{
   "0" = "Critical"
   "1" = "Error"
@@ -12,12 +26,14 @@ $severityMapping = [ordered]@{
   "4" = "Verbose"
 }
 
-# Define source table file heading and structure
-$activityLogAlertTableFile = $alertTablesRoorDir + "\Activity-Log-Alerts-Table.md"
-$LogSearchAlertTableFile = $alertTablesRoorDir + "\Log-Search-Alerts-Table.md"
-$metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
+# Define source table file names
+$activityLogAlertTableFile = $alertTablesRootDir + "\Activity-Log-Alerts-Table.md"
+$LogSearchAlertTableFile = $alertTablesRootDir + "\Log-Search-Alerts-Table.md"
+$metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 
-# Appending lines to Activity Log source table files
+# Define source table file heading and structure
+
+## Appending lines to Activity Log source table files
 "---" | Out-File $activityLogAlertTableFile -Encoding UTF8
 "title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
@@ -26,16 +42,16 @@ $metricAlertTableFile = $alertTablesRoorDir + "\Metric-Alerts-Table.md"
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 
-# Appending lines to Log Search source table files
+## Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
-"title: Metrics alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"title: Log-Search alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append -NoNewline
 "`n" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "| ----------------- | ---------- | ----------- | -------------------- | ----------------- | -------------------- |--------- | --------- | -------- | ------- |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 
-# Appending lines to Metric source table files
+## Appending lines to Metric source table files
 "---" | Out-File $metricAlertTableFile -Encoding UTF8
 "title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
@@ -75,7 +91,7 @@ foreach ($file in $jsonFiles) {
     # Generating the policy name URL
     #$policyNameURL = $($file.FullName -split('azure-monitor-baseline-alerts'))[1]
     #$policyNameURL = '../../../..'+$policyNameURL -replace '\\', '/'
-    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/"+$jsonContent.name+".html"
+    $policyNameURL = "https://www.azadvertizer.net/azpolicyadvertizer/" + $jsonContent.name + ".html"
 
     # Get alert type
     $alertType = $jsonContent.properties.policyRule.then.details.type
