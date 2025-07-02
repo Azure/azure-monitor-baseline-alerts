@@ -1,0 +1,341 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "displayName": {
+      "defaultValue": "Deploy Activity Log LA Workspace Regenerate Key Alert",
+      "type": "String",
+      "metadata": {
+        "description": "Display name of policy"
+      }
+    },
+    "description": {
+      "defaultValue": "Policy to Audit/Deploy Activity Log LA Workspace Regenerate Key Alert",
+      "type": "String",
+      "metadata": {
+        "description": "Description of policy"
+      }
+    },
+    "currentDateTimeUtcNow": {
+      "defaultValue": "[utcNow()]",
+      "type": "String",
+      "metadata": {
+        "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "type": "String",
+      "metadata": {
+        "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(managementGroup().id, parameters('currentDateTimeUtcNow'))), 64)]",
+    "location": "[deployment().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "Deploy_Activity_Log_LA_Workspace_Regenerate_Key",
+      "properties": {
+        "policyType": "Custom",
+        "mode": "All",
+        "displayName": "[parameters('displayName')]",
+        "description": "[parameters('description')]",
+        "metadata": {
+          "version": "1.0.0-preview",
+          "category": "OperationalInsights",
+          "preview": true,
+          "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "_deployed_by_amba": "True"
+        },
+        "parameters": {
+          "enabled": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Alert State",
+              "description": "Alert state for the alert"
+            },
+            "allowedValues": [
+              "true",
+              "false"
+            ],
+            "defaultValue": "true"
+          },
+          "alertResourceGroupName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Resource Group Name",
+              "description": "Resource group the alert is placed in"
+            },
+            "defaultValue": "rg-amba-monitoring-001"
+          },
+          "alertResourceGroupTags": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Resource Group Tags",
+              "description": "Tags on the Resource group the alert is placed in"
+            },
+            "defaultValue": {
+              "_deployed_by_amba": true
+            }
+          },
+          "alertResourceGroupLocation": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Resource Group Location",
+              "description": "Location of the Resource group the alert is placed in"
+            },
+            "defaultValue": "centralus"
+          },
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect of the policy"
+            },
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "defaultValue": "deployIfNotExists"
+          },
+          "MonitorDisableTagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "ALZ Monitoring disabled tag name",
+              "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": "MonitorDisable"
+          },
+          "MonitorDisableTagValues": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "ALZ Monitoring disabled tag values(s)",
+              "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": [
+              "true",
+              "Test",
+              "Dev",
+              "Sandbox"
+            ]
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.OperationalInsights/workspaces"
+              },
+              {
+                "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+                "notIn": "[[parameters('MonitorDisableTagValues')]"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+              ],
+              "type": "Microsoft.Insights/activityLogAlerts",
+              "name": "ActivityLogLAWorkspaceRegenerateKey",
+              "existenceScope": "resourcegroup",
+              "resourceGroupName": "[[parameters('alertResourceGroupName')]",
+              "deploymentScope": "subscription",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                    "equals": "[[parameters('enabled')]"
+                  },
+                  {
+                    "count": {
+                      "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*]",
+                      "where": {
+                        "anyOf": [
+                          {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                "equals": "category"
+                              },
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                "equals": "Administrative"
+                              }
+                            ]
+                          },
+                          {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                                "equals": "operationName"
+                              },
+                              {
+                                "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                                "equals": "Microsoft.OperationalInsights/workspaces/regeneratesharedkey/action"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "equals": 2
+                  }
+                ]
+              },
+              "deployment": {
+                "location": "northeurope",
+                "properties": {
+                  "mode": "incremental",
+                  "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                      "alertResourceGroupName": {
+                        "type": "string"
+                      },
+                      "alertResourceGroupTags": {
+                        "type": "object"
+                      },
+                      "alertResourceGroupLocation": {
+                        "type": "string"
+                      },
+                      "enabled": {
+                        "type": "string"
+                      }
+                    },
+                    "variables": {},
+                    "resources": [
+                      {
+                        "type": "Microsoft.Resources/resourceGroups",
+                        "apiVersion": "2021-04-01",
+                        "name": "[[parameters('alertResourceGroupName')]",
+                        "location": "[[parameters('alertResourceGroupLocation')]",
+                        "tags": "[[parameters('alertResourceGroupTags')]"
+                      },
+                      {
+                        "type": "Microsoft.Resources/deployments",
+                        "apiVersion": "2019-10-01",
+                        "name": "ActivityLogLAWorkspaceRegenerateKey",
+                        "resourceGroup": "[[parameters('alertResourceGroupName')]",
+                        "dependsOn": [
+                          "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                        ],
+                        "properties": {
+                          "mode": "Incremental",
+                          "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                              "enabled": {
+                                "type": "string"
+                              },
+                              "alertResourceGroupName": {
+                                "type": "string"
+                              }
+                            },
+                            "variables": {},
+                            "resources": [
+                              {
+                                "type": "microsoft.insights/activityLogAlerts",
+                                "apiVersion": "2020-10-01",
+                                "name": "ActivityLogLAWorkspaceRegenerateKey",
+                                "location": "global",
+                                "tags": {
+                                  "_deployed_by_amba": true
+                                },
+                                "properties": {
+                                  "description": "Activity Log Alert for LA Workspace Regenerate Key",
+                                  "enabled": "[[parameters('enabled')]",
+                                  "scopes": [
+                                    "[[subscription().id]"
+                                  ],
+                                  "condition": {
+                                    "allOf": [
+                                      {
+                                        "field": "category",
+                                        "equals": "Administrative"
+                                      },
+                                      {
+                                        "field": "operationName",
+                                        "equals": "Microsoft.OperationalInsights/workspaces/regeneratesharedkey/action"
+                                      },
+                                      {
+                                        "field": "status",
+                                        "containsAny": [
+                                          "succeeded"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "parameters": {
+                                    "enabled": {
+                                      "value": "[[parameters('enabled')]"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "parameters": {
+                            "enabled": {
+                              "value": "[[parameters('enabled')]"
+                            },
+                            "alertResourceGroupName": {
+                              "value": "[[parameters('alertResourceGroupName')]"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "parameters": {
+                    "enabled": {
+                      "value": "[[parameters('enabled')]"
+                    },
+                    "alertResourceGroupName": {
+                      "value": "[[parameters('alertResourceGroupName')]"
+                    },
+                    "alertResourceGroupTags": {
+                      "value": "[[parameters('alertResourceGroupTags')]"
+                    },
+                    "alertResourceGroupLocation": {
+                      "value": "[[parameters('alertResourceGroupLocation')]"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
+      "name": "[variables('pidDeploymentName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      },
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]"
+    }
+  ]
+}
