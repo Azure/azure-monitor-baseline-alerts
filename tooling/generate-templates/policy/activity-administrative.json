@@ -45,7 +45,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "Project": "amba-monitoring"
+          "_deployed_by_amba": true
         }
       },
       "alertResourceGroupLocation": {
@@ -72,7 +72,7 @@
         "type": "String",
         "metadata": {
           "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
       },
@@ -111,7 +111,7 @@
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
           "name": "##ALERT_NAME##",
-          "existenceScope": "resourceGroup",
+          "existenceScope": "resourcegroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -161,7 +161,7 @@
             "properties": {
               "mode": "incremental",
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
                   "alertResourceGroupName": {
@@ -181,7 +181,7 @@
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
-                    "apiVersion": "2020-10-01",
+                    "apiVersion": "2021-04-01",
                     "name": "[[parameters('alertResourceGroupName')]",
                     "location": "[[parameters('alertResourceGroupLocation')]",
                     "tags": "[[parameters('alertResourceGroupTags')]"
