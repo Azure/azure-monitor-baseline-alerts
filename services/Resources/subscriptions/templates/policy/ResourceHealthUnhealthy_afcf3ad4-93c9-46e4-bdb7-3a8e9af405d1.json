@@ -1,15 +1,16 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
+  "name": "Deploy_Resource_Health_Unhealthy",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
     "displayName": "Deploy Resource Health Unhealthy Alert",
-    "description": "Policy to Deploy Resource Health Unhealthy Alert",
+    "description": "Policy to Audit/Deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.2.0",
-      "category": "Monitoring",
+      "version": "1.0.0-preview",
+      "category": "Resources",
+      "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -65,13 +66,13 @@
           "deployIfNotExists",
           "disabled"
         ],
-        "defaultValue": "disabled"
+        "defaultValue": "deployIfNotExists"
       },
       "MonitorDisableTagName": {
         "type": "String",
         "metadata": {
           "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
       },
@@ -87,14 +88,6 @@
           "Dev",
           "Sandbox"
         ]
-      },
-      "BYOActionGroup": {
-        "type": "array",
-        "metadata": {
-          "displayName": "Customer defined Action Group Resource IDs",
-          "description": "The Resource IDs of existing Action Groups currently deployed in the environment."
-        },
-        "defaultValue": []
       }
     },
     "policyRule": {
@@ -117,6 +110,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
+          "name": "ResourceHealthUnhealthy",
           "existenceScope": "resourceGroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
@@ -125,44 +119,6 @@
               {
                 "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
                 "equals": "[[parameters('enabled')]"
-              },
-              {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": true
-                      },
-                      {
-                        "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                        "contains": "ag-AMBA-SH-"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": false
-                      },
-                      {
-                        "count": {
-                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
-                          "where": {
-                            "anyOf": [
-                              {
-                                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "in": "[[parameters('BYOActionGroup')]"
-                              }
-                            ]
-                          }
-                        },
-                        "greaterOrEquals": 1
-                      }
-                    ]
-                  }
-                ]
               },
               {
                 "count": {
@@ -207,23 +163,9 @@
                   },
                   "enabled": {
                     "type": "string"
-                  },
-                  "BYOActionGroup": {
-                    "type": "array"
                   }
                 },
-                "variables": {
-                  "copy": [
-                    {
-                      "name": "varActionGroupIds",
-                      "count": "[[length(parameters('BYOActionGroup'))]",
-                      "mode": "serial",
-                      "input": {
-                        "actionGroupId": "[[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
-                      }
-                    }
-                  ]
-                },
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -235,7 +177,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ResourceHealtAlert",
+                    "name": "ResourceHealthUnhealthy",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
@@ -251,88 +193,19 @@
                           },
                           "alertResourceGroupName": {
                             "type": "string"
-                          },
-                          "BYOActionGroup": {
-                            "type": "array"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ResourceHealthUnhealthyAlert",
+                            "name": "ResourceHealthUnhealthy",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "actions": {
-                                "actionGroups": [
-                                  {
-                                    "actionGroupId": "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001')]",
-                                    "webhookProperties": {}
-                                  }
-                                ]
-                              },
-                              "description": "Resource Health Unhealthy Alert",
-                              "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
-                              "condition": {
-                                "allOf": [
-                                  {
-                                    "field": "category",
-                                    "equals": "ResourceHealth"
-                                  },
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "field": "properties.cause",
-                                        "equals": "PlatformInitiated"
-                                      },
-                                      {
-                                        "field": "properties.cause",
-                                        "equals": "UserInitiated"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "field": "properties.currentHealthStatus",
-                                        "equals": "Degraded"
-                                      },
-                                      {
-                                        "field": "properties.currentHealthStatus",
-                                        "equals": "Unavailable"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              "parameters": {
-                                "enabled": {
-                                  "value": "[[parameters('enabled')]"
-                                }
-                              }
-                            }
-                          },
-                          {
-                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
-                            "type": "microsoft.insights/activityLogAlerts",
-                            "apiVersion": "2020-10-01",
-                            "name": "ResourceHealthUnhealthyAlert",
-                            "location": "global",
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "actions": {
-                                "actionGroups": "[[variables('varActionGroupIds')]"
-                              },
                               "description": "Resource Health Unhealthy Alert",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
@@ -385,9 +258,6 @@
                         },
                         "alertResourceGroupName": {
                           "value": "[[parameters('alertResourceGroupName')]"
-                        },
-                        "BYOActionGroup": {
-                          "value": "[[parameters('BYOActionGroup')]"
                         }
                       }
                     }
@@ -406,9 +276,6 @@
                 },
                 "alertResourceGroupLocation": {
                   "value": "[[parameters('alertResourceGroupLocation')]"
-                },
-                "BYOActionGroup": {
-                  "value": "[[parameters('BYOActionGroup')]"
                 }
               }
             }
