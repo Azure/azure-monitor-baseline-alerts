@@ -6,24 +6,45 @@ weight: 09
 
 ### In this page
 
-> [2025-06-03](../Whats-New#2025-06-03) </br>
-> [2025-04-04](../Whats-New#2025-04-04) </br>
-> [2025-03-03](../Whats-New#2025-03-03) </br>
-> [2025-02-05](../Whats-New#2025-02-05) </br>
-> [2025-01-10](../Whats-New#2025-01-10) </br>
-> [2024-12-10](../Whats-New#2024-12-10) </br>
-> [2024-11-01](../Whats-New#2024-11-01) </br>
-> [2024-09-02](../Whats-New#2024-09-02) </br>
-> [2024-06-05](../Whats-New#2024-06-05) </br>
-> [2024-04-12](../Whats-New#2024-04-12) </br>
-> [2024-03-01](../Whats-New#2024-03-01) </br>
-> [2023-11-14](../Whats-New#2023-11-14) </br>
+> [2025-07-02](#2025-07-02) </br>
+> [2025-06-03](#2025-06-03) </br>
+> [2025-04-04](#2025-04-04) </br>
+> [2025-03-03](#2025-03-03) </br>
+> [2025-02-05](#2025-02-05) </br>
+> [2025-01-10](#2025-01-10) </br>
+> [2024-12-10](#2024-12-10) </br>
+> [2024-11-01](#2024-11-01) </br>
+> [2024-09-02](#2024-09-02) </br>
+> [2024-06-05](#2024-06-05) </br>
+> [2024-04-12](#2024-04-12) </br>
+> [2024-03-01](#2024-03-01) </br>
+> [2023-11-14](#2023-11-14) </br>
 
 For the latest updates, visit the [Releases](https://github.com/Azure/azure-monitor-baseline-alerts/releases) page.
 
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
+## 2025-07-02
+
+### New Features
+
+- No new features in this release.
+
+### Bug Fixes
+
+- Fixed [[#661](https://github.com/Azure/azure-monitor-baseline-alerts/issues/661)]: [General workload issue]: AMBA Management Initiative remediation.
+- Fixed [[#630](https://github.com/Azure/azure-monitor-baseline-alerts/issues/630)]: [General workload issue]: While upgrading AMBA to latest version I'm seeing Non-Compliant resources for VM, Connectivity and Notification Policies.
+- Fixed [[#672](https://github.com/Azure/azure-monitor-baseline-alerts/issues/672)]: [General workload issue]: Errors on Connectivity-2 Archetype Alert Deployments.
+
+### Documentation Updates
+
+- Added documentation to preview changes being deployed by AMBA-ALZ.
+
+### Tools
+
+- Unit-test to ensure alerts and policies tables are updated in line with changes.
 
 ## 2025-06-03
 
