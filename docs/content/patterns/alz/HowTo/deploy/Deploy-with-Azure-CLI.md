@@ -62,7 +62,7 @@ If you have customized the policies as described in [How to modify individual po
 {{< /hint >}}
 
 ```bash
-az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters "alzArm.param.json"
+az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-07-02/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters "alzArm.param.json"
 ```
 
 ## Next Steps
