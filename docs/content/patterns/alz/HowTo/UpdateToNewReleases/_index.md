@@ -89,11 +89,12 @@ For this reason, based on what documented in the [What's new](../../Overview/Wha
 
 Once you reached this stage, you are ready to deploy the latest release. You can deploy using a method of your choice among the allowed one:
 
-- To deploy with Azure Portal, please proceed with [Deploy via the Azure Portal Accelerator](../deploy/Deploy-via-Azure-Portal-UI) (***only available if previously deployed using AMBA-ALZ portal***)
-- To deploy with GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
-- To deploy with Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
-- To deploy with Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
-- To deploy with Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
+- To deploy AMBA-ALZ using Azure Portal, please proceed with [Deploy via the Azure Portal Accelerator](../deploy/Deploy-via-Azure-Portal-UI) (***only available if previously deployed using AMBA-ALZ portal***)
+- To deploy AMBA-ALZ using GitHub Actions, please proceed with [Deploy with GitHub Actions](../deploy/Deploy-with-GitHub-Actions)
+- To deploy AMBA-ALZ using Azure Pipelines, please proceed with [Deploy with Azure Pipelines](../deploy/Deploy-with-Azure-Pipelines)
+- To deploy AMBA-ALZ using Azure CLI, please proceed with [Deploy with Azure CLI](../deploy/Deploy-with-Azure-CLI)
+- To deploy AMBA-ALZ using Azure PowerShell, please proceed with [Deploy with Azure PowerShell](../deploy/Deploy-with-Azure-PowerShell)
+- To deploy AMBA-ALZ using Terraform, please proceed with [Deploy with Terraform](../deploy/Deploy-with-Terraform)
 
 ### Start the policy remediation (always required)
 
