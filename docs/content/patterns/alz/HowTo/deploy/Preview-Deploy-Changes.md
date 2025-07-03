@@ -1,16 +1,16 @@
 ---
-title: Preview Deploy Changes
+title: Preview Deployment Changes
 geekdocCollapseSection: true
 weight: 25
 ---
 
 ### In this page
 
-> [Introduction](../Preview-Deploy-Changes#introduction) </br>
-> [How does it work](../Preview-Deploy-Changes#how-does-it-work) </br>
-> [Preview deployment changes using PowerShell](../Preview-Deploy-Changes#preview-deployment-changes-using-powershell) </br>
-> [Preview deployment changes using the GitHub workflow](../Preview-Deploy-Changes#preview-deployment-changes-using-the-github-workflow) </br>
-> [Next Steps](../Preview-Deploy-Changes#next-steps) </br>
+> [Introduction](#introduction) </br>
+> [How does it work](#how-does-it-work) </br>
+> [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) </br>
+> [Preview deployment changes using the GitHub workflow](#preview-deployment-changes-using-the-github-workflow) </br>
+> [Next Steps](#next-steps) </br>
 
 ## Introduction
 
@@ -121,10 +121,10 @@ The `Location` variable is used by the `az deployment mg` command, and specifies
 
 The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
 
-Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-04-04`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-07-02`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
 {{< /hint >}}
 
-Using the same method described in the [Preview deployment changes using PowerShell](../Preview-Deploy-Changes#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
+Using the same method described in the [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
 {{< hint type=Note >}}
 The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
@@ -212,8 +212,9 @@ By using the `$env:GITHUB_STEP_SUMMARY` variable, the output will be formatted a
 
 ## Next Steps
 
-- To deploy using Azure Portal UI, visit [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
-- To deploy with GitHub Actions, visit [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
-- To deploy with Azure DevOps Pipelines, visit [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
-- To deploy with Azure CLI, visit [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
-- To deploy with Azure PowerShell, visit [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)
+- To deploy AMBA-ALZ using Azure Portal UI, visit [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)
+- To deploy AMBA-ALZ using GitHub Actions, visit [Deploy with GitHub Actions](../Deploy-with-GitHub-Actions)
+- To deploy AMBA-ALZ using Azure DevOps Pipelines, visit [Deploy with Azure Pipelines](../Deploy-with-Azure-Pipelines)
+- To deploy AMBA-ALZ using Azure CLI, visit [Deploy with Azure CLI](../Deploy-with-Azure-CLI)
+- To deploy AMBA-ALZ using Azure PowerShell, visit [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell)
+- To deploy AMBA-ALZ using Terraform, please proceed with [Deploy with Terraform](../Deploy-with-Terraform)
