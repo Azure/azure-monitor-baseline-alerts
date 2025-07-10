@@ -69,7 +69,7 @@
       "Default": "must",
       "DoNotEnforce": "should"
     },
-    "rbacRole": "b6d86d4e-6f05-4c75-b2e2-423d75d21ee1", // Monitoring Policy Contributor
+    "rbacRole": "47be4a87-7950-4631-9daf-b664a405f074", // Monitoring Policy Contributor
     "rbacManagedIdentityOperator": "f1a07417-d97a-45cb-824c-7a7467783830",
     "roleAssignmentNames": {
       "roleAssignmentNameContributor": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaVM,parameters('scope')))]",
@@ -115,7 +115,7 @@
         "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaVM), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
-    }/*,
+    },
     {
       "condition": "[and(not(equals(parameters('uamiScope'), parameters('scope'))), equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No'))]",
       "type": "Microsoft.Authorization/roleAssignments",
@@ -131,7 +131,7 @@
         "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaVM), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
-    }*/
+    }
   ],
   "outputs": {}
 }
