@@ -190,7 +190,7 @@ To modify settings that are not parameterized, follow these steps:
 
     ```AZ CLI
     az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
-    --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+    --name "amba-MainDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
     ```
 
 ## Disabling Monitoring

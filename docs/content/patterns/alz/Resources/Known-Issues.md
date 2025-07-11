@@ -6,14 +6,15 @@ weight: 100
 
 ### In this page
 
-> [VM Log Alert policies fail to remediate](../Known-Issues#vm-log-alert-policies-fail-to-remediate) </br>
-> [Failed to deploy because of role assignment issue](../Known-Issues#failed-to-deploy-because-of-role-assignment-issue) </br>
-> [Failed to deploy to a different location](../Known-Issues#failed-to-deploy-to-a-different-location) </br>
-> [Failed to deploy because of the limit of 800 deployments per management group has been reached](../Known-Issues#failed-to-deploy-because-of-the-limit-of-800-deployments-per-management-group-has-been-reached) </br>
-> [Failed to deploy because of 'location' property not specified](../Known-Issues#failed-to-deploy-because-of-location-property-not-specified) </br>
-> [Failed to deploy action group(s) and/or alert processing rule(s)](../Known-Issues#failed-to-deploy-action-groups-andor-alert-processing-rules) </br>
-> [Failed to edit action group(s)](../Known-Issues#failed-to-edit-action-groups) </br>
-> [Failed to deploy because of InvalidPolicyParameterUpdate](../Known-Issues#failed-to-deploy-because-of-invalidpolicyparameterupdate) </br>
+> [VM Log Alert policies fail to remediate](#vm-log-alert-policies-fail-to-remediate) </br>
+> [Failed to deploy because of role assignment issue](#failed-to-deploy-because-of-role-assignment-issue) </br>
+> [Failed to deploy to a different location](#failed-to-deploy-to-a-different-location) </br>
+> [Failed to deploy because of the limit of 800 deployments per management group has been reached](#failed-to-deploy-because-of-the-limit-of-800-deployments-per-management-group-has-been-reached) </br>
+> [Failed to deploy because of 'location' property not specified](#failed-to-deploy-because-of-location-property-not-specified) </br>
+> [Failed to deploy action group(s) and/or alert processing rule(s)](#failed-to-deploy-action-groups-andor-alert-processing-rules) </br>
+> [Failed to edit action group(s)](#failed-to-edit-action-groups) </br>
+> [Failed to deploy because of InvalidPolicyParameterUpdate](#failed-to-deploy-because-of-invalidpolicyparameterupdate) </br>
+> [Failed to deploy because of PolicyDefinitionNotFound](#failed-to-deploy-because-of-policydefinitionnotfound) </br>
 
 ## VM Log Alert policies fail to remediate
 
@@ -249,4 +250,24 @@ weight: 100
 > 1. Remove previous installation of AMBA-ALZ pattern (the one we are talking about) using the maintenance script and the procedure documented at [Clean-up AMBA-ALZ Deployment](../../HowTo/Cleaning-up-a-Deployment)
 > 2. Align your local copy of param file
 > 3. Deploy the new version using either the main branch or the latest available release. The main branch might be a little ahead (might contain some enhancements or bugfix not included in the latest availble release and that will be added to a new one) compared to the latest release.
+>
+
+## Failed to deploy because of PolicyDefinitionNotFound
+
+> ### Error includes
+>
+> The error can be presented with similar message reporting a different policy and/or policy set definition in the text.
+>
+> ```TEXT
+> Status Message: The policy set definition 'Alerting-Web' request is invalid. The following policy definition could not be found: '/providers/Microsoft.Management/managementGroups/MG NAME/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete'. (Code:PolicyDefinitionNotFound)
+> ```
+>
+>
+> ### Cause
+>
+> This is a random transitient error caused by the time it take for the policy to be seen as deployed.
+>
+> ### Resolution
+>
+> Run the deployment one more time.
 >
