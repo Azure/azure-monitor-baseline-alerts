@@ -258,8 +258,8 @@ Function Get-ALZ-UserAssignedManagedIdentities {
 
 Function Get-ALZ-RoleAssignments {
     # get role assignments to delete
-    $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
-    $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property id | Get-Unique -AsString
+    $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | extend roleAssignmentId = id, roleDefinitionId = tostring(split(properties.roleDefinitionId,'/')[4]), objectId = properties.principalId, scope = properties.scope | project roleAssignmentId, roleDefinitionId, objectId, scope"
+    $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property roleAssignmentId | Get-Unique -AsString
     Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
 
     # Returning items
@@ -367,7 +367,8 @@ Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
 {
     # delete role assignments
     Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-    $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+    #$fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
     Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
