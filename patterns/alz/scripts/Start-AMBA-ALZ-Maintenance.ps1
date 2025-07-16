@@ -368,7 +368,7 @@ Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
     # delete role assignments
     Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
     #$fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
-    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($psItem.objectId)" -Scope "$($psItem.scope)" -RoleDefinitionId "$($psItem.roleDefinitionId)" -Confirm:$false } | Out-Null
     Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
