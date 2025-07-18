@@ -64,13 +64,13 @@ For testing purposes, it is recommended to deploy in a safe environment first. W
 If you have customized the policies as described in [How to Modify Individual Policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies), ensure that you run the deployment command using your own repository and branch in the `-TemplateUri` parameter. For example:
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
 ```
 
 {{< /hint >}}
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-GeneralDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-04-04/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-07-02/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
 ```
 
 ## Next Steps
