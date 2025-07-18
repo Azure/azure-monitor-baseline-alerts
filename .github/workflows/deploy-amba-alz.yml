@@ -12,7 +12,6 @@ jobs:
   amba-destroy:
     name: AMBA Destroy (Cleanup)
     runs-on: windows-latest
-    needs: amba-deploy
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
 
     env:
@@ -91,8 +90,8 @@ jobs:
           -TOP_LEVEL_MG $env:TOP_LEVEL_MG `
           -TemplateParameterFile './patterns/alz/alzArm.test.param.json'
 
-  amba-destroy:
-    name: AMBA Destroy (Cleanup)
+  amba-destroy2:
+    name: AMBA Destroy (Cleanup2)
     runs-on: windows-latest
     needs: amba-deploy
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
