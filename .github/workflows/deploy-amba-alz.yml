@@ -8,6 +8,38 @@ on:
           - synchronize
           - ready_for_review
 jobs:
+
+  amba-destroy:
+    name: AMBA Destroy (Cleanup)
+    runs-on: windows-latest
+    needs: amba-deploy
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+
+    env:
+      TOP_LEVEL_MG: 'amba-test'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
+
+    - name: Install Az Modules
+      shell: pwsh
+      run: |
+        Install-Module -Name Az -Force -Scope CurrentUser -AllowClobber
+        Import-Module Az
+
+    - name: Run AMBA Destroy
+      shell: pwsh
+      run: |
+        ./patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1 `
+          -pseudoRootManagementGroup "$env:TOP_LEVEL_MG" `
+          -cleanItems "all"
+
   amba-deploy:
     name: AMBA Deployment
     runs-on: windows-latest
@@ -26,13 +58,21 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
 
     - name: Install Az Modules
       shell: pwsh
       run: |
         Install-Module -Name Az -Force -Scope CurrentUser -AllowClobber
         Import-Module Az
+
+    - name: Inject managementSubscriptionId into parameter file
+      shell: pwsh
+      run: |
+        $paramPath = "./patterns/alz/alzArm.test.param.json"
+        $json = Get-Content $paramPath | ConvertFrom-Json
+        $json.parameters.managementSubscriptionId.value = "${{ secrets.MGMT_SUBSCRIPTION_ID }}"
+        $json | ConvertTo-Json -Depth 10 | Set-Content $paramPath
 
     - name: Run AMBA Deployment (What-If for PRs, Full for Push)
       shell: pwsh
@@ -67,7 +107,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
 
     - name: Install Az Modules
       shell: pwsh
