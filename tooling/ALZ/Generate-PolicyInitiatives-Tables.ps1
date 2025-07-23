@@ -53,8 +53,8 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
     "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
     "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| Policy Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| ------------ | ------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "| ------------------- | -------------------- |-------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
     # Getting policy reference IDs and
     $policyReferences = $jsonContent.properties.policyDefinitions
@@ -72,7 +72,8 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
       ForEach ($policyDefinitionJsonFile in $policyDefinitionJsonFiles) {
         # Cleaning-up variables
         $policyDefinitionJsonContent = $null
-        $policyName = $null
+        $policyInternalName = $null
+        $policyDisplayName = $null
         $policyDefaultEffect = $null
         $policyCodeURL = $null
         $policyCodeFileName = $null
@@ -86,7 +87,8 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             #$processedPolicyDefinitionFiles.Add($policyDefinitionJsonFile.FullName) | Out-Null
 
             # Extracting policy name
-            $policyName = $policyDefinitionJsonContent.properties.displayName
+            $policyInternalName = $policyDefinitionJsonContent.name
+            $policyDisplayName = $policyDefinitionJsonContent.properties.displayName
             $policyDefaultEffect = $policyDefinitionJsonContent.properties.parameters.effect.defaultValue
             if ( [string]::IsNullOrEmpty($policyDefaultEffect) ) {
               $policyDefaultEffect = $policyDefinitionJsonContent.properties.policyRule.then.effect
@@ -100,7 +102,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             $policyCodeURL = '../../../..' + $policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
-            "| $policyName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+            "| $policyDisplayName | $policyInternalName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
 
             # Exiting loop
             break
