@@ -1,358 +1,358 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    // MARK: Parameters
-    "parameters": {
-        "enterpriseScaleCompanyPrefix": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
-            }
-        },
-        "telemetryOptOut": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "displayName": "Telemetry Opt Out",
-                "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
-            }
-        },
-        "platformManagementGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the name of the Management Group that will be used to host the platform resources."
-            }
-        },
-        "IdentityManagementGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the name of the Management Group that will be used to host the identity resources."
-            }
-        },
-        "managementManagementGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the name of the Management Group that will be used to host the management resources."
-            }
-        },
-        "connectivityManagementGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the name of the Management Group that will be used to host the connectivity resources."
-            }
-        },
-        "LandingZoneManagementGroup": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the name of the Management Group that will be used to host the landing zone resources."
-            }
-        },
-        "enableAMBAConnectivity": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Connectivity initiative"
-            }
-        },
-        "enableAMBAIdentity": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Identity initiative"
-            }
-        },
-        "enableAMBAManagement": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Management initiative"
-            }
-        },
-        "enableAMBAServiceHealth": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Service health initiative"
-            }
-        },
-        "enableAMBANotificationAssets": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Action assets initiative"
-            }
-        },
-        "enableAMBAHybridVM": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign HybridVM initiative"
-            }
-        },
-        "enableAMBAKeyManagement": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Key Management initiative"
-            }
-        },
-        "enableAMBALoadBalancing": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Load Balancing initiative"
-            }
-        },
-        "enableAMBANetworkChanges": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Network Changes initiative"
-            }
-        },
-        "enableAMBARecoveryServices": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Recovery Services initiative"
-            }
-        },
-        "enableAMBAStorage": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Storage initiative"
-            }
-        },
-        "enableAMBAVM": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign VM initiative"
-            }
-        },
-        "enableAMBAWeb": {
-            "type": "string",
-            "defaultValue": "Yes",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Assign Web initiative"
-            }
-        },
-        "bringYourOwnUserAssignedManagedIdentity": {
-            "type": "string",
-            "defaultValue": "No",
-            "allowedValues": [
-                "Yes",
-                "No"
-            ],
-            "metadata": {
-                "description": "Specify if you want to bring your own user assigned managed identity for monitoring purpose."
-            }
-        },
-        "bringYourOwnUserAssignedManagedIdentityResourceId": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose."
-            }
-        },
-        "userAssignedManagedIdentityName": {
-            "type": "string",
-            "defaultValue": "id-amba-prod-001",
-            "metadata": {
-                "description": "Specify the name of the user assigned managed identity for monitoring purpose."
-            }
-        },
-        "managementSubscriptionId": {
-            "type": "string",
-            "metadata": {
-                "description": "Provide the subscription id where the user assigned managed identity will be created."
-            }
-        },
-        "ALZMonitorResourceGroupName": {
-            "type": "string",
-            "defaultValue": "rg-amba-monitoring-001",
-            "metadata": {
-                "description": "Provide the name of the resource group for Azure Monitor Baseline Alerts."
-            }
-        },
-        "ALZMonitorResourceGroupLocation": {
-            "type": "string",
-            "defaultValue": "northeurope",
-            "metadata": {
-                "description": "Provide the location of the resource group for Azure Monitor Baseline Alerts."
-            }
-        },
-        "ALZMonitorResourceGroupTags": {
-            "type": "object",
-            "defaultValue": {
-                "Project": "amba-monitoring"
-            },
-            "metadata": {
-                "description": "Provide the tags for the resource group for Azure Monitor Baseline Alerts."
-            }
-        },
-        "ALZMonitorDisableTagName": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
-            },
-            "defaultValue": "MonitorDisable"
-        },
-        "ALZMonitorDisableTagValues": {
-            "type": "Array",
-            "metadata": {
-                "displayName": "ALZ Monitoring disabled tag values(s)",
-                "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
-            },
-            "defaultValue": [
-                "true",
-                "Test",
-                "Dev",
-                "Sandbox"
-            ]
-        },
-        "ALZMonitorActionGroupEmail": {
-            "type": "Array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Provide the email address(es) for the action group used for monitoring."
-            }
-        },
-        "ALZLogicappResourceId": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the resource id of the logic app used for monitoring."
-            }
-        },
-        "ALZLogicappCallbackUrl": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the callback url of the logic app used for monitoring."
-            }
-        },
-        "ALZArmRoleId": {
-            "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Provide the role id used for monitoring."
-            }
-        },
-        "ALZEventHubResourceId": {
-            "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Provide the resource id of the event hub used for monitoring."
-            }
-        },
-        "ALZWebhookServiceUri": {
-            "type": "Array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Provide the service uri(s) of the webhook used for monitoring."
-            }
-        },
-        "ALZFunctionResourceId": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the resource id of the function used for monitoring."
-            }
-        },
-        "ALZFunctionTriggerUrl": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the trigger url of the function used for monitoring."
-            }
-        },
-        "BYOActionGroup": {
-            "type": "array",
-            "defaultValue": [],
-            "metadata": {
-                "description": "Provide the action group used for monitoring."
-            }
-        },
-        "BYOAlertProcessingRule": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Provide the alert processing rule used for monitoring."
-            }
-        },
-        "ALZAlertSeverity": {
-            "type": "array",
-            "defaultValue":  [
-                "Sev0",
-                "Sev1",
-                "Sev2",
-                "Sev3",
-                "Sev4"
-              ],
-            "metadata": {
-                "description": "Alert Severities for alert processing rule to action."
-            }
-        },
-        "ALZNotificationAssetSuffix" :{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  // MARK: Parameters
+  "parameters": {
+    "enterpriseScaleCompanyPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale."
+      }
+    },
+    "telemetryOptOut": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "displayName": "Telemetry Opt Out",
+        "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    },
+    "platformManagementGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the Management Group that will be used to host the platform resources."
+      }
+    },
+    "IdentityManagementGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the Management Group that will be used to host the identity resources."
+      }
+    },
+    "managementManagementGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the Management Group that will be used to host the management resources."
+      }
+    },
+    "connectivityManagementGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the Management Group that will be used to host the connectivity resources."
+      }
+    },
+    "LandingZoneManagementGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the name of the Management Group that will be used to host the landing zone resources."
+      }
+    },
+    "enableAMBAConnectivity": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Connectivity initiative"
+      }
+    },
+    "enableAMBAIdentity": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Identity initiative"
+      }
+    },
+    "enableAMBAManagement": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Management initiative"
+      }
+    },
+    "enableAMBAServiceHealth": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Service health initiative"
+      }
+    },
+    "enableAMBANotificationAssets": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Action assets initiative"
+      }
+    },
+    "enableAMBAHybridVM": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign HybridVM initiative"
+      }
+    },
+    "enableAMBAKeyManagement": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Key Management initiative"
+      }
+    },
+    "enableAMBALoadBalancing": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Load Balancing initiative"
+      }
+    },
+    "enableAMBANetworkChanges": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Network Changes initiative"
+      }
+    },
+    "enableAMBARecoveryServices": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Recovery Services initiative"
+      }
+    },
+    "enableAMBAStorage": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Storage initiative"
+      }
+    },
+    "enableAMBAVM": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign VM initiative"
+      }
+    },
+    "enableAMBAWeb": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign Web initiative"
+      }
+    },
+    "bringYourOwnUserAssignedManagedIdentity": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Specify if you want to bring your own user assigned managed identity for monitoring purpose."
+      }
+    },
+    "bringYourOwnUserAssignedManagedIdentityResourceId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Specify the resource id of the user assigned managed identity if you want to bring your own user assigned managed identity for monitoring purpose."
+      }
+    },
+    "userAssignedManagedIdentityName": {
+      "type": "string",
+      "defaultValue": "id-amba-prod-001",
+      "metadata": {
+        "description": "Specify the name of the user assigned managed identity for monitoring purpose."
+      }
+    },
+    "managementSubscriptionId": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the subscription id where the user assigned managed identity will be created."
+      }
+    },
+    "ALZMonitorResourceGroupName": {
+      "type": "string",
+      "defaultValue": "rg-amba-monitoring-001",
+      "metadata": {
+        "description": "Provide the name of the resource group for Azure Monitor Baseline Alerts."
+      }
+    },
+    "ALZMonitorResourceGroupLocation": {
+      "type": "string",
+      "defaultValue": "northeurope",
+      "metadata": {
+        "description": "Provide the location of the resource group for Azure Monitor Baseline Alerts."
+      }
+    },
+    "ALZMonitorResourceGroupTags": {
+      "type": "object",
+      "defaultValue": {
+        "Project": "amba-monitoring"
+      },
+      "metadata": {
+        "description": "Provide the tags for the resource group for Azure Monitor Baseline Alerts."
+      }
+    },
+    "ALZMonitorDisableTagName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled"
+      },
+      "defaultValue": "MonitorDisable"
+    },
+    "ALZMonitorDisableTagValues": {
+      "type": "Array",
+      "metadata": {
+        "displayName": "ALZ Monitoring disabled tag values(s)",
+        "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+      },
+      "defaultValue": [
+        "true",
+        "Test",
+        "Dev",
+        "Sandbox"
+      ]
+    },
+    "ALZMonitorActionGroupEmail": {
+      "type": "Array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Provide the email address(es) for the action group used for monitoring."
+      }
+    },
+    "ALZLogicappResourceId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Provide the resource id of the logic app used for monitoring."
+      }
+    },
+    "ALZLogicappCallbackUrl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Provide the callback url of the logic app used for monitoring."
+      }
+    },
+    "ALZArmRoleId": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Provide the role id used for monitoring."
+      }
+    },
+    "ALZEventHubResourceId": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Provide the resource id of the event hub used for monitoring."
+      }
+    },
+    "ALZWebhookServiceUri": {
+      "type": "Array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Provide the service uri(s) of the webhook used for monitoring."
+      }
+    },
+    "ALZFunctionResourceId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Provide the resource id of the function used for monitoring."
+      }
+    },
+    "ALZFunctionTriggerUrl": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Provide the trigger url of the function used for monitoring."
+      }
+    },
+    "BYOActionGroup": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Provide the action group used for monitoring."
+      }
+    },
+    "BYOAlertProcessingRule": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Provide the alert processing rule used for monitoring."
+      }
+    },
+    "ALZAlertSeverity": {
+      "type": "array",
+      "defaultValue": [
+        "Sev0",
+        "Sev1",
+        "Sev2",
+        "Sev3",
+        "Sev4"
+      ],
+      "metadata": {
+        "description": "Alert Severities for alert processing rule to action."
+      }
+    },
+    "ALZNotificationAssetSuffix": {
 
             "type": "string",
             "defaultValue": "-001",
