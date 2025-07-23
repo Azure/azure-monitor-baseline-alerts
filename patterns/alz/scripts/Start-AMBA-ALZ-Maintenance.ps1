@@ -193,16 +193,6 @@ Function Get-ALZ-OrphanedAlerts {
   If ($alertResources.count -gt 0) {
     $tempArrayList = [System.Collections.ArrayList]::new()
     $orphanedAlerts = [System.Collections.ArrayList]::Synchronized($tempArrayList)
-    <#ForEach ($alert in $alertResources) {
-            $scope = $($alert.scope.replace('"]', '')).replace('["', '')
-            $query = "Resources | where id =~ '$scope' | project id"
-            $resourceId = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id
-
-            If (-NOT $resourceId) {
-                $orphanedAlerts.add($alert.id)
-            }
-        }#>
-
     $alertResources | ForEach-Object -Parallel {
       $arr = $using:orphanedAlerts
       $scope = $($_.scope.replace('"]', '')).replace('["', '')
@@ -228,17 +218,34 @@ Function Get-ALZ-ResourceGroups {
   # get resource group to delete
   $query = "ResourceContainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' and tags['_deployed_by_amba'] =~ 'True' | project id"
   $resourceGroupIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-  Write-Host "- Found '$($resourceGroupIds.Count)' resource groups with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+  Write-Host "- Found '$($resourceGroupIds.Count)' resource group(s) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $resourceGroupIds
 }
 
+Function Check-ALZ-EmptyResourceGroups($fRgToBeChecked) {
+  # initializing array for resource groups to delete
+  $emptyResourceGroupIds = [System.Collections.ArrayList]::new()
+
+  # check if resource groups are empty
+  foreach ($resourceGroupId in $fRgToBeChecked) {
+    $query = "resources | where id has '$resourceGroupId'"
+    $resources = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
+    if ([string]::IsNullOrEmpty($resources)) {
+      $emptyResourceGroupIds.Add($resourceGroupId) | Out-Null
+    }
+  }
+
+  # Returning items
+  $emptyResourceGroupIds
+}
+
 Function Get-ALZ-PolicyAssignments {
   # get policy assignments to delete
-  $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | extend metadata=parse_json(properties.metadata) | where metadata._deployed_by_amba =~ 'true' | project name,type,identity,id"
+  $query = "policyresources | where type =~ 'microsoft.authorization/policyAssignments' | extend metadata = parse_json(properties.metadata) | where metadata._deployed_by_amba =~ 'true' | project name, type, identity, id"
   $policyAssignmentIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-  Write-Host "- Found '$($policyAssignmentIds.Count)' policy assignments with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+  Write-Host "- Found '$($policyAssignmentIds.Count)' policy assignment(s) with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $policyAssignmentIds
@@ -258,7 +265,7 @@ Function Get-ALZ-PolicySetDefinitions {
   # get policy set definitions to delete
   $query = "policyresources | where type =~ 'microsoft.authorization/policysetdefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
   $policySetDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-  Write-Host "- Found '$($policySetDefinitionIds.Count)' policy set definitions with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+  Write-Host "- Found '$($policySetDefinitionIds.Count)' policy set definition(s) with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $policySetDefinitionIds
@@ -381,9 +388,9 @@ Function Delete-ALZ-Alerts($fAlertsToBeDeleted) {
 
 Function Delete-ALZ-ResourceGroups($fRgToBeDeleted) {
   # delete resource groups
-  Write-Host "`n-- Deleting resource groups ..." -ForegroundColor Yellow
-  $fRgToBeDeleted | ForEach-Object { Remove-AzResourceGroup -ResourceGroupId $_ -Confirm:$false } | Out-Null
-  Write-Host "---- Done deleting resource groups ..." -ForegroundColor Cyan
+  Write-Host "-- Deleting empty resource groups ..." -ForegroundColor Yellow
+  $fRgToBeDeleted | ForEach-Object -Parallel { Remove-AzResource -ResourceId $_ -Force } | Out-Null
+  Write-Host "---- Done deleting empty resource groups ..." -ForegroundColor Cyan
 }
 
 Function Delete-ALZ-PolicyAssignments($fPolicyAssignmentsToBeDeleted) {
@@ -482,11 +489,12 @@ If ($managementGroups.count -eq 0) {
 
 Switch ($cleanItems) {
   "Amba-Alz" {
-    # Invoking function to retrieve alerts
-    $alertsToBeDeleted = Get-ALZ-Alerts
 
     # Invoking function to retrieve resource groups
-    #$rgToBeDeleted = Get-ALZ-ResourceGroups
+    $rgToBeDeleted = Get-ALZ-ResourceGroups
+
+    # Invoking function to retrieve alerts
+    $alertsToBeDeleted = Get-ALZ-Alerts
 
     # Invoking function to retrieve policy assignments
     $policyAssignmentToBeDeleted = Get-ALZ-PolicyAssignments
@@ -509,8 +517,8 @@ Switch ($cleanItems) {
     # Invoking function to retrieve action groups
     $agToBeDeleted = Get-ALZ-ActionGroups
 
-    If (($alertsToBeDeleted.count -gt 0) -or ($policyAssignmentToBeDeleted.count -gt 0) -or ($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0) -or ($uamiToBeDeleted.count -gt 0) -or ($aprToBeDeleted.count -gt 0) -or ($agToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts, policy assignments, policy initiatives, policy definitions, policy role assignments, user assigned managed identities, alert processing rules and action groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+    If (($alertsToBeDeleted.count -gt 0) -or ($policyAssignmentToBeDeleted.count -gt 0) -or ($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0) -or ($uamiToBeDeleted.count -gt 0) -or ($aprToBeDeleted.count -gt 0) -or ($agToBeDeleted.count -gt 0) -or ($rgToBeDeleted.count -gt 0)) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts, policy assignments, policy initiatives, policy definitions, policy role assignments, user assigned managed identities, alert processing rules, action groups and resource groups deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
 
         # Invoking function to delete alerts
         If ($alertsToBeDeleted.count -gt 0) { Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted }
@@ -536,8 +544,19 @@ Switch ($cleanItems) {
         # Invoking function to delete action groups
         If ($agToBeDeleted.count -gt 0) { Delete-ALZ-ActionGroups -fAgToBeDeleted $agToBeDeleted }
 
-        # Invoking function to delete resource groups
-        # If ($rgToBeDeleted -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $rgToBeDeleted }
+        # Invoking function to delete empty resource groups
+        If ($rgToBeDeleted.count -gt 0) {
+
+          Write-Host "`n- Ensuring resource group(s) deployed by AMBA-ALZ are empty before deleting them ..."
+          Start-Sleep 20s
+
+          # Invoking function to ensure rgs are empty
+          $emptyRgToBeDeleted = Check-ALZ-EmptyResourceGroups -fRgToBeChecked $rgToBeDeleted
+
+          If ($emptyRgToBeDeleted.count -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $emptyRgToBeDeleted }
+          if ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) { Write-Host "---- There are '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant. Should they be not, manually delete the resource group(s) and the contained resource(s)." -ForegroundColor red }
+
+        }
       }
     }
   }
