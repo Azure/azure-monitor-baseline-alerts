@@ -1,9 +1,7 @@
 Describe 'UnitTest-AlertsThresholdOverride-Tables-Update' {
   BeforeAll {
 
-    if(!(Test-Path "buildoutAlertsThresholdOverride")) {
-      New-Item -Name "buildoutAlertsThresholdOverride" -Type Directory
-    }
+    New-Item -Name "buildoutAlertsThresholdOverride" -Type Directory
 
     & "./tooling/alz/Generate-AlertsThresholdOverride-Tables.ps1" -thresholdOverrideTablesRootDir "buildoutAlertsThresholdOverride"
 
