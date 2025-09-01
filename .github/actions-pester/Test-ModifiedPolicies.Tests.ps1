@@ -183,7 +183,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataName = $PolicyJson.name
         $ExcludePolicy = @()
-        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
+        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZArmRoleId", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
         if ($PolicyMetadataName -notin $ExcludePolicy) {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {
