@@ -6,6 +6,7 @@ weight: 09
 
 ### In this page
 
+> [2025-09-01](#2025-09-01) </br>
 > [2025-07-02](#2025-07-02) </br>
 > [2025-06-03](#2025-06-03) </br>
 > [2025-04-04](#2025-04-04) </br>
@@ -25,6 +26,26 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
+## 2025-09-01
+
+### New Features
+
+- Adoption of the new least privileged "Monitoring Policy Contributor" built-in Azure role
+- Adoption of the new built-in "[Preview]: Configure subscriptions to enable service health alert monitoring rule" policy. This change is following the AMBA-ALZ team effort to have the Service Health policy adopted as built-in policy.
+- Promoted the following preview policy to GA:
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Route Table Delete Alert
+  - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Routes Delete Alert
+
+### Bug Fixes
+
+### Documentation Updates
+
+- The documentation was update to help customers deploying the new AMBA-ALZ version adopting a least privileged role Managed Identities.
+
+### Tools
+
+- The maintenance script has been fixed to avoid crashes during role assignment removal. With this fix, the script is not failing or leaving role assignments in place anymore. It has been also enhanced to allow for old Service Health alerts and action groups removal.
 
 ## 2025-07-02
 
