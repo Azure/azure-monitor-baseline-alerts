@@ -20,6 +20,8 @@
     - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
     - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
     - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
+    - remove ONLY RoleAssignments deployed by the AMBA-ALZ pattern
+
 
     In order for this script to function the deployed resources must have a tag _deployed_by_amba with a value of true and Policy resources must have metadata property
     named _deployed_by_amba with a value of True. These tags and metadata are included in the automation, but if they are subsequently removed, there may be orphaned
@@ -45,6 +47,7 @@
         - PolicyAssignments
         - PolicyDefinitions
         - OrphanedAlerts
+        - RoleAssignments
 
 .EXAMPLE
     ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -WhatIf
@@ -76,11 +79,11 @@ param(
     ValueFromPipeline = $false)]
   [string]$pseudoRootManagementGroup,
 
-  # the items to be cleaned-up
-  [Parameter(Mandatory = $True,
-    ValueFromPipeline = $false)]
-  [ValidateSet("Amba-Alz", "Deployments", "OldNotificationAssets", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", IgnoreCase = $true)]
-  [string]$cleanItems
+    # the items to be cleaned-up
+    [Parameter(Mandatory = $True,
+        ValueFromPipeline = $false)]
+        [ValidateSet("Amba-Alz", "Deployments", "OldNotificationAssets", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", "RoleAssignments", IgnoreCase = $true)]
+        [string]$cleanItems
 )
 
 #region general functions
@@ -262,10 +265,10 @@ Function Get-ALZ-UserAssignedManagedIdentities {
 }
 
 Function Get-ALZ-RoleAssignments {
-  # get role assignments to delete
-  $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | project roleDefinitionId = properties.roleDefinitionId, objectId = properties.principalId, scope = properties.scope, id"
-  $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property id | Get-Unique -AsString
-  Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
+    # get role assignments to delete
+    $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | extend roleAssignmentId = id, roleDefinitionId = tostring(split(properties.roleDefinitionId,'/')[4]), objectId = properties.principalId, scope = properties.scope | project roleAssignmentId, roleDefinitionId, objectId, scope"
+    $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property roleAssignmentId | Get-Unique -AsString
+    Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $roleAssignments
@@ -363,11 +366,13 @@ Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted) {
   Write-Host "---- Done deleting policy definitions ..." -ForegroundColor Cyan
 }
 
-Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted) {
-  # delete role assignments
-  Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-  $fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false -ErrorAction SilentlyContinue} | Out-Null
-  Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
+Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
+{
+    # delete role assignments
+    Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
+    #$fRoleAssignmentsToBeDeleted | Select-Object -Property objectId, roleDefinitionId, scope | ForEach-Object -Parallel { Remove-AzRoleAssignment @psItem -Confirm:$false } | Out-Null
+    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($psItem.objectId)" -Scope "$($psItem.scope)" -RoleDefinitionId "$($psItem.roleDefinitionId)" -Confirm:$false } | Out-Null
+    Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
 Function Delete-ALZ-UserAssignedManagedIdentities($fUamiToBeDeleted) {
@@ -619,11 +624,25 @@ Switch ($cleanItems) {
         # Invoking function to delete policy set definitions
         If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
 
-        # Invoking function to delete policy definitions
-        If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
-      }
+                # Invoking function to delete policy definitions
+                If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
+            }
+        }
     }
-  }
+
+    "RoleAssignments"
+    {
+        # Invoking function to retrieve role assignments
+        $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
+
+        If ($roleAssignmentsToBeDeleted.count -gt 0) {
+            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+
+                # Invoking function to delete role assignments
+                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
+            }
+        }
+    }
 }
 
 Write-Host "`n=== Script execution completed. ===`n"
