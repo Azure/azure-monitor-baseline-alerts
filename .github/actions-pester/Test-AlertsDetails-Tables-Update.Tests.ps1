@@ -1,9 +1,7 @@
 Describe 'UnitTest-AlertsDetails-Tables-Update' {
   BeforeAll {
 
-    if(!(Test-Path "buildoutAlertsDetails")) {
-      New-Item -Name "buildoutAlertsDetails" -Type Directory
-    }
+    New-Item -Name "buildoutAlertsDetails" -Type Directory
 
     & "./tooling/alz/Generate-AlertsDetails-Tables.ps1" -alertTablesRootDir "buildoutAlertsDetails"
   }

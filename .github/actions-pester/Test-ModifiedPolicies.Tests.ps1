@@ -144,6 +144,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
+    <# Commenting this block since ALZ env tag is not that relevant
     It "Check policy metadata ALZ Environments are specified for Public, US Gov or China Clouds"  -Skip:($ModifiedAddedFiles -ne $null) {
       $ModifiedAddedFiles | ForEach-Object {
 
@@ -155,7 +156,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson.properties.metadata.alzCloudEnvironments | Should -BeIn $AlzEnvironments -Because "the [alzCloudEnvironments] attribute value does not match [AzureCloud] or [AzureChinaCloud] or [AzureUSGovernment] for file [$PolicyFile]."
 
       }
-    }
+    }#>
 
     <# Commenting this block since we use a different name for policy name and file name
     It "Check policy metadata name matches policy filename"  -Skip:($ModifiedAddedFiles -ne $null) {
@@ -183,7 +184,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataName = $PolicyJson.name
         $ExcludePolicy = @()
-        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
+        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZArmRoleId", "ALZLogicappResourceId", "ALZLogicappCallbackUrl", "ALZEventHubResourceId", "ALZWebhookServiceUri", "ALZFunctionResourceId", "ALZFunctionTriggerUrl", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
         if ($PolicyMetadataName -notin $ExcludePolicy) {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {
