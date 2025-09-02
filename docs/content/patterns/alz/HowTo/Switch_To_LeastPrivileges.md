@@ -15,12 +15,11 @@ weight: 77
 
 As part of the ongoing security enhancements in AMBA-ALZ, a new least privileged built-in role called "Monitoring Policy Contributor" has been introduced and used with the [2025-09-01](../../Overview/Whats-New#2025-09-01) release. This new Azure built-in role is designed to align with SFI principles by significantly reducing the security risk surface—cutting down from over 6,700 unused permissions to just 6.
 
-| Before                                | After                                |
-| ------------------------------------- | ------------------------------------ |
-| ../media/UnusedPermissions_Before.png | ../media/UnusedPermissions_After.png |
-|                                       |                                      |
+| Before                                                                | After                                                               |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| ![Unused permission before](../../media/UnusedPermissions_Before.png) | ![Unused permission after](../../media/UnusedPermissions_After.png) |
 
- Tailored to support both AMBA-ALZ and customer-created alert policies, the role ensures operational flexibility while enforcing strict access control. This change not only simplifies permission management but also addresses overprovisioning concerns flagged by Microsoft Defender for Cloud, making such alerts less critical and improving overall compliance posture.
+Tailored to support both AMBA-ALZ and customer-created alert policies, the role ensures operational flexibility while enforcing strict access control. This change not only simplifies permission management but also addresses overprovisioning concerns flagged by Microsoft Defender for Cloud, making such alerts less critical and improving overall compliance posture.
 
 ## How this feature works
 
