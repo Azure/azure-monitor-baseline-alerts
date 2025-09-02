@@ -30,9 +30,15 @@ For instructions on running the script, refer to the documentation available on 
 .\patterns\alz\scripts\Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems RoleAssignments
 ```
 
-  ![Clean up current deployment](../../../media/Clean-up-current-roleAssignments.png)
+  ![Clean up role assignment](../../../media/Clean-up-current-roleAssignments.png)
 
-As far as the adoption of built-in Service Health alerts policy goes, it does not require any specific task. However, it is recommended to remove the old Service Health alerts and action groups created by the former custom policy to avoid confusion. The perform the clean-up of the old Service Health artifact, run the clean-up script ensuring to enter **legacySH** as the value for the ***-cleanItems*** script parameter:
+As far as the adoption of built-in Service Health alerts policy goes, it does not require any specific task. However, it is recommended to remove the old Service Health alerts and action groups created by the former custom policy to avoid confusion. To perform the clean-up of the old Service Health artifact, run the clean-up script mentioned above ensuring to enter **legacySH** as the value for the ***-cleanItems*** script parameter:
+
+```powershell
+.\patterns\alz\scripts\Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems legacySH
+```
+
+  ![Clean up legacy Service Health alerts and action groups](../../../media/Clean-up-clegacySH.png)
 
 ## Update
 
