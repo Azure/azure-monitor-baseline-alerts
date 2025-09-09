@@ -7,6 +7,8 @@ geekdocCollapseSection: true
 
 The Azure Monitoring packs in an open source initiative looking to provide another way to quickly enable monitoring for different services and workloads. It is an ongoing project that gladly welcomes contribution from the community.
 
+The Azure Monitoring Packs are also known as the Azure Monitoring Starter Packs (or MonStar packs).
+
 The Monitoring packs, once installed, will install an Azure Function and a Logic App (among other supporting components) to automate the enablement of the monitoring based on a friendly Azure Workbook interface.
 
 ## Objectives
