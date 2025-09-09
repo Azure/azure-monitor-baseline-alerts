@@ -5,11 +5,13 @@ geekdocCollapseSection: true
 
 ## Azure Monitoring Packs (FKA MonStar Packs)
 
-The Azure Monitoring packs in an open source initiative looking to provide another way to quickly enable monitoring for different services and workloads. It is an ongoing project that gladly welcomes contribution from the community.
+The Azure Monitoring Packs in an open source and independent initiative looking to provide another way to quickly enable monitoring for different services and workloads. It is an ongoing project that gladly welcomes contribution from the community.
 
-The Azure Monitoring Packs are also known as the Azure Monitoring Starter Packs (or MonStar packs).
+The Azure Monitoring Packs are also known as the Azure Monitoring Starter Packs (or MonStar packs). The packs leverage AMBA as a source of truth for Azure Services monitoring recommendations and provides monitoring for IaaS workloads.
 
 The Monitoring packs, once installed, will install an Azure Function and a Logic App (among other supporting components) to automate the enablement of the monitoring based on a friendly Azure Workbook interface.
+
+Please log any issues related to the packs [here](https://github.com/Azure/AzureMonitorStarterPacks/issues).
 
 ## Objectives
 
