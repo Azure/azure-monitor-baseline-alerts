@@ -132,12 +132,15 @@ param currentDateTimeUtcNow string = utcNow()
 ])
 param telemetryOptOut string = 'No'
 
+@description('Tags to apply to the alert')
+param tags object = {
+  _deployed_by_amba: 'true'
+}
+
 resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
   name: alertName
   location: location
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     description: alertDescription
     severity: alertSeverity
@@ -193,9 +196,7 @@ resource alert 'Microsoft.Insights/scheduledQueryRules@2022-06-15' = {
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     mode: 'Incremental'
     template: {

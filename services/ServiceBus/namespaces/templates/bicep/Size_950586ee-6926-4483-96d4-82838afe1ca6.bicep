@@ -85,12 +85,15 @@ param currentDateTimeUtcNow string = utcNow()
 ])
 param telemetryOptOut string = 'No'
 
+@description('Tags to apply to the alert')
+param tags object = {
+  _deployed_by_amba: 'true'
+}
+
 resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
   name: alertName
   location: 'global'
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     description: alertDescription
     scopes: targetResourceId
@@ -108,9 +111,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Size'
           dimensions: [
             {
-              name: 'entityname'
-              operator: 'include'
-              values: ['lp-cl-sa-centralus-queue']
+              name: 'EntityName'
+              operator: 'Include'
+              values: ['*']
             }]
           operator: operator
           threshold: threshold
@@ -125,9 +128,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     mode: 'Incremental'
     template: {
