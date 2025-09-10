@@ -1,0 +1,327 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.34.44.8038",
+      "templateHash": "5485416719189445916"
+    }
+  },
+  "parameters": {
+    "topLevelSubscriptionId": {
+      "type": "string",
+      "defaultValue": "00000000-0000-0000-0000-000000000000",
+      "metadata": {
+        "message": "The JSON version of this file is programatically generated from Bicep. PLEASE DO NOT UPDATE MANUALLY!!",
+        "description": "Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"00000000-0000-0000-0000-000000000000\""
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[deployment().location]",
+      "metadata": {
+        "description": "Optionally set the deployment location for policies with Deploy If Not Exists effect. DEFAULT VALUE = \"deployment().location\""
+      }
+    },
+    "scope": {
+      "type": "string",
+      "defaultValue": "[tenantResourceId('Microsoft.Subscription/subscriptions', parameters('topLevelSubscriptionId'))]",
+      "metadata": {
+        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Subscription/subscriptions/id'. DEFAULT VALUE = '/providers/Microsoft.Subscription/subscriptions/${topLevelSubscriptionId}'"
+      }
+    }
+  },
+  "variables": {
+    "copy": [
+      {
+        "name": "processPolicyDefinitionsAll",
+        "count": "[length(variables('loadPolicyDefinitions').All)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').All[copyIndex('processPolicyDefinitionsAll')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureCloud",
+        "count": "[length(variables('loadPolicyDefinitions').AzureCloud)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureCloud[copyIndex('processPolicyDefinitionsAzureCloud')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureChinaCloud",
+        "count": "[length(variables('loadPolicyDefinitions').AzureChinaCloud)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureChinaCloud[copyIndex('processPolicyDefinitionsAzureChinaCloud')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicyDefinitionsAzureUSGovernment",
+        "count": "[length(variables('loadPolicyDefinitions').AzureUSGovernment)]",
+        "input": "[replace(replace(variables('loadPolicyDefinitions').AzureUSGovernment[copyIndex('processPolicyDefinitionsAzureUSGovernment')], variables('templateVars').defaultDeploymentLocation, variables('deploymentLocation')), variables('templateVars').localizedDeploymentLocation, variables('deploymentLocation'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAll",
+        "count": "[length(variables('loadPolicySetDefinitions').All)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').All[copyIndex('processPolicySetDefinitionsAll')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureCloud",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureCloud)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureCloud[copyIndex('processPolicySetDefinitionsAzureCloud')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureChinaCloud",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureChinaCloud)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureChinaCloud[copyIndex('processPolicySetDefinitionsAzureChinaCloud')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "processPolicySetDefinitionsAzureUSGovernment",
+        "count": "[length(variables('loadPolicySetDefinitions').AzureUSGovernment)]",
+        "input": "[replace(variables('loadPolicySetDefinitions').AzureUSGovernment[copyIndex('processPolicySetDefinitionsAzureUSGovernment')], variables('templateVars').scope, parameters('scope'))]"
+      },
+      {
+        "name": "policyDefinitionsAll",
+        "count": "[length(variables('processPolicyDefinitionsAll'))]",
+        "input": "[json(variables('processPolicyDefinitionsAll')[copyIndex('policyDefinitionsAll')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureCloud",
+        "count": "[length(variables('processPolicyDefinitionsAzureCloud'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureCloud')[copyIndex('policyDefinitionsAzureCloud')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureChinaCloud",
+        "count": "[length(variables('processPolicyDefinitionsAzureChinaCloud'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureChinaCloud')[copyIndex('policyDefinitionsAzureChinaCloud')])]"
+      },
+      {
+        "name": "policyDefinitionsAzureUSGovernment",
+        "count": "[length(variables('processPolicyDefinitionsAzureUSGovernment'))]",
+        "input": "[json(variables('processPolicyDefinitionsAzureUSGovernment')[copyIndex('policyDefinitionsAzureUSGovernment')])]"
+      },
+      {
+        "name": "policySetDefinitionsAll",
+        "count": "[length(variables('processPolicySetDefinitionsAll'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAll')[copyIndex('policySetDefinitionsAll')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureCloud",
+        "count": "[length(variables('processPolicySetDefinitionsAzureCloud'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureCloud')[copyIndex('policySetDefinitionsAzureCloud')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureChinaCloud",
+        "count": "[length(variables('processPolicySetDefinitionsAzureChinaCloud'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureChinaCloud')[copyIndex('policySetDefinitionsAzureChinaCloud')])]"
+      },
+      {
+        "name": "policySetDefinitionsAzureUSGovernment",
+        "count": "[length(variables('processPolicySetDefinitionsAzureUSGovernment'))]",
+        "input": "[json(variables('processPolicySetDefinitionsAzureUSGovernment')[copyIndex('policySetDefinitionsAzureUSGovernment')])]"
+      }
+    ],
+    "$fxv#0": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2021-06-01\",\r\n  \"name\": \"Deploy_RecoveryVault_BackupHealthMonitor_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Azure Monitor Baseline Alerts (AMBA-00000000-0000-0000-0000-000000000000) - RV Backup Health Monitoring Alerts\",\r\n    \"description\": \"Policy to audit/update Recovery Vault Backup Health Alerting to Azure monitor alerts\",\r\n    \"metadata\": {\r\n      \"version\": \"1.2.0\",\r\n      \"category\": \"Site Recovery\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"modify\",\r\n          \"audit\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"modify\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"00000000-0000-0000-0000-000000000000 Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"00000000-0000-0000-0000-000000000000 Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"Microsoft.RecoveryServices/Vaults\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          },\r\n          {\r\n            \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures\",\r\n            \"notEquals\": \"Enabled\"\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074\"\r\n          ],\r\n          \"conflictEffect\": \"audit\",\r\n          \"operations\": [\r\n            {\r\n              \"operation\": \"addOrReplace\",\r\n              \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations\",\r\n              \"value\": \"Disabled\"\r\n            },\r\n            {\r\n              \"operation\": \"addOrReplace\",\r\n              \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures\",\r\n              \"value\": \"Enabled\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+    "$fxv#1": "{\r\n  \"type\": \"Microsoft.Authorization/policyDefinitions\",\r\n  \"apiVersion\": \"2024-04-01\",\r\n  \"name\": \"Deploy_RecoveryVault_ASRHealthMonitor_Alert\",\r\n  \"properties\": {\r\n    \"policyType\": \"Custom\",\r\n    \"mode\": \"All\",\r\n    \"displayName\": \"Deploy Azure Monitor Baseline Alerts (AMBA-00000000-0000-0000-0000-000000000000) - RV ASR Health Monitoring Alerts\",\r\n    \"description\": \"Policy to audit/update Recovery Vault ASR Health Alerting to Azure monitor alerts\",\r\n    \"metadata\": {\r\n      \"version\": \"1.1.0\",\r\n      \"category\": \"Site Recovery\",\r\n      \"source\": \"https://github.com/Azure/azure-monitor-baseline-alerts/\",\r\n      \"alzCloudEnvironments\": [\r\n        \"AzureCloud\"\r\n      ],\r\n      \"_deployed_by_amba\": \"True\"\r\n    },\r\n    \"parameters\": {\r\n      \"effect\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"Effect\",\r\n          \"description\": \"Effect of the policy\"\r\n        },\r\n        \"allowedValues\": [\r\n          \"modify\",\r\n          \"audit\",\r\n          \"disabled\"\r\n        ],\r\n        \"defaultValue\": \"modify\"\r\n      },\r\n      \"MonitorDisableTagName\": {\r\n        \"type\": \"String\",\r\n        \"metadata\": {\r\n          \"displayName\": \"00000000-0000-0000-0000-000000000000 Monitoring disabled tag name\",\r\n          \"description\": \"Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": \"MonitorDisable\"\r\n      },\r\n      \"MonitorDisableTagValues\": {\r\n        \"type\": \"Array\",\r\n        \"metadata\": {\r\n          \"displayName\": \"00000000-0000-0000-0000-000000000000 Monitoring disabled tag values(s)\",\r\n          \"description\": \"Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.\"\r\n        },\r\n        \"defaultValue\": [\r\n          \"true\",\r\n          \"Test\",\r\n          \"Dev\",\r\n          \"Sandbox\"\r\n        ]\r\n      }\r\n    },\r\n    \"policyRule\": {\r\n      \"if\": {\r\n        \"allOf\": [\r\n          {\r\n            \"field\": \"type\",\r\n            \"equals\": \"Microsoft.RecoveryServices/Vaults\"\r\n          },\r\n          {\r\n            \"field\": \"[[concat('tags[', parameters('MonitorDisableTagName'), ']')]\",\r\n            \"notIn\": \"[[parameters('MonitorDisableTagValues')]\"\r\n          },\r\n          {\r\n            \"anyOf\": [\r\n              {\r\n                \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllReplicationIssues\",\r\n                \"notEquals\": \"Enabled\"\r\n              },\r\n              {\r\n                \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllFailoverIssues\",\r\n                \"notEquals\": \"Enabled\"\r\n              }\r\n            ]\r\n          }\r\n        ]\r\n      },\r\n      \"then\": {\r\n        \"effect\": \"[[parameters('effect')]\",\r\n        \"details\": {\r\n          \"roleDefinitionIds\": [\r\n            \"/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074\"\r\n          ],\r\n          \"conflictEffect\": \"audit\",\r\n          \"operations\": [\r\n            {\r\n              \"operation\": \"addOrReplace\",\r\n              \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.emailNotificationsForSiteRecovery\",\r\n              \"value\": \"Disabled\"\r\n            },\r\n            {\r\n              \"operation\": \"addOrReplace\",\r\n              \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllReplicationIssues\",\r\n              \"value\": \"Enabled\"\r\n            },\r\n            {\r\n              \"operation\": \"addOrReplace\",\r\n              \"field\": \"Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllFailoverIssues\",\r\n              \"value\": \"Enabled\"\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+    "$fxv#2": {
+      "type": "Microsoft.Authorization/policySetDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "Alerting-RecoveryServices",
+      "properties": {
+        "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-00000000-0000-0000-0000-000000000000) for Recovery Services",
+        "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-00000000-0000-0000-0000-000000000000) to monitor Recovery Services such as Azure Backup, and Azure Site Recovery.",
+        "metadata": {
+          "version": "1.1.1",
+          "category": "Monitoring",
+          "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "alzCloudEnvironments": [
+            "AzureCloud"
+          ],
+          "_deployed_by_amba": true
+        },
+        "parameters": {
+          "ALZMonitorDisableTagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "00000000-0000-0000-0000-000000000000 Monitoring disabled tag name",
+              "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": "MonitorDisable"
+          },
+          "ALZMonitorDisableTagValues": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "00000000-0000-0000-0000-000000000000 Monitoring disabled tag values(s)",
+              "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": [
+              "true",
+              "Test",
+              "Dev",
+              "Sandbox"
+            ]
+          },
+          "RVBackupHealthMonitorPolicyEffect": {
+            "type": "string",
+            "defaultValue": "modify",
+            "allowedValues": [
+              "modify",
+              "audit",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Recovery Vault Backup Health Monitor Policy Effect",
+              "description": "Policy effect for the alert, modify will modify the alert if it exists, or audit if it does not exist"
+            }
+          },
+          "RVASRHealthMonitorPolicyEffect": {
+            "type": "string",
+            "defaultValue": "modify",
+            "allowedValues": [
+              "modify",
+              "audit",
+              "disabled"
+            ],
+            "metadata": {
+              "displayName": "Recovery Vault ASR Health Monitor Policy Effect",
+              "description": "Policy effect for the alert, modify will modify the alert if it exists, or audit if it does not exist"
+            }
+          }
+        },
+        "policyDefinitions": [
+          {
+            "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
+            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+            "parameters": {
+              "effect": {
+                "value": "[[[parameters('RVBackupHealthMonitorPolicyEffect')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          },
+          {
+            "policyDefinitionReferenceId": "ALZ_RVASRHealthMonitor",
+            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
+            "parameters": {
+              "effect": {
+                "value": "[[[parameters('RVASRHealthMonitorPolicyEffect')]"
+              },
+              "MonitorDisableTagName": {
+                "value": "[[[parameters('ALZMonitorDisableTagName')]"
+              },
+              "MonitorDisableTagValues": {
+                "value": "[[[parameters('ALZMonitorDisableTagValues')]"
+              }
+            }
+          }
+        ],
+        "policyType": "Custom",
+        "policyDefinitionGroups": null
+      }
+    },
+    "cloudEnv": "[environment().name]",
+    "defaultDeploymentLocationByCloudType": {
+      "AzureCloud": "northeurope",
+      "AzureChinaCloud": "chinaeast2",
+      "AzureUSGovernment": "usgovvirginia"
+    },
+    "templateVars": {
+      "scope": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000",
+      "defaultDeploymentLocation": "\"location\": \"northeurope\"",
+      "localizedDeploymentLocation": "[format('\"location\": \"{0}\"', variables('defaultDeploymentLocationByCloudType')[variables('cloudEnv')])]"
+    },
+    "targetDeploymentLocationByCloudType": {
+      "AzureCloud": "[coalesce(parameters('location'), 'northeurope')]",
+      "AzureChinaCloud": "[coalesce(parameters('location'), 'chinaeast2')]",
+      "AzureUSGovernment": "[coalesce(parameters('location'), 'usgovvirginia')]"
+    },
+    "deploymentLocation": "[format('\"location\": \"{0}\"', variables('targetDeploymentLocationByCloudType')[variables('cloudEnv')])]",
+    "loadPolicyDefinitions": {
+      "All": [
+        "[variables('$fxv#0')]",
+        "[variables('$fxv#1')]"
+      ],
+      "AzureCloud": [],
+      "AzureChinaCloud": [],
+      "AzureUSGovernment": []
+    },
+    "loadPolicySetDefinitions": {
+      "All": [
+        "[string(variables('$fxv#2'))]"
+      ],
+      "AzureCloud": [],
+      "AzureChinaCloud": [],
+      "AzureUSGovernment": []
+    },
+    "policyDefinitionsByCloudType": {
+      "All": "[variables('policyDefinitionsAll')]",
+      "AzureCloud": "[variables('policyDefinitionsAzureCloud')]",
+      "AzureChinaCloud": "[variables('policyDefinitionsAzureChinaCloud')]",
+      "AzureUSGovernment": "[variables('policyDefinitionsAzureUSGovernment')]"
+    },
+    "policySetDefinitionsByCloudType": {
+      "All": "[variables('policySetDefinitionsAll')]",
+      "AzureCloud": "[variables('policySetDefinitionsAzureCloud')]",
+      "AzureChinaCloud": "[variables('policySetDefinitionsAzureChinaCloud')]",
+      "AzureUSGovernment": "[variables('policySetDefinitionsAzureUSGovernment')]"
+    },
+    "policyDefinitions": "[concat(variables('policyDefinitionsByCloudType').All, variables('policyDefinitionsByCloudType')[variables('cloudEnv')])]",
+    "policySetDefinitions": "[concat(variables('policySetDefinitionsByCloudType').All, variables('policySetDefinitionsByCloudType')[variables('cloudEnv')])]"
+  },
+  "resources": [
+    {
+      "copy": {
+        "name": "PolicyDefinitions",
+        "count": "[length(variables('policyDefinitions'))]"
+      },
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policyDefinitions')[copyIndex()].name]",
+      "properties": {
+        "description": "[variables('policyDefinitions')[copyIndex()].properties.description]",
+        "displayName": "[variables('policyDefinitions')[copyIndex()].properties.displayName]",
+        "metadata": "[variables('policyDefinitions')[copyIndex()].properties.metadata]",
+        "mode": "[variables('policyDefinitions')[copyIndex()].properties.mode]",
+        "parameters": "[variables('policyDefinitions')[copyIndex()].properties.parameters]",
+        "policyType": "[variables('policyDefinitions')[copyIndex()].properties.policyType]",
+        "policyRule": "[variables('policyDefinitions')[copyIndex()].properties.policyRule]"
+      }
+    },
+    {
+      "copy": {
+        "name": "PolicySetDefinitions",
+        "count": "[length(variables('policySetDefinitions'))]"
+      },
+      "type": "Microsoft.Authorization/policySetDefinitions",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policySetDefinitions')[copyIndex()].name]",
+      "properties": {
+        "description": "[variables('policySetDefinitions')[copyIndex()].properties.description]",
+        "displayName": "[variables('policySetDefinitions')[copyIndex()].properties.displayName]",
+        "metadata": "[variables('policySetDefinitions')[copyIndex()].properties.metadata]",
+        "parameters": "[variables('policySetDefinitions')[copyIndex()].properties.parameters]",
+        "policyType": "[variables('policySetDefinitions')[copyIndex()].properties.policyType]",
+        "policyDefinitions": "[variables('policySetDefinitions')[copyIndex()].properties.policyDefinitions]",
+        "policyDefinitionGroups": "[variables('policySetDefinitions')[copyIndex()].properties.policyDefinitionGroups]"
+      },
+      "dependsOn": [
+        "PolicyDefinitions"
+      ]
+    }
+  ],
+  "outputs": {
+    "policyDefinitionNames": {
+      "type": "array",
+      "copy": {
+        "count": "[length(variables('policyDefinitions'))]",
+        "input": "[variables('policyDefinitions')[copyIndex()].name]"
+      }
+    },
+    "policySetDefinitionNames": {
+      "type": "array",
+      "copy": {
+        "count": "[length(variables('policySetDefinitions'))]",
+        "input": "[variables('policySetDefinitions')[copyIndex()].name]"
+      }
+    }
+  }
+}
