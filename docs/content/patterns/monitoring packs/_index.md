@@ -3,7 +3,15 @@ title: Azure Monitoring Packs
 geekdocCollapseSection: true
 ---
 
-## FastTrack for Azure - Monitoring Starter Packs (MonStar Packs)
+## Azure Monitoring Packs (FKA MonStar Packs)
+
+The Azure Monitoring Packs in an open source and independent initiative looking to provide another way to quickly enable monitoring for different services and workloads. It is an ongoing project that gladly welcomes contribution from the community.
+
+The Azure Monitoring Packs are also known as the Azure Monitoring Starter Packs (or MonStar packs). The packs leverage AMBA as a source of truth for Azure Services monitoring recommendations and provides monitoring for IaaS workloads.
+
+The Monitoring packs, once installed, will install an Azure Function and a Logic App (among other supporting components) to automate the enablement of the monitoring based on a friendly Azure Workbook interface.
+
+Please log any issues related to the packs [here](https://github.com/Azure/AzureMonitorStarterPacks/issues).
 
 ## Objectives
 
@@ -20,12 +28,12 @@ For a details about the solution and setup, please refer to [Azure Monitoring Pa
 ## Pre-requisites and recommendations
 
 - Azure Subscription - an Azure subscription to deploy the components
-- A Management group structure with at least one management group. Most of the elements like policies and permissions need to be deployed at a management group level.
+- Owner permissions to the subscription
 
 ## Monitoring Packs
 
-### [IaaS Packs](./IaaS)
+The IaaS packs are defined and provided by the Azure Monitoring packs solution. The services packs are based out of the definitions in Amba for each service.
 
-### [Services Packs](./Services/)
+Details can be found [here](https://github.com/Azure/AzureMonitorStarterPacks/blob/main/Packs/README.md#monitoring-pack-summary).
 
 
