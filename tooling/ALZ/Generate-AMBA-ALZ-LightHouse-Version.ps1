@@ -88,7 +88,7 @@ foreach ($file in $policySetDefinitionsFiles) {
     foreach ($key in $replacements.Keys) {
         $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
     }
-    $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
+    $fileContent | Set-Content -Path "$lighthouseFilesPath/policySetDefinitions/$($file.Name)" -Force
 }
 
 #endregion
