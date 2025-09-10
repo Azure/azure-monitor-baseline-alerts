@@ -124,6 +124,7 @@ $replacements = @{
   'managementManagementGroup' = 'topLevelSubscriptionId'
   'LandingZoneManagementGroup' = 'topLevelSubscriptionId'
   'platformManagementGroup' = 'topLevelSubscriptionId'
+  'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
 }
 
 # replacing strings
