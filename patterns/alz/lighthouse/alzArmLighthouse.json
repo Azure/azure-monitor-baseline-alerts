@@ -1019,7 +1019,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('connectivityManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1048,7 +1048,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('identityManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1077,7 +1077,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAConnectivityDeploymentName_2]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('connectivityManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1106,7 +1106,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAManagementDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('managementManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "location": "[deployment().location]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -1123,10 +1123,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
@@ -1203,7 +1203,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAHybridVMDeploymentNameLandingZones]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "location": "[deployment().location]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -1220,10 +1220,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('LandingZoneManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
@@ -1242,7 +1242,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAHybridVMDeploymentNamePlatform]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('platformManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "location": "[deployment().location]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -1259,10 +1259,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('platformManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
@@ -1281,7 +1281,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAKeyManagementDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1310,7 +1310,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBALoadBalancingDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1339,7 +1339,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBANetworkChangesDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1368,7 +1368,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBARecoveryServicesDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1397,7 +1397,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAStorageDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
       ],
@@ -1426,7 +1426,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAVMDeploymentNameLandingZones]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "location": "[deployment().location]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -1443,10 +1443,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('LandingZoneManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
@@ -1465,7 +1465,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAVMDeploymentNamePlatform]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('platformManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "location": "[deployment().location]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
@@ -1482,10 +1482,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('platformManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
@@ -1504,7 +1504,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[variables('deploymentNames').AMBAWebDeploymentName]",
-      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('LandingZoneManagementGroup'))]",
+      "scope": "[concat('Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'))]",
       "dependsOn": [
         "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
         "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
@@ -1521,10 +1521,10 @@
             "value": "[parameters('topLevelSubscriptionId')]"
           },
           "scope": {
-            "value": "[parameters('LandingZoneManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "uamiScope": {
-            "value": "[parameters('managementManagementGroup')]"
+            "value": "[parameters('topLevelSubscriptionId')]"
           },
           "bringYourOwnUserAssignedManagedIdentity": {
             "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"

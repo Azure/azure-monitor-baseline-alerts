@@ -108,6 +108,11 @@ $replacements = @{
   'managementSubscriptionId' = 'topLevelSubscriptionId'
   'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale.' = 'Provide a subscription ID'
+  'connectivityManagementGroup' = 'topLevelSubscriptionId'
+  'identityManagementGroup' = 'topLevelSubscriptionId'
+  'managementManagementGroup' = 'topLevelSubscriptionId'
+  'LandingZoneManagementGroup' = 'topLevelSubscriptionId'
+  'platformManagementGroup' = 'topLevelSubscriptionId'
 }
 
 # replacing strings
