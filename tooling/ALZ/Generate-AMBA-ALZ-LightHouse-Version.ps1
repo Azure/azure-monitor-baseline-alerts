@@ -1,4 +1,9 @@
-<# This script modifies the following AMBA-ALZ files to be used in an Azure Lighthouse scenario where companies, Cloud Solution Provider do not have access to the Management Group Level.
+<# This script:
+  - copies the following templates that do not require modifications:
+    - resourceGroups.json
+    - userAssignedManagedIdentities.json
+
+  - modifies the following AMBA-ALZ files to be used in an Azure Lighthouse scenario where companies, Cloud Solution Provider do not have access to the Management Group Level.
 
     - Policy Assignments
     - Policy Definitions
@@ -12,10 +17,16 @@
 $policyAssignmenstFilePath = ".\patterns\alz\policyAssignments"
 $policyDefinitionsFilePath = ".\patterns\alz\policyDefinitions"
 $policySetDefinitionsFilePath = ".\patterns\alz\policySetDefinitions"
-$templateFilePath = ".\patterns\alz\alzArm.json"
+$armTemplateFilePath = ".\patterns\alz\alzArm.json"
 $parameterFilePath = ".\patterns\alz\alzArm.param.json"
+$templateFilePath = ".\patterns\alz\templates"
 
 $lighthouseFilesPath = ".\patterns\alz\lighthouse\"
+
+#region Copy templates
+copy-item -Path "$templateFilePath\resourceGroup.json" -Destination "$lighthouseFilesPath\templates\resourceGroup.json" -force
+copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destination "$lighthouseFilesPath\templates\userAssignedManagedIdentity.json" -force
+#endregion
 
 #region Policy Assignments
 
@@ -95,7 +106,7 @@ $parametersToRemove = @(
 )
 
 # removing unnecessary parameters
-$mainArmTemporaryContent = Get-Content -Path $templateFilePath -Raw | ConvertFrom-Json
+$mainArmTemporaryContent = Get-Content -Path $armTemplateFilePath -Raw | ConvertFrom-Json
 foreach ($param in $parametersToRemove) {
     $mainArmTemporaryContent.parameters.PSObject.Properties.Remove($param)
 }

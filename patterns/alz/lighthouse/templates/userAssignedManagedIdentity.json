@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "uamiName": {
+      "type": "string",
+      "defaultValue": "id-amba-prod-001",
+      "metadata": {
+        "description": "The name of the user assigned managed identity to be created for monitoring purpose."
+      }
+    },
+    "uamiLocation": {
+      "type": "string",
+      "defaultValue": "northeurope",
+      "metadata": {
+        "description": "The location of the User Assigned Managed Identity."
+      }
+    },
+    "uamiResourceGroupName": {
+      "type": "string",
+      "defaultValue": "rg-amba-prod-001",
+      "metadata": {
+        "description": "The name of the resource group where the user assigned managed identity will be created."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "[concat('amba-', parameters('uamiName'))]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "variables": {},
+          "resources": [
+            {
+              "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+              "apiVersion": "2018-11-30",
+              "name": "[parameters('uamiName')]",
+              "location": "[parameters('uamiLocation')]",
+              "tags": {
+                "_deployed_by_amba": "true"
+              }
+            }
+          ]
+        }
+      },
+      "resourceGroup": "[parameters('uamiResourceGroupName')]"
+    }
+  ],
+  "outputs": {}
+}
