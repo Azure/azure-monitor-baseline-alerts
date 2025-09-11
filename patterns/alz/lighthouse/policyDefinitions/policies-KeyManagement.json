@@ -26,9 +26,9 @@
     },
     "scope": {
       "type": "string",
-      "defaultValue": "[concat('Microsoft.Management/managementGroups', parameters('topLevelSubscriptionId'))]",
+      "defaultValue": "[concat('Microsoft.Subscription/subscriptions', parameters('topLevelSubscriptionId'))]",
       "metadata": {
-        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Management/managementGroups/id'. DEFAULT VALUE = '/providers/Microsoft.Management/managementGroups/${topLevelSubscriptionId}'"
+        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Subscription/subscriptions/id'. DEFAULT VALUE = '/providers/Microsoft.Subscription/subscriptions/${topLevelSubscriptionId}'"
       }
     }
   },
@@ -130,7 +130,7 @@
       "AzureUSGovernment": "usgovvirginia"
     },
     "templateVars": {
-      "scope": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000",
+      "scope": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000",
       "defaultDeploymentLocation": "\"location\": \"northeurope\"",
       "localizedDeploymentLocation": "[format('\"location\": \"{0}\"', variables('defaultDeploymentLocationByCloudType')[variables('cloudEnv')])]"
     },

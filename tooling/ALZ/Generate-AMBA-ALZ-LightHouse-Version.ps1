@@ -59,8 +59,8 @@ $replacements = @{
   'tenantResourceId'= 'concat'
   #'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
   #'/providers/Microsoft.Management/managementGroups/contoso/providers/' = '/subscriptions/00000000-0000-0000-0000-000000000000/providers/'
-  #'/providers/Microsoft.Management/managementGroups/contoso'= '/subscriptions/00000000-0000-0000-0000-000000000000'
-  #'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
+  '/providers/Microsoft.Management/managementGroups/contoso'= '/subscriptions/00000000-0000-0000-0000-000000000000'
+  'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
   'contoso' = '00000000-0000-0000-0000-000000000000'
   #'alz' = '00000000-0000-0000-0000-000000000000'
   }
