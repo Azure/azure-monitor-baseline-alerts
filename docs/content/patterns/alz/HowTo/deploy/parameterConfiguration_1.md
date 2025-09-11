@@ -39,7 +39,18 @@ The following instructions apply universally, regardless of your alignment with 
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
-  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
+  - Update the value of `_ALZArmRoleId_` to specify the Azure Resource Manager Role name(s) that should receive notifications for the alerts, including Service Health alerts. If no notifications are required for any Azure Resource Manager Role, or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)) leave this value blank.
+
+    Azure only supports the following ***built-in*** roles for Azure Resource Manager Role notification:
+
+    | Role Name | Role GUID |
+    | --------- | --------- |
+    | Owner | 8e3af657-a8ff-443c-a75c-2fe8c4bcb635 |
+    | Contributor | b24988ac-6180-42a0-ab88-20f7382dd24c |
+    | Reader | acdd72a7-3385-48ef-bd42-f606fba81ae7 |
+    | Monitoring Contributor | 749f88d5-cbae-40b8-bcfc-e573ddc772fa |
+    | Monitoring Reader | 43d0d8ad-25c7-4714-9337-8ba259a9fe05 |
+
   - Update the value of _```ALZEventHubResourceId```_ to specify the Event Hubs that will be used for alert actions, including Service Health alerts. Leave it blank if no Event Hubs is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Event Hubs resource ID, navigate to the resource, in the search box type ***Event Hubs***, click ***Event Hubs***, select the event hub of your interest and in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
     ![Event Hub Namespace ](../../../media/EventHub_ResourceID_1.png)
@@ -97,8 +108,8 @@ The following instructions apply universally, regardless of your alignment with 
   },
   "ALZArmRoleId": {
       "value": [
-          "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
-          "b24988ac-6180-42a0-ab88-20f7382dd24c"
+          "Owner",
+          "Contributor"
       ]
   },
   "ALZWebhookServiceUri": {
