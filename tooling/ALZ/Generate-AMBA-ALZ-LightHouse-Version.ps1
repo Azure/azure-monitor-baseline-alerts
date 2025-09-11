@@ -112,7 +112,7 @@ foreach ($param in $parametersToRemove) {
 }
 
 $mainArmTemporaryContent.resources | ForEach-Object {
-  if (($_.type -eq "Microsoft.Resources/deployments") -and ($_.name -like "*variables('deploymentNames').policyDefinitions*")) {
+  if (($_.type -eq "Microsoft.Resources/deployments") -and (($_.name -like "*variables('deploymentNames').policyDefinitions*") -or ($_.name -like "*variables('deploymentNames').policySetDefinitionsDeploymentName*"))) {
     $_.PSObject.Properties.Remove("scope")
   }
 }
