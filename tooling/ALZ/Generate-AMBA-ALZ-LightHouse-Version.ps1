@@ -32,7 +32,7 @@ copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destinatio
 
 # Define a hashtable of replacements
 $replacements = @{
-  'managementGroupDeploymentTemplate'                      = 'subscriptionDeploymentTemplate'
+  '2019-08-01/managementGroupDeploymentTemplate' = '2018-05-01/subscriptionDeploymentTemplate'
   'topLevelManagementGroupPrefix'                          = 'topLevelSubscriptionId'
   'Microsoft.Management/managementGroups'                  = 'Microsoft.Subscription/subscriptions'
   'ESLZ prefix to your intermediate root management group' = 'subscription'
@@ -54,7 +54,7 @@ foreach ($file in $policyAssignmenstFiles) {
 
 # Define a hashtable of replacements
 $replacements = @{
-  'managementGroupDeploymentTemplate' = 'subscriptionDeploymentTemplate'
+  '2019-08-01/managementGroupDeploymentTemplate' = '2018-05-01/subscriptionDeploymentTemplate'
   'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
   'tenantResourceId'= 'concat'
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
