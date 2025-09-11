@@ -60,7 +60,7 @@ $replacements = @{
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
   '/providers/Microsoft.Management/managementGroups/contoso'= '/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000'
   'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
-  #'contoso' = '00000000-0000-0000-0000-000000000000'
+  'contoso' = '00000000-0000-0000-0000-000000000000'
   #'alz' = '00000000-0000-0000-0000-000000000000'
   }
 
@@ -74,9 +74,9 @@ $replacements = @{
     $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
   }
 
-  #endregion
+#endregion
 
-  #region PolicySet Definitions
+#region PolicySet Definitions
 
   # Define a hashtable of replacements
   $replacements = @{
@@ -93,9 +93,9 @@ $replacements = @{
     $fileContent | Set-Content -Path "$lighthouseFilesPath/policySetDefinitions/$($file.Name)" -Force
   }
 
-  #endregion
+#endregion
 
-  #region main Arm template
+#region main Arm template
 
   # Define a hashtable of unnecessary parameters to be removed
   $parametersToRemove = @(
@@ -143,9 +143,9 @@ $replacements = @{
   }
   $mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Force
 
-  #endregion
+#endregion
 
-  #region Parameter file
+#region Parameter file
 
   # Define a hashtable of unnecessary parameters to be removed
   $parametersToRemove = @(
@@ -178,4 +178,4 @@ $replacements = @{
   }
   $mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Force
 
-  #endregion
+#endregion
