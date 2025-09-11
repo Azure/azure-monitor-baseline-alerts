@@ -32,20 +32,20 @@ copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destinatio
 
 # Define a hashtable of replacements
 $replacements = @{
-  'managementGroupDeploymentTemplate' = 'subscriptionDeploymentTemplate'
-  'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
-  'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
+  'managementGroupDeploymentTemplate'                      = 'subscriptionDeploymentTemplate'
+  'topLevelManagementGroupPrefix'                          = 'topLevelSubscriptionId'
+  'Microsoft.Management/managementGroups'                  = 'Microsoft.Subscription/subscriptions'
   'ESLZ prefix to your intermediate root management group' = 'subscription'
 }
 
 # Loading, modifying and saving policy assignemnts
 $policyAssignmenstFiles = Get-ChildItem -Path $policyAssignmenstFilePath -Filter *.json
 foreach ($file in $policyAssignmenstFiles) {
-    $fileContent = Get-Content -Path $file.FullName -Raw
-    foreach ($key in $replacements.Keys) {
-        $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
-    }
-    $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
+  $fileContent = Get-Content -Path $file.FullName -Raw
+  foreach ($key in $replacements.Keys) {
+    $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
+  }
+  $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
 }
 
 #endregion
@@ -54,22 +54,22 @@ foreach ($file in $policyAssignmenstFiles) {
 
 # Define a hashtable of replacements
 $replacements = @{
-  'managementGroupDeploymentTemplate' = 'subscriptionDeploymentTemplate'
-  'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
-  'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
+  'managementGroupDeploymentTemplate'                                                                                                                                  = 'subscriptionDeploymentTemplate'
+  'topLevelManagementGroupPrefix'                                                                                                                                      = 'topLevelSubscriptionId'
+  'Microsoft.Management/managementGroups'                                                                                                                              = 'Microsoft.Subscription/subscriptions'
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
-  'contoso' = '00000000-0000-0000-0000-000000000000'
-  'alz' = '00000000-0000-0000-0000-000000000000'
+  'contoso'                                                                                                                                                            = '00000000-0000-0000-0000-000000000000'
+  'alz'                                                                                                                                                                = '00000000-0000-0000-0000-000000000000'
 }
 
 # Loading, modifying and saving policy definitions
 $policyDefinitionsFiles = Get-ChildItem -Path $policyDefinitionsFilePath -Filter *.json
 foreach ($file in $policyDefinitionsFiles) {
-    $fileContent = Get-Content -Path $file.FullName -Raw
-    foreach ($key in $replacements.Keys) {
-        $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
-    }
-    $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
+  $fileContent = Get-Content -Path $file.FullName -Raw
+  foreach ($key in $replacements.Keys) {
+    $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
+  }
+  $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
 }
 
 #endregion
@@ -84,11 +84,11 @@ $replacements = @{
 # Loading, modifying and saving policySet definitions
 $policySetDefinitionsFiles = Get-ChildItem -Path $policySetDefinitionsFilePath -Filter *.json
 foreach ($file in $policySetDefinitionsFiles) {
-    $fileContent = Get-Content -Path $file.FullName -Raw
-    foreach ($key in $replacements.Keys) {
-        $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
-    }
-    $fileContent | Set-Content -Path "$lighthouseFilesPath/policySetDefinitions/$($file.Name)" -Force
+  $fileContent = Get-Content -Path $file.FullName -Raw
+  foreach ($key in $replacements.Keys) {
+    $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
+  }
+  $fileContent | Set-Content -Path "$lighthouseFilesPath/policySetDefinitions/$($file.Name)" -Force
 }
 
 #endregion
@@ -97,40 +97,47 @@ foreach ($file in $policySetDefinitionsFiles) {
 
 # Define a hashtable of unnecessary parameters to be removed
 $parametersToRemove = @(
-    "managementSubscriptionId",
-    "platformManagementGroup",
-    "IdentityManagementGroup",
-    "managementManagementGroup",
-    "connectivityManagementGroup",
-    "LandingZoneManagementGroup"
+  "managementSubscriptionId",
+  "platformManagementGroup",
+  "IdentityManagementGroup",
+  "managementManagementGroup",
+  "connectivityManagementGroup",
+  "LandingZoneManagementGroup"
 )
 
 # removing unnecessary parameters
 $mainArmTemporaryContent = Get-Content -Path $armTemplateFilePath -Raw | ConvertFrom-Json
 foreach ($param in $parametersToRemove) {
-    $mainArmTemporaryContent.parameters.PSObject.Properties.Remove($param)
+  $mainArmTemporaryContent.parameters.PSObject.Properties.Remove($param)
 }
+
+$mainArmTemporaryContent.resources | ForEach-Object {
+  if (($_.type -eq "Microsoft.Resources/deployments") -and ($_.name -like "*variables('deploymentNames').policyDefinitions*")) {
+    $_.PSObject.Properties.Remove("scope")
+  }
+}
+
 $mainArmTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Force
 
 # Define a hashtable of replacements
 $replacements = @{
-  'managementGroupDeploymentTemplate' = 'subscriptionDeploymentTemplate'
-  'enterpriseScaleCompanyPrefix' = 'topLevelSubscriptionId'
-  'managementSubscriptionId' = 'topLevelSubscriptionId'
-  'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
+  'managementGroupDeploymentTemplate'                                                                                                     = 'subscriptionDeploymentTemplate'
+  'enterpriseScaleCompanyPrefix'                                                                                                          = 'topLevelSubscriptionId'
+  'managementSubscriptionId'                                                                                                              = 'topLevelSubscriptionId'
+  'Microsoft.Management/managementGroups'                                                                                                 = 'Microsoft.Subscription/subscriptions'
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of Enterprise-scale.' = 'Provide a subscription ID'
-  'connectivityManagementGroup' = 'topLevelSubscriptionId'
-  'identityManagementGroup' = 'topLevelSubscriptionId'
-  'managementManagementGroup' = 'topLevelSubscriptionId'
-  'LandingZoneManagementGroup' = 'topLevelSubscriptionId'
-  'platformManagementGroup' = 'topLevelSubscriptionId'
-  'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
+  'connectivityManagementGroup'                                                                                                           = 'topLevelSubscriptionId'
+  'identityManagementGroup'                                                                                                               = 'topLevelSubscriptionId'
+  'managementManagementGroup'                                                                                                             = 'topLevelSubscriptionId'
+  'LandingZoneManagementGroup'                                                                                                            = 'topLevelSubscriptionId'
+  'platformManagementGroup'                                                                                                               = 'topLevelSubscriptionId'
+  'topLevelManagementGroupPrefix'                                                                                                         = 'topLevelSubscriptionId'
 }
 
 # replacing strings
 $mainArmTemplateContent = Get-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Raw
 foreach ($key in $replacements.Keys) {
-    $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
+  $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
 }
 $mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Force
 
@@ -140,32 +147,32 @@ $mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthou
 
 # Define a hashtable of unnecessary parameters to be removed
 $parametersToRemove = @(
-    "managementSubscriptionId",
-    "platformManagementGroup",
-    "IdentityManagementGroup",
-    "managementManagementGroup",
-    "connectivityManagementGroup",
-    "LandingZoneManagementGroup"
+  "managementSubscriptionId",
+  "platformManagementGroup",
+  "IdentityManagementGroup",
+  "managementManagementGroup",
+  "connectivityManagementGroup",
+  "LandingZoneManagementGroup"
 )
 
 # removing unnecessary parameters
 $paramFileTemporaryContent = Get-Content -Path $parameterFilePath -Raw | ConvertFrom-Json
 foreach ($param in $parametersToRemove) {
-    $paramFileTemporaryContent.parameters.PSObject.Properties.Remove($param)
+  $paramFileTemporaryContent.parameters.PSObject.Properties.Remove($param)
 }
 $paramFileTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Force
 
 # Define a hashtable of replacements
 $replacements = @{
   'enterpriseScaleCompanyPrefix' = 'topLevelSubscriptionId'
-  'managementSubscriptionId' = 'topLevelSubscriptionId'
-  'contoso' = '00000000-0000-0000-0000-000000000000'
+  'managementSubscriptionId'     = 'topLevelSubscriptionId'
+  'contoso'                      = '00000000-0000-0000-0000-000000000000'
 }
 
 # replacing strings
 $mainArmTemplateContent = Get-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Raw
 foreach ($key in $replacements.Keys) {
-    $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
+  $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
 }
 $mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Force
 
