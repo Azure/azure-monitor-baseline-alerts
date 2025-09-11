@@ -58,8 +58,8 @@ $replacements = @{
   'topLevelManagementGroupPrefix'                                                                                                                                      = 'topLevelSubscriptionId'
   'Microsoft.Management/managementGroups'                                                                                                                              = 'Microsoft.Subscription/subscriptions'
   'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
-  'contoso'                                                                                                                                                            = '00000000-0000-0000-0000-000000000000'
-  'alz'                                                                                                                                                                = '00000000-0000-0000-0000-000000000000'
+  #'contoso'                                                                                                                                                            = '00000000-0000-0000-0000-000000000000'
+  #'alz'                                                                                                                                                                = '00000000-0000-0000-0000-000000000000'
 }
 
 # Loading, modifying and saving policy definitions
