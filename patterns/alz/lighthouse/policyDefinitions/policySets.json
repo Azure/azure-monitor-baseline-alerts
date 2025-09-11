@@ -26,9 +26,9 @@
     },
     "scope": {
       "type": "string",
-      "defaultValue": "[concat('Microsoft.Subscription/subscriptions', parameters('topLevelSubscriptionId'))]",
+      "defaultValue": "[concat('Microsoft.Management/managementGroups', parameters('topLevelSubscriptionId'))]",
       "metadata": {
-        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Subscription/subscriptions/id'. DEFAULT VALUE = '/providers/Microsoft.Subscription/subscriptions/${topLevelSubscriptionId}'"
+        "description": "Optionally set the scope for custom Policy Definitions used in Policy Set Definitions (Initiatives). Must be one of '/', '/subscriptions/id' or '/providers/Microsoft.Management/managementGroups/id'. DEFAULT VALUE = '/providers/Microsoft.Management/managementGroups/${topLevelSubscriptionId}'"
       }
     }
   },
@@ -1792,7 +1792,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_VMHeartBeatRG",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -1855,7 +1855,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMNetworkIn",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -1921,7 +1921,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMNetworkOut",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -1987,7 +1987,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2053,7 +2053,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2119,7 +2119,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2185,7 +2185,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMPercentCPU",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2248,7 +2248,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMPercentMemory",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2311,7 +2311,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2377,7 +2377,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -2443,7 +2443,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4328,7 +4328,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMHeartBeatRG",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_HeartBeat_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_HeartBeat_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4391,7 +4391,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMNetworkIn",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkIn_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkIn_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4457,7 +4457,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMNetworkOut",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkOut_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_NetworkOut_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4523,7 +4523,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskreadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskreadLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4589,7 +4589,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskwriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskwriteLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4655,7 +4655,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMOSDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_OSDiskSpace_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4721,7 +4721,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMPercentCPU",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_CPU_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_CPU_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4784,7 +4784,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMPercentMemory",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Memory_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Memory_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4847,7 +4847,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskSpace_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4913,7 +4913,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskReadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskReadLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -4979,7 +4979,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMDataDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskWriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_dataDiskWriteLatency_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -5045,7 +5045,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_HybridVMDisconnected",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Hybrid_VM_Disconnected_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -5278,7 +5278,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AlertProcessing_Rule",
             "parameters": {
               "ALZMonitorResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"
@@ -5335,7 +5335,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_Suppression_AlertProcessing_Rule",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Suppression_AlertProcessing_Rule",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_Suppression_AlertProcessing_Rule",
             "parameters": {
               "ALZMonitorResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"
@@ -5427,7 +5427,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('RVBackupHealthMonitorPolicyEffect')]"
@@ -5442,7 +5442,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_RVASRHealthMonitor",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('RVASRHealthMonitorPolicyEffect')]"
@@ -5708,7 +5708,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_ServiceHealth_ActionGroups",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ServiceHealth_ActionGroups",
             "parameters": {
               "ALZMonitorResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"
@@ -5759,7 +5759,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('ResHlthUnhealthyAlertState')]"
@@ -5789,7 +5789,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_SvcHlthAdvisory",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_HealthAdvisory",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_HealthAdvisory",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('SvcHlthAdvisoryAlertState')]"
@@ -5822,7 +5822,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_SvcHlthIncident",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Incident",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Incident",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('SvcHlthIncidentAlertState')]"
@@ -5855,7 +5855,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_SvcHlthMaintenance",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Maintenance",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_Maintenance",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('SvcHlthMaintenanceAlertState')]"
@@ -5888,7 +5888,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_svcHlthSecAdvisory",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_SecurityAdvisory",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_ServiceHealth_SecurityAdvisory",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('svcHlthSecAdvisoryAlertState')]"
@@ -6088,7 +6088,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('StorageAccountAvailabilityAlertSeverity')]"
@@ -6118,7 +6118,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activitySADelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('StorageAccountDeletePolicyEffect')]"
@@ -6913,7 +6913,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_WSFCPUPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFCPUPercentageAlertSeverity')]"
@@ -6943,7 +6943,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFMemoryPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFMemoryPercentageAlertSeverity')]"
@@ -6973,7 +6973,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFDiskQueueLength",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFDiskQueueLengthAlertSeverity')]"
@@ -7006,7 +7006,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFHttpQueueLength",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFHttpQueueLengthAlertSeverity')]"
@@ -7039,7 +7039,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AppInsightsThrottlingLimitReached_Alert",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AppInsightsThrottlingLimit_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AppInsightsThrottlingLimit_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -7090,7 +7090,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityAppInsightsDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_AppInsights_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_AppInsights_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityAppInsightsDeletePolicyEffect')]"
@@ -7117,7 +7117,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityLAWDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityLAWDeletePolicyEffect')]"
@@ -7144,7 +7144,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityLAWKeyRegen",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityLAWKeyRegenPolicyEffect')]"
@@ -7171,7 +7171,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LAWorkspaceDailyCapLimitReached",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -11185,7 +11185,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_KVRequest",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVRequestAlertSeverity')]"
@@ -11206,7 +11206,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvAvailabilityAlertSeverity')]"
@@ -11230,7 +11230,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvLatencyAvailabilityAlertSeverity')]"
@@ -11254,7 +11254,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KVCapacity",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVCapacityAlertSeverity')]"
@@ -11278,7 +11278,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityKVDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityKVDeleteAlertState')]"
@@ -11296,7 +11296,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('StorageAccountAvailabilityAlertSeverity')]"
@@ -11320,7 +11320,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activitySADelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('StorageAccountDeletePolicyEffect')]"
@@ -11341,7 +11341,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoS",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPBytesInDDoSAlertSeverity')]"
@@ -11365,7 +11365,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPDDoSAttackAlertSeverity')]"
@@ -11389,7 +11389,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPPacketsInDDoSAlertSeverity')]"
@@ -11413,7 +11413,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPVIPAvailabilityAlertSeverity')]"
@@ -11437,7 +11437,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityNSGDeleteAlertState')]"
@@ -11455,7 +11455,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityUDRUpdateAlertState')]"
@@ -11473,7 +11473,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('RVBackupHealthMonitorPolicyEffect')]"
@@ -11482,7 +11482,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VNETDDOSAttackAlertSeverity')]"
@@ -11506,7 +11506,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMHeartBeatRG",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_HeartBeat_Alert",
             "parameters": {
               "alertResourceGroupName": {
                 "value": "[[[parameters('ALZMonitorResourceGroupName')]"
@@ -11557,7 +11557,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMNetworkIn",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkIn_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMNetworkInAlertSeverity')]"
@@ -11611,7 +11611,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMNetworkOut",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_NetworkOut_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMNetworkOutAlertSeverity')]"
@@ -11665,7 +11665,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskreadLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMOSDiskReadLatencyAlertSeverity')]"
@@ -11719,7 +11719,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskwriteLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMOSDiskWriteLatencyAlertSeverity')]"
@@ -11773,7 +11773,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMOSDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_OSDiskSpace_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMOSDiskSpaceAlertSeverity')]"
@@ -11827,7 +11827,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMPercentCPU",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_CPU_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMPercentCPUAlertSeverity')]"
@@ -11878,7 +11878,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMPercentMemory",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_Memory_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMPercentMemoryAlertSeverity')]"
@@ -11926,7 +11926,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskSpace",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskSpace_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMDataDiskSpaceAlertSeverity')]"
@@ -11980,7 +11980,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskReadLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskReadLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMDataDiskReadLatencyAlertSeverity')]"
@@ -12034,7 +12034,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VMDataDiskWriteLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VM_dataDiskWriteLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VMDataDiskWriteLatencyAlertSeverity')]"
@@ -12088,7 +12088,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWTotalTime",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
@@ -12112,7 +12112,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWBackendLastByteResponseTime",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
@@ -12136,7 +12136,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWCapacityUnits",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWCapacityUnitsAlertSeverity')]"
@@ -12157,7 +12157,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWComputeUnits",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWComputeUnitsAlertSeverity')]"
@@ -12178,7 +12178,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWCPUUtilization",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWCPUUtilAlertSeverity')]"
@@ -12199,7 +12199,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWFailedRequests",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWFailedRequestsAlertSeverity')]"
@@ -12223,7 +12223,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWResponseStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWResponseStatusAlertSeverity')]"
@@ -12247,7 +12247,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWUnhealthyHostCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWUnhealthyHostCountAlertSeverity')]"
@@ -12268,7 +12268,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBDataPathAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBDataPathAvailabilityAlertSeverity')]"
@@ -12289,7 +12289,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBGlobalBackendAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBGlobalBackendAvailabilityAlertSeverity')]"
@@ -12310,7 +12310,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBHealthProbeStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBHealthProbeStatusAlertSeverity')]"
@@ -12331,7 +12331,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBUsedSNATPorts",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBUsedSNATPortsAlertSeverity')]"
@@ -12352,7 +12352,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPOriginHealthPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPOriginHealthPercentageAlertSeverity')]"
@@ -12373,7 +12373,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPOriginLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPOriginLatencyAlertSeverity')]"
@@ -12394,7 +12394,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPPercentage4XX",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPPercentage4XXAlertSeverity')]"
@@ -12415,7 +12415,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPPercentage5XX",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPPercentage5XXAlertSeverity')]"
@@ -12436,7 +12436,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_TMEndpointHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('TMEndpointHealthAlertSeverity')]"
@@ -12457,7 +12457,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFCPUPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_CPUPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFCPUPercentageAlertSeverity')]"
@@ -12478,7 +12478,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFMemoryPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_MemoryPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFMemoryPercentageAlertSeverity')]"
@@ -12499,7 +12499,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFDiskQueueLength",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_DiskQueueLength_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFDiskQueueLengthAlertSeverity')]"
@@ -12520,7 +12520,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_WSFHttpQueueLength",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_WSF_HttpQueueLength_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('WSFHttpQueueLengthAlertSeverity')]"
@@ -12541,7 +12541,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_FDBackendHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('FDBackendHealthAlertSeverity')]"
@@ -12562,7 +12562,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_FDBackendRequestLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('FDBackendRequestLatencyAlertSeverity')]"
@@ -13064,7 +13064,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_activityLAWDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityLAWDeletePolicyEffect')]"
@@ -13091,7 +13091,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityLAWKeyRegen",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_LAWorkspace_KeyRegen",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityLAWKeyRegenPolicyEffect')]"
@@ -13118,7 +13118,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LAWorkspaceDailyCapLimitReached",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_LAWorkspace_DailyCapLimitReached_Alert",
             "parameters": {
               "UAMIResourceId": {
                 "value": "[[[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
@@ -13169,7 +13169,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AATotalJob",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AA_TotalJob_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AA_TotalJob_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AATotalJobAlertSeverity')]"
@@ -13199,7 +13199,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_RVBackupHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_BackupHealthMonitor_Alert",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('RVBackupHealthMonitorPolicyEffect')]"
@@ -13214,7 +13214,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_RVASRHealthMonitor",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_RecoveryVault_ASRHealthMonitor_Alert",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('RVASRHealthMonitorPolicyEffect')]"
@@ -13229,7 +13229,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_StorageAccount_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('StorageAccountAvailabilityAlertSeverity')]"
@@ -13259,7 +13259,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activitySADelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_StorageAccount_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('StorageAccountDeletePolicyEffect')]"
@@ -13845,7 +13845,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_KVRequest",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVRequestAlertSeverity')]"
@@ -13872,7 +13872,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvAvailabilityAlertSeverity')]"
@@ -13902,7 +13902,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvLatencyAvailabilityAlertSeverity')]"
@@ -13932,7 +13932,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KVCapacity",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVCapacityAlertSeverity')]"
@@ -13962,7 +13962,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityKVDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityKVDeleteAlertState')]"
@@ -13989,7 +13989,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ManagedHSMsAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('HSMsAvailabilityAlertSeverity')]"
@@ -14019,7 +14019,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ManagedHSMsLatencyAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('HSMsLatencyAvailabilityAlertSeverity')]"
@@ -14049,7 +14049,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityManagedHSMsDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityHSMsDeleteAlertState')]"
@@ -14635,7 +14635,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_KVRequest",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Requests_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVRequestAlertSeverity')]"
@@ -14662,7 +14662,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvAvailabilityAlertSeverity')]"
@@ -14692,7 +14692,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Latency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KvLatencyAvailabilityAlertSeverity')]"
@@ -14722,7 +14722,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_KVCapacity",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_KeyVault_Capacity_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('KVCapacityAlertSeverity')]"
@@ -14752,7 +14752,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityKVDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_KeyVault_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityKVDeletePolicyEffect')]"
@@ -14779,7 +14779,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ManagedHSMsAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Availability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('HSMsAvailabilityAlertSeverity')]"
@@ -14809,7 +14809,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ManagedHSMsLatencyAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ManagedHSMs_Latency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('HSMsLatencyAvailabilityAlertSeverity')]"
@@ -14839,7 +14839,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityManagedHSMsDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ActivityLog_ManagedHSMs_Delete",
             "parameters": {
               "enabled": {
                 "value": "[[[parameters('activityHSMsDeleteAlertState')]"
@@ -18553,7 +18553,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_ERCIRQoSDropBitsinPerSec",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_QosDropBitsInPerSecond_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_QosDropBitsInPerSecond_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERCIRQoSDropBitsinPerSecAlertSeverity')]"
@@ -18586,7 +18586,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERCIRQoSDropBitsoutPerSec",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_QosDropBitsOutPerSecond_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_QosDropBitsOutPerSecond_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERCIRQoSDropBitsoutPerSecAlertSeverity')]"
@@ -18619,7 +18619,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGwBGPPeerStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_BGPPeerStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_BGPPeerStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGwBGPPeerStatusAlertSeverity')]"
@@ -18649,7 +18649,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwERCpuUtil",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_ExpressRouteCpuUtil_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_ExpressRouteCpuUtil_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwERCpuUtilAlertSeverity')]"
@@ -18679,7 +18679,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelBW",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelBandwidth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelBandwidth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelBWAlertSeverity')]"
@@ -18709,7 +18709,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelEgress",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgress_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgress_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelEgressAlertSeverity')]"
@@ -18739,7 +18739,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelIngress",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngress_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngress_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelIngressAlertSeverity')]"
@@ -18769,7 +18769,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWBandWidthUtil",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_BandwidthUtil_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_BandwidthUtil_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWBandWidthUtilAlertSeverity')]"
@@ -18799,7 +18799,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWEgress",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_Egress_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_Egress_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWEgressAlertSeverity')]"
@@ -18829,7 +18829,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWTunnelEgressPacketDropCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelEgressPacketDropCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelEgressPacketDropCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWTunnelEgressPacketDropCountAlertSeverity')]"
@@ -18862,7 +18862,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWTunnelEgressPacketDropMismatch",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelEgressPacketDropMismatch_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelEgressPacketDropMismatch_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWTunnelEgressPacketDropMismatchAlertSeverity')]"
@@ -18895,7 +18895,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWIngress",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_Ingress_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_Ingress_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWIngressAlertSeverity')]"
@@ -18928,7 +18928,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWTunnelIngressPacketDropCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelIngressPacketDropCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelIngressPacketDropCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWTunnelIngressPacketDropCountAlertSeverity')]"
@@ -18961,7 +18961,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VPNGWTunnelIngressPacketDropMismatch",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelIngressPacketDropMismatch_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VPNGw_TunnelIngressPacketDropMismatch_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VPNGWTunnelIngressPacketDropMismatchAlertSeverity')]"
@@ -18994,7 +18994,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PDNSZCapacityUtil",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_CapacityUtil_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_CapacityUtil_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PDNSZCapacityUtilAlertSeverity')]"
@@ -19024,7 +19024,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PDNSZQueryVolume",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_QueryVolume_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_QueryVolume_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PDNSZQueryVolumeAlertSeverity')]"
@@ -19054,7 +19054,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PDNSZRecordSetCapacity",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_RecordSetCapacity_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PDNSZ_RecordSetCapacity_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PDNSZRecordSetCapacityAlertSeverity')]"
@@ -19084,7 +19084,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PDNSZRegistrationCapacityUtil",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_DNSZ_RegistrationCapacityUtil_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_DNSZ_RegistrationCapacityUtil_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PDNSZRegistrationCapacityUtilAlertSeverity')]"
@@ -19114,7 +19114,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERGwExpressRouteBitsIn",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteBitsIn_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteBitsIn_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERGwExpressRouteBitsInAlertSeverity')]"
@@ -19144,7 +19144,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERGwExpressRouteBitsOut",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteBitsOut_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteBitsOut_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERGwExpressRouteBitsOutAlertSeverity')]"
@@ -19174,7 +19174,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERGwExpressRouteCpuUtil",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteCpuUtil_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteCpuUtil_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERGwExpressRouteCpuUtilAlertSeverity')]"
@@ -19204,7 +19204,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelEgressPacketDropCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgressPacketDropCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgressPacketDropCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelEgressPacketDropCountAlertSeverity')]"
@@ -19237,7 +19237,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelEgressPacketDropMismatch",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgressPacketDropMismatch_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelEgressPacketDropMismatch_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelEgressPacketDropMismatchAlertSeverity')]"
@@ -19270,7 +19270,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwExpressRouteBitsPerSecond",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_ExpressRouteBitsPerSecond_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_ExpressRouteBitsPerSecond_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwExpressRouteBitsPerSecondAlertSeverity')]"
@@ -19300,7 +19300,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelIngressPacketDropMismatch",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngressPacketDropMismatch_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngressPacketDropMismatch_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelIngressPacketDropMismatchAlertSeverity')]"
@@ -19333,7 +19333,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VnetGwTunnelIngressPacketDropCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngressPacketDropCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VnetGw_TunnelIngressPacketDropCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VnetGwTunnelIngressPacketDropCountAlertSeverity')]"
@@ -19366,7 +19366,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERCIRBgpAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_BgpAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_BgpAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERCIRBgpAvailabilityAlertSeverity')]"
@@ -19396,7 +19396,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERCIRArpAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_ArpAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERCIR_ArpAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERCIRArpAvailabilityAlertSeverity')]"
@@ -19426,7 +19426,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AFWSNATPortUtilization",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_SNATPortUtilization_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_SNATPortUtilization_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AFWSNATPortUtilizationAlertSeverity')]"
@@ -19456,7 +19456,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoSEvaluationFrequency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPBytesInDDoSAlertSeverity')]"
@@ -19486,7 +19486,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPDDoSAttackAlertSeverity')]"
@@ -19516,7 +19516,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPPacketsInDDoSAlertSeverity')]"
@@ -19546,7 +19546,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPVIPAvailabilityAlertSeverity')]"
@@ -19576,7 +19576,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VNETDDOSAttackAlertSeverity')]"
@@ -19606,7 +19606,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_FirewallHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_FirewallHealth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_FirewallHealth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('FirewallHealthAlertSeverity')]"
@@ -19636,7 +19636,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityFWDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_Firewall_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_Firewall_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityFWDeletePolicyEffect')]"
@@ -19663,7 +19663,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityNSGDeletePolicyEffect')]"
@@ -19690,7 +19690,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRUpdatePolicyEffect')]"
@@ -19717,7 +19717,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRDeletePolicyEffect')]"
@@ -19744,7 +19744,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRRoutesDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Routes_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Routes_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRRoutesDeletePolicyEffect')]"
@@ -19771,7 +19771,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityVPNGWDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_VPNGateway_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_VPNGateway_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityVPNGWDeletePolicyEffect')]"
@@ -19798,7 +19798,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBDataPathAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBDataPathAvailabilityAlertSeverity')]"
@@ -19825,7 +19825,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBGlobalBackendAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBGlobalBackendAvailabilityAlertSeverity')]"
@@ -19852,7 +19852,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBHealthProbeStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBHealthProbeStatusAlertSeverity')]"
@@ -19879,7 +19879,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBUsedSNATPorts",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBUsedSNATPortsAlertSeverity')]"
@@ -19906,7 +19906,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPBitsInPerSecond",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRouteBitsIn_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRouteBitsIn_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPBitsInPerSecondAlertSeverity')]"
@@ -19933,7 +19933,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPBitsOutPerSecond",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRouteBitsOut_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRouteBitsOut_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPBitsOutPerSecondAlertSeverity')]"
@@ -19960,7 +19960,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPLineProtocol",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutLineProtocol_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutLineProtocol_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPLineProtocolAlertSeverity')]"
@@ -19987,7 +19987,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPRxLightLevelHigh",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutRxLightLevel_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutRxLightLevel_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPRxLightLevelHighAlertSeverity')]"
@@ -20014,7 +20014,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPRxLightLevelLow",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutRxLightLevellow_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutRxLightLevellow_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPRxLightLevelLowAlertSeverity')]"
@@ -20041,7 +20041,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPTxLightLevelHigh",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutTxLightLevell_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutTxLightLevell_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPTxLightLevelHighAlertSeverity')]"
@@ -20068,7 +20068,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERPTxLightLevelLow",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutTxLightLevellow_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERP_ExpressRoutTxLightLevellow_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERPTxLightLevelLowAlertSeverity')]"
@@ -21032,7 +21032,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_P2SVPNGatewaysP2SBandwidth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-P2SBandwidth-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-P2SBandwidth-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('P2SVPNGatewaysP2SBandwidthAlertSeverity')]"
@@ -21062,7 +21062,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_P2SVPNGatewaysP2SConnectionCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-P2SConnectionCount-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-P2SConnectionCount-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('P2SVPNGatewaysP2SConnectionCountAlertSeverity')]"
@@ -21092,7 +21092,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_P2SVPNGatewaysUserVpnRouteCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-UserVpnRouteCount-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-P2SVPNGateways-UserVpnRouteCount-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('P2SVPNGatewaysUserVpnRouteCountAlertSeverity')]"
@@ -21122,7 +21122,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsBgpPeerStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-BgpPeerStatus-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-BgpPeerStatus-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsBgpPeerStatusAlertSeverity')]"
@@ -21152,7 +21152,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsCountOfRoutesLearnedFromPeer",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-CountOfRoutesLearnedFromPeer-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-CountOfRoutesLearnedFromPeer-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsCountOfRoutesLearnedFromPeerAlertSeverity')]"
@@ -21182,7 +21182,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsCountOfRoutesAdvertisedToPeer",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-CountOfRoutesAdvertisedToPeer-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-CountOfRoutesAdvertisedToPeer-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsCountOfRoutesAdvertisedToPeerAlertSeverity')]"
@@ -21212,7 +21212,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsSpokeVMUtilization",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-SpokeVMUtilization-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-SpokeVMUtilization-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsSpokeVMUtilizationAlertSeverity')]"
@@ -21242,7 +21242,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsRoutingInfrastructureUnits",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-RoutingInfrastructureUnits-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-RoutingInfrastructureUnits-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsRoutingInfrastructureUnitsAlertSeverity')]"
@@ -21272,7 +21272,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VirtualHubsVirtualHubDataProcessed",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-VirtualHubDataProcessed-Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy-VirtualHubs-VirtualHubDataProcessed-Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VirtualHubsVirtualHubDataProcessedAlertSeverity')]"
@@ -21302,7 +21302,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AFWApplicationRuleHit",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_ApplicationRuleHit_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_ApplicationRuleHit_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AFWApplicationRuleHitAlertSeverity')]"
@@ -21332,7 +21332,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_ERGwExpressRouteGatewayActiveFlows",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteGatewayActiveFlows_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ERGw_ExpressRouteGatewayActiveFlows_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('ERGwExpressRouteGatewayActiveFlowsAlertSeverity')]"
@@ -21362,7 +21362,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AFWNetworkRuleHit",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_NetworkRuleHit_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AFW_NetworkRuleHit_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AFWNetworkRuleHitAlertSeverity')]"
@@ -23281,7 +23281,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoS",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_BytesInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPBytesInDDoSAlertSeverity')]"
@@ -23311,7 +23311,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPDDoSAttackAlertSeverity')]"
@@ -23341,7 +23341,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_PacketsInDDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPPacketsInDDoSAlertSeverity')]"
@@ -23371,7 +23371,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_PublicIp_VIPAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('PIPVIPAvailabilityAlertSeverity')]"
@@ -23401,7 +23401,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_VNET_DDoSAttack_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('VNETDDOSAttackAlertSeverity')]"
@@ -23431,7 +23431,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWTotalTime",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ApplicationGatewayTotalTime_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWApplicationGatewayTotalTimeAlertSeverity')]"
@@ -23467,7 +23467,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWBackendLastByteResponseTime",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_BackendLastByteResponseTime_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWBackendLastByteResponseTimeAlertSeverity')]"
@@ -23503,7 +23503,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWCapacityUnits",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CapacityUnits_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWCapacityUnitsAlertSeverity')]"
@@ -23530,7 +23530,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWComputeUnits",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ComputeUnits_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWComputeUnitsAlertSeverity')]"
@@ -23557,7 +23557,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWCPUUtilization",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_CPUUtilization_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWCPUUtilAlertSeverity')]"
@@ -23584,7 +23584,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWFailedRequests",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_FailedRequests_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWFailedRequestsAlertSeverity')]"
@@ -23620,7 +23620,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWResponseStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_ResponseStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWResponseStatusAlertSeverity')]"
@@ -23656,7 +23656,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_AGWUnhealthyHostCount",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_AG_UnhealthyHostCount_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('AGWUnhealthyHostCountAlertSeverity')]"
@@ -23686,7 +23686,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBDataPathAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_DataPathAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBDataPathAvailabilityAlertSeverity')]"
@@ -23713,7 +23713,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBGlobalBackendAvailability",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_GlobalBackendAvailability_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBGlobalBackendAvailabilityAlertSeverity')]"
@@ -23740,7 +23740,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBHealthProbeStatus",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_HealthProbeStatus_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBHealthProbeStatusAlertSeverity')]"
@@ -23767,7 +23767,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_LBUsedSNATPorts",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_ALB_UsedSNATPorts_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('LBUsedSNATPortsAlertSeverity')]"
@@ -23794,7 +23794,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPOriginHealthPercentage",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPOriginHealthPercentageAlertSeverity')]"
@@ -23821,7 +23821,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPOriginLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_OriginLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPOriginLatencyAlertSeverity')]"
@@ -23854,7 +23854,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPPercentage4XX",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage4XX_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPPercentage4XXAlertSeverity')]"
@@ -23887,7 +23887,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_CDNPPercentage5XX",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FrontDoorCDN_Percentage5XX_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('CDNPPercentage5XXAlertSeverity')]"
@@ -23920,7 +23920,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_TMEndpointHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_TM_EndpointHealth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('TMEndpointHealthAlertSeverity')]"
@@ -23947,7 +23947,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_FDBackendHealth",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendHealth_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('FDBackendHealthAlertSeverity')]"
@@ -23974,7 +23974,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_FDBackendRequestLatency",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_FD_BackendRequestLatency_Alert",
             "parameters": {
               "severity": {
                 "value": "[[[parameters('FDBackendRequestLatencyAlertSeverity')]"
@@ -24152,7 +24152,7 @@
         "policyDefinitions": [
           {
             "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_NSG_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityNSGDeletePolicyEffect')]"
@@ -24179,7 +24179,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRRoutesDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Routes_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Routes_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRRoutesDeletePolicyEffect')]"
@@ -24206,7 +24206,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRDelete",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Delete",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Delete",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRDeletePolicyEffect')]"
@@ -24233,7 +24233,7 @@
           },
           {
             "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
-            "policyDefinitionId": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/Deploy_activitylog_RouteTable_Update",
             "parameters": {
               "effect": {
                 "value": "[[[parameters('activityUDRUpdatePolicyEffect')]"
@@ -24270,7 +24270,7 @@
       "AzureUSGovernment": "usgovvirginia"
     },
     "templateVars": {
-      "scope": "/providers/Microsoft.Subscription/subscriptions/00000000-0000-0000-0000-000000000000",
+      "scope": "/providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000000",
       "defaultDeploymentLocation": "\"location\": \"northeurope\"",
       "localizedDeploymentLocation": "[format('\"location\": \"{0}\"', variables('defaultDeploymentLocationByCloudType')[variables('cloudEnv')])]"
     },
