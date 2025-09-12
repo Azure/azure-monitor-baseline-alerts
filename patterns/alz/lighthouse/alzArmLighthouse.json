@@ -1031,34 +1031,6 @@
       }
     },
     {
-      "condition": "[equals(parameters('enableAMBAIdentity'), 'Yes')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
-      "dependsOn": [
-        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
-      ],
-      "location": "[deployment().location]",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "contentVersion": "1.0.0.0",
-          "uri": "[variables('deploymentUris').AMBAIdentityInitiative]"
-        },
-        "parameters": {
-          "topLevelSubscriptionId": {
-            "value": "[parameters('topLevelSubscriptionId')]"
-          },
-          "policyAssignmentParameters": {
-            "value": "[variables('policyAssignmentParametersIdentity')]"
-          },
-          "policyAssignmentExclusions": {
-            "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
-          }
-        }
-      }
-    },
-    {
       "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
@@ -1082,6 +1054,34 @@
           },
           "policyAssignmentExclusions": {
             "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[equals(parameters('enableAMBAIdentity'), 'Yes')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
+      "dependsOn": [
+        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+      ],
+      "location": "[deployment().location]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "contentVersion": "1.0.0.0",
+          "uri": "[variables('deploymentUris').AMBAIdentityInitiative]"
+        },
+        "parameters": {
+          "topLevelSubscriptionId": {
+            "value": "[parameters('topLevelSubscriptionId')]"
+          },
+          "policyAssignmentParameters": {
+            "value": "[variables('policyAssignmentParametersIdentity')]"
+          },
+          "policyAssignmentExclusions": {
+            "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
           }
         }
       }

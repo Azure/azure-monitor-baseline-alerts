@@ -1107,36 +1107,6 @@
         }
       }
     },
-    // Assigning AMBA Identity PolicySet to the Identity management group if condition is true
-    {
-      "condition": "[equals(parameters('enableAMBAIdentity'), 'Yes')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
-      "scope": "[concat('Microsoft.Management/managementGroups/', parameters('identityManagementGroup'))]",
-      "dependsOn": [
-        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
-      ],
-      "location": "[deployment().location]",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "contentVersion": "1.0.0.0",
-          "uri": "[variables('deploymentUris').AMBAIdentityInitiative]"
-        },
-        "parameters": {
-          "topLevelManagementGroupPrefix": {
-            "value": "[parameters('enterpriseScaleCompanyPrefix')]"
-          },
-          "policyAssignmentParameters": {
-            "value": "[variables('policyAssignmentParametersIdentity')]"
-          },
-          "policyAssignmentExclusions": {
-            "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
-          }
-        }
-      }
-    },
     // Assigning AMBA Connectivity 2 PolicySet to the connectivity management group if condition is true
     {
       "condition": "[equals(parameters('enableAMBAConnectivity'), 'Yes')]",
@@ -1163,6 +1133,36 @@
           },
           "policyAssignmentExclusions": {
             "value": "[parameters('policyAssignmentExclusionList').connectivityAssignmentExcludedResources.value]"
+          }
+        }
+      }
+    },
+    // Assigning AMBA Identity PolicySet to the Identity management group if condition is true
+    {
+      "condition": "[equals(parameters('enableAMBAIdentity'), 'Yes')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('deploymentNames').AMBAIdentityDeploymentName]",
+      "scope": "[concat('Microsoft.Management/managementGroups/', parameters('identityManagementGroup'))]",
+      "dependsOn": [
+        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+      ],
+      "location": "[deployment().location]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "contentVersion": "1.0.0.0",
+          "uri": "[variables('deploymentUris').AMBAIdentityInitiative]"
+        },
+        "parameters": {
+          "topLevelManagementGroupPrefix": {
+            "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+          },
+          "policyAssignmentParameters": {
+            "value": "[variables('policyAssignmentParametersIdentity')]"
+          },
+          "policyAssignmentExclusions": {
+            "value": "[parameters('policyAssignmentExclusionList').identityAssignmentExcludedResources.value]"
           }
         }
       }
