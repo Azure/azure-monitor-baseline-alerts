@@ -59,18 +59,27 @@ $replacements = @{
   'tenantResourceId'= 'concat'
   #'Provide a prefix (unique at tenant-scope) for the Management Group hierarchy and other resources created as part of an Azure landing zone. DEFAULT VALUE = \"alz\"' = 'Provide a subscription ID'
   #'/providers/Microsoft.Management/managementGroups/contoso/providers/' = '/subscriptions/00000000-0000-0000-0000-000000000000/providers/'
-  '/providers/Microsoft.Management/managementGroups/contoso'= '/subscriptions/00000000-0000-0000-0000-000000000000'
-  'Microsoft.Management/managementGroups' = 'Microsoft.Subscription/subscriptions'
-  'contoso' = '00000000-0000-0000-0000-000000000000'
+  'providers/Microsoft.Management/managementGroups/contoso'= 'subscriptions/00000000-0000-0000-0000-000000000000'
+  #'contoso' = '00000000-0000-0000-0000-000000000000'
   #'alz' = '00000000-0000-0000-0000-000000000000'
+  }
+
+  $replacements2 = @{
+    'Microsoft.Management/managementGroups' = '/subscriptions/'
   }
 
   # Loading, modifying and saving policy definitions
   $policyDefinitionsFiles = Get-ChildItem -Path $policyDefinitionsFilePath -Filter *.json
   foreach ($file in $policyDefinitionsFiles) {
     $fileContent = Get-Content -Path $file.FullName -Raw
+
     foreach ($key in $replacements.Keys) {
       $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
+    }
+    $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
+
+    foreach ($key2 in $replacements2.Keys) {
+      $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
     }
     $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
   }
