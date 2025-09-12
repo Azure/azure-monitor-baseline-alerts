@@ -40,7 +40,7 @@ $replacements = @{
 }
 
 $replacements2 = @{
-  'Microsoft.Management/managementGroups' = '/subscription'
+  'Microsoft.Management/managementGroups' = '/subscriptions'
 }
 
 # Loading, modifying and saving policy assignemnts
