@@ -57,7 +57,7 @@
   },
   "variables": {
     "policyDefinitions": {
-      "deployAMBAVM": "[concat('/providers/Microsoft.Subscription/subscriptions/', parameters('topLevelSubscriptionId'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-VM')]"
+      "deployAMBAVM": "[concat('/subscriptions/', parameters('topLevelSubscriptionId'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-VM')]"
     },
     "policyAssignmentNames": {
       "ambaVM": "Deploy-AMBA-VM",
@@ -121,7 +121,7 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
       "name": "[variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator]",
-      "scope": "[tenantResourceId('Microsoft.Subscription/subscriptions/', parameters('uamiScope'))]",
+      "scope": "[tenantResourceId('Microsoft.Management/managementGroups/', parameters('uamiScope'))]",
       "dependsOn": [
         "[variables('policyAssignmentNames').ambaVM]"
       ],

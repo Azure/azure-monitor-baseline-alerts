@@ -33,8 +33,8 @@ copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destinatio
 # Define a hashtable of replacements
 $replacements = @{
   '2019-08-01/managementGroupDeploymentTemplate' = '2018-05-01/subscriptionDeploymentTemplate'
-  'topLevelManagementGroupPrefix'                          = 'topLevelSubscriptionId'
-  'Microsoft.Management/managementGroups'                  = 'Microsoft.Subscription/subscriptions'
+  'topLevelManagementGroupPrefix' = 'topLevelSubscriptionId'
+  'providers/Microsoft.Management/managementGroups' = 'subscriptions'
   'ESLZ prefix to your intermediate root management group' = 'subscription'
 }
 
