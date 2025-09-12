@@ -10,7 +10,10 @@
     },
     "enforcementMode": {
       "type": "string",
-      "allowedValues": [ "Default", "DoNotEnforce" ],
+      "allowedValues": [
+        "Default",
+        "DoNotEnforce"
+      ],
       "defaultValue": "Default"
     },
     "nonComplianceMessagePlaceholder": {
@@ -66,7 +69,7 @@
       "Default": "must",
       "DoNotEnforce": "should"
     },
-    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074", // Monitoring Policy Contributor
+    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074",
     "rbacManagedIdentityOperator": "f1a07417-d97a-45cb-824c-7a7467783830",
     "roleAssignmentNames": {
       "roleAssignmentNameContributor": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaHybridVM,parameters('scope')))]",
@@ -117,7 +120,7 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
       "name": "[variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator]",
-      "scope": "[tenantResourceId('Microsoft.Management/managementGroups/', parameters('uamiScope'))]",
+      "scope": "[concat('/subscription/', parameters('uamiScope'))]",
       "dependsOn": [
         "[variables('policyAssignmentNames').ambaHybridVM]"
       ],
@@ -131,4 +134,3 @@
   ],
   "outputs": {}
 }
-

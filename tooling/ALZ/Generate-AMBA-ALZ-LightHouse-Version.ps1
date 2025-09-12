@@ -36,6 +36,11 @@ $replacements = @{
   'topLevelManagementGroupPrefix'                          = 'topLevelSubscriptionId'
   'providers/Microsoft.Management/managementGroups'        = 'subscriptions'
   'ESLZ prefix to your intermediate root management group' = 'subscription'
+  'tenantResourceId'='concat'
+}
+
+$replacements2 = @{
+  'Microsoft.Management/managementGroups' = '/subscription'
 }
 
 # Loading, modifying and saving policy assignemnts
@@ -45,7 +50,22 @@ foreach ($file in $policyAssignmenstFiles) {
   foreach ($key in $replacements.Keys) {
     $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
   }
+
+foreach ($key2 in $replacements2.Keys) {
+  $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
+}
+
   $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
+
+  #Removing conditions for Managed Identity Contributor role assignment
+  $fileContent2 = Get-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -raw | ConvertFrom-Json
+  $fileContent2.resources | ForEach-Object {
+    if (($_.type -eq "Microsoft.Authorization/roleAssignments") -and ($_.name -like "*variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator*")) {
+      $_.PSObject.Properties.Remove("condition")
+    }
+  }
+  $fileContent2 | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
+
 }
 
 #endregion
