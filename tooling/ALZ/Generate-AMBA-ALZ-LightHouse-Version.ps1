@@ -39,9 +39,9 @@ $replacements = @{
   'tenantResourceId'='concat'
 }
 
-$replacements2 = @{
-  'Microsoft.Management/managementGroups' = '/subscriptions'
-}
+#$replacements2 = @{
+#  'Microsoft.Management/managementGroups' = '/subscriptions'
+#}
 
 # Loading, modifying and saving policy assignemnts
 $policyAssignmenstFiles = Get-ChildItem -Path $policyAssignmenstFilePath -Filter *.json
@@ -51,9 +51,9 @@ foreach ($file in $policyAssignmenstFiles) {
     $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
   }
 
-foreach ($key2 in $replacements2.Keys) {
-  $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
-}
+#foreach ($key2 in $replacements2.Keys) {
+#  $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
+#}
 
   $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
 
@@ -62,6 +62,7 @@ foreach ($key2 in $replacements2.Keys) {
   $fileContent2.resources | ForEach-Object {
     if (($_.type -eq "Microsoft.Authorization/roleAssignments") -and ($_.name -like "*variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator*")) {
       $_.PSObject.Properties.Remove("condition")
+      $_.PSObject.Properties.Remove("scope")
     }
   }
   $fileContent2 | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
