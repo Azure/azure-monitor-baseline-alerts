@@ -73,7 +73,7 @@ Function Start-PolicyRemediation {
     $guid = New-Guid
 
     # Create remediation for the individual policy
-    $uri = "https://$($azureEnvironmentURI)/providers/Microsoft.Subscription/subscriptions/$($targetSubscription)/providers/Microsoft.PolicyInsights/remediations/$($policyName)-$($guid)?api-version=2021-10-01"
+    $uri = "https://$($azureEnvironmentURI)/subscriptions/$($targetSubscription)/providers/Microsoft.PolicyInsights/remediations/$($policyName)-$($guid)?api-version=2021-10-01"
     $body = @{
         properties = @{
             policyAssignmentId = "$policyAssignmentId"
@@ -95,19 +95,19 @@ function Get-PolicyType {
     )
 
     # Validate that the subscription exists through the Azure REST API
-    $uri = "https://$($azureEnvironmentURI)/providers/Microsoft.Subscription/subscriptions/$($targetSubscription)?api-version=2021-04-01"
+    $uri = "https://$($azureEnvironmentURI)/subscriptions/$($targetSubscription)?api-version=2021-04-01"
     $result = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
     if ($result.error) {
         throw "Subscription $targetSubscription does not exist, please specify a valid subscription ID"
     }
 
     # Getting custom policySetDefinitions
-    $uri = "https://$($azureEnvironmentURI)/providers/Microsoft.Subscription/subscriptions/$($targetSubscription)/providers/Microsoft.Authorization/policySetDefinitions?&api-version=2023-04-01"
+    $uri = "https://$($azureEnvironmentURI)/subscriptions/$($targetSubscription)/providers/Microsoft.Authorization/policySetDefinitions?&api-version=2023-04-01"
     $initiatives = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
 
     # Get policy assignments at subscription scope
     $assignmentFound = $false
-    $uri = "https://$($azureEnvironmentURI)/providers/Microsoft.Subscription/subscriptions/$($targetSubscription)/providers/Microsoft.Authorization/policyAssignments?`$filter=atScope()&api-version=2022-06-01"
+    $uri = "https://$($azureEnvironmentURI)/subscriptions/$($targetSubscription)/providers/Microsoft.Authorization/policyAssignments?`$filter=atScope()&api-version=2022-06-01"
     $result = (Invoke-AzRestMethod -Uri $uri -Method GET).Content | ConvertFrom-Json -Depth 100
 
     # Iterate through the policy assignments
