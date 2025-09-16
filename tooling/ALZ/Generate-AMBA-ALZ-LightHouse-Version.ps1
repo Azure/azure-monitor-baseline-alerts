@@ -61,7 +61,8 @@ foreach ($file in $policyAssignmenstFiles) {
   $fileContent2 = Get-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -raw | ConvertFrom-Json
   $fileContent2.resources | ForEach-Object {
     if (($_.type -eq "Microsoft.Authorization/roleAssignments") -and ($_.name -like "*variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator*")) {
-      $_.PSObject.Properties.Remove("condition")
+      #$_.PSObject.Properties.Remove("condition")
+      $_.condition = "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]"
       $_.PSObject.Properties.Remove("scope")
     }
   }
