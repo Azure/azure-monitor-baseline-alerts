@@ -57,11 +57,19 @@ foreach ($file in $policyAssignmenstFiles) {
 
   $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
 
-  #Removing conditions for Managed Identity Contributor role assignment
+  # Reopening the saved file to change variable and condition and to remove scope
   $fileContent2 = Get-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -raw | ConvertFrom-Json
+
+  $fileContent2.variables | ForEach-Object {
+    if ($_.roleAssignmentNames -match "roleAssignmentNameManagedIdentityOperator") {
+      $_.roleAssignmentNames.roleAssignmentNameManagedIdentityOperator = $_.roleAssignmentNames.roleAssignmentNameManagedIdentityOperator -replace"'-1'","'-MI-'"
+    }
+  }
+
+  # Changing variable value for Managed Identity Contributor role assignment
+  # Changing Conditions and Removing Scope for Managed Identity Contributor role assignment
   $fileContent2.resources | ForEach-Object {
     if (($_.type -eq "Microsoft.Authorization/roleAssignments") -and ($_.name -like "*variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator*")) {
-      #$_.PSObject.Properties.Remove("condition")
       $_.condition = "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]"
       $_.PSObject.Properties.Remove("scope")
     }
