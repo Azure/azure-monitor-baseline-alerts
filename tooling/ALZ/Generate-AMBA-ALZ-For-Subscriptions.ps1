@@ -21,11 +21,13 @@ $armTemplateFilePath = ".\patterns\alz\alzArm.json"
 $parameterFilePath = ".\patterns\alz\alzArm.param.json"
 $templateFilePath = ".\patterns\alz\templates"
 
-$lighthouseFilesPath = ".\patterns\alz\lighthouse\"
+$alzForSubsFilesPath = ".\patterns\alzForSubscriptions\"
+$alzForSubsTemplateFileName = "alzArmForSubscriptions.json"
+$alzForSubsParamFileName = "alzArmForSubscriptions.param.json"
 
 #region Copy templates
-copy-item -Path "$templateFilePath\resourceGroup.json" -Destination "$lighthouseFilesPath\templates\resourceGroup.json" -force
-copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destination "$lighthouseFilesPath\templates\userAssignedManagedIdentity.json" -force
+copy-item -Path "$templateFilePath\resourceGroup.json" -Destination "$alzForSubsFilesPath\templates\resourceGroup.json" -force
+copy-item -Path "$templateFilePath\userAssignedManagedIdentity.json" -Destination "$alzForSubsFilesPath\templates\userAssignedManagedIdentity.json" -force
 #endregion
 
 #region Policy Assignments
@@ -55,10 +57,10 @@ foreach ($file in $policyAssignmenstFiles) {
 #  $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
 #}
 
-  $fileContent | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
+  $fileContent | Set-Content -Path "$alzForSubsFilesPath/policyAssignments/$($file.Name)" -Force
 
   # Reopening the saved file to change variable and condition and to remove scope
-  $fileContent2 = Get-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -raw | ConvertFrom-Json
+  $fileContent2 = Get-Content -Path "$alzForSubsFilesPath/policyAssignments/$($file.Name)" -raw | ConvertFrom-Json
 
   $fileContent2.variables | ForEach-Object {
     if ($_.roleAssignmentNames -match "roleAssignmentNameManagedIdentityOperator") {
@@ -74,7 +76,7 @@ foreach ($file in $policyAssignmenstFiles) {
       $_.PSObject.Properties.Remove("scope")
     }
   }
-  $fileContent2 | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/policyAssignments/$($file.Name)" -Force
+  $fileContent2 | ConvertTo-Json -Depth 10 | Set-Content -Path "$alzForSubsFilesPath/policyAssignments/$($file.Name)" -Force
 
 }
 
@@ -106,12 +108,12 @@ foreach ($file in $policyDefinitionsFiles) {
   foreach ($key in $replacements.Keys) {
     $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
   }
-  $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
+  $fileContent | Set-Content -Path "$alzForSubsFilesPath/policyDefinitions/$($file.Name)" -Force
 
   foreach ($key2 in $replacements2.Keys) {
     $fileContent = $fileContent -replace "\b$key2\b", $replacements2[$key2]
   }
-  $fileContent | Set-Content -Path "$lighthouseFilesPath/policyDefinitions/$($file.Name)" -Force
+  $fileContent | Set-Content -Path "$alzForSubsFilesPath/policyDefinitions/$($file.Name)" -Force
 }
 
 #endregion
@@ -130,7 +132,7 @@ foreach ($file in $policySetDefinitionsFiles) {
   foreach ($key in $replacements.Keys) {
     $fileContent = $fileContent -replace "\b$key\b", $replacements[$key]
   }
-  $fileContent | Set-Content -Path "$lighthouseFilesPath/policySetDefinitions/$($file.Name)" -Force
+  $fileContent | Set-Content -Path "$alzForSubsFilesPath/policySetDefinitions/$($file.Name)" -Force
 }
 
 #endregion
@@ -159,7 +161,7 @@ $mainArmTemporaryContent.resources | ForEach-Object {
   }
 }
 
-$mainArmTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Force
+$mainArmTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$alzForSubsFilesPath/$alzForSubsTemplateFileName" -Force
 
 # Define a hashtable of replacements
 $replacements = @{
@@ -177,11 +179,11 @@ $replacements = @{
 }
 
 # replacing strings
-$mainArmTemplateContent = Get-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Raw
+$mainArmTemplateContent = Get-Content -Path "$alzForSubsFilesPath/$alzForSubsTemplateFileName" -Raw
 foreach ($key in $replacements.Keys) {
   $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
 }
-$mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.json" -Force
+$mainArmTemplateContent | Set-Content -Path "$alzForSubsFilesPath/$alzForSubsTemplateFileName" -Force
 
 #endregion
 
@@ -202,7 +204,7 @@ $paramFileTemporaryContent = Get-Content -Path $parameterFilePath -Raw | Convert
 foreach ($param in $parametersToRemove) {
   $paramFileTemporaryContent.parameters.PSObject.Properties.Remove($param)
 }
-$paramFileTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Force
+$paramFileTemporaryContent | ConvertTo-Json -Depth 10 | Set-Content -Path "$alzForSubsFilesPath/$alzForSubsParamFileName" -Force
 
 # Define a hashtable of replacements
 $replacements = @{
@@ -212,10 +214,10 @@ $replacements = @{
 }
 
 # replacing strings
-$mainArmTemplateContent = Get-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Raw
+$mainArmTemplateContent = Get-Content -Path "$alzForSubsFilesPath/$alzForSubsParamFileName" -Raw
 foreach ($key in $replacements.Keys) {
   $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
 }
-$mainArmTemplateContent | Set-Content -Path "$lighthouseFilesPath/alzArmLighthouse.param.json" -Force
+$mainArmTemplateContent | Set-Content -Path "$alzForSubsFilesPath/$alzForSubsParamFileName" -Force
 
 #endregion
