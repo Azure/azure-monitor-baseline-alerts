@@ -13,7 +13,7 @@ weight: 77
 
 ## Overview
 
-As part of the ongoing security enhancements in AMBA-ALZ, a new least privileged built-in role called "Monitoring Policy Contributor" has been introduced and used with the [2025-09-01](../../Overview/Whats-New#2025-09-01) release. This new Azure built-in role is designed to align with SFI principles by significantly reducing the security risk surface—cutting down from over 6,700 unused permissions to just 6.
+As part of the ongoing security enhancements in AMBA-ALZ, a new least privileged built-in role called "Monitoring Policy Contributor" has been introduced and used with the [2025-10-01](../../Overview/Whats-New#2025-10-01) release. This new Azure built-in role is designed to align with SFI principles by significantly reducing the security risk surface—cutting down from over 6,700 unused permissions to just 6.
 
 | Before                                                                | After                                                               |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
@@ -23,7 +23,7 @@ Tailored to support both AMBA-ALZ and customer-created alert policies, the role 
 
 ## How this feature works
 
-Deploying the least privileged version of AMBA-ALZ in a clean environment is straightforward and efficient. With the [2025-09-01](../../Overview/Whats-New#2025-09-01) release, users can apply the updated template, which includes the new least privileged role, and benefit immediately from a reduced security footprint and tailored permissions. For existing deployments, the update process involves two key steps:
+Deploying the least privileged version of AMBA-ALZ in a clean environment is straightforward and efficient. With the [2025-10-01](../../Overview/Whats-New#2025-10-01) release, users can apply the updated template, which includes the new least privileged role, and benefit immediately from a reduced security footprint and tailored permissions. For existing deployments, the update process involves two key steps:
 
 1. Removing any existing role assignments deployed by using previous AMBA-ALZ releases
 2. Redeploying AMBA-ALZ using the new release. Documentation on how to update to this specific new release is available at [Update to new releases](../../HowTo/UpdateToNewReleases/Update_to_release_2025-09-01)

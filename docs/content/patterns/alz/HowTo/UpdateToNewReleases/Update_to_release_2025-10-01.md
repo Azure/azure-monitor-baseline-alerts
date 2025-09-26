@@ -1,5 +1,5 @@
 ---
-title: Updating to release 2025-09-01
+title: Updating to release 2025-10-01
 geekdocCollapseSection: true
 weight: 88
 ---

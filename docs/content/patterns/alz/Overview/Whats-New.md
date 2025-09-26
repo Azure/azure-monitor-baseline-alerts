@@ -6,7 +6,7 @@ weight: 09
 
 ### In this page
 
-> [2025-09-01](#2025-09-01) </br>
+> [2025-10-01](#2025-10-01) </br>
 > [2025-07-02](#2025-07-02) </br>
 > [2025-06-03](#2025-06-03) </br>
 > [2025-04-04](#2025-04-04) </br>
@@ -27,7 +27,7 @@ To update your deployment with the latest release, refer to the [Update to new r
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
 
-## 2025-09-01
+## 2025-10-01
 
 ### New Features
 
