@@ -42,6 +42,6 @@ As far as the adoption of built-in Service Health alerts policy goes, it does no
 
 As always recommended when updating to a new version or release, ensure the parameter file is aligned with the latest version and with your required configuration. In this release, the parameter file had a change in the configuration of ***ALZArmRoleId***. This paramter does not accept Azure Resource Manager Role ID(s) anymore but instead it requires Azure Resource Manager Role name(s). For additional information on how to configure the Azure Resource Manager Role(s), refer to the ***Parameter Configuration*** section in each of the available deployment methods. An example can be found at [Deploy with Azure PowerShell - 1. Parameter Configuration](../../deploy/Deploy-with-Azure-PowerShell#1-parameter-configuration)
 
-## Updates
+## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
