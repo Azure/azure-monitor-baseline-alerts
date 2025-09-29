@@ -31,7 +31,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### New Features
 
-- Adoption of the new least privileged "Monitoring Policy Contributor" built-in Azure role
+- Adoption of the new least privileged "Monitoring Policy Contributor" built-in Azure role.
 - Adoption of the new built-in "[Preview]: Configure subscriptions to enable service health alert monitoring rule" policy. This change is following the AMBA-ALZ team effort to have the Service Health policy adopted as built-in policy.
 - Promoted the following preview policy to GA:
   - [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Route Table Delete Alert
