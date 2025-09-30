@@ -87,6 +87,7 @@ var loadPolicyDefinitions = {
 var loadPolicySetDefinitions = {
   All: [
     string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-ResourceAndServiceHealth-Alerts.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []
