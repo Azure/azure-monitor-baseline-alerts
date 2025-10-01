@@ -1,0 +1,82 @@
+# AMBA Alert Simulation Test Plan
+# Defines all testable alert categories covered by Azure Monitor Baseline Alerts (AMBA)
+
+tests:
+  - name: VM CPU Pressure
+    id: cpu-vm
+    resourceType: virtualMachine
+    testType: chaos
+    fault: cpuPressure
+    parameters:
+      pressureLevel: 95
+      duration: PT3M
+
+  - name: VM Memory Pressure
+    id: memory-vm
+    resourceType: virtualMachine
+    testType: chaos
+    fault: memoryPressure
+    parameters:
+      pressureLevel: 90
+      duration: PT3M
+
+  - name: VM Disk Fill
+    id: disk-vm
+    resourceType: virtualMachine
+    testType: script
+    action: fillDisk
+    parameters:
+      sizeGB: 5
+      tempDir: "/tmp"
+
+  - name: VM Network Loss
+    id: net-vm
+    resourceType: virtualMachine
+    testType: chaos
+    fault: networkLoss
+    parameters:
+      duration: PT2M
+
+  - name: App Service 5xx
+    id: app-5xx
+    resourceType: appService
+    testType: script
+    action: invokeForce500
+    parameters:
+      count: 10
+
+  - name: App Service Latency
+    id: app-slow
+    resourceType: appService
+    testType: script
+    action: invokeSlowEndpoint
+    parameters:
+      repeat: 5
+      delaySeconds: 6
+
+  - name: App Not Responding
+    id: app-down
+    resourceType: appService
+    testType: script
+    action: stopAppService
+    parameters:
+      duration: 60
+
+  - name: Inject Custom Log (App Insights)
+    id: appinsights-log
+    resourceType: appInsights
+    testType: script
+    action: injectCustomLog
+    parameters:
+      severity: Warning
+      message: "Simulated warning log from AMBA Test Framework"
+      testId: test-appinsights-log
+
+  - name: SQL DTU Spike
+    id: sql-dtu
+    resourceType: sqlDatabase
+    testType: script
+    action: runSqlLoadTest
+    parameters:
+      queryCount: 50
+      connectionStringSecretName: "MySqlConnStr"
