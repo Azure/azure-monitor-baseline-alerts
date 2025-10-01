@@ -39,13 +39,18 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### Bug Fixes
 
+- Fixed [[#703](https://github.com/Azure/azure-monitor-baseline-alerts/issues/703)]: [General workload issue]: Policy definitions not showing as compliant.
+- Fixed [[#704](https://github.com/Azure/azure-monitor-baseline-alerts/issues/704)]: AMBA Connectivity2 compliance issue.
+
 ### Documentation Updates
 
 - The documentation was update to help customers deploying the new AMBA-ALZ version adopting a least privileged role Managed Identities.
 
 ### Tools
 
-- The maintenance script has been fixed to avoid crashes during role assignment removal. With this fix, the script is not failing or leaving role assignments in place anymore. It has been also enhanced to allow for old Service Health alerts and action groups removal.
+- The maintenance script has been fixed to avoid crashes during role assignment removal. With this fix, the script is not failing or leaving role assignments in place anymore. It has been also enhanced to allow for:
+  - old Service Health alerts and action groups removal.
+  - role assignment removal.
 
 ## 2025-07-02
 
