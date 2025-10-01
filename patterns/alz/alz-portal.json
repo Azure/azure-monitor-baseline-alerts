@@ -770,7 +770,7 @@
                 "method": "POST",
                 "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "authorizationresources |extend roleName = tostring(properties.roleName)|where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader')|project label=tostring(roleName) , description=roleName, value=name | order by label asc"
+                  "query": "authorizationresources | extend roleName = tostring(properties.roleName) | where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader') | project label=tostring(roleName) , description=roleName, value=tostring(roleName) | order by label asc"
                 }
               }
             },
