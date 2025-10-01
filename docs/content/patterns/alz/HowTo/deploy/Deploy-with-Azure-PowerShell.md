@@ -70,7 +70,7 @@ New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $
 {{< /hint >}}
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-07-02/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
 ```
 
 ## Next Steps
