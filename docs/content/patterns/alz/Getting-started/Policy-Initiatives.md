@@ -7,7 +7,7 @@ weight: 40
 ### In this page
 
 > [Overview](../Policy-Initiatives#overview) </br>
-> [Service Health Initiative (Deprecated)](../Policy-Initiatives#service-health-initiative) </br>
+> [Service Health Initiative (Deprecated)](../Policy-Initiatives#service-health-initiative-deprecated) </br>
 > [Resource and Service Health initiative](../Policy-Initiatives#resource-and-service-health-initiative) </br>
 > [Notification Assets Initiative](../Policy-Initiatives#notification-assets-initiative) </br>
 > [Connectivity Initiative - Part #1](../Policy-Initiatives#connectivity-initiative---part-1) </br>
