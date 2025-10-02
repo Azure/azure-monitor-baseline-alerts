@@ -62,7 +62,7 @@ $replacements = @{
   'tenantResourceId'                                       = 'concat'
 }
 
-# Loading, modifying and saving policy assignemnts
+# Loading, modifying and saving policy assignments
 $policyAssignmenstFiles = Get-ChildItem -Path $policyAssignmenstFilePath -Filter *.json
 foreach ($file in $policyAssignmenstFiles) {
   $fileContent = Get-Content -Path $file.FullName -Raw
@@ -75,14 +75,14 @@ foreach ($file in $policyAssignmenstFiles) {
   # Reopening the saved file to change variable and condition and to remove scope
   $fileContent2 = Get-Content -Path "$alzForSubsFilesPath/policyAssignments/$($file.Name)" -Raw | ConvertFrom-Json
 
+  # Changing variable value for Managed Identity Contributor role assignment
   $fileContent2.variables | ForEach-Object {
     if ($_.roleAssignmentNames -match "roleAssignmentNameManagedIdentityOperator") {
       $_.roleAssignmentNames.roleAssignmentNameManagedIdentityOperator = $_.roleAssignmentNames.roleAssignmentNameManagedIdentityOperator -replace "'-1'", "'-MI-'"
     }
   }
 
-  # Changing variable value for Managed Identity Contributor role assignment
-  # Changing Conditions and Removing Scope for Managed Identity Contributor role assignment
+  # Removing scope param for Managed Identity Contributor role assignment
   $fileContent2.resources | ForEach-Object {
     if (($_.type -eq "Microsoft.Authorization/roleAssignments") -and ($_.name -like "*variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator*")) {
       $_.PSObject.Properties.Remove("scope")

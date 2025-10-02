@@ -231,11 +231,9 @@ Function Get-ALZ-RoleAssignments {
 Function Get-ALZ-Deployments {
   # get deployments to delete
   $allDeployments = @()
-  ForEach ($mg in $managementGroups) {
-    $deployments = Get-AzDeployment -WarningAction silentlyContinue | Where-Object { $_.DeploymentName.StartsWith("amba-") }
-    $allDeployments += $deployments
-  }
-  Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed on the '$pseudoRootManagementGroup' Management Group hierarchy." -ForegroundColor Cyan
+  $deployments = Get-AzDeployment -WarningAction silentlyContinue | Where-Object { $_.DeploymentName.StartsWith("amba-") }
+  $allDeployments += $deployments
+  Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed." -ForegroundColor Cyan
 
   # Returning items
   $allDeployments
@@ -351,7 +349,7 @@ Function Delete-ALZ-ActionGroups($fAgToBeDeleted) {
 Function Delete-ALZ-Deployments($fDeploymentsToBeDeleted) {
   # delete deployments
   Write-Host "`n-- Deleting deployments ..." -ForegroundColor Yellow
-  $fDeploymentsToBeDeleted | ForEach-Object -Parallel { Remove-AzManagementGroupDeployment -InputObject $_ -WarningAction silentlyContinue } -throttlelimit 100 | Out-Null
+  $fDeploymentsToBeDeleted | ForEach-Object -Parallel { Remove-AzDeployment -InputObject $_ -WarningAction silentlyContinue } -throttlelimit 100 | Out-Null
   Write-Host "---- Done deleting deployments ..." -ForegroundColor Cyan
 }
 
@@ -457,7 +455,9 @@ Switch ($cleanItems) {
           $emptyRgToBeDeleted = Check-ALZ-EmptyResourceGroups -fRgToBeChecked $rgToBeDeleted
 
           If ($emptyRgToBeDeleted.count -gt 0) { Delete-ALZ-ResourceGroups -fRgToBeDeleted $emptyRgToBeDeleted }
-          if ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) { Write-Host "---- There are '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant. Should they be not, manually delete the resource group(s) and the contained resource(s)." -ForegroundColor red }
+          if ((($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -le $rgToBeDeleted.count) -and (($rgToBeDeleted.count - $emptyRgToBeDeleted.count) -gt 0)) {
+            Write-Host "---- There are '$(($rgToBeDeleted.count - $emptyRgToBeDeleted.count))' out of '$($rgToBeDeleted.count)' AMBA-ALZ resource group(s) which are not empty and cannot be deleted. Please check if contained resources are still relevant. Should they be not, manually delete the resource group(s) and the contained resource(s)." -ForegroundColor red
+          }
 
         }
       }
@@ -469,7 +469,7 @@ Switch ($cleanItems) {
     $deploymentsToBeDeleted = Get-ALZ-Deployments
 
     If ($deploymentsToBeDeleted.count -gt 0) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete deployments performed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete deployments performed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete deployments
         Delete-ALZ-Deployments -fDeploymentsToBeDeleted $deploymentsToBeDeleted
@@ -485,7 +485,7 @@ Switch ($cleanItems) {
     $aprToBeDeleted = Get-ALZ-AlertProcessingRules
 
     If (($aprToBeDeleted.count -gt 0) -or ($agToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete AMBA-ALZ alert processing rules and action groups on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete AMBA-ALZ alert processing rules and action groups on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete alert processing rules
         If ($aprToBeDeleted.count -gt 0) { Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $aprToBeDeleted }
@@ -504,7 +504,7 @@ Switch ($cleanItems) {
     $oldAprToBeDeleted = Get-ALZ-OldAlertProcessingRules
 
     If (($oldAprToBeDeleted.count -gt 0) -or ($oldAgToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete Old AMBA-ALZ alert processing rules and action groups on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete Old AMBA-ALZ alert processing rules and action groups on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete alert processing rules
         If ($oldAprToBeDeleted.count -gt 0) { Delete-ALZ-AlertProcessingRules -fAprToBeDeleted $oldAprToBeDeleted }
@@ -520,7 +520,7 @@ Switch ($cleanItems) {
     $alertsToBeDeleted = Get-ALZ-Alerts
 
     If ($alertsToBeDeleted.count -gt 0) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete alerts deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete alerts
         Delete-ALZ-Alerts -fAlertsToBeDeleted $alertsToBeDeleted
@@ -533,7 +533,7 @@ Switch ($cleanItems) {
     $orphanedAlertsToDeleted = Get-ALZ-OrphanedAlerts
 
     If ($orphanedAlertsToDeleted.count -gt 0) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete orphaned alerts deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete orphaned alerts deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete alerts
         Delete-ALZ-Alerts -fAlertsToBeDeleted $orphanedAlertsToDeleted
@@ -549,7 +549,7 @@ Switch ($cleanItems) {
     $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
 
     If (($policyAssignmentsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete policy assignments
         If ($policyAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted }
@@ -568,7 +568,7 @@ Switch ($cleanItems) {
     $policyDefinitionsToBeDeleted = Get-ALZ-PolicyDefinitions
 
     If (($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+      If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete policy set definitions
         If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
@@ -585,7 +585,7 @@ Switch ($cleanItems) {
         $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
 
         If ($roleAssignmentsToBeDeleted.count -gt 0) {
-            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the '$pseudoRootManagementGroup' Management Group hierarchy ..." )) {
+            If ($PSCmdlet.ShouldProcess($pseudoRootManagementGroup, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
                 # Invoking function to delete role assignments
                 If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
