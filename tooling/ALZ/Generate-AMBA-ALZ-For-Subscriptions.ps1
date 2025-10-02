@@ -209,7 +209,7 @@ $parametersToRemove = @(
   "LandingZoneManagementGroup"
 )
 
-# removing unnecessary parameters
+# Removing unnecessary parameters
 $paramFileTemporaryContent = Get-Content -Path $parameterFilePath -Raw | ConvertFrom-Json
 foreach ($param in $parametersToRemove) {
   $paramFileTemporaryContent.parameters.PSObject.Properties.Remove($param)
