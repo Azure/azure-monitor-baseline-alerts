@@ -91,6 +91,7 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-Notification-Assets.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-RecoveryServices-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-ResourceAndServiceHealth-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Storage-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Web-Alerts.json'))
   ]
