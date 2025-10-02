@@ -167,7 +167,7 @@ Function Check-ALZ-EmptyResourceGroups($fRgToBeChecked) {
 
   # check if resource groups are empty
   foreach ($resourceGroupId in $fRgToBeChecked) {
-    $query = "resources | where subscriptionId == '$targetSubscription' | where subscriptionId == '$targetSubscription' | where id has '$resourceGroupId'"
+    $query = "resources | where subscriptionId == '$targetSubscription' | where id has '$resourceGroupId'"
     $resources = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
     if ([string]::IsNullOrEmpty($resources)) {
       $emptyResourceGroupIds.Add($resourceGroupId) | Out-Null
@@ -210,7 +210,7 @@ Function Get-ALZ-PolicyDefinitions {
 
 Function Get-ALZ-UserAssignedManagedIdentities {
   # get user assigned managed identities to delete
-  $query = "resources | where subscriptionId == '$targetSubscription' | where subscriptionId == '$targetSubscription' | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
+  $query = "resources | where subscriptionId == '$targetSubscription' | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
   $UamiIds = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription | Sort-Object -Property id | Get-Unique -AsString
   Write-Host "- Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
@@ -241,7 +241,7 @@ Function Get-ALZ-Deployments {
 
 Function Get-ALZ-AlertProcessingRules {
   # get alert processing rules to delete
-  $query = "resources | where subscriptionId == '$targetSubscription' | where subscriptionId == '$targetSubscription' | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name startswith 'apr-AMBA-' and properties.description startswith 'AMBA Notification Assets - ' and tags['_deployed_by_amba'] =~ 'True'| project id"
+  $query = "resources | where subscriptionId == '$targetSubscription' | where type =~ 'Microsoft.AlertsManagement/actionRules' | where name startswith 'apr-AMBA-' and properties.description startswith 'AMBA Notification Assets - ' and tags['_deployed_by_amba'] =~ 'True'| project id"
   $alertProcessingRuleIds = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
   Write-Host "- Found '$($alertProcessingRuleIds.Count)' alert processing rule(s) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
