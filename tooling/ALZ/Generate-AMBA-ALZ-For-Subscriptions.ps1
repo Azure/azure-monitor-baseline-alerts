@@ -188,7 +188,7 @@ $replacements = @{
   'topLevelManagementGroupPrefix'                                                                                                         = 'topLevelSubscriptionId'
 }
 
-# replacing strings
+# Replacing strings
 $mainArmTemplateContent = Get-Content -Path "$alzForSubsFilesPath/$alzForSubsTemplateFileName" -Raw
 foreach ($key in $replacements.Keys) {
   $mainArmTemplateContent = $mainArmTemplateContent -replace "\b$key\b", $replacements[$key]
