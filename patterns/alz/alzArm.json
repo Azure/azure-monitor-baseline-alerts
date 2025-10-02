@@ -353,7 +353,6 @@
       }
     },
     "ALZNotificationAssetSuffix": {
-
       "type": "string",
       "defaultValue": "-001",
       "metadata": {
@@ -530,6 +529,25 @@
         "value": "[parameters('ALZMonitorDisableTagValues')]"
       }
     },
+    "shNotificationAssetParameters": {
+      "BYOActionGroup": {
+        "value": "[parameters('BYOActionGroup')]"
+      },
+      "ALZArmRoleId": {
+        "value": "[parameters('ALZArmRoleId')]"
+      },
+      "AlzShaActionGroupResources": {
+        "value": {
+          "actionGroupEmail": "[parameters('ALZMonitorActionGroupEmail')]",
+          "logicappResourceId": "[parameters('ALZLogicappResourceId')]",
+          "logicappCallbackUrl": "[parameters('ALZLogicappCallbackUrl')]",
+          "eventHubResourceId": "[parameters('ALZEventHubResourceId')]",
+          "webhookServiceUri": "[parameters('ALZWebhookServiceUri')]",
+          "functionResourceId": "[parameters('ALZFunctionResourceId')]",
+          "functionTriggerUrl": "[parameters('ALZFunctionTriggerUrl')]"
+        }
+      }
+    },
     "notificationAssetParameters": {
       "ALZMonitorActionGroupEmail": {
         "value": "[parameters('ALZMonitorActionGroupEmail')]"
@@ -575,7 +593,7 @@
     "policyAssignmentParametersConnectivity_2": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersConnectivity_2'))]",
     "policyAssignmentParametersIdentity": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersIdentity'))]",
     "policyAssignmentParametersManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersManagement'), variables('uamiParameters'))]",
-    "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('notificationAssetParameters'))]",
+    "policyAssignmentParametersServiceHealth": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersServiceHealth'), variables('shNotificationAssetParameters'))]",
     "policyAssignmentParametersNotificationAssets": "[union(variables('policyAssignmentParametersCommon'), variables('notificationAssetParameters'), variables('notificationAssetSeverityParameters'))]",
     "policyAssignmentParametersHybridVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersHybridVM'), variables('uamiParameters'))]",
     "policyAssignmentParametersKeyManagement": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersKeyManagement'))]",
@@ -603,7 +621,7 @@
       "AMBAConnectivityInitiative_2": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment2.json')]",
       "AMBAIdentityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-IdentityAssignment.json')]",
       "AMBAManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ManagementAssignment.json')]",
-      "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ServiceHealthAssignment.json')]",
+      "AMBAServiceHealthInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ResourceAndServiceHealthAssignment.json')]",
       "AMBANotificationAssetsInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-NotificationAssetsAssignment.json')]",
       "AMBAUamiResourceGroup": "[uri(deployment().properties.templateLink.uri, 'templates/resourceGroup.json')]",
       "AMBAUserAssignedManagedIdentity": "[uri(deployment().properties.templateLink.uri, 'templates/userAssignedManagedIdentity.json')]",
@@ -634,22 +652,22 @@
       "policyDefinitionsStorageDeploymentName": "[take(concat('amba-Policy-Storage', variables('deploymentSuffix')), 64)]",
       "policyDefinitionsWebDeploymentName": "[take(concat('amba-Policy-Web', variables('deploymentSuffix')), 64)]",
       "policySetDefinitionsDeploymentName": "[take(concat('amba-PolicySet', variables('deploymentSuffix')), 64)]",
-      "AMBAConnectivityDeploymentName": "[take(concat('amba-Connectivity', variables('deploymentSuffix')), 64)]",
-      "AMBAConnectivityDeploymentName_2": "[take(concat('amba-Connectivity-2', variables('deploymentSuffix')), 64)]",
-      "AMBAIdentityDeploymentName": "[take(concat('amba-Identity', variables('deploymentSuffix')), 64)]",
-      "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
-      "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
-      "AMBAManagementDeploymentName": "[take(concat('amba-Management', variables('deploymentSuffix')), 64)]",
-      "AMBAServiceHealthDeploymentName": "[take(concat('amba-ServiceHealth', variables('deploymentSuffix')), 64)]",
-      "AMBANotificationAssetsDeploymentName": "[take(concat('amba-NotificationAssets', variables('deploymentSuffix')), 64)]",
-      "AMBAKeyManagementDeploymentName": "[take(concat('amba-KeyManagement', variables('deploymentSuffix')), 64)]",
-      "AMBALoadBalancingDeploymentName": "[take(concat('amba-LoadBalancing', variables('deploymentSuffix')), 64)]",
-      "AMBANetworkChangesDeploymentName": "[take(concat('amba-NetworkChanges', variables('deploymentSuffix')), 64)]",
-      "AMBARecoveryServicesDeploymentName": "[take(concat('amba-RecoveryServices', variables('deploymentSuffix')), 64)]",
-      "AMBAStorageDeploymentName": "[take(concat('amba-Storage', variables('deploymentSuffix')), 64)]",
-      "AMBAVMDeploymentNameLandingZones": "[take(concat('amba-VM-LandingZones', variables('deploymentSuffix')), 64)]",
-      "AMBAVMDeploymentNamePlatform": "[take(concat('amba-VM-Platform', variables('deploymentSuffix')), 64)]",
-      "AMBAWebDeploymentName": "[take(concat('amba-Web', variables('deploymentSuffix')), 64)]",
+      "AMBAConnectivityDeploymentName": "[take(concat('amba-Assignment-Connectivity', variables('deploymentSuffix')), 64)]",
+      "AMBAConnectivityDeploymentName_2": "[take(concat('amba-Assignment-Connectivity-2', variables('deploymentSuffix')), 64)]",
+      "AMBAIdentityDeploymentName": "[take(concat('amba-Assignment-Identity', variables('deploymentSuffix')), 64)]",
+      "AMBAHybridVMDeploymentNameLandingZones": "[take(concat('amba-Assignment-HybridVM-LandingZones', variables('deploymentSuffix')), 64)]",
+      "AMBAHybridVMDeploymentNamePlatform": "[take(concat('amba-Assignment-HybridVM-Platform', variables('deploymentSuffix')), 64)]",
+      "AMBAManagementDeploymentName": "[take(concat('amba-Assignment-Management', variables('deploymentSuffix')), 64)]",
+      "AMBAServiceHealthDeploymentName": "[take(concat('amba-Assignment-ServiceHealth', variables('deploymentSuffix')), 64)]",
+      "AMBANotificationAssetsDeploymentName": "[take(concat('amba-Assignment-NotificationAssets', variables('deploymentSuffix')), 64)]",
+      "AMBAKeyManagementDeploymentName": "[take(concat('amba-Assignment-KeyManagement', variables('deploymentSuffix')), 64)]",
+      "AMBALoadBalancingDeploymentName": "[take(concat('amba-Assignment-LoadBalancing', variables('deploymentSuffix')), 64)]",
+      "AMBANetworkChangesDeploymentName": "[take(concat('amba-Assignment-NetworkChanges', variables('deploymentSuffix')), 64)]",
+      "AMBARecoveryServicesDeploymentName": "[take(concat('amba-Assignment-RecoveryServices', variables('deploymentSuffix')), 64)]",
+      "AMBAStorageDeploymentName": "[take(concat('amba-Assignment-Storage', variables('deploymentSuffix')), 64)]",
+      "AMBAVMDeploymentNameLandingZones": "[take(concat('amba-Assignment-VM-LandingZones', variables('deploymentSuffix')), 64)]",
+      "AMBAVMDeploymentNamePlatform": "[take(concat('amba-Assignment-VM-Platform', variables('deploymentSuffix')), 64)]",
+      "AMBAWebDeploymentName": "[take(concat('amba-Assignment-Web', variables('deploymentSuffix')), 64)]",
       "pidCuaDeploymentName": "[take(concat('amba-pid-', variables('cuaid'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity-', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaIdentityDeploymentName": "[take(concat('amba-pid-Identity-', variables('cuaidIdentity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",

@@ -174,7 +174,7 @@
               "toolTip": "Provide the tags for the resource group for Azure Monitor Baseline Alerts. Tags are name/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups.",
               "visible": true,
               "placeholder": "{\"_deployed_by_amba\": \"true\"}",
-              "defaultValue": "",
+              "defaultValue": "{\"_deployed_by_amba\": \"true\"}",
               "constraints": {
                 "required": false,
                 "validations": [
@@ -770,7 +770,7 @@
                 "method": "POST",
                 "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "authorizationresources |extend roleName = tostring(properties.roleName)|where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader')|project label=tostring(roleName) , description=roleName, value=name | order by label asc"
+                  "query": "authorizationresources | extend roleName = tostring(properties.roleName) | where roleName in~ ('Owner', 'Contributor', 'Reader', 'Monitoring Contributor', 'Monitoring Reader') | project label=tostring(roleName) , description=roleName, value=tostring(roleName) | order by label asc"
                 }
               }
             },

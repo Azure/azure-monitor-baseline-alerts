@@ -7,7 +7,8 @@ weight: 40
 ### In this page
 
 > [Overview](../Policy-Initiatives#overview) </br>
-> [Service Health Initiative](../Policy-Initiatives#service-health-initiative) </br>
+> [Service Health Initiative (Deprecated)](../Policy-Initiatives#service-health-initiative-deprecated) </br>
+> [Resource and Service Health initiative](../Policy-Initiatives#resource-and-service-health-initiative) </br>
 > [Notification Assets Initiative](../Policy-Initiatives#notification-assets-initiative) </br>
 > [Connectivity Initiative - Part #1](../Policy-Initiatives#connectivity-initiative---part-1) </br>
 > [Connectivity Initiative - Part #2](../Policy-Initiatives#connectivity-initiative---part-2) </br>
@@ -27,11 +28,25 @@ weight: 40
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
 
-## Service Health initiative
+## Service Health initiative (Deprecated)
+
+{{< hint type=note >}}
+This initiative has been ***DEPRECATED*** in favor of the new initiative named ***Resource and Service Health initiative*** which will make use of the new built-in Service Health alerts policy.The content below is still included in the documentation for reference purpose only.
+{{< /hint >}}
 
 This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-ServiceHealth-PolicyInitiative-Table.md" %}}
+
+## Resource and Service Health initiative
+
+This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{< hint type=note >}}
+This initiative includes and uses the built-in policy named ***Configure subscriptions to enable service health alert monitoring rule*** which does appear in the table below.
+{{< /hint >}}
+
+{{% include "Alerting-ResourceAndServiceHealth-PolicyInitiative-Table.md" %}}
 
 ## Notification Assets initiative
 
