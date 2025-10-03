@@ -6,8 +6,8 @@ weight: 51
 
 ### In this page
 
-> [What is included in the latest release](../_index#what-is-included-in-the-latest-release) </br>
-> [Steps to update to the latest release](../_index#steps-to-update-to-the-latest-release) </br>
+> [What is included in the latest release](#what-is-included-in-the-latest-release) </br>
+> [Steps to update to the latest release](#steps-to-update-to-the-latest-release) </br>
 
 ## What is included in the latest release
 

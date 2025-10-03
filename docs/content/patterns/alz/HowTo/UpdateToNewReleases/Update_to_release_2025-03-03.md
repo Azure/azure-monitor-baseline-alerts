@@ -6,8 +6,8 @@ weight: 92
 
 ### In this page
 
-> [Pre update actions](../Update_to_release_2025-03-03#pre-update-actions) </br>
-> [Update](../Update_to_release_2025-03-03#update)
+> [Pre update actions](#pre-update-actions) </br>
+> [Update](#update)
 
 ## Pre update actions
 
