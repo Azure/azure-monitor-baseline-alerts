@@ -6,8 +6,8 @@ weight: 100
 
 ### In this page
 
-> [Update](../Update_to_release_2024-03-01#update) </br>
-> [Post update actions](../Update_to_release_2024-03-01#post-update-actions) </br>
+> [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
 ## Update
 

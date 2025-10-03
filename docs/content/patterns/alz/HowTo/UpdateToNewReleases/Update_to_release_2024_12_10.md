@@ -6,7 +6,7 @@ weight: 95
 
 ### In this page
 
-> [Update](../Update_to_release_2024-12-10#update) </br>
+> [Update](#update) </br>
 
 {{< hint type=Info >}}
 **_No pre-update or post-update actions_** are required.

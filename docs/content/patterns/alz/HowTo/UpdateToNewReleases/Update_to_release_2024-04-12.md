@@ -6,8 +6,8 @@ weight: 99
 
 ### In this page
 
-> [Update](../Update_to_release_2024-04-12#update) </br>
-> [Post update actions](../Update_to_release_2024-04-12#post-update-actions) </br>
+> [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
 {{< hint type=Important >}}
 **_No post-update action_** is required if you wish to continue using the notification assets deployed by the ALZ pattern.

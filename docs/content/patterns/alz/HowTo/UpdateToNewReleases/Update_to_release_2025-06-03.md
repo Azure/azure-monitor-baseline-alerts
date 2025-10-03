@@ -6,7 +6,7 @@ weight: 90
 
 ### In this page
 
-> [Update](../Update_to_release_2025-06-03#update)
+> [Update](#update)
 
 {{< hint type=Info >}}
 **_No pre-update or post-update actions_** are required when updating from release 2025-04-04.
