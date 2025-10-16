@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "displayName": "Audit subscriptions missing AMBAenabled tag",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Audits all subscriptions that do not have the tag 'AMBAenabled' set to 'yes'. These subscriptions are missing prerequisites for AMBA. An automation runbook called 'AMBA-Register-Required-Resource-Providers' is used to ensure that new subscriptions have the required resource provider registered.",
+    "metadata": {
+      "category": "Monitoring"
+    },
+    "parameters": {},
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "tags.AMBAenabled",
+                "exists": "false"
+              },
+              {
+                "field": "tags.AMBAenabled",
+                "notEquals": "yes"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "audit"
+      }
+    }
+  }
+}
