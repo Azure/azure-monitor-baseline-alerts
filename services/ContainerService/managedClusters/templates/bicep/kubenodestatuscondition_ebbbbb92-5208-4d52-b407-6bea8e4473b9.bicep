@@ -109,8 +109,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           dimensions: [
             {
               name: 'status2'
-              operator: 'include'
-              values: ['notready','unknown']
+              operator: 'Include'
+              values: ['NotReady','Unknown']
             }]
           operator: operator
           threshold: threshold

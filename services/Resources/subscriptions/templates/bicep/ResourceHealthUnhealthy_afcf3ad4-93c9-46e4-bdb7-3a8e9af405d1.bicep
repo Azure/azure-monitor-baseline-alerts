@@ -40,7 +40,7 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
           anyOf: [
             {
               field: 'properties.cause'
-              equals: 'PlatoformInitiated'
+              equals: 'PlatformInitiated'
             }
             {
               field: 'properties.cause'

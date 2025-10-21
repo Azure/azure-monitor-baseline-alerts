@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'PipelineSucceededRuns'
           dimensions: [
             {
-              name: 'name'
-              operator: 'include'
+              name: 'Name'
+              operator: 'Include'
               values: ['productrecommendation']
             }]
           operator: operator

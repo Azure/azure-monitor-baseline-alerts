@@ -114,23 +114,23 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Average_Total Bytes Received'
           dimensions: [
             {
-              name: 'computer'
-              operator: 'include'
+              name: 'Computer'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'objectname'
-              operator: 'include'
+              name: 'ObjectName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'instancename'
-              operator: 'include'
+              name: 'InstanceName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'sourcesystem'
-              operator: 'include'
+              name: 'SourceSystem'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

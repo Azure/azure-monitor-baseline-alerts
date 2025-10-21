@@ -63,7 +63,7 @@ param timeAggregation string = 'Average'
   'PT12H'
   'P1D'
 ])
-param windowSize string = 'PT5M'
+param windowSize string = 'PT1M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -73,7 +73,7 @@ param windowSize string = 'PT5M'
   'PT30M'
   'PT1H'
 ])
-param evaluationFrequency string = 'PT5M'
+param evaluationFrequency string = 'PT1M'
 
 @description('"The current date and time using the utcNow function. Used for deployment name uniqueness')
 param currentDateTimeUtcNow string = utcNow()

@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'IntegrationTriggerRunsEnded'
           dimensions: [
             {
-              name: 'result'
-              operator: 'exclude'
-              values: ['succeeded']
+              name: 'Result'
+              operator: 'Exclude'
+              values: ['Succeeded']
             }]
           operator: operator
           threshold: threshold

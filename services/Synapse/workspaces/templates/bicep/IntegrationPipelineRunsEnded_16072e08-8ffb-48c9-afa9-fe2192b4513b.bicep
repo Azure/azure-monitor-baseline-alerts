@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'IntegrationPipelineRunsEnded'
           dimensions: [
             {
-              name: 'result'
-              operator: 'include'
-              values: ['failed']
+              name: 'Result'
+              operator: 'Include'
+              values: ['Failed']
             }]
           operator: operator
           threshold: threshold

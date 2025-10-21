@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'TotalUpdateDeploymentMachineRuns'
           dimensions: [
             {
-              name: 'status'
-              operator: 'include'
-              values: ['failed']
+              name: 'Status'
+              operator: 'Include'
+              values: ['Failed']
             }]
           operator: operator
           threshold: threshold

@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'CPU'
           dimensions: [
             {
-              name: 'role'
-              operator: 'include'
+              name: 'Role'
+              operator: 'Include'
               values: ['sbsfe']
             }]
           operator: operator

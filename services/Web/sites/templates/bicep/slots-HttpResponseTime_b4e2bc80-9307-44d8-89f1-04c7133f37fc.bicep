@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'The time taken for the app to serve requests, in seconds.'
+param alertDescription string = 'The time taken for the app to serve requests, in seconds.  For WebApps and FunctionApps.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)

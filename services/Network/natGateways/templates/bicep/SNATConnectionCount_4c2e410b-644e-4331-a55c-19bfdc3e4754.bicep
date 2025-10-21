@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'SNATConnectionCount'
           dimensions: [
             {
-              name: 'connectionstate'
-              operator: 'include'
-              values: ['failed']
+              name: 'ConnectionState'
+              operator: 'Include'
+              values: ['Failed']
             }]
           operator: operator
           threshold: threshold

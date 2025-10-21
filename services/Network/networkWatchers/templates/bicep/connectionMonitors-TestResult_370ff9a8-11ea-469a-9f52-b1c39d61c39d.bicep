@@ -108,23 +108,23 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'TestResult'
           dimensions: [
             {
-              name: 'sourcename'
-              operator: 'include'
+              name: 'SourceName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'destinationname'
-              operator: 'include'
+              name: 'DestinationName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'testgroupname'
-              operator: 'include'
+              name: 'TestGroupName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'testconfigurationname'
-              operator: 'include'
+              name: 'TestConfigurationName'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator
