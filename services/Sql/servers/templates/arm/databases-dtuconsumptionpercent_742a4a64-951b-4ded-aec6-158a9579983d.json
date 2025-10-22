@@ -11,7 +11,7 @@
     },
     "alertDescription": {
       "type": "string",
-      "defaultValue": "The number of blob objects stored in the storage account.",
+      "defaultValue": "DTU Percentage. Applies to DTU-based databases.",
       "metadata": {
         "description": "Description of alert"
       }
@@ -73,7 +73,7 @@
     },
     "threshold": {
       "type": "string",
-      "defaultValue": "0",
+      "defaultValue": "90",
       "metadata": {
         "description": "The threshold value at which the alert is activated."
       }
@@ -94,7 +94,7 @@
     },
     "windowSize": {
       "type": "string",
-      "defaultValue": "PT1H",
+      "defaultValue": "PT5M",
       "allowedValues": [
         "PT1M",
         "PT5M",
@@ -169,7 +169,7 @@
           "allOf": [
             {
               "name": "1st criterion",
-              "metricName": "BlobCount",
+              "metricName": "dtu_consumption_percent",
               "dimensions": [],
               "operator": "[parameters('operator')]",
               "threshold": "[parameters('threshold')]",

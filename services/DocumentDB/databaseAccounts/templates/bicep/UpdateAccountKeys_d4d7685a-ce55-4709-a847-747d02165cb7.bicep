@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'UpdateAccountKeys'
           dimensions: [
             {
-              name: 'keytype'
-              operator: 'include'
+              name: 'KeyType'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

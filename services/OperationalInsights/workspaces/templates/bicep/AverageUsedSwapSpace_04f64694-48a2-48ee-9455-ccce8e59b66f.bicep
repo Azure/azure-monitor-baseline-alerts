@@ -108,18 +108,18 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Average_% Used Swap Space'
           dimensions: [
             {
-              name: 'computer'
-              operator: 'include'
+              name: 'Computer'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'objectname'
-              operator: 'include'
+              name: 'ObjectName'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'instancename'
-              operator: 'include'
+              name: 'InstanceName'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

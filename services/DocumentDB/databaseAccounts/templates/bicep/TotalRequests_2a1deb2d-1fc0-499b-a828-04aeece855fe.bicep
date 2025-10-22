@@ -114,8 +114,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'TotalRequests'
           dimensions: [
             {
-              name: 'statuscode'
-              operator: 'include'
+              name: 'StatusCode'
+              operator: 'Include'
               values: ['429']
             }]
           operator: operator

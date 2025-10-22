@@ -114,8 +114,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'MemoryUsage'
           dimensions: [
             {
-              name: 'containername'
-              operator: 'include'
+              name: 'containerName'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

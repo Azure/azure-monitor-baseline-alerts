@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'ERGatewayConnectionBitsInPerSecond'
+param alertDescription string = 'Bits per second ingressing Azure via ExpressRoute Gateway.  Applies to VWAN ExpressRoute Gateways.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)

@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Transactions'
           dimensions: [
             {
-              name: 'responsetype'
-              operator: 'include'
-              values: ['success']
+              name: 'ResponseType'
+              operator: 'Include'
+              values: ['Success']
             }
             {
               name: 'authentication'

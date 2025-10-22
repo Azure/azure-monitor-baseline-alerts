@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'OutgoingMessages'
           dimensions: [
             {
-              name: 'entityname'
-              operator: 'include'
+              name: 'EntityName'
+              operator: 'Include'
               values: ['application-logs']
             }]
           operator: operator

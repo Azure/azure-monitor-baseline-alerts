@@ -108,23 +108,23 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Event'
           dimensions: [
             {
-              name: 'source'
-              operator: 'include'
+              name: 'Source'
+              operator: 'Include'
               values: ['service control manager']
             }
             {
-              name: 'eventlog'
-              operator: 'include'
+              name: 'EventLog'
+              operator: 'Include'
               values: ['system']
             }
             {
-              name: 'computer'
-              operator: 'include'
+              name: 'Computer'
+              operator: 'Include'
               values: ['*']
             }
             {
-              name: 'eventid'
-              operator: 'include'
+              name: 'EventID'
+              operator: 'Include'
               values: ['7031','7024','7034']
             }]
           operator: operator
