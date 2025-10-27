@@ -18,12 +18,15 @@ param currentDateTimeUtcNow string = utcNow()
 ])
 param telemetryOptOut string = 'No'
 
+@description('Tags to apply to the alert')
+param tags object = {
+  _deployed_by_amba: 'true'
+}
+
 resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' = {
   name: alertName
   location: 'Global'
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     description: alertDescription
     scopes: [
@@ -40,7 +43,7 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
           anyOf: [
             {
               field: 'properties.cause'
-              equals: 'PlatoformInitiated'
+              equals: 'PlatformInitiated'
             }
             {
               field: 'properties.cause'
@@ -68,9 +71,7 @@ resource symbolicname 'Microsoft.Insights/activityLogAlerts@2023-01-01-preview' 
 var ambaTelemetryPidName = 'pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-${uniqueString(resourceGroup().id, alertName, currentDateTimeUtcNow)}'
 resource ambaTelemetryPid 'Microsoft.Resources/deployments@2023-07-01' =  if (telemetryOptOut == 'No') {
   name: ambaTelemetryPidName
-  tags: {
-    _deployed_by_amba: 'true'
-  }
+  tags: tags
   properties: {
     mode: 'Incremental'
     template: {
