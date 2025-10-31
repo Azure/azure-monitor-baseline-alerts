@@ -1,6 +1,7 @@
 name: Repo Backup to Azure Blob Storage
 
 on:
+  workflow_dispatch: 
   schedule:
     # Runs every Sunday at 00:00 UTC
     - cron: "0 0 * * 0"
@@ -12,14 +13,13 @@ permissions:
 jobs:
   backup:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
       # Create a zip file of the entire repo
       - name: Zip repository
         run: |
-          zip -r repo-backup.zip . -x '*.git*'
+          zip -r repo-backup.zip .
 
       # Login to Azure
       - uses: azure/login@v2
