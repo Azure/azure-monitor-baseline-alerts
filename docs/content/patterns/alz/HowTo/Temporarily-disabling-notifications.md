@@ -4,6 +4,13 @@ geekdocCollapseSection: true
 weight: 60
 ---
 
+### In this page
+
+> [Overview](../Temporarily-disabling-notifications#overview) </br>
+> [How this feature works](../Temporarily-disabling-notifications#how-this-feature-works)
+
+## Overview
+
 Azure Monitor alerts configured for a broad scope provide extensive coverage but limit the ability to disable them for specific resources. There are various reasons to halt alert notifications, such as resources being stopped or disabled for maintenance, or the desire to suppress notifications during night shifts. To offer this level of flexibility, the Notification Assets policy initiative includes an asset from AMBA-ALZ that allows you to stop notifications for specific resources.
 
 This asset consists of an alert processing rule (APR) with the following characteristics:
@@ -12,6 +19,8 @@ This asset consists of an alert processing rule (APR) with the following charact
 - Applied at the subscription level
 - Configured as a suppression rule
 - Set to run continuously
+
+## How this feature works
 
 To utilize this APR, configure it with the resource ID(s) of the resources for which you want to suppress notifications. Enable the rule whenever suppression is required.
 

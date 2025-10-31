@@ -84,7 +84,7 @@ The other monitoring initiatives are assigned to specific platform landing zone 
 
 ![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
 
-*Download a [Visio file](../../media/AMBA-Diagrams.vsdx) of this architecture.*
+*Download a [Visio file](../../../media/AMBA-Diagrams.vsdx) of this architecture.*
 
 If your management group hierarchy matches this structure, you can proceed directly to your preferred deployment method:
 
@@ -190,7 +190,7 @@ To modify settings that are not parameterized, follow these steps:
 
     ```AZ CLI
     az deployment mg create --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json
-    --name "amba-GeneralDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
+    --name "amba-MainDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters .\patterns\alz\alzArm.param.json
     ```
 
 ## Disabling Monitoring

@@ -50,7 +50,7 @@ param threshold int = 200
   'Total'
   'Count'
 ])
-param timeAggregation string = 'Total'
+param timeAggregation string = 'Average'
 
 @description('Period of time used to monitor alert activity based on the threshold. Must be between one minute and one day. ISO 8601 duration format.')
 @allowed([

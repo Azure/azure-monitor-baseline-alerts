@@ -70,7 +70,7 @@
               "3",
               "4"
             ],
-            "defaultValue": "3"
+            "defaultValue": "2"
           },
           "windowSize": {
             "type": "String",
@@ -88,7 +88,7 @@
               "PT12H",
               "P1D"
             ],
-            "defaultValue": "PT5M"
+            "defaultValue": "PT1M"
           },
           "evaluationFrequency": {
             "type": "String",
@@ -103,7 +103,7 @@
               "PT30M",
               "PT1H"
             ],
-            "defaultValue": "PT5M"
+            "defaultValue": "PT1M"
           },
           "autoMitigate": {
             "type": "String",
@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-OS Disk IOPS Consumed Percentage')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-OS Disk IOPS Consumed Percentage')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -340,7 +340,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

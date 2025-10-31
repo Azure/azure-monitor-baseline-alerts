@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-kube_node_status_condition')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-kube_node_status_condition')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.ContainerService/managedClusters/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -233,6 +233,10 @@
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                     "equals": "GreaterThan"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["status2"]
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -305,6 +309,7 @@
                                 "name": "kube_node_status_condition",
                                 "metricNamespace": "Microsoft.ContainerService/managedClusters",
                                 "metricName": "kube_node_status_condition",
+                                "dimensions": [{"operator":"Include","name":"status2","values":["NotReady","Unknown"]}],
                                 "operator": "GreaterThan",
                                 "threshold": "[[parameters('threshold')]",
                                 "timeAggregation": "Total",
@@ -340,7 +345,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

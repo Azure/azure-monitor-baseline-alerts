@@ -1,15 +1,16 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
-  "name": "Deploy_activitylog_Firewall_Delete",
+  "name": "Deploy_Activity_Log_Azure_Firewall_Delete",
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Activity Log Azure FireWall Delete Alert",
-    "description": "Policy to Deploy Activity Log Azure Firewall Delete Alert",
+    "displayName": "Deploy Activity Log Azure Firewall Delete Alert",
+    "description": "Policy to Audit/Deploy Activity Log Azure Firewall Delete Alert",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.0.0-preview",
       "category": "Network",
+      "preview": true,
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
@@ -44,7 +45,7 @@
           "description": "Tags on the Resource group the alert is placed in"
         },
         "defaultValue": {
-          "Project": "amba-monitoring"
+          "_deployed_by_amba": true
         }
       },
       "alertResourceGroupLocation": {
@@ -71,7 +72,7 @@
         "type": "String",
         "metadata": {
           "displayName": "ALZ Monitoring disabled tag name",
-          "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
         },
         "defaultValue": "MonitorDisable"
       },
@@ -109,8 +110,8 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
-          "name": "ActivityAzureFirewallDelete",
-          "existenceScope": "resourceGroup",
+          "name": "ActivityLogAzureFirewallDelete",
+          "existenceScope": "resourcegroup",
           "resourceGroupName": "[[parameters('alertResourceGroupName')]",
           "deploymentScope": "subscription",
           "existenceCondition": {
@@ -160,7 +161,7 @@
             "properties": {
               "mode": "incremental",
               "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
                   "alertResourceGroupName": {
@@ -180,7 +181,7 @@
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
-                    "apiVersion": "2020-10-01",
+                    "apiVersion": "2021-04-01",
                     "name": "[[parameters('alertResourceGroupName')]",
                     "location": "[[parameters('alertResourceGroupLocation')]",
                     "tags": "[[parameters('alertResourceGroupTags')]"
@@ -188,7 +189,7 @@
                   {
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2019-10-01",
-                    "name": "ActivityAzureFirewallDelete",
+                    "name": "ActivityLogAzureFirewallDelete",
                     "resourceGroup": "[[parameters('alertResourceGroupName')]",
                     "dependsOn": [
                       "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
@@ -211,13 +212,13 @@
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
-                            "name": "ActivityAzureFirewallDelete",
+                            "name": "ActivityLogAzureFirewallDelete",
                             "location": "global",
                             "tags": {
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "description": "Activity Log Firewall Delete",
+                              "description": "Activity Log Alert for Azure Firewall Delete",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [
                                 "[[subscription().id]"
@@ -230,7 +231,7 @@
                                   },
                                   {
                                     "field": "operationName",
-                                    "equals": "Microsoft.Network/azurefirewalls/delete"
+                                    "equals": "Microsoft.Network/azureFirewalls/delete"
                                   },
                                   {
                                     "field": "status",

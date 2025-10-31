@@ -191,7 +191,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-Data Disk Read Operations/Sec')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-Data Disk Read OperationsSec')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -204,7 +204,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Compute/virtualMachines/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -285,7 +285,7 @@
                       {
                         "type": "Microsoft.Insights/metricAlerts",
                         "apiVersion": "2018-03-01",
-                        "name": "[[concat(parameters('resourceName'), '-Data Disk Read Operations/Sec')]",
+                        "name": "[[concat(parameters('resourceName'), '-Data Disk Read OperationsSec')]",
                         "location": "global",
                         "tags": {
                           "_deployed_by_amba": true
@@ -340,7 +340,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

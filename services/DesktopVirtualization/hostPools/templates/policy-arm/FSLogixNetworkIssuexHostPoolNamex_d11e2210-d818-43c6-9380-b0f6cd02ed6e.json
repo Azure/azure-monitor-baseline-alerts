@@ -1,0 +1,641 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "displayName": {
+      "defaultValue": "AVD-HostPool",
+      "type": "String",
+      "metadata": {
+        "description": "Display name of policy"
+      }
+    },
+    "description": {
+      "defaultValue": "Policy to Audit/AVD-HostPool",
+      "type": "String",
+      "metadata": {
+        "description": "Description of policy"
+      }
+    },
+    "currentDateTimeUtcNow": {
+      "defaultValue": "[utcNow()]",
+      "type": "String",
+      "metadata": {
+        "description": "The current date and time using the utcNow function. Used for deployment name uniqueness"
+      }
+    },
+    "telemetryOptOut": {
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "type": "String",
+      "metadata": {
+        "description": "The customer usage identifier used for telemetry purposes. The default value of False enables telemetry. The value of True disables telemetry."
+      }
+    }
+  },
+  "variables": {
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(managementGroup().id, parameters('currentDateTimeUtcNow'))), 64)]",
+    "location": "[deployment().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "d11e2210-d818-43c6-9380-b0f6cd02ed6e",
+      "properties": {
+        "policyType": "Custom",
+        "mode": "All",
+        "displayName": "[parameters('displayName')]",
+        "description": "[parameters('description')]",
+        "metadata": {
+          "version": "1.0.0-preview",
+          "category": "DesktopVirtualization",
+          "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "alzCloudEnvironments": [
+            "AzureCloud"
+          ],
+          "_deployed_by_amba": "True"
+        },
+        "parameters": {
+          "alertResourceGroupName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Resource Group Name",
+              "description": "Resource group the alert is placed in"
+            },
+            "defaultValue": "rg-amba-monitoring-001"
+          },
+          "alertResourceGroupTags": {
+            "type": "Object",
+            "metadata": {
+              "displayName": "Resource Group Tags",
+              "description": "Tags on the Resource group the alert is placed in"
+            },
+            "defaultValue": {
+              "Project": "amba-monitoring"
+            }
+          },
+          "alertResourceGroupLocation": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Resource Group Location",
+              "description": "Location of the Resource group the alert is placed in"
+            },
+            "defaultValue": "centralus"
+          },
+          "UAMIResourceId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+              "description": "The resource Id of the user assigned managed identity.",
+              "displayName": "User Assigned managed Identity resource Id."
+            }
+          },
+          "severity": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Severity",
+              "description": "Severity of the Alert"
+            },
+            "allowedValues": [
+              "0",
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "defaultValue": "1"
+          },
+          "operator": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Operator"
+            },
+            "allowedValues": [
+              "GreaterThanOrEqual"
+            ],
+            "defaultValue": "GreaterThanOrEqual"
+          },
+          "timeAggregation": {
+            "type": "String",
+            "metadata": {
+              "displayName": "TimeAggregation"
+            },
+            "allowedValues": [
+              "Count"
+            ],
+            "defaultValue": "Count"
+          },
+          "windowSize": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Window Size",
+              "description": "Window size for the alert"
+            },
+            "allowedValues": [
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H",
+              "PT6H",
+              "PT12H",
+              "PT24H"
+            ],
+            "defaultValue": "P1D"
+          },
+          "evaluationFrequency": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Evaluation Frequency",
+              "description": "Evaluation frequency for the alert"
+            },
+            "allowedValues": [
+              "PT5M",
+              "PT15M",
+              "PT30M",
+              "PT1H"
+            ],
+            "defaultValue": "PT5M"
+          },
+          "autoMitigate": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Auto Mitigate",
+              "description": "Auto Mitigate for the alert"
+            },
+            "allowedValues": [
+              "true",
+              "false"
+            ],
+            "defaultValue": "true"
+          },
+          "autoResolve": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Auto Resolve",
+              "description": "Auto Resolve for the alert"
+            },
+            "allowedValues": [
+              "true",
+              "false"
+            ],
+            "defaultValue": "true"
+          },
+          "autoResolveTime": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Auto Resolve",
+              "description": "Auto Resolve time for the alert in ISO 8601 format"
+            },
+            "defaultValue": "true"
+          },
+          "enabled": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Alert State",
+              "description": "Alert state for the alert"
+            },
+            "allowedValues": [
+              "true",
+              "false"
+            ],
+            "defaultValue": "true"
+          },
+          "threshold": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Threshold",
+              "description": "Threshold for the alert"
+            },
+            "defaultValue": "1"
+          },
+          "failingPeriods": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Failing Periods",
+              "description": "Number of failing periods before alert is fired"
+            },
+            "defaultValue": "1"
+          },
+          "evaluationPeriods": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Evaluation Periods",
+              "description": "The number of aggregated lookback points."
+            },
+            "defaultValue": "1"
+          },
+          "effect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Effect",
+              "description": "Effect of the policy"
+            },
+            "allowedValues": [
+              "deployIfNotExists",
+              "disabled"
+            ],
+            "defaultValue": "deployIfNotExists"
+          },
+          "MonitorDisableTagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Monitoring disabled tag name",
+              "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
+            },
+            "defaultValue": "MonitorDisable"
+          },
+          "MonitorDisableTagValues": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "Monitoring disabled tag values(s)",
+              "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+            },
+            "defaultValue": [
+              "true",
+              "Test",
+              "Dev",
+              "Sandbox"
+            ]
+          }
+        },
+        "policyRule": {
+          "if": {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.DesktopVirtualization/hostPools"
+              },
+              {
+                "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+                "notIn": "[[parameters('MonitorDisableTagValues')]"
+              }
+            ]
+          },
+          "then": {
+            "effect": "[[parameters('effect')]",
+            "details": {
+              "roleDefinitionIds": [
+                "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+              ],
+              "type": "Microsoft.Insights/scheduledQueryRules",
+              "existenceScope": "resourceGroup",
+              "resourceGroupName": "[[parameters('alertResourceGroupName')]",
+              "deploymentScope": "subscription",
+              "existenceCondition": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/displayName",
+                    "equals": "[[concat(subscription().displayName, '-FSLogixNetworkIssuexHostPoolNamex')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
+                    "equals": "[[subscription().id]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/enabled",
+                    "equals": "[[parameters('enabled')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/evaluationFrequency",
+                    "equals": "[[parameters('evaluationFrequency')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/windowSize",
+                    "equals": "[[parameters('windowSize')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/severity",
+                    "equals": "[[parameters('severity')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/autoMitigate",
+                    "equals": "[[parameters('autoMitigate')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
+                    "equals": "[[parameters('operator')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].timeAggregation",
+                    "equals": "[[parameters('timeAggregation')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
+                    "equals": "[[parameters('evaluationPeriods')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
+                    "equals": "[[parameters('failingPeriods')]"
+                  },
+                  {
+                    "field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
+                    "equals": "[format('Event| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"| where EventLevelName == \"Error\"| where EventID == 43| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName| extend ComputerName=tolower(ComputerName)| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated| join kind = leftouter(WVDAgentHealthStatus| where _ResourceId contains \"xHostPoolNamex\"| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName| extend ComputerName=tolower(ComputerName)| summarize arg_max(TimeGenerated,*) by ComputerName| project VMresourceGroup, ComputerName, HostPool) on ComputerName')]"
+                  },
+                  {
+                    "field": "identity.userAssignedIdentities",
+                    "containsKey": "[[parameters('UAMIResourceId')]"
+                  }
+                ]
+              },
+              "deployment": {
+                "location": "northeurope",
+                "properties": {
+                  "mode": "incremental",
+                  "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                      "alertResourceGroupName": {
+                        "type": "string"
+                      },
+                      "alertResourceGroupTags": {
+                        "type": "object"
+                      },
+                      "alertResourceGroupLocation": {
+                        "type": "string"
+                      },
+                      "UAMIResourceId": {
+                        "type": "string"
+                      },
+                      "severity": {
+                        "type": "String"
+                      },
+                      "windowSize": {
+                        "type": "String"
+                      },
+                      "evaluationFrequency": {
+                        "type": "String"
+                      },
+                      "autoMitigate": {
+                        "type": "String"
+                      },
+                      "autoResolve": {
+                        "type": "String"
+                      },
+                      "autoResolveTime": {
+                        "type": "String"
+                      },
+                      "enabled": {
+                        "type": "String"
+                      },
+                      "threshold": {
+                        "type": "String"
+                      },
+                      "operator": {
+                        "type": "String"
+                      },
+                      "timeAggregation": {
+                        "type": "String"
+                      },
+                      "failingPeriods": {
+                        "type": "String"
+                      },
+                      "evaluationPeriods": {
+                        "type": "String"
+                      },
+                      "MonitorDisableTagName": {
+                        "type": "String"
+                      },
+                      "MonitorDisableTagValues": {
+                        "type": "Array"
+                      }
+                    },
+                    "variables": {},
+                    "resources": [
+                      {
+                        "type": "Microsoft.Resources/resourceGroups",
+                        "apiVersion": "2021-04-01",
+                        "name": "[[parameters('alertResourceGroupName')]",
+                        "location": "[[parameters('alertResourceGroupLocation')]",
+                        "tags": "[[parameters('alertResourceGroupTags')]"
+                      },
+                      {
+                        "type": "Microsoft.Resources/deployments",
+                        "apiVersion": "2019-10-01",
+                        "name": "FSLogixNetworkIssuexHostPoolNamex",
+                        "resourceGroup": "[[parameters('alertResourceGroupName')]",
+                        "dependsOn": [
+                          "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                        ],
+                        "properties": {
+                          "mode": "Incremental",
+                          "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                              "enabled": {
+                                "type": "string"
+                              },
+                              "alertResourceGroupName": {
+                                "type": "string"
+                              },
+                              "alertResourceGroupLocation": {
+                                "type": "string"
+                              },
+                              "UAMIResourceId": {
+                                "type": "string"
+                              }
+                            },
+                            "variables": {},
+                            "resources": [
+                              {
+                                "type": "Microsoft.Insights/scheduledQueryRules",
+                                "apiVersion": "2022-08-01-preview",
+                                "name": "[[concat(subscription().displayName, '-FSLogixNetworkIssuexHostPoolNamex')]",
+                                "location": "[[parameters('alertResourceGroupLocation')]",
+                                "identity": {
+                                  "type": "UserAssigned",
+                                  "userAssignedIdentities": {
+                                    "[[parameters('UAMIResourceId')]": {}
+                                  }
+                                },
+                                "tags": {
+                                  "_deployed_by_amba": true
+                                },
+                                "properties": {
+                                  "displayName": "[[concat(subscription().displayName, '-FSLogixNetworkIssuexHostPoolNamex')]",
+                                  "description": "User Profiles Service logged Event ID 43. Verify network communications between the storage and AVD VM related to xHostPoolNamex.",
+                                  "severity": "[[parameters('severity')]",
+                                  "enabled": "[[parameters('enabled')]",
+                                  "scopes": [
+                                    "[[subscription().Id]"
+                                  ],
+                                  "targetResourceTypes": [
+                                    "Microsoft.DesktopVirtualization/hostPools"
+                                  ],
+                                  "evaluationFrequency": "[[parameters('evaluationFrequency')]",
+                                  "windowSize": "[[parameters('windowSize')]",
+                                  "criteria": {
+                                    "allOf": [
+                                      {
+                                        "query": "[format('Event| where EventLog == \"Microsoft-FSLogix-Apps/Admin\"| where EventLevelName == \"Error\"| where EventID == 43| parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName| extend ComputerName=tolower(ComputerName)| project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated| join kind = leftouter(WVDAgentHealthStatus| where _ResourceId contains \"xHostPoolNamex\"| parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool| parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName| extend ComputerName=tolower(ComputerName)| summarize arg_max(TimeGenerated,*) by ComputerName| project VMresourceGroup, ComputerName, HostPool) on ComputerName')]",
+                                        "threshold": 0,
+                                        "operator": "[[parameters('operator')]",
+                                        "resourceIdColumn": "_ResourceId",
+                                        "metricMeasureColumn": "AggregatedValue",
+                                        "timeAggregation": "[[parameters('timeAggregation')]",
+                                        "dimensions": [{"name":"ComputerName","operator":"Include","values":["*"]},{"name":"RenderedDescription","operator":"Include","values":["*"]},{"name":"VMresourceGroup","operator":"Include","values":["*"]},{"name":"HostPool","operator":"Include","values":["*"]}],
+                                        "failingPeriods": {
+                                          "numberOfEvaluationPeriods": "[[parameters('evaluationPeriods')]",
+                                          "minFailingPeriodsToAlert": "[[parameters('failingPeriods')]"
+                                        }
+                                      }
+                                    ]
+                                  },
+                                  "autoMitigate": "[[parameters('autoMitigate')]",
+                                  "ruleResolveConfiguration": {
+                                    "autoResolved": "[[parameters('autoResolve')]",
+                                    "timeToResolve": "[[parameters('autoResolveTime')]"
+                                  },
+                                  "parameters": {
+                                    "alertResourceGroupName": {
+                                      "value": "[[parameters('alertResourceGroupName')]"
+                                    },
+                                    "alertResourceGroupLocation": {
+                                      "value": "[[parameters('alertResourceGroupLocation')]"
+                                    },
+                                    "UAMIResourceId": {
+                                      "value": "[[parameters('UAMIResourceId')]"
+                                    },
+                                    "severity": {
+                                      "value": "[[parameters('severity')]"
+                                    },
+                                    "windowSize": {
+                                      "value": "[[parameters('windowSize')]"
+                                    },
+                                    "evaluationFrequency": {
+                                      "value": "[[parameters('evaluationFrequency')]"
+                                    },
+                                    "autoMitigate": {
+                                      "value": "[[parameters('autoMitigate')]"
+                                    },
+                                    "autoResolve": {
+                                      "value": "[[parameters('autoResolve')]"
+                                    },
+                                    "autoResolveTime": {
+                                      "value": "[[parameters('autoResolveTime')]"
+                                    },
+                                    "enabled": {
+                                      "value": "[[parameters('enabled')]"
+                                    },
+                                    "threshold": {
+                                      "value": "[[parameters('threshold')]"
+                                    },
+                                    "failingPeriods": {
+                                      "value": "[[parameters('failingPeriods')]"
+                                    },
+                                    "evaluationPeriods": {
+                                      "value": "[[parameters('evaluationPeriods')]"
+                                    },
+                                    "MonitorDisableTagName": {
+                                      "value": "[[parameters('MonitorDisableTagName')]"
+                                    },
+                                    "MonitorDisableTagValues": {
+                                      "value": "[[parameters('MonitorDisableTagValues')]"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "parameters": {
+                            "enabled": {
+                              "value": "[[parameters('enabled')]"
+                            },
+                            "alertResourceGroupName": {
+                              "value": "[[parameters('alertResourceGroupName')]"
+                            },
+                            "alertResourceGroupLocation": {
+                              "value": "[[parameters('alertResourceGroupLocation')]"
+                            },
+                            "UAMIResourceId": {
+                              "value": "[[parameters('UAMIResourceId')]"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "parameters": {
+                    "alertResourceGroupName": {
+                      "value": "[[parameters('alertResourceGroupName')]"
+                    },
+                    "alertResourceGroupTags": {
+                      "value": "[[parameters('alertResourceGroupTags')]"
+                    },
+                    "alertResourceGroupLocation": {
+                      "value": "[[parameters('alertResourceGroupLocation')]"
+                    },
+                    "UAMIResourceId": {
+                      "value": "[[parameters('UAMIResourceId')]"
+                    },
+                    "severity": {
+                      "value": "[[parameters('severity')]"
+                    },
+                    "windowSize": {
+                      "value": "[[parameters('windowSize')]"
+                    },
+                    "evaluationFrequency": {
+                      "value": "[[parameters('evaluationFrequency')]"
+                    },
+                    "autoMitigate": {
+                      "value": "[[parameters('autoMitigate')]"
+                    },
+                    "autoResolve": {
+                      "value": "[[parameters('autoResolve')]"
+                    },
+                    "autoResolveTime": {
+                      "value": "[[parameters('autoResolveTime')]"
+                    },
+                    "enabled": {
+                      "value": "[[parameters('enabled')]"
+                    },
+                    "threshold": {
+                      "value": "[[parameters('threshold')]"
+                    },
+                    "operator": {
+                      "value": "[[parameters('operator')]"
+                    },
+                    "timeAggregation": {
+                      "value": "[[parameters('timeAggregation')]"
+                    },
+                    "failingPeriods": {
+                      "value": "[[parameters('failingPeriods')]"
+                    },
+                    "evaluationPeriods": {
+                      "value": "[[parameters('evaluationPeriods')]"
+                    },
+                    "MonitorDisableTagName": {
+                      "value": "[[parameters('MonitorDisableTagName')]"
+                    },
+                    "MonitorDisableTagValues": {
+                      "value": "[[parameters('MonitorDisableTagValues')]"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2023-07-01",
+      "name": "[variables('pidDeploymentName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      },
+      "condition": "[equals(parameters('telemetryOptOut'), 'No')]"
+    }
+  ]
+}

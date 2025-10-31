@@ -3,7 +3,15 @@ title: Azure Monitoring Packs
 geekdocCollapseSection: true
 ---
 
-## FastTrack for Azure - Monitoring Starter Packs (MonStar Packs)
+## Azure Monitoring Packs (FKA MonStar Packs)
+
+The Azure Monitoring Packs in an open source and independent initiative looking to provide another way to quickly enable monitoring for different services and workloads. It is an ongoing project that gladly welcomes contribution from the community.
+
+The Azure Monitoring Packs are also known as the Azure Monitoring Starter Packs (or MonStar packs). The packs leverage AMBA as a source of truth for Azure Services monitoring recommendations and provides monitoring for IaaS workloads.
+
+The Monitoring packs, once installed, will install an Azure Function and a Logic App (among other supporting components) to automate the enablement of the monitoring based on a friendly Azure Workbook interface.
+
+Please log any issues related to the packs [here](https://github.com/Azure/AzureMonitorStarterPacks/issues).
 
 ## Objectives
 
@@ -15,25 +23,17 @@ geekdocCollapseSection: true
 
 - Create a framework for collaboration that will make it easy to add new monitored technologies.
 
-For a details about the solution, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
+For a details about the solution and setup, please refer to [Azure Monitoring Packs](https://github.com/Azure/AzureMonitorStarterPacks)
 
 ## Pre-requisites and recommendations
 
 - Azure Subscription - an Azure subscription to deploy the components
-- A Management group structure with at least one management group. Most of the elements like policies and permissions need to be deployed at a management group level.
-
-## Setup
-
-The Main solution can be deployed by clicking the link below.
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fmonstar.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fsetup.json)
-
-[![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fmonstar.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FFehseCorp%2FAzureMonitorStarterPacks%2FAVDMerge%2Fsetup%2FCustomSetup%2Fsetup.json)
+- Owner permissions to the subscription
 
 ## Monitoring Packs
 
-### [IaaS Packs](./IaaS)
+The IaaS packs are defined and provided by the Azure Monitoring packs solution. The services packs are based out of the definitions in Amba for each service.
 
-### [PaaS Packs](./PaaS/)
+Details can be found [here](https://github.com/Azure/AzureMonitorStarterPacks/blob/main/Packs/README.md#monitoring-pack-summary).
 
-### [Platform Packs](./Platform/)
+

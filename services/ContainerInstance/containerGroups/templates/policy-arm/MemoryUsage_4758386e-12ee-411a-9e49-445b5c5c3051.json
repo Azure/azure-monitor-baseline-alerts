@@ -192,7 +192,7 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/metricAlerts",
-              "name": "[[concat(field('name'), '-MemoryUsage')]",
+              "name": "[[concat(replace(field('fullName'),'/','-'), '-MemoryUsage')]",
               "existenceCondition": {
                 "allOf": [
                   {
@@ -205,7 +205,7 @@
                   },
                   {
                     "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                    "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.ContainerInstance/containerGroups/', field('fullName'))]"
+                    "equals": "[[field('id')]"
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -234,6 +234,10 @@
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator",
                     "equals": "GreaterThan"
+                  },
+                  {
+                    "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                    "in": ["containerName"]
                   },
                   {
                     "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity",
@@ -314,6 +318,7 @@
                                 "name": "MemoryUsage",
                                 "metricNamespace": "Microsoft.ContainerInstance/containerGroups",
                                 "metricName": "MemoryUsage",
+                                "dimensions": [{"operator":"Include","name":"containerName","values":["*"]}],
                                 "operator": "GreaterThan",
                                 "alertSensitivity": "[[parameters('alertSensitivity')]",
                                 "failingPeriods": {
@@ -353,7 +358,7 @@
                   },
                   "parameters": {
                     "resourceName": {
-                      "value": "[[field('name')]"
+                      "value": "[[replace(field('fullName'),'/','-')]"
                     },
                     "resourceId": {
                       "value": "[[field('id')]"

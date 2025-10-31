@@ -152,7 +152,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-RestoreHealthEvent')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-RestoreHealthEvent')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +165,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.RecoveryServices/vaults/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -194,6 +194,10 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                 "equals": "GreaterThanOrEqual"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["healthStatus"]
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -266,6 +270,7 @@
                             "name": "RestoreHealthEvent",
                             "metricNamespace": "Microsoft.RecoveryServices/vaults",
                             "metricName": "RestoreHealthEvent",
+                            "dimensions": [{"operator":"Exclude","name":"healthStatus","values":["healthy"]}],
                             "operator": "GreaterThanOrEqual",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Count",
@@ -301,7 +306,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"
