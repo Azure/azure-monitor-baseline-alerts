@@ -1,37 +1,49 @@
 name: Repo Backup to Azure Blob Storage
 
 on:
-    push:
-        branches: [ main ]
+  schedule:
+    # Runs every Sunday at 00:00 UTC
+    - cron: "0 0 * * 0"
 
 permissions:
-      id-token: write
-      contents: read
+  id-token: write
+  contents: read
 
 jobs:
   backup:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: actions/checkout@v3
 
-    - name: Upload to blob storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-            az storage blob upload-batch --account-name <STORAGE_ACCOUNT_NAME> --auth-mode key -d '$web' -s .
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+      # Create a zip file of the entire repo
+      - name: Zip repository
+        run: |
+          zip -r repo-backup.zip . -x '*.git*'
 
-  # Azure logout
-    - name: logout
-      run: |
-            az logout
-      if: always()
+      # Login to Azure
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Upload the zipped package to blob storage
+      - name: Upload zipped backup to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload \
+              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+              --auth-mode login \
+              --container-name 'backup' \
+              --file repo-backup.zip \
+              --name repo-backup-$(date +%Y%m%d%H%M%S).zip \
+              --tier 'Archive'
+              --rehydrate-priority 'Standard'
+              --overwrite true
+
+      # Always logout at the end
+      - name: Logout from Azure
+        if: always()
+        run: az logout
