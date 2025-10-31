@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'The number of blob objects stored in the storage account.'
+param alertDescription string = 'DTU Percentage. Applies to DTU-based databases.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -40,7 +40,7 @@ param alertSeverity int = 3
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 0
+param threshold int = 90
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
@@ -63,7 +63,7 @@ param timeAggregation string = 'Average'
   'PT12H'
   'P1D'
 ])
-param windowSize string = 'PT1H'
+param windowSize string = 'PT5M'
 
 @description('how often the metric alert is evaluated represented in ISO 8601 duration format')
 @allowed([
@@ -105,7 +105,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
       allOf: [
         {
           name: '1st criterion'
-          metricName: 'BlobCount'
+          metricName: 'dtu_consumption_percent'
           dimensions: []
           operator: operator
           threshold: threshold

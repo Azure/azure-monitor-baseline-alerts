@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Heartbeat'
           dimensions: [
             {
-              name: 'computer'
-              operator: 'include'
+              name: 'Computer'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

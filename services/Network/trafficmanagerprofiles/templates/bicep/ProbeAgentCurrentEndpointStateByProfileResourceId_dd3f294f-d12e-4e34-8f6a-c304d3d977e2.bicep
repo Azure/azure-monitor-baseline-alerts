@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'ProbeAgentCurrentEndpointStateByProfileResourceId'
           dimensions: [
             {
-              name: 'endpointname'
-              operator: 'include'
+              name: 'EndpointName'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

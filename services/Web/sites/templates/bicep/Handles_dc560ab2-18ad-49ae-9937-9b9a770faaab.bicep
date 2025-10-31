@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'The total number of handles currently open by the app process. For WebApps and FunctionApps.'
+param alertDescription string = 'The total number of handles currently open by the app process. For Windows based WebApps and FunctionApps.'
 
 @description('array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)

@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'OriginHealthPercentage'
           dimensions: [
             {
-              name: 'origingroup'
-              operator: 'include'
+              name: 'OriginGroup'
+              operator: 'Include'
               values: ['render']
             }]
           operator: operator
