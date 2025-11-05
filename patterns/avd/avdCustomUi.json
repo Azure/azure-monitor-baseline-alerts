@@ -499,6 +499,77 @@
 							"visible": "[steps('AlertsConfig').optionANFVolumes]"
 						},
 						{
+							"name": "AutomationAccountNetworkSection",
+							"type": "Microsoft.Common.Section",
+							"label": "Automation Account Network Configuration",
+							"elements": [
+								{
+									"name": "infoMessageNetwork",
+									"type": "Microsoft.Common.InfoBox",
+									"visible": true,
+									"options": {
+										"text": "Configure network access for the Automation Account. For enhanced security, you can disable public network access and configure private endpoints. If private endpoints are configured, public network access will be disabled by default.",
+										"style": "Info"
+									}
+								},
+								{
+									"name": "AutomationAccountPublicNetworkAccess",
+									"type": "Microsoft.Common.DropDown",
+									"label": "Public Network Access",
+									"defaultValue": "Enabled",
+									"toolTip": "Whether or not public network access is allowed for the Automation Account. For security reasons it should be disabled if using private endpoints.",
+									"constraints": {
+										"required": false,
+										"allowedValues": [
+											{
+												"label": "Enabled",
+												"value": "Enabled"
+											},
+											{
+												"label": "Disabled",
+												"value": "Disabled"
+											}
+										]
+									},
+									"visible": true
+								},
+								{
+									"name": "optionUsePrivateEndpoints",
+									"type": "Microsoft.Common.CheckBox",
+									"label": "Configure Private Endpoints",
+									"toolTip": "Select this option to configure private endpoints for the Automation Account.",
+									"constraints": {
+										"required": false
+									}
+								},
+								{
+									"name": "privateEndpointSubnetId",
+									"type": "Microsoft.Common.TextBox",
+									"label": "Private Endpoint Subnet Resource ID",
+									"toolTip": "The full resource ID of the subnet where private endpoints will be created. Example: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/virtualNetworks/{vnet-name}/subnets/{subnet-name}",
+									"constraints": {
+										"required": "[steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints]",
+										"regex": "^/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/]+/providers/Microsoft.Network/virtualNetworks/[^/]+/subnets/[^/]+$",
+										"validationMessage": "Must be a valid subnet resource ID."
+									},
+									"visible": "[steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints]"
+								},
+								{
+									"name": "privateDnsZoneResourceIds",
+									"type": "Microsoft.Common.TextBox",
+									"label": "Private DNS Zone Resource IDs (comma-separated)",
+									"toolTip": "Comma-separated list of Private DNS Zone resource IDs for Automation Account private endpoints. Example: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net",
+									"constraints": {
+										"required": false,
+										"regex": "",
+										"validationMessage": ""
+									},
+									"visible": "[steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints]"
+								}
+							],
+							"visible": true
+						},
+						{
 							"name": "Tags",
 							"type": "Microsoft.Common.TagsByResource",
 							"resources": [
@@ -538,7 +609,9 @@
 				"ResourceGroupStatus": "[steps('AlertsConfig').ResourceGroupStatus]",
 				"StorageAccountResourceIds": "[steps('AlertsConfig').AzFilesStorageSection.StorageAccountResourceIds]",
 				"ANFVolumeResourceIds": "[steps('AlertsConfig').ANFStorageSection.ANFVolumeResourceIds]",
-				"Tags": "[steps('AlertsConfig').Tags]"
+				"Tags": "[steps('AlertsConfig').Tags]",
+				"AutomationAccountPublicNetworkAccess": "[if(steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints, 'Disabled', steps('AlertsConfig').AutomationAccountNetworkSection.AutomationAccountPublicNetworkAccess)]",
+				"AutomationAccountPrivateEndpoints": "[if(steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints, createArray(createObject('service', 'Webhook', 'subnetResourceId', steps('AlertsConfig').AutomationAccountNetworkSection.privateEndpointSubnetId, 'privateDnsZoneGroup', if(not(empty(steps('AlertsConfig').AutomationAccountNetworkSection.privateDnsZoneResourceIds)), createObject('privateDNSResourceIds', split(steps('AlertsConfig').AutomationAccountNetworkSection.privateDnsZoneResourceIds, ',')), createObject())), createObject('service', 'DSCAndHybridWorker', 'subnetResourceId', steps('AlertsConfig').AutomationAccountNetworkSection.privateEndpointSubnetId, 'privateDnsZoneGroup', if(not(empty(steps('AlertsConfig').AutomationAccountNetworkSection.privateDnsZoneResourceIds)), createObject('privateDNSResourceIds', split(steps('AlertsConfig').AutomationAccountNetworkSection.privateDnsZoneResourceIds, ',')), createObject()))), createArray())]"
 			},
 			"kind": "Subscription",
 			"location": "[steps('basics').resourceScope.location.name]",

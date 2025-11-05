@@ -72,6 +72,17 @@ param ANFVolumeResourceIds array = []
 
 param Tags object = {}
 
+@description('Whether or not public network access is allowed for the Automation Account. For security reasons it should be disabled. If not specified, it will be disabled by default if private endpoints are set.')
+@allowed([
+  ''
+  'Enabled'
+  'Disabled'
+])
+param AutomationAccountPublicNetworkAccess string = ''
+
+@description('Configuration details for private endpoints for the Automation Account. For security reasons, it is recommended to use private endpoints whenever possible. Each object should contain: service (Webhook or DSCAndHybridWorker), subnetResourceId, and optionally privateDnsZoneGroup.')
+param AutomationAccountPrivateEndpoints array = []
+
 var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName, time)}'
 var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.0)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
@@ -2221,6 +2232,8 @@ module automationAccount 'carml/1.3.0/Microsoft.Automation/automationAccounts/de
       ? Tags['Microsoft.Automation/automationAccounts']
       : {}
     systemAssignedIdentity: true
+    publicNetworkAccess: AutomationAccountPublicNetworkAccess
+    privateEndpoints: AutomationAccountPrivateEndpoints
   }
   dependsOn: ResourceGroupCreate ? [resourceGroupAVDMetricsCreate] : [resourceGroupAVDMetricsExisting]
 }

@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.31.92.45157",
-      "templateHash": "9307847103098609977"
+      "version": "0.38.33.27573",
+      "templateHash": "4536379401918428687"
     }
   },
   "parameters": {
@@ -143,6 +143,25 @@
     "Tags": {
       "type": "object",
       "defaultValue": {}
+    },
+    "AutomationAccountPublicNetworkAccess": {
+      "type": "string",
+      "defaultValue": "",
+      "allowedValues": [
+        "",
+        "Enabled",
+        "Disabled"
+      ],
+      "metadata": {
+        "description": "Whether or not public network access is allowed for the Automation Account. For security reasons it should be disabled. If not specified, it will be disabled by default if private endpoints are set."
+      }
+    },
+    "AutomationAccountPrivateEndpoints": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "Configuration details for private endpoints for the Automation Account. For security reasons, it is recommended to use private endpoints whenever possible. Each object should contain: service (Webhook or DSCAndHybridWorker), subnetResourceId, and optionally privateDnsZoneGroup."
+      }
     }
   },
   "variables": {
@@ -191,7 +210,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          AzureDiagnostics\r\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\r\n          | sort by TimeGenerated\r\n          | where TimeGenerated > now() - 5m\r\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\r\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\r\n          | extend Type=tostring(split(ResultDescription, '|')[2])\r\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\r\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\r\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\r\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\r\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\r\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\r\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\r\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\r\n          | extend ResourceId=tostring(HPResourceId)\r\n          | where HostPoolPercentLoad >= 85 and HostPoolPercentLoad < 95\r\n          | where HostPoolName =~ 'xHostPoolNamex'\r\n          ",
+              "query": "          AzureDiagnostics\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\n          | sort by TimeGenerated\n          | where TimeGenerated > now() - 5m\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\n          | extend Type=tostring(split(ResultDescription, '|')[2])\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\n          | extend ResourceId=tostring(HPResourceId)\n          | where HostPoolPercentLoad >= 85 and HostPoolPercentLoad < 95\n          | where HostPoolName =~ 'xHostPoolNamex'\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -259,7 +278,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          AzureDiagnostics\r\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\r\n          | sort by TimeGenerated\r\n          | where TimeGenerated > now() - 5m\r\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\r\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\r\n          | extend Type=tostring(split(ResultDescription, '|')[2])\r\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\r\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\r\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\r\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\r\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\r\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\r\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\r\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\r\n          | extend ResourceId=tostring(HPResourceId)\r\n          | where HostPoolPercentLoad >= 50 and HostPoolPercentLoad < 85\r\n          | where HostPoolName =~ 'xHostPoolNamex'\r\n          ",
+              "query": "          AzureDiagnostics\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\n          | sort by TimeGenerated\n          | where TimeGenerated > now() - 5m\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\n          | extend Type=tostring(split(ResultDescription, '|')[2])\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\n          | extend ResourceId=tostring(HPResourceId)\n          | where HostPoolPercentLoad >= 50 and HostPoolPercentLoad < 85\n          | where HostPoolName =~ 'xHostPoolNamex'\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -327,7 +346,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          AzureDiagnostics\r\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\r\n          | sort by TimeGenerated\r\n          | where TimeGenerated > now() - 5m\r\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\r\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\r\n          | extend Type=tostring(split(ResultDescription, '|')[2])\r\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\r\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\r\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\r\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\r\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\r\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\r\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\r\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\r\n          | extend ResourceId=tostring(HPResourceId)\r\n          | where HostPoolPercentLoad >= 95\r\n          | where HostPoolName =~ 'xHostPoolNamex'\r\n          ",
+              "query": "          AzureDiagnostics\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdHostPoolLogData\"\n          | sort by TimeGenerated\n          | where TimeGenerated > now() - 5m\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\n          | extend Type=tostring(split(ResultDescription, '|')[2])\n          | extend MaxSessionLimit=toint(split(ResultDescription, '|')[3])\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\n          | extend UserSessionsTotal=toint(split(ResultDescription, '|')[5])\n          | extend UserSessionsDisconnected=toint(split(ResultDescription, '|')[6])\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\n          | extend UserSessionsAvailable=toint(split(ResultDescription, '|')[8])\n          | extend HostPoolPercentLoad=toint(split(ResultDescription, '|')[9])\n          | extend HPResourceId=tostring(split(ResultDescription, '|')[13])\n          | extend ResourceId=tostring(HPResourceId)\n          | where HostPoolPercentLoad >= 95\n          | where HostPoolName =~ 'xHostPoolNamex'\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -512,7 +531,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Perf\r\n          | where TimeGenerated > ago(15m)\r\n          | where ObjectName == \"LogicalDisk\" and CounterName == \"% Free Space\"\r\n          | where InstanceName !contains \"D:\"\r\n          | where InstanceName  !contains \"_Total\"| where CounterValue <= 10.00\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | summarize arg_max(TimeGenerated, *) by ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n          (\r\n              WVDAgentHealthStatus\r\n              | where TimeGenerated > ago(15m)\r\n              | where _ResourceId contains \"xHostPoolNamex\"\r\n              | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n              | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n              | extend ComputerName=tolower(ComputerName)\r\n              | summarize arg_max(TimeGenerated,*) by ComputerName\r\n              | project VMresourceGroup, ComputerName, HostPool, _ResourceId\r\n              ) on ComputerName\r\n          | where ComputerName1 contains ComputerName\r\n          ",
+              "query": "          Perf\n          | where TimeGenerated > ago(15m)\n          | where ObjectName == \"LogicalDisk\" and CounterName == \"% Free Space\"\n          | where InstanceName !contains \"D:\"\n          | where InstanceName  !contains \"_Total\"| where CounterValue <= 10.00\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | summarize arg_max(TimeGenerated, *) by ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n          (\n              WVDAgentHealthStatus\n              | where TimeGenerated > ago(15m)\n              | where _ResourceId contains \"xHostPoolNamex\"\n              | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n              | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n              | extend ComputerName=tolower(ComputerName)\n              | summarize arg_max(TimeGenerated,*) by ComputerName\n              | project VMresourceGroup, ComputerName, HostPool, _ResourceId\n              ) on ComputerName\n          | where ComputerName1 contains ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -559,7 +578,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Perf\r\n          | where TimeGenerated > ago(15m)\r\n          | where ObjectName == \"LogicalDisk\" and CounterName == \"% Free Space\"\r\n          | where InstanceName !contains \"D:\"\r\n          | where InstanceName  !contains \"_Total\"| where CounterValue <= 5.00\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | summarize arg_max(TimeGenerated, *) by ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n          (\r\n              WVDAgentHealthStatus\r\n              | where TimeGenerated > ago(15m)\r\n              | where _ResourceId contains \"xHostPoolNamex\"\r\n              | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n              | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n              | extend ComputerName=tolower(ComputerName)\r\n              | summarize arg_max(TimeGenerated,*) by ComputerName\r\n              | project VMresourceGroup, ComputerName, HostPool, _ResourceId\r\n              ) on ComputerName\r\n          | where ComputerName1 contains ComputerName\r\n          ",
+              "query": "          Perf\n          | where TimeGenerated > ago(15m)\n          | where ObjectName == \"LogicalDisk\" and CounterName == \"% Free Space\"\n          | where InstanceName !contains \"D:\"\n          | where InstanceName  !contains \"_Total\"| where CounterValue <= 5.00\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | summarize arg_max(TimeGenerated, *) by ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, CounterValue, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n          (\n              WVDAgentHealthStatus\n              | where TimeGenerated > ago(15m)\n              | where _ResourceId contains \"xHostPoolNamex\"\n              | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n              | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n              | extend ComputerName=tolower(ComputerName)\n              | summarize arg_max(TimeGenerated,*) by ComputerName\n              | project VMresourceGroup, ComputerName, HostPool, _ResourceId\n              ) on ComputerName\n          | where ComputerName1 contains ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -606,7 +625,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Warning\"\r\n          | where EventID == 34\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Warning\"\n          | where EventID == 34\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -659,7 +678,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Error\"\r\n          | where EventID == 33\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Error\"\n          | where EventID == 33\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -711,7 +730,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Error\"\r\n          | where EventID == 43\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Error\"\n          | where EventID == 43\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -764,7 +783,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Error\"\r\n          | where EventID == 52 or EventID == 40\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Error\"\n          | where EventID == 52 or EventID == 40\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -817,7 +836,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Warning\"\r\n          | where EventID == 60\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n              ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Warning\"\n          | where EventID == 60\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n              ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -870,7 +889,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\r\n          | where EventLevelName == \"Error\"\r\n          | where EventID == 62 or EventID == 63\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Admin\"\n          | where EventLevelName == \"Error\"\n          | where EventID == 62 or EventID == 63\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -923,7 +942,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          Event\r\n          | where EventLog == \"Microsoft-FSLogix-Apps/Operational\"\r\n          | where EventLevelName == \"Warning\"\r\n          | where EventID == 51\r\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\r\n          | extend ComputerName=tolower(ComputerName)\r\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\r\n          | join kind = leftouter\r\n              (\r\n                WVDAgentHealthStatus\r\n                | where _ResourceId contains \"xHostPoolNamex\"\r\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\r\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\r\n                | extend ComputerName=tolower(ComputerName)\r\n                | summarize arg_max(TimeGenerated,*) by ComputerName\r\n                | project VMresourceGroup, ComputerName, HostPool\r\n              ) on ComputerName\r\n          ",
+              "query": "          Event\n          | where EventLog == \"Microsoft-FSLogix-Apps/Operational\"\n          | where EventLevelName == \"Warning\"\n          | where EventID == 51\n          | parse _ResourceId with \"/subscriptions/\" subscription \"/resourcegroups/\" ResourceGroup \"/providers/microsoft.compute/virtualmachines/\" ComputerName\n          | extend ComputerName=tolower(ComputerName)\n          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated\n          | join kind = leftouter\n              (\n                WVDAgentHealthStatus\n                | where _ResourceId contains \"xHostPoolNamex\"\n                | parse _ResourceId with \"/subscriptions/\" subscriptionAgentHealth \"/resourcegroups/\" ResourceGroupAgentHealth \"/providers/microsoft.desktopvirtualization/hostpools/\" HostPool\n                | parse SessionHostResourceId with \"/subscriptions/\" VMsubscription \"/resourceGroups/\" VMresourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" ComputerName\n                | extend ComputerName=tolower(ComputerName)\n                | summarize arg_max(TimeGenerated,*) by ComputerName\n                | project VMresourceGroup, ComputerName, HostPool\n              ) on ComputerName\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -1030,7 +1049,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          // Personal Session Host where Health status is NOT healthy and the VM is assigned\r\n          AzureDiagnostics\r\n          | where Category has \"JobStreams\"\r\n              and StreamType_s == \"Output\"\r\n              and RunbookName_s == \"AvdHostPoolLogData\"\r\n          | sort by TimeGenerated\r\n          | where TimeGenerated > ago(15m)\r\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\r\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\r\n          | extend Type=tostring(split(ResultDescription, '|')[2])\r\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\r\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\r\n          | extend NumPersonalUnhealthy=toint(split(ResultDescription, '|')[10])\r\n          | extend PersonalSessionHost=extract_json(\"$.SessionHost\", tostring(split(ResultDescription, '|')[11]), typeof(string))\r\n          | extend PersonalAssignedUser=extract_json(\"$.AssignedUser\", tostring(split(ResultDescription, '|')[11]), typeof(string))\r\n          | where HostPoolName =~ 'xHostPoolNamex'\r\n          | where Type == 'Personal'\r\n          | where NumPersonalUnhealthy > 0\r\n          ",
+              "query": "          // Personal Session Host where Health status is NOT healthy and the VM is assigned\n          AzureDiagnostics\n          | where Category has \"JobStreams\"\n              and StreamType_s == \"Output\"\n              and RunbookName_s == \"AvdHostPoolLogData\"\n          | sort by TimeGenerated\n          | where TimeGenerated > ago(15m)\n          | extend HostPoolName=tostring(split(ResultDescription, '|')[0])\n          | extend ResourceGroup=tostring(split(ResultDescription, '|')[1])\n          | extend Type=tostring(split(ResultDescription, '|')[2])\n          | extend NumberSessionHosts=toint(split(ResultDescription, '|')[4])\n          | extend UserSessionsActive=toint(split(ResultDescription, '|')[7])\n          | extend NumPersonalUnhealthy=toint(split(ResultDescription, '|')[10])\n          | extend PersonalSessionHost=extract_json(\"$.SessionHost\", tostring(split(ResultDescription, '|')[11]), typeof(string))\n          | extend PersonalAssignedUser=extract_json(\"$.AssignedUser\", tostring(split(ResultDescription, '|')[11]), typeof(string))\n          | where HostPoolName =~ 'xHostPoolNamex'\n          | where Type == 'Personal'\n          | where NumPersonalUnhealthy > 0\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -1076,7 +1095,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          // Connection Errors\r\n          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.\r\n          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.\r\n          WVDConnections\r\n          //| where UserName == \"upn.here@contoso.com\"\r\n          | project-away TenantId,SourceSystem\r\n          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId\r\n          | join kind=leftouter\r\n          (\r\n              WVDErrors\r\n              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId\r\n          ) on CorrelationId\r\n          | join kind=leftouter\r\n          (\r\n              WVDCheckpoints\r\n              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId\r\n              | mv-apply Checkpoints on\r\n              (\r\n                  order by todatetime(Checkpoints['Time']) asc\r\n                  | summarize Checkpoints=make_list(Checkpoints)\r\n              )\r\n          ) on CorrelationId\r\n          | project-away CorrelationId1, CorrelationId2\r\n          | order by TimeGenerated desc\r\n          | where TimeGenerated > ago(15m)\r\n          | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])\r\n          | extend HostPool=tostring(split(_ResourceId, '/')[8])\r\n          | where HostPool =~ 'xHostPoolNamex'\r\n          | extend ErrorShort=tostring(Errors[0].CodeSymbolic)\r\n          | extend ErrorMessage=tostring(Errors[0].Message)\r\n          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage\r\n          ",
+              "query": "          // Connection Errors\n          // List connection checkpoints and errors for each connection attempt, along with detailed information across all users.\n          //You can also uncomment the where clause to filter to a specific user if you are troubleshooting an issue.\n          WVDConnections\n          //| where UserName == \"upn.here@contoso.com\"\n          | project-away TenantId,SourceSystem\n          | summarize arg_max(TimeGenerated, *), StartTime = min(iff(State=='Started', TimeGenerated , datetime(null) )), ConnectTime = min(iff(State=='Connected', TimeGenerated , datetime(null) )) by CorrelationId\n          | join kind=leftouter\n          (\n              WVDErrors\n              |summarize Errors=make_list(pack('Code', Code, 'CodeSymbolic', CodeSymbolic, 'Time', TimeGenerated, 'Message', Message ,'ServiceError', ServiceError, 'Source', Source)) by CorrelationId\n          ) on CorrelationId\n          | join kind=leftouter\n          (\n              WVDCheckpoints\n              | summarize Checkpoints=make_list(pack('Time', TimeGenerated, 'Name', Name, 'Parameters', Parameters, 'Source', Source)) by CorrelationId\n              | mv-apply Checkpoints on\n              (\n                  order by todatetime(Checkpoints['Time']) asc\n                  | summarize Checkpoints=make_list(Checkpoints)\n              )\n          ) on CorrelationId\n          | project-away CorrelationId1, CorrelationId2\n          | order by TimeGenerated desc\n          | where TimeGenerated > ago(15m)\n          | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])\n          | extend HostPool=tostring(split(_ResourceId, '/')[8])\n          | where HostPool =~ 'xHostPoolNamex'\n          | extend ErrorShort=tostring(Errors[0].CodeSymbolic)\n          | extend ErrorMessage=tostring(Errors[0].Message)\n          | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -1166,7 +1185,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          AzureDiagnostics\r\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdStorageLogData\"\r\n          | where split(ResultDescription, ',')[1] <> \"\"\r\n          //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available\r\n          | extend StorageType=split(ResultDescription, ',')[0]\r\n          | extend Subscription=split(ResultDescription, ',')[1]\r\n          | extend ResourceGroup=split(ResultDescription, ',')[2]\r\n          | extend StorageAccount=tostring(split(ResultDescription, ',')[3])\r\n          | extend Share=tostring(split(ResultDescription, ',')[4])\r\n          | extend GBShareQuota=split(ResultDescription, ',')[5]\r\n          | extend GBUsed=split(ResultDescription, ',')[6]\r\n          | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))\r\n          | extend ResourceId=tostring(split(ResultDescription, ',')[8])\r\n          | summarize arg_max(TimeGenerated, *) by Share\r\n          | where PercentAvailable <= 15.00\r\n          | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable\r\n          ",
+              "query": "          AzureDiagnostics\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdStorageLogData\"\n          | where split(ResultDescription, ',')[1] <> \"\"\n          //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available\n          | extend StorageType=split(ResultDescription, ',')[0]\n          | extend Subscription=split(ResultDescription, ',')[1]\n          | extend ResourceGroup=split(ResultDescription, ',')[2]\n          | extend StorageAccount=tostring(split(ResultDescription, ',')[3])\n          | extend Share=tostring(split(ResultDescription, ',')[4])\n          | extend GBShareQuota=split(ResultDescription, ',')[5]\n          | extend GBUsed=split(ResultDescription, ',')[6]\n          | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))\n          | extend ResourceId=tostring(split(ResultDescription, ',')[8])\n          | summarize arg_max(TimeGenerated, *) by Share\n          | where PercentAvailable <= 15.00\n          | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -1206,7 +1225,7 @@
         "criteria": {
           "allOf": [
             {
-              "query": "          AzureDiagnostics\r\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdStorageLogData\"\r\n          | where split(ResultDescription, ',')[1] <> \"\"\r\n          //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available\r\n          | extend StorageType=split(ResultDescription, ',')[0]\r\n          | extend Subscription=split(ResultDescription, ',')[1]\r\n          | extend ResourceGroup=split(ResultDescription, ',')[2]\r\n          | extend StorageAccount=tostring(split(ResultDescription, ',')[3])\r\n          | extend Share=tostring(split(ResultDescription, ',')[4])\r\n          | extend GBShareQuota=split(ResultDescription, ',')[5]\r\n          | extend GBUsed=split(ResultDescription, ',')[6]\r\n          | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))\r\n          | extend ResourceId=tostring(split(ResultDescription, ',')[8])\r\n          | summarize arg_max(TimeGenerated, *) by Share\r\n          | where PercentAvailable <= 5.00\r\n          | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable\r\n          ",
+              "query": "          AzureDiagnostics\n          | where Category has \"JobStreams\" and StreamType_s == \"Output\" and RunbookName_s == \"AvdStorageLogData\"\n          | where split(ResultDescription, ',')[1] <> \"\"\n          //  StorageType / Subscription / RG / StorAcct / Share / Quota / GB Used / %Available\n          | extend StorageType=split(ResultDescription, ',')[0]\n          | extend Subscription=split(ResultDescription, ',')[1]\n          | extend ResourceGroup=split(ResultDescription, ',')[2]\n          | extend StorageAccount=tostring(split(ResultDescription, ',')[3])\n          | extend Share=tostring(split(ResultDescription, ',')[4])\n          | extend GBShareQuota=split(ResultDescription, ',')[5]\n          | extend GBUsed=split(ResultDescription, ',')[6]\n          | extend PercentAvailable=round(toreal(split(ResultDescription, ',')[7]))\n          | extend ResourceId=tostring(split(ResultDescription, ',')[8])\n          | summarize arg_max(TimeGenerated, *) by Share\n          | where PercentAvailable <= 5.00\n          | project TimeGenerated,ResourceId, StorageAccount, Share, PercentAvailable\n          ",
               "timeAggregation": "Count",
               "dimensions": [
                 {
@@ -1727,7 +1746,7 @@
     {
       "condition": "[not(parameters('optoutTelemetry'))]",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[variables('PidcuaAvdPatternDeploymentName')]",
       "location": "[deployment().location]",
       "properties": {
@@ -1742,8 +1761,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "7054048594084367533"
+              "version": "0.38.33.27573",
+              "templateHash": "4836973056031555012"
             }
           },
           "resources": []
@@ -1753,7 +1772,7 @@
     {
       "condition": "[variables('ResourceGroupCreate')]",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[parameters('ResourceGroupName')]",
       "location": "[deployment().location]",
       "properties": {
@@ -1779,8 +1798,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "6556898336061409082"
+              "version": "0.38.33.27573",
+              "templateHash": "7146307824168995561"
             }
           },
           "parameters": {
@@ -1866,7 +1885,7 @@
             {
               "condition": "[not(empty(parameters('lock')))]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-{1}-Lock', uniqueString(deployment().name, parameters('location')), parameters('lock'))]",
               "resourceGroup": "[parameters('name')]",
               "properties": {
@@ -1888,8 +1907,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "2801295372051255959"
+                      "version": "0.38.33.27573",
+                      "templateHash": "10491684356070782119"
                     }
                   },
                   "parameters": {
@@ -1992,7 +2011,7 @@
                 "count": "[length(parameters('roleAssignments'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-RG-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "resourceGroup": "[parameters('name')]",
               "properties": {
@@ -2018,8 +2037,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "8149434558469829985"
+                      "version": "0.38.33.27573",
+                      "templateHash": "14772582775319804643"
                     }
                   },
                   "parameters": {
@@ -2346,7 +2365,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))]",
       "resourceGroup": "[parameters('ResourceGroupName')]",
       "properties": {
@@ -2382,6 +2401,12 @@
           "tags": "[if(contains(parameters('Tags'), 'Microsoft.Automation/automationAccounts'), createObject('value', parameters('Tags')['Microsoft.Automation/automationAccounts']), createObject('value', createObject()))]",
           "systemAssignedIdentity": {
             "value": true
+          },
+          "publicNetworkAccess": {
+            "value": "[parameters('AutomationAccountPublicNetworkAccess')]"
+          },
+          "privateEndpoints": {
+            "value": "[parameters('AutomationAccountPrivateEndpoints')]"
           }
         },
         "template": {
@@ -2390,8 +2415,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "6105937415708421540"
+              "version": "0.38.33.27573",
+              "templateHash": "4853927080839014913"
             }
           },
           "parameters": {
@@ -2742,7 +2767,7 @@
                 "count": "[length(parameters('modules'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Module-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -2778,8 +2803,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "9952440806513106381"
+                      "version": "0.38.33.27573",
+                      "templateHash": "12799477762946440270"
                     }
                   },
                   "parameters": {
@@ -2901,7 +2926,7 @@
                 "count": "[length(parameters('schedules'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Schedule-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -2932,8 +2957,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "13728933902580343963"
+                      "version": "0.38.33.27573",
+                      "templateHash": "11099544796585840127"
                     }
                   },
                   "parameters": {
@@ -3089,7 +3114,7 @@
                 "count": "[length(parameters('runbooks'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Runbook-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -3125,8 +3150,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "7586691070306429927"
+                      "version": "0.38.33.27573",
+                      "templateHash": "4438473759962779628"
                     }
                   },
                   "parameters": {
@@ -3298,7 +3323,7 @@
                 "count": "[length(parameters('jobSchedules'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-JobSchedule-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -3327,8 +3352,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "3448647286948008711"
+                      "version": "0.38.33.27573",
+                      "templateHash": "7794621072712794797"
                     }
                   },
                   "parameters": {
@@ -3447,7 +3472,7 @@
                 "count": "[length(parameters('variables'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Variable-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -3476,8 +3501,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "1088798781502901305"
+                      "version": "0.38.33.27573",
+                      "templateHash": "11548508228970120206"
                     }
                   },
                   "parameters": {
@@ -3579,7 +3604,7 @@
             {
               "condition": "[not(empty(parameters('linkedWorkspaceResourceId')))]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-LinkedService', uniqueString(deployment().name, parameters('location')))]",
               "subscriptionId": "[if(not(empty(parameters('linkedWorkspaceResourceId'))), split(parameters('linkedWorkspaceResourceId'), '/')[2], subscription().subscriptionId)]",
               "resourceGroup": "[if(not(empty(parameters('linkedWorkspaceResourceId'))), split(parameters('linkedWorkspaceResourceId'), '/')[4], resourceGroup().name)]",
@@ -3611,8 +3636,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "15732312081213911361"
+                      "version": "0.38.33.27573",
+                      "templateHash": "14676276888712990007"
                     }
                   },
                   "parameters": {
@@ -3719,7 +3744,7 @@
               },
               "condition": "[not(empty(parameters('linkedWorkspaceResourceId')))]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Solution-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "subscriptionId": "[if(not(empty(parameters('linkedWorkspaceResourceId'))), split(parameters('linkedWorkspaceResourceId'), '/')[2], subscription().subscriptionId)]",
               "resourceGroup": "[if(not(empty(parameters('linkedWorkspaceResourceId'))), split(parameters('linkedWorkspaceResourceId'), '/')[4], resourceGroup().name)]",
@@ -3750,8 +3775,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "14810314673410373698"
+                      "version": "0.38.33.27573",
+                      "templateHash": "4620631905970875515"
                     }
                   },
                   "parameters": {
@@ -3873,7 +3898,7 @@
                 "count": "[length(parameters('softwareUpdateConfigurations'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-SwUpdateConfig-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -3933,8 +3958,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "4208782886811707699"
+                      "version": "0.38.33.27573",
+                      "templateHash": "15479802640597981103"
                     }
                   },
                   "parameters": {
@@ -4362,7 +4387,7 @@
                 "count": "[length(parameters('privateEndpoints'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutomationAccount-PrivateEndpoint-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -4404,8 +4429,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "14027054506895285773"
+                      "version": "0.38.33.27573",
+                      "templateHash": "16398116802233495301"
                     }
                   },
                   "parameters": {
@@ -4577,7 +4602,7 @@
                     {
                       "condition": "[not(empty(parameters('privateDnsZoneGroup')))]",
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('{0}-PrivateEndpoint-PrivateDnsZoneGroup', uniqueString(deployment().name, parameters('location')))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -4601,8 +4626,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "800516619320849854"
+                              "version": "0.38.33.27573",
+                              "templateHash": "4589327118891811014"
                             }
                           },
                           "parameters": {
@@ -4708,7 +4733,7 @@
                         "count": "[length(parameters('roleAssignments'))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('{0}-PrivateEndpoint-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -4736,8 +4761,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16284621432925501090"
+                              "version": "0.38.33.27573",
+                              "templateHash": "5107871089794713374"
                             }
                           },
                           "parameters": {
@@ -4922,7 +4947,7 @@
                 "count": "[length(parameters('roleAssignments'))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('{0}-AutoAccount-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -4950,8 +4975,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "3182954352944324653"
+                      "version": "0.38.33.27573",
+                      "templateHash": "142342711435770051"
                     }
                   },
                   "parameters": {
@@ -5119,7 +5144,7 @@
       },
       "condition": "[not(parameters('AllResourcesSameRG'))]",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('c_DsktpRead_{0}', split(parameters('HostPoolInfo')[copyIndex()].colVMResGroup, '/')[4])]",
       "resourceGroup": "[split(parameters('HostPoolInfo')[copyIndex()].colVMResGroup, '/')[4]]",
       "properties": {
@@ -5132,7 +5157,7 @@
             "value": false
           },
           "principalId": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2022-09-01').outputs.systemAssignedPrincipalId.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2025-04-01').outputs.systemAssignedPrincipalId.value]"
           },
           "roleDefinitionIdOrName": {
             "value": "Desktop Virtualization Reader"
@@ -5150,8 +5175,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "7524819357101518089"
+              "version": "0.38.33.27573",
+              "templateHash": "14583455284810134992"
             }
           },
           "parameters": {
@@ -5705,7 +5730,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('c_DsktpRead_{0}', split(parameters('AVDResourceGroupId'), '/')[4])]",
       "resourceGroup": "[split(parameters('AVDResourceGroupId'), '/')[4]]",
       "properties": {
@@ -5718,7 +5743,7 @@
             "value": false
           },
           "principalId": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2022-09-01').outputs.systemAssignedPrincipalId.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2025-04-01').outputs.systemAssignedPrincipalId.value]"
           },
           "roleDefinitionIdOrName": {
             "value": "Desktop Virtualization Reader"
@@ -5736,8 +5761,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "7524819357101518089"
+              "version": "0.38.33.27573",
+              "templateHash": "14583455284810134992"
             }
           },
           "parameters": {
@@ -6291,7 +6316,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('c_LogContrib_{0}', split(parameters('LogAnalyticsWorkspaceResourceId'), '/')[4])]",
       "subscriptionId": "[split(parameters('LogAnalyticsWorkspaceResourceId'), '/')[2]]",
       "resourceGroup": "[split(parameters('LogAnalyticsWorkspaceResourceId'), '/')[4]]",
@@ -6305,7 +6330,7 @@
             "value": false
           },
           "principalId": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2022-09-01').outputs.systemAssignedPrincipalId.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2025-04-01').outputs.systemAssignedPrincipalId.value]"
           },
           "roleDefinitionIdOrName": {
             "value": "[format('/providers/Microsoft.Authorization/roleDefinitions/{0}', variables('RoleAssignments').LogAnalyticsContributor.GUID)]"
@@ -6323,8 +6348,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "7524819357101518089"
+              "version": "0.38.33.27573",
+              "templateHash": "14583455284810134992"
             }
           },
           "parameters": {
@@ -6882,7 +6907,7 @@
         "count": "[length(variables('StorAcctsSubRGs'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('c_StorAcctContrib_{0}', split(variables('StorAcctsSubRGs')[copyIndex()], ',')[1])]",
       "subscriptionId": "[split(variables('StorAcctsSubRGs')[copyIndex()], ',')[0]]",
       "resourceGroup": "[split(variables('StorAcctsSubRGs')[copyIndex()], ',')[1]]",
@@ -6896,7 +6921,7 @@
             "value": false
           },
           "principalId": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2022-09-01').outputs.systemAssignedPrincipalId.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('ResourceGroupName')), 'Microsoft.Resources/deployments', format('c_AutomtnAcct-{0}', variables('AutomationAccountName'))), '2025-04-01').outputs.systemAssignedPrincipalId.value]"
           },
           "roleDefinitionIdOrName": {
             "value": "[format('/providers/Microsoft.Authorization/roleDefinitions/{0}', variables('RoleAssignments').StoreAcctContrib.GUID)]"
@@ -6914,8 +6939,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "7524819357101518089"
+              "version": "0.38.33.27573",
+              "templateHash": "14583455284810134992"
             }
           },
           "parameters": {
@@ -7469,7 +7494,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "lnk_MonitoringResourcesDeployment",
       "resourceGroup": "[if(variables('ResourceGroupCreate'), parameters('ResourceGroupName'), parameters('ResourceGroupName'))]",
       "properties": {
@@ -7536,8 +7561,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.31.92.45157",
-              "templateHash": "6715209852039847392"
+              "version": "0.38.33.27573",
+              "templateHash": "16138635209355907199"
             }
           },
           "parameters": {
@@ -7600,7 +7625,7 @@
           "resources": [
             {
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[parameters('ActionGroupName')]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -7640,8 +7665,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "17047460845541441863"
+                      "version": "0.38.33.27573",
+                      "templateHash": "14718749811663997525"
                     }
                   },
                   "parameters": {
@@ -7805,7 +7830,7 @@
                         "count": "[length(parameters('roleAssignments'))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('{0}-ActionGroup-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -7833,8 +7858,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "4285222361298062136"
+                              "version": "0.38.33.27573",
+                              "templateHash": "965013820654420224"
                             }
                           },
                           "parameters": {
@@ -8118,7 +8143,7 @@
               },
               "condition": "[not(parameters('AllResourcesSameRG'))]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[if(not(parameters('AllResourcesSameRG')), format('lnk_VMMtrcAlrts_m_{0}', split(parameters('HostPoolInfo')[range(0, length(parameters('HostPoolInfo')))[copyIndex()]].colHostPoolName, '/')[8]), 'lnk_VMMtrcAlrts_m_NA')]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -8146,7 +8171,7 @@
                     "value": "[parameters('Location')]"
                   },
                   "ActionGroupId": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Tags": {
                     "value": "[parameters('Tags')]"
@@ -8158,8 +8183,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "5469596130899130212"
+                      "version": "0.38.33.27573",
+                      "templateHash": "10671829554277618606"
                     }
                   },
                   "parameters": {
@@ -8201,7 +8226,7 @@
                         "count": "[length(range(0, length(parameters('MetricAlerts').virtualMachines)))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}', replace(parameters('MetricAlerts').virtualMachines[range(0, length(parameters('MetricAlerts').virtualMachines))[copyIndex()]].name, 'xHostPoolNamex', variables('HostPoolResourceName')), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -8266,8 +8291,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16627790300726824635"
+                              "version": "0.38.33.27573",
+                              "templateHash": "11333833760422481533"
                             }
                           },
                           "parameters": {
@@ -8476,7 +8501,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-MetricAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -8504,8 +8529,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "17476159558740499985"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "12351844976906948101"
                                     }
                                   },
                                   "parameters": {
@@ -8796,7 +8821,7 @@
               },
               "condition": "[parameters('AllResourcesSameRG')]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_VMMtrcAlrts_s_{0}', split(parameters('HostPools')[range(0, length(parameters('HostPools')))[copyIndex()]], '/')[8])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -8826,7 +8851,7 @@
                     "value": "[parameters('Location')]"
                   },
                   "ActionGroupId": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Tags": {
                     "value": "[parameters('Tags')]"
@@ -8838,8 +8863,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "5469596130899130212"
+                      "version": "0.38.33.27573",
+                      "templateHash": "10671829554277618606"
                     }
                   },
                   "parameters": {
@@ -8881,7 +8906,7 @@
                         "count": "[length(range(0, length(parameters('MetricAlerts').virtualMachines)))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}', replace(parameters('MetricAlerts').virtualMachines[range(0, length(parameters('MetricAlerts').virtualMachines))[copyIndex()]].name, 'xHostPoolNamex', variables('HostPoolResourceName')), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -8946,8 +8971,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16627790300726824635"
+                              "version": "0.38.33.27573",
+                              "templateHash": "11333833760422481533"
                             }
                           },
                           "parameters": {
@@ -9156,7 +9181,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-MetricAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -9184,8 +9209,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "17476159558740499985"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "12351844976906948101"
                                     }
                                   },
                                   "parameters": {
@@ -9476,7 +9501,7 @@
               },
               "condition": "[greater(length(parameters('StorageAccountResourceIds')), 0)]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_StrAcctMtrcAlrts_{0}', split(parameters('StorageAccountResourceIds')[range(0, length(parameters('StorageAccountResourceIds')))[copyIndex()]], '/')[8])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -9503,7 +9528,7 @@
                     "value": "[parameters('MetricAlerts').storageAccounts]"
                   },
                   "ActionGroupID": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Tags": {
                     "value": "[parameters('Tags')]"
@@ -9515,8 +9540,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "9050758326206554543"
+                      "version": "0.38.33.27573",
+                      "templateHash": "14337606815059143176"
                     }
                   },
                   "parameters": {
@@ -9552,7 +9577,7 @@
                         "count": "[length(range(0, length(parameters('MetricAlertsStorageAcct'))))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}-{2}', parameters('MetricAlertsStorageAcct')[range(0, length(parameters('MetricAlertsStorageAcct')))[copyIndex()]].name, split(parameters('StorageAccountResourceID'), '/')[8], parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -9616,8 +9641,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16627790300726824635"
+                              "version": "0.38.33.27573",
+                              "templateHash": "11333833760422481533"
                             }
                           },
                           "parameters": {
@@ -9826,7 +9851,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-MetricAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -9854,8 +9879,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "17476159558740499985"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "12351844976906948101"
                                     }
                                   },
                                   "parameters": {
@@ -10146,7 +10171,7 @@
               },
               "condition": "[greater(length(parameters('ANFVolumeResourceIds')), 0)]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_ANFMtrcAlrts_{0}', split(parameters('ANFVolumeResourceIds')[range(0, length(parameters('ANFVolumeResourceIds')))[copyIndex()]], '/')[12])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -10173,7 +10198,7 @@
                     "value": "[parameters('MetricAlerts').anf]"
                   },
                   "ActionGroupID": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Tags": {
                     "value": "[parameters('Tags')]"
@@ -10185,8 +10210,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "226819917949736350"
+                      "version": "0.38.33.27573",
+                      "templateHash": "9368352951252474952"
                     }
                   },
                   "parameters": {
@@ -10226,7 +10251,7 @@
                         "count": "[length(range(0, length(parameters('MetricAlertsANF'))))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}-{2}', parameters('MetricAlertsANF')[range(0, length(parameters('MetricAlertsANF')))[copyIndex()]].name, variables('ANFVolumeResourceName'), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -10290,8 +10315,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16627790300726824635"
+                              "version": "0.38.33.27573",
+                              "templateHash": "11333833760422481533"
                             }
                           },
                           "parameters": {
@@ -10500,7 +10525,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-MetricAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -10528,8 +10553,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "17476159558740499985"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "12351844976906948101"
                                     }
                                   },
                                   "parameters": {
@@ -10820,7 +10845,7 @@
               },
               "condition": "[greater(length(parameters('StorageAccountResourceIds')), 0)]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_FlSvcsMtrcAlrts_{0}', range(0, length(parameters('StorageAccountResourceIds')))[copyIndex()])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -10847,7 +10872,7 @@
                     "value": "[parameters('MetricAlerts').fileShares]"
                   },
                   "ActionGroupID": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Tags": {
                     "value": "[parameters('Tags')]"
@@ -10859,8 +10884,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "17307003094358881498"
+                      "version": "0.38.33.27573",
+                      "templateHash": "14860962228853153390"
                     }
                   },
                   "parameters": {
@@ -10901,7 +10926,7 @@
                         "count": "[length(range(0, length(parameters('MetricAlertsFileShares'))))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}-{2}', parameters('MetricAlertsFileShares')[range(0, length(parameters('MetricAlertsFileShares')))[copyIndex()]].name, variables('StorAcctName'), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -10965,8 +10990,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "16627790300726824635"
+                              "version": "0.38.33.27573",
+                              "templateHash": "11333833760422481533"
                             }
                           },
                           "parameters": {
@@ -11175,7 +11200,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-MetricAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -11203,8 +11228,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "17476159558740499985"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "12351844976906948101"
                                     }
                                   },
                                   "parameters": {
@@ -11494,7 +11519,7 @@
                 "count": "[length(range(0, length(parameters('LogAlertsStorage'))))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('c_{0}', parameters('LogAlertsStorage')[range(0, length(parameters('LogAlertsStorage')))[copyIndex()]].name)]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -11524,7 +11549,7 @@
                   },
                   "actions": {
                     "value": [
-                      "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                      "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                     ]
                   },
                   "alertDisplayName": {
@@ -11553,8 +11578,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "10992883760425799054"
+                      "version": "0.38.33.27573",
+                      "templateHash": "79858289945159421"
                     }
                   },
                   "parameters": {
@@ -11755,7 +11780,7 @@
                         "count": "[length(parameters('roleAssignments'))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('{0}-QueryRule-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -11783,8 +11808,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "6105069869291760049"
+                              "version": "0.38.33.27573",
+                              "templateHash": "7837623396491994957"
                             }
                           },
                           "parameters": {
@@ -12071,7 +12096,7 @@
               },
               "condition": "[not(parameters('AllResourcesSameRG'))]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_HPAlrts-{0}', split(parameters('HostPoolInfo')[copyIndex()].colHostPoolName, '/')[8])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -12083,7 +12108,7 @@
                     "value": "[parameters('AutoResolveAlert')]"
                   },
                   "ActionGroupId": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Environment": {
                     "value": "[parameters('Environment')]"
@@ -12110,8 +12135,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "16008288185953288251"
+                      "version": "0.38.33.27573",
+                      "templateHash": "12278033328780640752"
                     }
                   },
                   "parameters": {
@@ -12150,7 +12175,7 @@
                         "count": "[length(range(0, length(parameters('LogAlertsHostPool'))))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}', replace(parameters('LogAlertsHostPool')[range(0, length(parameters('LogAlertsHostPool')))[copyIndex()]].name, 'xHostPoolNamex', variables('HostPoolResourceName')), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -12220,8 +12245,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "10992883760425799054"
+                              "version": "0.38.33.27573",
+                              "templateHash": "79858289945159421"
                             }
                           },
                           "parameters": {
@@ -12422,7 +12447,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-QueryRule-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -12450,8 +12475,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "6105069869291760049"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "7837623396491994957"
                                     }
                                   },
                                   "parameters": {
@@ -12756,7 +12781,7 @@
               },
               "condition": "[parameters('AllResourcesSameRG')]",
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('lnk_HPAlrts-{0}', split(parameters('HostPools')[copyIndex()], '/')[8])]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -12768,7 +12793,7 @@
                     "value": "[parameters('AutoResolveAlert')]"
                   },
                   "ActionGroupId": {
-                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                    "value": "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                   },
                   "Environment": {
                     "value": "[parameters('Environment')]"
@@ -12795,8 +12820,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "16008288185953288251"
+                      "version": "0.38.33.27573",
+                      "templateHash": "12278033328780640752"
                     }
                   },
                   "parameters": {
@@ -12835,7 +12860,7 @@
                         "count": "[length(range(0, length(parameters('LogAlertsHostPool'))))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('c_{0}-{1}', replace(parameters('LogAlertsHostPool')[range(0, length(parameters('LogAlertsHostPool')))[copyIndex()]].name, 'xHostPoolNamex', variables('HostPoolResourceName')), parameters('Environment'))]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -12905,8 +12930,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "10992883760425799054"
+                              "version": "0.38.33.27573",
+                              "templateHash": "79858289945159421"
                             }
                           },
                           "parameters": {
@@ -13107,7 +13132,7 @@
                                 "count": "[length(parameters('roleAssignments'))]"
                               },
                               "type": "Microsoft.Resources/deployments",
-                              "apiVersion": "2022-09-01",
+                              "apiVersion": "2025-04-01",
                               "name": "[format('{0}-QueryRule-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                               "properties": {
                                 "expressionEvaluationOptions": {
@@ -13135,8 +13160,8 @@
                                   "metadata": {
                                     "_generator": {
                                       "name": "bicep",
-                                      "version": "0.31.92.45157",
-                                      "templateHash": "6105069869291760049"
+                                      "version": "0.38.33.27573",
+                                      "templateHash": "7837623396491994957"
                                     }
                                   },
                                   "parameters": {
@@ -13440,7 +13465,7 @@
                 "count": "[length(range(0, length(parameters('LogAlertsSvcHealth'))))]"
               },
               "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2022-09-01",
+              "apiVersion": "2025-04-01",
               "name": "[format('c_{0}', parameters('LogAlertsSvcHealth')[range(0, length(parameters('LogAlertsSvcHealth')))[copyIndex()]].name)]",
               "properties": {
                 "expressionEvaluationOptions": {
@@ -13491,7 +13516,7 @@
                   },
                   "actions": {
                     "value": [
-                      "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2022-09-01').outputs.resourceId.value]"
+                      "[reference(resourceId('Microsoft.Resources/deployments', parameters('ActionGroupName')), '2025-04-01').outputs.resourceId.value]"
                     ]
                   },
                   "alertDescription": {
@@ -13504,8 +13529,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.31.92.45157",
-                      "templateHash": "2424728807337298433"
+                      "version": "0.38.33.27573",
+                      "templateHash": "3431063175717315990"
                     }
                   },
                   "parameters": {
@@ -13631,7 +13656,7 @@
                         "count": "[length(parameters('roleAssignments'))]"
                       },
                       "type": "Microsoft.Resources/deployments",
-                      "apiVersion": "2022-09-01",
+                      "apiVersion": "2025-04-01",
                       "name": "[format('{0}-ActivityLogAlert-Rbac-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
                       "properties": {
                         "expressionEvaluationOptions": {
@@ -13659,8 +13684,8 @@
                           "metadata": {
                             "_generator": {
                               "name": "bicep",
-                              "version": "0.31.92.45157",
-                              "templateHash": "13690135404308617503"
+                              "version": "0.38.33.27573",
+                              "templateHash": "7573301846758356061"
                             }
                           },
                           "parameters": {
