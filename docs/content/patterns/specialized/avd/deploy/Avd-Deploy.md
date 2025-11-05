@@ -19,6 +19,28 @@ An AVD deployment with associated Insights configuration per the AVD Portal's AV
     - Data Collection Rule associated with the Log Analytics Workspace
 4. Storage either Azure Files or Azure NetApp Files configured for FSLogix Profiles (optional)
 
+## Network Configuration (Optional)
+
+The solution creates an Automation Account that requires network access to function properly. By default, public network access is enabled. However, for enhanced security, you can configure private endpoints during deployment.
+
+### Private Endpoint Configuration
+
+If your organization's security policies require private endpoints (e.g., Azure Policy blocking public access), you can configure them during deployment:
+
+1. During the portal deployment, navigate to the **Automation Account Network Configuration** section
+2. Select your preferred **Public Network Access** setting:
+   - **Enabled** (default): Allows public internet access to the Automation Account
+   - **Disabled**: Blocks public access (requires private endpoints)
+3. Check **Configure Private Endpoints** if you want to use private endpoints
+4. Provide the **Private Endpoint Subnet Resource ID** where private endpoints will be created
+   - Format: `/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/virtualNetworks/{vnet-name}/subnets/{subnet-name}`
+5. Optionally provide **Private DNS Zone Resource IDs** (comma-separated) for DNS resolution
+   - Example: `/subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net`
+
+**Note:** When private endpoints are configured, the solution automatically creates two private endpoints for the Automation Account:
+- **Webhook**: For webhook-based automation
+- **DSCAndHybridWorker**: For Desired State Configuration and Hybrid Worker functionality
+
 ## Deploy via the Azure Portal UI  
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json) [![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json)
