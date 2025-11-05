@@ -557,12 +557,12 @@
 								{
 									"name": "privateDnsZoneResourceIds",
 									"type": "Microsoft.Common.TextBox",
-									"label": "Private DNS Zone Resource IDs (comma-separated)",
-									"toolTip": "Comma-separated list of Private DNS Zone resource IDs for Automation Account private endpoints. Example: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net",
+									"label": "Private DNS Zone Resource IDs (comma-separated, optional)",
+									"toolTip": "Optional comma-separated list of Private DNS Zone resource IDs for Automation Account private endpoints. Example: /subscriptions/{subscription-id}/resourceGroups/{rg-name}/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net",
 									"constraints": {
 										"required": false,
-										"regex": "",
-										"validationMessage": ""
+										"regex": "^(|(/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/,]+/providers/Microsoft.Network/privateDnsZones/[^/,]+(,\\s*/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[^/,]+/providers/Microsoft.Network/privateDnsZones/[^/,]+)*))$",
+										"validationMessage": "Must be empty or a valid comma-separated list of Private DNS Zone resource IDs."
 									},
 									"visible": "[steps('AlertsConfig').AutomationAccountNetworkSection.optionUsePrivateEndpoints]"
 								}
