@@ -12,17 +12,16 @@ To begin, download the appropriate parameter file for the version of AMBA-ALZ yo
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
-The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group. Modify the values of the following parameters at the beginning of the parameter file as per the following instructions:
+Modify the values of the following parameters at the beginning of the parameter file as per the following instructions:
 
   {{< hint type=note >}}
   It is highly recommended to configure at least one notification option (email, ARM Role, Logic App, etc.) to ensure you receive alerts. Proceeding without any notification settings is not advised.
   {{< /hint >}}
 
-- Set the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you intend to deploy the policies and initiatives. Typically, this is the "pseudo root management group." In [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this refers to the "Intermediate Root Management Group" located directly beneath the "Tenant Root Group."
 - Set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes** if you have an existing user-assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level. Otherwise, leave it set to **No** to create a new managed identity with the appropriate permissions during the deployment process.
 - Update the _```bringYourownUserAssignedManagedIdentityResourceId```_ parameter. If _```bringYourownUserAssignedManagedIdentity```_ is set to **Yes**, provide the resource ID of your user-assigned managed identity. If it is set to **No**, leave this parameter blank.
 - Set the _```userAssignedManagedIdentityName```_ parameter to a preferred name. This parameter is only used if _```bringYourownUserAssignedManagedIdentity```_ is set to **No**.
-- Update the _```managementSubscriptionId```_ parameter. If _```bringYourownUserAssignedManagedIdentity```_ is set to **No**, provide the subscription ID of the management subscription. Otherwise, leave it blank.
+- Update the _```topLevelSubscriptionId```_ parameter to the subscription ID where AMBA-ALZ is being deployed.
 - Set the _```ALZMonitorResourceGroupName```_ parameter to the name of the resource group where activity logs, resource health alerts, action groups, and alert processing rules will be deployed.
 - Update the _```ALZMonitorResourceGroupTags```_ parameter to specify the tags to be added to the resource group.
 - Set the _```ALZMonitorResourceGroupLocation```_ parameter to specify the location of the resource group.
@@ -121,35 +120,3 @@ You can use multiple email addresses, ARM Roles, Webhooks, or Event Hubs (though
 {{< /hint >}}
 
 To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_, _```enableAMBANotificationAssets```_, _```enableAMBAHybridVM```_, _```enableAMBAKeyManagement```_, _```enableAMBALoadBalancing```_, _```enableAMBANetworkChanges```_, _```enableAMBARecoveryServices```_, _```enableAMBAStorage```_, _```enableAMBAVM```_, or _```enableAMBAWeb```_.
-
-### If you are aligned to ALZ
-
-- Set the _```platformManagementGroup```_ parameter to the management group ID designated for Platform.
-- Set the _```IdentityManagementGroup```_ parameter to the management group ID designated for Identity.
-- Set the _```managementManagementGroup```_ parameter to the management group ID designated for Management.
-- Set the _```connectivityManagementGroup```_ parameter to the management group ID designated for Connectivity.
-- Set the _```LandingZoneManagementGroup```_ parameter to the management group ID designated for Landing Zones.
-
-### If you are unaligned to ALZ
-
-- Set the _```platformManagementGroup```_ parameter to the management group ID designated for Platform. This ID may be used multiple times.
-- Set the _```IdentityManagementGroup```_ parameter to the management group ID designated for Identity. This ID may be used multiple times.
-- Set the _```managementManagementGroup```_ parameter to the management group ID designated for Management. This ID may be used multiple times.
-- Set the _```connectivityManagementGroup```_ parameter to the management group ID designated for Connectivity. This ID may be used multiple times.
-- Set the _```LandingZoneManagementGroup```_ parameter to the management group ID designated for Landing Zones. This ID may be used multiple times.
-
-{{< hint type=note >}}
-For streamlined deployment and maintenance, we have retained the same variable names. For instance, if you have consolidated Identity, Management, and Connectivity into a single management group, configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the same management group ID.
-{{< /hint >}}
-
-### If you have a single management group
-
-- Set the value of _```platformManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
-- Set the value of _```IdentityManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
-- Set the value of _```managementManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
-- Set the value of _```connectivityManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
-- Set the value of _```LandingZoneManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
-
-{{< hint type=note >}}
-For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.
-{{< /hint >}}

@@ -10,23 +10,8 @@ The parameter file below is a shortened version for demonstration purposes. Full
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "enterpriseScaleCompanyPrefix": {
-      "value": "contoso"
-    },
-    "platformManagementGroup": {
-      "value": "contoso-platform"
-    },
-    "IdentityManagementGroup": {
-      "value": "contoso-identity"
-    },
-    "managementManagementGroup": {
-      "value": "contoso-management"
-    },
-    "connectivityManagementGroup": {
-      "value": "contoso-connectivity"
-    },
-    "LandingZoneManagementGroup": {
-      "value": "contoso-landingzones"
+    "topLevelSubscriptionId": {
+      "value": "00000000-0000-0000-0000-000000000000"
     },
     "enableAMBAConnectivity": {
       "value": "Yes"
@@ -78,9 +63,6 @@ The parameter file below is a shortened version for demonstration purposes. Full
     },
     "userAssignedManagedIdentityName": {
       "value": "id-amba-prod-001"
-    },
-    "managementSubscriptionId": {
-      "value": ""
     },
     "ALZMonitorResourceGroupName": {
       "value": "rg-amba-monitoring-001"
