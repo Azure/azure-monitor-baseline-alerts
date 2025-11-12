@@ -12,6 +12,10 @@ weight: 78
 
 ## Overview
 
+{{< tabs "Exclusion_MG_Overwiev" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
+
 After release [2025-03-03](../../Overview/Whats-New#2025-03-03), we have made available a new set of parameters that allows you to exclude Management Groups and/or Subscriptions from policy assignments. This feature helps customers that would like to control the application of policies at scale during the deployment of the AMBA-ALZ pattern. For customers who already deployed the AMBA-ALZ pattern, it is possible to use this feature by either updating the existing deployment or manually configuring the exclusion in the existing policy assignments. A guide to perform the manual exclusion is available at [Can I exclude Management Groups or Subscriptions from policy assignment?](../../Resources/FAQ#can-i-exclude-management-groups-or-subscriptions-from-policy-assignment) in the [FAQ](../../Resources/FAQ) page. For new deployments, using the new parameters will help performing the resource(s) exclusion at scale for policy assignments. The resource format must adhere to the standard Azure resource ID format reported as following for both Management Groups and Subscriptions:
 
 - **Management Groups** == *"/providers/Microsoft.Management/managementGroups/<<management group id>>"*
@@ -45,7 +49,23 @@ The parameters can be configured with more than one value, since it is expecting
 
 During the deployment the policy, assignment will be configured with the requested exclusion.
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Info >}}
+**This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## How this feature works
+
+{{< tabs "Exclusion_MG_HIW" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 {{< hint type=Info >}}
 **This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file.**
@@ -71,3 +91,15 @@ Once the parameter has been properly configured, go ahead with the deployment of
 You will get policy assignments configured with the excluded resources (if any):
 
 ![Policy assignment with excluded resources](../../media/AssignmentsExclusion-6.png)
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Info >}}
+**This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
