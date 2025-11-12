@@ -108,9 +108,9 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'Size'
           dimensions: [
             {
-              name: 'entityname'
-              operator: 'include'
-              values: ['lp-cl-sa-centralus-queue']
+              name: 'EntityName'
+              operator: 'Include'
+              values: ['*']
             }]
           operator: operator
           threshold: threshold

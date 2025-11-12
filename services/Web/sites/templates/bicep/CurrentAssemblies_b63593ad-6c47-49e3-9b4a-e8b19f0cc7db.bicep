@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'The current number of Assemblies loaded across all AppDomains in this application. For WebApps and FunctionApps.'
+param alertDescription string = 'The current number of Assemblies loaded across all AppDomains in this application. For Windows based WebApps and FunctionApps.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)

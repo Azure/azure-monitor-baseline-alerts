@@ -109,7 +109,7 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           dimensions: [
             {
               name: 'dsname'
-              operator: 'include'
+              operator: 'Include'
               values: ['*']
             }]
           operator: operator

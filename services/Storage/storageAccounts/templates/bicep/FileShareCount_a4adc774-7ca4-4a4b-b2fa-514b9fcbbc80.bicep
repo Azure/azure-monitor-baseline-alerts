@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'The number of file shares in the storage account.'
+param alertDescription string = 'The number of file shares in the storage account. Currently, alert is set to 0 threshold so it will alert if customer has non-zero file shares in a storage account. Adjust the threshold value to suitable upper limit.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 0
+param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([

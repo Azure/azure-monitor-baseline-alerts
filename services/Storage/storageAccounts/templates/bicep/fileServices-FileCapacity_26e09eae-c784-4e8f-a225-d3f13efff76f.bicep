@@ -27,7 +27,7 @@ param isEnabled bool = true
   3
   4
 ])
-param alertSeverity int = 2
+param alertSeverity int = 3
 
 @description('Operator comparing the current value with the threshold value.')
 @allowed([
@@ -40,7 +40,7 @@ param alertSeverity int = 2
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 96636764160
+param threshold int = 87960930222080
 
 @description('How the data that is collected should be combined over time.')
 @allowed([

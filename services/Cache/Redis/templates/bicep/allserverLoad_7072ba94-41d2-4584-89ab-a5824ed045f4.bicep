@@ -108,8 +108,8 @@ resource metricAlert 'Microsoft.Insights/metricAlerts@2018-03-01' = {
           metricName: 'allserverLoad'
           dimensions: [
             {
-              name: 'shardid'
-              operator: 'include'
+              name: 'ShardId'
+              operator: 'Include'
               values: ['*']
             }
             {

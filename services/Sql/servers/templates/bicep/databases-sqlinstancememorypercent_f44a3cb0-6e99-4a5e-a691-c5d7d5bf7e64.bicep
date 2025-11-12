@@ -3,7 +3,7 @@
 param alertName string
 
 @description('Description of alert')
-param alertDescription string = 'Memory usage by the database engine instance. Not applicable to data warehouses.'
+param alertDescription string = 'Memory usage by the database engine instance. Not applicable to data warehouses and elastic pool databases.'
 
 @description('Array of Azure resource Ids. For example - /subscriptions/00000000-0000-0000-0000-0000-00000000/resourceGroup/resource-group-name/Microsoft.compute/virtualMachines/vm-name')
 @minLength(1)
