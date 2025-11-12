@@ -242,18 +242,18 @@ To modify settings that are not parameterized, follow these steps:
   {{< /hint >}}
 3. Execute the following commands to update the ***policy files*** file:
 
-    `bicep build .\patterns\alz\templates\policies-Automation.bicep --outfile .\patterns\alz\policyDefinitions\policies-Automation.json`
-    `bicep build .\patterns\alz\templates\policies-Compute.bicep --outfile .\patterns\alz\policyDefinitions\policies-Compute.json`
-    `bicep build .\patterns\alz\templates\policies-Hybrid.bicep --outfile .\patterns\alz\policyDefinitions\policies-Hybrid.json`
-    `bicep build .\patterns\alz\templates\policies-KeyManagement.bicep --outfile .\patterns\alz\policyDefinitions\policies-KeyManagement.json`
-    `bicep build .\patterns\alz\templates\policies-Monitoring.bicep --outfile .\patterns\alz\policyDefinitions\policies-Monitoring.json`
-    `bicep build .\patterns\alz\templates\policies-Network.bicep --outfile .\patterns\alz\policyDefinitions\policies-Network.json`
-    `bicep build .\patterns\alz\templates\policies-NotificationAssets.bicep --outfile .\patterns\alz\policyDefinitions\policies-NotificationAssets.json`
-    `bicep build .\patterns\alz\templates\policies-RecoveryServices.bicep --outfile .\patterns\alz\policyDefinitions\policies-RecoveryServices.json`
-    `bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\patterns\alz\policyDefinitions\policies-ServiceHealth.json`
-    `bicep build .\patterns\alz\templates\policies-Storage.bicep --outfile .\patterns\alz\policyDefinitions\policies-Storage.json`
-    `bicep build .\patterns\alz\templates\policies-Web.bicep --outfile .\patterns\alz\policyDefinitions\policies-Web.json`
-    `bicep build .\patterns\alz\templates\policySets.bicep --outfile .\patterns\alz\policyDefinitions\policySets.json`
+    `bicep build .\patterns\alz\templates\policies-Automation.bicep --outfile .\patterns\alz\policyDefinitions\policies-Automation.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Compute.bicep --outfile .\patterns\alz\policyDefinitions\policies-Compute.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Hybrid.bicep --outfile .\patterns\alz\policyDefinitions\policies-Hybrid.json` </br>
+    `bicep build .\patterns\alz\templates\policies-KeyManagement.bicep --outfile .\patterns\alz\policyDefinitions\policies-KeyManagement.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Monitoring.bicep --outfile .\patterns\alz\policyDefinitions\policies-Monitoring.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Network.bicep --outfile .\patterns\alz\policyDefinitions\policies-Network.json` </br>
+    `bicep build .\patterns\alz\templates\policies-NotificationAssets.bicep --outfile .\patterns\alz\policyDefinitions\policies-NotificationAssets.json` </br>
+    `bicep build .\patterns\alz\templates\policies-RecoveryServices.bicep --outfile .\patterns\alz\policyDefinitions\policies-RecoveryServices.json` </br>
+    `bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\patterns\alz\policyDefinitions\policies-ServiceHealth.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Storage.bicep --outfile .\patterns\alz\policyDefinitions\policies-Storage.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Web.bicep --outfile .\patterns\alz\policyDefinitions\policies-Web.json` </br>
+    `bicep build .\patterns\alz\templates\policySets.bicep --outfile .\patterns\alz\policyDefinitions\policySets.json` </br>
 
 4. Commit and synchronize the changes to your fork.
 5. Execute the following command to deploy your locally modified copy:
