@@ -6,9 +6,9 @@ weight: 101
 
 ### In this page
 
-> [Prerequisites](../Moving-from-preview-to-GA#prerequisites) </br>
-> [Cleanup Script Execution](../Moving-from-preview-to-GA#cleanup-script-execution) </br>
-> [Next Steps](../Moving-from-preview-to-GA#next-steps) </br>
+> [Prerequisites](#prerequisites) </br>
+> [Cleanup Script Execution](#cleanup-script-execution) </br>
+> [Next Steps](#next-steps) </br>
 
 ## Prerequisites
 

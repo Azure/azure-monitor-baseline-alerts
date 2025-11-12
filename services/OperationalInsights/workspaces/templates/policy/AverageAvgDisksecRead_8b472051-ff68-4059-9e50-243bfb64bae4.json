@@ -152,7 +152,7 @@
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
           "type": "Microsoft.Insights/metricAlerts",
-          "name": "[[concat(field('name'), '-Average_Avg. Disk sec/Read')]",
+          "name": "[[concat(replace(field('fullName'),'/','-'), '-Average_Avg Disk secRead')]",
           "existenceCondition": {
             "allOf": [
               {
@@ -165,7 +165,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', field('fullName'))]"
+                "equals": "[[field('id')]"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/enabled",
@@ -194,6 +194,10 @@
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator",
                 "equals": "GreaterThan"
+              },
+              {
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",
+                "in": ["Computer","ObjectName"]
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
@@ -246,7 +250,7 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "apiVersion": "2018-03-01",
-                    "name": "[[concat(parameters('resourceName'), '-Average_Avg. Disk sec/Read')]",
+                    "name": "[[concat(parameters('resourceName'), '-Average_Avg Disk secRead')]",
                     "location": "global",
                     "tags": {
                       "_deployed_by_amba": true
@@ -266,6 +270,7 @@
                             "name": "Average_Avg. Disk sec/Read",
                             "metricNamespace": "Microsoft.OperationalInsights/workspaces",
                             "metricName": "Average_Avg. Disk sec/Read",
+                            "dimensions": [{"operator":"Include","name":"Computer","values":["*"]},{"operator":"Include","name":"ObjectName","values":["logicaldisk"]}],
                             "operator": "GreaterThan",
                             "threshold": "[[parameters('threshold')]",
                             "timeAggregation": "Average",
@@ -301,7 +306,7 @@
               },
               "parameters": {
                 "resourceName": {
-                  "value": "[[field('name')]"
+                  "value": "[[replace(field('fullName'),'/','-')]"
                 },
                 "resourceId": {
                   "value": "[[field('id')]"

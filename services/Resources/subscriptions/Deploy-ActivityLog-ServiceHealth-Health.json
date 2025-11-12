@@ -5,12 +5,14 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Service Health Advisory Alert",
-    "description": "Policy to Deploy Service Health Advisory Alert",
+    "displayName": "[Deprecated]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Advisory Alert",
+    "description": "Policy to audit/deploy Service Health Advisory Alert",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.5.0-deprecated",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "deprecated": true,
+      "supersededBy": "98903777-a9f6-47f5-90a9-acaf62ab01a8",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
@@ -122,7 +124,7 @@
         "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            "/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
           "existenceScope": "resourceGroup",
@@ -285,7 +287,6 @@
                         "variables": {},
                         "resources": [
                           {
-                            "condition": "[[empty(parameters('BYOActionGroup'))]",
                             "type": "microsoft.insights/activityLogAlerts",
                             "apiVersion": "2020-10-01",
                             "name": "ServiceHealthAdvisoryEvent",
@@ -295,48 +296,7 @@
                             },
                             "properties": {
                               "actions": {
-                                "actionGroups": [
-                                  {
-                                    "actionGroupId": "[[concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001')]"
-                                  }
-                                ]
-                              },
-                              "description": "Service Health Advisory Alert",
-                              "enabled": "[[parameters('enabled')]",
-                              "scopes": [
-                                "[[subscription().id]"
-                              ],
-                              "condition": {
-                                "allOf": [
-                                  {
-                                    "field": "category",
-                                    "equals": "ServiceHealth"
-                                  },
-                                  {
-                                    "field": "properties.incidentType",
-                                    "equals": "ActionRequired"
-                                  }
-                                ]
-                              },
-                              "parameters": {
-                                "enabled": {
-                                  "value": "[[parameters('enabled')]"
-                                }
-                              }
-                            }
-                          },
-                          {
-                            "condition": "[[not(empty(parameters('BYOActionGroup')))]",
-                            "type": "microsoft.insights/activityLogAlerts",
-                            "apiVersion": "2020-10-01",
-                            "name": "ServiceHealthAdvisoryEvent",
-                            "location": "Global",
-                            "tags": {
-                              "_deployed_by_amba": true
-                            },
-                            "properties": {
-                              "actions": {
-                                "actionGroups": "[[variables('varActionGroupIds')]"
+                                "actionGroups": "[[if(empty(parameters('BYOActionGroup')), array(createObject('actionGroupId', concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'))), variables('varActionGroupIds'))]"
                               },
                               "description": "Service Health Advisory Alert",
                               "enabled": "[[parameters('enabled')]",

@@ -5,10 +5,22 @@ weight: 60
 
 ### In this page
 
+> [Parameter Configuration](../Deploy-with-Azure-Pipelines#1-parameter-configuration) </br>
+> [Sample Parameter File](../Deploy-with-Azure-Pipelines#2-sample-parameter-file) </br>
 > [Configure and Run the Pipeline](../Deploy-with-Azure-Pipelines#3-configure-and-run-the-pipeline) </br>
 > [Next Steps](../Deploy-with-Azure-Pipelines#next-steps) </br>
 
-{{% include "parameterConfiguration.md" %}}
+{{< hint type=Important >}}
+Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+{{< /hint >}}
+
+## 1. Parameter Configuration
+
+{{% include "parameterConfiguration_1.md" %}}
+
+## 2. Sample Parameter File
+
+{{% include "parameterConfiguration_2.md" %}}
 
 ## 3. Configure and Run the Pipeline
 
@@ -19,7 +31,7 @@ If you have customized the policies as described in [How to modify individual po
 
   ```ActionScript
   inlineScript: |
-    az deployment mg create --name "amba-GeneralDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz/alzArm.json --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
+    az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz/alzArm.json --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
   ```
 
 {{< /hint >}}

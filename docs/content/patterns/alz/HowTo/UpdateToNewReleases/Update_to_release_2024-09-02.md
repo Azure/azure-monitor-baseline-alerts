@@ -6,8 +6,8 @@ weight: 97
 
 ### In this page
 
-> [Pre update actions](../Update_to_release_2024-09-02#pre-update-actions) </br>
-> [Update](../Update_to_release_2024-09-02#update) </br>
+> [Pre update actions](#pre-update-actions) </br>
+> [Update](#update) </br>
 
 {{< hint type=Important >}}
 ***Updating to release [2024-09-02](../../../Overview/Whats-New#2024-09-02) from previous releases involves a breaking change. To proceed with the update, you must remove previously deployed policy definitions, policy set definitions, policy assignments, and role assignments. A script is provided to facilitate the removal of these items. <ins>***It is highly recommended to thoroughly test the script in a non-production environment before executing it in production. Alert definitions do not need to be removed as they will continue to function.***</ins>***

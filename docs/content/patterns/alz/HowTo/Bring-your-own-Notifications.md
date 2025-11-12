@@ -6,8 +6,9 @@ weight: 95
 
 ### In this page
 
-> [Overview](../Bring-your-own-Notifications#overview) </br>
-> [How this feature works](../Bring-your-own-Notifications#how-this-feature-works) </br>
+> [Overview](#overview) </br>
+> [How this feature works](#how-this-feature-works) </br>
+> [Conditional deployment behavior](#conditional-deployment-behavior) </br>
 
 ## Overview
 
@@ -24,6 +25,15 @@ For brownfield customers opting to use their own notification assets, they need 
 Conversely, if they choose to use the assets provided by AMBA-ALZ or if they are greenfield customers, they should leave the ***BYOActionGroup*** and ***BYOAlertProcessingRule*** parameters empty and populate the other parameters (***ALZMonitorActionGroupEmail***, ***ALZLogicappResourceId***, ***ALZLogicappCallbackUrl***, ***ALZArmRoleId***, ***ALZEventHubResourceId***, ***ALZWebhookServiceUri***, ***ALZFunctionResourceId***, and ***ALZFunctionTriggerUrl***):
 
 ![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
+
+{{< hint type=Note >}}
+The steps for retrieving the resource ID for the notification type is documented in the ***Parameter Configuration*** paragraph present in one of the following deployment guides:
+
+- For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
+- For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
+- For deploying with Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
+- For deploying with Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
+{{< /hint >}}
 
 ## Conditional deployment behavior
 
@@ -65,6 +75,6 @@ To switch, customers need to:
 - Update the parameter file to match one of the three scenarios discussed.
 - Redeploy the ALZ pattern.
 - Run the remediation for both [Notification Assets](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-Notification-Assets.json) and [Alerting-ServiceHealth](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/policySetDefinitions/Deploy-ServiceHealth-Alerts.json) policy initiatives.
-- Remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (_<b>***</b> only if moving from ALZ notification assets to BYON_)
+- Remove notification assets deployed by ALZ patterns using the [**Start-AMBA-ALZ-Maintenance.ps1**](https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1) script (*<b>***</b> only if moving from ALZ notification assets to BYON*)
 
 The code will reconfigure the Service Health alerts to use either the customer's action groups or the ALZ pattern notification assets based on the selected scenario.

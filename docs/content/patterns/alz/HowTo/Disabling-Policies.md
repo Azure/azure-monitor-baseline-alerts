@@ -115,11 +115,13 @@ Exclude specific resources from monitoring by using the **MonitorDisable** param
 }
 ```
 
-This deployment evaluates and remediates policy definitions only if specified tag values are not present.
+{{< hint type=Info >}}
+***This deployment evaluates and remediates policy definitions only if specified tag values are not present and does not apply to policies for both Service Health and Resource Health alert.***
+{{< /hint >}}
 
 ### How It Works
 
-The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation.
+The policy rule proceeds if "allOf" evaluates to true, meaning deployment continues if the tag specified by MonitorDisableTagName does not exist or does not contain any values listed in MonitorDisableTagValues. If the tag contains a specified value, "allOf" evaluates to false, halting evaluation and remediation. Once tag and value has been added please ensure you you run remediation again to ensure tag and its value is respected.
 
 ```json
 "policyRule": {
@@ -138,8 +140,8 @@ The policy rule proceeds if "allOf" evaluates to true, meaning deployment contin
 }
 ```
 
-For log-based alerts, the approach differs slightly. For example, virtual machine alerts are scoped to the subscription level, and tagging the subscription disables all targeted policies.
+### Log based alerts
 
-With the **Bring Your Own User Assigned Managed Identity (BYO UAMI)** feature in the [2024-06-05](../../Overview/Whats-New#2024-06-05) release, and the ability to query Azure Resource Graph using Azure Monitor (refer to [Quickstart: Create alerts with Azure Resource Graph and Log Analytics](https://learn.microsoft.com/en-us/azure/governance/resource-graph/alerts-query-quickstart?tabs=azure-resource-graph)), it is now possible to disable individual alerts for Azure and hybrid virtual machines post-creation. This addresses requests to stop alerting for virtual machines offline for maintenance.
+In AMBA-ALZ virtual machine alerts are scoped to the subscription level so if the disable tag is added at the subscription level it will disables all targeted policies to all VMS.
 
-To disable alerts for virtual machines, tag the relevant resources appropriately. Updated alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from alerts without deleting the alert. Tag the resource and run the remediation process again.
+To disable the VM alerts for individual virtual machines or hybrid VMs, tag the relevant resources with the **MonitorDisable** tag. The alert queries reference resource properties in [Azure Resource Graph](https://learn.microsoft.com/en-us/azure/governance/resource-graph/overview). If a resource contains the specified tag name and value, it is included in an exclusion list, preventing alerts. This allows dynamic exclusion of resources from the VM alerts without deleting or disabling the whole alert.
