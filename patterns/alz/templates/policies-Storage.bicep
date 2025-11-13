@@ -82,7 +82,7 @@ var loadPolicyDefinitions = {
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
   All: [
-    string(loadJsonContent('../policySetDefinitions/Deploy-Storage-Alerts.json'))
+
   ]
   AzureCloud: []
   AzureChinaCloud: []

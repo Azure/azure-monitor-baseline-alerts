@@ -5,11 +5,11 @@ weight: 75
 
 ### On this page
 
-> [Example of deploying AMBA-ALZ](./#example-of-deploying-amba-alz) </br>
-> [Example of deploying a Custom Architecture](./#example-of-deploying-a-custom-architecture) </br>
-> [Example of deploying with Custom Policy Assignments](./#example-of-deploying-with-custom-policy-assignments) </br>
-> [Data Collection](./#data-collection) </br>
-> [Next Steps](./#next-steps) </br>
+> [Example of deploying AMBA-ALZ](#example-of-deploying-amba-alz) </br>
+> [Example of deploying a Custom Architecture](#example-of-deploying-a-custom-architecture) </br>
+> [Example of deploying with Custom Policy Assignments](#example-of-deploying-with-custom-policy-assignments) </br>
+> [Data Collection](#data-collection) </br>
+> [Next Steps](#next-steps) </br>
 
 ## Choose one of the examples
 
@@ -18,6 +18,10 @@ weight: 75
 - **Example of deploying with Custom Policy Assignments**: It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well.
 
 ## Example of deploying AMBA-ALZ
+
+{{< tabs "Deploy_TF_Ex1" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing management group hierarchy with default naming as used in the [ALZ Architecture Definition](https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/refs/heads/main/platform/alz/architecture_definitions/alz.alz_architecture_definition.json).
 
@@ -66,7 +70,23 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 1. Run: `terraform init`
 1. Run: `terraform apply`
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Example of deploying a Custom Architecture
+
+{{< tabs "Deploy_TF_Ex2" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing custom management group hierarchy.
 
@@ -133,7 +153,23 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 1. Run: `terraform init`
 1. Run: `terraform apply`
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Example of deploying with Custom Policy Assignments
+
+{{< tabs "Deploy_TF_Ex3" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well:
 
@@ -210,6 +246,18 @@ Deployment:
 1. Log in to Azure: `az login`
 1. Run: `terraform init`
 1. Run: `terraform apply`
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
 
 ## Data Collection
 

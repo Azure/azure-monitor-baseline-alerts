@@ -1,0 +1,106 @@
+name: Monitor Baseline Alerts (AMBA) Plan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_USE_OIDC: "true"
+  Location: "canadacentral"
+  ManagementGroupPrefix: "YOUR_MANAGEMENT_GROUP_NAME"
+  AMBA_VERSION: "2025-04-04"
+
+jobs:
+  deploy_job:
+    name: AMBA Deploy What-If (Release)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login via OIDC
+        id: azure_login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.ARM_CLIENT_ID }}
+          tenant-id: ${{ env.ARM_TENANT_ID }}
+          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Azure CLI What-If Deploy AMBA ARM Template
+        id: deploy_amba
+        shell: bash
+        run: |
+          az deployment mg what-if \
+            --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz/alzArm.json \
+            --location ${{ env.Location }} \
+            --management-group-id ${{ env.ManagementGroupPrefix }} \
+            --parameters ./azure_monitor_baseline_alerts/alzArm.param.json | tee amba-what-if-output.txt
+
+      - name: Parse What-If Output for Changes
+        id: amba_changes
+        shell: pwsh
+        run: |
+          # Get the content from the log file
+          $content = Get-Content -Path "./amba-what-if-output.txt"
+
+          # Define the patterns to search for and their corresponding messages
+          $patternMessageMap = @{
+            # Patterns for policies that will be added
+            '\+ Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be added:"
+            '\+ Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be added:"
+            '\+ Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be added:"
+            '\+ Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be added:"
+
+            # Patterns for policies that will be modified
+            '~ Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be modified:"
+            '~ Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be modified:"
+            '~ Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be modified:"
+            '~ Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be modified:"
+
+            # Patterns for policies that will be removed
+            '- Microsoft\.Authorization/policyDefinitions/.*' = "Policies will be removed:"
+            '- Microsoft\.Authorization/policySetDefinitions/.*' = "Policy Sets will be removed:"
+            '- Microsoft\.Authorization/policyAssignments/.*' = "Policy Assignments will be removed:"
+            '- Microsoft\.Authorization/roleAssignments/.*' = "Role Assignments will be removed:"
+          }
+
+          "# Azure Monitor Baseline Alerts (AMBA) What-If Summary" >> $env:GITHUB_STEP_SUMMARY
+          "" >> $env:GITHUB_STEP_SUMMARY # this is a blank line
+
+          # Iterate through each pattern in the map
+          foreach ($pattern in $patternMessageMap.Keys) {
+            # Use Select-String to find matches for the current pattern in the content
+            $matches = $content | Select-String -Pattern $pattern
+            if ($matches) {
+              # Get the count of matches and output the message with the count
+              $count = $matches.Count
+              Write-Host "$count $($patternMessageMap[$pattern])"
+              "## $count $($patternMessageMap[$pattern])" >> $env:GITHUB_STEP_SUMMARY
+              '```' >> $env:GITHUB_STEP_SUMMARY
+
+              # Process each match to remove the timestamp and write the clean line
+              $matches | ForEach-Object {
+                # Remove the timestamp using a regex pattern
+                $cleanLine = $_.Line -replace '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s+', ''
+                # Output the clean line
+                Write-Output $cleanLine
+                "$cleanLine" >> $env:GITHUB_STEP_SUMMARY
+              }
+
+              # Output a blank line for readability
+              Write-Output ""
+              '```' >> $env:GITHUB_STEP_SUMMARY
+              "" >> $env:GITHUB_STEP_SUMMARY # this is a blank line
+            }
+          }

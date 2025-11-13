@@ -57,6 +57,10 @@ However, there are resources created outside of the Terraform deployment such as
 This script requires PowerShell 7. It is strongly advised to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 {{< /hint >}}
 
+{{< tabs "Cleaup_MG" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
+
 ### Download the Script File
 
 To download the cleanup script file, follow these steps. Alternatively, you can clone the repository from GitHub and ensure you are working with the latest version by fetching the latest `main` branch.
@@ -112,3 +116,70 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
   ```powershell
   ./Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems Amba-Alz -Confirm:$false
   ```
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+### Download the Script File
+
+To download the cleanup script file, follow these steps. Alternatively, you can clone the repository from GitHub and ensure you are working with the latest version by fetching the latest `main` branch.
+
+1. Navigate to the [AMBA project on GitHub](https://aka.ms/amba/repo).
+2. Browse to the `patterns/alz/scripts` directory.
+3. Open the **Start-AMBA-ALZ-Maintenance.ps1** script file.
+4. Click the **Raw** button.
+5. Save the file as **Start-AMBA-ALZ-Maintenance.ps1**.
+
+### Executing the Script
+
+1. Launch PowerShell 7.
+2. Ensure the following modules are installed:
+
+   - **Az.Accounts**: if not installed, use `Install-Module Az.Accounts` to install it.
+   - **Az.Resources**: if not installed, use `Install-Module Az.Resources` to install it.
+   - **Az.ResourceGraph**: if not installed, use `Install-Module Az.ResourceGraph` to install it.
+   - **Az.ManagedServiceIdentity**: if not installed, use `Install-Module Az.ManagedServiceIdentity` to install it.
+
+3. Navigate to the directory containing the **Start-ALZ-Maintenance.ps1** script.
+4. Set the _**$targetSubscription**_ variable using the following command:
+
+  ```powershell
+  $targetSubscription="The subscription ID where to deploy AMBA-ALZ"
+  ```
+
+5. Sign in to your Azure account using the `Connect-AzAccount` command. Ensure that the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
+6. Run the script with one of the following options:
+
+   {{% include "PowerShell-ExecutionPolicy.md" %}}
+
+   **Get full help on script usage:**
+
+  ```powershell
+  Get-help ./Start-AMBA-ALZ-Maintenance.ps1
+  ```
+
+  **Show output of what would happen if deletes executed:**
+
+  ```powershell
+  Set-AzContext -Subscription $targetSubscription
+  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -WhatIf
+  ```
+
+  **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
+
+  ```powershell
+  Set-AzContext -Subscription $targetSubscription
+  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz
+  ```
+
+  **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
+
+  ```powershell
+  Set-AzContext -Subscription $targetSubscription
+  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -Confirm:$false
+  ```
+
+{{% /tab %}}
+
+{{< /tabs >}}

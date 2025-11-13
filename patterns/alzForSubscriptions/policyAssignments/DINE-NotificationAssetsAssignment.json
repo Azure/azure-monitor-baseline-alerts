@@ -1,0 +1,93 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "topLevelSubscriptionId": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the subscription containing the policy definitions."
+      }
+    },
+    "enforcementMode": {
+      "type": "string",
+      "allowedValues": [
+        "Default",
+        "DoNotEnforce"
+      ],
+      "defaultValue": "Default"
+    },
+    "nonComplianceMessagePlaceholder": {
+      "type": "string",
+      "defaultValue": "{enforcementMode}"
+    },
+    "policyAssignmentParameters": {
+      "type": "object",
+      "defaultValue": {}
+    },
+    "policyAssignmentExclusions": {
+      "type": "array",
+      "defaultValue": []
+    }
+  },
+  "variables": {
+    "policyDefinitions": {
+      "deployAMBANotificationAssets": "[concat('/subscriptions/', parameters('topLevelSubscriptionId'), '/providers/Microsoft.Authorization/policySetDefinitions/Notification-Assets')]"
+    },
+    "policyAssignmentNames": {
+      "ambaNotificationAssets": "Deploy-AMBA-Notification",
+      "description": "This initiative deploys Notification Assets for Azure Monitor Baseline Alerts (AMBA-ALZ). This includes the setup of an Alert Processing Rule and an Action Group to manage notifications and actions, along with a Notification Suppression Rule to manage alert notifications, as well as a Notification Suppression Rule to control alert notifications.",
+      "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Notification Assets"
+    },
+    "nonComplianceMessage": {
+      "message": "Notification Assets {enforcementMode} be deployed to Azure services.",
+      "Default": "must",
+      "DoNotEnforce": "should"
+    },
+    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074",
+    "roleAssignmentNames": {
+      "deployAMBANotificationAssets": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaNotificationAssets))]"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policyAssignmentNames').ambaNotificationAssets]",
+      "location": "[deployment().location]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "description": "[variables('policyAssignmentNames').description]",
+        "displayName": "[variables('policyAssignmentNames').displayName]",
+        "policyDefinitionId": "[variables('policyDefinitions').deployAMBANotificationAssets]",
+        "enforcementMode": "[parameters('enforcementMode')]",
+        "nonComplianceMessages": [
+          {
+            "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
+          }
+        ],
+        "notScopes": "[parameters('policyAssignmentExclusions')]",
+        "parameters": "[parameters('policyAssignmentParameters')]",
+        "metadata": {
+          "_deployed_by_amba": true
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleAssignmentNames').deployAMBANotificationAssets]",
+      "dependsOn": [
+        "[variables('policyAssignmentNames').ambaNotificationAssets]"
+      ],
+      "properties": {
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacMonitoringPolicyContributor '))]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaNotificationAssets), '2019-09-01', 'Full' ).identity.principalId)]",
+        "description": "_deployed_by_amba"
+      }
+    }
+  ],
+  "outputs": {}
+}

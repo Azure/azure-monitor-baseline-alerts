@@ -6,10 +6,10 @@ weight: 20
 
 ### In this page
 
-> [AMBA-ALZ Monitor Alert Approach](../Monitoring-and-Alerting#amba-alz-monitor-alert-approach) </br>
-> [AMBA-ALZ Pattern Monitor Alert Policy Definitions](../Monitoring-and-Alerting#amba-alz-pattern-monitor-alert-policy-definitions) </br>
-> [AMBA-ALZ Monitor Alert Processing Rules](../Monitoring-and-Alerting#amba-alz-monitor-alert-processing-rules) </br>
-> [Monitoring Backup (Recovery Services Vaults)](../Monitoring-and-Alerting#monitoring-backup-recovery-services-vaults) </br>
+> [AMBA-ALZ Monitor Alert Approach](#amba-alz-monitor-alert-approach) </br>
+> [AMBA-ALZ Pattern Monitor Alert Policy Definitions](#amba-alz-pattern-monitor-alert-policy-definitions) </br>
+> [AMBA-ALZ Monitor Alert Processing Rules](#amba-alz-monitor-alert-processing-rules) </br>
+> [Monitoring Backup (Recovery Services Vaults)](#monitoring-backup-recovery-services-vaults) </br>
 
 ## AMBA-ALZ Monitor Alert Approach
 

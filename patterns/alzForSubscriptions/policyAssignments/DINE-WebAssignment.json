@@ -1,0 +1,136 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "topLevelSubscriptionId": {
+      "type": "string",
+      "metadata": {
+        "description": "Provide the subscription containing the policy definitions."
+      }
+    },
+    "enforcementMode": {
+      "type": "string",
+      "allowedValues": [
+        "Default",
+        "DoNotEnforce"
+      ],
+      "defaultValue": "Default"
+    },
+    "nonComplianceMessagePlaceholder": {
+      "type": "string",
+      "defaultValue": "{enforcementMode}"
+    },
+    "policyAssignmentParameters": {
+      "type": "object",
+      "defaultValue": {}
+    },
+    "policyAssignmentExclusions": {
+      "type": "array",
+      "defaultValue": []
+    },
+    "scope": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Scope",
+        "description": "Scope of the policy assignment"
+      }
+    },
+    "uamiScope": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Platform Scope",
+        "description": "Scope of the reader role assignment"
+      },
+      "defaultValue": "[parameters('scope')]"
+    },
+    "bringYourOwnUserAssignedManagedIdentity": {
+      "type": "string",
+      "defaultValue": "No",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Specify if you want to bring your own user assigned managed identity for monitoring purpose."
+      }
+    }
+  },
+  "variables": {
+    "policyDefinitions": {
+      "deployAMBAWeb": "[concat('/subscriptions/', parameters('topLevelSubscriptionId'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-Web')]"
+    },
+    "policyAssignmentNames": {
+      "ambaWeb": "Deploy-AMBA-Web",
+      "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Web Services such as App Services.",
+      "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Web"
+    },
+    "nonComplianceMessage": {
+      "message": "Alerting {enforcementMode} be deployed to Azure services.",
+      "Default": "must",
+      "DoNotEnforce": "should"
+    },
+    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074",
+    "rbacManagedIdentityOperator": "f1a07417-d97a-45cb-824c-7a7467783830",
+    "roleAssignmentNames": {
+      "roleAssignmentNameContributor": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaWeb, parameters('scope')))]",
+      "roleAssignmentNameManagedIdentityOperator": "[guid(concat(parameters('topLevelSubscriptionId'),variables('policyAssignmentNames').ambaWeb, '-MI-',parameters('scope')))]"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyAssignments",
+      "apiVersion": "2020-09-01",
+      "name": "[variables('policyAssignmentNames').ambaWeb]",
+      "location": "[deployment().location]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "description": "[variables('policyAssignmentNames').description]",
+        "displayName": "[variables('policyAssignmentNames').displayName]",
+        "policyDefinitionId": "[variables('policyDefinitions').deployAMBAWeb]",
+        "enforcementMode": "[parameters('enforcementMode')]",
+        "nonComplianceMessages": [
+          {
+            "message": "[replace(variables('nonComplianceMessage').message, parameters('nonComplianceMessagePlaceholder'), variables('nonComplianceMessage')[parameters('enforcementMode')])]"
+          }
+        ],
+        "notScopes": "[parameters('policyAssignmentExclusions')]",
+        "parameters": "[parameters('policyAssignmentParameters')]",
+        "metadata": {
+          "_deployed_by_amba": true
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleAssignmentNames').roleAssignmentNameContributor]",
+      "dependsOn": [
+        "[variables('policyAssignmentNames').ambaWeb]"
+      ],
+      "properties": {
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacMonitoringPolicyContributor '))]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaWeb), '2019-09-01', 'Full' ).identity.principalId)]",
+        "description": "_deployed_by_amba"
+      }
+    },
+    {
+      "condition": "[equals(parameters('bringYourOwnUserAssignedManagedIdentity'), 'No')]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator]",
+      "dependsOn": [
+        "[variables('policyAssignmentNames').ambaWeb]"
+      ],
+      "properties": {
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacManagedIdentityOperator'))]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaWeb), '2019-09-01', 'Full' ).identity.principalId)]",
+        "description": "_deployed_by_amba"
+      }
+    }
+  ],
+  "outputs": {}
+}

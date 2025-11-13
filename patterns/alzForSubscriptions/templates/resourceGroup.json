@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "defaultValue": "rg-amba-prod-001",
+            "metadata": {
+                "description": "Name for the resource group."
+            }
+        },
+        "rgLocation": {
+            "type": "string",
+            "defaultValue": "East US",
+            "metadata": {
+                "description": "Location for the resource group."
+            }
+        },
+        "rgTags": {
+            "type": "object",
+            "defaultValue": {
+                "_deployed_by_amba": true
+            },
+            "metadata": {
+                "description": "Tags for the resource group."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2020-10-01",
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('rgLocation')]",
+            "tags": "[parameters('rgTags')]"
+        }
+    ],
+    "outputs": {}
+}
