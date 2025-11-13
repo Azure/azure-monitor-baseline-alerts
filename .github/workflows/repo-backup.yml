@@ -1,0 +1,48 @@
+name: Repo Backup to Azure Blob Storage
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs every Sunday at 00:00 UTC
+    - cron: "0 0 * * 0"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  backup:
+    environment: 'CSU CAIP ALZ Bicep and AMBA Tenant'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # Create a zip file of the entire repo
+      - name: Zip repository
+        run: |
+          zip -r repo-backup.zip .
+
+      # Login to Azure
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Upload the zipped package to blob storage
+      - name: Upload zipped backup to blob storage
+        uses: azure/CLI@v2
+        with:
+          inlineScript: |
+            az storage blob upload \
+              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+              --auth-mode login \
+              --container-name 'backup' \
+              --file repo-backup.zip \
+              --name repo-backup-$(date +%Y%m%d%H%M%S).zip \
+              --tier 'Archive' \
+
+      # Always logout at the end
+      - name: Logout from Azure
+        if: always()
+        run: az logout
