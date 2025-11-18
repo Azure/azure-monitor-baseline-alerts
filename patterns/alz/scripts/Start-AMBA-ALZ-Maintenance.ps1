@@ -10,7 +10,7 @@
 # SOFTWARE.
 
 <#
-        .NOTES
+    .NOTES
     AUTHORS:  Arjen Huitema, Bruno Gabrielli
     LASTEDIT: May 22nd, 2025
 
