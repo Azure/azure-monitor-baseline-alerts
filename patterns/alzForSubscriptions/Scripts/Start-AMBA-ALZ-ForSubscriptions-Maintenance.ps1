@@ -10,6 +10,14 @@
 # SOFTWARE.
 
 <#
+
+.NOTES
+    AUTHORS:  Bruno Gabrielli
+    LASTEDIT: November 18nd, 2025
+
+    - VERSION: 1.0 // NOv 18th, 2025
+      - Initial version of the script
+
 .DESCRIPTION
     This script is intended to consolidate previous maintenance scripts. It allows customers to:
     - remove ALL resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
@@ -37,7 +45,7 @@
     Required. The pseudo root management group to start the cleanup from. This is the management group that is the parent of all the management groups that are part of the AMBA-ALZ deployment.  This is the management group that the AMBA-ALZ deployment was initiated from.
 
 .PARAMETER cleanItems
-    Required. The item type we want the script to clean up. The options are:
+    Required. The item type we want the script to clean up. The available options are:
         - Amba-Alz
         - Deployments
         - NotificationAssets
