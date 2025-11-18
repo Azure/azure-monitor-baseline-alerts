@@ -96,7 +96,7 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
    **Get full help on script usage:**
 
   ```powershell
-  Get-help ./Start-AMBA-ALZ-Maintenance.ps1
+  Get-help ./Start-AMBA-ALZ-Maintenance.ps1 -Full
   ```
 
   **Show output of what would happen if deletes executed:**
@@ -156,7 +156,7 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
    **Get full help on script usage:**
 
   ```powershell
-  Get-help ./Start-AMBA-ALZ-Maintenance.ps1
+  Get-help ./Start-AMBA-ALZ-Maintenance.ps1 -Full
   ```
 
   **Show output of what would happen if deletes executed:**

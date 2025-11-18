@@ -11,11 +11,10 @@
 
 <#
 .DESCRIPTION
-    This script is intended to consolidate previous maintenance scripts. It allow customers to:
+    This script is intended to consolidate previous maintenance scripts. It allows customers to:
     - remove ALL resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
     - remove ONLY the deployment entries of AMBA-ALZ happening at the pseudo root management group level
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
-    - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ version older than 2024-03-01
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
     - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
     - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
@@ -41,7 +40,6 @@
     Required. The item type we want the script to clean up. The options are:
         - Amba-Alz
         - Deployments
-        - OldNotificationAssets
         - NotificationAssets
         - Alerts
         - PolicyAssignments
@@ -82,7 +80,7 @@ param(
   # the items to be cleaned-up
   [Parameter(Mandatory = $True,
     ValueFromPipeline = $false)]
-    [ValidateSet("Amba-Alz", "Deployments", "OldNotificationAssets", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", "RoleAssignments", IgnoreCase = $true)]
+    [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", "RoleAssignments", IgnoreCase = $true)]
     [string]$cleanItems
 )
 
