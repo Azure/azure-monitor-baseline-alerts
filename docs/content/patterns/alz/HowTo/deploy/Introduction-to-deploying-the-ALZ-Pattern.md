@@ -83,13 +83,13 @@ While it is recommended to implement the alert policies and initiatives within a
 
 ## Getting Started
 
-- Review your current configuration to identify the applicable scenario. We provide guidance for deploying these policies and initiatives whether you are aligned with Azure Landing Zones, use a different management group hierarchy, or do not use management groups at all. If you already know your management group hierarchy type, proceed to your preferred deployment method:
+Review your current configuration to identify the applicable scenario. We provide guidance for deploying these policies and initiatives whether you are aligned with Azure Landing Zones, use a different management group hierarchy, or do not use management groups at all. If you already know your management group hierarchy type, proceed to your preferred deployment method:
 
-  - [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)  (recommended method)
-  - [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
-  - [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
-  - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
-  - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
+- [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)  (recommended method)
+- [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
+- [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
+- [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
+- [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
 ## Determining your hierarchy
 
@@ -186,7 +186,7 @@ The following image illustrates an example of how the assignments appear when ut
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-The initiatives in this repository are designed to align with the management group hierarchy guidelines of Azure Landing Zones. However, in the CSP or Azure Lighthouse scenarios where no access at the management group level is available/possible, all of the initiatives in this repository will be mapped to the identified subscription:
+Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription level and management group structure is not visible in these scenarios. The AMBA-ALZ aligned initiatives in this repository are designed to align with the management group hierarchy guidelines of Azure Landing Zones. However, in the CSP or Azure Lighthouse scenarios where no access at the management group level is available/possible, all of the initiatives in this repository will be mapped to the identified subscription:
 
 - Identity Initiative.
 - Management Initiative.
