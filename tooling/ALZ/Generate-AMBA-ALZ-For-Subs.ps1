@@ -32,6 +32,10 @@
       - Main Arm Template
       - Parameter File
 
+  .EXAMPLE
+    ./Generate-AMBA-ALZ-For-Subs.ps1
+    # execute the script and will ask for confirmation before taking the configured action.
+
 #>
 
 # Setting variables
@@ -42,9 +46,9 @@ $armTemplateFilePath = ".\patterns\alz\alzArm.json"
 $parameterFilePath = ".\patterns\alz\alzArm.param.json"
 $templateFilePath = ".\patterns\alz\templates"
 
-$alzForSubsFilesPath = ".\patterns\alzForSubscriptions\"
-$alzForSubsTemplateFileName = "alzArmForSubscriptions.json"
-$alzForSubsParamFileName = "alzArmForSubscriptions.param.json"
+$alzForSubsFilesPath = ".\patterns\alz4Subs\"
+$alzForSubsTemplateFileName = "alzArm4Subs.json"
+$alzForSubsParamFileName = "alzArm4Subs.param.json"
 
 #region Copy templates
 copy-item -Path "$templateFilePath\resourceGroup.json" -Destination "$alzForSubsFilesPath\templates\resourceGroup.json" -force
