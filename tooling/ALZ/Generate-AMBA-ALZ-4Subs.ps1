@@ -25,7 +25,7 @@
       - resourceGroups.json
       - userAssignedManagedIdentities.json
 
-    - modifies the following AMBA-ALZ files to be used in an Azure Lighthouse scenario where companies, Cloud Solution Provider do not have access to the Management Group Level.
+    - modifies the following AMBA-ALZ files to be used in both CSP or Azure Lighthouse access to the Management Group Level is not allowed/possible.
       - Policy Assignments
       - Policy Definitions
       - Policy Set Definitions
