@@ -19,7 +19,6 @@
 #>
 
 begin {
-    # Get all yaml files in services directory
     $alertsYaml = Get-ChildItem -Path ../../services/*.yaml -Recurse | Select-Object FullName
 }
 process {
@@ -105,8 +104,8 @@ process {
                 }
                 if ($alert.properties.dimensions -ne $null) {
                   $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '                  ' + '{' +
-                       [Environment]::NewLine + '                  ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
-                       [Environment]::NewLine + '                  ' + '  "in": ['
+                      [Environment]::NewLine + '                  ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
+                      [Environment]::NewLine + '                  ' + '  "in": ['
                   foreach ($dimension in $alert.properties.dimensions) {
                       $dimensionRuleString += '"' + $dimension.name + '",'
                   }
