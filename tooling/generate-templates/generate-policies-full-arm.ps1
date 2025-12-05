@@ -19,6 +19,7 @@
 #>
 
 begin {
+    # Get all yaml files in services directory
     $alertsYaml = Get-ChildItem -Path ../../services/*.yaml -Recurse | Select-Object FullName
 }
 process {

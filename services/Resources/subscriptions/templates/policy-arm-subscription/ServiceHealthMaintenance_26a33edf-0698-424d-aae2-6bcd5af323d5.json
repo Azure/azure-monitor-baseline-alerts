@@ -1,16 +1,16 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "displayName": {
-      "defaultValue": "##POLICY_DISPLAY_NAME##",
+      "defaultValue": "Deploy Service Health Maintenance Alert",
       "type": "String",
       "metadata": {
         "description": "Display name of policy"
       }
     },
     "description": {
-      "defaultValue": "##POLICY_DESCRIPTION##",
+      "defaultValue": "Policy to Audit/Deploy Service Health Maintenance Alert",
       "type": "String",
       "metadata": {
         "description": "Description of policy"
@@ -36,14 +36,14 @@
     }
   },
   "variables": {
-    "pidDeploymentName": "[take(concat('##TELEMETRY_PID##-', uniqueString(managementGroup().id, parameters('currentDateTimeUtcNow'))), 64)]",
+    "pidDeploymentName": "[take(concat('pid-8bb7cf8a-bcf7-4264-abcb-703ace2fc84d-', uniqueString(managementGroup().id, parameters('currentDateTimeUtcNow'))), 64)]",
     "location": "[deployment().location]"
   },
   "resources": [
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2021-06-01",
-      "name": "##POLICY_NAME##",
+      "name": "Deploy_Service_Health_Maintenance",
       "properties": {
         "policyType": "Custom",
         "mode": "All",
@@ -51,9 +51,12 @@
         "description": "[parameters('description')]",
         "metadata": {
           "version": "1.0.0-preview",
-          "category": "##POLICY_CATEGORY##",
+          "category": "Resources",
           "preview": true,
           "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "alzCloudEnvironments": [
+            "AzureCloud"
+          ],
           "_deployed_by_amba": "True"
         },
         "parameters": {
@@ -111,7 +114,7 @@
             "type": "String",
             "metadata": {
               "displayName": "ALZ Monitoring disabled tag name",
-              "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+              "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
             },
             "defaultValue": "MonitorDisable"
           },
@@ -134,7 +137,7 @@
             "allOf": [
               {
                 "field": "type",
-                "equals": "##RESOURCE_TYPE##"
+                "equals": "Microsoft.Resources/subscriptions"
               },
               {
                 "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -149,8 +152,8 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/activityLogAlerts",
-              "name": "##ALERT_NAME##",
-              "existenceScope": "resourcegroup",
+              "name": "ServiceHealthMaintenance",
+              "existenceScope": "resourceGroup",
               "resourceGroupName": "[[parameters('alertResourceGroupName')]",
               "deploymentScope": "subscription",
               "existenceCondition": {
@@ -172,7 +175,7 @@
                               },
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                                "equals": "Administrative"
+                                "equals": "ServiceHealth"
                               }
                             ]
                           },
@@ -180,11 +183,11 @@
                             "allOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                                "equals": "operationName"
+                                "equals": "properties.incidentType"
                               },
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                                "equals": "##OPERATION_NAME##"
+                                "equals": "Maintenance"
                               }
                             ]
                           }
@@ -228,10 +231,10 @@
                       {
                         "type": "Microsoft.Resources/deployments",
                         "apiVersion": "2019-10-01",
-                        "name": "##ALERT_NAME##",
+                        "name": "ServiceHealthMaintenance",
                         "resourceGroup": "[[parameters('alertResourceGroupName')]",
                         "dependsOn": [
-                          "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                          "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                         ],
                         "properties": {
                           "mode": "Incremental",
@@ -251,13 +254,13 @@
                               {
                                 "type": "microsoft.insights/activityLogAlerts",
                                 "apiVersion": "2020-10-01",
-                                "name": "##ALERT_NAME##",
+                                "name": "ServiceHealthMaintenance",
                                 "location": "global",
                                 "tags": {
                                   "_deployed_by_amba": true
                                 },
                                 "properties": {
-                                  "description": "##ALERT_DESCRIPTION##",
+                                  "description": "Service Health Maintenance Alert",
                                   "enabled": "[[parameters('enabled')]",
                                   "scopes": [
                                     "[[subscription().id]"
@@ -266,17 +269,11 @@
                                     "allOf": [
                                       {
                                         "field": "category",
-                                        "equals": "Administrative"
+                                        "equals": "ServiceHealth"
                                       },
                                       {
-                                        "field": "operationName",
-                                        "equals": "##OPERATION_NAME##"
-                                      },
-                                      {
-                                        "field": "status",
-                                        "containsAny": [
-                                          "succeeded"
-                                        ]
+                                        "field": "properties.incidentType",
+                                        "equals": "Maintenance"
                                       }
                                     ]
                                   },

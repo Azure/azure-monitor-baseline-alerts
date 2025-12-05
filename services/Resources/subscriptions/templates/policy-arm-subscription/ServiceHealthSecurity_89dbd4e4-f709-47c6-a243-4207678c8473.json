@@ -3,14 +3,14 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "displayName": {
-      "defaultValue": "Deploy Activity Log Route Table Route Deletion Alert",
+      "defaultValue": "Deploy Service Health Security Advisory Alert",
       "type": "String",
       "metadata": {
         "description": "Display name of policy"
       }
     },
     "description": {
-      "defaultValue": "Policy to Audit/Deploy Activity Log Route Table Route Deletion Alert",
+      "defaultValue": "Policy to Audit/Deploy Service Health Security Advisory Alert",
       "type": "String",
       "metadata": {
         "description": "Description of policy"
@@ -43,7 +43,7 @@
     {
       "type": "Microsoft.Authorization/policyDefinitions",
       "apiVersion": "2021-06-01",
-      "name": "Deploy_Activity_Log_Route_Table_Route_Deletion",
+      "name": "Deploy_Service_Health_Security",
       "properties": {
         "policyType": "Custom",
         "mode": "All",
@@ -51,9 +51,12 @@
         "description": "[parameters('description')]",
         "metadata": {
           "version": "1.0.0-preview",
-          "category": "Network",
+          "category": "Resources",
           "preview": true,
           "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+          "alzCloudEnvironments": [
+            "AzureCloud"
+          ],
           "_deployed_by_amba": "True"
         },
         "parameters": {
@@ -111,7 +114,7 @@
             "type": "String",
             "metadata": {
               "displayName": "ALZ Monitoring disabled tag name",
-              "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+              "description": "Tag name to disable monitoring. Set to true if monitoring should be disabled"
             },
             "defaultValue": "MonitorDisable"
           },
@@ -134,7 +137,7 @@
             "allOf": [
               {
                 "field": "type",
-                "equals": "Microsoft.Network/routeTables"
+                "equals": "Microsoft.Resources/subscriptions"
               },
               {
                 "field": "[[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -149,8 +152,8 @@
                 "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
               ],
               "type": "Microsoft.Insights/activityLogAlerts",
-              "name": "ActivityLogRouteTableRouteDeletion",
-              "existenceScope": "resourcegroup",
+              "name": "ServiceHealthSecurity",
+              "existenceScope": "resourceGroup",
               "resourceGroupName": "[[parameters('alertResourceGroupName')]",
               "deploymentScope": "subscription",
               "existenceCondition": {
@@ -172,7 +175,7 @@
                               },
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                                "equals": "Administrative"
+                                "equals": "ServiceHealth"
                               }
                             ]
                           },
@@ -180,11 +183,11 @@
                             "allOf": [
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
-                                "equals": "operationName"
+                                "equals": "properties.incidentType"
                               },
                               {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
-                                "equals": "Microsoft.Network/routeTables/routes/delete"
+                                "equals": "Security"
                               }
                             ]
                           }
@@ -228,10 +231,10 @@
                       {
                         "type": "Microsoft.Resources/deployments",
                         "apiVersion": "2019-10-01",
-                        "name": "ActivityLogRouteTableRouteDeletion",
+                        "name": "ServiceHealthSecurity",
                         "resourceGroup": "[[parameters('alertResourceGroupName')]",
                         "dependsOn": [
-                          "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                          "[[resourceId('Microsoft.Resources/resourceGroups', parameters('alertResourceGroupName'))]"
                         ],
                         "properties": {
                           "mode": "Incremental",
@@ -251,13 +254,13 @@
                               {
                                 "type": "microsoft.insights/activityLogAlerts",
                                 "apiVersion": "2020-10-01",
-                                "name": "ActivityLogRouteTableRouteDeletion",
+                                "name": "ServiceHealthSecurity",
                                 "location": "global",
                                 "tags": {
                                   "_deployed_by_amba": true
                                 },
                                 "properties": {
-                                  "description": "Activity Log Alert for Route Table Route Deletion",
+                                  "description": "Service Health Security Alert",
                                   "enabled": "[[parameters('enabled')]",
                                   "scopes": [
                                     "[[subscription().id]"
@@ -266,17 +269,11 @@
                                     "allOf": [
                                       {
                                         "field": "category",
-                                        "equals": "Administrative"
+                                        "equals": "ServiceHealth"
                                       },
                                       {
-                                        "field": "operationName",
-                                        "equals": "Microsoft.Network/routeTables/routes/delete"
-                                      },
-                                      {
-                                        "field": "status",
-                                        "containsAny": [
-                                          "succeeded"
-                                        ]
+                                        "field": "properties.incidentType",
+                                        "equals": "Security"
                                       }
                                     ]
                                   },
