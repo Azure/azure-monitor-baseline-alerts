@@ -126,10 +126,10 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 To download the cleanup script file, follow these steps. Alternatively, you can clone the repository from GitHub and ensure you are working with the latest version by fetching the latest `main` branch.
 
 1. Navigate to the [AMBA project on GitHub](https://aka.ms/amba/repo).
-2. Browse to the `patterns/alz/scripts` directory.
-3. Open the **Start-AMBA-ALZ-Maintenance.ps1** script file.
+2. Browse to the `patterns/alz/alz4Subs/scripts` directory.
+3. Open the **Start-AMBA-ALZ-4Subs-Maintenance.ps1** script file.
 4. Click the **Raw** button.
-5. Save the file as **Start-AMBA-ALZ-Maintenance.ps1**.
+5. Save the file as **Start-AMBA-ALZ-4Subs-Maintenance.ps1**.
 
 ### Executing the Script
 
@@ -156,28 +156,28 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
    **Get full help on script usage:**
 
   ```powershell
-  Get-help ./Start-AMBA-ALZ-Maintenance.ps1 -Full
+  Get-help ./Start-AMBA-ALZ-4Subs-Maintenance.ps1 -Full
   ```
 
   **Show output of what would happen if deletes executed:**
 
   ```powershell
   Set-AzContext -Subscription $targetSubscription
-  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -WhatIf
+  .\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -WhatIf
   ```
 
   **Execute the script asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
 
   ```powershell
   Set-AzContext -Subscription $targetSubscription
-  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz
+  .\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz
   ```
 
   **Execute the script <ins>without</ins> asking for confirmation before deleting the resources deployed by AMBA-ALZ:**
 
   ```powershell
   Set-AzContext -Subscription $targetSubscription
-  .\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -Confirm:$false
+  .\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Maintenance.ps1 -targetSubscription $targetSubscription -cleanItems Amba-Alz -Confirm:$false
   ```
 
 {{% /tab %}}

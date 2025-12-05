@@ -97,7 +97,7 @@ You will get policy assignments configured with the excluded resources (if any):
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{< hint type=Info >}}
-**This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
+**This feature is only available when deploying AMBA-ALZ at the management group level. Deploying it at a single subscription level makes this feature not applicable.**
 {{< /hint >}}
 
 {{% /tab %}}

@@ -136,6 +136,10 @@ For ease of deployment and maintenance we have kept the same variables.
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
 {{% /tab %}}
 
 {{< /tabs >}}

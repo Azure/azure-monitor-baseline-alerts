@@ -95,7 +95,7 @@ If you have customized the policies as described in [How to modify individual po
   ```ActionScript
   inlineScript: |
     az account set --subscription "$targetSubscription"
-    az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz/alzArm.json --location $(location) --parameters .\patterns\alz\alzArm.param.json
+    az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz4Subs/alzArm4Subs.json --location $(location) --parameters .\patterns\alz4Subs\alzArm4Subs.param.json
   ```
 
 {{< /hint >}}

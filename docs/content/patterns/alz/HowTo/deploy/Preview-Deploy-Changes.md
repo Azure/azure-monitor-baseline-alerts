@@ -59,9 +59,9 @@ New-AzManagementGroupDeployment `
 
 ```bash
 az deployment sub what-if \
-  --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json \
+  --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz4Subs/alzArm4Subs.json \
   --location $location \
-  --parameters "alzArm.param.json"
+  --parameters "alzArm4Subs.param.json"
 ```
 
 **Azure PowerShell:**
@@ -69,8 +69,8 @@ az deployment sub what-if \
 ```powershell
 New-AzSubscriptionDeployment `
   -Location $location `
-  -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json" `
-  -TemplateParameterFile "alzArm.param.json" `
+  -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz4Subs/alzArm4Subs.json" `
+  -TemplateParameterFile "alzArm4Subs.param.json" `
   -WhatIf
 ```
 
@@ -158,8 +158,8 @@ Using PowerShell for deployments uses the following syntax: `New-AzSubscriptionD
 ```powershell
 New-AzSubscriptionDeployment `
   -Location $location `
-  -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz/alzArm.json" `
-  -TemplateParameterFile "alzArm.param.json" `
+  -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${AMBA_VERSION}/patterns/alz4Subs/alzArm4Subs.json" `
+  -TemplateParameterFile "alzArm4Subs.param.json" `
   -WhatIf | Tee-Object -FilePath amba-what-if-output.txt
 ```
 
@@ -339,9 +339,9 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
   shell: bash
   run: |
     az deployment sub what-if \
-      --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz/alzArm.json \
+      --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz4Subs/alzArm4Subs.json \
       --location ${{ env.Location }} \
-      --parameters ./azure_monitor_baseline_alerts/alzArm.param.json | tee amba-what-if-output.txt
+      --parameters ./azure_monitor_baseline_alerts/alzArm4Subs.param.json | tee amba-what-if-output.txt
 ```
 
 ```yaml

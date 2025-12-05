@@ -605,7 +605,7 @@ Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other U
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json --name "amba-MainDeployment" --location $location --parameters alzArm.param.json
+az deployment sub create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json --name "amba-MainDeployment" --location $location --parameters alzArm4Subs.param.json
 ```
 
 {{% /tab %}}
@@ -704,7 +704,7 @@ To deploy policy definitions to the subscription, run the following command:
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --name "amba-ServiceHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-ServiceHealth.json --location $location --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
+az deployment sub create --name "amba-ServiceHealthOnly" --template-file .\patterns\alz4Subs\policyDefinitions\policies-ServiceHealth.json --location $location --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
 
 {{< hint type=note >}}
@@ -713,7 +713,7 @@ The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the foll
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --name "amba-ServiceHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-ServiceHealth.json --location $location --parameters topLevelManagementGroupPrefix=contoso
+az deployment sub create --name "amba-ServiceHealthOnly" --template-file ./patterns/alz4Subs/policyDefinitions/policies-ServiceHealth.json --location $location --parameters topLevelManagementGroupPrefix=contoso
 ```
 
 {{% /tab %}}
@@ -746,7 +746,7 @@ Assign a Policy Set Definition to the selected subscription by running the follo
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --parameters '{ \"topLevelSubscriptionId\": { \"value\": \"$targetSubscription$\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
+az deployment sub create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz4Subs\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --parameters '{ \"topLevelSubscriptionId\": { \"value\": \"$targetSubscription$\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
 {{< hint type=important >}}

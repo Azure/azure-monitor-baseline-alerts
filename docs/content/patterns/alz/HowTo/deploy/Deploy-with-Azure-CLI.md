@@ -139,14 +139,14 @@ If you have customized the policies as described in [How to modify individual po
 
   ```bash
   az account set --subscription "$targetSubscription"
-  az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json --location $location --parameters ".\patterns\alz\alzArm.param.json"
+  az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz4Subs/alzArm4Subs.json --location $location --parameters ".\patterns\alz4Subs\alzArm4Subs.param.json"
   ```
 
 {{< /hint >}}
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json --location $location --parameters "alzArm.param.json"
+az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json --location $location --parameters "alzArm4Subs.param.json"
 ```
 
 {{% /tab %}}

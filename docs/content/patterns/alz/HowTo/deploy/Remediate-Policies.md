@@ -120,7 +120,7 @@ $targetSubscription = "The subscription ID where AMBA-ALZ has been deployed."
 ```powershell
 # Run the following commands to initiate remediation
 Set-AzContext -Subscription $targetSubscription
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
 ```
 
 The script will output the results of the REST API calls, typically returning a status code 201. If the script encounters an error, review the error message and verify that the management group name and policy name are correct. Upon successful execution of the script, you should observe multiple remediation tasks initiated within the **alz-platform-management** management group.
@@ -130,20 +130,20 @@ For convenience, assuming that the management hierarchy is fully aligned with th
 ```powershell
 # Run the following commands to initiate remediation
 Set-AzContext -Subscription $targetSubscription
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-ResourceAndServiceHealth
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Notification-Assets
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity-2
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Identity
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-HybridVM
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-VM
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Web
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-KeyManagement
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-LoadBalancing
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-NetworkChanges
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-RecoveryServices
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Storage
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-ResourceAndServiceHealth
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Notification-Assets
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity-2
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Identity
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-HybridVM
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-VM
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Web
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-KeyManagement
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-LoadBalancing
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-NetworkChanges
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-RecoveryServices
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Storage
 ```
 
 To remediate a single policy definition instead of the entire policy initiative, use the remediation script with the specific policy reference ID available on the [Policy Initiatives](../../../Getting-started/Policy-Initiatives) page. For example, to remediate the **Deploy AMBA Notification Assets** policy, execute the following command:
@@ -151,7 +151,7 @@ To remediate a single policy definition instead of the entire policy initiative,
 ```powershell
 # Run the following command to initiate remediation of a single policy definition
 Set-AzContext -Subscription $targetSubscription
-.\patterns\alzForSubscriptions\Scripts\Start-AMBA-ALZ-ForSubscriptions-Remediation.ps1 -targetSubscription $targetSubscription -policyName ALZ_AlertProcessing_Rule
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName ALZ_AlertProcessing_Rule
 ```
 
 {{% /tab %}}

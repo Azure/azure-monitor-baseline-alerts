@@ -155,14 +155,14 @@ If you have customized the policies as described in [How to Modify Individual Po
 
 ```powershell
 Set-AzContext -Subscription $targetSubscription
-New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz/alzArm.json" -TemplateParameterFile ".\patterns\alz\alzArm.param.json"
+New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/***YourGithubFork***/azure-monitor-baseline-alerts/***main or branchname***/patterns/alz4Subs/alzArm4Subs.json" -TemplateParameterFile ".\patterns\alz4Subs\alzArm4Subs.param.json"
 ```
 
 {{< /hint >}}
 
 ```powershell
 Set-AzContext -Subscription $targetSubscription
-New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
+New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json" -TemplateParameterFile "alzArm4Subs.param.json"
 ```
 
 {{% /tab %}}

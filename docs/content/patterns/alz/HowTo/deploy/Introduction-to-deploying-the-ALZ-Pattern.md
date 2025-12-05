@@ -104,7 +104,14 @@ The initiatives in this repository are designed to align with the management gro
 - Identity Initiative is assigned to the Identity management group.
 - Management Initiative is assigned to the Management management group.
 - Connectivity Initiative is assigned to the Connectivity management group.
-- Landing Zone Initiative is assigned to the Landing Zone management group.
+- Azure VM Initiative is assigned to both Platform and Landing Zones management groups.
+- Hybrid VM Initiative is assigned to both Platform and Landing Zones management groups.
+- Key Management Initiative is assigned to the Landing Zones management group.
+- Load Balancing Initiative is assigned to the Landing Zones management group.
+- Network Changes Initiative is assigned to the Landing Zones management group.
+- Recovery Services Initiative is assigned to the Landing Zones management group.
+- Storage Initiative is assigned to the Landing Zones management group.
+- Web Initiative is assigned to the Landing Zones management group.
 - Service Health Initiative is assigned to the intermediate (ALZ) root management group.
 
 The image below illustrates a management group hierarchy that aligns with Azure Landing Zone guidance. It also shows the default recommended assignments for the initiatives.
@@ -143,7 +150,14 @@ In scenarios where Identity, Management, and Connectivity are combined into a si
 - Identity Initiative is assigned to the Platform management group.
 - Management Initiative is assigned to the Platform management group.
 - Connectivity Initiative is assigned to the Platform management group.
-- Landing Zone Initiative is assigned to the Geography management group.
+- Azure VM Initiative is assigned to both Platform and Geography management groups.
+- Hybrid VM Initiative is assigned to both Platform and Geography management groups.
+- Key Management Initiative is assigned to the Geography management group.
+- Load Balancing Initiative is assigned to the Geography management group.
+- Network Changes Initiative is assigned to the Geography management group.
+- Recovery Services Initiative is assigned to the Geography management group.
+- Storage Initiative is assigned to the Geography management group.
+- Web Initiative is assigned to the Geography management group.
 - Service Health Initiative is assigned to the top-most level(s) in your management group hierarchy.
 
 The following image illustrates an example of how the assignments might appear when the management group hierarchy does not align with Azure Landing Zones (ALZ).
@@ -191,7 +205,14 @@ Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription l
 - Identity Initiative.
 - Management Initiative.
 - Connectivity Initiative.
-- Landing Zone Initiative.
+- Azure VM Initiative.
+- Hybrid VM Initiative.
+- Key Management Initiative.
+- Load Balancing Initiative.
+- Network Changes Initiative.
+- Recovery Services Initiative.
+- Storage Initiative.
+- Web Initiative.
 - Service Health Initiative.
 
 The image below illustrates a subscription-based mapping of assignments for the initiatives.
