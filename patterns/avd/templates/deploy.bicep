@@ -1284,6 +1284,7 @@ var LogAlertsHostPool = [
           | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
           | extend HostPool=tostring(split(_ResourceId, '/')[8])
           | where HostPool =~ 'xHostPoolNamex'
+          | where isnotempty(Errors)
           | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
           | extend ErrorMessage=tostring(Errors[0].Message)
           | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
