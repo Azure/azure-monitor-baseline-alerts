@@ -1370,7 +1370,7 @@ var LogAlertsHostPool = [
 var LogAlertsStorage = [
   {
     // Based on Runbook script Output to LAW
-    name: '${AlertNamePrefix}-StorLowSpaceAzFile-15PrcntRem'
+    name: '${AlertNamePrefix}-StorLowSpaceAzFile-15PrcntRem-${uniqueString(subscription().displayName)'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-15 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
     severity: 2
@@ -1428,7 +1428,7 @@ var LogAlertsStorage = [
   }
   {
     // Based on Runbook script Output to LAW
-    name: '${AlertNamePrefix}-StorLowSpaceAzFile-5PrcntRem'
+    name: '${AlertNamePrefix}-StorLowSpaceAzFile-5PrcntRem-${uniqueString(subscription().displayName)'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-5 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
     severity: 1
