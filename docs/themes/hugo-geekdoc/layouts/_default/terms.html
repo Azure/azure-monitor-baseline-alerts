@@ -1,4 +1,5 @@
 {{ define "main" }}
+  <div id="main-content" tabindex="-1">
   {{ range .Paginator.Pages.ByTitle }}
     <article class="gdoc-post">
       <header class="gdoc-post__header">
@@ -19,8 +20,8 @@
         <span class="flex align-center no-wrap">
           <svg class="gdoc-icon gdoc_star"><use xlink:href="#gdoc_star"></use></svg>
           <span>
-            {{ $latet := index .Pages.ByDate 0 }}
-            {{ with $latet }}
+            {{ $latest := index .Pages.ByDate 0 }}
+            {{ with $latest }}
               <a href="{{ .RelPermalink }}">{{ partial "utils/title" . }}</a>
             {{ end }}
           </span>
@@ -28,5 +29,6 @@
       </footer>
     </article>
   {{ end }}
+  </div>
   {{ partial "pagination.html" . }}
 {{ end }}
