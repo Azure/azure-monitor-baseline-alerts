@@ -73,7 +73,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Logic App Resource ID](../../../media/LogicApp_ResourceID_2.png)
 
-  - Update the _```ALZLogicappCallbackUrl```_ parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
+  - Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
@@ -89,7 +89,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
     | Monitoring Contributor | 749f88d5-cbae-40b8-bcfc-e573ddc772fa |
     | Monitoring Reader | 43d0d8ad-25c7-4714-9337-8ba259a9fe05 |
 
-  - Update the value of _```ALZEventHubResourceId```_ to specify the Event Hubs that will be used for alert actions, including Service Health alerts. Leave it blank if no Event Hubs is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Event Hubs resource ID, navigate to the resource, in the search box type ***Event Hubs***, click ***Event Hubs***, select the event hub of your interest and in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+  - Update the value of *```ALZEventHubResourceId```* to specify the Event Hubs that will be used for alert actions, including Service Health alerts. Leave it blank if no Event Hubs is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Event Hubs resource ID, navigate to the resource, in the search box type ***Event Hubs***, click ***Event Hubs***, select the event hub of your interest and in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
     ![Event Hub Namespace ](../../../media/EventHub_ResourceID_1.png)
 
@@ -97,24 +97,24 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Event Hub Resource ID](../../../media/EventHub_ResourceID_3.png)
 
-  - Update the _```ALZWebhookServiceUri```_ parameter with the URI(s) of the Webhooks to be used for alert actions, including Service Health alerts. Leave it blank if no Webhooks are used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)).
-  - Update the _```ALZFunctionResourceId```_ parameter with the resource ID of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App resource ID, navigate to the resource, in the ***Overview*** panel click on ***JSON View*** and copy the value of the Resource ID field.
+  - Update the *```ALZWebhookServiceUri```* parameter with the URI(s) of the Webhooks to be used for alert actions, including Service Health alerts. Leave it blank if no Webhooks are used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)).
+  - Update the *```ALZFunctionResourceId```* parameter with the resource ID of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App resource ID, navigate to the resource, in the ***Overview*** panel click on ***JSON View*** and copy the value of the Resource ID field.
 
     ![Function App JSON View](../../../media/FunctionApp_ResourceID_1.png)
 
     ![Funtion App Resource ID](../../../media/FunctionApp_ResourceID_2.png)
 
-  - Update the _```ALZFunctionTriggerUrl```_ parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App trigger URL with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the top menu, and copy the value in the URL field using the copy icon.
+  - Update the *```ALZFunctionTriggerUrl```* parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App trigger URL with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the top menu, and copy the value in the URL field using the copy icon.
 
     ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
-  - Update the _```ALZAlertSeverity```_ parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
+  - Update the *```ALZAlertSeverity```* parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
 
     {{< hint type=note >}}
     Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
     {{< /hint >}}
 
-  - Update the _```BYOActionGroup```_ parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+  - Update the *```BYOActionGroup```* parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
     ![Action groups](../../../media/ActionGroup_ResourceID_1.png)
 
@@ -124,7 +124,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Action Group Resource ID](../../../media/ActionGroup_ResourceID_4.png)
 
-  - Update the _```BYOAlertProcessingRule```_ parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created alert processing rules. To retrieve the Alert Processing Rule resource ID, navigate to the ***Monitor*** page, click on ***Alert Processing Rule***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+  - Update the *```BYOAlertProcessingRule```* parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created alert processing rules. To retrieve the Alert Processing Rule resource ID, navigate to the ***Monitor*** page, click on ***Alert Processing Rule***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
     ![Alert Processing Rules](../../../media/AlertProcessingRule_ResourceID_1.png)
 
@@ -229,7 +229,7 @@ While it's technically possible to not add any notification information (no emai
 
   ![Logic App Resource ID](../../../media/LogicApp_ResourceID_2.png)
 
-- Update the _```ALZLogicappCallbackUrl```_ parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
+- Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
 
   ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
@@ -245,7 +245,7 @@ While it's technically possible to not add any notification information (no emai
   | Monitoring Contributor | 749f88d5-cbae-40b8-bcfc-e573ddc772fa |
   | Monitoring Reader | 43d0d8ad-25c7-4714-9337-8ba259a9fe05 |
 
-- Update the value of _```ALZEventHubResourceId```_ to specify the Event Hubs that will be used for alert actions, including Service Health alerts. Leave it blank if no Event Hubs is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Event Hubs resource ID, navigate to the resource, in the search box type ***Event Hubs***, click ***Event Hubs***, select the event hub of your interest and in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+- Update the value of *```ALZEventHubResourceId```* to specify the Event Hubs that will be used for alert actions, including Service Health alerts. Leave it blank if no Event Hubs is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Event Hubs resource ID, navigate to the resource, in the search box type ***Event Hubs***, click ***Event Hubs***, select the event hub of your interest and in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
   ![Event Hub Namespace ](../../../media/EventHub_ResourceID_1.png)
 
@@ -253,24 +253,24 @@ While it's technically possible to not add any notification information (no emai
 
   ![Event Hub Resource ID](../../../media/EventHub_ResourceID_3.png)
 
-- Update the _```ALZWebhookServiceUri```_ parameter with the URI(s) of the Webhooks to be used for alert actions, including Service Health alerts. Leave it blank if no Webhooks are used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)).
-- Update the _```ALZFunctionResourceId```_ parameter with the resource ID of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App resource ID, navigate to the resource, in the ***Overview*** panel click on ***JSON View*** and copy the value of the Resource ID field.
+- Update the *```ALZWebhookServiceUri```* parameter with the URI(s) of the Webhooks to be used for alert actions, including Service Health alerts. Leave it blank if no Webhooks are used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)).
+- Update the *```ALZFunctionResourceId```* parameter with the resource ID of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App resource ID, navigate to the resource, in the ***Overview*** panel click on ***JSON View*** and copy the value of the Resource ID field.
 
   ![Function App JSON View](../../../media/FunctionApp_ResourceID_1.png)
 
   ![Funtion App Resource ID](../../../media/FunctionApp_ResourceID_2.png)
 
-- Update the _```ALZFunctionTriggerUrl```_ parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App trigger URL with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the top menu, and copy the value in the URL field using the copy icon.
+- Update the *```ALZFunctionTriggerUrl```* parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank if no Function App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the Function App trigger URL with the corresponding code, navigate to the HTTP-triggered functions in the Azure portal, go to ***Code + Test***, select **Get function URL** from the top menu, and copy the value in the URL field using the copy icon.
 
   ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
-- Update the _```ALZAlertSeverity```_ parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
+- Update the *```ALZAlertSeverity```* parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
 
   {{< hint type=note >}}
   Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
   {{< /hint >}}
 
-- Update the _```BYOActionGroup```_ parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+- Update the *```BYOActionGroup```* parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
   ![Action groups](../../../media/ActionGroup_ResourceID_1.png)
 
@@ -280,7 +280,7 @@ While it's technically possible to not add any notification information (no emai
 
   ![Action Group Resource ID](../../../media/ActionGroup_ResourceID_4.png)
 
-- Update the _```BYOAlertProcessingRule```_ parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created alert processing rules. To retrieve the Alert Processing Rule resource ID, navigate to the ***Monitor*** page, click on ***Alert Processing Rule***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
+- Update the *```BYOAlertProcessingRule```* parameter with the trigger URL of the Function App to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created alert processing rules. To retrieve the Alert Processing Rule resource ID, navigate to the ***Monitor*** page, click on ***Alert Processing Rule***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
   ![Alert Processing Rules](../../../media/AlertProcessingRule_ResourceID_1.png)
 

@@ -17,7 +17,7 @@ weight: 30
 
 {{% tab "Management Group (hierarchy or single)" %}}
 
-The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to https://aka.ms/amba/alz/portal or click the "Deploy to Azure" button below:
+The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to <https://aka.ms/amba/alz/portal> or click the "Deploy to Azure" button below:
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 
