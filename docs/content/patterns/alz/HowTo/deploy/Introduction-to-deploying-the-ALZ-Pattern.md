@@ -49,8 +49,8 @@ Alerts, action groups, and alert processing rules are created as follows:
 5. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
 6. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
 
-   - Microsoft.AlertsManagement
-   - Microsoft.Insights
+    - Microsoft.AlertsManagement
+    - Microsoft.Insights
 
     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
 
@@ -70,8 +70,8 @@ While it is recommended to implement the alert policies and initiatives within a
 4. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
 5. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
 
-   - Microsoft.AlertsManagement
-   - Microsoft.Insights
+    - Microsoft.AlertsManagement
+    - Microsoft.Insights
 
     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
 
