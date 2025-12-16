@@ -76,10 +76,10 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 1. Launch PowerShell 7.
 2. Ensure the following modules are installed:
 
-   - **Az.Accounts**: if not installed, use `Install-Module Az.Accounts` to install it.
-   - **Az.Resources**: if not installed, use `Install-Module Az.Resources` to install it.
-   - **Az.ResourceGraph**: if not installed, use `Install-Module Az.ResourceGraph` to install it.
-   - **Az.ManagedServiceIdentity**: if not installed, use `Install-Module Az.ManagedServiceIdentity` to install it.
+    - **Az.Accounts**: if not installed, use `Install-Module Az.Accounts` to install it.
+    - **Az.Resources**: if not installed, use `Install-Module Az.Resources` to install it.
+    - **Az.ResourceGraph**: if not installed, use `Install-Module Az.ResourceGraph` to install it.
+    - **Az.ManagedServiceIdentity**: if not installed, use `Install-Module Az.ManagedServiceIdentity` to install it.
 
 3. Navigate to the directory containing the **Start-ALZ-Maintenance.ps1** script.
 4. Set the _**$pseudoRootManagementGroup**_ variable using the following command:
@@ -91,9 +91,9 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 5. Sign in to your Azure account using the `Connect-AzAccount` command. Ensure that the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
 6. Run the script with one of the following options:
 
-   {{% include "PowerShell-ExecutionPolicy.md" %}}
+    {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-   **Get full help on script usage:**
+  **Get full help on script usage:**
 
   ```powershell
   Get-help ./Start-AMBA-ALZ-Maintenance.ps1 -Full
@@ -136,10 +136,10 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 1. Launch PowerShell 7.
 2. Ensure the following modules are installed:
 
-   - **Az.Accounts**: if not installed, use `Install-Module Az.Accounts` to install it.
-   - **Az.Resources**: if not installed, use `Install-Module Az.Resources` to install it.
-   - **Az.ResourceGraph**: if not installed, use `Install-Module Az.ResourceGraph` to install it.
-   - **Az.ManagedServiceIdentity**: if not installed, use `Install-Module Az.ManagedServiceIdentity` to install it.
+    - **Az.Accounts**: if not installed, use `Install-Module Az.Accounts` to install it.
+    - **Az.Resources**: if not installed, use `Install-Module Az.Resources` to install it.
+    - **Az.ResourceGraph**: if not installed, use `Install-Module Az.ResourceGraph` to install it.
+    - **Az.ManagedServiceIdentity**: if not installed, use `Install-Module Az.ManagedServiceIdentity` to install it.
 
 3. Navigate to the directory containing the **Start-ALZ-Maintenance.ps1** script.
 4. Set the _**$targetSubscription**_ variable using the following command:
@@ -151,9 +151,9 @@ To download the cleanup script file, follow these steps. Alternatively, you can 
 5. Sign in to your Azure account using the `Connect-AzAccount` command. Ensure that the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
 6. Run the script with one of the following options:
 
-   {{% include "PowerShell-ExecutionPolicy.md" %}}
+    {{% include "PowerShell-ExecutionPolicy.md" %}}
 
-   **Get full help on script usage:**
+  **Get full help on script usage:**
 
   ```powershell
   Get-help ./Start-AMBA-ALZ-4Subs-Maintenance.ps1 -Full
