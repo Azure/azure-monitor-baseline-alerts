@@ -73,7 +73,7 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Logic App Resource ID](../../../media/LogicApp_ResourceID_2.png)
 
-  - Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
+  - Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (*When an HTTP request is received*), and copy the URL using the copy icon.
 
     ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
@@ -229,7 +229,7 @@ While it's technically possible to not add any notification information (no emai
 
   ![Logic App Resource ID](../../../media/LogicApp_ResourceID_2.png)
 
-- Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (_When an HTTP request is received_), and copy the URL using the copy icon.
+- Update the *```ALZLogicappCallbackUrl```* parameter with the callback URL of the Logic App to be used for alert actions (including Service Health alerts). Leave it blank if no Logic App is used or if existing customer-owned action group(s) should be used (see [Bring Your Own Notifications](../../Bring-your-own-Notifications)). To retrieve the callback URL, use the [***Get-AzLogicAppTriggerCallbackUrl***](https://learn.microsoft.com/en-us/powershell/module/az.logicapp/get-azlogicapptriggercallbackurl) PowerShell command or navigate to the Logic App in the Azure portal, go to ***Logic App Designer***, expand the trigger activity (*When an HTTP request is received*), and copy the URL using the copy icon.
 
   ![Get Logic app callback url](../../../media/AMBA-LogicAppCallbackUrl.png)
 
