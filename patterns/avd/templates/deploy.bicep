@@ -1855,8 +1855,8 @@ var MetricAlerts = {
 
 var LogAlertsSvcHealth = [
   {
-    name: '${AlertNamePrefix}-SerivceHealth-ServiceIssue'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Serivice Issue'
+    name: '${AlertNamePrefix}-ServiceHealth-ServiceIssue'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Serivice Issue'
     description: AlertDescriptionHeader
     anyof: [
       {
@@ -1866,8 +1866,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-PlannedMaintenance'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Planned Maintenance'
+    name: '${AlertNamePrefix}-ServiceHealth-PlannedMaintenance'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Planned Maintenance'
     description: AlertDescriptionHeader
     anyOf: [
       {
@@ -1877,8 +1877,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-HealthAdvisory'
-    displayName: '${AlertNamePrefix}-SerivceHealth-HealthAdvisory'
+    name: '${AlertNamePrefix}-ServiceHealth-HealthAdvisory'
+    displayName: '${AlertNamePrefix}-ServiceHealth-HealthAdvisory'
     description: AlertDescriptionHeader
     anyOf: [
       {
@@ -1892,8 +1892,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-Security'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Security'
+    name: '${AlertNamePrefix}-ServiceHealth-Security'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Security'
     description: AlertDescriptionHeader
     anyOf: [
       {
