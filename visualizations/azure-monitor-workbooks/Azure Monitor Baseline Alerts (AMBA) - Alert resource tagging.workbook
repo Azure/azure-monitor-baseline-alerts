@@ -1,0 +1,383 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "<img width='200' src='https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/main/docs/static/img/amba_logo.png'>"
+      },
+      "customWidth": "30",
+      "name": "CustomerLogo"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "# Azure Monitor Baseline Alerts (AMBA) - Alerts and resource tagging #"
+      },
+      "name": "workbookTitle"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "63c2fcd8-71d2-49e8-ad26-a1a3675868fc",
+            "version": "KqlParameterItem/1.0",
+            "name": "Subscriptions",
+            "label": "Subscription(s)",
+            "type": 6,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True'\r\n| distinct subscriptionId\r\n| project value = subscriptionId, label = subscriptionId, selected = true",
+            "crossComponentResources": [
+              "value::all"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "5e8549d6-22aa-47e0-a84b-bf1848cd44cc",
+            "version": "KqlParameterItem/1.0",
+            "name": "ResourceTypes",
+            "label": "Resource type(s)",
+            "type": 5,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type in~ ('Microsoft.Insights/metricAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True'\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| extend resourceType = iif(type == \"microsoft.insights/metricalerts\", split(properties.scopes, \"/\")[6], split(properties.scopes, '/')[6])\r\n| extend resourceType = iff((isempty(resourceType) and type == \"microsoft.insights/scheduledqueryrules\"), tostring(properties.targetResourceTypes[0]), resourceType)\r\n| union (resources\r\n| where type =~ 'Microsoft.Insights/activityLogAlerts' and tags['_deployed_by_amba'] =~ 'True'\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| mv-expand kind = array allOfs = properties.condition.allOf\r\n| where allOfs.field == 'operationName'\r\n| extend resourceType = strcat(split(allOfs.equals,'/')[0], '/', split(allOfs.equals,'/')[1]))\r\n| distinct resourceType",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "801ff05a-59b7-4131-a14d-e9f43d1a563a",
+            "version": "KqlParameterItem/1.0",
+            "name": "AlertTypes",
+            "label": "Alert type(s)",
+            "type": 2,
+            "isRequired": true,
+            "multiSelect": true,
+            "quote": "'",
+            "delimiter": ",",
+            "query": "resources\r\n| where type in~ ('Microsoft.Insights/metricAlerts', 'Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True'\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| distinct type",
+            "crossComponentResources": [
+              "{Subscriptions}"
+            ],
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "defaultValue": "value::all",
+            "queryType": 1,
+            "resourceType": "microsoft.resourcegraph/resources"
+          },
+          {
+            "id": "d4354e02-6b2e-41be-b23d-16d8e6292b67",
+            "version": "KqlParameterItem/1.0",
+            "name": "Help",
+            "label": "Show Help",
+            "type": 10,
+            "isRequired": true,
+            "typeSettings": {
+              "additionalResourceOptions": [],
+              "showDefault": false
+            },
+            "jsonData": "[\r\n  { \"value\": \"Yes\", \"label\": \"Yes\"},\r\n  { \"value\": \"No\", \"label\": \"No\", \"selected\":true },\r\n  { \"value\": \"ChangeLog\", \"label\": \"Change Log\"}\r\n]\r\n",
+            "timeContext": {
+              "durationMs": 5184000000
+            },
+            "timeContextFromParameter": "TimeRange"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "Parameters"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": ">&nbsp;\r\n>\r\n>** Author **\r\n>[Bruno Gabrielli](mailto:bruno.gabrielli@microsoft.com)\r\n>\r\n>** Version 1.0 **\r\n>2025-07-29\r\n>- Initial version.\r\n>\r\n>&nbsp;"
+      },
+      "conditionalVisibility": {
+        "parameterName": "Help",
+        "comparison": "isEqualTo",
+        "value": "ChangeLog"
+      },
+      "name": "changeLog",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "></br>\r\n># Get Started #\r\n>\r\n>-------------------------\r\n>\r\n\r\n>Welcome to the ***Azure Monitor Baseline Alerts (AMBA) - Alert resource tagging*** workbook. This workbook is designed to provide you with an understanding of tags applied to Azure resources monitored using the [AMBA](htts://aka.ms/amba).\r\n>\r\n>\r\n>## Prerequistes ##\r\n>\r\n>1. Azure Monitor alerts created using AMBA or one of its pattern.\r\n>\r\n></br>"
+      },
+      "conditionalVisibility": {
+        "parameterName": "Help",
+        "comparison": "isEqualTo",
+        "value": "Yes"
+      },
+      "name": "getStarted"
+    },
+    {
+      "type": 11,
+      "content": {
+        "version": "LinkItem/1.0",
+        "style": "tabs",
+        "links": [
+          {
+            "id": "beae854c-2acd-41f0-b139-4e0f68d1865e",
+            "cellValue": "selectedTab",
+            "linkTarget": "parameter",
+            "linkLabel": "ALZ Pattern",
+            "subTarget": "ALZ",
+            "style": "link"
+          }
+        ]
+      },
+      "name": "links - 6"
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": []
+      },
+      "conditionalVisibility": {
+        "parameterName": "selectedTab",
+        "comparison": "isEqualTo",
+        "value": "AMBA"
+      },
+      "name": "AMBA",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "items": [
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "resources\r\n| where type in~ ('Microsoft.Insights/metricAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True'\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| extend resourceType = iif(type == \"microsoft.insights/metricalerts\", split(properties.scopes, \"/\")[6], split(properties.scopes, '/')[6])\r\n| extend resourceType = iff((isempty(resourceType) and type == \"microsoft.insights/scheduledqueryrules\"), tostring(properties.targetResourceTypes[0]), resourceType)\r\n| union (resources\r\n| where type =~ 'Microsoft.Insights/activityLogAlerts' and tags['_deployed_by_amba'] =~ 'True'\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| mv-expand kind = array allOfs = properties.condition.allOf\r\n| where allOfs.field == 'operationName'\r\n| extend resourceType = strcat(split(allOfs.equals,'/')[0], '/', split(allOfs.equals,'/')[1])\r\n| project id, name, type, subscriptionId, tags, resourceType, resourceGroup, location)\r\n| where resourceType in ({ResourceTypes})\r\n| where type in ({AlertTypes})\r\n| project subscriptionId, id, name, type, resourceType, resourceGroup, location",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Alerts",
+              "showRefreshButton": true,
+              "showExportToExcel": true,
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "$gen_group",
+                    "formatter": 15,
+                    "formatOptions": {
+                      "linkTarget": null,
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "subscriptionId",
+                    "formatter": 5
+                  }
+                ],
+                "rowLimit": 10000,
+                "filter": true,
+                "hierarchySettings": {
+                  "treeType": 1,
+                  "groupBy": [
+                    "subscriptionId"
+                  ],
+                  "expandTopLevel": true
+                },
+                "labelSettings": [
+                  {
+                    "columnId": "subscriptionId",
+                    "label": "Subscription"
+                  },
+                  {
+                    "columnId": "id",
+                    "label": "Alert Id"
+                  },
+                  {
+                    "columnId": "name",
+                    "label": "Alert name"
+                  },
+                  {
+                    "columnId": "type",
+                    "label": "Alert type"
+                  },
+                  {
+                    "columnId": "resourceType",
+                    "label": "Target resource type"
+                  },
+                  {
+                    "columnId": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "columnId": "location",
+                    "label": "Region"
+                  }
+                ]
+              }
+            },
+            "showPin": true,
+            "name": "amba-alz-Alerts",
+            "styleSettings": {
+              "showBorder": true
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "resources\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| where type in~ ({ResourceTypes})\r\n| mvexpand tagging = tags\r\n| where tagging matches regex \"_amba-(.*?)_\" or tagging matches regex \"Monitor(.*?)Disable\"\r\n| extend taggingName = iff(tagging matches regex \"_amba-(.*?)_\", tostring(extract(\"_amba-(.*?)_\", 0, tostring(tagging))), tostring(extract(\"Monitor(.*?)Disable\", 0, tostring(tagging))))\r\n| extend id = tolower(id)\r\n| join kind=leftouter (\r\nresourcechanges\r\n| where subscriptionId in ({Subscriptions:subid})\r\n| where properties.targetResourceType in~ ({ResourceTypes})\r\n| where type == \"microsoft.resources/changes\"\r\n| where properties.changeType in~ ('create', 'update')\r\n| where properties.changes contains \"tags.\"\r\n| mv-expand tagChange = properties.changes\r\n| where tagChange matches regex \"_amba-(.*?)_\" or tagChange matches regex \"Monitor(.*?)Disable\"\r\n| extend tagChangeStr = replace_regex(tostring(tagChange), @\"tags.\", @\"\")\r\n| extend tagChangeName = iff(tagChangeStr matches regex \"_amba-(.*?)_\", tostring(extract(\"_amba-(.*?)_\", 0, tagChangeStr)), tostring(extract(\"Monitor(.*?)Disable\", 0, tagChangeStr)))\r\n| project targetResourceId=tolower(tostring(properties.targetResourceId)), changedBy = tostring(properties.changeAttributes.changedBy), timestamp = todatetime(properties.changeAttributes.timestamp), tagChangeName, tagChangeStr\r\n) on $left.id == $right.targetResourceId and $left.taggingName == $right.tagChangeName\r\n| extend newValue = tostring(parse_json(tostring(parse_json(tagChangeStr).[tagChangeName])).newValue)\r\n| extend previousValue = tostring(parse_json(tostring(parse_json(tagChangeStr).[tagChangeName])).previousValue)\r\n| project id, type, subscriptionId, location, resourceGroup, tagging, changedBy, timestamp, previousValue, newValue",
+              "size": 0,
+              "showAnalytics": true,
+              "title": "Resource tagging",
+              "showRefreshButton": true,
+              "queryType": 1,
+              "resourceType": "microsoft.resourcegraph/resources",
+              "crossComponentResources": [
+                "{Subscriptions}"
+              ],
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "$gen_group",
+                    "formatter": 15,
+                    "formatOptions": {
+                      "linkTarget": null,
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "subscriptionId",
+                    "formatter": 5
+                  },
+                  {
+                    "columnMatch": "resourceGroup",
+                    "formatter": 14,
+                    "formatOptions": {
+                      "linkTarget": null,
+                      "showIcon": true
+                    }
+                  },
+                  {
+                    "columnMatch": "timestamp",
+                    "formatter": 6
+                  }
+                ],
+                "rowLimit": 10000,
+                "filter": true,
+                "hierarchySettings": {
+                  "treeType": 1,
+                  "groupBy": [
+                    "subscriptionId"
+                  ],
+                  "expandTopLevel": true
+                },
+                "labelSettings": [
+                  {
+                    "columnId": "id",
+                    "label": "Resource Id"
+                  },
+                  {
+                    "columnId": "type",
+                    "label": "Resource type"
+                  },
+                  {
+                    "columnId": "subscriptionId",
+                    "label": "Subscription"
+                  },
+                  {
+                    "columnId": "location",
+                    "label": "Location"
+                  },
+                  {
+                    "columnId": "resourceGroup",
+                    "label": "Resource group"
+                  },
+                  {
+                    "columnId": "tagging",
+                    "label": "AMBA Tagging"
+                  },
+                  {
+                    "columnId": "changedBy",
+                    "label": "Changed by"
+                  },
+                  {
+                    "columnId": "timestamp",
+                    "label": "Changed on"
+                  },
+                  {
+                    "columnId": "previousValue",
+                    "label": "Previous value"
+                  },
+                  {
+                    "columnId": "newValue",
+                    "label": "New value"
+                  }
+                ]
+              },
+              "sortBy": []
+            },
+            "showPin": true,
+            "name": "ambaResourceTagging",
+            "styleSettings": {
+              "showBorder": true
+            }
+          }
+        ]
+      },
+      "conditionalVisibility": {
+        "parameterName": "selectedTab",
+        "comparison": "isEqualTo",
+        "value": "ALZ"
+      },
+      "name": "ALZ",
+      "styleSettings": {
+        "showBorder": true
+      }
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}

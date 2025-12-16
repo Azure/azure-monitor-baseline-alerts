@@ -90,7 +90,7 @@ The parameter file below is a shortened version for demonstration purposes. Full
     },
     "ALZMonitorResourceGroupTags": {
       "value": {
-        "Project": "amba-monitoring"
+        "_deployed_by_amba": true
       }
     },
     "ALZMonitorDisableTagName": {

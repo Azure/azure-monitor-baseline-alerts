@@ -10,7 +10,7 @@
 # SOFTWARE.
 
 <#
-        .NOTES
+    .NOTES
     AUTHORS:  Arjen Huitema, Bruno Gabrielli
     LASTEDIT: May 22nd, 2025
 
@@ -21,18 +21,18 @@
       - Initial version of the script
 
     .DESCRIPTION
-    This script is intended to consolidate previous maintenance scripts. It allow customers to:
+    This script is intended to consolidate previous maintenance scripts. It allows customers to:
+
     - remove ALL resources deployed by the AMBA-ALZ pattern (alerts, policy assignments, policy initiatives, policy definitions, and policy assignment role assignments)
     - remove ONLY the deployment entries of AMBA-ALZ happening at the pseudo root management group level
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ
     - remove ONLY the notification assets (AGs and APRs) deployed by AMBA-ALZ version older than 2024-03-01
     - remove ONLY alerts deployed by the AMBA-ALZ pattern
-    - remove ONLY the legacy ServiceHealth alerts and actiongroups deployed by the AMBA-ALZ pattern before the adoption of Built-in SH policy (release 2025-07-04)
+    - remove ONLY the legacy ServiceHealth alerts and action groups deployed by the AMBA-ALZ pattern before the adoption of Built-in SH policy (release 2025-07-04)
     - remove ONLY policy assignments and role assignment created by the AMBA-ALZ deployment
     - remove ONLY policy definitions and policy initiatives created by the AMBA-ALZ deployment
     - remove ONLY orphaned alerts deployed by the AMBA-ALZ pattern
     - remove ONLY RoleAssignments deployed by the AMBA-ALZ pattern
-
 
     In order for this script to function the deployed resources must have a tag _deployed_by_amba with a value of true and Policy resources must have metadata property
     named _deployed_by_amba with a value of True. These tags and metadata are included in the automation, but if they are subsequently removed, there may be orphaned
@@ -49,7 +49,7 @@
     Required. The pseudo root management group to start the cleanup from. This is the management group that is the parent of all the management groups that are part of the AMBA-ALZ deployment.  This is the management group that the AMBA-ALZ deployment was initiated from.
 
 .PARAMETER cleanItems
-    Required. The item type we want the script to clean up. The options are:
+    Required. The item type we want the script to clean up. The available options are:
         - Amba-Alz
         - Deployments
         - OldNotificationAssets
@@ -79,6 +79,9 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '', Justification = 'False positive')]
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'False positive')]
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Justification = 'Approved verbs are not available for this scenario')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '', Justification = 'Write-Host is used for user feedback in this script')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseProcessBlockForPipelineCommand', '', Justification = 'Not applicable in this scenario')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', '', Justification = 'Not applicable in this scenario')]
 
 # Declaring required PowerShell modules and minimal versions
 #Requires -Modules @{ ModuleName="Az.Accounts"; ModuleVersion="2.16.0" }
