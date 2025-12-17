@@ -105,8 +105,8 @@ process {
                 }
                 if ($alert.properties.dimensions -ne $null) {
                   $dimensionRuleString = $dimensionRuleString + [Environment]::NewLine + '                  ' + '{' +
-                       [Environment]::NewLine + '                  ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
-                       [Environment]::NewLine + '                  ' + '  "in": ['
+                      [Environment]::NewLine + '                  ' + '  "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].dimensions[*].name",' +
+                      [Environment]::NewLine + '                  ' + '  "in": ['
                   foreach ($dimension in $alert.properties.dimensions) {
                       $dimensionRuleString += '"' + $dimension.name + '",'
                   }
