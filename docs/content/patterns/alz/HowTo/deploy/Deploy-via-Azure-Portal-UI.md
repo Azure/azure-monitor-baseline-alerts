@@ -210,7 +210,7 @@ While it's technically possible to not add any notification information (email, 
       - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
       - Event Hubs. Example: []
       - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    - Single stringfor:
+    - Single string for:
       - Logic Apps
       - Functions
 
@@ -251,7 +251,7 @@ While it's technically possible to not add any notification information (email, 
       - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
       - Event Hubs. Example: []
       - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    - Single stringfor:
+    - Single string for:
       - Logic Apps
       - Functions
 
