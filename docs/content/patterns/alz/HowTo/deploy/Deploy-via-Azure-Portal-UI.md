@@ -7,7 +7,7 @@ weight: 30
 
 > [Access the AMBA-ALZ Portal Accelerator](#access-the-amba-alz-portal-accelerator) </br>
 > [Deployment Settings Blade](#deployment-settings-blade) </br>
-> [Management Groups Settings Blade](#management-groups--subscription-settings-blade) </br>
+> [Management Groups / Subscription Settings Blade](#management-groups--subscription-settings-blade) </br>
 > [Notification Settings Blade](#notification-settings-blade) </br>
 > [Next Steps](#next-steps) </br>
 
