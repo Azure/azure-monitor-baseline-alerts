@@ -21,7 +21,7 @@
             {
               "name": "resourceScope",
               "type": "Microsoft.Common.ResourceScope",
-              "kind": "Subscription",
+              "kind": "subscription",
               "instanceDetailsLabel": "AMBA-ALZ Accelerator for subscriptions"
             },
             {
@@ -220,7 +220,7 @@
                 "method": "POST",
                 "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
                 "body": {
-                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | project label=tostring(name) , description=subscriptionId, value=subscriptionId | order by label asc']"
+                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | project label=tostring(name), description=tostring(name), value=tostring(subscriptionId) | order by label asc']"
                 }
               }
             },
@@ -229,7 +229,7 @@
               "type": "Microsoft.Common.DropDown",
               "label": "Target subscription",
               "multiselect": false,
-              "defaultValue": "[steps('basics').resourceScope.subscription.name]",
+              "defaultValue": "[steps('basics').resourceScope.subscription.displayName]",
               "filter": false,
               "defaultDescription": "Selected subscription",
               "toolTip": "Subscription where you wish to deploy the policies and the initiatives.",
