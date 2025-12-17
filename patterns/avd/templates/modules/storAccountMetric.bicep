@@ -8,7 +8,9 @@ param ActionGroupID string
 param Tags object
 
 module metricAlerts_StorageAcct '../carml/1.3.0/Microsoft.Insights/metricAlerts/deploy.bicep' = [for i in range(0, length(MetricAlertsStorageAcct)):  {
-  name: 'c_${MetricAlertsStorageAcct[i].name}-${split(StorageAccountResourceID, '/')[8]}-${Environment}'
+  name: length('c_${MetricAlertsStorageAcct[i].name}-${split(StorageAccountResourceID, '/')[8]}-${Environment}') > 64
+    ? substring('c_${MetricAlertsStorageAcct[i].name}-${split(StorageAccountResourceID, '/')[8]}-${Environment}', 0, 64)
+    : 'c_${MetricAlertsStorageAcct[i].name}-${split(StorageAccountResourceID, '/')[8]}-${Environment}'
   params: {
     enableDefaultTelemetry: false
     name: '${MetricAlertsStorageAcct[i].displayName}-${split(StorageAccountResourceID, '/')[8]}-${Environment}'
