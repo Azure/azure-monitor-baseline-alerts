@@ -25,17 +25,6 @@
               "instanceDetailsLabel": "AMBA-ALZ Accelerator for subscriptions"
             },
             {
-              "name": "getSubscriptions",
-              "type": "Microsoft.Solutions.ArmApiControl",
-              "request": {
-                "method": "POST",
-                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
-                "body": {
-                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | project label=tostring(name) , description=id, value=subscriptionId | order by label asc']"
-                }
-              }
-            },
-            {
               "name": "getbringYourOwnUserAssignedManagedIdentityResourceId",
               "type": "Microsoft.Solutions.ArmApiControl",
               "request": {
@@ -224,6 +213,17 @@
           "name": "Configuration",
           "label": "Subscription Settings",
           "elements": [
+            {
+              "name": "getSubscriptions",
+              "type": "Microsoft.Solutions.ArmApiControl",
+              "request": {
+                "method": "POST",
+                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                "body": {
+                  "query": "[format('resourcecontainers | where type == \"microsoft.resources/subscriptions\" | project label=tostring(name) , description=id, value=subscriptionId | order by label asc']"
+                }
+              }
+            },
             {
               "name": "enableAMBAServiceHealth",
               "type": "Microsoft.Common.DropDown",
@@ -843,7 +843,9 @@
       "subscriptionId": "[steps('basics').resourceScope.subscription.id]",
       "parameters": {
         "location": "[steps('basics').resourceScope.location.name]",
+        "SubscriptionId": "[steps('basics').resourceScope.subscription.name]",
         "topLevelSubscriptionId": "[steps('basics').resourceScope.subscription.name]",
+        "enterpriseScaleCompanyPrefix": "[steps('Configuration').getSubscriptions]",
         "ALZMonitorResourceGroupName": "[steps('basics').ALZMonitorRGName]",
         "ALZMonitorActionGroupEmail": "[steps('Notification').ALZMonitorActionGroupEmail]",
         "ALZMonitorResourceGroupLocation": "[steps('basics').ALZMonitorResourceGroupLocation]",
