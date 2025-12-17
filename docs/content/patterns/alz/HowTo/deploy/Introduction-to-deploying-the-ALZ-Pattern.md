@@ -3,17 +3,22 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
+<!-- For tabs usage info see pages:
+- https://learn.netlify.app/en/shortcodes/tabs/ for info and instructions
+- https://geekdocs.de/shortcodes/tabs/
+-->
+
 ### In this page
 
-> [Background](../Introduction-to-deploying-the-ALZ-Pattern#background) </br>
-> [Prerequisites](../Introduction-to-deploying-the-ALZ-Pattern#prerequisites) </br>
-> [Getting Started](../Introduction-to-deploying-the-ALZ-Pattern#getting-started) </br>
-> [Determining your Management Group Hierarchy](../Introduction-to-deploying-the-ALZ-Pattern#determining-your-management-group-hierarchy) </br>
-> [Customizing Policy Assignments](../Introduction-to-deploying-the-ALZ-Pattern#customizing-policy-assignments) </br>
-> [Customizing the AMBA-ALZ Policies](../Introduction-to-deploying-the-ALZ-Pattern#customizing-the-amba-alz-policies) </br>
-> [Disabling Monitoring](../Introduction-to-deploying-the-ALZ-Pattern#disabling-monitoring) </br>
-> [Cleaning up an ALZ Deployment](../Introduction-to-deploying-the-ALZ-Pattern#cleaning-up-an-amba-alz-deployment) </br>
-> [Next Steps](../Introduction-to-deploying-the-ALZ-Pattern#next-steps) </br>
+> [Background](#background) </br>
+> [Prerequisites](#prerequisites) </br>
+> [Getting Started](#getting-started) </br>
+> [Determining your hierarchy](#determining-your-hierarchy) </br>
+> [Customizing Policy Assignments](#customizing-policy-assignments) </br>
+> [Customizing the AMBA-ALZ Policies](#customizing-the-amba-alz-policies) </br>
+> [Disabling Monitoring](#disabling-monitoring) </br>
+> [Cleaning up an ALZ Deployment](#cleaning-up-an-amba-alz-deployment) </br>
+> [Next Steps](#next-steps) </br>
 
 ## Background
 
@@ -33,16 +38,21 @@ Alerts, action groups, and alert processing rules are created as follows:
 
 ## Prerequisites
 
+{{< tabs "Intro_Prereq" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
+
 1. A Microsoft Entra ID Tenant.
 2. An ALZ Management group hierarchy deployed as outlined in the [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) documentation.
 3. At least one subscription for deploying alerts through policies.
 4. A Deployment Identity with `Owner` permissions to the pseudo root management group. This permission is necessary for the Service Principal Account to create role-based access control assignments.
 5. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
 6. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
-   - Microsoft.AlertsManagement
-   - Microsoft.Insights
 
-  For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
+    - Microsoft.AlertsManagement
+    - Microsoft.Insights
+
+    For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
 
 7. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
 
@@ -50,19 +60,42 @@ Alerts, action groups, and alert processing rules are created as follows:
 While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
 {{< /hint >}}
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+1. A Microsoft Entra ID Tenant.
+2. At least one active Azure subscription for deploying alerts through policies.
+3. A Deployment Identity with `Owner` permissions on the given subscription. This permission is necessary for the Service Principal Account to create role-based access control assignments.
+4. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
+5. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
+
+    - Microsoft.AlertsManagement
+    - Microsoft.Insights
+
+    For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
+
+6. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Getting Started
 
-- Fork this repository to your own GitHub organization. Do not create a direct clone of the repository, as pull requests from direct clones will not be accepted.
-- Clone the repository from your GitHub organization to your local development environment.
-- Review your current configuration to identify the applicable scenario. We provide guidance for deploying these policies and initiatives whether you are aligned with Azure Landing Zones, use a different management group hierarchy, or do not use management groups at all. If you already know your management group hierarchy type, proceed to your preferred deployment method:
+Review your current configuration to identify the applicable scenario. We provide guidance for deploying these policies and initiatives whether you are aligned with Azure Landing Zones, use a different management group hierarchy, or do not use management groups at all. If you already know your management group hierarchy type, proceed to your preferred deployment method:
 
-  - [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)  (recommended method)
-  - [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
-  - [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
-  - [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
-  - [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
+- [Deploy via the Azure Portal Accelerator](../Deploy-via-Azure-Portal-UI)  (recommended method)
+- [Automated deployment with GitHub Actions](../Deploy-with-GitHub-Actions) (recommended method)
+- [Automated deployment with Azure Pipelines](../Deploy-with-Azure-Pipelines) (recommended method)
+- [Manual deployment with Azure CLI](../Deploy-with-Azure-CLI)
+- [Manual deployment with Azure PowerShell](../Deploy-with-Azure-PowerShell)
 
-## Determining your Management Group Hierarchy
+## Determining your hierarchy
+
+{{< tabs "Intro_Hierarchy" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 
@@ -71,7 +104,14 @@ The initiatives in this repository are designed to align with the management gro
 - Identity Initiative is assigned to the Identity management group.
 - Management Initiative is assigned to the Management management group.
 - Connectivity Initiative is assigned to the Connectivity management group.
-- Landing Zone Initiative is assigned to the Landing Zone management group.
+- Azure VM Initiative is assigned to both Platform and Landing Zones management groups.
+- Hybrid VM Initiative is assigned to both Platform and Landing Zones management groups.
+- Key Management Initiative is assigned to the Landing Zones management group.
+- Load Balancing Initiative is assigned to the Landing Zones management group.
+- Network Changes Initiative is assigned to the Landing Zones management group.
+- Recovery Services Initiative is assigned to the Landing Zones management group.
+- Storage Initiative is assigned to the Landing Zones management group.
+- Web Initiative is assigned to the Landing Zones management group.
 - Service Health Initiative is assigned to the intermediate (ALZ) root management group.
 
 The image below illustrates a management group hierarchy that aligns with Azure Landing Zone guidance. It also shows the default recommended assignments for the initiatives.
@@ -110,7 +150,14 @@ In scenarios where Identity, Management, and Connectivity are combined into a si
 - Identity Initiative is assigned to the Platform management group.
 - Management Initiative is assigned to the Platform management group.
 - Connectivity Initiative is assigned to the Platform management group.
-- Landing Zone Initiative is assigned to the Geography management group.
+- Azure VM Initiative is assigned to both Platform and Geography management groups.
+- Hybrid VM Initiative is assigned to both Platform and Geography management groups.
+- Key Management Initiative is assigned to the Geography management group.
+- Load Balancing Initiative is assigned to the Geography management group.
+- Network Changes Initiative is assigned to the Geography management group.
+- Recovery Services Initiative is assigned to the Geography management group.
+- Storage Initiative is assigned to the Geography management group.
+- Web Initiative is assigned to the Geography management group.
 - Service Health Initiative is assigned to the top-most level(s) in your management group hierarchy.
 
 The following image illustrates an example of how the assignments might appear when the management group hierarchy does not align with Azure Landing Zones (ALZ).
@@ -149,6 +196,39 @@ The following image illustrates an example of how the assignments appear when ut
 
 ![Management group structure - single](../../../media/alz-management-groups-single.png)
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription level and management group structure is not visible in these scenarios. The AMBA-ALZ aligned initiatives in this repository are designed to align with the management group hierarchy guidelines of Azure Landing Zones. However, in the CSP or Azure Lighthouse scenarios where no access at the management group level is available/possible, all of the initiatives in this repository will be mapped to the identified subscription:
+
+- Identity Initiative.
+- Management Initiative.
+- Connectivity Initiative.
+- Azure VM Initiative.
+- Hybrid VM Initiative.
+- Key Management Initiative.
+- Load Balancing Initiative.
+- Network Changes Initiative.
+- Recovery Services Initiative.
+- Storage Initiative.
+- Web Initiative.
+- Service Health Initiative.
+
+The image below illustrates a subscription-based mapping of assignments for the initiatives.
+
+![Azure Monitor Baseline Alerts policy initiative flows](../../../media/AMBA-Diagram-Subscription.png)
+
+*Download a [Visio file](../../../media/AMBA-Diagram-Subscription.vsdx) of this architecture.*
+
+{{< hint type=important >}}
+To avoid generating unnecessary alerts, it is advisable to not use development, sandbox, and other non-production subscriptions unless for testing the solution.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Customizing Policy Assignments
 
 For instructions on customizing policy and initiative assignments, please refer to [Customize Policy Assignment](../Customize-Policy-Assignment).
@@ -181,9 +261,20 @@ To modify settings that are not parameterized, follow these steps:
   {{< hint type=note >}}
   Regardless of whether you are modifying existing policies or adding new ones, you must update the ***policies.bicep*** file.
   {{< /hint >}}
-3. Execute the following command to update the ***policies.bicep*** file:
+3. Execute the following commands to update the ***policy files*** file:
 
-    `bicep build .\patterns\alz\templates\policies.bicep --outfile .\patterns\alz\policyDefinitions\policies.json`
+    `bicep build .\patterns\alz\templates\policies-Automation.bicep --outfile .\patterns\alz\policyDefinitions\policies-Automation.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Compute.bicep --outfile .\patterns\alz\policyDefinitions\policies-Compute.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Hybrid.bicep --outfile .\patterns\alz\policyDefinitions\policies-Hybrid.json` </br>
+    `bicep build .\patterns\alz\templates\policies-KeyManagement.bicep --outfile .\patterns\alz\policyDefinitions\policies-KeyManagement.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Monitoring.bicep --outfile .\patterns\alz\policyDefinitions\policies-Monitoring.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Network.bicep --outfile .\patterns\alz\policyDefinitions\policies-Network.json` </br>
+    `bicep build .\patterns\alz\templates\policies-NotificationAssets.bicep --outfile .\patterns\alz\policyDefinitions\policies-NotificationAssets.json` </br>
+    `bicep build .\patterns\alz\templates\policies-RecoveryServices.bicep --outfile .\patterns\alz\policyDefinitions\policies-RecoveryServices.json` </br>
+    `bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\patterns\alz\policyDefinitions\policies-ServiceHealth.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Storage.bicep --outfile .\patterns\alz\policyDefinitions\policies-Storage.json` </br>
+    `bicep build .\patterns\alz\templates\policies-Web.bicep --outfile .\patterns\alz\policyDefinitions\policies-Web.json` </br>
+    `bicep build .\patterns\alz\templates\policySets.bicep --outfile .\patterns\alz\policyDefinitions\policySets.json` </br>
 
 4. Commit and synchronize the changes to your fork.
 5. Execute the following command to deploy your locally modified copy:

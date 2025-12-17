@@ -5,16 +5,41 @@ weight: 30
 
 ### In this page
 
-> [Deployment Settings Blade](../Deploy-via-Azure-Portal-UI#deployment-settings-blade) </br>
-> [Management Groups Settings Blade](../Deploy-via-Azure-Portal-UI#management-groups-settings-blade) </br>
-> [Notification Settings Blade](../Deploy-via-Azure-Portal-UI#notification-settings-blade) </br>
-> [Next Steps](../Deploy-via-Azure-Portal-UI#next-steps) </br>
+> [Access the AMBA-ALZ Portal Accelerator](#access-the-amba-alz-portal-accelerator) </br>
+> [Deployment Settings Blade](#deployment-settings-blade) </br>
+> [Management Groups Settings Blade](#management-groups-settings-blade) </br>
+> [Notification Settings Blade](#notification-settings-blade) </br>
+> [Next Steps](#next-steps) </br>
+
+## Access the AMBA-ALZ Portal Accelerator
+
+{{< tabs "Portal_Access" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
+
+The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to <https://aka.ms/amba/alz/portal> or click the "Deploy to Azure" button below:
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
 
-</br>
+Once on the portal page, follow the configuration instruction for each section as documented in this guidance.
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
 
 ## Deployment Settings Blade
+
+{{< tabs "Portal_Deployment_Settings" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
 
@@ -32,7 +57,23 @@ weight: 30
   - Choose the value of _`Customer Usage Selection Option`_ Microsoft can identify the deployments of the Azure Resource Manager and Bicep templates with the deployed Azure resources. Microsoft can correlate these resources used to support the deployments. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by Microsoft’s privacy policies, located at the trust center.
   - Change the value of _`Resource Group Tags`_ to specify the tags to be added to said resource group.
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Management Groups Settings Blade
+
+{{< tabs "Portal_MG_Settings" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 ![Management Groups Settings Blade](../../../media/PortalAccelerator/MGSettings.png)
 
@@ -91,7 +132,23 @@ For ease of deployment and maintenance we have kept the same variables.
 For ease of deployment and maintenance we have kept the same variables.
 {{< /hint >}}
 
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
 ## Notification Settings Blade
+
+{{< tabs "Portal_Notification_Settings" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings.png)
 
@@ -129,6 +186,18 @@ While it's technically possible to not add any notification information (email, 
       - Functions
 
     {{< /hint >}}
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+{{< hint type=Note >}}
+This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
+{{< /hint >}}
+
+{{% /tab %}}
+
+{{< /tabs >}}
 
 ## Next steps
 
