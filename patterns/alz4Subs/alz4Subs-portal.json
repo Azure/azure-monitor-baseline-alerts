@@ -227,8 +227,8 @@
               "label": "Target subscription",
               "multiselect": false,
               "defaultValue": "[steps('basics').resourceScope.subscription.name]",
-              "filter": false,
-              "defaultDescription": "Selected subscription",
+              "filter": true,
+              "defaultDescription": "Select a subscription",
               "toolTip": "Subscription where you wish to deploy the policies and the initiatives.",
               "constraints": {
                 "allowedValues": "[filter(map(steps('Configuration').getSubscriptionsAPI.value, (item) => parse(concat('{\"label\":\"', item.displayName, '\",\"value\":\"', item.subscriptionId, '\"}'))), (item) => equals(item.label, steps('basics').resourceScope.subscription.name))]",
