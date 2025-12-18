@@ -1,14 +1,13 @@
 ---
-title: Welcome to Azure Monitor Baseline Alerts
+title: Welcome to Azure Monitor Baseline Alerts AAAAA
+linktitle: Welcome to Azure Monitor Baseline Alerts AAA
 weight: 00
 type: home
 ---
 
-![Azure Monitor Baseline Alerts](../../assets/images/logo.png?inlinecontent&width=25vh)
+![Azure Monitor Baseline Alerts](../../../assets/images/logo.png)
 
-{{< hint type=tip >}}
-Please review and leave issues on things you find, via [GitHub Issues](https://github.com/Azure/azure-monitor-baseline-alerts/issues)
-{{< /hint >}}
+AAAAAAAAAAA
 
 {{< hint type=note >}}
 We are actively looking for feedback. </br> Please tell us what you think and share your opinion by filling the [Azure Monitor Baseline Alerts (AMBA) survey](https://aka.ms/ambaSurvey).
