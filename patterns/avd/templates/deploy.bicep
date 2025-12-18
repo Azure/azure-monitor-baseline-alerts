@@ -72,8 +72,8 @@ param ANFVolumeResourceIds array = []
 
 param Tags object = {}
 
-var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName, time)}'
-var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.0)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
+var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName)}'
+var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.1)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
 var CloudEnvironment = environment().name
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false
@@ -1284,6 +1284,7 @@ var LogAlertsHostPool = [
           | extend ResourceGroup=tostring(split(_ResourceId, '/')[4])
           | extend HostPool=tostring(split(_ResourceId, '/')[8])
           | where HostPool =~ 'xHostPoolNamex'
+          | where isnotempty(Errors)
           | extend ErrorShort=tostring(Errors[0].CodeSymbolic)
           | extend ErrorMessage=tostring(Errors[0].Message)
           | project TimeGenerated, HostPool, ResourceGroup, UserName, ClientOS, ClientVersion, ClientSideIPAddress, ConnectionType, ErrorShort, ErrorMessage
@@ -1369,7 +1370,7 @@ var LogAlertsHostPool = [
 var LogAlertsStorage = [
   {
     // Based on Runbook script Output to LAW
-    name: '${AlertNamePrefix}-StorLowSpaceAzFile-15PrcntRem'
+    name: '${AlertNamePrefix}-StorLowSpaceAzFile-15PrcntRem-${uniqueString(subscription().displayName)}'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-15 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
     severity: 2
@@ -1427,7 +1428,7 @@ var LogAlertsStorage = [
   }
   {
     // Based on Runbook script Output to LAW
-    name: '${AlertNamePrefix}-StorLowSpaceAzFile-5PrcntRem'
+    name: '${AlertNamePrefix}-StorLowSpaceAzFile-5PrcntRem-${uniqueString(subscription().displayName)}'
     displayName: '${AlertNamePrefix}-Storage-Low Space on Azure File Share-5 Percent Remaining'
     description: '${AlertDescriptionHeader}This alert is based on the Action Account and Runbook that populates the Log Analytics specificed with the AVD Metrics Deployment Solution.\nNOTE: The Runbook will FAIL if Networking for the storage account has anything other than "Enabled from all networks"\n-->Last Number in the string is the Percentage Remaining for the Share.\nOutput: ResultsDescription\nStorageType,Subscription,ResourceGroup,StorageAccount,ShareName,Quota,GBUsed,PercentRemaining'
     severity: 1
@@ -1854,8 +1855,8 @@ var MetricAlerts = {
 
 var LogAlertsSvcHealth = [
   {
-    name: '${AlertNamePrefix}-SerivceHealth-ServiceIssue'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Serivice Issue'
+    name: '${AlertNamePrefix}-ServiceHealth-ServiceIssue'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Serivice Issue'
     description: AlertDescriptionHeader
     anyof: [
       {
@@ -1865,8 +1866,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-PlannedMaintenance'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Planned Maintenance'
+    name: '${AlertNamePrefix}-ServiceHealth-PlannedMaintenance'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Planned Maintenance'
     description: AlertDescriptionHeader
     anyOf: [
       {
@@ -1876,8 +1877,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-HealthAdvisory'
-    displayName: '${AlertNamePrefix}-SerivceHealth-HealthAdvisory'
+    name: '${AlertNamePrefix}-ServiceHealth-HealthAdvisory'
+    displayName: '${AlertNamePrefix}-ServiceHealth-HealthAdvisory'
     description: AlertDescriptionHeader
     anyOf: [
       {
@@ -1891,8 +1892,8 @@ var LogAlertsSvcHealth = [
     ]
   }
   {
-    name: '${AlertNamePrefix}-SerivceHealth-Security'
-    displayName: '${AlertNamePrefix}-SerivceHealth-Security'
+    name: '${AlertNamePrefix}-ServiceHealth-Security'
+    displayName: '${AlertNamePrefix}-ServiceHealth-Security'
     description: AlertDescriptionHeader
     anyOf: [
       {

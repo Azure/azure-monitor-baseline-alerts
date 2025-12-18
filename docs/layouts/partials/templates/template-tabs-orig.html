@@ -1,0 +1,273 @@
+{{ $category := .category }}
+{{ $type := .type }}
+{{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
+{{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
+{{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
+{{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
+/*{{ $file3 := path.Join "services" $category $type "templates/policy-arm-subscription" $filename }}*/
+{{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
+{{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
+{{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
+
+<style>
+  /* Stack parent containers vertically */
+  .gdoc-container {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .gdoc-section {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Nested container hidden by default */
+  .gdoc-markdown--nested {
+    display: none;
+    margin-top: 10px;
+  }
+
+  /* Show nested container when parent is selected */
+  .gdoc-container__control:checked + .gdoc-container__label + .gdoc-markdown--nested {
+    display: block;
+  }
+
+  /* Arrange nested tabs horizontally */
+  .gdoc-markdown--nested.gdoc-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  /* Hide all nested tab content by default */
+  .gdoc-tabs__content {
+    display: none;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  /* Show nested tab content when its radio is checked */
+  .nested.gdoc-tabs__control:checked + .nested.gdoc-tabs__label + .gdoc-tabs__content {
+    display: block;
+  }
+
+  /* Style for tab labels */
+  .nested.gdoc-tabs__label {
+    padding: 6px 12px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const parentRadios = document.querySelectorAll('.gdoc-container__control');
+
+  // When switching parent containers:
+  parentRadios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      // Clear all nested selections globally
+      document.querySelectorAll('.nested.gdoc-tabs__control').forEach(nested => {
+        nested.checked = false;
+      });
+
+      // Select the first nested tab in this selected container
+      const nestedContainer = this.closest('.gdoc-section')?.querySelector('.gdoc-markdown--nested.gdoc-tabs');
+      if (nestedContainer) {
+        const firstNestedRadio = nestedContainer.querySelector('.nested.gdoc-tabs__control');
+        if (firstNestedRadio) {
+          firstNestedRadio.checked = true;
+        }
+      }
+    });
+  });
+
+  // Ensure the first container and its first tab are selected by default
+  /*const firstParent = document.querySelector('.gdoc-container__control');
+  if (firstParent) {
+    firstParent.checked = true;
+    const firstNestedContainer = firstParent.closest('.gdoc-section')?.querySelector('.gdoc-markdown--nested.gdoc-tabs');
+    if (firstNestedContainer) {
+      const firstNestedRadio = firstNestedContainer.querySelector('.nested.gdoc-tabs__control');
+      if (firstNestedRadio) {
+        firstNestedRadio.checked = true;
+      }
+    }
+  }*/
+
+  // When a nested tab is selected:
+  document.querySelectorAll('.nested.gdoc-tabs__control').forEach(nestedRadio => {
+    nestedRadio.addEventListener('change', function () {
+      const section = this.closest('.gdoc-section');
+      const parentRadio = section?.querySelector('.gdoc-container__control');
+
+      if (parentRadio && !parentRadio.checked) {
+        // Select the parent and trigger its change logic
+        parentRadio.checked = true;
+        parentRadio.dispatchEvent(new Event('change'));
+        // Reapply the user's intended nested selection
+        this.checked = true;
+      } else {
+        // Parent is already selected; clear other containers' nested selections
+        document.querySelectorAll('.gdoc-section').forEach(sec => {
+          if (sec !== section) {
+            sec.querySelectorAll('.nested.gdoc-tabs__control').forEach(r => r.checked = false);
+          }
+        });
+      }
+    });
+  });
+});
+</script>
+
+<div class="gdoc-container">
+
+  <!-- Parent Container: Management Group -->
+  <input
+    type="radio"
+    class="gdoc-container__control "
+    name="parent"
+    id="mg"
+
+  />
+  <label for="mg" class="gdoc-container__label">Management Group based templates</label>
+
+  <!-- Nested MG Tabs -->
+  <div class="gdoc-markdown--nested gdoc-tabs">
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-mg"
+      id="{{ anchorize .alert.name }}-mg-policy"
+    />
+    <label for="{{ anchorize .alert.name }}-mg-policy" class="nested gdoc-tabs__label">Deploy Policy</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      <p>
+        <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+          <img src="https://aka.ms/deploytoazurebutton"/>
+        </a>
+        <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+          <img src="https://aka.ms/deploytoazuregovbutton"/>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Parent Container: Subscription -->
+  <input
+    type="radio"
+    class="gdoc-container__control "
+    name="parent"
+    id="sub"
+  />
+  <label for="sub" class="nested gdoc-container__label">Subscription based templates</label>
+
+  <!-- Nested Subscription Tabs -->
+  <div class="gdoc-markdown--nested gdoc-tabs">
+
+    <!-- Deploy Policy -->
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-sub"
+      id="{{ anchorize .alert.name }}-sub-policy"
+    />
+    <label for="{{ anchorize .alert.name }}-sub-policy" class="nested gdoc-tabs__label">Deploy Policy (Subscription)</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      <p>
+        <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+          <img src="https://aka.ms/deploytoazurebutton"/>
+        </a>
+        <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+          <img src="https://aka.ms/deploytoazuregovbutton"/>
+        </a>
+      </p>
+    </div>
+
+    <!-- Deploy Alert -->
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-sub"
+      id="{{ anchorize .alert.name }}-sub-alert"
+    />
+    <label for="{{ anchorize .alert.name }}-sub-alert" class="nested gdoc-tabs__label">Deploy Alert</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      <p>
+        <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
+          <img src="https://aka.ms/deploytoazurebutton"/>
+        </a>
+        <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
+          <img src="https://aka.ms/deploytoazuregovbutton"/>
+        </a>
+      </p>
+    </div>
+
+    <!-- ARM -->
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-sub"
+      id="{{ anchorize .alert.name }}-sub-arm"
+    />
+    <label for="{{ anchorize .alert.name }}-sub-arm" class="nested gdoc-tabs__label">ARM</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      {{ $data := readFile $file }}
+      {{ highlight $data "json" }}
+    </div>
+
+    <!-- Bicep -->
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-sub"
+      id="{{ anchorize .alert.name }}-sub-bicep"
+    />
+    <label for="{{ anchorize .alert.name }}-sub-bicep" class="nested gdoc-tabs__label">Bicep</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
+      {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
+      {{ $data := readFile $file }}
+      {{ highlight $data "bicep" }}
+    </div>
+
+    <!-- Policy ARM-->
+    <input
+      type="radio"
+      class="nested gdoc-tabs__control hidden"
+      name="{{ anchorize .alert.name }}-nested-sub"
+      id="{{ anchorize .alert.name }}-sub-policyArm"
+    />
+    <label for="{{ anchorize .alert.name }}-sub-policyArm" class="nested gdoc-tabs__label">Policy</label>
+    <div class="gdoc-markdown--nested gdoc-tabs__content">
+      {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+      {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
+      {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
+      {{ $lines := split $data "\n" }}
+      {{ $target := "    \"parameters\":" }}
+      {{ $index := 0 }}
+      {{ range $i, $v := $lines }}
+        {{ if strings.Contains $v $target }}
+          {{ $index = $i }}
+          {{break}}
+        {{ end }}
+      {{ end }}
+      {{ $policyLines := after $index $lines }}
+      {{ $index := sub (len $policyLines) 2 }}
+      {{ if lt $index 0 }}
+        {{ $index = 0 }}
+      {{ end }}
+      {{ $policyLines := first $index $policyLines }}
+      {{ $policy :=  delimit $policyLines "\n" }}
+      {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
+      {{ highlight $policy "json" }}
+    </div>
+  </div>
+</div>
