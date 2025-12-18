@@ -83,9 +83,7 @@ Details on contributing to this repo can be found [here](../../../contributing)
 
 ## Telemetry
 
-When you deploy the IP located in this repo, Microsoft can identify the installation of said IP with the deployed Azure resources. Microsoft can correlate these resources used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through customer usage attribution. The data is collected and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
-
-If you don't wish to send usage data to Microsoft, or need to understand more about its' use details can be found [here](./Telemetry).
+When you deploy the IP located in this repo, Microsoft can identify the installation of said IP with the deployed Azure resources. Microsoft can correlate these resources used to support the software. Microsoft collects this information to provide the best experiences with their products and to operate their business. The telemetry is collected through [customer usage attribution](https://docs.microsoft.com/azure/marketplace/azure-partner-customer-usage-attribution). The data is collected and governed by [Microsoft's privacy policies](https://www.microsoft.com/trustcenter).
 
 ## Trademarks
 
