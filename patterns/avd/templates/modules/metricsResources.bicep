@@ -44,7 +44,7 @@ module metricAlertsVms 'metricAlertsVms.bicep' = [for i in range(0, length(HostP
   params: {
     HostPoolName: !AllResourcesSameRG ? split(HostPoolInfo[i].colHostPoolName, '/')[8] : 'none'
     Environment: Environment
-    VMResourceGroupId: HostPoolInfo[i].colVMresGroup
+    VMResourceGroupIds: (typeof(HostPoolInfo[i].colVMresGroup) == 'array') ? HostPoolInfo[i].colVMresGroup : [HostPoolInfo[i].colVMresGroup]
     MetricAlerts: MetricAlerts
     Enabled: false
     AutoMitigate: AutoResolveAlert
