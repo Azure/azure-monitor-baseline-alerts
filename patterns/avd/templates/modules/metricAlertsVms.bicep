@@ -6,14 +6,9 @@ param HostPoolName string
 param MetricAlerts object
 param Tags object
 param Location string
-@description('Resource group IDs for the VMs. Accepts array (preferred) or string (legacy).')
-param VMResourceGroupIds array = []
-@description('Legacy: single resource group ID for the VMs. Use VMResourceGroupIds for multiple.')
-param VMResourceGroupId string = ''
+param VMResourceGroupId string
 
 // Help ensure entire deployment name is under 64 characters
-
-var effectiveResourceGroupIds = length(VMResourceGroupIds) > 0 ? VMResourceGroupIds : [VMResourceGroupId]
 var HostPoolResourceName = length(HostPoolName) < 20 ? HostPoolName : skip(HostPoolName, length(HostPoolName)-20)
 
 module metricAlerts_VirtualMachines '../carml/1.3.0/Microsoft.Insights/metricAlerts/deploy.bicep' = [for i in range(0, length(MetricAlerts.virtualMachines)): {
@@ -26,7 +21,7 @@ module metricAlerts_VirtualMachines '../carml/1.3.0/Microsoft.Insights/metricAle
     alertDescription: replace(MetricAlerts.virtualMachines[i].description, 'xHostPoolNamex', HostPoolName)
     severity: MetricAlerts.virtualMachines[i].severity
     enabled: Enabled
-    scopes: effectiveResourceGroupIds
+    scopes: [VMResourceGroupId]
     evaluationFrequency: MetricAlerts.virtualMachines[i].evaluationFrequency
     windowSize: MetricAlerts.virtualMachines[i].windowSize
     autoMitigate: AutoMitigate
@@ -39,5 +34,6 @@ module metricAlerts_VirtualMachines '../carml/1.3.0/Microsoft.Insights/metricAle
         webHookProperties: {}
       }
     ]
+
   }
 }]
