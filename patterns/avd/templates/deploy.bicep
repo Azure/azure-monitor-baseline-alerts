@@ -2231,7 +2231,7 @@ module automationAccount 'carml/1.3.0/Microsoft.Automation/automationAccounts/de
 module roleAssignment_AutoAcctDesktopRead 'carml/1.3.0/Microsoft.Authorization/roleAssignments/resourceGroup/deploy.bicep' = [
   for RG in HostPoolInfo: if (!AllResourcesSameRG) {
     scope: resourceGroup(split(RG.colVMResGroup, '/')[4])
-    name: 'c_DsktpRead_${split(RG.colVMResGroup, '/')[4]}-${uniqueString(${split(RG.colVMResGroup, '/')[2]})}'
+    name: 'c_DsktpRead_${split(RG.colVMResGroup, '/')[4]}-${uniqueString(RG.colVMResGroup)}'
     params: {
       enableDefaultTelemetry: false
       principalId: automationAccount.outputs.systemAssignedPrincipalId
