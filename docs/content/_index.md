@@ -5,8 +5,6 @@ type: home
 weight: 01
 ---
 
-![Azure Monitor Baseline Alerts](images/amba_logo.png)
-
 > [!note]
 > We are actively looking for feedback. </br> Please tell us what you think and share your opinion by filling the [Azure Monitor Baseline Alerts (AMBA) survey](https://aka.ms/ambaSurvey).
 
