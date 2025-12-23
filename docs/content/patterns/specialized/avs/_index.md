@@ -7,9 +7,8 @@ geekdocCollapseSection: true
 
 It is crucial to monitor the resource utilization in order to take timely action. This solution helps in setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
-{{< hint type=note >}}
-Please do not operate Azure VMware Solution Private Cloud above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
-{{< /hint >}}
+> [!note]
+> Please do not operate Azure VMware Solution Private Cloud above the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided. Similarly, do not upgrade HCX past the latest greenfield tested version. If you do so, no Azure credits are provided for any outage.
 
 **Current Version:**
 v1.1.0 (Apr 15, 2024)
@@ -77,9 +76,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-{{< hint type=note >}}
-Details on contributing to this repo can be found [here](../../../contributing)
-{{< /hint >}}
+> [!note]
+> Details on contributing to this repo can be found [here](../../../contributing)
 
 ## Telemetry
 

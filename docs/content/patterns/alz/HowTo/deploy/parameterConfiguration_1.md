@@ -5,18 +5,16 @@ hidden: true
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
 
-  {{< hint type=note >}}
-  Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
-  {{< /hint >}}
+  > [!note]
+  > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) for the latest release.
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) for the main branch.
 
 The following instructions apply universally, regardless of your alignment with ALZ or if you have a single management group. Modify the values of the following parameters at the beginning of the parameter file as per the following instructions:
 
-  {{< hint type=note >}}
-  It is highly recommended to configure at least one notification option (email, ARM Role, Logic App, etc.) to ensure you receive alerts. Proceeding without any notification settings is not advised.
-  {{< /hint >}}
+  > [!note]
+  > It is highly recommended to configure at least one notification option (email, ARM Role, Logic App, etc.) to ensure you receive alerts. Proceeding without any notification settings is not advised.
 
 - Set the value of _```enterpriseScaleCompanyPrefix```_ to the management group where you intend to deploy the policies and initiatives. Typically, this is the "pseudo root management group." In [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this refers to the "Intermediate Root Management Group" located directly beneath the "Tenant Root Group."
 - Set the _```bringYourownUserAssignedManagedIdentity```_ parameter to **Yes** if you have an existing user-assigned managed identity with the _**Monitoring Reader**_ role assigned at the pseudo root management group level. Otherwise, leave it set to **No** to create a new managed identity with the appropriate permissions during the deployment process.
@@ -70,9 +68,8 @@ The following instructions apply universally, regardless of your alignment with 
 
 - Update the _```ALZAlertSeverity```_ parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
 
-  {{< hint type=note >}}
-  Activity Log alerts can only be configured with _**Sev4**_ which translates to _**Verbose**_. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
-  {{< /hint >}}
+  > [!note]
+  > Activity Log alerts can only be configured with _**Sev4**_ which translates to _**Verbose**_. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
 
 - Update the _```BYOActionGroup```_ parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the _**Monitor**_ page, click on _**Action groups**_, click on the identified action group, in the _**Overview**_ page that will load click on _**JSON View**_ and copy the value of the Resource ID field.
 
@@ -94,31 +91,30 @@ The following instructions apply universally, regardless of your alignment with 
 
   ![Alert Processing Rule Resource ID](../../../media/AlertProcessingRule_ResourceID_4.png)
 
-{{< hint type=note >}}
-You can use multiple email addresses, ARM Roles, Webhooks, or Event Hubs (though using multiple Event Hubs is not recommended as per ALZ guidance). If you set multiple entries, ensure they are entered as a single string with values separated by commas. For example:
-
-```json
-"ALZMonitorActionGroupEmail": {
-    "value": [
-        "action1@contoso.com",
-        "action2@contoso.com"
-    ]
-},
-"ALZArmRoleId": {
-    "value": [
-        "Owner",
-        "Contributor"
-    ]
-},
-"ALZWebhookServiceUri": {
-    "value": [
-        "https://webookURI1.webook.com",
-        "http://webookURI2.webook.com"
-    ]
-}
-```
-
-{{< /hint >}}
+> [!note]
+> You can use multiple email addresses, ARM Roles, Webhooks, or Event Hubs (though using multiple Event Hubs is not recommended as per ALZ guidance). If you set multiple entries, ensure they are entered as a single string with values separated by commas. For example:
+>
+>```json
+>"ALZMonitorActionGroupEmail": {
+>    "value": [
+>        "action1@contoso.com",
+>        "action2@contoso.com"
+>    ]
+>},
+>"ALZArmRoleId": {
+>    "value": [
+>        "Owner",
+>        "Contributor"
+>    ]
+>},
+>"ALZWebhookServiceUri": {
+>    "value": [
+>        "https://webookURI1.webook.com",
+>        "http://webookURI2.webook.com"
+>    ]
+>}
+>```
+>
 
 To disable initiative assignments, set the value of any of the following parameters to **"No"**: _```enableAMBAConnectivity```_, _```enableAMBAIdentity```_, _```enableAMBAManagement```_, _```enableAMBAServiceHealth```_, _```enableAMBANotificationAssets```_, _```enableAMBAHybridVM```_, _```enableAMBAKeyManagement```_, _```enableAMBALoadBalancing```_, _```enableAMBANetworkChanges```_, _```enableAMBARecoveryServices```_, _```enableAMBAStorage```_, _```enableAMBAVM```_, or _```enableAMBAWeb```_.
 
@@ -138,9 +134,8 @@ To disable initiative assignments, set the value of any of the following paramet
 - Set the _```connectivityManagementGroup```_ parameter to the management group ID designated for Connectivity. This ID may be used multiple times.
 - Set the _```LandingZoneManagementGroup```_ parameter to the management group ID designated for Landing Zones. This ID may be used multiple times.
 
-{{< hint type=note >}}
-For streamlined deployment and maintenance, we have retained the same variable names. For instance, if you have consolidated Identity, Management, and Connectivity into a single management group, configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the same management group ID.
-{{< /hint >}}
+> [!note]
+> For streamlined deployment and maintenance, we have retained the same variable names. For instance, if you have consolidated Identity, Management, and Connectivity into a single management group, configure the variables _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the same management group ID.
 
 ### If you have a single management group
 
@@ -150,6 +145,5 @@ For streamlined deployment and maintenance, we have retained the same variable n
 - Set the value of _```connectivityManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
 - Set the value of _```LandingZoneManagementGroup```_ to the pseudo root management group ID, also known as the "Intermediate Root Management Group".
 
-{{< hint type=note >}}
-For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.
-{{< /hint >}}
+> [!note]
+> For streamlined deployment and maintenance, we have retained the same variable names. Configure the variables _```enterpriseScaleCompanyPrefix```_, _```platformManagementGroup```_, _```identityManagementGroup```_, _```managementManagementGroup```_, _```connectivityManagementGroup```_, and _```LZManagementGroup```_ with the pseudo root management group ID.

@@ -223,23 +223,23 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 {{% tab "Management Group (hierarchy or single)" %}}
 
-{{< hint type=Note >}}
-In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
-
-For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
-
-The `Location` variable is used by the `az deployment mg` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
-
-The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
-
-Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
-{{< /hint >}}
+> [!note]
+> In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
+>
+> For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
+>
+> The `Location` variable is used by the `az deployment mg` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
+>
+> The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
+>
+> Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+>
 
 Using the same method described in the [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
-{{< hint type=Note >}}
+> [!note]
 The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
-{{< /hint >}}
+
 
 ```yaml
 - name: Azure CLI What-If Deploy AMBA ARM Template
@@ -317,21 +317,21 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
-
-For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
-
-The `Location` variable is used by the `az deployment sub` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
-
-Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
-{{< /hint >}}
+> [!note]
+> In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
+>
+> For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
+>
+> The `Location` variable is used by the `az deployment sub` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
+>
+> Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+>
 
 Using the same method described in the [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
-{{< hint type=Note >}}
-The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
-{{< /hint >}}
+> [!note]
+> The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
+>
 
 ```yaml
 - name: Azure CLI What-If Deploy AMBA ARM Template

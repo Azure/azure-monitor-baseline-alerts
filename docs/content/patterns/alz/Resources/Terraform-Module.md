@@ -40,22 +40,21 @@ This module is responsible for the deployment of the following resources:
 >
 >Terraform registry: <a href="https://registry.terraform.io/modules/Azure/avm-ptn-monitoring-amba-alz/azurerm/latest" target="_blank">avm-ptn-monitoring-amba-alz</a>
 >
->{{< hint type=note >}}
-Additionally, the "avm-ptn-monitoring-amba-alz" module calls the following resource modules:
-
-- #### resource_group
-
-  Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-resources-resourcegroup" target="_blank">Azure/avm-res-resources-resourcegroup/azurerm</a>
-
-  Version: 0.2.1
-
-- #### user_assigned_managed_identity
-
-  Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-managedidentity-userassignedidentity" target="_blank">Azure/avm-res-managedidentity-userassignedidentity/azurerm</a>
-
-  Version: 0.3.3
-
->{{< /hint >}}
+> [!note]
+> Additionally, the "avm-ptn-monitoring-amba-alz" module calls the following resource modules:
+>
+> - #### resource_group
+>
+>  Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-resources-resourcegroup" target="_blank">Azure/avm-res-resources-resourcegroup/azurerm</a>
+>
+> Version: 0.2.1
+>
+> - #### user_assigned_managed_identity
+>
+> Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-managedidentity-userassignedidentity" target="_blank">Azure/avm-res-managedidentity-userassignedidentity/azurerm</a>
+>
+> Version: 0.3.3
+>
 
 This module is responsible for the deployment of the following resources used the context of deploying AMBA-ALZ:
 

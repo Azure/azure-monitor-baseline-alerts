@@ -26,14 +26,13 @@ Conversely, if they choose to use the assets provided by AMBA-ALZ or if they are
 
 ![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
 
-{{< hint type=Note >}}
-The steps for retrieving the resource ID for the notification type is documented in the ***Parameter Configuration*** paragraph present in one of the following deployment guides:
-
-- For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
-- For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
-- For deploying with Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
-- For deploying with Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
-{{< /hint >}}
+> [!note]
+> The steps for retrieving the resource ID for the notification type is documented in the ***Parameter Configuration*** paragraph present in one of the following deployment guides:
+>
+> - For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).
+> - For deploying with Azure Pipelines, refer to [Deploy with Azure Pipelines](../../HowTo/deploy/Deploy-with-Azure-Pipelines).
+> - For deploying with Azure CLI, refer to [Deploy with Azure CLI](../../HowTo/deploy/Deploy-with-Azure-CLI).
+> - For deploying with Azure PowerShell, refer to [Deploy with Azure PowerShell](../../HowTo/deploy/Deploy-with-Azure-PowerShell).
 
 ## Conditional deployment behavior
 

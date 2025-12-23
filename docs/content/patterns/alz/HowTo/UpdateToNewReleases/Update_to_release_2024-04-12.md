@@ -9,9 +9,10 @@ weight: 99
 > [Update](#update) </br>
 > [Post update actions](#post-update-actions) </br>
 
-{{< hint type=Important >}}
-**_No post-update action_** is required if you wish to continue using the notification assets deployed by the ALZ pattern.
-{{< /hint >}}
+</br>
+
+> [!warning]
+> **_No post-update action_** is required if you wish to continue using the notification assets deployed by the ALZ pattern.
 
 ## Update
 
@@ -36,7 +37,7 @@ To execute the script, follow these steps:
 
 6. Run the script with one of the following options:
 
-  {{% include "PowerShell-ExecutionPolicy.md" %}}
+  {{% include "PowerShell-ExecutionPolicy" %}}
 
   **Show output of what would happen if deletes executed:**
 

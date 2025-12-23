@@ -3,9 +3,8 @@ title: What's New in AMBA
 weight: 01
 ---
 
-{{< hint type=tip >}}
-Please review and leave issues on things you find, via [GitHub Issues](https://github.com/Azure/azure-monitor-baseline-alerts/issues)
-{{< /hint >}}
+> [!tip]
+> Please review and leave issues on things you find, via [GitHub Issues](https://github.com/Azure/azure-monitor-baseline-alerts/issues)
 
 Below, you'll find the latest updates and solutions we've added to enhance your experience with AMBA.
 

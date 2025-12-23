@@ -27,9 +27,8 @@ All resources deployed by the ALZ Monitor solution, including those created dyna
 
 ## Cleanup Script Execution
 
-{{< hint type=Important >}}
-It is strongly recommended to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
-{{< /hint >}}
+> [!warning]
+> It is strongly recommended to **thoroughly** test the script in a non-production environment before deploying it to production. These sample scripts are not covered by any Microsoft standard support program or service. They are provided "AS IS" without any warranty, express or implied. Microsoft disclaims all implied warranties, including but not limited to, implied warranties of merchantability or fitness for a particular purpose. The user assumes all risks associated with the use or performance of the sample scripts and documentation. Microsoft, its authors, or any contributors to the creation, production, or delivery of the scripts shall not be liable for any damages, including but not limited to, loss of business profits, business interruption, loss of business information, or other financial losses, arising from the use or inability to use the sample scripts or documentation, even if Microsoft has been advised of the possibility of such damages.
 
 ### Download the Script File
 
@@ -49,7 +48,7 @@ Follow these steps to download the cleanup script file. Alternatively, you can c
 4. Sign in to Azure using the `Connect-AzAccount` command. Ensure the account has the necessary permissions to remove Policy Assignments, Policy Definitions, and resources at the required Management Group scope.
 5. Execute the script with one of the following options:
 
-  {{% include "PowerShell-ExecutionPolicy.md" %}}
+  {{% include "PowerShell-ExecutionPolicy" %}}
 
   **Generate a list of the resource IDs that would be deleted by this script:**
 

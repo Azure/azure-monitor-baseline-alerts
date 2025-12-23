@@ -115,9 +115,8 @@ Exclude specific resources from monitoring by using the **MonitorDisable** param
 }
 ```
 
-{{< hint type=Info >}}
-***This deployment evaluates and remediates policy definitions only if specified tag values are not present and does not apply to policies for both Service Health and Resource Health alert.***
-{{< /hint >}}
+> [!info]
+> ***This deployment evaluates and remediates policy definitions only if specified tag values are not present and does not apply to policies for both Service Health and Resource Health alert.***
 
 ### How It Works
 

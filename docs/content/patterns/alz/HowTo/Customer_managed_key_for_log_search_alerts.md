@@ -18,9 +18,8 @@ The query language used in Log Analytics is expressive and can contain sensitive
 
 ## How this feature works
 
-{{< hint type=Info >}}
-**This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file. Moreover, it is only applicable to log-search alerts.**
-{{< /hint >}}
+> [!info]
+> **This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file. Moreover, it is only applicable to log-search alerts.**
 
 The **Require a workspace linked storage** option in the query alert rule controls whether this scheduled query rule should be stored in the customer's storage. To control this option in the AMBA-ALZ pattern, we use the ***checkWorkspaceAlertsStorageConfigured*** parameter with a **default value of 'false'**. More information in the following article: [Scheduled Query Rules](https://learn.microsoft.com/en-us/azure/templates/microsoft.insights/scheduledqueryrules?pivots=deployment-language-bicep)
 
@@ -31,9 +30,8 @@ To change the **checkWorkspaceAlertsStorageConfigured** flag to **'true'**, navi
 - change parameters value where name contains *checkWorkspaceAlertsStorageConfigured* to *true*
   ![Parameter file](../../media/cmk_parameter.png)
 
-{{< hint type=IMPORTANT >}}
-An alert rule won't be created if the Log Analytics workspace doesn't have a configured linked storage account.
-{{< /hint >}}
+> [!warning]
+> An alert rule won't be created if the Log Analytics workspace doesn't have a configured linked storage account.
 
 Enabling this feature without a linked storage account, will cause the remediation task to fail
 

@@ -3,11 +3,9 @@ title: Contributor Guide
 weight: 15
 geekdocCollapseSection: true
 ---
-{{< hint type=note >}}
 
-*Currently we can only accept contributions from Microsoft FTEs. In the future we will look to change this*
-
-{{< /hint >}}
+> [!note]
+> *Currently we can only accept contributions from Microsoft FTEs. In the future we will look to change this*
 
 Looking to contribute to the Azure Monitor Baseline Alerts (AMBA) repo, well you have made it to the right place/page 👍
 
@@ -38,9 +36,8 @@ The example folder structure below highlights all of the key assets that define 
 
 **services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource provider (e.g. Compute), and then by resource type (e.g. virtualMachines).*
 
-{{< hint type=note >}}
-You may need to add new resource provider and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
-{{< /hint >}}
+> [!note]
+> You may need to add new resource provider and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
 
 **_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource providers, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
 
@@ -86,13 +83,12 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
     template: Deploy-VM-AvailableMemory-Alert.json
 ```
 
-{{< hint type=note >}}
-Please note the following settings in the alert definition:
-
-- *verified:* Alert has been verified by the PG.
-- *visible:* Alert is visible on the website.
-- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
-{{< /hint >}}
+> [!note]
+> Please note the following settings in the alert definition:
+>
+>- *verified:* Alert has been verified by the PG.
+>- *visible:* Alert is visible on the website.
+>- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
 
 ## Auto-Generated Alert Rules
 
@@ -128,11 +124,8 @@ hugo server -D
 
 To contribute to this project/repo/library, you will need the following installed:
 
-{{< hint type=note >}}
-
-You can use `winget` to install all the pre-requisites easily for you. See the [below section](#winget-install-commands)
-
-{{< /hint >}}
+> [!note]
+> You can use `winget` to install all the pre-requisites easily for you. See the [below section](#winget-install-commands)
 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Visual Studio Code (VS Code)](https://code.visualstudio.com/Download)

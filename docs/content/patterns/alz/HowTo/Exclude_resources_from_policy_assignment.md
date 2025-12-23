@@ -54,9 +54,8 @@ During the deployment the policy, assignment will be configured with the request
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Info >}}
-**This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
-{{< /hint >}}
+> [!info]
+> **This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
 
 {{% /tab %}}
 
@@ -68,9 +67,8 @@ During the deployment the policy, assignment will be configured with the request
 
 {{% tab "Management Group (hierarchy or single)" %}}
 
-{{< hint type=Info >}}
-**This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file.**
-{{< /hint >}}
+> [!info]
+> **This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file.**
 
 To use this feature, customers must populate the relevant parameter file section with the ID of resources to be excluded. The section called ***policyAssignmentExclusionList*** contains an entry for each of the policy assignments configured during the deployment with no default value.
 
@@ -97,9 +95,8 @@ You will get policy assignments configured with the excluded resources (if any):
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Info >}}
-**This feature is only available when deploying AMBA-ALZ at the management group level. Deploying it at a single subscription level makes this feature not applicable.**
-{{< /hint >}}
+> [!info]
+> **This feature is only available when deploying AMBA-ALZ at the management group level. Deploying it at a single subscription level makes this feature not applicable.**
 
 {{% /tab %}}
 

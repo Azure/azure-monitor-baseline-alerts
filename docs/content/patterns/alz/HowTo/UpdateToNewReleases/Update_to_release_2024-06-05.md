@@ -9,9 +9,10 @@ weight: 98
 > [Pre update actions](#pre-update-actions) </br>
 > [Update](#update)
 
-{{< hint type=Important >}}
-***The parameter file structure has changed to accommodate a new feature coming soon.***
-{{< /hint >}}
+</br>
+
+> [!warning]
+> ***The parameter file structure has changed to accommodate a new feature coming soon.***
 
 ## Pre update actions
 

@@ -58,7 +58,8 @@ weight: 80
 > - Using Dynamic Thresholds doubles the cost of the alert rule, resulting in a total cost of approximately $0.2 per month<sup>1</sup>.
 > - The solution configures an email address as part of the Action Groups deployment (one per subscription), with a charge of approximately $2 per month for every 1,000 emails<sup>1</sup>.
 >
-> {{< hint type=Note >}} It is advisable to evaluate the costs in a non-production environment before full deployment to ensure a clear understanding of the potential expenses.{{< /hint >}}
+> [!note]
+> It is advisable to evaluate the costs in a non-production environment before full deployment to ensure a clear understanding of the potential expenses.
 >
 > For detailed cost estimates related to your deployment, please refer to the [Azure Monitor Pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/) page. Additionally, you can collaborate with your local Microsoft account team to develop a rough order of magnitude (RoM) cost estimate.
 > <sup>1</sup> Note that costs may vary slightly depending on the deployment region. The costs mentioned are based on pricing as of April 2023.
@@ -98,7 +99,8 @@ weight: 80
 
 ## Can I exclude Management Groups or Subscriptions from policy assignment?
 
-> {{< hint type=Note >}} For deployments (update or new) happening after <ins>**March 2025 the 25th**</ins> using the code in either the _**main**_ branch or any _**new**_ release, it is possible to configure some new parameters to perform the exclusion at scale during the deployment. Read more at [Exclude Management Groups and/or Subscription from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).{{< /hint >}}
+> [!note]
+> For deployments (update or new) happening after <ins>**March 2025 the 25th**</ins> using the code in either the _**main**_ branch or any _**new**_ release, it is possible to configure some new parameters to perform the exclusion at scale during the deployment. Read more at [Exclude Management Groups and/or Subscription from Policy Assignment](../../HowTo/Exclude_resources_from_policy_assignment).
 >
 > When deploying at scale, we include all management groups and subscriptions under the pseudo root management group hierarchy. This might results in the inclusion of unwanted or unnecessary resources. Should this be the case, it is possible to exclude them after the deployment. To do so, it is necessary to:
 >

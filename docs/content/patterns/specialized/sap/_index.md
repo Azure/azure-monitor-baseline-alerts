@@ -7,9 +7,8 @@ geekdocCollapseSection: true
 
 Monitoring SAP environment allows timely action and improves reliability and security of the environment. This solution helps in setting up Azure Monitor alerts for SAP on  Azure Solution. Action owners will receive email notifications if utilization metrics exceeds set threshold.
 
-{{< hint type=note >}}
-Please do not operate SAP on Azure Solution outside the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided.
-{{< /hint >}}
+> [!note]
+> Please do not operate SAP on Azure Solution outside the thresholds provided below. If you ignore alerts for the threshold values below then in case of outage, Azure credits are not provided.
 
 **Current Version:**
 v0.0.2 (May 25, 2024)
@@ -90,9 +89,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-{{< hint type=note >}}
-Details on contributing to this repo can be found [here](../../../contributing)
-{{< /hint >}}
+> [!note]
+> Details on contributing to this repo can be found [here](../../../contributing)
 
 ## Trademarks
 

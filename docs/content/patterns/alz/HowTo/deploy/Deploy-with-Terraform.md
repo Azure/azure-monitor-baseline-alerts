@@ -30,9 +30,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
 1. Download `terraform.tf`
 
@@ -74,9 +73,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+> This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 
@@ -95,9 +93,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
 1. Download `terraform.tf`
 
@@ -157,9 +154,8 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+ This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 
@@ -183,9 +179,8 @@ Deployment:
 1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
 1. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
 1. Download `terraform.tf`
 
@@ -251,9 +246,8 @@ Deployment:
 
 {{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+> This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 

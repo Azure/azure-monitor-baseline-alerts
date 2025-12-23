@@ -38,7 +38,7 @@ To execute the script, follow these steps:
 
 6. Run the script with one of the following options:
 
-  {{% include "PowerShell-ExecutionPolicy.md" %}}
+  {{% include "PowerShell-ExecutionPolicy" %}}
 
    **Get full help on script usage help:**
 

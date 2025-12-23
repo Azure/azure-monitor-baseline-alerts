@@ -8,9 +8,10 @@ weight: 95
 
 > [Update](#update) </br>
 
-{{< hint type=Info >}}
-**_No pre-update or post-update actions_** are required.
-{{< /hint >}}
+</br>
+
+> [!info]
+> **_No pre-update or post-update actions_** are required.
 
 ## Update
 

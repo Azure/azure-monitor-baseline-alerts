@@ -11,13 +11,12 @@ By default, the policies are set to deploy-if-not-exists. This configuration aff
 
 In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
 
-{{< hint type=Important >}}
-This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
-
-- [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
-- [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
-
-{{< /hint >}}
+> [!warning]
+> This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
+>
+> - [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
+> - [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
+>
 
 To use the script, follow these steps:
 
@@ -26,7 +25,7 @@ To use the script, follow these steps:
 3. Set the necessary variables.
 4. Execute the remediation script.
 
-  {{% include "./PowerShell-ExecutionPolicy.md" %}}
+  {{% include "./PowerShell-ExecutionPolicy" %}}
 
 For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
 
@@ -93,13 +92,12 @@ By default, the policies are set to deploy-if-not-exists. This configuration aff
 
 In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
 
-{{< hint type=Important >}}
-This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
-
-- [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
-- [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
-
-{{< /hint >}}
+> [!warning]
+> This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
+>
+> - [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
+> - [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
+>
 
 To use the script, follow these steps:
 
@@ -108,7 +106,7 @@ To use the script, follow these steps:
 3. Set the necessary variables.
 4. Execute the remediation script.
 
-  {{% include "./PowerShell-ExecutionPolicy.md" %}}
+  {{% include "./PowerShell-ExecutionPolicy" %}}
 
 For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
 
