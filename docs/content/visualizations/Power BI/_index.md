@@ -1,7 +1,7 @@
 ---
 title: Power BI
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---
 
 ## Overview

@@ -1,5 +1,5 @@
 ---
 title: Relay
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---

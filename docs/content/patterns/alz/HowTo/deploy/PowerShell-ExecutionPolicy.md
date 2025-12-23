@@ -1,6 +1,6 @@
 ---
 title: PowerShell Execution Policy
-geekdocHidden: true
+hidden: true
 ---
 
 {{< hint type=Important >}}

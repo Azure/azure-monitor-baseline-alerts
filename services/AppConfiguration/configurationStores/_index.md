@@ -1,7 +1,7 @@
 ---
 title: configurationStores
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---
 
 {{< alertList name="alertList" >}}

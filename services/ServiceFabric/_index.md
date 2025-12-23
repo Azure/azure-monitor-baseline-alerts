@@ -1,5 +1,5 @@
 ---
 title: ServiceFabric
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---

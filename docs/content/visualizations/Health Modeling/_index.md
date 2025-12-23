@@ -1,7 +1,7 @@
 ---
 title: Health Modeling
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---
 
 ## Under Construction

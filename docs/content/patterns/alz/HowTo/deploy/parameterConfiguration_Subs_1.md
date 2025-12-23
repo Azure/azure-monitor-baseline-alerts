@@ -1,6 +1,6 @@
 ---
 title: Parameter Configuration
-geekdocHidden: true
+hidden: true
 ---
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.

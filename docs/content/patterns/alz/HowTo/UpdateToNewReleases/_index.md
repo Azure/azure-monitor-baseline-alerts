@@ -1,6 +1,5 @@
 ---
 title: Update to new releases
-geekdocCollapseSection: true
 weight: 51
 ---
 

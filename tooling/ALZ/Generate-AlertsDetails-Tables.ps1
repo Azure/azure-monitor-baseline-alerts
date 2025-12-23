@@ -36,7 +36,7 @@ $metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 ## Appending lines to Activity Log source table files
 "---" | Out-File $activityLogAlertTableFile -Encoding UTF8
 "title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"hidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append -NoNewline
 "`n" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
@@ -45,7 +45,7 @@ $metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 ## Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
 "title: Log-Search alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"hidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append -NoNewline
 "`n" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
@@ -54,7 +54,7 @@ $metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 ## Appending lines to Metric source table files
 "---" | Out-File $metricAlertTableFile -Encoding UTF8
 "title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"hidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $metricAlertTableFile -Encoding UTF8 -Append -NoNewline
 "`n" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
 "| Alert Policy Name | Alert Name | Alerts Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Metric | Aggregation | Operator | Threshold | Severity | Enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append

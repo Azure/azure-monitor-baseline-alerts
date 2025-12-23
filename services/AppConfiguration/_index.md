@@ -1,5 +1,5 @@
 ---
 title: AppConfiguration
 geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---
