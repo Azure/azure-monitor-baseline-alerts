@@ -3,9 +3,6 @@
 {{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
 {{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
 {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
-<!--{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
-{{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
-{{ $file3 := path.Join "services" $category $type "templates/policy-arm-subscription" $filename }}-->
 {{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
 {{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
 {{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
