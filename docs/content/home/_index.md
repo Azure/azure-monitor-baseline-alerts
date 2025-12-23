@@ -1,8 +1,8 @@
 ---
 title: Welcome to Azure Monitor Baseline Alerts (AMBA)!
 linktitle: Home
-weight: 01
 type: home
+weight: 01
 ---
 
 ![Azure Monitor Baseline Alerts](images/logo.png)
