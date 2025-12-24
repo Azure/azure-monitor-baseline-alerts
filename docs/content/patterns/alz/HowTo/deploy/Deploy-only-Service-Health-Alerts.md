@@ -1,6 +1,5 @@
 ---
 title: Deploy only Service Health Alerts
-geekdocCollapseSection: true
 weight: 80
 ---
 

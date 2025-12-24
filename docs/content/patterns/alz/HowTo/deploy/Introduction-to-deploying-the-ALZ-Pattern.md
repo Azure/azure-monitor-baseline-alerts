@@ -3,11 +3,6 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
-<!-- For tabs usage info see pages:
-- https://learn.netlify.app/en/shortcodes/tabs/ for info and instructions
-- https://geekdocs.de/shortcodes/tabs/
--->
-
 ### In this page
 
 > [Background](#background) </br>

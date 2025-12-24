@@ -1,7 +1,5 @@
 ---
 title: Exclude Management Groups and/or Subscriptions from Policy Assignment
-geekdocCollapseSection: true
-geekdocHidden: false
 weight: 78
 ---
 

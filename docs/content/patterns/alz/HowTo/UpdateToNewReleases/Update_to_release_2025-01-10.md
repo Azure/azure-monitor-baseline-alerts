@@ -1,6 +1,5 @@
 ---
 title: Updating to release 2025-01-10
-geekdocCollapseSection: true
 weight: 94
 ---
 

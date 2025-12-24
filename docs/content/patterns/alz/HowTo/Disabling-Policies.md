@@ -1,6 +1,5 @@
 ---
 title: Disable Policies
-geekdocCollapseSection: true
 weight: 55
 ---
 

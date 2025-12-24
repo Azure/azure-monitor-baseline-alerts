@@ -1,6 +1,5 @@
 ---
 title: FAQ
-geekdocCollapseSection: true
 weight: 80
 ---
 

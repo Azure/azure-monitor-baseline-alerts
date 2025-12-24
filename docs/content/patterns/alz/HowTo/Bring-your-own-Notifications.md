@@ -1,6 +1,5 @@
 ---
 title: Bring Your Own Notifications
-geekdocCollapseSection: true
 weight: 95
 ---
 

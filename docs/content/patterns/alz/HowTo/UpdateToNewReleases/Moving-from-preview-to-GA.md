@@ -1,6 +1,5 @@
 ---
 title: Transitioning from Preview to General Availability (GA)
-geekdocCollapseSection: true
 weight: 101
 ---
 

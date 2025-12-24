@@ -1,6 +1,5 @@
 ---
 title: Customize Policy Assignment
-geekdocCollapseSection: true
 weight: 20
 ---
 

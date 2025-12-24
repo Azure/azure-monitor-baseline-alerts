@@ -1,6 +1,5 @@
 ---
 title: Terraform Module
-geekdocCollapseSection: true
 weight: 120
 ---
 

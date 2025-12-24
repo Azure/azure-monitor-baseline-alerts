@@ -1,6 +1,5 @@
 ---
 title: Clean-up AMBA-ALZ Deployment
-geekdocCollapseSection: true
 weight: 52
 ---
 

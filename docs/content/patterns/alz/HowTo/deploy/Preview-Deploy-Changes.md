@@ -1,6 +1,5 @@
 ---
 title: Preview Deployment Changes
-geekdocCollapseSection: true
 weight: 25
 ---
 

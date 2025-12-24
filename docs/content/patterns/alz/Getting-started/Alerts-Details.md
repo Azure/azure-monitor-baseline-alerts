@@ -1,6 +1,5 @@
 ---
 title: Alerts Details
-geekdocCollapseSection: true
 weight: 30
 ---
 

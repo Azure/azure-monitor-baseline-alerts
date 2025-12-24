@@ -1,6 +1,5 @@
 ---
 title: The Azure Landing Zones (ALZ) Pattern
-geekdocCollapseSection: true
 weight: 10
 ---
 

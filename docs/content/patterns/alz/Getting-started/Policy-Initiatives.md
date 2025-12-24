@@ -1,6 +1,5 @@
 ---
 title: Policy Initiatives
-geekdocCollapseSection: true
 weight: 40
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: What's New
-geekdocCollapseSection: true
 weight: 01
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Temporarily disabling notifications
-geekdocCollapseSection: true
 weight: 60
 ---
 
