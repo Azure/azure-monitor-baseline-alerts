@@ -1,6 +1,6 @@
 ---
 title: Azure Workbooks
-geekdocCollapseSection: true
+weight: 10
 ---
 
 ## Overview
@@ -27,7 +27,9 @@ For full details see:
   [Monitoring ExpressRoute: A Workbook Solution](https://techcommunity.microsoft.com/t5/azure-observability-blog/monitoring-expressroute-a-workbook-solution/ba-p/4038130).
 
   ![image3](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545394i89157D8B217AA777/image-dimensions/2000?v=v2&px=-1)
+
   ![image4](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545405i13A8ECBF9B370BB4/image-dimensions/2000?v=v2&px=-1)
+
   ![image5](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/545407i490AE5C9D99AECEE/image-dimensions/2000?v=v2&px=-1)
 
 ## Import Workbook Templates: quick start guide
@@ -36,6 +38,7 @@ Want to see these workbooks live in your Azure environment? Follow these steps t
 
 1. Copy the raw file:
     - In the examples above, the titles of the workbooks are hyperlinks to the raw files. From there you can explore other workbooks in the github repo.
+
     ![image6](../../img/copy-raw-file.png)
 
 2. Open Azure Monitor, and navigate to Workbooks:
@@ -46,6 +49,7 @@ Want to see these workbooks live in your Azure environment? Follow these steps t
 3. Open the advanced editor (</>):
     - Paste the raw code, which was copied in step one, in the gallery template.
     - Once finished, click apply.
+
     ![image10](../../img/gallery-template.png)
 
 4. View your workbook and save it to your gallery:
