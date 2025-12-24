@@ -17,15 +17,15 @@ weight: 70
 
 ## 1. Parameter Configuration
 
-{{< tabs "Deploy_GHA_Param1" >}}
+{{< tabs groupid="Deploy_GHA_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_1" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_1" %}}
 
@@ -35,15 +35,15 @@ weight: 70
 
 ## 2. Sample Parameter File
 
-{{< tabs "Deploy_GHA_Param2" >}}
+{{< tabs groupid="Deploy_GHA_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_2" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_2" %}}
 
@@ -53,9 +53,9 @@ weight: 70
 
 ## 3. Configure and Run the Workflow
 
-{{< tabs "Deploy_GHA_Variables" >}}
+{{< tabs groupid="Deploy_GHA_Variables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 First, configure your OpenID Connect as described [here](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#use-the-azure-login-action-with-openid-connect).
 
@@ -96,7 +96,7 @@ To deploy using GitHub Actions, refer to the [sample-workflow.yml](https://githu
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 First, configure your OpenID Connect as described [here](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#use-the-azure-login-action-with-openid-connect).
 

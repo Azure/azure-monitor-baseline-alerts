@@ -17,15 +17,15 @@ weight: 60
 
 ## 1. Parameter Configuration
 
-{{< tabs "Deploy_AZP_Param1" >}}
+{{< tabs groupid="Deploy_AZP_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_1" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_1" %}}
 
@@ -35,15 +35,15 @@ weight: 60
 
 ## 2. Sample Parameter File
 
-{{< tabs "Deploy_AZP_Param2" >}}
+{{< tabs groupid="Deploy_AZP_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_2" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_2" %}}
 
@@ -53,9 +53,9 @@ weight: 60
 
 ## 3. Configure and Run the Pipeline
 
-{{< tabs "Deploy_PSH_Variables" >}}
+{{< tabs groupid="Deploy_PSH_Variables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 To begin, configure your Azure DevOps project to use a pipeline hosted on GitHub by following the instructions [here](https://learn.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#access-to-github-repositories). Ensure the pipeline is set up to use the [sample-pipeline.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-pipeline.yml) file.
 
@@ -84,7 +84,7 @@ Additionally, configure a service connection to your Azure subscription in your 
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 To begin, configure your Azure DevOps project to use a pipeline hosted on GitHub by following the instructions [here](https://learn.microsoft.com/en-us/azure/devops/pipelines/repos/github?view=azure-devops&tabs=yaml#access-to-github-repositories). Ensure the pipeline is set up to use the [sample-pipeline.yml](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/examples/sample-pipeline.yml) file.
 

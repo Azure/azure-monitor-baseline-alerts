@@ -3,9 +3,9 @@ title: Remediate Policies
 weight: 90
 ---
 
-{{< tabs "Remediate_MG" >}}
+{{< tabs groupid="Remediate_MG" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources and subscriptions are deployed, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
 
@@ -86,7 +86,7 @@ To remediate a single policy definition instead of the entire policy initiative,
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources are added to a subscription, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
 

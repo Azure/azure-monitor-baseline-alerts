@@ -36,9 +36,9 @@ This guide describes the steps to use the AMBA-ALZ pattern to implement Service 
 
 ### 1. Parameter configuration
 
-{{< tabs "Deploy_SH_Param1" >}}
+{{< tabs groupid="Deploy_SH_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
 
@@ -190,7 +190,7 @@ To disable initiative assignments, set the value of any of the following paramet
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
 
@@ -312,9 +312,9 @@ To disable initiative assignments, set the value of any of the following paramet
 
 ### 2. Example Parameter file
 
-{{< tabs "Deploy_SH_Param2" >}}
+{{< tabs groupid="Deploy_SH_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The parameter file shown below has been truncated for brevity, compared to the samples included.
 
@@ -412,7 +412,7 @@ The parameter file shown below has been truncated for brevity, compared to the s
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 The parameter file shown below has been truncated for brevity, compared to the samples included.
 
@@ -526,9 +526,9 @@ The parameter file shown below has been truncated for brevity, compared to the s
 
 ### 3. Configuring variables for deployment
 
-{{< tabs "Deploy_SH_VAriables" >}}
+{{< tabs groupid="Deploy_SH_VAriables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded and log into Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -548,7 +548,7 @@ pseudoRootManagementGroup="The pseudo root management group ID parenting the Pla
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded and log into Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -572,9 +572,9 @@ targetSubscription="The pseudo root management group ID parenting the Platform a
 
 ### 4. Deploying AMBA-ALZ
 
-{{< tabs "Deploy_SH_Deploy" >}}
+{{< tabs groupid="Deploy_SH_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -584,7 +584,7 @@ az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -614,9 +614,9 @@ bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\pa
 
 ### 2. Configuring variables for deployment
 
-{{< tabs "Deploy_SH_Custom_Var" >}}
+{{< tabs groupid="Deploy_SH_Custom_Var" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -636,7 +636,7 @@ pseudoRootManagementGroup="The pseudo root management group id parenting the ide
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded log on to Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -660,9 +660,9 @@ targetSubscription="The pseudo root management group ID parenting the Platform a
 
 ### 3. Deploy Policy Definitions
 
-{{< tabs "Deploy_SH_Deploy_2" >}}
+{{< tabs groupid="Deploy_SH_Deploy_2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 To deploy policy definitions to the intermediate management group, run the following command:
 
@@ -679,7 +679,7 @@ az deployment mg create --name "amba-ServiceHealthOnly" --template-file ./patter
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 To deploy policy definitions to the subscription, run the following command:
 
@@ -702,9 +702,9 @@ az deployment sub create --name "amba-ServiceHealthOnly" --template-file ./patte
 
 ### 4. Assign the Service Health Policy Set Definition
 
-{{< tabs "Deploy_CLI_Deploy" >}}
+{{< tabs groupid="Deploy_CLI_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Assign a Policy Set Definition by running the following command:
 
@@ -719,7 +719,7 @@ az deployment mg create --name "amba-ServiceHealthAssignment" --template-file .\
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Assign a Policy Set Definition to the selected subscription by running the following command:
 

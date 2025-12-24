@@ -18,15 +18,15 @@ weight: 50
 
 ## 1. Parameter Configuration
 
-{{< tabs "Deploy_PSH_Param1" >}}
+{{< tabs groupid="Deploy_PSH_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_1" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_1" %}}
 
@@ -36,15 +36,15 @@ weight: 50
 
 ## 2. Sample Parameter File
 
-{{< tabs "Deploy_PSH_Param2" >}}
+{{< tabs groupid="Deploy_PSH_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_2" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_2" %}}
 
@@ -54,9 +54,9 @@ weight: 50
 
 ## 3. Configuring Variables for Deployment
 
-{{< tabs "Deploy_PSH_Variables" >}}
+{{< tabs groupid="Deploy_PSH_Variables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 These steps are applicable to all scenarios, whether aligned or unaligned with ALZ, or if you have a single management group.
 
@@ -77,7 +77,7 @@ $pseudoRootManagementGroup = "The pseudo root management group ID parenting the 
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 1. Open a PowerShell prompt and navigate to the folder where the parameter file was downloaded.
 2. Log in to Azure with an account that has at least Owner access on the subscription where you will be creating the policies and initiatives.
@@ -101,9 +101,9 @@ $targetSubscription="The subscription ID where to deploy AMBA-ALZ"
 
 ## 4. Deploy Policy Definitions, Initiatives, and Policy Assignments with Default Settings
 
-{{< tabs "Deploy_PSH_Deploy" >}}
+{{< tabs groupid="Deploy_PSH_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 > [!warning]
 >Deploying through PowerShell requires authentication to Azure and the following modules:
@@ -134,7 +134,7 @@ New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 > [!warning]
 > Deploying through PowerShell requires authentication to Azure and the following modules:

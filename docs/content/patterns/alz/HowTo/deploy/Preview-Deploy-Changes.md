@@ -26,9 +26,9 @@ By capturing the output of the `what-if` command, you can analyze the changes th
 
 Set up your parameters and variable as required for your target environment. If using the **Azure CLI**, follow the steps in the [Deploy with Azure CLI](../Deploy-with-Azure-CLI) section. If using **PowerShell**, follow the steps in the [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell) section. On the final "Deploy" step, use the following what-if command instead of the deployment command to preview the changes.
 
-{{< tabs "Preview_Changes" >}}
+{{< tabs groupid="Preview_Changes" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 **Azure CLI:**
 
@@ -53,7 +53,7 @@ New-AzManagementGroupDeployment `
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 **Azure CLI:**
 
@@ -80,9 +80,9 @@ New-AzSubscriptionDeployment `
 
 ## Preview deployment changes using PowerShell
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Using PowerShell for deployments uses the following syntax: `New-AzManagementGroupDeployment -ManagementGroupId <String> -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzManagementGroupDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
 
@@ -149,7 +149,7 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Using PowerShell for deployments uses the following syntax: `New-AzSubscriptionDeployment -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzSubscriptionDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
 
@@ -219,9 +219,9 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 ## Preview deployment changes using the GitHub workflow
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 > [!note]
 > In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
@@ -315,7 +315,7 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 > [!note]
 > In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.

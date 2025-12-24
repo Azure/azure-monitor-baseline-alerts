@@ -18,15 +18,15 @@ weight: 40
 
 ## 1. Parameter Configuration
 
-{{< tabs "Deploy_CLI_Param1" >}}
+{{< tabs groupid="Deploy_CLI_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_1" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_1" %}}
 
@@ -36,15 +36,15 @@ weight: 40
 
 ## 2. Sample Parameter File
 
-{{< tabs "Deploy_CLI_Param2" >}}
+{{< tabs groupid="Deploy_CLI_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 {{% include "parameterConfiguration_2" %}}
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 {{% include "parameterConfiguration_Subs_2" %}}
 
@@ -54,9 +54,9 @@ weight: 40
 
 ## 3. Configuring Variables for Deployment
 
-{{< tabs "Deploy_CLI_Variables" >}}
+{{< tabs groupid="Deploy_CLI_Variables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The following commands are applicable to all scenarios, whether aligned with ALZ, unaligned, or managing a single management group.
 
@@ -79,7 +79,7 @@ pseudoRootManagementGroup="The pseudo root management group ID parenting the ide
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) to navigate to the folder where the parameter file was downloaded. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
 
@@ -104,9 +104,9 @@ targetSubscription="The subscription ID where to deploy AMBA-ALZ"
 
 ## 4. Deploying AMBA-ALZ
 
-{{< tabs "Deploy_CLI_Deploy" >}}
+{{< tabs groupid="Deploy_CLI_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The following commands are applicable to all scenarios, whether aligned with ALZ, unaligned, or managing a single management group.
 
@@ -128,7 +128,7 @@ az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Use your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Unix shells) to navigate to the folder where the parameter file was downloaded. Log in to Azure using an account with at least Resource Policy Contributor access at the root of the management group hierarchy where the policies and initiatives will be created.
 

@@ -19,9 +19,9 @@ weight: 75
 
 ## Example of deploying AMBA-ALZ
 
-{{< tabs "Deploy_TF_Ex1" >}}
+{{< tabs groupid="Deploy_TF_Ex1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing management group hierarchy with default naming as used in the [ALZ Architecture Definition](https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/refs/heads/main/platform/alz/architecture_definitions/alz.alz_architecture_definition.json).
 
@@ -71,7 +71,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 > [!note]
 > This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
@@ -82,9 +82,9 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
 
 ## Example of deploying a Custom Architecture
 
-{{< tabs "Deploy_TF_Ex2" >}}
+{{< tabs groupid="Deploy_TF_Ex2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing custom management group hierarchy.
 
@@ -152,7 +152,7 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 > [!note]
  This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
@@ -163,9 +163,9 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
 
 ## Example of deploying with Custom Policy Assignments
 
-{{< tabs "Deploy_TF_Ex3" >}}
+{{< tabs groupid="Deploy_TF_Ex3" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well:
 
@@ -244,7 +244,7 @@ Deployment:
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 > [!note]
 > This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.

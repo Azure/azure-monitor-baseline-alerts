@@ -38,30 +38,32 @@ Alerts, action groups, and alert processing rules are created as follows:
 
 ## Prerequisites
 
-{{< tabs "Intro_Prereq" >}}
+{{< tabs groupid="Intro_Prereq" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
-1. A Microsoft Entra ID Tenant.
-2. An ALZ Management group hierarchy deployed as outlined in the [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) documentation.
-3. At least one subscription for deploying alerts through policies.
-4. A Deployment Identity with `Owner` permissions to the pseudo root management group. This permission is necessary for the Service Principal Account to create role-based access control assignments.
-5. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
-6. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
+  1. A Microsoft Entra ID Tenant.
+  2. An ALZ Management group hierarchy deployed as outlined in the [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) documentation.
+  3. At least one subscription for deploying alerts through policies.
+  4. A Deployment Identity with `Owner` permissions to the pseudo root management group. This permission is necessary for the Service Principal Account to create role-based access control assignments.
+  5. If deploying manually via Azure CLI or PowerShell, ensure [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) is installed and configured. Refer to the configuration guides for [Azure CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-cli) and [PowerShell](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install#azure-powershell).
+  6. The following Azure resource providers must be registered on all subscriptions in scope for the policies to function correctly:
 
-    - Microsoft.AlertsManagement
-    - Microsoft.Insights
+     - Microsoft.AlertsManagement
+     - Microsoft.Insights
 
-    For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
+     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
 
-7. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
+     </br>
 
-> [!note]
-> While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
+  7. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
+
+      > [!note]
+      > While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 1. A Microsoft Entra ID Tenant.
 2. At least one active Azure subscription for deploying alerts through policies.
@@ -73,6 +75,8 @@ Alerts, action groups, and alert processing rules are created as follows:
     - Microsoft.Insights
 
     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
+
+    </br>
 
 6. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
 
@@ -92,9 +96,9 @@ Review your current configuration to identify the applicable scenario. We provid
 
 ## Determining your hierarchy
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 
@@ -195,7 +199,7 @@ The following image illustrates an example of how the assignments appear when ut
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription level and management group structure is not visible in these scenarios. The AMBA-ALZ aligned initiatives in this repository are designed to align with the management group hierarchy guidelines of Azure Landing Zones. However, in the CSP or Azure Lighthouse scenarios where no access at the management group level is available/possible, all of the initiatives in this repository will be mapped to the identified subscription:
 

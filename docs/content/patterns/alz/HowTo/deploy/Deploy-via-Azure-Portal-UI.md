@@ -13,9 +13,9 @@ weight: 30
 
 ## Access the AMBA-ALZ Portal Accelerator
 
-{{< tabs "Portal_Access" >}}
+{{< tabs groupid="Portal_Access" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to <https://aka.ms/amba/alz/portal> or click the "Deploy to Azure" button below:
 
@@ -25,7 +25,7 @@ Once on the portal page, follow the configuration instruction for each section a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 The AMBA-ALZ Portal Accelerator for Subscriptions is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator for Subscriptions, navigate to <https://aka.ms/amba/alz/portal4Subs> or click the "Deploy to Azure" button below:
 
@@ -39,11 +39,11 @@ Once on the portal page, follow the configuration instruction for each section a
 
 ## Deployment Settings Blade
 
-{{< tabs "Portal_Deployment_Settings" >}}
+{{< tabs groupid="Portal_Deployment_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
-![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
+  ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
 
 </br>
 
@@ -61,7 +61,7 @@ Once on the portal page, follow the configuration instruction for each section a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings4Subs.png)
 
@@ -84,9 +84,9 @@ Once on the portal page, follow the configuration instruction for each section a
 
 ## Management Groups / Subscription Settings Blade
 
-{{< tabs "Portal_MG_Settings" >}}
+{{< tabs groupid="Portal_MG_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 ![Management Groups Settings Blade](../../../media/PortalAccelerator/MGSettings.png)
 
@@ -145,7 +145,7 @@ In the Management Groups Settings blade, change the value of the policy set defi
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Subscription Settings Blade](../../../media/PortalAccelerator/Settings4Subs.png)
 
@@ -173,9 +173,9 @@ In the Subscription Settings blade, change the value of the policy set definitio
 
 ## Notification Settings Blade
 
-{{< tabs "Portal_Notification_Settings" >}}
+{{< tabs groupid="Portal_Notification_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings.png)
 
@@ -214,7 +214,7 @@ In the Subscription Settings blade, change the value of the policy set definitio
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings4Subs.png)
 

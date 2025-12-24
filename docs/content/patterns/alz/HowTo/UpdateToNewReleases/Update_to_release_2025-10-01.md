@@ -38,7 +38,7 @@ As far as the adoption of built-in Service Health alerts policy goes, it does no
 .\patterns\alz\scripts\Start-AMBA-ALZ-Maintenance.ps1 -pseudoRootManagementGroup $pseudoRootManagementGroup -cleanItems legacySH
 ```
 
-  ![Clean up legacy Service Health alerts and action groups](../../../media/Clean-up-clegacySH.png)
+  ![Clean up legacy Service Health alerts and action groups](../../../media/Clean-up-legacySH.png)
 
 As always recommended when updating to a new version or release, ensure the parameter file is aligned with the latest version and with your required configuration. In this release, the parameter file had a change in the configuration of ***ALZArmRoleId***. This parameter does not accept Azure Resource Manager Role ID(s) anymore but instead it requires Azure Resource Manager Role name(s). For additional information on how to configure the Azure Resource Manager Role(s), refer to the ***Parameter Configuration*** section in each of the available deployment methods. An example can be found at [Deploy with Azure PowerShell - 1. Parameter Configuration](../../deploy/Deploy-with-Azure-PowerShell#1-parameter-configuration)
 
