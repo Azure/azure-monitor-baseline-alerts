@@ -1,7 +1,7 @@
 {{ $category := .category }}
 {{ $type := .type }}
 {{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
-{{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
+{{ $alert_name = printf "%s_%s" $alert_name .alert.guid }}
 {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
 {{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
 {{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
