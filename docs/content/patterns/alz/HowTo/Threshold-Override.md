@@ -49,7 +49,7 @@ In scenarios where the same metric is used multiple times for the same resource,
 
 The following tables provide a mapping between alert names and the corresponding tag name that need to be created. They contain information about the value type (number, string) and examples of the format:
 
-> [!warning]
+> [!important]
 > The sample values in the tables ***are not meant*** to serve as recommendations for the override value!
 
 </br>

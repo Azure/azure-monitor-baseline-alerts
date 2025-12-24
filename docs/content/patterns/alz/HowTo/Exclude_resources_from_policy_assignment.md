@@ -26,25 +26,25 @@ The parameters can be configured with more than one value, since it is expecting
 
 ### Exclusion of two management groups
 
-"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2"]
+_**"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2"]**_
 
   ![Exclusion of 2 management groups](../../media/AssignmentsExclusion-1.png)
 
 ### Exclusion of two subscriptions
 
-"value": ["/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
+_**"value": ["/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]**_
 
 ![Exclusion of 2 subscriptions](../../media/AssignmentsExclusion-2.png)
 
 ### Exclusion of one management group and one subscription
 
-"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/subscriptions/11111111-1111-1111-1111-111111111111"]
+_**"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/subscriptions/11111111-1111-1111-1111-111111111111"]**_
 
 ![Mixed exclusion](../../media/AssignmentsExclusion-3.png)
 
 ### Exclusion of two management groups (or more) and two subscriptions (or more)
 
-"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2", "/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]
+_**"value": ["/providers/Microsoft.Management/managementGroups/mgmtGrp-1", "/providers/Microsoft.Management/managementGroups/mgmtGrp-2", "/subscriptions/00000000-0000-0000-0000-000000000000", "/subscriptions/11111111-1111-1111-1111-111111111111"]**_
 
 ![Mixed exclusion - multiple elements](../../media/AssignmentsExclusion-4.png)
 
@@ -54,8 +54,8 @@ During the deployment the policy, assignment will be configured with the request
 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-> [!info]
-> **This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.**
+> [!note]
+> This feature is only available when deploying AMBA-ALZ at the managent group level. Deploying it at a single subscription level makes this feature not applicable.
 
 {{% /tab %}}
 
@@ -67,8 +67,8 @@ During the deployment the policy, assignment will be configured with the request
 
 {{% tab title="Management Group (hierarchy or single)" %}}
 
-> [!info]
-> **This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file.**
+> [!note]
+> This feature is only available when deploying through the following methods: GitHub Actions, Azure Pipelines, Azure CLI or Azure PowerShell since the AMBA-ALZ portal experience does not require configuration of parameter file.
 
 To use this feature, customers must populate the relevant parameter file section with the ID of resources to be excluded. The section called ***policyAssignmentExclusionList*** contains an entry for each of the policy assignments configured during the deployment with no default value.
 
@@ -95,8 +95,8 @@ You will get policy assignments configured with the excluded resources (if any):
 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-> [!info]
-> **This feature is only available when deploying AMBA-ALZ at the management group level. Deploying it at a single subscription level makes this feature not applicable.**
+> [!note]
+> This feature is only available when deploying AMBA-ALZ at the management group level. Deploying it at a single subscription level makes this feature not applicable.
 
 {{% /tab %}}
 

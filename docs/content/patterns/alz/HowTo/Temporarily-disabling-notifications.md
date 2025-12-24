@@ -50,7 +50,7 @@ To configure the APR, follow these steps:
 
     ![Configure filter](../../media/Filter-AlertProcessingRule.png)
 
-    > [!warning]
+    > [!important]
     > Each filter can include up to ***5*** values. If you need to specify more than **5** resources, you will need to create a new Alert Processing Rule to suppress notifications, as each filter type can only be used once within the same Alert Processing Rule.
 
 5. Click on ***Review + save*** and then ***Save***

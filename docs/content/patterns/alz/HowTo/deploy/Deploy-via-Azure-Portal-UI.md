@@ -179,7 +179,7 @@ In the Subscription Settings blade, change the value of the policy set definitio
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings.png)
 
-> [!note]
+> [!important]
 > While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
 
 - Change the values on the Notification Settings Blade to the following instructions:
@@ -203,13 +203,13 @@ In the Subscription Settings blade, change the value of the policy set definitio
     > It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
     > Should you set multiple entries, ensure that they are entered in the proper format which is:
     > - Array format for:
-    >  - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
-    >  - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
-    >  - Event Hubs. Example: []
-    >  - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    > - Single string for:
-    >  - Logic Apps
-    >  - Functions
+    >   - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
+    >   - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
+    >   - Event Hubs. Example: []
+    >   - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
+    >   - Single string for:
+    >   - Logic Apps
+    >   - Functions
 >
 
 {{% /tab %}}
@@ -218,7 +218,7 @@ In the Subscription Settings blade, change the value of the policy set definitio
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings4Subs.png)
 
-> [!note]
+> [!important]
 > While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
 
 - Change the values on the Notification Settings Blade to the following instructions:
@@ -242,13 +242,13 @@ In the Subscription Settings blade, change the value of the policy set definitio
     > It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
     > Should you set multiple entries, ensure that they are entered in the proper format which is:
     > - Array format for:
-      > - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
-      > - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
-      > - Event Hubs. Example: []
-      > - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    > - Single string for:
-      > - Logic Apps
-      > - Functions
+    >   - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
+    >   - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
+    >   - Event Hubs. Example: []
+    >   - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
+    >   - Single string for:
+    >   - Logic Apps
+    >   - Functions
 
 {{% /tab %}}
 

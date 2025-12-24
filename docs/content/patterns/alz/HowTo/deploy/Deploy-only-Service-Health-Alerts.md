@@ -19,8 +19,8 @@ weight: 80
 
 </br>
 
-> [!important]
-> Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
+> [!warning]
+> Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Transitioning from Preview to General Availability (GA)](../../../Resources/Moving-from-preview-to-GA) before continuing.
 
 ## Overview
 
@@ -130,32 +130,32 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Alert Processing Rule Resource ID](../../../media/AlertProcessingRule_ResourceID_4.png)
 
-  > [!note]
-  > It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
->
->  ```json
->  "ALZMonitorActionGroupEmail": {
->       "value": [
->           "action1@contoso.com",
->           "action2@contoso.com"
->       ]
->   },
->
-> "ALZArmRoleId": {
->     "value": [
->         "Owner",
->         "Contributor"
->     ]
-> },
-> "ALZWebhookServiceUri": {
->     "value": [
->         "https://webookURI1.webook.com",
->         "http://webookURI2.webook.com"
->     ]
-> }
-> ```
+    > [!note]
+    > It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per  ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.  Example:
+    >
+    > ```json
+    > "ALZMonitorActionGroupEmail": {
+    >     "value": [
+    >          "action1@contoso.com",
+    >          "action2@contoso.com"
+    >      ]
+    > },
+    >
+    > "ALZArmRoleId": {
+    >      "value": [
+    >          "Owner",
+    >          "Contributor"
+    >      ]
+    > },
+    > "ALZWebhookServiceUri": {
+    >      "value": [
+    >          "https://webookURI1.webook.com",
+    >          "http://webookURI2.webook.com"
+    >      ]
+    > }
+    > ```
 
-To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
+  To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
 
 #### If you are aligned to ALZ
 
@@ -279,32 +279,32 @@ Change the value of the following parameters at the beginning of the parameter f
 
   ![Alert Processing Rule Resource ID](../../../media/AlertProcessingRule_ResourceID_4.png)
 
-> [!note]
-> It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
->
-> ```json
-> "ALZMonitorActionGroupEmail": {
->     "value": [
->         "action1@contoso.com",
->         "action2@contoso.com"
->     ]
-> },
->
-> "ALZArmRoleId": {
->     "value": [
->         "Owner",
->         "Contributor"
->     ]
-> },
-> "ALZWebhookServiceUri": {
->     "value": [
->         "https://webookURI1.webook.com",
->         "http://webookURI2.webook.com"
->     ]
-> }
-> ```
+    > [!note]
+    > It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per  ALZ  guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.   Example:
+    >
+    > ```json
+    > "ALZMonitorActionGroupEmail": {
+    >     "value": [
+    >         "action1@contoso.com",
+    >         "action2@contoso.com"
+    >     ]
+    > },
+    >
+    > "ALZArmRoleId": {
+    >     "value": [
+    >         "Owner",
+    >         "Contributor"
+    >     ]
+    > },
+    > "ALZWebhookServiceUri": {
+    >     "value": [
+    >         "https://webookURI1.webook.com",
+    >         "http://webookURI2.webook.com"
+    >     ]
+    > }
+    > ```
 
-To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
+  To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
 
 {{% /tab %}}
 
@@ -539,7 +539,7 @@ location="Your Azure location of choice"
 pseudoRootManagementGroup="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-> [!warning]
+> [!important]
 > When running Azure CLI from PowerShell the variables have to start with a $.
 >
 > Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
@@ -559,7 +559,7 @@ location="Your Azure location of choice"
 targetSubscription="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-> [!note]
+> [!important]
 > When running Azure CLI from PowerShell the variables have to start with a $.
 >
 > Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
@@ -627,7 +627,7 @@ location="Your Azure location of choice"
 pseudoRootManagementGroup="The pseudo root management group id parenting the identity, management and connectivity management groups"
 ```
 
-> [!warning]
+> [!important]
 > When running Azure CLI from PowerShell the variables have to start with a $.
 >
 > Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
@@ -647,7 +647,7 @@ location="Your Azure location of choice"
 targetSubscription="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-> [!warning]
+> [!important]
 > When running Azure CLI from PowerShell the variables have to start with a $.
 >
 > Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
@@ -671,7 +671,7 @@ az deployment mg create --name "amba-ServiceHealthOnly" --template-file .\patter
 ```
 
 > [!note]
-> The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
+> The command above doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
 
 ```bash
 az deployment mg create --name "amba-ServiceHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-ServiceHealth.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
@@ -689,7 +689,7 @@ az deployment sub create --name "amba-ServiceHealthOnly" --template-file .\patte
 ```
 
 > [!note]
-> The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
+> The command above doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
 
 ```bash
 az account set --subscription "$targetSubscription"
@@ -712,7 +712,7 @@ Assign a Policy Set Definition by running the following command:
 az deployment mg create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
-> [!warning]
+> [!important]
 > The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
 >
 > The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should *coincide* with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
@@ -728,7 +728,7 @@ az account set --subscription "$targetSubscription"
 az deployment sub create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz4Subs\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --parameters '{ \"topLevelSubscriptionId\": { \"value\": \"$targetSubscription$\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
-> [!warning]
+> [!important]
 > The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
 >
 > The JSON object contains two parameters: ```topLevelSubscriptionId``` and ```policyAssignmentParameters```. The ```topLevelSubscriptionId``` parameter is used to specify the subscription, and should *coincide* with the value of the ```targetSubscription```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.

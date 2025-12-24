@@ -223,7 +223,7 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 {{% tab title="Management Group (hierarchy or single)" %}}
 
-> [!note]
+> [!important]
 > In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
 >
 > For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
@@ -239,7 +239,6 @@ Using the same method described in the [Preview deployment changes using PowerSh
 
 > [!note]
 The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
-
 
 ```yaml
 - name: Azure CLI What-If Deploy AMBA ARM Template
@@ -317,7 +316,7 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-> [!note]
+> [!important]
 > In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
 >
 > For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
@@ -413,6 +412,8 @@ A full example of the GitHub Action Workflow file can be found in the AMBA repo 
 By using the `$env:GITHUB_STEP_SUMMARY` variable, the output will be formatted and displayed in the GitHub Actions summary, making it easier to review the changes that would be applied by the deployment.
 
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-1.png)
+
+</br>
 
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-2.png)
 

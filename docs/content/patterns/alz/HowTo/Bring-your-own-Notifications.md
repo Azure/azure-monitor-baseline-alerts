@@ -26,7 +26,7 @@ Conversely, if they choose to use the assets provided by AMBA-ALZ or if they are
 
 ![policyAssignmentParametersNotificationAssets section](../../media/NotificationAssets_Params_2.png)
 
-> [!note]
+> [!important]
 > The steps for retrieving the resource ID for the notification type is documented in the ***Parameter Configuration*** paragraph present in one of the following deployment guides:
 >
 > - For deploying with GitHub Actions, refer to [Deploy with GitHub Actions](../../HowTo/deploy/Deploy-with-GitHub-Actions).

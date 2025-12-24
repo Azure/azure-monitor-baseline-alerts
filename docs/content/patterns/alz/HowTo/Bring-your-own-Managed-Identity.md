@@ -43,7 +43,7 @@ Sample parameter file configuration for this scenario:
 
 B. ***Creating a new UAMI.*** In this scenario, the deployment will:
 
-> [!info]
+> [!note]
 > When a new UAMI is created by the deployment template, the ***Monitoring Reader*** role is <ins>*automatically assigned at the pseudo root Management Group level during deployment*</ins>.
 
 - Deploy a new UAMI
@@ -65,7 +65,7 @@ This feature is currently used in log-search based alerts which are mostly inclu
 
 ![Policy Initiatives using UAMI for ARG queries](../../media/Initiatives-Using-UAMI.png)
 
-> [!info]
+> [!note]
 > This feature could be expanded to other alerts in the future.
 
 ### Switching between BYO UAMI and new UAMI

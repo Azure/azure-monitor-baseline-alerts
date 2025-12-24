@@ -13,7 +13,7 @@ weight: 60
 </br>
 
 > [!warning]
-> Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+> Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Transitioning from Preview to General Availability (GA)](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
 
 ## 1. Parameter Configuration
 
@@ -21,13 +21,13 @@ weight: 60
 
 {{% tab title="Management Group (hierarchy or single)" %}}
 
-{{% include "parameterConfiguration_1" %}}
+  {{% include "parameterConfiguration_1" %}}
 
 {{% /tab %}}
 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{% include "parameterConfiguration_Subs_1" %}}
+  {{% include "parameterConfiguration_Subs_1" %}}
 
 {{% /tab %}}
 
@@ -62,11 +62,10 @@ To begin, configure your Azure DevOps project to use a pipeline hosted on GitHub
 > [!note]
 > If you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies), ensure that the **inlineScript** in the pipeline file points to your repository and branch. For example:
 >
->  ```ActionScript
->  inlineScript: |
->    az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz/alzArm.json --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
->  ```
->
+> ```ActionScript
+> inlineScript: |
+>   az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz/alzArm.json --location $(location) --management-group-id $(ManagementGroupPrefix) --parameters .\patterns\alz\alzArm.param.json
+> ```
 
 Additionally, configure a service connection to your Azure subscription in your Azure DevOps project by following the instructions in the [Connect to Azure by using an Azure Resource Manager service connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops&tabs=yaml) guide. Ensure that the service connection targets the intermediate root management group for ALZ-aligned deployments or the specific management group where you intend to deploy the policies and initiatives for ALZ-unaligned deployments.
 
@@ -77,7 +76,7 @@ Additionally, configure a service connection to your Azure subscription in your 
   - Change _ManagementGroupPrefix: "alz"_ to the pseudo root management group.
 - Navigate to Azure Pipelines and run the created pipeline.
 
-> [!warning]
+> [!important]
 > Ensure that the `ManagementGroupPrefix` variable matches the `parPolicyPseudoRootMgmtGroup` parameter value set in the parameter files. This alignment is crucial for the correct deployment of policies.
 >
 > The `Location` variable specifies the deployment region. It is not required to deploy to multiple regions since the policy definitions and assignments are scoped to a management group and are not region-specific.
@@ -91,12 +90,11 @@ To begin, configure your Azure DevOps project to use a pipeline hosted on GitHub
 > [!note]
 > If you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies), ensure that the **inlineScript** in the pipeline file points to your repository and branch. For example:
 >
->  ```ActionScript
->  inlineScript: |
->    az account set --subscription "$targetSubscription"
->    az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz4Subs/alzArm4Subs.json --location $(location) --parameters .\patterns\alz4Subs\alzArm4Subs.param.json
->  ```
->
+> ```ActionScript
+> inlineScript: |
+>   az account set --subscription "$targetSubscription"
+>   az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/___YourGithubFork___/azure-monitor-baseline-alerts/___MainOrBranchname___/patterns/alz4Subs/alzArm4Subs.json --location $(location) --parameters .\patterns\alz4Subs\alzArm4Subs.param.json
+> ```
 
 Additionally, configure a service connection to your Azure subscription in your Azure DevOps project by following the instructions in the [Connect to Azure by using an Azure Resource Manager service connection](https://docs.microsoft.com/en-us/azure/devops/pipelines/library/connect-to-azure?view=azure-devops&tabs=yaml) guide. Ensure that the service connection targets the intermediate root management group for ALZ-aligned deployments or the specific management group where you intend to deploy the policies and initiatives for ALZ-unaligned deployments.
 
@@ -107,7 +105,7 @@ Additionally, configure a service connection to your Azure subscription in your 
   - Change _targetSubscription: "00000000-0000-0000-0000-000000000000"_ to the subscription ID where AMBA-ALZ is being deployed.
 - Navigate to Azure Pipelines and run the created pipeline.
 
-> [!warning]
+> [!important]
 > Ensure that the `targetSubscription` variable matches the `topLevelSubscriptionId` parameter value set in the parameter files. This alignment is crucial for the correct deployment of policies.
 >
 > The `Location` variable specifies the deployment region. It is not required to deploy to multiple regions since the policy definitions and assignments are scoped to a management group and are not region-specific.

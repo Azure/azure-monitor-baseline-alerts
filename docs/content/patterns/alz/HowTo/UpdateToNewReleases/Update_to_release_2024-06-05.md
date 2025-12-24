@@ -12,7 +12,7 @@ weight: 98
 </br>
 
 > [!warning]
-> ***The parameter file structure has changed to accommodate a new feature coming soon.***
+> ***Updating to release [2024-06-05](../../../Overview/Whats-New#2024-06-05) from previous releases involves a breaking change***. The parameter file structure has changed to accommodate a new feature coming soon. If you have a local version of the parameter file, ensure it is aligned with the new structure. It is highly recommended to thoroughly test the deployment using the new paramter file in a non-production environment before executing it in production.
 
 ## Pre update actions
 

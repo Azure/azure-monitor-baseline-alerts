@@ -41,7 +41,7 @@ This initiative is intended for relevant policy assignment service health alerts
 
 This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-> [!note]
+> [!important]
 > This initiative includes and uses the built-in policy named ***Configure subscriptions to enable service health alert monitoring rule*** which does appear in the table below.
 
 {{% include "Alerting-ResourceAndServiceHealth-PolicyInitiative-Table" %}}

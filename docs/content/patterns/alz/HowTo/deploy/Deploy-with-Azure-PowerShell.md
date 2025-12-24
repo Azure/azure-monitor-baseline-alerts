@@ -14,7 +14,7 @@ weight: 50
 </br>
 
 > [!warning]
-> Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Moving from preview to GA](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
+> Updating from the _**preview**_ version is not supported. If you deployed the _**preview**_ version, please follow the steps in [Transitioning from Preview to General Availability (GA)](../../../HowTo/UpdateToNewReleases/Moving-from-preview-to-GA) before proceeding.
 
 ## 1. Parameter Configuration
 
@@ -40,13 +40,13 @@ weight: 50
 
 {{% tab title="Management Group (hierarchy or single)" %}}
 
-{{% include "parameterConfiguration_2" %}}
+  {{% include "parameterConfiguration_2" %}}
 
 {{% /tab %}}
 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{% include "parameterConfiguration_Subs_2" %}}
+  {{% include "parameterConfiguration_Subs_2" %}}
 
 {{% /tab %}}
 
@@ -70,7 +70,7 @@ $location = "Your Azure location of choice"
 $pseudoRootManagementGroup = "The pseudo root management group ID parenting the identity, management, and connectivity management groups"
 ```
 
-> [!warning]
+> [!important]
 > The `pseudoRootManagementGroup` variable must match the value of the `parPolicyPseudoRootMgmtGroup` parameter as defined in the parameter files.
 >
 > The `location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a management group and are not region-specific.
@@ -89,7 +89,7 @@ $location = "Your Azure location of choice"
 $targetSubscription="The subscription ID where to deploy AMBA-ALZ"
 ```
 
-> [!warning]
+> [!importnat]
 > The `targetSubscription` variable should match the value of the `topLevelSubscriptionId` parameter, as defined in the parameter files.
 >
 > The `location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a subscription and are not region-specific.
@@ -106,7 +106,7 @@ $targetSubscription="The subscription ID where to deploy AMBA-ALZ"
 {{% tab title="Management Group (hierarchy or single)" %}}
 
 > [!warning]
->Deploying through PowerShell requires authentication to Azure and the following modules:
+> Deploying through PowerShell requires authentication to Azure and the following modules:
 >
 > - Az.Accounts
 > - Az.Resources
