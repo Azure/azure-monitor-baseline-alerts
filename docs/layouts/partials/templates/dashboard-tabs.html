@@ -1,28 +1,99 @@
 {{ $types := slice "Log" "Metric" }}
 {{ $alerts := where .alerts "visible" true }}
 {{ $alerts := where $alerts "type" "in" $types }}
-<div class="gdoc-tabs">
+
+
+<div class="gdoc-tabs relearn-tabs-compat" style="border: 1px solid; padding: 5px;">
+
+  <style>
+    /* Hide radio buttons */
+    .relearn-tabs-compat input.gdoc-tabs__control {
+      position: absolute !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* Parent container */
+    .relearn-tabs-compat {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+      padding-top: 2px !important;
+    }
+
+    /* Parent labels */
+    .relearn-tabs-compat > label.gdoc-tabs__label {
+      order: 1;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Hide content by default */
+    .relearn-tabs-compat > .gdoc-tabs__content {
+      order: 2;
+      width: 100%;
+      display: none !important;
+    }
+
+    /* Show content only when parent is selected */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Active label style */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* Scrollable code block */
+    .code-scroll {
+      max-height: 420px;
+      overflow-y: auto;
+      padding: .75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    .code-scroll pre {
+      margin: 0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+  </style>
+
+  <!-- Parent: Grafana -->
   <input
     type="radio"
-    class="gdoc-tabs__control hidden"
-    name="dashboards"
-    id="dashboards-0"
-    checked="checked"
+    class="gdoc-tabs__control"
+    name="parentTab-{{ $alerts }}"
+    id="parentGrafana-{{ $alerts }}"
   />
-  <label for="dashboards-0" class="gdoc-tabs__label"></label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p><b>Click a tab to view the dashboard template</b></p>
-  </div>
-  <input
-    type="radio"
-    class="gdoc-tabs__control hidden"
-    name="dashboards"
-    id="dashboards-1"
-  />
-  <label for="dashboards-1" class="gdoc-tabs__label">
-    Grafana
-  </label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
+  <label for="parentGrafana-{{ $alerts }}" class="gdoc-tabs__label"><strong>Grafana</strong></label>
+
+  <div class="gdoc-tabs__content code-scroll">
     {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
   </div>
+
+  <!-- Parent: Workbook -->
+  <input
+    type="radio"
+    class="gdoc-tabs__control"
+    name="parentTab-{{ $alerts }}"
+    id="parentWorkbook-{{ $alerts }}"
+  />
+  <label for="parentWorkbook-{{ $alerts }}" class="gdoc-tabs__label"><strong>Workbook</strong></label>
+
+  <div class="gdoc-tabs__content code-scroll">
+    {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
+  </div>
+
 </div>
+

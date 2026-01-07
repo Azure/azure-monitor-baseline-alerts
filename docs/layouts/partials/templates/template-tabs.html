@@ -13,8 +13,7 @@
 
 <div class="gdoc-tabs relearn-tabs-compat" style="border: 1px solid; padding: 5px;">
 
-
-<style>
+  <style>
     /* --------------------------------------------
       HIDE RADIO BUTTONS (Relearn does not apply hidden)
       -------------------------------------------- */
@@ -143,6 +142,24 @@
       scroll-behavior: smooth;
     }
 
+    /* Hide nested content unless its parent tab is active */
+    .relearn-tabs-compat input.gdoc-tabs__control:not(:checked) + label + .gdoc-tabs__content .gdoc-tabs__content {
+      display: none !important;
+    }
+
+    /* Show nested content only when parent AND nested tab are active */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content input.nested.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Add borders to nested content */
+    .gdoc-tabs__content .gdoc-tabs {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
   </style>
 
   <!-- Parent: Management Group -->
@@ -151,7 +168,6 @@
     class="gdoc-tabs__control"
     name="parentTab-{{ $alert_name}}"
     id="tab-mg-{{ $alert_name}}"
-    checked="checked"
   />
   <label for="tab-mg-{{ $alert_name}}" class="gdoc-tabs__label"><strong>Management Group templates</strong></label>
 
@@ -165,7 +181,6 @@
         class="nested gdoc-tabs__control"
         name="parentNestedTab-mg-{{ $alert_name}}"
         id="mg-policy-{{ $alert_name}}"
-        checked="checked"
       />
       <label for="mg-policy-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert Policy</label>
       <div class="gdoc-markdown--nested gdoc-tabs__content">
