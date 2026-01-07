@@ -21,21 +21,27 @@ For a complete deployment of the AMBA-ALZ pattern you will need the following 2 
 
 >Source: <a href="https://github.com/Azure/terraform-azurerm-avm-ptn-alz" target="_blank">Azure/avm-ptn-alz/azurerm</a>
 >
->Version: 0.11.0
+>Version: 0.15.0
 >
 >Terraform registry: <a href="https://registry.terraform.io/modules/Azure/avm-ptn-alz/azurerm/latest" target="_blank">avm-ptn-alz</a>
 
 This module is responsible for the deployment of the following resources:
 
-- Resource Group.
-- User Assigned Managed Identity.
-- Monitoring Reader Role Assignment for the User Assigned Managed Identity.
+- Deploy policy assets (definitions, assignments, and initiatives) according to the supplied architecture and associated archetypes
+- Modify policy assignments:
+  - Enforcement mode
+  - Identity
+  - Non-compliance messages
+  - Overrides
+  - Parameters
+  - Resource selectors
+- Create the required role assignments for Azure Policy, including support for the **assign permissions** metadata tag, just like the Azure Portal
 
 ### avm_ptn_monitoring_amba_alz
 
 >Source: <a href="https://github.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz" target="_blank">Azure/avm-ptn-monitoring-amba-alz/azurerm</a>
 >
->Version: 0.1.1
+>Version: 0.3.0
 >
 >Terraform registry: <a href="https://registry.terraform.io/modules/Azure/avm-ptn-monitoring-amba-alz/azurerm/latest" target="_blank">avm-ptn-monitoring-amba-alz</a>
 >
@@ -52,20 +58,14 @@ This module is responsible for the deployment of the following resources:
 >
 > Source: <a href="https://github.com/Azure/terraform-azurerm-avm-res-managedidentity-userassignedidentity" target="_blank">Azure/avm-res-managedidentity-userassignedidentity/azurerm</a>
 >
-> Version: 0.3.3
+> Version: 0.3.4
 >
 
 This module is responsible for the deployment of the following resources used the context of deploying AMBA-ALZ:
 
-- Deploy policy assets (definitions, assignments, and initiatives) according to the supplied architecture and associated archetypes
-- Modify policy assignments:
-  - Enforcement mode
-  - Identity
-  - Non-compliance messages
-  - Overrides
-  - Parameters
-  - Resource selectors
-- Create the required role assignments for Azure Policy, including support for the **assign permissions** metadata tag, just like the Azure Portal
+- Resource Group.
+- User Assigned Managed Identity.
+- Monitoring Reader Role Assignment for the User Assigned Managed Identity.
 
 ## AzAPI Provider
 
