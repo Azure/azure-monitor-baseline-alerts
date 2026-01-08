@@ -1,6 +1,5 @@
 ---
 title: Power BI
-geekdocCollapseSection: true
 hidden: true
 ---
 

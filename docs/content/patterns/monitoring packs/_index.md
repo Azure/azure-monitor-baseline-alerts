@@ -1,6 +1,5 @@
 ---
 title: Azure Monitoring Packs
-geekdocCollapseSection: true
 ---
 
 ## Azure Monitoring Packs (FKA MonStar Packs)

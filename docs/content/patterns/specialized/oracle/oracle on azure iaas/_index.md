@@ -1,6 +1,5 @@
 ---
 title: Oracle on Azure IaaS
-geekdocCollapseSection: true
 ---
 
 ## Overview

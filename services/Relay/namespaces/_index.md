@@ -1,6 +1,5 @@
 ---
 title: namespaces
-geekdocCollapseSection: true
 hidden: true
 ---
 

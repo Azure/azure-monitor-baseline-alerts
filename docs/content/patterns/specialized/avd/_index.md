@@ -1,6 +1,5 @@
 ---
 title: Azure Virtual Desktop
-geekdocCollapseSection: true
 ---
 
 ## Overview

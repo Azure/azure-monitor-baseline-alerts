@@ -1,6 +1,5 @@
 ---
 title: SAP on Azure
-geekdocCollapseSection: true
 ---
 
 ## Overview

@@ -1,6 +1,5 @@
 ---
 title: domains
-geekdocCollapseSection: true
 hidden: true
 ---
 

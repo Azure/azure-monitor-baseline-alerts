@@ -1,6 +1,5 @@
 ---
 title: workspaces
-geekdocCollapseSection: true
 hidden: true
 ---
 

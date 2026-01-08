@@ -1,6 +1,5 @@
 ---
 title: Azure Dashboards
-geekdocCollapseSection: true
 hidden: true
 ---
 

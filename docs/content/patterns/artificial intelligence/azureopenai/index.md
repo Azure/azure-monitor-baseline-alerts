@@ -1,6 +1,5 @@
 ---
 title: Azure OpenAI
-geekdocCollapseSection: false
 hidden: true
 ---
 

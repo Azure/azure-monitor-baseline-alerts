@@ -1,6 +1,5 @@
 ---
 title: Azure VMware Solution
-geekdocCollapseSection: true
 ---
 
 ## Overview

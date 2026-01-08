@@ -1,6 +1,5 @@
 ---
 title: Artificial Intelligence
-geekdocCollapseSection: true
 ---
 
 ## Overview

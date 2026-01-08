@@ -1,4 +1,3 @@
 ---
 title: Oracle
-geekdocCollapseSection: true
 ---

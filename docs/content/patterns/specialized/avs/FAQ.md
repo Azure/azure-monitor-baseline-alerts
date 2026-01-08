@@ -1,6 +1,5 @@
 ---
 title: Frequently Asked Questions
-geekdocCollapseSection: true
 weight: 80
 ---
 

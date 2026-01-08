@@ -1,6 +1,5 @@
 ---
 title: clusters
-geekdocCollapseSection: true
 hidden: true
 ---
 

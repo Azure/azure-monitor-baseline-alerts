@@ -1,6 +1,5 @@
 ---
 title: configurationStores
-geekdocCollapseSection: true
 hidden: true
 ---
 

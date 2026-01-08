@@ -1,6 +1,5 @@
 ---
 title: GPT-RAG
-geekdocCollapseSection: true
 ---
 
 ## Overview
