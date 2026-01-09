@@ -10,7 +10,7 @@ weight: 78
 
 ## Overview
 
-{{< tabs groupid="Exclusion_MG_Overwiev" >}}
+{{< tabs groupid="Exclusion_MG_Overview" >}}
 
 {{% tab title="Management Group (hierarchy or single)" %}}
 
