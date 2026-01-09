@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - App Service Plan Memory Percentage Alert",
     "description": "Policy to audit/deploy App Service Plan Memory Percentage  Alert",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "Web Services",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -192,7 +192,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]"
+                "equals": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -317,7 +317,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

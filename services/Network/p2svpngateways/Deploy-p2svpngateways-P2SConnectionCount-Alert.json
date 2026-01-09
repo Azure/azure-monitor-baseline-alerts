@@ -8,7 +8,7 @@
     "displayName": "[Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - P2S Connection Count Alert",
     "description": "Policy to audit/deploy Count of P2S Connections by gateway Alert",
     "metadata": {
-      "version": "1.2.0-preview",
+      "version": "1.3.0-preview",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -193,7 +193,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-P2SConnectionCount-threshold-Override_'), field('tags._amba-P2SConnectionCount-threshold-Override_'), parameters('threshold'))]"
+                "equals": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-P2SConnectionCount-threshold-Override_'), field('tags._amba-P2SConnectionCount-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -318,7 +318,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-P2SConnectionCount-threshold-Override_'), field('tags._amba-P2SConnectionCount-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-P2SConnectionCount-threshold-Override_'), field('tags._amba-P2SConnectionCount-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

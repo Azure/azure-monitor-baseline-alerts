@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ALB Health Probe Status Alert",
     "description": "Policy to audit/deploy Azure Load Balancer Health Probe Status Alert",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "Networking",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "_deployed_by_amba": "True"
@@ -203,7 +203,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-DipAvailability-threshold-Override_'), field('tags._amba-DipAvailability-threshold-Override_'), parameters('threshold'))]"
+                "equals": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-DipAvailability-threshold-Override_'), field('tags._amba-DipAvailability-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -328,7 +328,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-DipAvailability-threshold-Override_'), field('tags._amba-DipAvailability-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-DipAvailability-threshold-Override_'), field('tags._amba-DipAvailability-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }
