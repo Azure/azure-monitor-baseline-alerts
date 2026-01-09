@@ -1,7 +1,5 @@
 ---
 title: Adopt the new built-in Azure Service Health policy
-geekdocCollapseSection: true
-geekdocHidden: false
 weight: 77
 ---
 

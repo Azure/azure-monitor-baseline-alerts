@@ -1,7 +1,5 @@
 ---
 title: Adopt the new Monitoring Policy Contributor least privileged role
-geekdocCollapseSection: true
-geekdocHidden: false
 weight: 76
 ---
 

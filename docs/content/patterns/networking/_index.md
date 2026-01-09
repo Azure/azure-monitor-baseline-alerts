@@ -1,4 +1,3 @@
 ---
 title: Networking
-geekdocCollapseSection: true
 ---

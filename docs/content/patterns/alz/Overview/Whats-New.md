@@ -1,7 +1,6 @@
 ---
 title: What's New
-geekdocCollapseSection: true
-weight: 09
+weight: 01
 ---
 
 ### In this page

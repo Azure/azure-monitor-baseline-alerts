@@ -1,6 +1,6 @@
 ---
 title: ActivityLog alerts table
-geekdocHidden: true
+hidden: true
 ---
 
 | Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |

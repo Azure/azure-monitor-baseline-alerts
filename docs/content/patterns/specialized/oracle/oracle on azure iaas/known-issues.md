@@ -1,6 +1,5 @@
 ---
 title: Known Issues
-geekdocCollapseSection: true
 weight: 100
 ---
 

@@ -3,11 +3,6 @@ title: Introduction to deploying the AMBA-ALZ Pattern
 weight: 10
 ---
 
-<!-- For tabs usage info see pages:
-- https://learn.netlify.app/en/shortcodes/tabs/ for info and instructions
-- https://geekdocs.de/shortcodes/tabs/
--->
-
 ### In this page
 
 > [Background](#background) </br>
@@ -38,9 +33,9 @@ Alerts, action groups, and alert processing rules are created as follows:
 
 ## Prerequisites
 
-{{< tabs "Intro_Prereq" >}}
+{{< tabs groupid="Intro_Prereq" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 1. A Microsoft Entra ID Tenant.
 2. An ALZ Management group hierarchy deployed as outlined in the [Azure landing zone design areas and conceptual architecture](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-areas) documentation.
@@ -54,15 +49,16 @@ Alerts, action groups, and alert processing rules are created as follows:
 
     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
 
+    </br>
+
 7. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
 
-{{< hint type=note >}}
-While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
-{{< /hint >}}
+   > [!note]
+   > While it is recommended to implement the alert policies and initiatives within an ALZ Management Group hierarchy, it is not a strict technical requirement. Avoid assigning policies to the Tenant Root Group to minimize debugging inherited policies at lower-level management groups (refer to the [CAF documentation](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups)). These policies and initiatives can also be applied in existing brownfield scenarios that do not follow the ALZ Management Group hierarchy, such as hierarchies with a single management group or those that do not align with ALZ. At least one management group is required. If management groups have not been implemented, guidance on how to get started is provided.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 1. A Microsoft Entra ID Tenant.
 2. At least one active Azure subscription for deploying alerts through policies.
@@ -74,6 +70,8 @@ While it is recommended to implement the alert policies and initiatives within a
     - Microsoft.Insights
 
     For instructions on registering a resource provider, refer to the [resource provider registration guide](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types#register-resource-provider).
+
+    </br>
 
 6. To utilize log alerts for virtual machines (both Azure and Azure Arc), ensure that VM Insights is enabled for the virtual machines to be monitored. For more information on deploying VM Insights, refer to the [VM Insights deployment guide](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/vminsights-enable-overview). Note that only the performance collection aspect of the VM Insights solution is required for the current alerts to function.
 
@@ -93,9 +91,9 @@ Review your current configuration to identify the applicable scenario. We provid
 
 ## Determining your hierarchy
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Azure Landing Zones provide a framework of best practices, patterns, and tools for establishing a secure, Well-Architected, and manageable cloud environment. A crucial element of Azure Landing Zones is the use of management groups, which enable the organization and management of subscriptions and resources in a hierarchical structure. Management groups facilitate the application of policies and access controls across multiple subscriptions and resources, simplifying the governance and management of your Azure environment.
 
@@ -141,9 +139,8 @@ We understand that Azure offers flexibility and choice, and your environment may
 - A management group structure that does not align with ALZ, where you might only have a Platform management group without sub-management groups like Identity, Management, or Connectivity.
 - No management group structure.
 
-{{< hint type=note >}}
-If you are looking to align your Azure environment with Azure landing zones, refer to [Transition existing Azure environments to the Azure landing zone conceptual architecture](http://aka.ms/alz/brownfield).
-{{< /hint >}}
+> [!note]
+> If you are looking to align your Azure environment with Azure landing zones, refer to [Transition existing Azure environments to the Azure landing zone conceptual architecture](http://aka.ms/alz/brownfield).
 
 In scenarios where Identity, Management, and Connectivity are combined into a single Platform Management Group, you can assign the corresponding initiatives to the Platform management group. Alternatively, if your hierarchy is organized by geography or business units instead of specific landing zones, the assignment mapping could be as follows:
 
@@ -188,9 +185,8 @@ If you have adopted the recommended management group design, you can proceed dir
 
 If you have implemented a single management group, it is recommended to move your production subscriptions into that management group. For guidance on adding subscriptions, refer to the [official documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#add-an-existing-subscription-to-a-management-group-in-the-portal).
 
-{{< hint type=important >}}
-To avoid generating unnecessary alerts, it is advisable to place development, sandbox, and other non-production subscriptions in a separate management group or under the tenant root group.
-{{< /hint >}}
+> [!importnat]
+> To avoid generating unnecessary alerts, it is advisable to place development, sandbox, and other non-production subscriptions in a separate management group or under the tenant root group.
 
 The following image illustrates an example of how the assignments appear when utilizing a single management group.
 
@@ -198,7 +194,7 @@ The following image illustrates an example of how the assignments appear when ut
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription level and management group structure is not visible in these scenarios. The AMBA-ALZ aligned initiatives in this repository are designed to align with the management group hierarchy guidelines of Azure Landing Zones. However, in the CSP or Azure Lighthouse scenarios where no access at the management group level is available/possible, all of the initiatives in this repository will be mapped to the identified subscription:
 
@@ -221,9 +217,8 @@ The image below illustrates a subscription-based mapping of assignments for the 
 
 *Download a [Visio file](../../../media/AMBA-Diagram-Subscription.vsdx) of this architecture.*
 
-{{< hint type=important >}}
-To avoid generating unnecessary alerts, it is advisable to not use development, sandbox, and other non-production subscriptions unless for testing the solution.
-{{< /hint >}}
+> [!important]
+> To avoid generating unnecessary alerts, it is advisable to not use development, sandbox, and other non-production subscriptions unless for testing the solution.
 
 {{% /tab %}}
 
@@ -258,9 +253,10 @@ To modify settings that are not parameterized, follow these steps:
 
 1. Fork the repository. For detailed instructions, refer to the [Fork a repo](https://docs.github.com/en/get-started/quickstart/fork-a-repo) page.
 2. Adjust current policies or introduce new ones as needed.
-  {{< hint type=note >}}
-  Regardless of whether you are modifying existing policies or adding new ones, you must update the ***policies.bicep*** file.
-  {{< /hint >}}
+
+    > [!warning]
+    > Regardless of whether you are modifying existing policies or adding new ones, you must update the ***policies.bicep*** file.
+
 3. Execute the following commands to update the ***policy files*** file:
 
     `bicep build .\patterns\alz\templates\policies-Automation.bicep --outfile .\patterns\alz\policyDefinitions\policies-Automation.json` </br>
@@ -288,11 +284,10 @@ To modify settings that are not parameterized, follow these steps:
 
 To disable monitoring for a specific resource or for alerts at the subscription level (such as Activity Log, Service Health, and Resource Health), you can create a tag named `MonitorDisable` with the value `true` at the desired scope. This tag will exclude the resource or subscription from the policy compliance check.
 
-{{< hint type=Important >}}
-If you think the changes you have made should be customizable via parameters in the policies, open a [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues) to request this feature.
-
-If you have suggestions or feature requests, consider submitting a pull request. We will review and collaborate with you to potentially implement the proposed changes.
-{{< /hint >}}
+> [!warning]
+> If you think the changes you have made should be customizable via parameters in the policies, open a [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues) to request this feature.
+>
+> If you have suggestions or feature requests, consider submitting a pull request. We will review and collaborate with you to potentially implement the proposed changes.
 
 ## Cleaning up an AMBA-ALZ Deployment
 

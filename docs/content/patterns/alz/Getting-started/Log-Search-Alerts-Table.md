@@ -1,6 +1,6 @@
 ---
 title: Log-Search alerts table
-geekdocHidden: true
+hidden: true
 ---
 
 | Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |

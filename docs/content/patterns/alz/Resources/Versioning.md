@@ -1,6 +1,5 @@
 ---
 title: Versioning
-geekdocCollapseSection: true
 weight: 110
 ---
 

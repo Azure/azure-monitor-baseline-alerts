@@ -1,7 +1,5 @@
 ---
 title: frontdoors
-geekdocCollapseSection: true
-geekdocHidden: false
 ---
 Azure Front Door comes with pre-configured reports. It’s essential to review and utilize these built-in reports whenever possible before you consider developing custom reports.
 
