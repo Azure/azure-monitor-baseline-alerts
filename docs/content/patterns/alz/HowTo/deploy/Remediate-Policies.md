@@ -3,6 +3,10 @@ title: Remediate Policies
 weight: 90
 ---
 
+{{< tabs "Remediate_MG" >}}
+
+{{% tab "Management Group (hierarchy or single)" %}}
+
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources and subscriptions are deployed, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
 
 In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
@@ -52,8 +56,12 @@ $LZManagementGroup="The management group ID for Landing Zones"
 
 ```powershell
 # Run the following commands to initiate remediation
-.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
+
+## Run the following command only if still using custom Service Health policy
 .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ServiceHealth
+## Run the following command only if switched the new built-in Service Health policy
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Alerting-ResourceAndServiceHealth
+.\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName Notification-Assets
 .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-HybridVM
 .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $platformManagementGroup -policyName Alerting-VM
 .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $connectivityManagementGroup -policyName Alerting-Connectivity
@@ -76,3 +84,76 @@ To remediate a single policy definition instead of the entire policy initiative,
 # Run the following command to initiate remediation of a single policy definition
 .\patterns\alz\scripts\Start-AMBA-ALZ-Remediation.ps1 -managementGroupName $pseudoRootManagementGroup -policyName ALZ_AlertProcessing_Rule
 ```
+
+{{% /tab %}}
+
+{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+
+By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources are added to a subscription, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
+
+In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
+
+{{< hint type=Important >}}
+This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
+
+- [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
+- [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
+
+{{< /hint >}}
+
+To use the script, follow these steps:
+
+1. Log in to Azure PowerShell with an account that has at least Resource Policy Contributor permissions at the pseudo-root management group level.
+2. Navigate to the root directory of the cloned repository.
+3. Set the necessary variables.
+4. Execute the remediation script.
+
+  {{% include "./PowerShell-ExecutionPolicy.md" %}}
+
+For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
+
+```powershell
+# Modify the following variables to match your environment
+$targetSubscription = "The subscription ID where AMBA-ALZ has been deployed."
+```
+
+```powershell
+# Run the following commands to initiate remediation
+Set-AzContext -Subscription $targetSubscription
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
+```
+
+The script will output the results of the REST API calls, typically returning a status code 201. If the script encounters an error, review the error message and verify that the management group name and policy name are correct. Upon successful execution of the script, you should observe multiple remediation tasks initiated within the **alz-platform-management** management group.
+
+For convenience, assuming that the management hierarchy is fully aligned with the Azure Landing Zones (ALZ) architecture, the following commands can be used to remediate all policies assigned as per the guidance provided in this repository:
+
+```powershell
+# Run the following commands to initiate remediation
+Set-AzContext -Subscription $targetSubscription
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-ResourceAndServiceHealth
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Notification-Assets
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Connectivity-2
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Identity
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-HybridVM
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-VM
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Management
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Web
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-KeyManagement
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-LoadBalancing
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-NetworkChanges
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-RecoveryServices
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName Alerting-Storage
+```
+
+To remediate a single policy definition instead of the entire policy initiative, use the remediation script with the specific policy reference ID available on the [Policy Initiatives](../../../Getting-started/Policy-Initiatives) page. For example, to remediate the **Deploy AMBA Notification Assets** policy, execute the following command:
+
+```powershell
+# Run the following command to initiate remediation of a single policy definition
+Set-AzContext -Subscription $targetSubscription
+.\patterns\alz4Subs\Scripts\Start-AMBA-ALZ-4Subs-Remediation.ps1 -targetSubscription $targetSubscription -policyName ALZ_AlertProcessing_Rule
+```
+
+{{% /tab %}}
+
+{{< /tabs >}}

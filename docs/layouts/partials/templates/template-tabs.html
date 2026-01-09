@@ -3,105 +3,167 @@
 {{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
 {{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
 {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
-{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
+<!--{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
 {{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
+{{ $file3 := path.Join "services" $category $type "templates/policy-arm-subscription" $filename }}-->
 {{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
 {{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
 {{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
-<div class="gdoc-tabs">
+{{ $fileURL3 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm-subscription" $filename }}
+
+<div class="gdoc-tabs" style="border: 1px solid #33333386; padding: 5px;">
+
+  <!-- Parent: Management Group -->
   <input
     type="radio"
     class="gdoc-tabs__control hidden"
-    name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-0"
-    checked="checked"
+    name="parentTab-{{ $alert_name}}"
+    id="tab-mg-{{ $alert_name}}"
   />
-  <label for="{{ anchorize .alert.name }}-0" class="gdoc-tabs__label">Deploy Alert</label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p>
-      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
-        <img src="https://aka.ms/deploytoazurebutton"/>
-      </a>
-      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
-        <img src="https://aka.ms/deploytoazuregovbutton"/>
-      </a>
-    </p>
+  <label for="tab-mg-{{ $alert_name}}" class="gdoc-tabs__label"><strong>Management Group templates</strong></label>
+
+  <div class="gdoc-tabs__content">
+    <!-- Child tabset: Management Group items -->
+    <div class="gdoc-tabs">
+      <!-- Deploy Alert Policy -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-mg-{{ $alert_name}}"
+        id="mg-policy-{{ $alert_name}}"
+      />
+      <label for="mg-policy-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert Policy</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        <p>
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+            <img src="https://aka.ms/deploytoazurebutton"/>
+          </a>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
+            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          </a>
+        </p>
+      </div>
+    </div>
   </div>
+
+  <!-- Parent: Subscription -->
   <input
     type="radio"
     class="gdoc-tabs__control hidden"
-    name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-1"
+    name="parentTab-{{ $alert_name}}"
+    id="tab-sub-{{ $alert_name}}"
   />
-  <label for="{{ anchorize .alert.name }}-1" class="gdoc-tabs__label">Deploy Policy</label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p>
-      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
-        <img src="https://aka.ms/deploytoazurebutton"/>
-      </a>
-      <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
-        <img src="https://aka.ms/deploytoazuregovbutton"/>
-      </a>
-    </p>
+  <label for="tab-sub-{{ $alert_name}}" class="gdoc-tabs__label"><strong>Subscription templates</strong></label>
+
+  <div class="gdoc-tabs__content">
+    <!-- Child tabset: Subscription items -->
+    <div class="gdoc-tabs">
+      <!-- Deploy Alert Policy -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-sub-{{ $alert_name}}"
+        id="sub-policy-{{ $alert_name}}"
+      />
+      <label for="sub-policy-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert Policy</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        <p>
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank">
+            <img src="https://aka.ms/deploytoazurebutton"/>
+          </a>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank">
+            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          </a>
+        </p>
+      </div>
+
+      <!-- Deploy alert -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-sub-{{ $alert_name}}"
+        id="sub-alert-{{ $alert_name}}"
+      />
+      <label for="sub-alert-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        <p>
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
+            <img src="https://aka.ms/deploytoazurebutton"/>
+          </a>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
+            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          </a>
+        </p>
+      </div>
+
+      <!-- Alert Policy arm template -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-sub-{{ $alert_name}}"
+        id="sub-policyArm-{{ $alert_name}}"
+      />
+      <label for="sub-policyArm-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert Policy template - ARM</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+        {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
+        {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
+        {{ $lines := split $data "\n" }}
+        {{ $target := "    \"parameters\":" }}
+        {{ $index := 0 }}
+        {{ range $i, $v := $lines }}
+          {{ if strings.Contains $v $target }}
+            {{ $index = $i }}
+            {{break}}
+          {{ end }}
+        {{ end }}
+        {{ $policyLines := after $index $lines }}
+        {{ $index := sub (len $policyLines) 2 }}
+        {{ if lt $index 0 }}
+          {{ $index = 0 }}
+        {{ end }}
+        {{ $policyLines := first $index $policyLines }}
+        {{ $policy :=  delimit $policyLines "\n" }}
+        {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
+        {{ highlight $policy "json" }}
+      </div>
+
+      <!-- Alert arm template -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-sub-{{ $alert_name}}"
+        id="sub-alertArm-{{ $alert_name}}"
+      />
+      <label for="sub-alertArm-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert template - ARM</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        {{ $file := path.Join "services" $category $type "templates/arm" $filename }}
+        {{ $data := readFile $file }}
+        {{ highlight $data "json" }}
+      </div>
+
+      <!-- Alert Bicep template -->
+      <input
+        type="radio"
+        class="nested gdoc-tabs__control hidden"
+        name="parentNestedTab-sub-{{ $alert_name}}"
+        id="sub-alertBicep-{{ $alert_name}}"
+      />
+      <label for="sub-alertBicep-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert template - Bicep</label>
+
+      <div class="gdoc-markdown--nested gdoc-tabs__content">
+        {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
+        {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
+        {{ $data := readFile $file }}
+        {{ highlight $data "bicep" }}
+      </div>
+
+    </div>
   </div>
-  <input
-    type="radio"
-    class="gdoc-tabs__control hidden"
-    name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-2"
-  />
-  <label for="{{ anchorize .alert.name }}-2" class="gdoc-tabs__label">
-    ARM
-  </label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ $data := readFile $file }}
-    {{ highlight $data "json" }}
-  </div>
-  <input
-    type="radio"
-    class="gdoc-tabs__control hidden"
-    name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-3"
-  />
-  <label for="{{ anchorize .alert.name }}-3" class="gdoc-tabs__label">
-    Bicep
-  </label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
-    {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
-    {{ $data := readFile $file }}
-    {{ highlight $data "bicep" }}
-  </div>
-  <input
-    type="radio"
-    class="gdoc-tabs__control hidden"
-    name="{{ anchorize .alert.name }}"
-    id="{{ anchorize .alert.name }}-4"
-  />
-  <label for="{{ anchorize .alert.name }}-4" class="gdoc-tabs__label">
-    Policy
-  </label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
-    {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
-    {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
-    {{ $lines := split $data "\n" }}
-    {{ $target := "    \"parameters\":" }}
-    {{ $index := 0 }}
-    {{ range $i, $v := $lines }}
-      {{ if strings.Contains $v $target }}
-        {{ $index = $i }}
-        {{break}}
-      {{ end }}
-    {{ end }}
-    {{ $policyLines := after $index $lines }}
-    {{ $index := sub (len $policyLines) 2 }}
-    {{ if lt $index 0 }}
-      {{ $index = 0 }}
-    {{ end }}
-    {{ $policyLines := first $index $policyLines }}
-    {{ $policy :=  delimit $policyLines "\n" }}
-    {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
-    {{ highlight $policy "json" }}
-  </div>
+
 </div>

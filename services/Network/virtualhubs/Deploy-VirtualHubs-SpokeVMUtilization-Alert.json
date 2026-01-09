@@ -8,7 +8,7 @@
     "displayName": "[Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Spoke VM Utilization Alert",
     "description": "Policy to audit/deploy Number of deployed spoke VMs as a percentage of the total number of spoke VMs that the hub's routing infrastructure units can support Alert",
     "metadata": {
-      "version": "1.0.0-preview",
+      "version": "1.2.0-preview",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -146,7 +146,7 @@
         "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            "/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074"
           ],
           "type": "Microsoft.Insights/metricAlerts",
           "existenceCondition": {
@@ -189,7 +189,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].operator",
-                "equals": "LessThan"
+                "equals": "GreaterThan"
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
@@ -248,7 +248,7 @@
                       "_deployed_by_amba": true
                     },
                     "properties": {
-                      "description": "Metric Alert for Virtual Hubs Bgp Peer Status",
+                      "description": "Metric Alert for Spoke VM Utilization",
                       "severity": "[[parameters('severity')]",
                       "enabled": "[[parameters('enabled')]",
                       "scopes": [

@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Resource Health Unhealthy Alert",
     "description": "Policy to audit/deploy Resource Health Unhealthy Alert",
     "metadata": {
-      "version": "1.3.0",
+      "version": "1.5.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -114,7 +114,7 @@
         "effect": "[[parameters('effect')]",
         "details": {
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            "/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074"
           ],
           "type": "Microsoft.Insights/activityLogAlerts",
           "existenceScope": "resourceGroup",
@@ -125,44 +125,6 @@
               {
                 "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
                 "equals": "[[parameters('enabled')]"
-              },
-              {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": true
-                      },
-                      {
-                        "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                        "contains": "ag-AMBA-SH-"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "value": "[[empty(parameters('BYOActionGroup'))]",
-                        "equals": false
-                      },
-                      {
-                        "count": {
-                          "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*]",
-                          "where": {
-                            "anyOf": [
-                              {
-                                "field": "Microsoft.Insights/ActivityLogAlerts/actions.actionGroups[*].actionGroupId",
-                                "in": "[[parameters('BYOActionGroup')]"
-                              }
-                            ]
-                          }
-                        },
-                        "greaterOrEquals": 1
-                      }
-                    ]
-                  }
-                ]
               },
               {
                 "count": {
@@ -267,9 +229,6 @@
                               "_deployed_by_amba": true
                             },
                             "properties": {
-                              "actions": {
-                                "actionGroups": "[[if(empty(parameters('BYOActionGroup')), array(createObject('actionGroupId', concat(subscription().Id, '/resourceGroups/', parameters('alertResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-SH-', subscription().displayName, '-001'))), variables('varActionGroupIds'))]"
-                              },
                               "description": "Resource Health Unhealthy Alert",
                               "enabled": "[[parameters('enabled')]",
                               "scopes": [

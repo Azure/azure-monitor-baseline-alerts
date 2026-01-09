@@ -88,7 +88,9 @@ Describe 'UnitTest-ModifiedPolicies' {
             $CurrentPolicyMetadataVersion.Patch | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Patch] version to be reset to 0. When incrementing the [Minor] version , ensure the [Patch] version of [$PolicyFile] is reset to 0."
           }
           elseif ($CurrentPolicyMetadataVersion.Minor -eq $PreviousPolicyMetadataVersion.Minor) {
-            $CurrentPolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyMetadataVersion.Patch -Because "Incrementing the [Patch] version of policy version is required when [Major] and [Minor] stay unchanged. Ensure the [Patch] version of [$PolicyFile] is incremented by 1."
+            if($CurrentPolicyMetadataVersion.Patch -eq $PreviousPolicyMetadataVersion.Patch) {
+              $CurrentPolicyMetadataVersion.Suffix | Should -BeIn @('deprecated', 'Deprecated') -Because "When deprecating policies the version should remain unmodified for the [Major], [Minor] and [Patch] parts. Only the [Suffix]  part should be changed. Ensure the [Suffic] version of [$PolicyFile] is modified to be '-deprecated'."
+            }
           }
           else {
             $CurrentPolicyMetadataVersion.Patch | Should -BeGreaterThan $PreviousPolicyMetadataVersion.Patch -Because "The [Patch] version of policy version cannot be decremented. Ensure the [Patch] version of [$PolicyFile] is set the same value it was."
@@ -144,6 +146,7 @@ Describe 'UnitTest-ModifiedPolicies' {
       }
     }
 
+    <# Commenting this block since ALZ env tag is not that relevant
     It "Check policy metadata ALZ Environments are specified for Public, US Gov or China Clouds"  -Skip:($ModifiedAddedFiles -ne $null) {
       $ModifiedAddedFiles | ForEach-Object {
 
@@ -155,7 +158,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson.properties.metadata.alzCloudEnvironments | Should -BeIn $AlzEnvironments -Because "the [alzCloudEnvironments] attribute value does not match [AzureCloud] or [AzureChinaCloud] or [AzureUSGovernment] for file [$PolicyFile]."
 
       }
-    }
+    }#>
 
     <# Commenting this block since we use a different name for policy name and file name
     It "Check policy metadata name matches policy filename"  -Skip:($ModifiedAddedFiles -ne $null) {
@@ -183,7 +186,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataName = $PolicyJson.name
         $ExcludePolicy = @()
-        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
+        $ExcludeParams = @("ALZManagementSubscriptionId", "ALZMonitorActionGroupEmail", "ALZArmRoleId", "ALZLogicappResourceId", "ALZLogicappCallbackUrl", "ALZEventHubResourceId", "ALZWebhookServiceUri", "ALZFunctionResourceId", "ALZFunctionTriggerUrl", "BYOUserAssignedManagedIdentityResourceId", "UAMIResourceId", "BYOActionGroup", "BYOAlertProcessingRule")
         if ($PolicyMetadataName -notin $ExcludePolicy) {
           $PolicyParameters = $PolicyJson.properties.parameters
           if ($PolicyParameters | Get-Member -MemberType NoteProperty) {

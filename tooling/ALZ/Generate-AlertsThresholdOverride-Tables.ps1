@@ -99,7 +99,7 @@ foreach ($file in $jsonFiles) {
         $targetResourceType = $jsonContent.properties.policyRule.if.allOf[0].equals
 
         # Setting constants for Activity Log Alerts
-        $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable***</span> "
+        $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable to Activity Log based alerts***</span> "
         $tagValueType = " <span style=""color:DarkOrange"">***N/A***</span> "
         $operator = " <span style=""color:DarkOrange"">***N/A***</span> "
         $threshold = " <span style=""color:DarkOrange"">***N/A***</span> "
@@ -137,7 +137,7 @@ foreach ($file in $jsonFiles) {
 
           }
           else {
-            # Setting constants for Activity Log Alerts
+            # Setting constants for Log-Search Alerts
             $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable***</span> "
             $tagValueType = " <span style=""color:DarkOrange"">***N/A***</span> "
             $operator = " <span style=""color:DarkOrange"">***N/A***</span> "
@@ -242,8 +242,8 @@ foreach ($file in $jsonFiles) {
 
           }
           else {
-            # Setting constants for Activity Log Alerts
-            $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable***</span> "
+            # Setting constants for Metrics Alerts
+            $overrideTagName = " <span style=""color:DarkOrange"">***Not applicable to alerts configured with dynamic thresholds***</span> "
             $tagValueType = " <span style=""color:DarkOrange"">***N/A***</span> "
             $operator = " <span style=""color:DarkOrange"">***N/A***</span> "
             $threshold = " <span style=""color:DarkOrange"">***N/A***</span> "

@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Notification Assets",
     "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.5.1",
+      "version": "1.7.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -73,6 +73,13 @@
           "displayName": "Arm Role Ids",
           "description": "Arm Built-in Role Ids for action group to send alerts to"
         },
+        "allowedValues": [
+          "Owner",
+          "Contributor",
+          "Reader",
+          "Monitoring Contributor",
+          "Monitoring Reader"
+        ],
         "defaultValue": []
       },
       "ALZEventHubResourceId": {
@@ -188,7 +195,7 @@
         "effect": "deployIfNotExists",
         "details": {
           "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+            "/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074"
           ],
           "type": "Microsoft.AlertsManagement/actionRules",
           "existenceScope": "resourceGroup",
@@ -257,6 +264,13 @@
                   }
                 },
                 "variables": {
+                  "varArmRoleGuidMap": {
+                    "Owner": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+                    "Reader": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+                    "Contributor": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+                    "Monitoring Reader": "43d0d8ad-25c7-4714-9337-8ba259a9fe05",
+                    "Monitoring Contributor": "749f88d5-cbae-40b8-bcfc-e573ddc772fa"
+                  },
                   "varBYOAlertProcessingRule": "[[if(empty(parameters('BYOAlertProcessingRule')), null(), trim(parameters('BYOAlertProcessingRule')))]",
                   "varLogicAppReceivers": [
                     {
@@ -292,7 +306,7 @@
                       "mode": "serial",
                       "input": {
                         "name": "[[concat('AlzARM-', indexOf(parameters('ALZArmRoleId'), parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')]))]",
-                        "roleId": "[[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]",
+                        "roleId": "[[variables('varArmRoleGuidMap')[trim(parameters('ALZArmRoleId')[copyIndex('varArmRoleReceivers')])]]",
                         "useCommonAlertSchema": true
                       }
                     },

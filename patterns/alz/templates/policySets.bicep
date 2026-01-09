@@ -78,8 +78,22 @@ var loadPolicyDefinitions = {
 // Use string(loadJsonContent('../file.json')) when the JSON has more than 131072 characters
 var loadPolicySetDefinitions = {
   All: [
+    string(loadJsonContent('../policySetDefinitions/Deploy-VM-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-HybridVM-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-LandingZone-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Management-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-KeyManagement-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Identity-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Connectivity-Alerts-2.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-LoadBalancing-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-NetworkChanges-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Notification-Assets.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-RecoveryServices-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-ServiceHealth-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-ResourceAndServiceHealth-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Storage-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-Web-Alerts.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []
