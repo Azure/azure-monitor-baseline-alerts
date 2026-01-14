@@ -1,7 +1,9 @@
 Describe 'UnitTest-PolicyInitiatives-Tables-Update' {
   BeforeAll {
 
-    New-Item -Name "buildoutPolicyInitiatives" -Type Directory
+    If ([string]::IsNullOrEmpty($(get-item "buildoutPolicyInitiatives" -ErrorAction SilentlyContinue).name)) {
+      New-Item -Name "buildoutPolicyInitiatives" -Type Directory
+    }
 
     & "./tooling/alz/Generate-PolicyInitiatives-Tables.ps1" -policyInitiativesTablesRootDir "buildoutPolicyInitiatives"
   }
