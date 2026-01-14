@@ -38,7 +38,7 @@ $metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 "title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "---" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append -NoNewline
-"`n" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"`r`n" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 "| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
 

@@ -1,7 +1,9 @@
 Describe 'UnitTest-AlertsDetails-Tables-Update' {
   BeforeAll {
 
-    New-Item -Name "buildoutAlertsDetails" -Type Directory
+    If ([string]::IsNullOrEmpty($(get-item "buildoutAlertsDetails" -ErrorAction SilentlyContinue).name)) {
+      New-Item -Name "buildoutAlertsDetails" -Type Directory
+    }
 
     & "./tooling/alz/Generate-AlertsDetails-Tables.ps1" -alertTablesRootDir "buildoutAlertsDetails"
   }
