@@ -61,7 +61,7 @@ Describe 'UnitTest-AlertsThresholdOverride-Tables-Update' {
       Write-Output "Hash of Build file: $($buildFileHash.Hash)"
 
       # Comparing PR files with build files
-      ($buildFileHash.Hash) | Should -Be ($prFileHash.Hash) -Because "The [$prFile] should be updated based on the latest policy files. Please run [` /tooling/alz/Generate-AlertsDetails-Table.ps1 `] to update the file."
+      ($buildFileHash.Hash) | Should -Be ($prFileHash.Hash) -Because "The [$prFile] should be updated based on the latest policy files. Please run [` /tooling/alz/Generate-AlertsThresholdOverrides-Tables.ps1 `] to update the file."
 
     }
 
