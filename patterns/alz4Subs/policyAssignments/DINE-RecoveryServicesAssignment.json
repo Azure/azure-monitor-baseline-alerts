@@ -44,8 +44,10 @@
       "DoNotEnforce": "should"
     },
     "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074",
+    "rbacBackupContributor": "5e467623-bb1f-42f4-a55d-6e525e11384b",
     "roleAssignmentNames": {
-      "deployAMBARecoveryServices": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaRecoveryServices))]"
+      "deployAMBARecoveryServices": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaRecoveryServices))]",
+      "roleAssignmentNameBackupContributor": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaRecoveryServices),'-1')]"
     }
   },
   "resources": [
@@ -84,6 +86,20 @@
       "properties": {
         "principalType": "ServicePrincipal",
         "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacMonitoringPolicyContributor '))]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaRecoveryServices), '2019-09-01', 'Full' ).identity.principalId)]",
+        "description": "_deployed_by_amba"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleAssignmentNames').roleAssignmentNameBackupContributor]",
+      "dependsOn": [
+        "[variables('policyAssignmentNames').ambaRecoveryServices]"
+      ],
+      "properties": {
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacBackupContributor'))]",
         "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaRecoveryServices), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
