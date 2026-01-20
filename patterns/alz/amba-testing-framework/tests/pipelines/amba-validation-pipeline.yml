@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  resourceGroup: 'my-rg'
+  vmName: 'vm01'
+  appServiceName: 'app01'
+  appInsightsKey: '00000000-aaaa-bbbb-cccc-dddddddddddd'
+  sqlSecret: 'sql-connection-string'
+
+steps:
+- task: PowerShell@2
+  name: RunAMBATests
+  inputs:
+    targetType: 'filePath'
+    filePath: '$(System.DefaultWorkingDirectory)/tests/run-all.ps1'
+    arguments: >
+      -resourceGroup $(resourceGroup)
+      -vmName $(vmName)
+      -appServiceName $(appServiceName)
+      -appInsightsKey $(appInsightsKey)
+      -sqlSecret $(sqlSecret)
+    pwsh: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish AMBA Test Results'
+  inputs:
+    pathToPublish: '$(System.DefaultWorkingDirectory)/tests'
+    artifactName: 'amba-test-logs'
+
