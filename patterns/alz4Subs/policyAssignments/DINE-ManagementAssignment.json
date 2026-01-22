@@ -132,6 +132,20 @@
         "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaManagement), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[variables('roleAssignmentNames').roleAssignmentNameBackupContributor]",
+      "dependsOn": [
+        "[variables('policyAssignmentNames').ambaRecoveryServices]"
+      ],
+      "properties": {
+        "principalType": "ServicePrincipal",
+        "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacBackupContributor'))]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaRecoveryServices), '2019-09-01', 'Full' ).identity.principalId)]",
+        "description": "_deployed_by_amba"
+      }
     }
   ],
   "outputs": {}
