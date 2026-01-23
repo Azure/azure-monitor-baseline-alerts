@@ -1,0 +1,21 @@
+#!/bin/sh
+# Pre-commit hook to fix EditorConfig issues automatically
+
+# Get the list of JSON files that are staged for commit
+STAGED_JSON_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.json$')
+
+if [ -n "$STAGED_JSON_FILES" ]; then
+    echo "Fixing EditorConfig issues in JSON files..."
+
+    # Run the fix script on staged files
+    powershell.exe -ExecutionPolicy Bypass -File "./tooling/Fix-EditorConfigIssues.ps1" -FilePaths @($STAGED_JSON_FILES)
+
+    # Re-add the fixed files to the staging area
+    for file in $STAGED_JSON_FILES; do
+        git add "$file"
+    done
+
+    echo "EditorConfig issues fixed!"
+fi
+
+exit 0
