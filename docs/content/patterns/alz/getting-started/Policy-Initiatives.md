@@ -6,7 +6,6 @@ weight: 40
 ### In this page
 
 > [Overview](#overview) </br>
-> [Service Health Initiative (Deprecated)](#service-health-initiative-deprecated) </br>
 > [Resource and Service Health initiative](#resource-and-service-health-initiative) </br>
 > [Notification Assets Initiative](#notification-assets-initiative) </br>
 > [Connectivity Initiative - Part #1](#connectivity-initiative---part-1) </br>
@@ -21,20 +20,12 @@ weight: 40
 > [Recovery Services Initiative](#recovery-services-initiative) </br>
 > [Storage Initiative](#storage-initiative) </br>
 > [Web Initiative](#web-initiative) </br>
+> [Service Health Initiative (Deprecated)](#service-health-initiative-deprecated) </br>
 > [Landing Zone Initiative (Deprecated)](#landing-zone-initiative-deprecated) </br>
 
 ## Overview
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
-
-## Service Health initiative (Deprecated)
-
-> [!warning]
-> This initiative has been ***DEPRECATED*** in favor of the new initiative named ***Resource and Service Health initiative*** which will make use of the new built-in Service Health alerts policy.The content below is still included in the documentation for reference purpose only.
-
-This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
-
-{{% include "Alerting-ServiceHealth-PolicyInitiative-Table" %}}
 
 ## Resource and Service Health initiative
 
@@ -122,6 +113,15 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services. It is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-Web-PolicyInitiative-Table" %}}
+
+## Service Health initiative (Deprecated)
+
+> [!warning]
+> This initiative has been ***DEPRECATED*** in favor of the new initiative named ***Resource and Service Health initiative*** which will make use of the new built-in Service Health alerts policy.The content below is still included in the documentation for reference purpose only.
+
+This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{% include "Alerting-ServiceHealth-PolicyInitiative-Table" %}}
 
 ## Landing Zone initiative (Deprecated)
 
