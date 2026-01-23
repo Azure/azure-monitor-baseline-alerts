@@ -6,6 +6,9 @@ param (
   $thresholdOverrideTablesRootDir
 )
 
+# Set a fixed seed for Get-Random to ensure consistent sample values across runs
+Get-Random -SetSeed 42
+
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
 If ([string]::IsNullOrEmpty($thresholdOverrideTablesRootDir)) {
