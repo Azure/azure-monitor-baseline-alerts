@@ -7,3 +7,4 @@ geekdocHidden: true
 | ------------------- | -------------------- |-------------------- | ------------------ | --------------------- |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - SA Availability Alert | Deploy_StorageAccount_Availability_Alert | ALZ_StorageAccountAvailability | [Deploy-SA-Availability-Alert.json](../../../../services/Storage/storageAccounts/Deploy-SA-Availability-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Storage Account Delete Alert | Deploy_activitylog_StorageAccount_Delete | ALZ_activitySADelete | [Deploy-ActivityLog-SA-Delete-Alert.json](../../../../services/Storage/storageAccounts/Deploy-ActivityLog-SA-Delete-Alert.json) | deployIfNotExists |
+

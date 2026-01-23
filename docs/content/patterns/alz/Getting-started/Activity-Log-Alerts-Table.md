@@ -22,3 +22,4 @@ geekdocHidden: true
 | [[Deprecated]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Maintenance Alert](https://www.azadvertizer.net/azpolicyadvertizer/Deploy_activitylog_ServiceHealth_Maintenance.html) | ServiceHealthPlannedMaintenance | subscription | Microsoft.Resources/subscriptions | Verbose | true |
 | [[Deprecated]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Service Health Security Advisory Alert](https://www.azadvertizer.net/azpolicyadvertizer/Deploy_activitylog_ServiceHealth_SecurityAdvisory.html) | ServiceHealthSecurityIncident | subscription | Microsoft.Resources/subscriptions | Verbose | true |
 | [Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Storage Account Delete Alert](https://www.azadvertizer.net/azpolicyadvertizer/Deploy_activitylog_StorageAccount_Delete.html) | Activity Log Storage Account Delete | subscription | Microsoft.Storage/storageAccounts | Verbose | true |
+
