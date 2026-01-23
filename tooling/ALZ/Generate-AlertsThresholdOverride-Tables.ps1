@@ -7,7 +7,7 @@ param (
 )
 
 # Set a fixed seed for Get-Random to ensure consistent sample values across runs
-Get-Random -SetSeed 42
+Get-Random -SetSeed 5
 
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
