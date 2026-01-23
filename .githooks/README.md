@@ -38,10 +38,11 @@ For real-time formatting while editing:
 
 1. Install the **EditorConfig for VS Code** extension
 2. Enable format-on-save in VS Code settings:
-   ```json
-   {
-     "editor.formatOnSave": true,
-     "files.insertFinalNewline": true,
-     "files.trimTrailingWhitespace": true
-   }
-   ```
+
+  ```json
+  {
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true
+  }
+  ```

@@ -15,23 +15,12 @@ function Fix-JsonFile {
     $content = Get-Content -Path $FilePath -Raw
 
     # Determine correct line ending based on path
-    $isServiceFile = $FilePath -match '[\\/]services[\\/].*\.json$' -and $FilePath -notmatch '[\\/]templates[\\/]'
+    # All files now use LF according to updated editorconfig
+    $lineEnding = "`n"
 
-    if ($isServiceFile) {
-        # Services files use CRLF
-        $lineEnding = "`r`n"
-    } else {
-        # All other files use LF
-        $lineEnding = "`n"
-    }
-
-    # Normalize line endings
+    # Normalize line endings to LF
     $content = $content -replace "`r`n", "`n"  # Convert CRLF to LF
     $content = $content -replace "`r", "`n"    # Convert CR to LF
-
-    if ($lineEnding -eq "`r`n") {
-        $content = $content -replace "`n", "`r`n"  # Convert back to CRLF if needed
-    }
 
     # Ensure final newline (except for patterns/alz/policyDefinitions/*.json)
     $skipFinalNewline = $FilePath -match '[\\/]patterns[\\/]alz[\\/]policyDefinitions[\\/].*\.json$' -or
