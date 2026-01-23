@@ -24,8 +24,19 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-# All JSON files in patterns directory
-[patterns/**/*.json]
+# Special handling ALZ pattern files
+[patterns/alz/policyDefinitions/*.json]
+generated_code = true
+insert_final_newline = false
+end_of_line = lf
+
+[patterns/alz4Subs/policyDefinitions/*.json]
+generated_code = true
+insert_final_newline = false
+end_of_line = lf
+
+# All JSON files under services used by ALZ patterns
+[services/**/*.json]
 generated_code = true
 indent_size = 2
 indent_style = space
@@ -34,7 +45,8 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[/services/*/*/templates/**/*.json]
+# All other JSON files under services not used by ALZ patterns
+[services/**/templates/**/*.json]
 generated_code = true
 indent_size = 2
 indent_style = space
@@ -43,7 +55,7 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[/.github/yml-schemas/*.json]
+[.github/yml-schemas/*.json]
 indent_size = 2
 indent_style = space
 charset = utf-8

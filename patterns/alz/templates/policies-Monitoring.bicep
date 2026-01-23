@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in Management Policy Set Definition
+    // Used in Web and Management Policy Set Definitions
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-Del.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-ActivityLog-LAWorkspace-KeyRegen.json')
     loadTextContent('../../../services/OperationalInsights/workspaces/Deploy-LAWorkspace-DailyCapLimitReached-Alert.json')
