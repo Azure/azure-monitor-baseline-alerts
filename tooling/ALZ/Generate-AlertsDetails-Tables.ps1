@@ -1,4 +1,4 @@
-﻿
+
 # Defining input params
 param (
   [Parameter(Mandatory = $false)]
@@ -34,31 +34,31 @@ $metricAlertTableFile = $alertTablesRootDir + "\Metric-Alerts-Table.md"
 # Define source table file heading and structure
 
 ## Appending lines to Activity Log source table files
-"---" | Out-File $activityLogAlertTableFile -Encoding UTF8
-"title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"---" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
-"| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM
+"title: ActivityLog alerts table" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
+"| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Severity | Enabled |" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
+"| ----------------- | ---------- | ----------- | -------------------- | -------- | ------- |" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
 
 ## Appending lines to Log Search source table files
-"---" | Out-File $LogSearchAlertTableFile -Encoding UTF8
-"title: Log-Search alerts table" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"---" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
-"| ----------------- | ---------- | ----------- | -------------------- | ----------------- | -------------------- |--------- | --------- | -------- | ------- |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM
+"title: Log-Search alerts table" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
+"| Alert Policy Name | Alert Name | Alert Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Operator | Threshold | Severity | Enabled |" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
+"| ----------------- | ---------- | ----------- | -------------------- | ----------------- | -------------------- |--------- | --------- | -------- | ------- |" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
 
 ## Appending lines to Metric source table files
-"---" | Out-File $metricAlertTableFile -Encoding UTF8
-"title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"---" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"| Alert Policy Name | Alert Name | Alerts Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Metric | Aggregation | Operator | Threshold | Severity | Enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
-"| ----------------- | ---------- | ------------ | -------------------- | ----------------- | -------------------- | ------ | ----------- | -------- | --------- | -------- | ------- |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+"---" | Out-File $metricAlertTableFile -Encoding utf8NoBOM
+"title: Metrics alerts table" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
+"| Alert Policy Name | Alert Name | Alerts Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Metric | Aggregation | Operator | Threshold | Severity | Enabled |" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
+"| ----------------- | ---------- | ------------ | -------------------- | ----------------- | -------------------- | ------ | ----------- | -------- | --------- | -------- | ------- |" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
 
 
 # Get all JSON files under the root directory and its subdirectories
@@ -123,7 +123,7 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $severity | $enabled |" | Out-File $activityLogAlertTableFile -Encoding utf8NoBOM -Append
 
       }
 
@@ -181,7 +181,7 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $operator | $threshold | $severity | $enabled |" | Out-File $LogSearchAlertTableFile -Encoding utf8NoBOM -Append
 
       }
 
@@ -234,7 +234,7 @@ foreach ($file in $jsonFiles) {
         $enabled = $jsonContent.properties.parameters.enabled.defaultValue.ToString()
 
         # Appending the content to the file
-        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $metric | $aggregation | $operator | $threshold | $severity | $enabled |" | Out-File $metricAlertTableFile -Encoding UTF8 -Append
+        "| [$policyName]($policyNameURL) | $alertName | $alertScope | $targetResourceType | $evaluationPeriod | $evaluationFrequency | $metric | $aggregation | $operator | $threshold | $severity | $enabled |" | Out-File $metricAlertTableFile -Encoding utf8NoBOM -Append
 
       }
     }

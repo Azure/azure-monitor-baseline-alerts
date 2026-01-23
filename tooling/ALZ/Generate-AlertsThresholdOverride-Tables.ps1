@@ -1,4 +1,4 @@
-﻿
+
 # Defining input params
 param (
   [Parameter(Mandatory = $false)]
@@ -26,31 +26,31 @@ $LogSearchAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "
 $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\Metrics_Alerts_OverrideTags_Table.md"
 
 # Define source table file heading and structure
-"---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8
-"title: Activity Log alerts override tags table" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+"---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
+"title: Activity Log alerts override tags table" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
 ## Appending lines to Log Search source table files
-"---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8
-"title: Log-search alerts override tags table" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+"---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
+"title: Log-search alerts override tags table" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
 ## Appending lines to Metric source table files
-"---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8
-"title: Metric alerts override tags table" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"geekdocHidden: true" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
-"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+"---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
+"title: Metric alerts override tags table" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"geekdocHidden: true" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"| ------------- | ---------- | ----------------- | -------------- | -------- | ------------------------ | --------------------- |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
 ## Get all JSON files under the root directory and its subdirectories
 $jsonFiles = Get-ChildItem -Path $policiesRootDir -Recurse -Filter *.json | Where-Object { ($_.FullName -notlike "*\templates\*") -and ($_.Name -notlike "Not_In_Use_*") -and ($_.Name -notIn $exclusionFileList) }
@@ -109,7 +109,7 @@ foreach ($file in $jsonFiles) {
         $thresholdOverrideSample = " <span style=""color:DarkOrange"">***N/A***</span> "
 
         # Appending the content to the file
-        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
       }
 
@@ -224,7 +224,7 @@ foreach ($file in $jsonFiles) {
         }
 
         # Appending the content to the file
-        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
       }
 
@@ -325,7 +325,7 @@ foreach ($file in $jsonFiles) {
 
 
         # Appending the content to the file
-        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding UTF8 -Append
+        "| $targetResourceType | $alertName | $overrideTagName | $tagValueType | $operator | $threshold | $thresholdOverrideSample |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 
       }
     }

@@ -16,4 +16,3 @@ geekdocHidden: true
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VM Data Disk Space Alert | Deploy_VM_dataDiskSpace_Alert | ALZ_VMDataDiskSpace | [Deploy-VM-DataDiskSpace-Alert.json](../../../../services/Compute/virtualMachines/Deploy-VM-DataDiskSpace-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VM Data Disk Read Latency Alert | Deploy_VM_dataDiskReadLatency_Alert | ALZ_VMDataDiskReadLatency | [Deploy-VM-DataDiskReadLatency-Alert.json](../../../../services/Compute/virtualMachines/Deploy-VM-DataDiskReadLatency-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VM Data Disk Write Latency Alert | Deploy_VM_dataDiskWriteLatency_Alert | ALZ_VMDataDiskWriteLatency | [Deploy-VM-DataDiskWriteLatency-Alert.json](../../../../services/Compute/virtualMachines/Deploy-VM-DataDiskWriteLatency-Alert.json) | deployIfNotExists |
-

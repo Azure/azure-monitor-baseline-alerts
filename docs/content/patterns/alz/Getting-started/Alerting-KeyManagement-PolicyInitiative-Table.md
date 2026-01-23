@@ -13,4 +13,3 @@ geekdocHidden: true
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Managed HSMs Availability Alert | Deploy_ManagedHSMs_Availability_Alert | ALZ_ManagedHSMsAvailability | [Deploy-HSMs-Availability-Alert.json](../../../../services/KeyVault/managedHSMs/Deploy-HSMs-Availability-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Managed HSMs Latency Alert | Deploy_ManagedHSMs_Latency_Alert | ALZ_ManagedHSMsLatencyAvailability | [Deploy-HSMs-Latency-Alert.json](../../../../services/KeyVault/managedHSMs/Deploy-HSMs-Latency-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Activity Log Managed HSMs Delete Alert | Deploy_ActivityLog_ManagedHSMs_Delete | ALZ_activityManagedHSMsDelete | [Deploy-ActivityLog-HSMs-Del.json](../../../../services/KeyVault/managedHSMs/Deploy-ActivityLog-HSMs-Del.json) | deployIfNotExists |
-

@@ -29,4 +29,3 @@ geekdocHidden: true
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Traffic Manager Endpoint Health Alert | Deploy_TM_EndpointHealth_Alert | ALZ_TMEndpointHealth | [Deploy-TM-EndpointHealth-Alert.json](../../../../services/Network/trafficmanagerprofiles/Deploy-TM-EndpointHealth-Alert.json) | deployIfNotExists |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Frontdoor Backend Health Percentage Alert | Deploy_FD_BackendHealth_Alert | ALZ_FDBackendHealth | [Deploy-FD-BackendHealth-Alert.json](../../../../services/Network/frontDoors/Deploy-FD-BackendHealth-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Frontdoor Backend Request Latency Alert | Deploy_FD_BackendRequestLatency_Alert | ALZ_FDBackendRequestLatency | [Deploy-FD-BackendRequestLatency-Alert.json](../../../../services/Network/frontDoors/Deploy-FD-BackendRequestLatency-Alert.json) | disabled |
-

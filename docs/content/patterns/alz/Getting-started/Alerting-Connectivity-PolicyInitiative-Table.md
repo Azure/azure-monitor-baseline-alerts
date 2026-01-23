@@ -57,4 +57,3 @@ geekdocHidden: true
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ER Direct ExpressRoute RxLightLevel Low Alert | Deploy_ERP_ExpressRoutRxLightLevellow_Alert | ALZ_ERPRxLightLevelLow | [Deploy-ERP-RxLightLevelLow-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-RxLightLevelLow-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ER Direct ExpressRoute TxLightLevel High Alert | Deploy_ERP_ExpressRoutTxLightLevell_Alert | ALZ_ERPTxLightLevelHigh | [Deploy-ERP-TxLightLevelHigh-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelHigh-Alert.json) | disabled |
 | Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - ER Direct ExpressRoute TxLightLevel Low Alert | Deploy_ERP_ExpressRoutTxLightLevellow_Alert | ALZ_ERPTxLightLevelLow | [Deploy-ERP-TxLightLevelLow-Alert.json](../../../../services/Network/expressRoutePorts/Deploy-ERP-TxLightLevelLow-Alert.json) | disabled |
-
