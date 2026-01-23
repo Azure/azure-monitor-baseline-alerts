@@ -21,7 +21,11 @@ Describe 'UnitTest-PolicyInitiatives-Tables-Update' {
       New-Item -Name "buildoutPolicyInitiatives" -Type Directory
     }
 
+    # Generate tables for build output comparison
     & "./tooling/alz/Generate-PolicyInitiatives-Tables.ps1" -policyInitiativesTablesRootDir "buildoutPolicyInitiatives"
+
+    # Regenerate tables in docs path to avoid stale files on case-insensitive filesystems
+    & "./tooling/alz/Generate-PolicyInitiatives-Tables.ps1" -policyInitiativesTablesRootDir "./docs/content/patterns/alz/getting-started"
   }
 
   Context "Check Policy Initiative tables update" {
