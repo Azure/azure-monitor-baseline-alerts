@@ -5,6 +5,15 @@ Describe 'UnitTest-BuildPolicies' {
 
     New-Item -Name "buildout" -Type Directory
 
+    $script:NormalizeJson = {
+      param(
+        [Parameter(Mandatory = $true)]
+        [string]$JsonText
+      )
+
+      return $JsonText -replace "`r`n", "`n" -replace "`r", "`n"
+    }
+
     # Build the PR policies, and initiatives to a temp folder
     bicep build ./patterns/alz/templates/policies-Automation.bicep --outfile ./buildout/policies-Automation.json
     bicep build ./patterns/alz/templates/policies-Compute.bicep --outfile ./buildout/policies-Compute.json
@@ -33,7 +42,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Automation.json] should be based on the latest [policies-Automation.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Automation.bicep --outfile ./patterns/alz/policyDefinitions/policies-Automation.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Automation.json] should be based on the latest [policies-Automation.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Automation.bicep --outfile ./patterns/alz/policyDefinitions/policies-Automation.json `] using the latest Bicep CLI version."
     }
 
     It "Check Compute policies build done" {
@@ -47,7 +56,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Compute.json] should be based on the latest [policies-Compute.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Compute.bicep --outfile ./patterns/alz/policyDefinitions/policies-Compute.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Compute.json] should be based on the latest [policies-Compute.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Compute.bicep --outfile ./patterns/alz/policyDefinitions/policies-Compute.json `] using the latest Bicep CLI version."
     }
 
     It "Check Hybrid policies build done" {
@@ -61,7 +70,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Hybrid.json] should be based on the latest [policies-Hybrid.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Hybrid.bicep --outfile ./patterns/alz/policyDefinitions/policies-Hybrid.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Hybrid.json] should be based on the latest [policies-Hybrid.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Hybrid.bicep --outfile ./patterns/alz/policyDefinitions/policies-Hybrid.json `] using the latest Bicep CLI version."
     }
 
     It "Check KeyManagement policies build done" {
@@ -75,7 +84,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-KeyManagement.json] should be based on the latest [policies-KeyManagement.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-KeyManagement.bicep --outfile ./patterns/alz/policyDefinitions/policies-KeyManagement.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-KeyManagement.json] should be based on the latest [policies-KeyManagement.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-KeyManagement.bicep --outfile ./patterns/alz/policyDefinitions/policies-KeyManagement.json `] using the latest Bicep CLI version."
     }
 
     It "Check Monitoring policies build done" {
@@ -89,7 +98,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Monitoring.json] should be based on the latest [policies-Monitoring.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Monitoring.bicep --outfile ./patterns/alz/policyDefinitions/policies-Monitoring.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Monitoring.json] should be based on the latest [policies-Monitoring.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Monitoring.bicep --outfile ./patterns/alz/policyDefinitions/policies-Monitoring.json `] using the latest Bicep CLI version."
     }
 
     It "Check Network policies build done" {
@@ -103,7 +112,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Network.json] should be based on the latest [policies-Network.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Network.bicep --outfile ./patterns/alz/policyDefinitions/policies-Network.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Network.json] should be based on the latest [policies-Network.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Network.bicep --outfile ./patterns/alz/policyDefinitions/policies-Network.json `] using the latest Bicep CLI version."
     }
 
     It "Check NotificationAssets policies build done" {
@@ -117,7 +126,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-NotificationAssets.json] should be based on the latest [policies-NotificationAssets.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-NotificationAssets.bicep --outfile ./patterns/alz/policyDefinitions/policies-NotificationAssets.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-NotificationAssets.json] should be based on the latest [policies-NotificationAssets.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-NotificationAssets.bicep --outfile ./patterns/alz/policyDefinitions/policies-NotificationAssets.json `] using the latest Bicep CLI version."
     }
 
     It "Check RecoveryServices policies build done" {
@@ -131,7 +140,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-RecoveryServices.json] should be based on the latest [policies-RecoveryServices.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-RecoveryServices.bicep --outfile ./patterns/alz/policyDefinitions/policies-RecoveryServices.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-RecoveryServices.json] should be based on the latest [policies-RecoveryServices.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-RecoveryServices.bicep --outfile ./patterns/alz/policyDefinitions/policies-RecoveryServices.json `] using the latest Bicep CLI version."
     }
 
     It "Check ServiceHealth policies build done" {
@@ -145,7 +154,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-ServiceHealth.json] should be based on the latest [policies-ServiceHealth.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-ServiceHealth.bicep --outfile ./patterns/alz/policyDefinitions/policies-ServiceHealth.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-ServiceHealth.json] should be based on the latest [policies-ServiceHealth.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-ServiceHealth.bicep --outfile ./patterns/alz/policyDefinitions/policies-ServiceHealth.json `] using the latest Bicep CLI version."
     }
 
     It "Check Storage policies build done" {
@@ -159,7 +168,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Storage.json] should be based on the latest [policies-Storage.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Storage.bicep --outfile ./patterns/alz/policyDefinitions/policies-Storage.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Storage.json] should be based on the latest [policies-Storage.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Storage.bicep --outfile ./patterns/alz/policyDefinitions/policies-Storage.json `] using the latest Bicep CLI version."
     }
 
     It "Check Web policies build done" {
@@ -173,7 +182,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policies-Web.json] should be based on the latest [policies-Web.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Web.bicep --outfile ./patterns/alz/policyDefinitions/policies-Web.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policies-Web.json] should be based on the latest [policies-Web.bicep] file. Please run [` bicep build ./patterns/alz/templates/policies-Web.bicep --outfile ./patterns/alz/policyDefinitions/policies-Web.json `] using the latest Bicep CLI version."
     }
 
     It "Check PolicySets build done" {
@@ -187,7 +196,7 @@ Describe 'UnitTest-BuildPolicies' {
       $prJson = ConvertTo-OrderedHashtable -JSONInputObject (ConvertTo-Json $prJson -Depth 99)
 
       # Compare files we built to the PR files
-            (ConvertTo-Json $buildJson -Depth 99) | Should -Be (ConvertTo-Json $prJson -Depth 99) -Because "the [policySets.json] should be based on the latest [policySets.bicep] file. Please run [` bicep build ./patterns/alz/templates/policySets.bicep --outfile ./patterns/alz/policyDefinitions/policySets.json `] using the latest Bicep CLI version."
+        (& $script:NormalizeJson (ConvertTo-Json $buildJson -Depth 99)) | Should -Be (& $script:NormalizeJson (ConvertTo-Json $prJson -Depth 99)) -Because "the [policySets.json] should be based on the latest [policySets.bicep] file. Please run [` bicep build ./patterns/alz/templates/policySets.bicep --outfile ./patterns/alz/policyDefinitions/policySets.json `] using the latest Bicep CLI version."
     }
 
   }

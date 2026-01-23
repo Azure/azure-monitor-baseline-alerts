@@ -1,9 +1,31 @@
 Describe 'UnitTest-PolicyInitiatives-Tables-Update' {
   BeforeAll {
 
-    New-Item -Name "buildoutPolicyInitiatives" -Type Directory
+    $script:GetNormalizedFileHash = {
+      param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+      )
 
+      $content = Get-Content -Raw -Path $Path -Encoding utf8
+      $normalized = $content -replace "`r`n", "`n" -replace "`r", "`n"
+      $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($normalized)
+      $sha256 = [System.Security.Cryptography.SHA256]::Create()
+      $hashBytes = $sha256.ComputeHash($bytes)
+      $hash = ($hashBytes | ForEach-Object { $_.ToString('x2') }) -join ''
+
+      return [pscustomobject]@{ Hash = $hash.ToUpper() }
+    }
+
+    If ([string]::IsNullOrEmpty($(get-item "buildoutPolicyInitiatives" -ErrorAction SilentlyContinue).name)) {
+      New-Item -Name "buildoutPolicyInitiatives" -Type Directory
+    }
+
+    # Generate tables for build output comparison
     & "./tooling/alz/Generate-PolicyInitiatives-Tables.ps1" -policyInitiativesTablesRootDir "buildoutPolicyInitiatives"
+
+    # Regenerate tables in docs path to avoid stale files on case-insensitive filesystems
+    & "./tooling/alz/Generate-PolicyInitiatives-Tables.ps1" -policyInitiativesTablesRootDir "./docs/content/patterns/alz/getting-started"
   }
 
   Context "Check Policy Initiative tables update" {
@@ -19,8 +41,8 @@ Describe 'UnitTest-PolicyInitiatives-Tables-Update' {
         $fileName = $prFile.Name
 
         # Calculating files hash
-        $prFileHash = Get-FileHash -Path "$prFilePath$fileName" -Algorithm SHA256
-        $buildFileHash = Get-FileHash -Path "$buildFilePath$fileName" -Algorithm SHA256
+        $prFileHash = & $script:GetNormalizedFileHash -Path "$prFilePath$fileName"
+        $buildFileHash = & $script:GetNormalizedFileHash -Path "$buildFilePath$fileName"
 
         Write-Output "Hash of PR file: $($prFileHash.Hash)"
         Write-Output "Hash of Build file: $($buildFileHash.Hash)"

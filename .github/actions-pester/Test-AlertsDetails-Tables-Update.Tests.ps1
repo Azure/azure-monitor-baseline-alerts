@@ -1,7 +1,25 @@
 Describe 'UnitTest-AlertsDetails-Tables-Update' {
   BeforeAll {
 
-    New-Item -Name "buildoutAlertsDetails" -Type Directory
+    $script:GetNormalizedFileHash = {
+      param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+      )
+
+      $content = Get-Content -Raw -Path $Path -Encoding utf8
+      $normalized = $content -replace "`r`n", "`n" -replace "`r", "`n"
+      $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($normalized)
+      $sha256 = [System.Security.Cryptography.SHA256]::Create()
+      $hashBytes = $sha256.ComputeHash($bytes)
+      $hash = ($hashBytes | ForEach-Object { $_.ToString('x2') }) -join ''
+
+      return [pscustomobject]@{ Hash = $hash.ToUpper() }
+    }
+
+    if ([string]::IsNullOrEmpty($(Get-Item "buildoutAlertsDetails" -ErrorAction SilentlyContinue).name)) {
+      New-Item -Name "buildoutAlertsDetails" -Type Directory
+    }
 
     & "./tooling/alz/Generate-AlertsDetails-Tables.ps1" -alertTablesRootDir "buildoutAlertsDetails"
   }
@@ -15,8 +33,8 @@ Describe 'UnitTest-AlertsDetails-Tables-Update' {
       $buildFile = "./buildoutAlertsDetails/Activity-Log-Alerts-Table.md"
 
       # Calculating files hash
-      $prFileHash = Get-FileHash -Path $prFile -Algorithm SHA256
-      $buildFileHash = Get-FileHash -Path $buildFile -Algorithm SHA256
+      $prFileHash = & $script:GetNormalizedFileHash -Path $prFile
+      $buildFileHash = & $script:GetNormalizedFileHash -Path $buildFile
 
       Write-Output "Hash of PR file: $($prFileHash.Hash)"
       Write-Output "Hash of Build file: $($buildFileHash.Hash)"
@@ -33,8 +51,8 @@ Describe 'UnitTest-AlertsDetails-Tables-Update' {
       $buildFile = "./buildoutAlertsDetails/Log-Search-Alerts-Table.md"
 
       # Calculating files hash
-      $prFileHash = Get-FileHash -Path $prFile -Algorithm SHA256
-      $buildFileHash = Get-FileHash -Path $buildFile -Algorithm SHA256
+      $prFileHash = & $script:GetNormalizedFileHash -Path $prFile
+      $buildFileHash = & $script:GetNormalizedFileHash -Path $buildFile
 
       Write-Output "Hash of PR file: $($prFileHash.Hash)"
       Write-Output "Hash of Build file: $($buildFileHash.Hash)"
@@ -51,8 +69,8 @@ Describe 'UnitTest-AlertsDetails-Tables-Update' {
       $buildFile = "./buildoutAlertsDetails/Metric-Alerts-Table.md"
 
       # Calculating files hash
-      $prFileHash = Get-FileHash -Path $prFile -Algorithm SHA256
-      $buildFileHash = Get-FileHash -Path $buildFile -Algorithm SHA256
+      $prFileHash = & $script:GetNormalizedFileHash -Path $prFile
+      $buildFileHash = & $script:GetNormalizedFileHash -Path $buildFile
 
       Write-Output "Hash of PR file: $($prFileHash.Hash)"
       Write-Output "Hash of Build file: $($buildFileHash.Hash)"

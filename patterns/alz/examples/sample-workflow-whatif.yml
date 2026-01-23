@@ -15,7 +15,7 @@ env:
   ARM_USE_OIDC: "true"
   Location: "canadacentral"
   ManagementGroupPrefix: "YOUR_MANAGEMENT_GROUP_NAME"
-  AMBA_VERSION: "2025-04-04"
+  AMBA_VERSION: "2025-10-01"
 
 jobs:
   deploy_job:
@@ -45,7 +45,7 @@ jobs:
             --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/${{ env.AMBA_VERSION }}/patterns/alz/alzArm.json \
             --location ${{ env.Location }} \
             --management-group-id ${{ env.ManagementGroupPrefix }} \
-            --parameters ./azure_monitor_baseline_alerts/alzArm.param.json | tee amba-what-if-output.txt
+            --parameters ./azure_monitor_baseline_alerts/alzArm.param.json managementSubscriptionId=${{ env.ARM_SUBSCRIPTION_ID }} | tee amba-what-if-output.txt
 
       - name: Parse What-If Output for Changes
         id: amba_changes

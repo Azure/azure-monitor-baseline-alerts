@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - VNetG Tunnel Bandwidth Alert",
     "description": "Policy to audit/deploy Virtual Network Gateway Tunnel Bandwidth Alert",
     "metadata": {
-      "version": "1.4.0",
+      "version": "1.5.0",
       "category": "Network",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -199,7 +199,7 @@
               },
               {
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].threshold",
-                "equals": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
+                "equals": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
               }
             ]
           },
@@ -324,7 +324,7 @@
                   "value": "[[parameters('enabled')]"
                 },
                 "threshold": {
-                  "value": "[[if(contains(field('tags'), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[[if(contains(coalesce(field('tags'), createObject()), '_amba-TunnelAverageBandwidth-threshold-Override_'), field('tags._amba-TunnelAverageBandwidth-threshold-Override_'), parameters('threshold'))]"
                 }
               }
             }

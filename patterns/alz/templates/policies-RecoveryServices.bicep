@@ -67,7 +67,7 @@ var deploymentLocation = '"location": "${targetDeploymentLocationByCloudType[clo
 // We use loadTextContent instead of loadJsonContent  as this allows us to perform string replacement operations against the imported templates.
 var loadPolicyDefinitions = {
   All: [
-    // Used in both RecoverySwervices and Management Policy Set Definitions
+    // Used in both RecoveryServices and Management Policy Set Definitions
     loadTextContent('../../../services/RecoveryServices/vaults/Modify-RSV-BackupHealth-Alert.json')
     loadTextContent('../../../services/RecoveryServices/vaults/Modify-RSV-ASRHealth-Alert.json')
   ]

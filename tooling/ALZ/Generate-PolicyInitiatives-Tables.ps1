@@ -1,9 +1,12 @@
-﻿# Defining input params
+# Defining input params
 param (
   [Parameter(Mandatory = $false)]
   [string]
   $policyInitiativesTablesRootDir
 )
+
+# Set a fixed seed for Get-Random to ensure consistent sample values across runs
+Get-Random -SetSeed 5
 
 # Define the root directory to start searching
 $policiesRootDir = ".\services"
@@ -48,13 +51,13 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     $policyInitiativeTableFileName = $policyInitiativesTablesRootDir + "\" + $policyInitiativeName + $policyInitiativeTableFileNameSuffix
 
     # Define source table file heading and structure
-    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8
-    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "hidden: true" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "---" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append -NoNewline
-    "`n" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
-    "| ------------------- | -------------------- |-------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+    "---" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM
+    "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "hidden: true" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "---" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "| Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "| ------------------- | -------------------- |-------------------- | ------------------ | --------------------- |" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
 
     # Getting policy reference IDs and
     $policyReferences = $jsonContent.properties.policyDefinitions
@@ -102,7 +105,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
             $policyCodeURL = '../../../..' + $policyCodeURL -replace '\\', '/'
 
             # Appending the content to the file
-            "| $policyDisplayName | $policyInternalName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding UTF8 -Append
+            "| $policyDisplayName | $policyInternalName | $policyReferenceID | [$policyCodeFileName]($policyCodeURL) | $policyDefaultEffect |" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
 
             # Exiting loop
             break

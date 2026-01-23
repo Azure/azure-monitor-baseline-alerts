@@ -158,6 +158,25 @@ Below are links to a number of useful resources to have when contributing to AMB
 - [Hugo Docs](https://gohugo.io/documentation/)
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
 
+## Developer Setup (One-Time Configuration)
+
+After cloning your fork of the repository, run this command **once** to enable automatic EditorConfig enforcement:
+
+```powershell
+git config core.hooksPath .githooks
+```
+
+This sets up a pre-commit hook that automatically fixes line endings and formatting issues before commits. The hook will:
+
+- Detect JSON files being committed
+- Fix line endings (ensures LF line endings)
+- Ensure proper final newlines
+- Re-stage the fixed files automatically
+
+You don't need to manually run any formatting scripts - it happens automatically on every commit!
+
+For more details about the pre-commit hook and manual fixing options, see [.githooks/README.md](https://github.com/Azure/azure-monitor-baseline-alerts/blob/main/.githooks/README.md).
+
 ## Steps to do before contributing anything (after pre-requisites)
 
 Run the following commands in your terminal of choice from the directory where your fork of the repo is located:
