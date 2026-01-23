@@ -8,7 +8,11 @@ if [ -n "$STAGED_JSON_FILES" ]; then
     echo "Fixing EditorConfig issues in JSON files..."
 
     # Run the fix script on staged files
-    powershell.exe -ExecutionPolicy Bypass -File "./tooling/Fix-EditorConfigIssues.ps1" -FilePaths @($STAGED_JSON_FILES)
+    set --
+    for file in $STAGED_JSON_FILES; do
+        set -- "$@" "$file"
+    done
+    powershell.exe -ExecutionPolicy Bypass -File "./tooling/Fix-EditorConfigIssues.ps1" -FilePaths "$@"
 
     # Re-add the fixed files to the staging area
     for file in $STAGED_JSON_FILES; do
