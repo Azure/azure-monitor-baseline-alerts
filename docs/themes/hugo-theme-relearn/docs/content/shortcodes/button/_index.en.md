@@ -40,7 +40,7 @@ The `button` shortcode displays a clickable button with adjustable color, title 
 {{% /tab %}}
 {{< /tabs >}}
 
-### Parameter
+### Parameters
 
 | Name                  | Default         | Notes       |
 |-----------------------|-----------------|-------------|
@@ -265,7 +265,7 @@ To use native HTML elements in your Markdown, add this in your `hugo.toml`
 
 ````toml
 [markup.goldmark.renderer]
-    unsafe = true
+  unsafe = true
 ````
 
 ````html

@@ -44,9 +44,12 @@
       state.search = url.toString();
       // with normal pages, this is handled by the 'pagehide' event, but this
       // doesn't fire in case of pushState, so we have to do the same thing
-      // here, too
+      // here, too; we only need a simplified version of transferScrollToHistory
+      // as the scroll position can be directly taken from the content element
       state.contentScrollTop = +elc.scrollTop;
+      var scrollPositionKey = window.relearn.absBaseUri + '/scroll-position/' + document.querySelector('body').dataset.origin;
       window.history.pushState(state, '', url);
+      window.sessionStorage.removeItem(scrollPositionKey);
     }
   };
 
@@ -93,9 +96,13 @@
     var divsuggestion = document.createElement('a');
     divsuggestion.className = 'autocomplete-suggestion';
     divsuggestion.setAttribute('href', window.relearn.relBaseUri + page.uri);
+    var divlink = document.createElement('span');
+    divlink.className = 'link';
+    divlink.innerText = page.title;
     var divtitle = document.createElement('div');
     divtitle.className = 'title';
-    divtitle.innerText = '» ' + page.title;
+    divtitle.innerText = '» ';
+    divtitle.appendChild(divlink);
     divsuggestion.appendChild(divtitle);
     var divbreadcrumb = document.createElement('div');
     divbreadcrumb.className = 'breadcrumbs';

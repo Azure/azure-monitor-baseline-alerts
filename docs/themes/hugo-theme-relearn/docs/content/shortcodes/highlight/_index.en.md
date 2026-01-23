@@ -72,15 +72,15 @@ print("Hello World!")
 
 This shortcode is fully compatible with Hugo's [`highlight` shortcode](https://gohugo.io/content-management/syntax-highlighting/#highlight-shortcode) but **offers some extensions**.
 
-It is called interchangeably in the same way as Hugo's own shortcode by providing positional parameter or simply by using Markdown codefences.
+It is called interchangeably in the same way as Hugo's own shortcode by providing positional parameters or simply by using Markdown codefences.
 
 You are free to also call this shortcode from your own partials. In this case it resembles Hugo's [`highlight` function](https://gohugo.io/functions/highlight/) syntax if you call it using compatibility syntax.
 
-Markdown codefence syntax is widely available in other Markdown parsers like GitHub and therefore is the recommend syntax for generating portable Markdown.
+Markdown codefence syntax is widely available in other Markdown parsers like GitHub and therefore is the recommended syntax for generating portable Markdown.
 
 The [`tab` shortcode](shortcodes/tab) is also capable of displaying code but with limited options.
 
-### Parameter
+### Parameters
 
 | Name                  | Position | Default          | Notes       |
 |-----------------------|--------- | -----------------|-------------|
@@ -109,7 +109,7 @@ If used together with wrapping of long lines, use this recommended settings. Oth
 
 {{% badge style="option" %}}Option{{% /badge %}} {{% badge style="frontmatter" %}}Front Matter{{% /badge %}} By default, code will be wrapped if the line is not long enough.
 
-You can disable wrapping by setting `highlightWrap=false` or by setting the [`wrap` parameter](#parameter) individually for each code block.
+You can disable wrapping by setting `highlightWrap=false` or by setting the [`wrap` parameter](#parameters) individually for each code block.
 
 {{< multiconfig section=params >}}
 highlightWrap=false

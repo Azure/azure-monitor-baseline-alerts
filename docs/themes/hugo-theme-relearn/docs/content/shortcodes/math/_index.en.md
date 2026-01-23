@@ -55,9 +55,9 @@ $$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \
 
 You can also use [pure Markdown](authoring/markdown#subscript-and-superscript) for writing simple math expressions.
 
-Passthrough syntax is only available by [further configuration](#passthrough-configuration) and has limited features as it does not provide any of the below parameter. Nevertheless, it is widely available in other Markdown parsers like GitHub and therefore is the recommend syntax for generating portable Markdown.
+Passthrough syntax is only available by [further configuration](#passthrough-configuration) and has limited features as it does not provide any of the below parameters. Nevertheless, it is widely available in other Markdown parsers like GitHub and therefore is the recommended syntax for generating portable Markdown.
 
-### Parameter
+### Parameters
 
 | Name                  | Default          | Notes       |
 |-----------------------|------------------|-------------|
@@ -123,7 +123,7 @@ In this case you have to [force load](#force-loading-of-the-mathjax-library) the
 
 ### Passthrough Block Math
 
-With [passthrough configuration](#passthrough-configuration) enabled you can just drop your math without enclosing it by shortcodes or Markdown codefences but no other [parameters](#parameter) are available.
+With [passthrough configuration](#passthrough-configuration) enabled you can just drop your math without enclosing it by shortcodes or Markdown codefences but no other [parameters](#parameters) are available.
 
 In this case you have to [force load](#force-loading-of-the-mathjax-library) the MathJax library by setting `math=true` either in your `hugo.toml` or in your page's front matter.
 
@@ -157,7 +157,7 @@ Euclid already knew, $\sqrt{2}$ is irrational.
 
 ### Markdown Codefence Block Math with Right Alignment
 
-If you are using Markdown codefences, more [parameter](#parameter) are available. Your formulae still needs to be enclosed by `$` or `$$` as delimiters respectively.
+If you are using Markdown codefences, more [parameter](#parameters) are available. Your formulae still needs to be enclosed by `$` or `$$` as delimiters respectively.
 
 
 ````md

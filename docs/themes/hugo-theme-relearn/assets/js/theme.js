@@ -172,21 +172,21 @@ function switchTab(tabGroup, tabId) {
 
     // Store the selection to make it persistent
     if (window.localStorage) {
-      var selectionsJSON = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/tab-selections');
+      var selectionsJSON = window.localStorage.getItem(window.relearn.absBaseUri + '/tab-selections');
       if (selectionsJSON) {
         var tabSelections = JSON.parse(selectionsJSON);
       } else {
         var tabSelections = {};
       }
       tabSelections[tabGroup] = tabId;
-      window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + '/tab-selections', JSON.stringify(tabSelections));
+      window.localStorage.setItem(window.relearn.absBaseUri + '/tab-selections', JSON.stringify(tabSelections));
     }
   }
 }
 
 function restoreTabSelections() {
   if (window.localStorage) {
-    var selectionsJSON = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/tab-selections');
+    var selectionsJSON = window.localStorage.getItem(window.relearn.absBaseUri + '/tab-selections');
     if (selectionsJSON) {
       var tabSelections = JSON.parse(selectionsJSON);
     } else {
@@ -473,7 +473,7 @@ function initOpenapi(update, attrs) {
     oi.id = openapiIframeId;
     oi.classList.toggle('sc-openapi-iframe', true);
     oi.srcdoc = `<!doctype html>
-<html class="relearn ${swagger_theme}-mode" lang="${lang}" dir="${isRtl ? 'rtl' : 'ltr'}" data-r-output-format="${format}" data-r-theme-variant="${variant}">
+<html id="R-html" class="relearn ${swagger_theme}-mode" lang="${lang}" dir="${isRtl ? 'rtl' : 'ltr'}" data-r-output-format="${format}" data-r-theme-variant="${variant}">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="${window.relearn.themeUseOpenapi.css}${assetBuster}">
@@ -1318,15 +1318,12 @@ function initExpand() {
 }
 
 function clearHistory() {
-  var visitedItem = window.relearn.absBaseUri + '/visited-url/';
+  var visitedItem = window.relearn.absBaseUri + '/visited-url';
   for (var item in window.sessionStorage) {
     if (item.substring(0, visitedItem.length) === visitedItem) {
-      window.relearn.removeItem(window.sessionStorage, item);
+      window.sessionStorage.removeItem(item);
       var url = item.substring(visitedItem.length);
-      // in case we have `relativeURLs=true` we have to strip the
-      // relative path to root
-      url = url.replace(/\.\.\//g, '/').replace(/^\/+\//, '/');
-      document.querySelectorAll('[data-nav-url="' + url + '"]').forEach(function (e) {
+      document.querySelectorAll('[data-nav-id="' + url + '"]').forEach(function (e) {
         e.classList.remove('visited');
       });
     }
@@ -1334,17 +1331,16 @@ function clearHistory() {
 }
 
 function initHistory() {
-  var visitedItem = window.relearn.absBaseUri + '/visited-url/';
-  window.relearn.setItem(window.sessionStorage, visitedItem + document.querySelector('body').dataset.url, 1);
+  var visitedItem = window.relearn.absBaseUri + '/visited-url';
+  window.sessionStorage.setItem(visitedItem + document.querySelector('body').dataset.origin, 1);
 
   // loop through the sessionStorage and see if something should be marked as visited
   for (var item in window.sessionStorage) {
-    if (item.substring(0, visitedItem.length) === visitedItem && window.relearn.getItem(window.sessionStorage, item) == 1) {
+    if (item.substring(0, visitedItem.length) === visitedItem && window.sessionStorage.getItem(item) == 1) {
       var url = item.substring(visitedItem.length);
       // in case we have `relativeURLs=true` we have to strip the
       // relative path to root
-      url = url.replace(/\.\.\//g, '/').replace(/^\/+\//, '/');
-      document.querySelectorAll('[data-nav-url="' + url + '"]').forEach(function (e) {
+      document.querySelectorAll('[data-nav-id="' + url + '"]').forEach(function (e) {
         e.classList.add('visited');
       });
     }
@@ -1352,16 +1348,15 @@ function initHistory() {
 }
 
 function initScrollPositionSaver() {
+  var scrollPositionKey = window.relearn.absBaseUri + '/scroll-position/' + document.querySelector('body').dataset.origin;
+
   function savePosition(event) {
     // #959 if we fiddle around with the history during print preview
     // GC will close the preview immediatley
     if (isPrintPreview) {
       return;
     }
-    var state = window.history.state || {};
-    state = Object.assign({}, typeof state === 'object' ? state : {});
-    state.contentScrollTop = +elc.scrollTop;
-    window.history.replaceState(state, '');
+    window.sessionStorage.setItem(scrollPositionKey, +elc.scrollTop);
   }
 
   var ticking = false;
@@ -1376,7 +1371,26 @@ function initScrollPositionSaver() {
     }
   });
 
-  document.addEventListener('click', savePosition);
+  document.addEventListener('click', transferScrollToHistory);
+  window.addEventListener('pagehide', transferScrollToHistory);
+  window.addEventListener('beforeunload', transferScrollToHistory);
+}
+
+function transferScrollToHistory(event) {
+  // #959 Don't modify history during print preview
+  if (isPrintPreview) {
+    return;
+  }
+
+  var scrollPositionKey = window.relearn.absBaseUri + '/scroll-position/' + document.querySelector('body').dataset.origin;
+  var scrollTop = window.sessionStorage.getItem(scrollPositionKey);
+  if (scrollTop != null) {
+    var state = window.history.state || {};
+    state = Object.assign({}, typeof state === 'object' ? state : {});
+    state.contentScrollTop = +scrollTop;
+    window.history.replaceState(state, '');
+    window.sessionStorage.removeItem(scrollPositionKey);
+  }
 }
 
 function scrollToPositions() {
@@ -1407,7 +1421,7 @@ function scrollToPositions() {
     return;
   }
 
-  var search = window.relearn.getItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+  var search = window.sessionStorage.getItem(window.relearn.absBaseUri + '/search-value');
   var words = (search ?? '').split(' ').filter((word) => word.trim() != '');
   if (words && words.length) {
     var found = elementContains(words, elc);
@@ -1481,7 +1495,7 @@ const observer = new PerformanceObserver(function () {
 observer.observe({ type: 'navigation' });
 
 function mark() {
-  var search = window.relearn.getItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+  var search = window.sessionStorage.getItem(window.relearn.absBaseUri + '/search-value');
   var words = (search ?? '').split(' ').filter((word) => word.trim() != '');
   if (!words || !words.length) {
     return;
@@ -1501,11 +1515,10 @@ function mark() {
     var parent = markedElements[i].parentNode;
     while (parent && parent.classList) {
       if (parent.classList.contains('expand')) {
-        var expandInputs = parent.querySelectorAll('input:not(.expand-marked)');
-        if (expandInputs.length) {
-          expandInputs[0].classList.add('expand-marked');
-          expandInputs[0].dataset.checked = expandInputs[0].checked ? 'true' : 'false';
-          expandInputs[0].checked = true;
+        if (!parent.classList.contains('expand-marked')) {
+          parent.classList.add('expand-marked');
+          parent.dataset.open = parent.open ? 'true' : 'false';
+          parent.open = true;
         }
       }
       if (parent.tagName.toLowerCase() === 'li' && parent.parentNode && parent.parentNode.tagName.toLowerCase() === 'ul' && parent.parentNode.classList.contains('collapsible-menu')) {
@@ -1596,11 +1609,10 @@ function unmark() {
         }
       }
       if (parent.classList.contains('expand')) {
-        var expandInputs = parent.querySelectorAll('input.expand-marked');
-        if (expandInputs.length) {
-          expandInputs[0].checked = expandInputs[0].dataset.checked === 'true';
-          expandInputs[0].dataset.checked = null;
-          expandInputs[0].classList.remove('expand-marked');
+        if (parent.classList.contains('expand-marked')) {
+          parent.open = parent.dataset.open === 'true';
+          parent.dataset.open = null;
+          parent.classList.remove('expand-marked');
         }
       }
       parent = parent.parentNode;
@@ -1674,10 +1686,10 @@ function elementContains(words, e) {
 }
 
 function searchInputHandler(value) {
-  window.relearn.removeItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+  window.sessionStorage.removeItem(window.relearn.absBaseUri + '/search-value');
   unmark();
   if (value.length) {
-    window.relearn.setItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value', value);
+    window.sessionStorage.setItem(window.relearn.absBaseUri + '/search-value', value);
     mark();
   }
 }
@@ -1689,7 +1701,7 @@ function initSearch() {
     e.addEventListener('keydown', function (event) {
       if (event.key == 'Escape') {
         var input = event.target;
-        var search = window.relearn.getItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+        var search = window.sessionStorage.getItem(window.relearn.absBaseUri + '/search-value');
         var words = (search ?? '').split(' ').filter((word) => word.trim() != '');
         if (!words || !words.length) {
           input.blur();
@@ -1723,7 +1735,7 @@ function initSearch() {
         event.initEvent('input', false, false);
         e.dispatchEvent(event);
       });
-      window.relearn.removeItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+      window.sessionStorage.removeItem(window.relearn.absBaseUri + '/search-value');
       unmark();
     });
   });
@@ -1731,12 +1743,12 @@ function initSearch() {
   var urlParams = new URLSearchParams(window.location.search);
   var value = urlParams.get('search-by');
   if (value) {
-    window.relearn.setItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value', value);
+    window.sessionStorage.setItem(window.relearn.absBaseUri + '/search-value', value);
     mark();
   }
 
   // set initial search value for inputs on page load
-  var search = window.relearn.getItem(window.sessionStorage, window.relearn.absBaseUri + '/search-value');
+  var search = window.sessionStorage.getItem(window.relearn.absBaseUri + '/search-value');
   if (search) {
     inputs.forEach(function (e) {
       e.value = search;
@@ -1895,9 +1907,9 @@ ready(function () {
       });
   }
   function moveTopbarButtons() {
-    var isS = body.classList.contains('menu-width-s');
-    var isM = body.classList.contains('menu-width-m');
-    var isL = body.classList.contains('menu-width-l');
+    var isS = body.classList.contains('menu-s-width');
+    var isM = body.classList.contains('menu-m-width');
+    var isL = body.classList.contains('menu-l-width');
     // move buttons once, width has a distinct value
     if (isS && !isM && !isL) {
       moveAreaTopbarButtons('s');
@@ -1940,13 +1952,13 @@ ready(function () {
     });
   }
   function setWidthS(e) {
-    body.classList[e.matches ? 'add' : 'remove']('menu-width-s');
+    body.classList[e.matches ? 'add' : 'remove']('menu-s-width');
   }
   function setWidthM(e) {
-    body.classList[e.matches ? 'add' : 'remove']('menu-width-m');
+    body.classList[e.matches ? 'add' : 'remove']('menu-m-width');
   }
   function setWidthL(e) {
-    body.classList[e.matches ? 'add' : 'remove']('menu-width-l');
+    body.classList[e.matches ? 'add' : 'remove']('menu-l-width');
   }
   function onWidthChange(setWidth, e) {
     setWidth(e);
@@ -1973,12 +1985,12 @@ ready(function () {
 (function () {
   var body = document.querySelector('body');
   function setWidth(e) {
-    body.classList[e.matches ? 'add' : 'remove']('main-width-max');
+    body.classList[e.matches ? 'add' : 'remove']('main-max-width');
   }
   function onWidthChange(setWidth, e) {
     setWidth(e);
   }
-  var width = getColorValue('MAIN-WIDTH-MAX');
+  var width = getColorValue('MAIN-MAX-width');
   var mqm = window.matchMedia('screen and ( min-width: ' + width + ')');
   mqm.addEventListener('change', onWidthChange.bind(null, setWidth));
   setWidth(mqm);

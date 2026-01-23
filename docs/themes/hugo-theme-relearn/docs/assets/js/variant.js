@@ -33,7 +33,7 @@ var variants = {
   },
 
   getCustomVariantStylesheet: function (customVariantName) {
-    return window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variantstylesheet-' + customVariantName) || '';
+    return window.localStorage.getItem(window.relearn.absBaseUri + '/variantstylesheet-' + customVariantName) || '';
   },
 
   getCustomVariantBase: function (customvariant) {
@@ -73,7 +73,7 @@ var variants = {
   init: function (variant, old_path) {
     this.addCustomVariantOption();
     window.relearn.markVariant();
-    window.relearn.changeVariant(window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant'));
+    window.relearn.changeVariant(window.localStorage.getItem(window.relearn.absBaseUri + '/variant'));
   },
 
   addCustomVariantOption: function (customvariant) {
@@ -118,15 +118,15 @@ var variants = {
   },
 
   saveCustomVariant: function () {
-    var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant') ?? '';
+    var variant = window.localStorage.getItem(window.relearn.absBaseUri + '/variant') ?? '';
     var customvariant = variant;
     if (!variant.startsWith(window.relearn.customvariantprefix)) {
       customvariant = this.getCustomVariant(variant);
     }
 
     var stylesheet = this.generateStylesheet(customvariant);
-    window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + '/variant', customvariant);
-    window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + '/variantstylesheet-' + customvariant, stylesheet);
+    window.localStorage.setItem(window.relearn.absBaseUri + '/variant', customvariant);
+    window.localStorage.setItem(window.relearn.absBaseUri + '/variantstylesheet-' + customvariant, stylesheet);
 
     if (!document.querySelector('#R-variant-styles-' + customvariant)) {
       this.addCustomVariantStyles(customvariant);
@@ -261,7 +261,7 @@ var variants = {
   // ------------------------------------------------------------------------
 
   changeColor: function (c) {
-    var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant') ?? '';
+    var variant = window.localStorage.getItem(window.relearn.absBaseUri + '/variant') ?? '';
     var customvariantbase = variant;
     var customvariant = variant;
     if (!variant.startsWith(window.relearn.customvariantprefix)) {
@@ -315,14 +315,14 @@ var variants = {
   },
 
   resetVariant: function () {
-    var customvariant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant');
+    var customvariant = window.localStorage.getItem(window.relearn.absBaseUri + '/variant');
     if (!customvariant.startsWith(window.relearn.customvariantprefix)) {
       alert('There is nothing to be reset here as built-in variants can not be changed.');
       return;
     }
 
     if (confirm('You have made changes to your custom variant "' + customvariant + '". Are you sure you want to reset all changes?')) {
-      window.relearn.removeItem(window.localStorage, window.relearn.absBaseUri + '/variantstylesheet-' + customvariant);
+      window.localStorage.removeItem(window.relearn.absBaseUri + '/variantstylesheet-' + customvariant);
       this.updateCustomVariantStyles(customvariant, '');
       this.removeCustomVariantOption(customvariant);
 
@@ -331,7 +331,7 @@ var variants = {
         customvariantbase = window.relearn.themevariants[0];
       }
 
-      window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + '/variant', customvariantbase);
+      window.localStorage.setItem(window.relearn.absBaseUri + '/variant', customvariantbase);
       window.relearn.markVariant();
       window.relearn.changeVariant(customvariantbase);
     }
@@ -345,9 +345,9 @@ var variants = {
 
     var variantList = customVariants.map((v) => '"' + v + '"').join(', ');
     if (confirm('Are you sure you want to reset all ' + customVariants.length + ' custom variant(s): ' + variantList + '?')) {
-      var customvariant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant');
+      var customvariant = window.localStorage.getItem(window.relearn.absBaseUri + '/variant');
       customVariants.forEach((customvariant) => {
-        window.relearn.removeItem(window.localStorage, window.relearn.absBaseUri + '/variantstylesheet-' + customvariant);
+        window.localStorage.removeItem(window.relearn.absBaseUri + '/variantstylesheet-' + customvariant);
         this.updateCustomVariantStyles(customvariant, '');
         this.removeCustomVariantOption(customvariant);
       });
@@ -357,14 +357,14 @@ var variants = {
         customvariantbase = window.relearn.themevariants[0];
       }
 
-      window.relearn.setItem(window.localStorage, window.relearn.absBaseUri + '/variant', customvariantbase);
+      window.localStorage.setItem(window.relearn.absBaseUri + '/variant', customvariantbase);
       window.relearn.markVariant();
       window.relearn.changeVariant(customvariantbase);
     }
   },
 
   getStylesheet: function () {
-    var variant = window.relearn.getItem(window.localStorage, window.relearn.absBaseUri + '/variant');
+    var variant = window.localStorage.getItem(window.relearn.absBaseUri + '/variant');
     var style = this.generateStylesheet(variant);
     if (style) {
       console.log(style);
@@ -507,6 +507,22 @@ var variants = {
         title: 'brand colors',
         direction: 'LR',
         color: 'TOPBAR-BG-color',
+        children: [
+          {
+            id: 'logo',
+            title: 'logo formatting',
+            direction: 'LR',
+            color: 'TOPBAR-BG-color',
+            variables: [
+              { name: 'LOGO-font-size', default: '1em', tooltip: 'font-size of the text beside the logo' },
+              { name: 'LOGO-LINK-color', fallback: 'MENU-HEADER-color', tooltip: 'color of the logo SVG and text beside' },
+              { name: 'LOGO-LINK-HOVER-color', fallback: 'LOGO-LINK-color', tooltip: 'hovered color of the logo SVG and text beside' },
+              { name: 'LOGO-IMAGE-width', default: '4em', tooltip: 'width of the logo image' },
+              { name: 'LOGO-IMAGE-color', fallback: 'LOGO-LINK-color', tooltip: 'color of the logo SVG' },
+              { name: 'LOGO-IMAGE-HOVER-color', fallback: 'LOGO-LINK-HOVER-color', tooltip: 'hovered color of the logo SVG' },
+            ],
+          },
+        ],
         variables: [
           { name: 'PRIMARY-color', fallback: 'MENU-HEADER-BG-color', tooltip: 'brand primary color' },
           { name: 'PRIMARY-HOVER-color', fallback: 'MENU-HEADER-BORDER-color', tooltip: 'brand primary hover color' },
@@ -535,6 +551,7 @@ var variants = {
               { name: 'MENU-HEADER-BG-color', fallback: 'PRIMARY-color', tooltip: 'background color of menu header' },
               { name: 'MENU-HEADER-BORDER-color', fallback: 'MENU-HEADER-BG-color', tooltip: 'border color between menu header and menu' },
               { name: 'MENU-SEARCH-color', default: '#e0e0e0', tooltip: 'text and icon color of search box' },
+              { name: 'MENU-SEARCH-HOVER-color', fallback: 'MENU-SEARCH-color', tooltip: 'hovered icon color of search box' },
               { name: 'MENU-SEARCH-BG-color', default: '#323232', tooltip: 'background color of search box' },
               { name: 'MENU-SEARCH-BORDER-color', fallback: 'MENU-SEARCH-BG-color', tooltip: 'border color of search box' },
             ],
@@ -570,6 +587,11 @@ var variants = {
             ],
           },
         ],
+        variables: [
+          { name: 'MENU-S-width', default: '14.375rem', tooltip: 'menu width of the mobile layout' },
+          { name: 'MENU-M-width', default: '14.375rem', tooltip: 'menu width of the desktop layout for smaller screens' },
+          { name: 'MENU-L-width', default: '18.75rem', tooltip: 'menu width of the desktop layout' },
+        ],
       },
       {
         id: 'maintopbar',
@@ -602,6 +624,7 @@ var variants = {
           { name: 'TAG-BG-color', fallback: 'PRIMARY-color', tooltip: 'tag color' },
           { name: 'MAIN-TEXT-color', default: '#101010', tooltip: 'text color of content and titles' },
           { name: 'MAIN-font', default: '"Roboto Flex", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif', tooltip: 'text font of content and titles' },
+          { name: 'MAIN-MAX-width', default: '81.25rem', tooltip: 'maximum width of the content' },
         ],
         children: [
           {

@@ -179,9 +179,9 @@ a:focus {
   min-height: 100%;
   overflow: hidden;
   position: fixed;
-  min-width: var(--INTERNAL-MENU-WIDTH-L);
-  max-width: var(--INTERNAL-MENU-WIDTH-L);
-  width: var(--INTERNAL-MENU-WIDTH-L);
+  min-width: var(--INTERNAL-MENU-L-width);
+  max-width: var(--INTERNAL-MENU-L-width);
+  width: var(--INTERNAL-MENU-L-width);
 }
 
 #R-sidebar a {
@@ -216,7 +216,7 @@ a:focus {
 }
 
 .searchbox > :first-child {
-  inset-inline-start: 0.5rem;
+  inset-inline-start: 0.333rem;
   position: absolute;
 }
 
@@ -235,17 +235,17 @@ a:focus {
 }
 
 .searchbox > :last-child {
-  inset-inline-end: 0.5rem;
+  inset-inline-end: 0.333rem;
   position: absolute;
 }
 
-#R-sidebar .searchbox > :first-child,
-#R-sidebar .searchbox > :last-child {
+#R-sidebar .searchbox > button {
   color: var(--INTERNAL-MENU-SEARCH-color);
-  opacity: 0.65;
+  opacity: 0.75;
 }
 
 #R-sidebar .searchbox button:hover {
+  color: var(--INTERNAL-MENU-SEARCH-HOVER-color);
   opacity: 1;
 }
 
@@ -490,13 +490,13 @@ article .R-taxonomy.tags a.term-link:hover:after {
   flex-grow: 1;
   flex-shrink: 0;
   height: 100%;
-  margin-inline-start: var(--INTERNAL-MENU-WIDTH-L);
+  margin-inline-start: var(--INTERNAL-MENU-L-width);
   min-height: 100%;
   overflow-wrap: break-word; /* avoid x-scrolling of body if it is to large to fit */
   position: relative; /* PS */
-  min-width: calc(100% - var(--INTERNAL-MENU-WIDTH-L));
-  max-width: calc(100% - var(--INTERNAL-MENU-WIDTH-L));
-  width: calc(100% - var(--INTERNAL-MENU-WIDTH-L));
+  min-width: calc(100% - var(--INTERNAL-MENU-L-width));
+  max-width: calc(100% - var(--INTERNAL-MENU-L-width));
+  width: calc(100% - var(--INTERNAL-MENU-L-width));
   z-index: 70;
 }
 
@@ -645,17 +645,17 @@ article a:focus > img:only-child:empty {
 #R-body .flex-block-wrapper {
   margin-left: auto;
   margin-right: auto;
-  max-width: calc(var(--INTERNAL-MAIN-WIDTH-MAX) - var(--INTERNAL-MENU-WIDTH-L) - 2 * 3.25rem);
+  max-width: calc(var(--INTERNAL-MAIN-MAX-width) - var(--INTERNAL-MENU-L-width) - 2 * 3.25rem);
   width: 100%;
 }
 #R-body .flex-block-wrapper:has(article.narrow) {
-  max-width: calc(var(--INTERNAL-MAIN-WIDTH-MAX) - var(--INTERNAL-MENU-WIDTH-L) - 2 * 9.75rem);
+  max-width: calc(var(--INTERNAL-MAIN-MAX-width) - var(--INTERNAL-MENU-L-width) - 2 * 9.75rem);
 }
-.main-width-max #R-body .flex-block-wrapper {
-  width: calc(var(--INTERNAL-MAIN-WIDTH-MAX) - var(--INTERNAL-MENU-WIDTH-L) - 2 * 3.25rem);
+.main-max-width #R-body .flex-block-wrapper {
+  width: calc(var(--INTERNAL-MAIN-MAX-width) - var(--INTERNAL-MENU-L-width) - 2 * 3.25rem);
 }
-.main-width-max #R-body .flex-block-wrapper:has(article.narrow) {
-  width: calc(var(--INTERNAL-MAIN-WIDTH-MAX) - var(--INTERNAL-MENU-WIDTH-L) - 2 * 9.75rem);
+.main-max-width #R-body .flex-block-wrapper:has(article.narrow) {
+  width: calc(var(--INTERNAL-MAIN-MAX-width) - var(--INTERNAL-MENU-L-width) - 2 * 9.75rem);
 }
 
 #R-body-inner:has(> .flex-block-wrapper article.narrow) {
@@ -766,8 +766,7 @@ h1 {
 }
 
 h2,
-.card-title,
-.children-type-list .children-title-1 {
+.card-title {
   color: var(--INTERNAL-MAIN-TITLES-H2-TEXT-color);
   font-size: 2.2rem;
   font-variation-settings: var(--INTERNAL-MAIN-TITLES-H2-font-variation-settings);
@@ -776,8 +775,7 @@ h2,
   letter-spacing: var(--INTERNAL-MAIN-TITLES-H2-letter-spacing);
 }
 
-h3,
-.children-type-list .children-title-2 {
+h3 {
   color: var(--INTERNAL-MAIN-TITLES-H3-TEXT-color);
   font-size: 1.8rem;
   font-variation-settings: var(--INTERNAL-MAIN-TITLES-H3-font-variation-settings);
@@ -786,8 +784,7 @@ h3,
   letter-spacing: var(--INTERNAL-MAIN-TITLES-H3-letter-spacing);
 }
 
-h4,
-.children-type-list .children-title-3 {
+h4 {
   color: var(--INTERNAL-MAIN-TITLES-H4-TEXT-color);
   font-size: 1.85rem;
   font-variation-settings: var(--INTERNAL-MAIN-TITLES-H4-font-variation-settings);
@@ -796,8 +793,7 @@ h4,
   letter-spacing: var(--INTERNAL-MAIN-TITLES-H4-letter-spacing);
 }
 
-h5,
-.children-type-list .children-title-4 {
+h5 {
   color: var(--INTERNAL-MAIN-TITLES-H5-TEXT-color);
   font-size: 1.6rem;
   font-variation-settings: var(--INTERNAL-MAIN-TITLES-H5-font-variation-settings);
@@ -806,8 +802,7 @@ h5,
   letter-spacing: var(--INTERNAL-MAIN-TITLES-H5-letter-spacing);
 }
 
-h6,
-.children-type-list .children-title-5 {
+h6 {
   color: var(--INTERNAL-MAIN-TITLES-H6-TEXT-color);
   font-size: 1.3rem;
   font-variation-settings: var(--INTERNAL-MAIN-TITLES-H6-font-variation-settings);
@@ -822,8 +817,7 @@ h3,
 .article-subheading,
 h4,
 h5,
-h6,
-.children-type-list .children-title {
+h6 {
   hyphens: auto;
   margin: 1.5rem 0 1rem 0;
   /* big titles cause a horizontal scrollbar - fixing this by wrapping text */
@@ -941,22 +935,40 @@ p:empty {
 }
 
 /* Children shortcode */
-
-.children-type-tree p,
-.children-type-flat p {
+.children-type-group li > p + p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap-mode: nowrap;
+}
+.children-type-group li > p + p,
+.children-type-tree li > p + p,
+.children-type-flat li > p {
+  font-size: 0.859625rem;
   font-style: italic;
 }
 
+.children-type-group p,
 .children-type-tree p,
-.children-type-list p,
-.children-type-flat p {
+.children-type-flat p,
+.children-type-list p {
   margin-bottom: 0;
   margin-top: 0;
   padding-bottom: 0;
   padding-top: 0;
 }
 
-#R-body-inner .children-type-list .children-title {
+.children-type-flat,
+.children-type-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.children-type-flat li,
+.children-type-list li {
+  margin-inline-start: 0;
+}
+
+.children-type-list :is(h1, h2, h3, h4, h5, h6) {
   margin-bottom: 0;
   margin-top: 1rem;
 }
@@ -1330,24 +1342,24 @@ html[dir='rtl'] .topbar-button-next i {
 
 @media screen and (max-width: 59.999rem) {
   #R-sidebar {
-    min-width: var(--INTERNAL-MENU-WIDTH-M);
-    max-width: var(--INTERNAL-MENU-WIDTH-M);
-    width: var(--INTERNAL-MENU-WIDTH-M);
+    min-width: var(--INTERNAL-MENU-M-width);
+    max-width: var(--INTERNAL-MENU-M-width);
+    width: var(--INTERNAL-MENU-M-width);
   }
   #R-body {
-    margin-inline-start: var(--INTERNAL-MENU-WIDTH-M);
-    min-width: calc(100% - var(--INTERNAL-MENU-WIDTH-M));
-    max-width: calc(100% - var(--INTERNAL-MENU-WIDTH-M));
-    width: calc(100% - var(--INTERNAL-MENU-WIDTH-M));
+    margin-inline-start: var(--INTERNAL-MENU-M-width);
+    min-width: calc(100% - var(--INTERNAL-MENU-M-width));
+    max-width: calc(100% - var(--INTERNAL-MENU-M-width));
+    width: calc(100% - var(--INTERNAL-MENU-M-width));
   }
 }
 @media screen and (max-width: 47.999rem) {
   /* we don't support sidebar flyout in mobile */
   .mobile-support #R-sidebar {
-    inset-inline-start: calc(-1 * var(--INTERNAL-MENU-WIDTH-S));
-    min-width: var(--INTERNAL-MENU-WIDTH-S);
-    max-width: var(--INTERNAL-MENU-WIDTH-S);
-    width: var(--INTERNAL-MENU-WIDTH-S);
+    inset-inline-start: calc(-1 * var(--INTERNAL-MENU-S-width));
+    min-width: var(--INTERNAL-MENU-S-width);
+    max-width: var(--INTERNAL-MENU-S-width);
+    width: var(--INTERNAL-MENU-S-width);
   }
   .mobile-support #navshow {
     display: inline;
@@ -1366,7 +1378,7 @@ html[dir='rtl'] .topbar-button-next i {
     z-index: 90;
   }
   .mobile-support.sidebar-flyout #R-body {
-    margin-inline-start: var(--INTERNAL-MENU-WIDTH-S);
+    margin-inline-start: var(--INTERNAL-MENU-S-width);
     overflow: hidden;
   }
   .mobile-support.sidebar-flyout #R-body-overlay {
@@ -1852,8 +1864,7 @@ h2 a,
 h3 a,
 h4 a,
 h5 a,
-h6 a,
-.children-type-list .children-title a {
+h6 a {
   font-weight: inherit;
 }
 
@@ -2070,17 +2081,16 @@ span.math:has(> mjx-container[display]) {
   height: 1.5rem;
 }
 
-#R-sidebar .autocomplete-suggestion {
-  /* restore autocomplete default value for sidebar, because it is affectd
-  by coarse element styling */
-  color: rgba(40, 40, 40, 1);
-  display: block;
+#R-sidebar .autocomplete-suggestions {
+  background-color: var(--INTERNAL-MAIN-BG-color);
+  border: 0 solid rgba(134, 134, 134, 0.166);
+  box-shadow: 1px 2px 5px 1px rgba(134, 134, 134, 0.333);
 }
 
-#R-sidebar .autocomplete-suggestion.selected {
-  /* restore autocomplete default value for sidebar, because it is affectd
+#R-sidebar .autocomplete-suggestion {
+  /* restore autocomplete default value for sidebar, because it is affected
   by coarse element styling */
-  color: rgba(255, 255, 255, 1);
+  display: block;
 }
 
 #R-sidebar .autocomplete-suggestions > .autocomplete-suggestion > .breadcrumbs {
@@ -2089,7 +2099,6 @@ span.math:has(> mjx-container[display]) {
 }
 
 #R-searchresults .autocomplete-suggestion {
-  color: var(--VARIABLE-LINK-color);
   display: block;
   font-size: 1.3rem;
   font-weight: 500;
@@ -2097,13 +2106,11 @@ span.math:has(> mjx-container[display]) {
   padding: 1rem;
   text-decoration: none;
 }
-
 #R-searchresults .autocomplete-suggestion:after {
   height: 0;
 }
 
 #R-searchresults .autocomplete-suggestion > .breadcrumbs {
-  color: var(--INTERNAL-PRIMARY-color);
   font-size: 0.9rem;
   font-weight: 400;
   margin-top: 0.167em;
@@ -2112,12 +2119,41 @@ span.math:has(> mjx-container[display]) {
 }
 
 #R-searchresults .autocomplete-suggestion > .context {
-  color: var(--INTERNAL-MAIN-TEXT-color);
   font-size: 1rem;
   font-weight: 300;
   margin-top: 0.66em;
   padding-left: 0.1em;
   padding-right: 0.1em;
+}
+
+#R-html .autocomplete-suggestion {
+  color: var(--VARIABLE-LINK-color);
+}
+#R-html .autocomplete-suggestion.selected,
+#R-html .autocomplete-suggestion:focus {
+  color: var(--VARIABLE-LINK-HOVER-color);
+  background-color: rgba(134, 134, 134, 0.133);
+}
+#R-html .autocomplete-suggestion:hover {
+  color: var(--VARIABLE-LINK-HOVER-color);
+  background-color: rgba(134, 134, 134, 0.2);
+}
+#R-html .autocomplete-suggestion .link {
+  color: inherit;
+}
+#R-html .autocomplete-suggestion.selected .link,
+#R-html .autocomplete-suggestion:focus .link,
+#R-html .autocomplete-suggestion:hover .link {
+  color: inherit;
+  text-decoration: underline;
+}
+#R-html .autocomplete-suggestion > .breadcrumbs {
+  background-color: transparent;
+  color: var(--INTERNAL-PRIMARY-color);
+}
+#R-html .autocomplete-suggestion > .context {
+  background-color: transparent;
+  color: var(--INTERNAL-MAIN-TEXT-color);
 }
 
 .badge {
@@ -2419,22 +2455,40 @@ html[dir='rtl'] #R-sidebar ul.collapsible-menu > li > input:checked + label > i.
 
 /* common logo */
 
-body a#R-logo,
-body a#R-logo:hover,
 body #R-logo svg,
 body #R-logo svg :not([color]),
 body #R-logo svg [color='black'],
 body #R-logo svg [color='#000000'] {
-  color: var(--INTERNAL-MENU-HEADER-color);
+  color: var(--INTERNAL-LOGO-IMAGE-color);
 }
 
-body a#R-logo,
-body a#R-logo:hover,
-body #R-logo svg,
+body #R-logo:hover svg,
+body #R-logo:hover svg :not([color]),
+body #R-logo:hover svg [color='black'],
+body #R-logo:hover svg [color='#000000'] {
+  color: var(--INTERNAL-LOGO-IMAGE-HOVER-color);
+}
+
 body #R-logo svg :not([fill]),
 body #R-logo svg [fill='black'],
 body #R-logo svg [fill='#000000'] {
-  fill: var(--INTERNAL-MENU-HEADER-color);
+  fill: var(--INTERNAL-LOGO-IMAGE-color);
+}
+
+body #R-logo:hover svg :not([fill]),
+body #R-logo:hover svg [fill='black'],
+body #R-logo:hover svg [fill='#000000'] {
+  fill: var(--INTERNAL-LOGO-IMAGE-HOVER-color);
+}
+
+body a#R-logo,
+body a#R-logo * {
+  color: var(--INTERNAL-LOGO-LINK-color);
+}
+
+body a#R-logo:hover,
+body a#R-logo:hover * {
+  color: var(--INTERNAL-LOGO-LINK-HOVER-color);
 }
 
 /* default logo */
@@ -2444,6 +2498,7 @@ body #R-logo svg [fill='#000000'] {
   column-gap: 0.4em;
   display: flex;
   flex-direction: row;
+  font-family: var(--INTERNAL-LOGO-font);
   font-size: var(--INTERNAL-LOGO-font-size);
   justify-content: center;
   line-height: 1;
@@ -2466,12 +2521,11 @@ body #R-logo svg [fill='#000000'] {
   display: none;
   flex-shrink: 0;
   height: auto;
-  width: var(--INTERNAL-LOGO-width);
+  width: var(--INTERNAL-LOGO-IMAGE-width);
 }
 
 #R-logo.R-default .logo-image > * {
-  opacity: 0.945;
-  max-width: var(--INTERNAL-LOGO-width);
+  max-width: var(--INTERNAL-LOGO-IMAGE-width);
 }
 
 #R-logo.R-default .logo-title {
@@ -2502,10 +2556,6 @@ body #R-logo svg [fill='#000000'] {
 
 .columnize > * {
   break-inside: avoid-column;
-}
-
-.columnize .breadcrumbs {
-  font-size: 0.859625rem;
 }
 
 #R-body .tab-panel {

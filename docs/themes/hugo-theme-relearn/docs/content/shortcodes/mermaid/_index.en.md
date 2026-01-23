@@ -54,9 +54,9 @@ graph LR;
 {{% /tab %}}
 {{< /tabs >}}
 
-Markdown codefence syntax is widely available in other Markdown parsers like GitHub and therefore is the recommend syntax for generating portable Markdown.
+Markdown codefence syntax is widely available in other Markdown parsers like GitHub and therefore is the recommended syntax for generating portable Markdown.
 
-### Parameter
+### Parameters
 
 | Name                  | Default          | Notes       |
 |-----------------------|------------------|-------------|
@@ -72,7 +72,7 @@ Markdown codefence syntax is widely available in other Markdown parsers like Git
 
 By default this is disabled. Set `mermaidZoom=true` to enable it.
 
-Individual settings of a graphs [`zoom` parameter](#parameter) have precedence over the page's front matter and configuration options in that order.
+Individual settings of a graphs [`zoom` parameter](#parameters) have precedence over the page's front matter and configuration options in that order.
 
 {{< multiconfig section=params >}}
 mermaidZoom = true
