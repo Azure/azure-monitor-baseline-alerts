@@ -1,15 +1,13 @@
 ---
 title: The Azure Landing Zones (ALZ) Pattern
-geekdocCollapseSection: true
 weight: 10
 ---
 
-{{< hint type=Info >}}
-Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
-</br>
-</br>
-***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
-{{< /hint >}}
+> [!info]
+> Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
+> </br>
+> </br>
+> ***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
 
 ### In this page
 
@@ -90,9 +88,8 @@ When you submit a pull request, a CLA bot will determine if you need to provide 
 
 This project follows the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any questions or comments.
 
-{{< hint type=note >}}
-Details on contributing to this repository can be found in the [Contributor Guide](../../../../contributing).
-{{< /hint >}}
+> [!note]
+> Details on contributing to this repository can be found in the [Contributor Guide](../../../../contributing).
 
 ## Telemetry
 

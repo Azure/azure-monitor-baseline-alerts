@@ -53,7 +53,7 @@ ForEach ($policyInitiativeJsonFile in $policyInitiativeJsonFiles) {
     # Define source table file heading and structure
     "---" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM
     "title: $policyInitiativeName Policy Initiative table" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
-    "geekdocHidden: true" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
+    "hidden: true" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
     "---" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
     "" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append
     "| Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |" | Out-File $policyInitiativeTableFileName -Encoding utf8NoBOM -Append

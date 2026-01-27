@@ -1,6 +1,5 @@
 ---
 title: Disable Policies
-geekdocCollapseSection: true
 weight: 55
 ---
 
@@ -115,9 +114,8 @@ Exclude specific resources from monitoring by using the **MonitorDisable** param
 }
 ```
 
-{{< hint type=Info >}}
-***This deployment evaluates and remediates policy definitions only if specified tag values are not present and does not apply to policies for both Service Health and Resource Health alert.***
-{{< /hint >}}
+> [!important]
+> This deployment evaluates and remediates policy definitions only if specified tag values are not present and does not apply to both Service Health and Resource Health alert policies.
 
 ### How It Works
 

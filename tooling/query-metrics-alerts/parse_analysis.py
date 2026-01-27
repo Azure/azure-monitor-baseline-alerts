@@ -205,7 +205,7 @@ def main():
         os.makedirs(os.path.join(dir, category), exist_ok=True)
 
       with open(os.path.join(dir, category, '_index.md'), 'w+') as f:
-        f.write(f"---\ntitle: {category}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n")
+        f.write(f"---\ntitle: {category}\n---\n")
 
       # create directory based on type if it doesn't exist
       subdir = type.split('/')[0]
@@ -213,7 +213,7 @@ def main():
         os.makedirs(os.path.join(dir, category, subdir), exist_ok=True)
 
       with open(os.path.join(dir, category, subdir, '_index.md'), 'w+') as f:
-        f.write(f"---\ntitle: {subdir}\ngeekdocCollapseSection: true\ngeekdocHidden: false\n---\n\n")
+        f.write(f"---\ntitle: {subdir}\n---\n\n")
         f.write('{{< alertList name="alertList" >}}')
 
       # load existing yaml file if it exists

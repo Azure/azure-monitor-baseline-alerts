@@ -1,7 +1,5 @@
 ---
 title: loadBalancers
-geekdocCollapseSection: true
-geekdocHidden: false
 ---
 
 Load Balancer Monitoring Design

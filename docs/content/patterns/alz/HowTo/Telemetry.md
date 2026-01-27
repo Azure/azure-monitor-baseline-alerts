@@ -1,6 +1,5 @@
 ---
 title: Disable telemetry tracking
-geekdocCollapseSection: true
 weight: 100
 ---
 

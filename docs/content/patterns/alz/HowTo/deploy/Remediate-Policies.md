@@ -3,21 +3,20 @@ title: Remediate Policies
 weight: 90
 ---
 
-{{< tabs "Remediate_MG" >}}
+{{< tabs groupid="Remediate_MG" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources and subscriptions are deployed, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
 
 In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
 
-{{< hint type=Important >}}
-This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
-
-- [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
-- [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
-
-{{< /hint >}}
+> [!warning]
+> This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
+>
+> - [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
+> - [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
+>
 
 To use the script, follow these steps:
 
@@ -26,7 +25,7 @@ To use the script, follow these steps:
 3. Set the necessary variables.
 4. Execute the remediation script.
 
-  {{% include "./PowerShell-ExecutionPolicy.md" %}}
+  {{% include "./PowerShell-ExecutionPolicy" %}}
 
 For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
 
@@ -87,19 +86,18 @@ To remediate a single policy definition instead of the entire policy initiative,
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 By default, the policies are set to deploy-if-not-exists. This configuration affects any new deployments. In a greenfield scenario, where new resources are added to a subscription, the policies will automatically create the necessary alert rules, action groups, and alert processing rules.
 
 In a brownfield scenario, the policies will report non-compliance for existing resources within their scope. To remediate these non-compliant resources, you need to initiate remediation. This can be done through the Azure portal on a policy-by-policy basis or by running the *Start-AMBA-ALZ-Remediation.ps1* script located in the *.\patterns\alz\scripts* folder. This script will remediate all AMBA-ALZ policies in scope as defined by the management group prefix.
 
-{{< hint type=Important >}}
-This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
-
-- [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
-- [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
-
-{{< /hint >}}
+> [!warning]
+> This script requires PowerShell 7.0 or higher, and the following PowerShell modules:
+>
+> - [Az.Accounts](https://www.powershellgallery.com/packages/Az.Accounts)
+> - [Az.Resources](https://www.powershellgallery.com/packages/Az.Resources)
+>
 
 To use the script, follow these steps:
 
@@ -108,7 +106,7 @@ To use the script, follow these steps:
 3. Set the necessary variables.
 4. Execute the remediation script.
 
-  {{% include "./PowerShell-ExecutionPolicy.md" %}}
+  {{% include "./PowerShell-ExecutionPolicy" %}}
 
 For example, to remediate the **Alerting-Management** initiative assigned to the **alz-platform-management** Management Group, execute the following commands:
 

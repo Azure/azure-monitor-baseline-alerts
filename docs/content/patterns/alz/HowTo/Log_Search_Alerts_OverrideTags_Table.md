@@ -1,6 +1,6 @@
 ---
 title: Log-search alerts override tags table
-geekdocHidden: true
+hidden: true
 ---
 
 | Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |

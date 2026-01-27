@@ -1,6 +1,5 @@
 ---
 title: Updating to release 2024-11-01
-geekdocCollapseSection: true
 weight: 96
 ---
 
@@ -8,9 +7,10 @@ weight: 96
 
 > [Update](#update) </br>
 
-{{< hint type=Info >}}
-**_No pre-update or post-update actions_** are required.
-{{< /hint >}}
+</br>
+
+> [!info]
+> **_No pre-update or post-update actions_** are required.
 
 ## Update
 

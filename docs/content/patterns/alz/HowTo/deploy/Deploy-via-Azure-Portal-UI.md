@@ -13,9 +13,9 @@ weight: 30
 
 ## Access the AMBA-ALZ Portal Accelerator
 
-{{< tabs "Portal_Access" >}}
+{{< tabs groupid="Portal_Access" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to <https://aka.ms/amba/alz/portal> or click the "Deploy to Azure" button below:
 
@@ -25,7 +25,7 @@ Once on the portal page, follow the configuration instruction for each section a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 The AMBA-ALZ Portal Accelerator for Subscriptions is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator for Subscriptions, navigate to <https://aka.ms/amba/alz/portal4Subs> or click the "Deploy to Azure" button below:
 
@@ -39,11 +39,11 @@ Once on the portal page, follow the configuration instruction for each section a
 
 ## Deployment Settings Blade
 
-{{< tabs "Portal_Deployment_Settings" >}}
+{{< tabs groupid="Portal_Deployment_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
-![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
+  ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings.png)
 
 </br>
 
@@ -61,7 +61,7 @@ Once on the portal page, follow the configuration instruction for each section a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Deployment Settings Blade](../../../media/PortalAccelerator/DeploymentSettings4Subs.png)
 
@@ -84,9 +84,9 @@ Once on the portal page, follow the configuration instruction for each section a
 
 ## Management Groups / Subscription Settings Blade
 
-{{< tabs "Portal_MG_Settings" >}}
+{{< tabs groupid="Portal_MG_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 ![Management Groups Settings Blade](../../../media/PortalAccelerator/MGSettings.png)
 
@@ -128,9 +128,8 @@ In the Management Groups Settings blade, change the value of the policy set defi
 - Choose the value of _`Management Management Group`_ to the management group ID for Management. The same management group ID may be repeated.
 - Choose the value of _`Landing Zone Management Group`_ to the management group ID for Landing Zones. The same management group ID may be repeated.
 
-{{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables.
-{{< /hint >}}
+> [!note]
+> For ease of deployment and maintenance we have kept the same variables.
 
 ### If you have a single management group
 
@@ -141,13 +140,12 @@ For ease of deployment and maintenance we have kept the same variables.
 - Choose the value of _`Management Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 - Choose the value of _`Landing Zone Management Group`_ to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 
-{{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables.
-{{< /hint >}}
+> [!note]
+> For ease of deployment and maintenance we have kept the same variables.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Subscription Settings Blade](../../../media/PortalAccelerator/Settings4Subs.png)
 
@@ -175,15 +173,14 @@ In the Subscription Settings blade, change the value of the policy set definitio
 
 ## Notification Settings Blade
 
-{{< tabs "Portal_Notification_Settings" >}}
+{{< tabs groupid="Portal_Notification_Settings" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings.png)
 
-{{< hint type=note >}}
-While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
-{{< /hint >}}
+> [!important]
+> While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
 
 - Change the values on the Notification Settings Blade to the following instructions:
 
@@ -202,29 +199,27 @@ While it's technically possible to not add any notification information (email, 
 
     ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
-    {{< hint type=note >}}
-    It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
-    Should you set multiple entries, ensure that they are entered in the proper format which is:
-    - Array format for:
-      - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
-      - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
-      - Event Hubs. Example: []
-      - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    - Single string for:
-      - Logic Apps
-      - Functions
-
-    {{< /hint >}}
+    > [!note]
+    > It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
+    > Should you set multiple entries, ensure that they are entered in the proper format which is:
+    > - Array format for:
+    >   - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
+    >   - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
+    >   - Event Hubs. Example: []
+    >   - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
+    >   - Single string for:
+    >   - Logic Apps
+    >   - Functions
+>
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 ![Notification Settings Blade](../../../media/PortalAccelerator/NotificationSettings4Subs.png)
 
-{{< hint type=note >}}
-While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
-{{< /hint >}}
+> [!important]
+> While it's technically possible to not add any notification information (email, ARM Role, Logic App, etc.) it is highly recommended to configure at least one option.
 
 - Change the values on the Notification Settings Blade to the following instructions:
 
@@ -243,19 +238,17 @@ While it's technically possible to not add any notification information (email, 
 
     ![Get function URL](../../../media/AMBA-FunctionAppTriggerUrl.png)
 
-    {{< hint type=note >}}
-    It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
-    Should you set multiple entries, ensure that they are entered in the proper format which is:
-    - Array format for:
-      - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
-      - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
-      - Event Hubs. Example: []
-      - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
-    - Single string for:
-      - Logic Apps
-      - Functions
-
-    {{< /hint >}}
+    > [!note]
+    > It is possible use multiple email addresses, Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance).
+    > Should you set multiple entries, ensure that they are entered in the proper format which is:
+    > - Array format for:
+    >   - Email addresses. Example: ["action1@contoso.com" , "action2@contoso.com" , "action3@contoso.com"]
+    >   - Azure roles. Example: ["8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "b24988ac-6180-42a0-ab88-20f7382dd24c"]
+    >   - Event Hubs. Example: []
+    >   - Webhooks. Example: ["https://br1.br2.com","http://br2.br1.com"]
+    >   - Single string for:
+    >   - Logic Apps
+    >   - Functions
 
 {{% /tab %}}
 

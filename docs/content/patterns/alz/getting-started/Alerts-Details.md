@@ -1,6 +1,5 @@
 ---
 title: Alerts Details
-geekdocCollapseSection: true
 weight: 30
 ---
 
@@ -19,9 +18,8 @@ If you have suggestions for additional resources to include, open an Issue on th
 
 For details on which policy alert rules are included in the policy initiatives that are part of the AMBA-ALZ pattern, visit the [Policy-Initiatives](../Policy-Initiatives) page.
 
-{{< hint type=note >}}
-The tables are designed to minimize horizontal scrolling, but they contains substantial information. We recommend clicking on the specific alert name to directly access the JSON definition of the alert.
-{{< /hint >}}
+> [!note]
+> The tables are designed to minimize horizontal scrolling, but they contains substantial information. We recommend clicking on the specific alert name to directly access the JSON definition of the alert.
 
 </br>
 
@@ -30,7 +28,7 @@ The tables are designed to minimize horizontal scrolling, but they contains subs
 Refer to the following sections to quickly identify any Activity Log based alert, such as Service Health alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.
 
-{{% include "Activity-Log-Alerts-Table.md" %}}
+{{% include "Activity-Log-Alerts-Table" %}}
 
 </br>
 
@@ -39,7 +37,7 @@ The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Seve
 Refer to the following sections to quickly identify any Log-Search based alert, such as Azure Virtual Machine or Hybrid Virtual Machine alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.
 
-{{% include "Log-Search-Alerts-Table.md" %}}
+{{% include "Log-Search-Alerts-Table" %}}
 
 </br>
 
@@ -50,6 +48,6 @@ The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Seve
 
 Only a limited number of resources support metric alert rules scoped at the subscription level, and these metric alerts apply only to resources deployed within the same region.
 
-{{% include "Metric-Alerts-Table.md" %}}
+{{% include "Metric-Alerts-Table" %}}
 
 <sup>1</sup> For more details on why the availability alert thresholds are lower than 100% in this solution when the product group documentation recommends 100%, see the [FAQ](../../Resources/FAQ).

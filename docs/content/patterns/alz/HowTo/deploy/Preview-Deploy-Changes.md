@@ -1,6 +1,5 @@
 ---
 title: Preview Deployment Changes
-geekdocCollapseSection: true
 weight: 25
 ---
 
@@ -26,9 +25,9 @@ By capturing the output of the `what-if` command, you can analyze the changes th
 
 Set up your parameters and variable as required for your target environment. If using the **Azure CLI**, follow the steps in the [Deploy with Azure CLI](../Deploy-with-Azure-CLI) section. If using **PowerShell**, follow the steps in the [Deploy with Azure PowerShell](../Deploy-with-Azure-PowerShell) section. On the final "Deploy" step, use the following what-if command instead of the deployment command to preview the changes.
 
-{{< tabs "Preview_Changes" >}}
+{{< tabs groupid="Preview_Changes" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 **Azure CLI:**
 
@@ -53,7 +52,7 @@ New-AzManagementGroupDeployment `
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 **Azure CLI:**
 
@@ -80,9 +79,9 @@ New-AzSubscriptionDeployment `
 
 ## Preview deployment changes using PowerShell
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Using PowerShell for deployments uses the following syntax: `New-AzManagementGroupDeployment -ManagementGroupId <String> -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzManagementGroupDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
 
@@ -149,7 +148,7 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Using PowerShell for deployments uses the following syntax: `New-AzSubscriptionDeployment -Location <String>`. This example PowerShell script expects an input, which is the output from the `New-AzSubscriptionDeployment -WhatIf` command. You can capture the output to a file by appending `| Tee-Object -FilePath amba-what-if-output.txt` to the command.
 
@@ -219,27 +218,26 @@ Using the output from the `New-AzManagementGroupDeployment -WhatIf` command, you
 
 ## Preview deployment changes using the GitHub workflow
 
-{{< tabs "Intro_Hierarchy" >}}
+{{< tabs groupid="Intro_Hierarchy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
-{{< hint type=Note >}}
-In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
-
-For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
-
-The `Location` variable is used by the `az deployment mg` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
-
-The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
-
-Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
-{{< /hint >}}
+> [!important]
+> In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
+>
+> For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
+>
+> The `Location` variable is used by the `az deployment mg` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
+>
+> The `ManagementGroupPrefix` variable should match the value of the `enterpriseScaleCompanyPrefix` parameter, as defined in the parameter files.
+>
+> Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+>
 
 Using the same method described in the [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
-{{< hint type=Note >}}
+> [!note]
 The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
-{{< /hint >}}
 
 ```yaml
 - name: Azure CLI What-If Deploy AMBA ARM Template
@@ -315,23 +313,23 @@ The GitHub Action Workflow file is provided as-is, and should be customized to s
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
-
-For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
-
-The `Location` variable is used by the `az deployment sub` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
-
-Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
-{{< /hint >}}
+> [!important]
+> In the same GitHub Action Workflow file, you will need to customize the enviornment variables for your specific environment.
+>
+> For example, `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and `ARM_USE_OIDC` all control the authentication to your Azure subscription. You will need to set these variables in your GitHub repository secrets or environment variables.
+>
+> The `Location` variable is used by the `az deployment sub` command, and specifies the deployment region. It is not required to deploy to multiple regions as the definitions and assignments are scoped to a management group and are not region-specific.
+>
+> Finally, the `AMBA_VERSION` variable should be set to the version of the Azure Monitor Baseline Alerts (AMBA) pattern you wish to deploy. This corresponds to the **Releases tag** in the AMBA GitHub repository, such as `2025-10-01`. You can find the latest release version in the [AMBA GitHub repository](https://github.com/Azure/azure-monitor-baseline-alerts/releases).
+>
 
 Using the same method described in the [Preview deployment changes using PowerShell](#preview-deployment-changes-using-powershell) section, you can also implement this in a GitHub Action Workflow, and include the output in the GitHub Actions summary.
 
-{{< hint type=Note >}}
-The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
-{{< /hint >}}
+> [!note]
+> The GitHub Action Workflow file is provided as-is, and should be customized to suit your specific requirements. The example below is a starting point and may not include all necessary configurations for your deployment.
+>
 
 ```yaml
 - name: Azure CLI What-If Deploy AMBA ARM Template
@@ -413,6 +411,8 @@ A full example of the GitHub Action Workflow file can be found in the AMBA repo 
 By using the `$env:GITHUB_STEP_SUMMARY` variable, the output will be formatted and displayed in the GitHub Actions summary, making it easier to review the changes that would be applied by the deployment.
 
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-1.png)
+
+</br>
 
 ![ALZ Management group structure](../../../media/AMBA-Deploy-WhatIf-Summary-2.png)
 

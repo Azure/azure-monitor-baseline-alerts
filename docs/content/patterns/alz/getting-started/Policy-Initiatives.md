@@ -1,13 +1,11 @@
 ---
 title: Policy Initiatives
-geekdocCollapseSection: true
 weight: 40
 ---
 
 ### In this page
 
 > [Overview](#overview) </br>
-> [Service Health Initiative (Deprecated)](#service-health-initiative-deprecated) </br>
 > [Resource and Service Health initiative](#resource-and-service-health-initiative) </br>
 > [Notification Assets Initiative](#notification-assets-initiative) </br>
 > [Connectivity Initiative - Part #1](#connectivity-initiative---part-1) </br>
@@ -22,116 +20,114 @@ weight: 40
 > [Recovery Services Initiative](#recovery-services-initiative) </br>
 > [Storage Initiative](#storage-initiative) </br>
 > [Web Initiative](#web-initiative) </br>
+> [Service Health Initiative (Deprecated)](#service-health-initiative-deprecated) </br>
 > [Landing Zone Initiative (Deprecated)](#landing-zone-initiative-deprecated) </br>
 
 ## Overview
 
 This document details the AMBA-ALZ pattern Azure policy initiatives used for deploying the AMBA-ALZ baselines. For references on individual alerts/policies, refer to [Alert Details](../..//Getting-started//Alerts-Details).
 
-## Service Health initiative (Deprecated)
-
-{{< hint type=note >}}
-This initiative has been ***DEPRECATED*** in favor of the new initiative named ***Resource and Service Health initiative*** which will make use of the new built-in Service Health alerts policy.The content below is still included in the documentation for reference purpose only.
-{{< /hint >}}
-
-This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
-
-{{% include "Alerting-ServiceHealth-PolicyInitiative-Table.md" %}}
-
 ## Resource and Service Health initiative
 
 This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{< hint type=note >}}
-This initiative includes and uses the built-in policy named ***Configure subscriptions to enable service health alert monitoring rule*** which does appear in the table below.
-{{< /hint >}}
+> [!important]
+> This initiative includes and uses the built-in policy named ***Configure subscriptions to enable service health alert monitoring rule*** which does appear in the table below.
 
-{{% include "Alerting-ResourceAndServiceHealth-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-ResourceAndServiceHealth-PolicyInitiative-Table" %}}
 
 ## Notification Assets initiative
 
 This initiative is intended for relevant policy assignment to notification in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Notification-Assets-PolicyInitiative-Table.md" %}}
+{{% include "Notification-Assets-PolicyInitiative-Table" %}}
 
 ## Connectivity initiative - Part #1
 
 This initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Connectivity-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Connectivity-PolicyInitiative-Table" %}}
 
 ## Connectivity initiative - Part #2
 
 This second part of the initiative is intended for relevant policy assignment to networking components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-connectivity management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Connectivity-2-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Connectivity-2-PolicyInitiative-Table" %}}
 
 ## Management initiative
 
 This initiative is intended for relevant policy assignment to management components in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Management-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Management-PolicyInitiative-Table" %}}
 
 ## Identity initiative
 
 This initiative is intended for relevant policy assignment to identity components in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign policies to the alz-platform-identity management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Identity-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Identity-PolicyInitiative-Table" %}}
 
 ## Azure VM initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-VM-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-VM-PolicyInitiative-Table" %}}
 
 ## Hybrid VM initiative
 
 This initiative is intended for relevant policy assignment to Hybrid VM alerts in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will be assigned to the 'alz' intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-HybridVM-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-HybridVM-PolicyInitiative-Table" %}}
 
 ## Key Management initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Key Management Services such as Azure Key Vault, and Managed HSM. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-KeyManagement-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-KeyManagement-PolicyInitiative-Table" %}}
 
 ## Load Balancing initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Load Balancing Services such as Load Balancer, Application Gateway, Traffic Manager, and Azure Front Door. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-LoadBalancing-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-LoadBalancing-PolicyInitiative-Table" %}}
 
 ## Network Changes initiative
 
 This initiative implements Azure Monitor Baseline Alerts to monitor alterations in Network Routing and Security, such as modifications to Route Tables and the removal of Network Security Groups. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-NetworkChanges-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-NetworkChanges-PolicyInitiative-Table" %}}
 
 ## Recovery Services initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Recovery Services such as Azure Backup, and Azure Site Recovery. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-RecoveryServices-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-RecoveryServices-PolicyInitiative-Table" %}}
 
 ## Storage initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Services such as Storage accounts. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Storage-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Storage-PolicyInitiative-Table" %}}
 
 ## Web initiative
 
 This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services. It is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-Web-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-Web-PolicyInitiative-Table" %}}
+
+## Service Health initiative (Deprecated)
+
+> [!warning]
+> This initiative has been ***DEPRECATED*** in favor of the new initiative named ***Resource and Service Health initiative*** which will make use of the new built-in Service Health alerts policy.The content below is still included in the documentation for reference purpose only.
+
+This initiative is intended for relevant policy assignment service health alerts in ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will assign to the alz intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{% include "Alerting-ServiceHealth-PolicyInitiative-Table" %}}
 
 ## Landing Zone initiative (Deprecated)
 
-{{< hint type=note >}}
-This initiative has been ***DEPRECATED*** and the content is still included in the documentation for reference purpose only.
-{{< /hint >}}
+> [!note]
+> This initiative has been ***DEPRECATED*** and the content is still included in the documentation for reference purpose only.
 
 This initiative is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
-{{% include "Alerting-LandingZone-PolicyInitiative-Table.md" %}}
+{{% include "Alerting-LandingZone-PolicyInitiative-Table" %}}

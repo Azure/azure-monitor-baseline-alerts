@@ -1,28 +1,211 @@
 {{ $types := slice "Log" "Metric" }}
 {{ $alerts := where .alerts "visible" true }}
 {{ $alerts := where $alerts "type" "in" $types }}
-<div class="gdoc-tabs">
+
+
+<div class="gdoc-tabs relearn-tabs-compat" style="border: 1px solid; padding: 5px;">
+
+  <style>
+    /* Hide radio buttons */
+    .relearn-tabs-compat input.gdoc-tabs__control {
+      position: absolute !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* Parent container */
+    .relearn-tabs-compat {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+      padding-top: 2px !important;
+    }
+
+    /* Parent labels */
+    .relearn-tabs-compat > label.gdoc-tabs__label {
+      order: 1;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Hide content by default */
+    .relearn-tabs-compat > .gdoc-tabs__content {
+      order: 2;
+      width: 100%;
+      display: none !important;
+    }
+
+    /* Show content only when parent is selected */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Active label style */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* --------------------------------------------
+      Scrollable code panes (ARM/Bicep)
+      -------------------------------------------- */
+
+    /* Scrollable code block */
+    .code-scroll {
+      max-height: 420px;
+      overflow-y: auto;
+      overflow-x: hidden;    /* no horizontal scroll at container; handled by <pre> */
+      padding: .75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+      position: relative;       /* allow absolute positioning inside the pane */
+      scroll-behavior: smooth;
+    }
+
+    .code-scroll pre {
+      margin: 0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* --------------------------------------------
+      Copy/paste button for code panes (ARM/Bicep)
+      -------------------------------------------- */
+    /* The floating copy button (hidden until hover/drag) */
+    .code-scroll .code-copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      margin: .50rem;         /* slight offset from the border line */
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .25rem .4rem;
+      font-size: .78rem;
+      line-height: 1;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: .4rem;
+      background: rgba(0,0,0,.35);   /* good contrast on dark code panes */
+      color: #fff;
+      backdrop-filter: saturate(160%) blur(2px);
+      box-shadow: 0 1px 2px rgba(0,0,0,.25);
+      cursor: pointer;
+
+      opacity: 0;                    /* hidden by default */
+      pointer-events: none;          /* avoid accidental clicks when hidden */
+      transition: opacity .15s ease-in-out;
+    }
+
+    /* Show on hover/drag/focus within the pane */
+    .code-scroll:hover .code-copy-btn,
+    .code-scroll:active .code-copy-btn,
+    .code-scroll:focus-within .code-copy-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Icon glyph sizing */
+    .code-copy-btn svg {
+      width: 14px; height: 14px;
+    }
+
+    /* Hide nested content unless its parent tab is active */
+    .relearn-tabs-compat input.gdoc-tabs__control:not(:checked) + label + .gdoc-tabs__content .gdoc-tabs__content {
+      display: none !important;
+    }
+  </style>
+
+  <!-- Parent: Grafana -->
   <input
     type="radio"
-    class="gdoc-tabs__control hidden"
-    name="dashboards"
-    id="dashboards-0"
-    checked="checked"
+    class="gdoc-tabs__control"
+    name="parentTab-{{ $alerts }}"
+    id="parentGrafana-{{ $alerts }}"
   />
-  <label for="dashboards-0" class="gdoc-tabs__label"></label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
-    <p><b>Click a tab to view the dashboard template</b></p>
-  </div>
-  <input
-    type="radio"
-    class="gdoc-tabs__control hidden"
-    name="dashboards"
-    id="dashboards-1"
-  />
-  <label for="dashboards-1" class="gdoc-tabs__label">
-    Grafana
-  </label>
-  <div class="gdoc-markdown--nested gdoc-tabs__content">
+  <label for="parentGrafana-{{ $alerts }}" class="gdoc-tabs__label"><strong>Grafana</strong></label>
+
+  <div class="gdoc-tabs__content code-scroll">
     {{ highlight (partial "templates/grafana/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
   </div>
+
+  <!-- Parent: Workbook -->
+  <input
+    type="radio"
+    class="gdoc-tabs__control"
+    name="parentTab-{{ $alerts }}"
+    id="parentWorkbook-{{ $alerts }}"
+  />
+  <label for="parentWorkbook-{{ $alerts }}" class="gdoc-tabs__label"><strong>Azure Workbook</strong></label>
+
+  <div class="gdoc-tabs__content code-scroll">
+    {{ highlight (partial "templates/azureWorkbooks/dashboard.html" (dict "type" .type "alerts" $alerts)) "json" }}
+  </div>
+
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Create a single button element we can clone
+  const makeCopyButton = () => {
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.setAttribute('title', 'Copy code');
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h12v14z"/>
+      </svg>
+      <span>Copy</span>
+    `;
+    return btn;
+  };
+
+  const toPlainText = (root) => {
+    // Prefer exact code text if available
+    const code = root.querySelector('pre > code');
+    if (code) return (code.innerText || '').trim();
+    // Fallback: pane text
+    return (root.textContent || '').trim();
+  };
+
+  const copyText = async (text, btn) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.querySelector('span').textContent = 'Copied!';
+    } catch {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.querySelector('span').textContent = 'Copied!';
+    } finally {
+      setTimeout(() => (btn.querySelector('span').textContent = 'Copy'), 1500);
+    }
+  };
+
+  // Attach a copy button to each scrollable code pane
+  document.querySelectorAll('.gdoc-tabs__content.code-scroll').forEach(pane => {
+    // Skip if a button is already present
+    if (pane.querySelector('.code-copy-btn')) return;
+
+    const btn = makeCopyButton();
+    btn.addEventListener('click', () => {
+      const text = toPlainText(pane);
+      copyText(text, btn);
+    });
+    pane.appendChild(btn);
+  });
+});
+</script>

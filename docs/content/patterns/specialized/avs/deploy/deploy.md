@@ -1,6 +1,5 @@
 ---
 title: Deploying Azure VMware Solution Alerts
-geekdocCollapseSection: true
 weight: 50
 ---
 

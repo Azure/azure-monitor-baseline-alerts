@@ -19,40 +19,39 @@ weight: 75
 
 ## Example of deploying AMBA-ALZ
 
-{{< tabs "Deploy_TF_Ex1" >}}
+{{< tabs groupid="Deploy_TF_Ex1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing management group hierarchy with default naming as used in the [ALZ Architecture Definition](https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/refs/heads/main/platform/alz/architecture_definitions/alz.alz_architecture_definition.json).
 
 1. Create a new directory, for example `tf-amba-alz`.
-1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
-1. Open a Terminal (PowerShell).
+2. Open Visual Studio Code or another preferred tool.
+3. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+4. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
-1. Download `terraform.tf`
+5. Download `terraform.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/complete/terraform.tf -OutFile terraform.tf
     ```
 
-1. Download `main.tf`
+6. Download `main.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/complete/main.tf -OutFile main.tf
     ```
 
-1. Download `variables.tf`
+7. Download `variables.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/complete/variables.tf -OutFile variables.tf
     ```
 
-1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+8. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
 
     ```hcl
     source = "../../"
@@ -65,18 +64,17 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing m
     version = "0.1.1"
     ```
 
-1. Review the variables in `variables.tf` and update default values as needed.
-1. Log in to Azure: `az login`
-1. Run: `terraform init`
-1. Run: `terraform apply`
+9. Review the variables in `variables.tf` and update default values as needed.
+10. Log in to Azure: `az login`
+11. Run: `terraform init`
+12. Run: `terraform apply`
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+> This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 
@@ -84,40 +82,39 @@ This feature is only available for Management Group scenario. Subscription deplo
 
 ## Example of deploying a Custom Architecture
 
-{{< tabs "Deploy_TF_Ex2" >}}
+{{< tabs groupid="Deploy_TF_Ex2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 This example demonstrates how to deploy the AMBA-ALZ pattern using an existing custom management group hierarchy.
 
 1. Create a new directory, for example `tf-amba-alz`.
-1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
-1. Open a Terminal (PowerShell).
+2. Open Visual Studio Code or another preferred tool.
+3. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+4. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
-1. Download `terraform.tf`
+5. Download `terraform.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-architecture-definition/terraform.tf -OutFile terraform.tf
     ```
 
-1. Download `main.tf`
+6. Download `main.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-architecture-definition/main.tf -OutFile main.tf
     ```
 
-1. Download `variables.tf`
+7. Download `variables.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-architecture-definition/variables.tf -OutFile variables.tf
     ```
 
-1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+8. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
 
     ```hcl
     source = "../../"
@@ -130,14 +127,14 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
     version = "0.1.1"
     ```
 
-1. Review the variables in `variables.tf` and update default values as needed.
-1. Set up a directory to store the custom library assets:
+9. Review the variables in `variables.tf` and update default values as needed.
+10. Set up a directory to store the custom library assets:
 
     ```powershell
     New-Item -name lib -ItemType directory
     ```
 
-1. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
+11. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
 
     ```cmd
     cd .\lib\
@@ -147,19 +144,18 @@ This example demonstrates how to deploy the AMBA-ALZ pattern using an existing c
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-architecture-definition/lib/custom.alz_architecture_definition.json -OutFile custom.alz_architecture_definition.json
     ```
 
-1. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
-1. Return to the `tf-amba-alz` directory in the terminal. `cd..`
-1. Log in to Azure: `az login`
-1. Run: `terraform init`
-1. Run: `terraform apply`
+12. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
+13. Return to the `tf-amba-alz` directory in the terminal. `cd..`
+14. Log in to Azure: `az login`
+15. Run: `terraform init`
+16. Run: `terraform apply`
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+ This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 
@@ -167,9 +163,9 @@ This feature is only available for Management Group scenario. Subscription deplo
 
 ## Example of deploying with Custom Policy Assignments
 
-{{< tabs "Deploy_TF_Ex3" >}}
+{{< tabs groupid="Deploy_TF_Ex3" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 It is possible to tailor the Policy Definitions that are deployed and assigned by developing custom archetypes. This example demonstrates a situation where only Service Health is deployed, but can be applied to other policy assignments as well:
 
@@ -179,33 +175,32 @@ It is possible to tailor the Policy Definitions that are deployed and assigned b
 Deployment:
 
 1. Create a new directory, for example `tf-amba-alz`.
-1. Open Visual Studio Code or another preferred tool.
-1. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
-1. Open a Terminal (PowerShell).
+2. Open Visual Studio Code or another preferred tool.
+3. Select `Open Folder...` from the File menu (or Ctrl+K Ctrl+O) and open `tf-amba-alz`
+4. Open a Terminal (PowerShell).
 
-    {{< hint type=note >}}
-    Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
-    {{< /hint >}}
+    > [!note]
+    > Depending on the tool being used, it may be necessary to change the terminal to the `tf-amba-alz` directory.
 
-1. Download `terraform.tf`
+5. Download `terraform.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/terraform.tf -OutFile terraform.tf
     ```
 
-1. Download `main.tf`
+6. Download `main.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/main.tf -OutFile main.tf
     ```
 
-1. Download `variables.tf`
+7. Download `variables.tf`
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/variables.tf -OutFile variables.tf
     ```
 
-1. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
+8. The source and version of the module need to be updated in `main.tf`. Find `module "amba_alz"` and replace
 
     ```hcl
     source = "../../"
@@ -218,14 +213,14 @@ Deployment:
     version = "0.1.1"
     ```
 
-1. Review the variables in `variables.tf` and update default values as needed.
-1. Set up a directory to store the custom library assets:
+9. Review the variables in `variables.tf` and update default values as needed.
+10. Set up a directory to store the custom library assets:
 
     ```powershell
     New-Item -name lib -ItemType directory
     ```
 
-1. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
+11. Download the `custom.alz_architecture_definition.json` file to the `lib` directory.
 
     ```cmd
     cd .\lib\
@@ -235,25 +230,24 @@ Deployment:
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/lib/custom.alz_architecture_definition.json -OutFile custom.alz_architecture_definition.json
     ```
 
-1. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
-1. Download the `root.alz_archetype_definition.json` file to the `lib` directory.
+12. Adjust the management group `display name`, `id` and `parent id` in custom.alz_architecture_definition.json.
+13. Download the `root.alz_archetype_definition.json` file to the `lib` directory.
 
     ```powershell
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/Azure/terraform-azurerm-avm-ptn-monitoring-amba-alz/refs/heads/main/examples/custom-policy-assignment/lib/root.alz_archetype_definition.json -OutFile root.alz_archetype_definition.json
     ```
 
-1. Return to the `tf-amba-alz` directory in the terminal. `cd..`
-1. Log in to Azure: `az login`
-1. Run: `terraform init`
-1. Run: `terraform apply`
+14. Return to the `tf-amba-alz` directory in the terminal. `cd..`
+15. Log in to Azure: `az login`
+16. Run: `terraform init`
+17. Run: `terraform apply`
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
-{{< hint type=Note >}}
-This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
-{{< /hint >}}
+> [!note]
+> This feature is only available for Management Group scenario. Subscription deployment scenario is not available yet.
 
 {{% /tab %}}
 

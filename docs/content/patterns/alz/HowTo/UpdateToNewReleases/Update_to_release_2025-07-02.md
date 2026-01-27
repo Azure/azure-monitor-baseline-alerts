@@ -1,6 +1,5 @@
 ---
 title: Updating to release 2025-07-02
-geekdocCollapseSection: true
 weight: 89
 ---
 
@@ -8,9 +7,10 @@ weight: 89
 
 > [Update](#update)
 
-{{< hint type=Info >}}
-**_No pre-update or post-update actions_** are required when updating from release 2025-06-03.
-{{< /hint >}}
+</br>
+
+> [!info]
+> **_No pre-update or post-update actions_** are required when updating from release 2025-06-03.
 
 ## Update
 

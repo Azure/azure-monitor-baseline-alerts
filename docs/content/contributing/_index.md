@@ -1,13 +1,10 @@
 ---
 title: Contributor Guide
 weight: 15
-geekdocCollapseSection: true
 ---
-{{< hint type=note >}}
 
-*Currently we can only accept contributions from Microsoft FTEs. In the future we will look to change this*
-
-{{< /hint >}}
+> [!note]
+> *Currently we can only accept contributions from Microsoft FTEs. In the future we will look to change this*
 
 Looking to contribute to the Azure Monitor Baseline Alerts (AMBA) repo, well you have made it to the right place/page 👍
 
@@ -38,9 +35,8 @@ The example folder structure below highlights all of the key assets that define 
 
 **services:** *This folder contains the baseline alert definitions, guidance, and example deployment scripts. It is grouped by resource provider (e.g. Compute), and then by resource type (e.g. virtualMachines).*
 
-{{< hint type=note >}}
-You may need to add new resource provider and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
-{{< /hint >}}
+> [!note]
+> You may need to add new resource provider and/or resource type folders as you define new baseline alerts. These folders are case-sensitive and follow the naming conventions defined by the [Azure Resource Reference](https://learn.microsoft.com/azure/templates/) documentation. For example: Alert guidance for  Microsoft.Compute/virtualMachines would go under 'services/Compute/virtualMachines'
 
 **_index.md:** *These files control the menu structure and the content layout for GitHub Pages site. There are only two versions of these files, one for the resource providers, which just controls the friendly name in the menu and title.  The other version is at the resource type level and it controls the layout of the GitHub Pages site.  As you create new folders, just copy the respective versions and change the title in the metadata section at the top of the file.*
 
@@ -86,17 +82,16 @@ Here is an example of an alert definition for an Azure Virtual Machine (Microsof
     template: Deploy-VM-AvailableMemory-Alert.json
 ```
 
-{{< hint type=note >}}
-Please note the following settings in the alert definition:
-
-- *verified:* Alert has been verified by the PG.
-- *visible:* Alert is visible on the website.
-- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
-{{< /hint >}}
+> [!note]
+> Please note the following settings in the alert definition:
+>
+>- *verified:* Alert has been verified by the PG.
+>- *visible:* Alert is visible on the website.
+>- *tags:* Tags for filtering alerts based on scenario/pattern (e.g. alz)
 
 ## Auto-Generated Alert Rules
 
-A script was run to automatically generate alert rules based on top usage and settings trends.  These rules have been added to their respective *alerts.yaml* files and have two tags associated with them: *auto-generated* and *agc-xxxx*.  The *agc-xxxx* tag indicates the number of results found for that alert rule in the query used to analyze the top trends.  This number should be used to evaluate the importance of including that alert rule as guidance in the repo.  Once an auto-generated alert rule has been verified and updated with reference documentation, the *visible* property should be set to *true*.  This will make the alert rule visible on the site.  Resource providers and types that do not have visible alerts are currently hidden from the table of contents.  To make those resource providers and types visible, edit their respective *_index.md* files and remove the *geekdocHidden: true* metadata from the top of the file.
+A script was run to automatically generate alert rules based on top usage and settings trends.  These rules have been added to their respective *alerts.yaml* files and have two tags associated with them: *auto-generated* and *agc-xxxx*.  The *agc-xxxx* tag indicates the number of results found for that alert rule in the query used to analyze the top trends.  This number should be used to evaluate the importance of including that alert rule as guidance in the repo.  Once an auto-generated alert rule has been verified and updated with reference documentation, the *visible* property should be set to *true*.  This will make the alert rule visible on the site.  Resource providers and types that do not have visible alerts are currently hidden from the table of contents.  To make those resource providers and types visible, edit their respective *_index.md* files and remove the *hidden: true* metadata from the top of the file.
 
 ## Context/Background
 
@@ -128,11 +123,8 @@ hugo server -D
 
 To contribute to this project/repo/library, you will need the following installed:
 
-{{< hint type=note >}}
-
-You can use `winget` to install all the pre-requisites easily for you. See the [below section](#winget-install-commands)
-
-{{< /hint >}}
+> [!note]
+> You can use `winget` to install all the pre-requisites easily for you. See the [below section](#winget-install-commands)
 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Visual Studio Code (VS Code)](https://code.visualstudio.com/Download)
@@ -161,7 +153,7 @@ winget install --id 'Hugo.Hugo.Extended'
 
 Below are links to a number of useful resources to have when contributing to AMBA:
 
-- [GeekDocs Documentation Theme (that we use) - Docs](https://geekdocs.de/usage/getting-started/)
+- [Hugo Relearn Theme (that we use)](https://mcshelby.github.io/hugo-theme-relearn/index.html)
 - [Hugo Quick Start](https://gohugo.io/getting-started/quick-start/)
 - [Hugo Docs](https://gohugo.io/documentation/)
 - [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
