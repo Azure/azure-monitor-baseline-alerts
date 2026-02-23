@@ -1,0 +1,419 @@
+{
+	"type": "Microsoft.Authorization/policyDefinitions",
+	"apiVersion": "2021-06-01",
+	"name": "Deploy_KeyVault_KeyExpiry_Alert",
+	"properties": {
+		"policyType": "Custom",
+		"mode": "All",
+		"displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Key Vault Key Expiry Alert",
+		"description": "Policy to audit/deploy Key Vault Key Expiry Alert",
+		"metadata": {
+			"version": "1.4.0",
+			"category": "Key Vault",
+			"source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+			"alzCloudEnvironments": [
+				"AzureCloud"
+			],
+			"_deployed_by_amba": "True"
+		},
+		"parameters": {
+			"severity": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Severity",
+					"description": "Severity of the Alert"
+				},
+				"allowedValues": [
+					"0",
+					"1",
+					"2",
+					"3",
+					"4"
+				],
+				"defaultValue": "3"
+			},
+			"windowSize": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Window Size",
+					"description": "Window size for the alert"
+				},
+				"allowedValues": [
+					"PT1M",
+					"PT5M",
+					"PT10M",
+					"PT15M",
+					"PT30M",
+					"PT45M",
+					"PT1H",
+					"PT2H",
+					"PT3H",
+					"PT4H",
+					"PT5H",
+					"PT6H",
+					"P1D"
+				],
+				"defaultValue": "PT1H"
+			},
+			"evaluationFrequency": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Evaluation Frequency",
+					"description": "Evaluation frequency for the alert"
+				},
+				"allowedValues": [
+					"PT1M",
+					"PT5M",
+					"PT10M",
+					"PT15M",
+					"PT30M",
+					"PT45M",
+					"PT1H",
+					"PT2H",
+					"PT3H",
+					"PT4H",
+					"PT5H",
+					"PT6H"
+				],
+				"defaultValue": "PT6H"
+			},
+			"autoMitigate": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Auto Mitigate",
+					"description": "Auto Mitigate for the alert"
+				},
+				"allowedValues": [
+					"true",
+					"false"
+				],
+				"defaultValue": "true"
+			},
+			"enabled": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Alert State",
+					"description": "Alert state for the alert"
+				},
+				"allowedValues": [
+					"true",
+					"false"
+				],
+				"defaultValue": "true"
+			},
+			"threshold": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Threshold",
+					"description": "Threshold for the alert"
+				},
+				"defaultValue": "0"
+			},
+			"operator": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Operator"
+				},
+				"allowedValues": [
+					"GreaterThan",
+					"GreaterThanOrEqual"
+				],
+				"defaultValue": "GreaterThan"
+			},
+			"timeAggregation": {
+				"type": "String",
+				"metadata": {
+					"displayName": "TimeAggregation"
+				},
+				"allowedValues": [
+					"Count"
+				],
+				"defaultValue": "Count"
+			},
+			"failingPeriods": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Failing Periods",
+					"description": "Number of failing periods before alert is fired"
+				},
+				"defaultValue": "1"
+			},
+			"evaluationPeriods": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Evaluation Periods",
+					"description": "The number of aggregated lookback points"
+				},
+				"defaultValue": "1"
+			},
+			"effect": {
+				"type": "String",
+				"metadata": {
+					"displayName": "Effect",
+					"description": "Effect of the policy"
+				},
+				"allowedValues": [
+					"deployIfNotExists",
+					"disabled"
+				],
+				"defaultValue": "deployIfNotExists"
+			},
+			"MonitorDisableTagName": {
+				"type": "String",
+				"metadata": {
+					"displayName": "ALZ Monitoring disabled tag name",
+					"description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+				},
+				"defaultValue": "MonitorDisable"
+			},
+			"MonitorDisableTagValues": {
+				"type": "Array",
+				"metadata": {
+					"displayName": "ALZ Monitoring disabled tag values(s)",
+					"description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+				},
+				"defaultValue": [
+					"true",
+					"Test",
+					"Dev",
+					"Sandbox"
+				]
+			}
+		},
+		"policyRule": {
+			"if": {
+				"allOf": [
+					{
+						"field": "type",
+						"equals": "microsoft.keyvault/vaults"
+					},
+					{
+						"field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
+						"notIn": "[parameters('MonitorDisableTagValues')]"
+					}
+				]
+			},
+			"then": {
+				"effect": "[parameters('effect')]",
+				"details": {
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/47be4a87-7950-4631-9daf-b664a405f074",
+                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+					"type": "Microsoft.Insights/scheduledQueryRules",
+					"existenceCondition": {
+						"allOf": [
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/scopes[*]",
+								"equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.keyvault/vaults/', field('fullName'))]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/enabled",
+								"equals": "[parameters('enabled')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/evaluationFrequency",
+								"equals": "[parameters('evaluationFrequency')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/windowSize",
+								"equals": "[parameters('windowSize')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/severity",
+								"equals": "[parameters('severity')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/autoMitigate",
+								"equals": "[parameters('autoMitigate')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].threshold",
+								"equals": "[parameters('threshold')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].operator",
+								"equals": "[parameters('operator')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].timeAggregation",
+								"equals": "[parameters('timeAggregation')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.numberOfEvaluationPeriods",
+								"equals": "[parameters('evaluationPeriods')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].failingPeriods.minFailingPeriodsToAlert",
+								"equals": "[parameters('failingPeriods')]"
+							},
+							{
+								"field": "Microsoft.Insights/scheduledQueryRules/criteria.allOf[*].query",
+								"equals": "AzureDiagnostics | where OperationName == \"KeyNearExpiryEventGridNotification\" or OperationName == \"KeyExpiredEventGridNotification\" | project KeyName = column_ifexists(\"eventGridEventProperties_data_ObjectName_s\", \"eventGridEventProperties_data_ObjectName_s\")"
+							}
+						]
+					},
+					"deployment": {
+						"properties": {
+							"mode": "incremental",
+							"template": {
+								"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+								"contentVersion": "1.0.0.0",
+								"parameters": {
+									"resourceName": {
+										"type": "String",
+										"metadata": {
+											"displayName": "resourceName",
+											"description": "Name of the resource"
+										}
+									},
+									"resourceId": {
+										"type": "String",
+										"metadata": {
+											"displayName": "resourceId",
+											"description": "Resource ID of the resource emitting the metric that will be used for the comparison"
+										}
+									},
+									"resourceLocation": {
+										"type": "String",
+										"metadata": {
+											"displayName": "resourceLocation",
+											"description": "Location of the resource"
+										}
+									},
+									"severity": {
+										"type": "String"
+									},
+									"windowSize": {
+										"type": "String"
+									},
+									"evaluationFrequency": {
+										"type": "String"
+									},
+									"autoMitigate": {
+										"type": "String"
+									},
+									"enabled": {
+										"type": "String"
+									},
+									"threshold": {
+										"type": "String"
+									},
+									"operator": {
+										"type": "String"
+									},
+									"timeAggregation": {
+										"type": "String"
+									},
+									"failingPeriods": {
+										"type": "String"
+									},
+									"evaluationPeriods": {
+										"type": "String"
+									}
+								},
+								"variables": {},
+								"resources": [
+									{
+										"type": "Microsoft.Insights/scheduledQueryRules",
+										"apiVersion": "2025-01-01-preview",
+										"name": "[concat(parameters('resourceName'), '-KeyExpiryAlert')]",
+										"location": "[parameters('resourceLocation')]",
+										"kind": "LogAlert",
+										"tags": {
+											"_deployed_by_amba": true
+										},
+										"properties": {
+											"displayName": "[concat(parameters('resourceName'), '-KeyExpiryAlert')]",
+											"description": "A key is about to expire, or is expired.",
+											"severity": "[parameters('severity')]",
+											"enabled": "[parameters('enabled')]",
+											"scopes": [
+												"[parameters('resourceId')]"
+											],
+											"targetResourceTypes": [
+												"Microsoft.KeyVault/vaults"
+											],
+											"evaluationFrequency": "[parameters('evaluationFrequency')]",
+											"windowSize": "[parameters('windowSize')]",
+											"criteria": {
+												"allOf": [
+													{
+														"query": "AzureDiagnostics | where OperationName == \"KeyNearExpiryEventGridNotification\" or OperationName == \"KeyExpiredEventGridNotification\" | project KeyName = column_ifexists(\"eventGridEventProperties_data_ObjectName_s\", \"eventGridEventProperties_data_ObjectName_s\")",
+														"timeAggregation": "[parameters('timeAggregation')]",
+														"dimensions": [
+															{
+																"name": "KeyName",
+																"operator": "Include",
+																"values": [
+																	"*"
+																]
+															}
+														],
+														"operator": "[parameters('operator')]",
+														"threshold": "[parameters('threshold')]",
+														"failingPeriods": {
+															"numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
+															"minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
+														}
+													}
+												]
+											},
+											"autoMitigate": "[parameters('autoMitigate')]",
+											"actions": {
+												"actionGroups": [],
+												"customProperties": {},
+												"actionProperties": {}
+											}
+										}
+									}
+								]
+							},
+							"parameters": {
+								"resourceName": {
+									"value": "[field('name')]"
+								},
+								"resourceId": {
+									"value": "[field('id')]"
+								},
+								"resourceLocation": {
+									"value": "[field('location')]"
+								},
+								"severity": {
+									"value": "[parameters('severity')]"
+								},
+								"windowSize": {
+									"value": "[parameters('windowSize')]"
+								},
+								"evaluationFrequency": {
+									"value": "[parameters('evaluationFrequency')]"
+								},
+								"autoMitigate": {
+									"value": "[parameters('autoMitigate')]"
+								},
+								"enabled": {
+									"value": "[parameters('enabled')]"
+								},
+								"threshold": {
+									"value": "[parameters('threshold')]"
+								},
+								"operator": {
+									"value": "[parameters('operator')]"
+								},
+								"timeAggregation": {
+									"value": "[parameters('timeAggregation')]"
+								},
+								"failingPeriods": {
+									"value": "[parameters('failingPeriods')]"
+								},
+								"evaluationPeriods": {
+									"value": "[parameters('evaluationPeriods')]"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
