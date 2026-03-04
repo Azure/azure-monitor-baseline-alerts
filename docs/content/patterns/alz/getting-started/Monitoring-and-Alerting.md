@@ -1,6 +1,5 @@
 ---
 title: Monitoring and Alerting
-geekdocCollapseSection: true
 weight: 20
 ---
 

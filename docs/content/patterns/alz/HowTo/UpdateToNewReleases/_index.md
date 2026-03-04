@@ -1,6 +1,5 @@
 ---
 title: Update to new releases
-geekdocCollapseSection: true
 weight: 51
 ---
 
@@ -23,9 +22,8 @@ On the center-right side of the page, there's a specific section indicating the 
 
 This section will guide you through the necessary steps to update the current deployment with the latest enhancements contained in the latest release. Guidance on updating to releases containing breaking changes is not in scope and could eventually be described in a dedicated page.
 
-{{< hint type=Important >}}
-This scenario only applies to AMBA deployments performed using GitHub. If not using GitHub, please refer to the [Can I use AMBA without a GitHub repository](../../Resources/FAQ/#can-i-use-amba-without-a-github-repository) scenario documented in the *Frequently Asked Questions* making sure you update the template spec as required.
-{{< /hint >}}
+> [!warning]
+> This scenario only applies to AMBA deployments performed using GitHub. If not using GitHub, please refer to the [Can I use AMBA without a GitHub repository](../../Resources/FAQ/#can-i-use-amba-without-a-github-repository) scenario documented in the *Frequently Asked Questions* making sure you update the template spec as required.
 
 Depending if you used the official code from the official GitHub repository or from a forked one, not all the high-level steps below are required:
 

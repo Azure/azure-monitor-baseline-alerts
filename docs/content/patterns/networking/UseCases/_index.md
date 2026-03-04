@@ -1,6 +1,5 @@
 ---
 title: Azure application delivery network monitoring
-geekdocCollapseSection: true
 ---
 
 ## Overview

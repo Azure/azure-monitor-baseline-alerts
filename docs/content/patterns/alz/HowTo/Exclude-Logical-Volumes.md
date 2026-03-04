@@ -1,7 +1,5 @@
 ---
 title: Exclude logical volumes
-geekdocCollapseSection: true
-geekdocHidden: false
 weight: 80
 ---
 

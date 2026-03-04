@@ -1,7 +1,5 @@
 ---
 title: applicationGateways
-geekdocCollapseSection: true
-geekdocHidden: false
 ---
 Azure application gateway monitoring.
 Application gateways provide connectivity via TCP layer seven to backend application represented by listener inside application gateway. Each listener represents one unit of business application and hence it is important to isolate each listener when monitoring back-end application.  Backend monitoring can be filter by the dimension of listener to isolate telemetry of backend application.

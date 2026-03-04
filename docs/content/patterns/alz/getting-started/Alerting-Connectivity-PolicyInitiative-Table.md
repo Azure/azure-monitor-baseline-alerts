@@ -1,6 +1,6 @@
 ---
 title: Alerting-Connectivity Policy Initiative table
-geekdocHidden: true
+hidden: true
 ---
 
 | Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |

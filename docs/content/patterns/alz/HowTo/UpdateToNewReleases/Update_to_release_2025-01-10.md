@@ -1,6 +1,5 @@
 ---
 title: Updating to release 2025-01-10
-geekdocCollapseSection: true
 weight: 94
 ---
 
@@ -8,9 +7,10 @@ weight: 94
 
 > [Update](#update) </br>
 
-{{< hint type=Info >}}
-**_No pre-update or post-update actions_** are required when updating from telease 2024-12-10.
-{{< /hint >}}
+</br>
+
+> [!info]
+> **_No pre-update or post-update actions_** are required when updating from telease 2024-12-10.
 
 ## Update
 

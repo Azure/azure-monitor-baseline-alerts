@@ -1,6 +1,5 @@
 ---
 title: Known Issues
-geekdocCollapseSection: true
 weight: 100
 ---
 
@@ -94,7 +93,8 @@ weight: 100
 > 3. Click **_Deployment_**
 > 4. Select all the deployment instances related to AMBA and click **_Delete_**.
 >
-> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA, select those whose names start with:
+> [!note]
+> To recognize the deployment names belonging to AMBA, select those whose names start with:
 >
 > 1. amba-
 > 2. pid-
@@ -103,7 +103,7 @@ weight: 100
 >
 >If you have only deployed AMBA-ALZ once, you have 14 deployment instances.
 >
->{{< /hint >}}
+>
 
 ## Failed to deploy because of the limit of 800 deployments per management group has been reached
 
@@ -127,7 +127,8 @@ weight: 100
 > 4. Select all the deployments that could be deleted (example: instances of previous deployments related to AMBA) and click **_Delete_**
 > 5. Run the deployment
 >
-> {{< hint type=Note >}} To recognize the deployment names belonging to AMBA-ALZ, select those whose names start with:
+> [!note]
+> To recognize the deployment names belonging to AMBA-ALZ, select those whose names start with:
 >
 > 1. amba-
 > 2. pid-
@@ -136,7 +137,7 @@ weight: 100
 >
 >If you have only deployed AMBA-ALZ once, you have 14 deployment instances.
 >
->{{< /hint >}}
+>
 
 ## Failed to deploy because of 'location' property not specified
 
@@ -225,9 +226,9 @@ weight: 100
 > ### Error includes
 >
 > The error can be presented with one of the following messages:
-> {{< hint type=Important >}}
+> [!warning]
 > This message can be presented more than once during a deployment and with different parameter names.
-> {{< /hint >}}
+>
 >
 > ```JSON
 > {

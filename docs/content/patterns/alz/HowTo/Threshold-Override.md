@@ -1,6 +1,5 @@
 ---
 title: Override alert thresholds
-geekdocCollapseSection: true
 weight: 85
 ---
 
@@ -36,9 +35,8 @@ If the tags are configured after the remediation tasks have completed, the resou
 
 ## Which tag do customers need to create
 
-{{< hint type=Info >}}
-For a comprehensive list of resource type friendly names, resource provider namespaces, and recommended abbreviations, refer to [Abbreviation recommendations for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
-{{< /hint >}}
+> [!info]
+> For a comprehensive list of resource type friendly names, resource provider namespaces, and recommended abbreviations, refer to [Abbreviation recommendations for Azure resources](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
 
 To ensure proper functionality, this feature requires specific tag names. Flexibility in tag naming is not supported in this case. The tag names must adhere to the following naming convention:
 
@@ -50,26 +48,25 @@ In scenarios where the same metric is used multiple times for the same resource,
 
 The following tables provide a mapping between alert names and the corresponding tag name that need to be created. They contain information about the value type (number, string) and examples of the format:
 
-{{< hint type=Warning >}}
-The sample values in the tables ***are not meant*** to serve as recommendations for the override value!
-{{< /hint >}}
+> [!important]
+> The sample values in the tables ***are not meant*** to serve as recommendations for the override value!
 
 </br>
 
 ### Activity Log alerts override tags table
 
-{{% include "ActivityLog_Alerts_OverrideTags_Table.md" %}}
+{{% include "ActivityLog_Alerts_OverrideTags_Table" %}}
 
 </br>
 
 ### Log-search alerts override tags table
 
-{{% include "Log_Search_Alerts_OverrideTags_Table.md" %}}
+{{% include "Log_Search_Alerts_OverrideTags_Table" %}}
 
 </br>
 
 ### Metric alerts override tags table
 
-{{% include "Metrics_Alerts_OverrideTags_Table.md" %}}
+{{% include "Metrics_Alerts_OverrideTags_Table" %}}
 
 </br>

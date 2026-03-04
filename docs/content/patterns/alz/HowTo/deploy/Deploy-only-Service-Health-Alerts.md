@@ -1,15 +1,13 @@
 ---
 title: Deploy only Service Health Alerts
-geekdocCollapseSection: true
 weight: 80
 ---
 
-{{< hint type=Info >}}
-Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
-</br>
-</br>
-***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
-{{< /hint >}}
+> [!info]
+> Accessing Security Advisories in Azure Service Health now requires elevated access across the Summary, Impacted Resources, and Issue Updates tabs. Users who have subscription reader access, or tenant roles at tenant scope, aren't able anymore to view security advisory details until they get the required roles. Complete details can be found at [Elevated access for viewing Security Advisories](https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access?branch=pr-en-us-255499).
+> </br>
+> </br>
+> ***This is not impacting AMBA-ALZ configuration that will continue to work independently.***
 
 ### In this page
 
@@ -18,9 +16,10 @@ Accessing Security Advisories in Azure Service Health now requires elevated acce
 > [Custom deployment](#custom-deployment) </br>
 > [Next Steps](#next-steps) </br>
 
-{{< hint type=Important >}}
-Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Moving from preview to GA](../../../Resources/Moving-from-preview-to-GA) before continuing.
-{{< /hint >}}
+</br>
+
+> [!warning]
+> Updating from the ***preview*** version isn't supported. If you deployed the ***preview*** version, proceed with [Transitioning from Preview to General Availability (GA)](../../../Resources/Moving-from-preview-to-GA) before continuing.
 
 ## Overview
 
@@ -29,23 +28,21 @@ This guide describes the steps to use the AMBA-ALZ pattern to implement Service 
 1. [Quick Deployment](/#quick-deployment): Deploys the ALZ Pattern including all Policy Definitions and Policy Set Definitions, but assigns only the Service Health Policy Set Definition.
 2. [Custom Deployment](/#custom-deployment): Deploys only the Policy Definitions and Policy Set Definition needed for the Service Health Alerts, and assigns only the Service Health Policy Set Definition.
 
-{{< hint type=note >}}
-In this example we will deploy the Service Health Policy Set Definition via Azure CLI. However, the same principles and steps apply to other Policy Set Definitions and deployment methods as well.
-{{< /hint >}}
+> [!note]
+> In this example we will deploy the Service Health Policy Set Definition via Azure CLI. However, the same principles and steps apply to other Policy Set Definitions and deployment methods as well.
 
 ## Quick deployment
 
 ### 1. Parameter configuration
 
-{{< tabs "Deploy_SH_Param1" >}}
+{{< tabs groupid="Deploy_SH_Param1" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
 
-  {{< hint type=note >}}
-  Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
-  {{< /hint >}}
+  > [!note]
+  > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
@@ -54,9 +51,8 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
 - Change the value of the following parameters at the beginning of the parameter file according to the instructions below:
 
-  {{< hint type=note >}}
-  While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is recommended to configure at least one option.
-  {{< /hint >}}
+  > [!note]
+  > While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is recommended to configure at least one option.
 
   - Change the value of *```enterpriseScaleCompanyPrefix```* to the management group where you wish to deploy the policies and the initiatives. This is usually the so called "pseudo root management group", for example, in [ALZ terminology](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/landing-zone/design-area/resource-org-management-groups), this would be the so called "Intermediate Root Management Group" (directly beneath the "Tenant Root Group").
   - Change the value of *```bringYourownUserAssignedManagedIdentity```* to **Yes** if you have an existing user assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
@@ -110,9 +106,8 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
   - Update the *```ALZAlertSeverity```* parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
 
-    {{< hint type=note >}}
-    Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
-    {{< /hint >}}
+    > [!note]
+    > Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
 
   - Update the *```BYOActionGroup```* parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
@@ -134,34 +129,32 @@ The following changes apply to all scenarios, whether you are aligned or unalign
 
     ![Alert Processing Rule Resource ID](../../../media/AlertProcessingRule_ResourceID_4.png)
 
-  {{< hint type=note >}}
-  It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
+    > [!note]
+    > It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per  ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.  Example:
+    >
+    > ```json
+    > "ALZMonitorActionGroupEmail": {
+    >     "value": [
+    >          "action1@contoso.com",
+    >          "action2@contoso.com"
+    >      ]
+    > },
+    >
+    > "ALZArmRoleId": {
+    >      "value": [
+    >          "Owner",
+    >          "Contributor"
+    >      ]
+    > },
+    > "ALZWebhookServiceUri": {
+    >      "value": [
+    >          "https://webookURI1.webook.com",
+    >          "http://webookURI2.webook.com"
+    >      ]
+    > }
+    > ```
 
-  ```json
-  "ALZMonitorActionGroupEmail": {
-      "value": [
-          "action1@contoso.com",
-          "action2@contoso.com"
-      ]
-  },
-
-  "ALZArmRoleId": {
-      "value": [
-          "Owner",
-          "Contributor"
-      ]
-  },
-  "ALZWebhookServiceUri": {
-      "value": [
-          "https://webookURI1.webook.com",
-          "http://webookURI2.webook.com"
-      ]
-  }
-  ```
-
-  {{< /hint >}}
-
-To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
+  To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
 
 #### If you are aligned to ALZ
 
@@ -180,9 +173,8 @@ To disable initiative assignments, set the value of any of the following paramet
 - Change the value of *```connectivityManagementGroup```* to the management group ID for Connectivity. The same management group ID may be repeated.
 - Change the value of *```LandingZoneManagementGroup```* to the management group ID for Landing Zones. The same management group ID may be repeated.
 
-{{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables *```identityManagementGroup```*, *```managementManagementGroup```* , *```connectivityManagementGroup```* and *```LZManagementGroup```* with the same management group id.
-{{< /hint >}}
+> [!note]
+> For ease of deployment and maintenance we have kept the same variables. For example, if you combined Identity, Management and Connectivity into one management group you should configure the variables *```identityManagementGroup```*, *```managementManagementGroup```* , *```connectivityManagementGroup```* and *```LZManagementGroup```* with the same management group id.
 
 #### If you have a single management group
 
@@ -192,28 +184,25 @@ For ease of deployment and maintenance we have kept the same variables. For exam
 - Change the value of *```connectivityManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 - Change the value of *```LandingZoneManagementGroup```* to the pseudo root management group ID, also called the "Intermediate Root Management Group".
 
-{{< hint type=note >}}
-For ease of deployment and maintenance we have kept the same variables. Configure the variables *```enterpriseScaleCompanyPrefix```*, *```platformManagementGroup```*, *```identityManagementGroup```*, *```managementManagementGroup```*, *```connectivityManagementGroup```* and *```LZManagementGroup```* with the pseudo root management group ID.
-{{< /hint >}}
+> [!note]
+> For ease of deployment and maintenance we have kept the same variables. Configure the variables *```enterpriseScaleCompanyPrefix```*, *```platformManagementGroup```*, *```identityManagementGroup```*, *```managementManagementGroup```*, *```connectivityManagementGroup```* and *```LZManagementGroup```* with the pseudo root management group ID.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 To begin, download the appropriate parameter file for the version of AMBA-ALZ you are deploying.
 
-  {{< hint type=note >}}
-  Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
-  {{< /hint >}}
+  > [!note]
+  > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 Change the value of the following parameters at the beginning of the parameter file according to the instructions below:
 
-{{< hint type=note >}}
-While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is recommended to configure at least one option.
-{{< /hint >}}
+> [!note]
+> While it's technically possible to not add any notification information (no email, no ARM Role, no Logic App, etc.) it is recommended to configure at least one option.
 
 - Change the value of *```bringYourownUserAssignedManagedIdentity```* to **Yes** if you have an existing user assigned managed identity with the ***Monitoring Reader*** role assigned at the pseudo root management group level or leave it to **No** if you would like to create a new one with the proper rights as part of the deployment process.
 - Change the value of *```bringYourownUserAssignedManagedIdentityResourceId```*. If you set the *```bringYourownUserAssignedManagedIdentity```* parameter to **Yes**, insert the resource ID of your user assigned managed identity. If you left it with the default value of **No**, leave the value blank.
@@ -266,9 +255,8 @@ While it's technically possible to not add any notification information (no emai
 
 - Update the *```ALZAlertSeverity```* parameter with the different severity level to be used for alert actions, including Service Health alerts. Leave the default values to notify on every severity level.
 
-  {{< hint type=note >}}
-  Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
-  {{< /hint >}}
+  > [!note]
+  > Activity Log alerts can only be configured with ***Sev4*** which translates to ***Verbose***. No other severities are allowed. Consider this when changing the default value of the ALZAlertSeverity parameter.
 
 - Update the *```BYOActionGroup```* parameter with resource ID of your selected action group to be used for alert actions, including Service Health alerts. Leave it blank to use AMBA-ALZ created action groups. To retrieve the Action Group resource ID, navigate to the ***Monitor*** page, click on ***Action groups***, click on the identified action group, in the ***Overview*** page that will load click on ***JSON View*** and copy the value of the Resource ID field.
 
@@ -290,34 +278,32 @@ While it's technically possible to not add any notification information (no emai
 
   ![Alert Processing Rule Resource ID](../../../media/AlertProcessingRule_ResourceID_4.png)
 
-{{< hint type=note >}}
-It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per ALZ guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma. Example:
+    > [!note]
+    > It is possible use multiple email addresses, as well as multiple Arm Roles, Webhooks or Event Hubs (not recommended as per  ALZ  guidance). Should you set multiple entries, make sure they are entered as single string with values separated by comma.   Example:
+    >
+    > ```json
+    > "ALZMonitorActionGroupEmail": {
+    >     "value": [
+    >         "action1@contoso.com",
+    >         "action2@contoso.com"
+    >     ]
+    > },
+    >
+    > "ALZArmRoleId": {
+    >     "value": [
+    >         "Owner",
+    >         "Contributor"
+    >     ]
+    > },
+    > "ALZWebhookServiceUri": {
+    >     "value": [
+    >         "https://webookURI1.webook.com",
+    >         "http://webookURI2.webook.com"
+    >     ]
+    > }
+    > ```
 
-```json
-"ALZMonitorActionGroupEmail": {
-    "value": [
-        "action1@contoso.com",
-        "action2@contoso.com"
-    ]
-},
-
-"ALZArmRoleId": {
-    "value": [
-        "Owner",
-        "Contributor"
-    ]
-},
-"ALZWebhookServiceUri": {
-    "value": [
-        "https://webookURI1.webook.com",
-        "http://webookURI2.webook.com"
-    ]
-}
-```
-
-{{< /hint >}}
-
-To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
+  To disable initiative assignments, set the value of any of the following parameters to **"No"**: *```enableAMBAConnectivity```*, *```enableAMBAIdentity```*, *```enableAMBAManagement```*, *```enableAMBAServiceHealth```*, *```enableAMBANotificationAssets```*, *```enableAMBAHybridVM```*, *```enableAMBAKeyManagement```*, *```enableAMBALoadBalancing```*, *```enableAMBANetworkChanges```*, *```enableAMBARecoveryServices```*, *```enableAMBAStorage```*, *```enableAMBAVM```*, or *```enableAMBAWeb```*.
 
 {{% /tab %}}
 
@@ -325,9 +311,9 @@ To disable initiative assignments, set the value of any of the following paramet
 
 ### 2. Example Parameter file
 
-{{< tabs "Deploy_SH_Param2" >}}
+{{< tabs groupid="Deploy_SH_Param2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 The parameter file shown below has been truncated for brevity, compared to the samples included.
 
@@ -425,7 +411,7 @@ The parameter file shown below has been truncated for brevity, compared to the s
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 The parameter file shown below has been truncated for brevity, compared to the samples included.
 
@@ -539,9 +525,9 @@ The parameter file shown below has been truncated for brevity, compared to the s
 
 ### 3. Configuring variables for deployment
 
-{{< tabs "Deploy_SH_VAriables" >}}
+{{< tabs groupid="Deploy_SH_VAriables" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded and log into Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -552,17 +538,16 @@ location="Your Azure location of choice"
 pseudoRootManagementGroup="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-{{< hint type=Important >}}
-When running Azure CLI from PowerShell the variables have to start with a $.
-
-Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
-
-The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
-{{< /hint >}}
+> [!important]
+> When running Azure CLI from PowerShell the variables have to start with a $.
+>
+> Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
+>
+> The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded and log into Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -573,13 +558,12 @@ location="Your Azure location of choice"
 targetSubscription="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-{{< hint type=Important >}}
-When running Azure CLI from PowerShell the variables have to start with a $.
-
-Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
-
-The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
-{{< /hint >}}
+> [!important]
+> When running Azure CLI from PowerShell the variables have to start with a $.
+>
+> Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
+>
+> The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 
 {{% /tab %}}
 
@@ -587,9 +571,9 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 
 ### 4. Deploying AMBA-ALZ
 
-{{< tabs "Deploy_SH_Deploy" >}}
+{{< tabs groupid="Deploy_SH_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -599,7 +583,7 @@ az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/a
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -624,15 +608,14 @@ To compile your Bicep file and generate the corresponding JSON ARM template file
 bicep build .\patterns\alz\templates\policies-ServiceHealth.bicep --outfile .\patterns\alz\policyDefinitions\policies-ServiceHealth.json
 ```
 
-{{< hint type=note >}}
-Make sure you have the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install) installed and configured in your environment before running this command.
-{{< /hint >}}
+> [!note]
+> Make sure you have the [Bicep CLI](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/install) installed and configured in your environment before running this command.
 
 ### 2. Configuring variables for deployment
 
-{{< tabs "Deploy_SH_Custom_Var" >}}
+{{< tabs groupid="Deploy_SH_Custom_Var" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
@@ -643,17 +626,16 @@ location="Your Azure location of choice"
 pseudoRootManagementGroup="The pseudo root management group id parenting the identity, management and connectivity management groups"
 ```
 
-{{< hint type=Important >}}
-When running Azure CLI from PowerShell the variables have to start with a $.
-
-Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
-
-The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
-{{< /hint >}}
+> [!important]
+> When running Azure CLI from PowerShell the variables have to start with a $.
+>
+> Above-mentioned ```pseudoRootManagementGroup``` variable value, being the so called "pseudo root management group id", should *coincide* with the value of the ```enterpriseScaleCompanyPrefix``` parameter, as set previously within the parameter files.
+>
+> The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Open your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), and navigate to the folder where the parameter file was downloaded log on to Azure with an account with at least Owner access on the subscription where you will be creating the policies and Policy Set Definitions.
 
@@ -664,13 +646,12 @@ location="Your Azure location of choice"
 targetSubscription="The pseudo root management group ID parenting the Platform and Landing Zones management groups"
 ```
 
-{{< hint type=Important >}}
-When running Azure CLI from PowerShell the variables have to start with a $.
-
-Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
-
-The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
-{{< /hint >}}
+> [!important]
+> When running Azure CLI from PowerShell the variables have to start with a $.
+>
+> Above-mentioned ```targetSubscription``` variable value, should *coincide* with the value of the ```topLevelSubscriptionId``` parameter, as set previously within the parameter files.
+>
+> The ```location``` variable refers to the deployment location. Deploying to multiple regions is not necessary as the definitions and assignments are scoped to a management group and are not region-specific.
 
 {{% /tab %}}
 
@@ -678,9 +659,9 @@ The ```location``` variable refers to the deployment location. Deploying to mult
 
 ### 3. Deploy Policy Definitions
 
-{{< tabs "Deploy_SH_Deploy_2" >}}
+{{< tabs groupid="Deploy_SH_Deploy_2" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 To deploy policy definitions to the intermediate management group, run the following command:
 
@@ -688,9 +669,8 @@ To deploy policy definitions to the intermediate management group, run the follo
 az deployment mg create --name "amba-ServiceHealthOnly" --template-file .\patterns\alz\policyDefinitions\policies-ServiceHealth.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
 
-{{< hint type=note >}}
-The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
-{{< /hint >}}
+> [!note]
+> The command above doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
 
 ```bash
 az deployment mg create --name "amba-ServiceHealthOnly" --template-file ./patterns/alz/policyDefinitions/policies-ServiceHealth.json --location $location --management-group-id $pseudoRootManagementGroup --parameters topLevelManagementGroupPrefix=contoso
@@ -698,7 +678,7 @@ az deployment mg create --name "amba-ServiceHealthOnly" --template-file ./patter
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 To deploy policy definitions to the subscription, run the following command:
 
@@ -707,9 +687,8 @@ az account set --subscription "$targetSubscription"
 az deployment sub create --name "amba-ServiceHealthOnly" --template-file .\patterns\alz4Subs\policyDefinitions\policies-ServiceHealth.json --location $location --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" } }'
 ```
 
-{{< hint type=note >}}
-The command doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
-{{< /hint >}}
+> [!note]
+> The command above doesn't work in Azure Cloud shell. In Azure Cloud Shell run the following command:
 
 ```bash
 az account set --subscription "$targetSubscription"
@@ -722,9 +701,9 @@ az deployment sub create --name "amba-ServiceHealthOnly" --template-file ./patte
 
 ### 4. Assign the Service Health Policy Set Definition
 
-{{< tabs "Deploy_CLI_Deploy" >}}
+{{< tabs groupid="Deploy_CLI_Deploy" >}}
 
-{{% tab "Management Group (hierarchy or single)" %}}
+{{% tab title="Management Group (hierarchy or single)" %}}
 
 Assign a Policy Set Definition by running the following command:
 
@@ -732,15 +711,14 @@ Assign a Policy Set Definition by running the following command:
 az deployment mg create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --management-group-id $pseudoRootManagementGroup --parameters '{ \"topLevelManagementGroupPrefix\": { \"value\": \"contoso\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
-{{< hint type=important >}}
-The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
-
-The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should *coincide* with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
-{{< /hint >}}
+> [!important]
+> The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
+>
+> The JSON object contains two parameters: ```topLevelManagementGroupPrefix``` and ```policyAssignmentParameters```. The ```topLevelManagementGroupPrefix``` parameter is used to specify the intermediate root management group, and should *coincide* with the value of the ```pseudoRootManagementGroup```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
 
 {{% /tab %}}
 
-{{% tab "Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
+{{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 Assign a Policy Set Definition to the selected subscription by running the following command:
 
@@ -749,11 +727,10 @@ az account set --subscription "$targetSubscription"
 az deployment sub create --name "amba-ServiceHealthAssignment" --template-file .\patterns\alz4Subs\policyAssignments\DINE-ServiceHealthAssignment.json --location $location --parameters '{ \"topLevelSubscriptionId\": { \"value\": \"$targetSubscription$\" }, \"policyAssignmentParameters\": { \"value\": { \"ALZMonitorResourceGroupName\": { \"value\": \"rg-amba-monitoring-001\" }, \"ALZMonitorResourceGroupTags\": { \"value\": { \"Project\": \"amba-monitoring\" } }, \"ALZMonitorResourceGroupLocation\": { \"value\": \"eastus\" }, \"ALZMonitorActionGroupEmail\": { \"value\": \"test@test.com\"} } } }'
 ```
 
-{{< hint type=important >}}
-The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
-
-The JSON object contains two parameters: ```topLevelSubscriptionId``` and ```policyAssignmentParameters```. The ```topLevelSubscriptionId``` parameter is used to specify the subscription, and should *coincide* with the value of the ```targetSubscription```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
-{{< /hint >}}
+> [!important]
+> The final parameter is the ```--parameters``` parameter, which is used to pass a JSON string that contains the parameters for the deployment. The JSON string is enclosed in single quotes and contains escaped double quotes for the keys and values of the parameters. It is possible to create a parameter file instead of using a json-string.
+>
+> The JSON object contains two parameters: ```topLevelSubscriptionId``` and ```policyAssignmentParameters```. The ```topLevelSubscriptionId``` parameter is used to specify the subscription, and should *coincide* with the value of the ```targetSubscription```. The ```policyAssignmentParameters``` parameter is an object that contains the values for the parameters that are used to configure the monitoring resource group. The parameters include the name of the resource group, the tags for the resource group, the location of the resource group, and the email address for the action group associated with the Service Health Policy Set Definition.
 
 {{% /tab %}}
 

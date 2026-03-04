@@ -1,22 +1,211 @@
 {{ $category := .category }}
 {{ $type := .type }}
+
 {{ $alert_name := .alert.name | replaceRE `[^a-zA-Z0-9-]` "" }}
-{{ $alert_name := printf "%s_%s" $alert_name .alert.guid }}
-{{ $filename := printf "%s.json" $alert_name | printf "%s"}}
-<!--{{ $file := path.Join "services" $category $type "templates/arm" $filename }}
-{{ $file2 := path.Join "services" $category $type "templates/policy-arm" $filename }}
-{{ $file3 := path.Join "services" $category $type "templates/policy-arm-subscription" $filename }}-->
+{{ $alert_name = printf "%s_%s" $alert_name .alert.guid }}
+
+{{ $filename := printf "%s.json" $alert_name | printf "%s" }}
 {{ $urlprefix := "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/refs/heads/main/services" }}
 {{ $fileURL := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/arm" $filename }}
 {{ $fileURL2 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm" $filename }}
 {{ $fileURL3 := printf "%s/%s/%s/%s/%s" $urlprefix $category $type "templates/policy-arm-subscription" $filename }}
 
-<div class="gdoc-tabs" style="border: 1px solid #33333386; padding: 5px;">
+<div class="gdoc-tabs relearn-tabs-compat" style="border: 1px solid; padding: 5px;">
+
+  <style>
+    /* --------------------------------------------
+      HIDE RADIO BUTTONS (Relearn does not apply hidden)
+      -------------------------------------------- */
+    .relearn-tabs-compat input.gdoc-tabs__control {
+      position: absolute !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* =========================================================
+      PARENT TAB BAR (TOP-LEVEL): SIDE-BY-SIDE LABELS IN ONE ROW
+      ========================================================= */
+    .relearn-tabs-compat {
+      display: flex;        /* parent is a flex container */
+      flex-wrap: wrap;      /* allows the content block to wrap to next line */
+      gap: .75rem .75rem;   /* spacing between labels */
+      align-items: center;
+    }
+
+    /* Put all parent labels on the first row */
+    .relearn-tabs-compat > label.gdoc-tabs__label {
+      order: 1;                   /* labels first */
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;        /* keep each label on one line */
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Parent content panes come after labels and span the full width */
+    .relearn-tabs-compat > .gdoc-tabs__content {
+      order: 2;                   /* content after labels row */
+      width: 100%;                /* force to the next line and full width */
+      display: none !important;   /* hide all content by default */
+      margin-top: .5rem;          /* small separation from the labels row */
+    }
+
+    /* Show only the content linked to the checked input */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Active parent tab visual */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* ---------------------------------------------------------
+      NESTED TABSET LAYOUT (inside a content pane)
+      - labels side by side
+      - content below
+      --------------------------------------------------------- */
+    .relearn-tabs-compat .gdoc-tabs {
+      display: flex !important;
+      flex-wrap: wrap;         /* nested can wrap; see next rule for single-line option */
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .relearn-tabs-compat .gdoc-tabs > label.gdoc-tabs__label {
+      order: 1;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .relearn-tabs-compat .gdoc-tabs > .gdoc-tabs__content {
+      order: 2;
+      width: 100%;
+      display: none !important;
+    }
+
+    /* Show nested content when its radio is checked */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content,
+    .relearn-tabs-compat input.nested.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Optional: force nested labels to stay on a single line with horizontal scroll */
+    .relearn-tabs-compat .gdoc-tabs .gdoc-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    /* Make button container a flex row */
+    .deploy-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;           /* space between buttons */
+      justify-content: flex-start; /* first button aligned left */
+      align-items: center; /* vertically center buttons */
+    }
+
+
+    /* --------------------------------------------
+      Scrollable code panes (ARM/Bicep)
+      -------------------------------------------- */
+    .code-scroll {
+      /* Adjust height as you prefer */
+      max-height: 420px;
+      overflow-y: auto;      /* vertical scroll */
+      overflow-x: hidden;    /* no horizontal scroll at container; handled by <pre> */
+      border: 1px solid var(--border-color, #ddd);
+      border-radius: 6px;
+      padding: .75rem;
+      background: var(--code-bg, #0b1020); /* keeps theme contrast if highlight uses dark bg */
+      position: relative;       /* allow absolute positioning inside the pane */
+      scroll-behavior: smooth;      /* Optional: smooth scrolling and lighter scrollbar */
+    }
+
+    /* Ensure highlighted code keeps line wrapping rules and horizontal scroll if needed */
+    .code-scroll pre {
+      margin: 0;
+      overflow-x: auto;      /* allow horizontal scroll for long lines */
+      white-space: pre;      /* preserve code formatting */
+    }
+
+    /* --------------------------------------------
+      Copy/paste button for code panes (ARM/Bicep)
+      -------------------------------------------- */
+    /* The floating copy button (hidden until hover/drag) */
+    .code-scroll .code-copy-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      margin: .50rem;         /* slight offset from the border line */
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .25rem .4rem;
+      font-size: .78rem;
+      line-height: 1;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: .4rem;
+      background: rgba(0,0,0,.35);   /* good contrast on dark code panes */
+      color: #fff;
+      backdrop-filter: saturate(160%) blur(2px);
+      box-shadow: 0 1px 2px rgba(0,0,0,.25);
+      cursor: pointer;
+
+      opacity: 0;                    /* hidden by default */
+      pointer-events: none;          /* avoid accidental clicks when hidden */
+      transition: opacity .15s ease-in-out;
+    }
+
+    /* Show on hover/drag/focus within the pane */
+    .code-scroll:hover .code-copy-btn,
+    .code-scroll:active .code-copy-btn,
+    .code-scroll:focus-within .code-copy-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+
+    /* Icon glyph sizing */
+    .code-copy-btn svg {
+      width: 14px; height: 14px;
+    }
+
+
+    /* Hide nested content unless its parent tab is active */
+    .relearn-tabs-compat input.gdoc-tabs__control:not(:checked) + label + .gdoc-tabs__content .gdoc-tabs__content {
+      display: none !important;
+    }
+
+    /* Show nested content only when parent AND nested tab are active */
+    .relearn-tabs-compat input.gdoc-tabs__control:checked + label + .gdoc-tabs__content input.nested.gdoc-tabs__control:checked + label + .gdoc-tabs__content {
+      display: block !important;
+    }
+
+    /* Add borders to nested content */
+    .gdoc-tabs__content .gdoc-tabs {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+  </style>
 
   <!-- Parent: Management Group -->
   <input
     type="radio"
-    class="gdoc-tabs__control hidden"
+    class="gdoc-tabs__control"
     name="parentTab-{{ $alert_name}}"
     id="tab-mg-{{ $alert_name}}"
   />
@@ -25,32 +214,33 @@
   <div class="gdoc-tabs__content">
     <!-- Child tabset: Management Group items -->
     <div class="gdoc-tabs">
+
       <!-- Deploy Alert Policy -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-mg-{{ $alert_name}}"
         id="mg-policy-{{ $alert_name}}"
       />
       <label for="mg-policy-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert Policy</label>
-
       <div class="gdoc-markdown--nested gdoc-tabs__content">
-        <p>
-          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
-            <img src="https://aka.ms/deploytoazurebutton"/>
+        <div class="deploy-buttons">
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure"/>
           </a>
-          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank">
-            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL2 }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazuregovbutton" alt="Deploy to Azure Gov"/>
           </a>
-        </p>
+        </div>
       </div>
+
     </div>
   </div>
 
   <!-- Parent: Subscription -->
   <input
     type="radio"
-    class="gdoc-tabs__control hidden"
+    class="gdoc-tabs__control"
     name="parentTab-{{ $alert_name}}"
     id="tab-sub-{{ $alert_name}}"
   />
@@ -59,111 +249,169 @@
   <div class="gdoc-tabs__content">
     <!-- Child tabset: Subscription items -->
     <div class="gdoc-tabs">
+
       <!-- Deploy Alert Policy -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-sub-{{ $alert_name}}"
         id="sub-policy-{{ $alert_name}}"
       />
       <label for="sub-policy-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert Policy</label>
 
       <div class="gdoc-markdown--nested gdoc-tabs__content">
-        <p>
-          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank">
-            <img src="https://aka.ms/deploytoazurebutton"/>
+        <div class="deploy-buttons">
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure"/>
           </a>
-          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank">
-            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL3 }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazuregovbutton" alt="Deploy to Azure Gov"/>
           </a>
-        </p>
+        </div>
       </div>
 
       <!-- Deploy alert -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-sub-{{ $alert_name}}"
         id="sub-alert-{{ $alert_name}}"
       />
       <label for="sub-alert-{{ $alert_name}}" class="nested gdoc-tabs__label">Deploy Alert</label>
 
       <div class="gdoc-markdown--nested gdoc-tabs__content">
-        <p>
-          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
-            <img src="https://aka.ms/deploytoazurebutton"/>
+        <div class="deploy-buttons">
+          <a href="https://portal.azure.com/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure"/>
           </a>
-          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank">
-            <img src="https://aka.ms/deploytoazuregovbutton"/>
+          <a href="https://portal.azure.us/#create/Microsoft.Template/uri/{{ absURL $fileURL }}" target="_blank" rel="noopener">
+            <img src="https://aka.ms/deploytoazuregovbutton" alt="Deploy to Azure Gov"/>
           </a>
-        </p>
+        </div>
       </div>
 
       <!-- Alert Policy arm template -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-sub-{{ $alert_name}}"
         id="sub-policyArm-{{ $alert_name}}"
       />
       <label for="sub-policyArm-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert Policy template - ARM</label>
 
-      <div class="gdoc-markdown--nested gdoc-tabs__content">
-        {{ $filename := printf "%s.json" $alert_name | printf "%s"}}
+      <div class="gdoc-markdown--nested gdoc-tabs__content code-scroll">
         {{ $file := path.Join "services" $category $type "templates/policy" $filename }}
         {{ $data := readFile $file | replaceRE "\\[\\[" "[" }}
         {{ $lines := split $data "\n" }}
         {{ $target := "    \"parameters\":" }}
-        {{ $index := 0 }}
+        {{ $idx := 0 }}
         {{ range $i, $v := $lines }}
           {{ if strings.Contains $v $target }}
-            {{ $index = $i }}
-            {{break}}
+            {{ $idx = $i }}
+            {{ break }}
           {{ end }}
         {{ end }}
-        {{ $policyLines := after $index $lines }}
-        {{ $index := sub (len $policyLines) 2 }}
-        {{ if lt $index 0 }}
-          {{ $index = 0 }}
-        {{ end }}
-        {{ $policyLines := first $index $policyLines }}
-        {{ $policy :=  delimit $policyLines "\n" }}
-        {{ $policy := printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
-        {{ highlight $policy "json" }}
+        {{ $policyLines := after $idx $lines }}
+        {{ $end := sub (len $policyLines) 2 }}
+        {{ if lt $end 0 }}{{ $end = 0 }}{{ end }}
+        {{ $policyLines = first $end $policyLines }}
+        {{ $policy := delimit $policyLines "\n" }}
+        {{ $policy = printf "%s%s" "{\n    \"mode\": \"All\",\n" $policy }}
+        {{ highlight $policy "json" "" }}
       </div>
 
       <!-- Alert arm template -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-sub-{{ $alert_name}}"
         id="sub-alertArm-{{ $alert_name}}"
       />
       <label for="sub-alertArm-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert template - ARM</label>
 
-      <div class="gdoc-markdown--nested gdoc-tabs__content">
+      <div class="gdoc-markdown--nested gdoc-tabs__content code-scroll">
         {{ $file := path.Join "services" $category $type "templates/arm" $filename }}
         {{ $data := readFile $file }}
-        {{ highlight $data "json" }}
+        {{ highlight $data "json" "" }}
       </div>
 
       <!-- Alert Bicep template -->
       <input
         type="radio"
-        class="nested gdoc-tabs__control hidden"
+        class="nested gdoc-tabs__control"
         name="parentNestedTab-sub-{{ $alert_name}}"
         id="sub-alertBicep-{{ $alert_name}}"
       />
       <label for="sub-alertBicep-{{ $alert_name}}" class="nested gdoc-tabs__label">Alert template - Bicep</label>
 
-      <div class="gdoc-markdown--nested gdoc-tabs__content">
-        {{ $filename := printf "%s.bicep" $alert_name | printf "%s"}}
-        {{ $file := path.Join "services" $category $type "templates/bicep" $filename }}
+      <div class="gdoc-markdown--nested gdoc-tabs__content code-scroll">
+        {{ $bicepname := printf "%s.bicep" $alert_name | printf "%s" }}
+        {{ $file := path.Join "services" $category $type "templates/bicep" $bicepname }}
         {{ $data := readFile $file }}
-        {{ highlight $data "bicep" }}
+        {{ highlight $data "bicep" "" }}
       </div>
 
     </div>
   </div>
 
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Create a single button element we can clone
+  const makeCopyButton = () => {
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.setAttribute('title', 'Copy code');
+    btn.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm4 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h12v14z"/>
+      </svg>
+      <span>Copy</span>
+    `;
+    return btn;
+  };
+
+  const toPlainText = (root) => {
+    // Prefer exact code text if available
+    const code = root.querySelector('pre > code');
+    if (code) return (code.innerText || '').trim();
+    // Fallback: pane text
+    return (root.textContent || '').trim();
+  };
+
+  const copyText = async (text, btn) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.querySelector('span').textContent = 'Copied!';
+    } catch {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.querySelector('span').textContent = 'Copied!';
+    } finally {
+      setTimeout(() => (btn.querySelector('span').textContent = 'Copy'), 1500);
+    }
+  };
+
+  // Attach a copy button to each scrollable code pane
+  document.querySelectorAll('.gdoc-tabs__content.code-scroll').forEach(pane => {
+    // Skip if a button is already present
+    if (pane.querySelector('.code-copy-btn')) return;
+
+    const btn = makeCopyButton();
+    btn.addEventListener('click', () => {
+      const text = toPlainText(pane);
+      copyText(text, btn);
+    });
+    pane.appendChild(btn);
+  });
+});
+</script>

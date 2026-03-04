@@ -1,6 +1,5 @@
 ---
 title: Customize Policy Assignment
-geekdocCollapseSection: true
 weight: 20
 ---
 
@@ -29,9 +28,8 @@ Two versions of the parameter file are available:
 
 To adjust the threshold values for Virtual Network Gateway Express Route CPU utilization from 80 to 90, and for Virtual Network Gateway Egress traffic from 1 to 1000, include these changes in a parameter file as shown below. These specific thresholds will apply to the individual policy assignment, while all other policy values will remain at their default settings. Note that the parameter file shown below is truncated for brevity.
 
-{{< hint type=Note >}}
-The parameter file includes default values as documented. However, the _Policy assignment parameter reference type_ will change for all parameters when using the template parameter file. Even if a parameter's value remains unmodified, it will be marked as a _User defined parameter_ after deployment because it is explicitly defined in the parameter file. To prevent this, create custom parameter files that only include the parameters you wish to modify.
-{{< /hint >}}
+> [!note]
+> The parameter file includes default values as documented. However, the _Policy assignment parameter reference type_ will change for all parameters when using the template parameter file. Even if a parameter's value remains unmodified, it will be marked as a _User defined parameter_ after deployment because it is explicitly defined in the parameter file. To prevent this, create custom parameter files that only include the parameters you wish to modify.
 
 ```json
 {

@@ -1,5 +1,4 @@
 ---
 title: Media
-geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---

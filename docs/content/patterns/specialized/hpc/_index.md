@@ -1,6 +1,5 @@
 ---
 title: High Performance Compute
-geekdocCollapseSection: true
 ---
 
 ## Overview
