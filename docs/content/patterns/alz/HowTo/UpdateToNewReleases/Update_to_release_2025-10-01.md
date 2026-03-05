@@ -6,7 +6,8 @@ weight: 88
 ### In this page
 
 > [Pre update actions](#pre-update-actions) </br>
-> [Update](#update)
+> [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
 ## Pre update actions
 
@@ -44,3 +45,8 @@ As always recommended when updating to a new version or release, ensure the para
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
+
+## Post update actions
+
+> [!info]
+> **_No post-update actions_** are required.

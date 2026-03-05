@@ -5,19 +5,23 @@ weight: 99
 
 ### In this page
 
+> [Pre update actions](#pre-update-actions) </br>
 > [Update](#update) </br>
 > [Post update actions](#post-update-actions) </br>
 
-</br>
+## Pre update actions
 
-> [!warning]
-> **_No post-update action_** is required if you wish to continue using the notification assets deployed by the ALZ pattern.
+> [!info]
+> **_No pre-update actions_** are required when updating from release 2024-03-01.
 
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
 
 ## Post update actions
+
+> [!warning]
+> **_No post-update action_** is required if you wish to continue using the notification assets deployed by the ALZ pattern.
 
 If you are updating to release [2024-04-12](../../../Overview/Whats-New#2024-04-12), you may need to run a post-update script to remove the notification assets deployed by the ALZ pattern. This is necessary only if you have chosen to use existing action groups and alert processing rules. In such cases, the Service Health alerts will be reconfigured to use your action groups according to the ***Bring Your Own Notifications (BYON)*** feature.
 

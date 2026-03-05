@@ -5,9 +5,11 @@ weight: 96
 
 ### In this page
 
+> [Pre update actions](#pre-update-actions) </br>
 > [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
-</br>
+## Pre update actions
 
 > [!info]
 > **_No pre-update or post-update actions_** are required.
@@ -15,3 +17,8 @@ weight: 96
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
+
+## Post update actions
+
+> [!info]
+> **_No post-update actions_** are required.

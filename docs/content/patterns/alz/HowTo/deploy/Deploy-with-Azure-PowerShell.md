@@ -129,7 +129,7 @@ If you have closed your previous session, open a PowerShell prompt and navigate 
 >
 
 ```powershell
-New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
+New-AzManagementGroupDeployment -Name "amba-MainDeployment" -ManagementGroupId $pseudoRootManagementGroup -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz/alzArm.json" -TemplateParameterFile "alzArm.param.json"
 ```
 
 {{% /tab %}}
@@ -160,7 +160,7 @@ New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -Te
 
 ```powershell
 Set-AzContext -Subscription $targetSubscription
-New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json" -TemplateParameterFile "alzArm4Subs.param.json"
+New-AzSubscriptionDeployment -Name "amba-MainDeployment" -Location $location -TemplateUri "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz4Subs/alzArm4Subs.json" -TemplateParameterFile "alzArm4Subs.param.json"
 ```
 
 {{% /tab %}}

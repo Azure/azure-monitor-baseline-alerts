@@ -5,8 +5,14 @@ weight: 100
 
 ### In this page
 
+> [Pre update actions](#pre-update-actions) </br>
 > [Update](#update) </br>
 > [Post update actions](#post-update-actions) </br>
+
+## Pre update actions
+
+> [!info]
+> **_No pre-update actions_** are required when updating from release 2023-11-14.
 
 ## Update
 
