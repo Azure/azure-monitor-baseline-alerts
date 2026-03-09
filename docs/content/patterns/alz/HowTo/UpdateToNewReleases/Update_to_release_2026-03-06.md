@@ -1,6 +1,6 @@
 ---
-title: Updating to release 2025-06-03
-weight: 90
+title: Updating to release 2026-03-06
+weight: 87
 ---
 
 ### In this page
@@ -12,7 +12,7 @@ weight: 90
 ## Pre update actions
 
 > [!info]
-> **_No pre-update or post-update actions_** are required when updating from release 2025-04-04.
+> **_No pre-update actions_** are required when updating from release 2025-10-01.
 
 ## Update
 

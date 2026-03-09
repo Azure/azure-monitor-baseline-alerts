@@ -123,7 +123,7 @@ Use your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Un
 >
 
 ```bash
-az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters "alzArm.param.json"
+az deployment mg create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz/alzArm.json --location $location --management-group-id $pseudoRootManagementGroup --parameters "alzArm.param.json"
 ```
 
 {{% /tab %}}
@@ -145,7 +145,7 @@ Use your preferred command-line tool (Windows PowerShell, Cmd, Bash, or other Un
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json --location $location --parameters "alzArm4Subs.param.json"
+az deployment sub create --name "amba-MainDeployment" --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz4Subs/alzArm4Subs.json --location $location --parameters "alzArm4Subs.param.json"
 ```
 
 {{% /tab %}}

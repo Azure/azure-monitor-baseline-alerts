@@ -7,6 +7,7 @@ weight: 97
 
 > [Pre update actions](#pre-update-actions) </br>
 > [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
 </br>
 
@@ -71,3 +72,8 @@ To execute the script, follow these steps:
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
+
+## Post update actions
+
+> [!info]
+> **_No post-update actions_** are required.

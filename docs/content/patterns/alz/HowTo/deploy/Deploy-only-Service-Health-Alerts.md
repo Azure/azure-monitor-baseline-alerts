@@ -44,7 +44,7 @@ To begin, download the appropriate parameter file for the version of AMBA-ALZ yo
   > [!note]
   > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) aligned to the latest release
+- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-03-06/patterns/alz/alzArm.param.json) aligned to the latest release
 - [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
 
 The following changes apply to all scenarios, whether you are aligned or unaligned with ALZ or have a single management group.
@@ -196,8 +196,8 @@ To begin, download the appropriate parameter file for the version of AMBA-ALZ yo
   > [!note]
   > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2025-10-01/patterns/alz/alzArm.param.json) aligned to the latest release
-- [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned to the main branch
+- [alzArm4Subs.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-03-06/patterns/alz4Subs/alzArm4Subs.param.json) aligned to the latest release
+- [alzArm4Subs.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz4Subs/alzArm4Subs.param.json) aligned to the main branch
 
 Change the value of the following parameters at the beginning of the parameter file according to the instructions below:
 
@@ -578,7 +578,7 @@ targetSubscription="The pseudo root management group ID parenting the Platform a
 Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other Unix shells), if you closed your previous session, navigate again to the folder where the parameter file was downloaded and log on to Azure with an account with at least Resource Policy Contributor access at the root of the management group hierarchy where you will be creating the policies and Policy Set Definitions.
 
 ```bash
-az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz/alzArm.json --name "amba-MainDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters alzArm.param.json
+az deployment mg create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz/alzArm.json --name "amba-MainDeployment" --location $location --management-group-id $pseudoRootManagementGroup --parameters alzArm.param.json
 ```
 
 {{% /tab %}}
@@ -589,7 +589,7 @@ Using your preferred command-line tool (Windows PowerShell, Cmd, Bash or other U
 
 ```bash
 az account set --subscription "$targetSubscription"
-az deployment sub create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2025-10-01/patterns/alz4Subs/alzArm4Subs.json --name "amba-MainDeployment" --location $location --parameters alzArm4Subs.param.json
+az deployment sub create --template-uri https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/patterns/alz4Subs/alzArm4Subs.json --name "amba-MainDeployment" --location $location --parameters alzArm4Subs.param.json
 ```
 
 {{% /tab %}}
