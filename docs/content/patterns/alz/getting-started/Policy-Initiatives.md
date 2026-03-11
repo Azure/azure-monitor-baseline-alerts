@@ -20,6 +20,7 @@ weight: 40
 > [Recovery Services Initiative](#recovery-services-initiative) </br>
 > [Storage Initiative](#storage-initiative) </br>
 > [Web Initiative](#web-initiative) </br>
+> [Azure VM Scale Sets](#azure-vmss-initiative) </br>
 > [Service Health Initiative (Deprecated)](#service-health-initiative-deprecated) </br>
 > [Landing Zone Initiative (Deprecated)](#landing-zone-initiative-deprecated) </br>
 
@@ -68,13 +69,13 @@ This initiative is intended for relevant policy assignment to identity component
 
 ## Azure VM initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machines. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to both the Platform and Landing Zones management groups in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-VM-PolicyInitiative-Table" %}}
 
 ## Hybrid VM initiative
 
-This initiative is intended for relevant policy assignment to Hybrid VM alerts in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will be assigned to the 'alz' intermediate root management group structure in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+This initiative is intended for relevant policy assignment to Hybrid VM alerts in AMBA-ALZ. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern), this will be assigned to both the Platform and Landing Zones management groups in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-HybridVM-PolicyInitiative-Table" %}}
 
@@ -113,6 +114,12 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Storage Service
 This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services such as App Services. It is intended for relevant policy assignment to a landing zone in the ALZ structure. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to the Landing Zones management group in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-Web-PolicyInitiative-Table" %}}
+
+## Azure VMSS initiative
+
+This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machine Scale Sets. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to both the Platform and Landing Zones management groups in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+
+{{% include "Alerting-VMSS-PolicyInitiative-Table" %}}
 
 ## Service Health initiative (Deprecated)
 

@@ -94,6 +94,7 @@ var loadPolicySetDefinitions = {
     string(loadJsonContent('../policySetDefinitions/Deploy-ResourceAndServiceHealth-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Storage-Alerts.json'))
     string(loadJsonContent('../policySetDefinitions/Deploy-Web-Alerts.json'))
+    string(loadJsonContent('../policySetDefinitions/Deploy-VMSS-Alerts.json'))
   ]
   AzureCloud: []
   AzureChinaCloud: []
