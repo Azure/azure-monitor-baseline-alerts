@@ -423,6 +423,30 @@
               "visible": true
             },
             {
+              "name": "enableAMBAVMSS",
+              "type": "Microsoft.Common.DropDown",
+              "label": "Enable AMBA Azure VMSS",
+              "subLabel": "",
+              "defaultValue": "Yes",
+              "toolTip": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machine Scale Sets.",
+              "constraints": {
+                "required": true,
+                "allowedValues": [
+                  {
+                    "label": "Yes",
+                    "value": "Yes"
+                  },
+                  {
+                    "label": "No",
+                    "value": "No"
+                  }
+                ],
+                "validations": []
+              },
+              "infoMessages": [],
+              "visible": true
+            },
+            {
               "name": "enableAMBAKeyManagement",
               "type": "Microsoft.Common.DropDown",
               "label": "Enable AMBA Key Management",
@@ -600,7 +624,7 @@
                 "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAVMSS,'Yes'))]"
             },
             {
               "name": "connectivityManagementGroup",
@@ -642,7 +666,7 @@
                 "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAManagement,'Yes'), equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'), equals(steps('Configuration').enableAMBAVMSS,'Yes'))]"
             },
             {
               "name": "LandingZoneManagementGroup",
@@ -656,7 +680,7 @@
                 "allowedValues": "[if(empty(filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions')))), filter(map(steps('Configuration').ManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => contains(item.label, steps('basics').resourceScope.managementGroup.displayName)), filter(map(steps('Configuration').DescendantManagementGroupAPI.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, '\",\"description\":\"', item.type, '\",\"value\":\"', item.name, '\"}'))), (item) => not(contains(item.description, '/subscriptions'))))]",
                 "required": true
               },
-              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'))]"
+              "visible": "[or(equals(steps('Configuration').enableAMBAHybridVM,'Yes'), equals(steps('Configuration').enableAMBAKeyManagement,'Yes'), equals(steps('Configuration').enableAMBALoadBalancing,'Yes'), equals(steps('Configuration').enableAMBANetworkChanges,'Yes'), equals(steps('Configuration').enableAMBARecoveryServices,'Yes'), equals(steps('Configuration').enableAMBAStorage,'Yes'), equals(steps('Configuration').enableAMBAVM,'Yes'), equals(steps('Configuration').enableAMBAWeb,'Yes'), equals(steps('Configuration').enableAMBAVMSS,'Yes'))]"
             }
           ]
         },
@@ -986,28 +1010,28 @@
         "ALZWebhookServiceUri": "[steps('Notification').ALZWebhookServiceUri]",
         "ALZFunctionResourceId": "[steps('Notification').ALZFunctionResourceId]",
         "ALZFunctionTriggerUrl": "[steps('Notification').ALZFunctionTriggerUrl]",
-        "enableAMBAManagement": "[steps('Configuration').enableAMBAManagement]",
-        "enableAMBAServiceHealth": "[steps('Configuration').enableAMBAServiceHealth]",
-        "enableAMBANotificationAssets": "[steps('Configuration').enableAMBANotificationAssets]",
-        "enableAMBAConnectivity": "[steps('Configuration').enableAMBAConnectivity]",
-        "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
-        "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]",
         "enterpriseScaleCompanyPrefix": "[steps('Configuration').enterpriseScaleCompanyPrefix]",
-        "platformManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
+        "platformManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAVMSS,'No')), 'contoso-platform', steps('Configuration').platformManagementGroup)]",
         "IdentityManagementGroup": "[if(equals(steps('Configuration').enableAMBAIdentity,'No'), 'contoso-identity', steps('Configuration').IdentityManagementGroup)]",
-        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAWeb,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
+        "managementManagementGroup": "[if(and(equals(steps('Configuration').enableAMBAManagement,'No'), equals(steps('Configuration').enableAMBAHybridVM,'No'), equals(steps('Configuration').enableAMBAVM,'No'), equals(steps('Configuration').enableAMBAWeb,'No'), equals(steps('Configuration').enableAMBAVMSS,'No')), 'contoso-management', steps('Configuration').managementManagementGroup)]",
         "connectivityManagementGroup": "[if(equals(steps('Configuration').enableAMBAConnectivity, 'No'), 'contoso-connectivity', steps('Configuration').connectivityManagementGroup)]",
         "LandingZoneManagementGroup": "[if(empty(steps('Configuration').LandingZoneManagementGroup), 'contoso-landingzones', steps('Configuration').LandingZoneManagementGroup)]",
         "BYOActionGroup": "[steps('Notification').BYOActionGroup]",
         "BYOAlertProcessingRule": "[steps('Notification').BYOAlertProcessingRule.id]",
         "deployAMBAPortalAccelerator": "Yes",
         "telemetryOptOut": "[steps('basics').cuaSection.telemetryOptOut]",
-        "enableAMBAKeyManagement": "[steps('Configuration').enableAMBAKeyManagement]",
+        "enableAMBAManagement": "[steps('Configuration').enableAMBAManagement]",
+        "enableAMBAServiceHealth": "[steps('Configuration').enableAMBAServiceHealth]",
+        "enableAMBANotificationAssets": "[steps('Configuration').enableAMBANotificationAssets]",
+        "enableAMBAConnectivity": "[steps('Configuration').enableAMBAConnectivity]",
+        "enableAMBAIdentity": "[steps('Configuration').enableAMBAIdentity]",
+        "enableAMBAHybridVM": "[steps('Configuration').enableAMBAHybridVM]","enableAMBAKeyManagement": "[steps('Configuration').enableAMBAKeyManagement]",
         "enableAMBALoadBalancing": "[steps('Configuration').enableAMBALoadBalancing]",
         "enableAMBANetworkChanges": "[steps('Configuration').enableAMBANetworkChanges]",
         "enableAMBARecoveryServices": "[steps('Configuration').enableAMBARecoveryServices]",
         "enableAMBAStorage": "[steps('Configuration').enableAMBAStorage]",
         "enableAMBAVM": "[steps('Configuration').enableAMBAVM]",
+        "enableAMBAVMSS": "[steps('Configuration').enableAMBAVMSS]",
         "enableAMBAWeb": "[steps('Configuration').enableAMBAWeb]"
       }
     }
