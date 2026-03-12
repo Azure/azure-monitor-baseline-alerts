@@ -273,7 +273,7 @@ To modify settings that are not parameterized, follow these steps:
     `bicep build .\patterns\alz\templates\policySets.bicep --outfile .\patterns\alz\policyDefinitions\policySets.json` </br>
 
     > [!note]
-    > Updating the policies for the ***Cloud Solution Provider (CSP) or Azure Lighthouse*** scenario, requires the additional execution of a conversion script after the  policy rebuilt as per the instructions above. The script, called **Generate-AMBA-ALZ-4Subs.ps1**, is located in the `tooling\ALZ` folder.
+    > Updating the policies for the ***Cloud Solution Provider (CSP) or Azure Lighthouse*** scenario, requires the additional execution of a conversion script after the  policy rebuilt as per the instructions above (that should be executed ***withouth*** changing the output path). The script, called **Generate-AMBA-ALZ-4Subs.ps1**, is located in the `tooling\ALZ` folder.
     > The script does not require any parameter and can be executed from the root folder of your fork using this command `.\tooling\ALZ\Generate-AMBA-ALZ-4Subs.ps1`
 
 4. Commit and synchronize the changes to your fork.
