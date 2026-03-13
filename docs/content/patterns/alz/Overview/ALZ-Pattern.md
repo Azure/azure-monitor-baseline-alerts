@@ -46,6 +46,7 @@ This project offers an opinionated view on monitoring key components of your Azu
 - Private DNS Zones
 - Azure Key Vaults
 - Virtual Machines
+- Virtual Machine Scale Sets
 - Service Health
 
 Monitoring baselines for these components are deployed using Azure Policy and bundled into Azure Policy initiatives for ease of deployment and management. Additional component alerts included in the repository, but outside any initiatives or disabled by default, are:

@@ -117,7 +117,7 @@ This initiative deploys Azure Monitor Baseline Alerts to monitor Web Services su
 
 ## Azure VMSS initiative
 
-This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machine Scale Sets. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to both the Platform and Landing Zones management groups in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
+This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Virtual Machine Scale Sets. It is limited to Virtual Machine Scale Sets configured with ***Flexible*** orchestration mode *only*. Using the guidance provided in [Introduction to deploying the AMBA-ALZ Pattern](../../HowTo/deploy/Introduction-to-deploying-the-ALZ-Pattern) this will be assigned to both the Platform and Landing Zones management groups in the ALZ reference architecture or to the target subscription in case of CSP or Azure Lighthouse scenarios. For details on the initiative policies and their default enablement state, refer to the table below.
 
 {{% include "Alerting-VMSS-PolicyInitiative-Table" %}}
 
