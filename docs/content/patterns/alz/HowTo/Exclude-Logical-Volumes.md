@@ -18,12 +18,12 @@ The ***Logical Volumes Exclusion*** feature, introduce the capability of excludi
 - *Deploy Azure VM Data Disk Read Latency Alert*
 - *Deploy Azure VM Data Disk Space Alert*
 - *Deploy Azure VM Data Disk Write Latency Alert*
-- *Deploy Hybrid VM OS Disk Read Latency Alert*
-- *Deploy Hybrid VM OS Disk Space Alert*
-- *Deploy Hybrid VM OS Disk Write Latency Alert*
-- *Deploy Hybrid VM Data Disk Read Latency Alert*
-- *Deploy Hybrid VM Data Disk Space Alert*
-- *Deploy Hybrid VM Data Disk Write Latency Alert*
+- *Deploy Arc-Enabled Servers OS Disk Read Latency Alert*
+- *Deploy Arc-Enabled Servers OS Disk Space Alert*
+- *Deploy Arc-Enabled Servers OS Disk Write Latency Alert*
+- *Deploy Arc-Enabled Servers Data Disk Read Latency Alert*
+- *Deploy Arc-Enabled Servers Data Disk Space Alert*
+- *Deploy Arc-Enabled Servers Data Disk Write Latency Alert*
 
 ## How this feature works
 

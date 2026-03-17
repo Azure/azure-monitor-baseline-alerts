@@ -103,7 +103,7 @@ The initiatives in this repository are designed to align with the management gro
 - Management Initiative is assigned to the Management management group.
 - Connectivity Initiative is assigned to the Connectivity management group.
 - Azure VM Initiative is assigned to both Platform and Landing Zones management groups.
-- Hybrid VM Initiative is assigned to both Platform and Landing Zones management groups.
+- Arc-Enabled Servers Initiative is assigned to both Platform and Landing Zones management groups.
 - Key Management Initiative is assigned to the Landing Zones management group.
 - Load Balancing Initiative is assigned to the Landing Zones management group.
 - Network Changes Initiative is assigned to the Landing Zones management group.
@@ -148,7 +148,7 @@ In scenarios where Identity, Management, and Connectivity are combined into a si
 - Management Initiative is assigned to the Platform management group.
 - Connectivity Initiative is assigned to the Platform management group.
 - Azure VM Initiative is assigned to both Platform and Geography management groups.
-- Hybrid VM Initiative is assigned to both Platform and Geography management groups.
+- Arc-Enabled Servers Initiative is assigned to both Platform and Geography management groups.
 - Key Management Initiative is assigned to the Geography management group.
 - Load Balancing Initiative is assigned to the Geography management group.
 - Network Changes Initiative is assigned to the Geography management group.
@@ -202,7 +202,7 @@ Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription l
 - Management Initiative.
 - Connectivity Initiative.
 - Azure VM Initiative.
-- Hybrid VM Initiative.
+- Arc-Enabled Servers Initiative.
 - Key Management Initiative.
 - Load Balancing Initiative.
 - Network Changes Initiative.
