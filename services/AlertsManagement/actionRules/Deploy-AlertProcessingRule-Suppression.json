@@ -8,7 +8,7 @@
     "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Notification Suppression Assets",
     "description": "Policy to deploy empty and disabled suppression Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -63,6 +63,17 @@
           "Dev",
           "Sandbox"
         ]
+      },
+      "includeAlzAlertsOnly":{
+        "type": "string",
+        "defaultValue": "No",
+        "allowedValues": [
+          "Yes",
+          "No"
+        ],
+        "metadata": {
+          "description": "Specify whether to only include alerts generated from AMBA-ALZ deployed policies or all alerts in the APR scope."
+        }
       }
     },
     "policyRule": {
@@ -93,6 +104,34 @@
               {
                 "field": "Microsoft.AlertsManagement/actionRules/description",
                 "equals": "AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription"
+              },
+              {
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[(parameters('includeAlzAlertsOnly'))]",
+                        "equals": "Yes"
+                      },
+                      {
+                        "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                        "equals": "Description"
+                      },
+                      {
+                        "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                        "equals": "Contains"
+                      },
+                      {
+                        "value": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                        "contains": "[[\\[AMBA-ALZ\\]:]"
+                      }
+                    ]
+                  },
+                  {
+                    "value": "[[(parameters('includeAlzAlertsOnly'))]",
+                    "equals": "No"
+                  }
+                ]
               }
             ]
           },
@@ -111,6 +150,9 @@
                     "type": "object"
                   },
                   "ALZMonitorResourceGroupLocation": {
+                    "type": "string"
+                  },
+                  "includeAlzAlertsOnly": {
                     "type": "string"
                   }
                 },
@@ -139,11 +181,15 @@
                         "parameters": {
                           "ALZMonitorResourceGroupName": {
                             "type": "string"
+                          },
+                          "includeAlzAlertsOnly": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
                         "resources": [
                           {
+                            "condition": "[equals(parameters('includeAlzAlertsOnly'), 'No')]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat('apr-AMBA-',subscription().displayName, '-S001')]",
@@ -164,12 +210,45 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "condition": "[equals(parameters('includeAlzAlertsOnly'), 'Yes')]",
+                            "type": "Microsoft.AlertsManagement/actionRules",
+                            "apiVersion": "2021-08-08",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-S001')]",
+                            "location": "Global",
+                            "dependsOn": [],
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "scopes": [
+                                "[[subscription().Id]"
+                              ],
+                              "description": "AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription",
+                              "conditions": [
+                                {
+                                  "field": "Description",
+                                  "operator": "Contains",
+                                  "values": "[[\\[AMBA-ALZ\\]:]"
+                                }
+                              ],
+                              "enabled": false,
+                              "actions": [
+                                {
+                                  "actionType": "RemoveAllActionGroups"
+                                }
+                              ]
+                            }
                           }
                         ]
                       },
                       "parameters": {
                         "ALZMonitorResourceGroupName": {
                           "value": "[[parameters('ALZMonitorResourceGroupName')]"
+                        },
+                        "includeAlzAlertsOnly": {
+                          "value": "[[parameters('includeAlzAlertsOnly')]"
                         }
                       }
                     }
@@ -185,6 +264,9 @@
                 },
                 "ALZMonitorResourceGroupLocation": {
                   "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+                },
+                "includeAlzAlertsOnly": {
+                  "value": "[[parameters('includeAlzAlertsOnly')]"
                 }
               }
             }

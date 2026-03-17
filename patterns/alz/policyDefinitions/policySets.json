@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.34.44.8038",
-      "templateHash": "7503427414153468692"
+      "templateHash": "8576865230266853480"
     }
   },
   "parameters": {
@@ -5151,6 +5151,17 @@
               "description": "Location of the resource group"
             }
           },
+          "includeAlzAlertsOnly": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+              "Yes",
+              "No"
+            ],
+            "metadata": {
+              "description": "Specify whether to only include alerts generated from AMBA-ALZ deployed policies or all alerts in the APR scope."
+            }
+          },
           "ALZMonitorActionGroupEmail": {
             "type": "Array",
             "metadata": {
@@ -5289,6 +5300,9 @@
               "ALZMonitorResourceGroupLocation": {
                 "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
               },
+              "includeAlzAlertsOnly": {
+                "value": "[[[parameters('includeAlzAlertsOnly')]"
+              },
               "ALZMonitorActionGroupEmail": {
                 "value": "[[[parameters('ALZMonitorActionGroupEmail')]"
               },
@@ -5345,6 +5359,9 @@
               },
               "ALZMonitorResourceGroupLocation": {
                 "value": "[[[parameters('ALZMonitorResourceGroupLocation')]"
+              },
+              "includeAlzAlertsOnly": {
+                "value": "[[[parameters('includeAlzAlertsOnly')]"
               },
               "MonitorDisableTagName": {
                 "value": "[[[parameters('ALZMonitorDisableTagName')]"
