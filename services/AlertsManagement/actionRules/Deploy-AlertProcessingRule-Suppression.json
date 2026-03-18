@@ -115,16 +115,26 @@
                         "equals": "Yes"
                       },
                       {
-                        "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
-                        "equals": "Description"
-                      },
-                      {
-                        "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
-                        "equals": "Contains"
-                      },
-                      {
-                        "value": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
-                        "in": "[[array('AMBA-ALZ:')]"
+                        "count": {
+                          "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                          "where": {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                                "equals": "Description"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                                "equals": "Contains"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                                "in": "[[array('AMBA-ALZ:')]"
+                              }
+                            ]
+                          }
+                        },
+                        "greater": 0
                       }
                     ]
                   },
