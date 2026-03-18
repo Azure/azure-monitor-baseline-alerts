@@ -252,8 +252,34 @@
                     ]
                   },
                   {
-                    "value": "[[parameters('includeAlzAlertsOnly')]",
-                    "equals": "No"
+                    "allOf": [
+                      {
+                        "value": "[[parameters('includeAlzAlertsOnly')]",
+                        "equals": "No"
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                          "where": {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                                "equals": "Description"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                                "equals": "Contains"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                                "notIn": "[[array('AMBA-ALZ:')]"
+                              }
+                            ]
+                          }
+                        },
+                        "equals": 0
+                      }
+                    ]
                   }
                 ]
               }
