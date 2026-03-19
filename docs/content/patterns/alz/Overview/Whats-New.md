@@ -173,7 +173,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### Bug Fixes
 
-- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Arc-Enabled Servers and Azure VM options (MG Settings)
+- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Hybrid VM and Azure VM options (MG Settings)
 
 ### Documentation Updates
 
@@ -250,7 +250,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### New Features
 
-- Assignment of VM and Arc-Enabled Servers initiatives to Platform MG.
+- Assignment of VM and Hybrid VM initiatives to Platform MG.
 - Faster deployment thanks to both template and ARM engine improvements.
 
 ### Bug Fixes
@@ -261,7 +261,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 - Improved navigation for the ALZ pattern content by restructuring the menu.
 - Improved spelling and grammar for the ALZ pattern content.
-- Updated the ***Introduction to deploying the AMBA-ALZ Pattern*** page with the new Platform Management Group assignment for both **VM initiative** and **Arc-Enabled Servers initiative**.
+- Updated the ***Introduction to deploying the AMBA-ALZ Pattern*** page with the new Platform Management Group assignment for both **VM initiative** and **Hybrid VM initiative**.
 - Updated broken links.
 
 ### Tools
