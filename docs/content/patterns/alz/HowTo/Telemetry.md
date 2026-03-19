@@ -71,7 +71,7 @@ The following are the unique IDs (also known as PIDs) used in the AMBA deploymen
 | Identity Policy Initiative                                          | 8d257c20-97bf-4d14-acb3-38dd1436d13a | Usage of Identity Policy initiative                                             |
 | Management Policy Initiative                                        | d87415c4-01ef-4667-af89-0b5adc14af1b | Usage of Management Policy initiative                                           |
 | LandingZone Policy Initiative (Initiative has been deprecated)      | 7bcfc615-be78-43da-b81d-98959a9465a5 | Usage of LandingZone Policy initiative                                          |
-| Hybrid VM Policy Initiative                                         | b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e | Usage of Arc-Enabled Servers Policy initiative                                            |
+| Hybrid VM Policy Initiative                                         | b5c25c0c-dfbf-4414-bedb-f48ab00d0f9e | Usage of Hybrid VM Policy initiative                                            |
 | ServiceHealth Policy Initiative                                     | 860d2afd-b71e-452f-9d3a-e56196cba570 | Usage of ServiceHealth Policy initiative                                        |
 | Notification Assets Policy Initiative                               | eabaaf0b-eed4-48a9-9f91-4f7e431ba807 | Usage of Notification Assets Policy initiative                                  |
 | Key Management Policy Initiative                                    | 65cb78a2-0744-4785-9093-aeb772ecdd7b | Usage of Key Management Policy initiative                                       |
