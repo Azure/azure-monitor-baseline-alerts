@@ -258,26 +258,34 @@
                         "equals": "No"
                       },
                       {
-                        "count": {
-                          "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
-                          "where": {
-                            "allOf": [
-                              {
-                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
-                                "equals": "Description"
-                              },
-                              {
-                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
-                                "equals": "Contains"
-                              },
-                              {
-                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
-                                "notIn": "[[array('AMBA-ALZ:')]"
+                        "anyOf": [
+                          {
+                            "count": {
+                              "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                              "where": {
+                                "anyOf": [
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                                    "notEquals": "Description"
+                                  },
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                                    "notEquals": "Contains"
+                                  },
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                                    "notIn": "[[array('AMBA-ALZ:')]"
+                                  }
+                                ]
                               }
-                            ]
+                            },
+                            "greater": 0
+                          },
+                          {
+                            "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                            "exists": "false"
                           }
-                        },
-                        "greater": 0
+                        ]
                       }
                     ]
                   }
