@@ -28,7 +28,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 # Define source table file heading and structure
 "---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
 "title: Activity Log alerts override tags table" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
-"geekdocHidden: true" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"hidden: true" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "---" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $activityLogAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
@@ -37,7 +37,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 ## Appending lines to Log Search source table files
 "---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
 "title: Log-search alerts override tags table" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
-"geekdocHidden: true" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"hidden: true" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "---" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $LogSearchAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
@@ -46,7 +46,7 @@ $metrictAlertsThresholdOverrideTableFile = $thresholdOverrideTablesRootDir + "\M
 ## Appending lines to Metric source table files
 "---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM
 "title: Metric alerts override tags table" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
-"geekdocHidden: true" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
+"hidden: true" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "---" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append
 "| Resource Type | Alert Name | Override Tag name | Tag value type | Operator | Original threshold value | Sample override value |" | Out-File $metrictAlertsThresholdOverrideTableFile -Encoding utf8NoBOM -Append

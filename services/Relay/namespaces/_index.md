@@ -1,7 +1,6 @@
 ---
 title: namespaces
-geekdocCollapseSection: true
-geekdocHidden: true
+hidden: true
 ---
 
 {{< alertList name="alertList" >}}

@@ -1,11 +1,11 @@
 ---
 title: What's New
-geekdocCollapseSection: true
-weight: 09
+weight: 01
 ---
 
 ### In this page
 
+> [2026-03-05](#2026-03-05) </br>
 > [2025-10-01](#2025-10-01) </br>
 > [2025-07-02](#2025-07-02) </br>
 > [2025-06-03](#2025-06-03) </br>
@@ -26,6 +26,30 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
+## 2026-03-05
+
+### New Features
+
+- Supportability of deployment at the subscription level to accommodate ***Cloud Solution Provider (CSP) or Azure Lighthouse*** scenarios where the Management Group visibility is forbidden and limited to single subscription only.
+- Portal accelerator experience available for deployment at subscription level.
+
+### Bug Fixes
+
+- Fixed [[#816](https://github.com/Azure/azure-monitor-baseline-alerts/pull/816)]: Empty tag tf
+- Fixed [[#802](https://github.com/Azure/azure-monitor-baseline-alerts/pull/802)]: Fix non-unique HTML IDs in Alert Deployment Tabs
+- Fixed [[#725](https://github.com/Azure/azure-monitor-baseline-alerts/issues/725)]: [General workload issue]: Remediation Script Not Update to New Naming
+- Fixed [[#724](https://github.com/Azure/azure-monitor-baseline-alerts/issues/724)]: [General workload issue]: Value Casing for ShaBuiltInPolicyEffect Mismatch
+
+### Documentation Updates
+
+- New documentation theme tallowing for a better readability and user experience.
+- Documentation update for customizing AMBA-ALZ policies in line with the new ***Cloud Solution Provider (CSP) or Azure Lighthouse*** scenarios.
+- Documentation update for TF modules description that were documented the wrong way around.
+
+### Tools
+
+- New conversion script called ***Generate-AMBA-ALZ-4Subs.ps1*** and located in the `tooling\ALZ folder`, to adapt the AMBA-ALZ version to work on ***Cloud Solution Provider (CSP) or Azure Lighthouse*** scenarios. This script allows to maintain a single source code (the AMBA-ALZ pattern targeted to Management Groups) and generates the necessary artifacts for the new scenario whic is subscription oriented.
 
 ## 2025-10-01
 

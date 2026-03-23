@@ -45,7 +45,11 @@ The <i><b>Alert state</b></i> column shows the state that the alert is deployed 
 
   <br>
 
-  <h4>Dashboards:</h4>
+  <h4>Dashboard templates:</h4>
+  <h7>- Click on a tab to view the corresponding dashboard template -</h7>
+  </br>
+  </br>
+
   {{ partial "templates/dashboard-tabs.html" (dict "type" $type "alerts" .alerts) }}
 
   <!-- Create a detail entry for each alert under category/type -->
@@ -58,6 +62,9 @@ The <i><b>Alert state</b></i> column shows the state that the alert is deployed 
         <div style="text-indent: 1%;"><i>{{ .description }}</i></div>
         <h4>Properties:</h4>
         <table>
+          {{/* Default precision for decimals; use site param if provided */}}
+          {{ $defaultPrec := 6 }}
+          {{ $prec := cond (isset $.Site.Params "numberPrecision") $.Site.Params.numberPrecision $defaultPrec }}
           {{ range $key, $value := .properties }}
             <tr>
               <td>{{ $key }}</td>
@@ -66,6 +73,10 @@ The <i><b>Alert state</b></i> column shows the state that the alert is deployed 
                   {{ transform.Highlight (encoding.Jsonify (dict "indent" "  ")  $value) "json" }}
                 {{ else if eq $key "query" }}
                   {{ transform.Highlight $value "plaintext" }}
+                {{ else if eq $key "threshold" }}
+                  {{ $fmt := printf "%%.%df" $prec }}
+                  {{ $f := float $value }}
+                  {{ printf $fmt $f | replaceRE `(?:\.0+)$` "" | replaceRE `(\.[0-9]*[1-9])0+$` `$1` }}
                 {{ else }}
                   {{ $value }}
                 {{ end }}

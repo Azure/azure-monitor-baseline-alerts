@@ -1,6 +1,6 @@
 ---
 title: Metrics alerts table
-geekdocHidden: true
+hidden: true
 ---
 
 | Alert Policy Name | Alert Name | Alerts Scope | Target Resource Type | Evaluation Period | Evaluation Frequency | Metric | Aggregation | Operator | Threshold | Severity | Enabled |

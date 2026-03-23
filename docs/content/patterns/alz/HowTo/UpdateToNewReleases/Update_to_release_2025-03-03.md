@@ -1,13 +1,13 @@
 ---
 title: Updating to release 2025-03-03
-geekdocCollapseSection: true
 weight: 92
 ---
 
 ### In this page
 
 > [Pre update actions](#pre-update-actions) </br>
-> [Update](#update)
+> [Update](#update) </br>
+> [Post update actions](#post-update-actions) </br>
 
 ## Pre update actions
 
@@ -25,3 +25,8 @@ For instructions on running the script, refer to the documentation available on 
 ## Update
 
 Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
+
+## Post update actions
+
+> [!info]
+> **_No post-update actions_** are required.

@@ -5,11 +5,8 @@ weight: 20
 
 This FAQ page provides answers to common questions about Azure Monitor Baseline Alerts (AMBA). It covers a variety of topics, including the types of alerts that can be monitored, how to deploy AMBA, best practices, and where to find additional learning resources. Links to FAQ pages of specific patterns and scenarios such as ALZ, AVD, and AVS are also included. Whether you're just getting started with AMBA or looking to deepen your understanding, we have you covered!
 
-{{< hint type=tip >}}
-
-Got an unanswered question? Create a [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues) so we can get it answered and added here for everyone's benefit 👍
-
-{{< /hint >}}
+> [!note]
+> Got an unanswered question? Create a [GitHub Issue](https://github.com/Azure/azure-monitor-baseline-alerts/issues) so we can get it answered and added here for everyone's benefit 👍
 
 ## Patterns and Specialized FAQ's
 

@@ -22,9 +22,9 @@ Azure Monitor Baseline Alerts (AMBA) is a comprehensive repository providing bas
    # For alert export tooling
    cd tooling/export-alerts
    pip install -r requirements.txt  # Installs pyyaml, openpyxl
-   
+
    # For template generation
-   cd ../generate-templates  
+   cd ../generate-templates
    pip install -r requirements.txt  # Installs pyyaml
    ```
 
@@ -61,8 +61,8 @@ Azure Monitor Baseline Alerts (AMBA) is a comprehensive repository providing bas
    ```bash
    # Example: Compile policy set definitions
    bicep build patterns/alz/templates/policySets.bicep --outfile /tmp/policySets.json
-   
-   # Example: Compile network policies  
+
+   # Example: Compile network policies
    bicep build patterns/alz/templates/policies-Network.bicep --outfile /tmp/policies-Network.json
    ```
    - **Duration**: 3-5 seconds per file - NEVER CANCEL. Set timeout to 30+ seconds.
@@ -143,7 +143,7 @@ Azure Monitor Baseline Alerts (AMBA) is a comprehensive repository providing bas
 
 - **`docs/`**: Hugo documentation source files
   - `docs/content/`: Markdown content for the website
-  - `docs/themes/hugo-geekdoc/`: GeekDoc theme for Hugo
+  - `docs/themes/hugo-theme-relearn/`: Relearn theme for Hugo
 - **`services/`**: Alert definitions organized by Azure service
   - `services/{Service}/{Resource}/alerts.yaml`: Alert definitions
   - `services/{Service}/{Resource}/templates/`: ARM/Bicep templates
@@ -165,7 +165,7 @@ Azure Monitor Baseline Alerts (AMBA) is a comprehensive repository providing bas
 1. **Hugo Build Fails**:
    - Check Hugo version: `hugo version` (must be 0.117.0+ Extended)
    - Verify config file syntax in `config/_default/hugo.toml`
-   - Check for missing theme: `docs/themes/hugo-geekdoc/` must exist
+   - Check for missing theme: `docs/themes/hugo-theme-relearn/` must exist
 
 2. **Python Script Errors**:
    - Install dependencies: `pip install -r requirements.txt` in appropriate tooling directory
@@ -182,7 +182,7 @@ Azure Monitor Baseline Alerts (AMBA) is a comprehensive repository providing bas
 **CRITICAL**: Set appropriate timeouts for all operations. These are measured times with safety margins:
 
 - **Hugo site build**: 15 seconds (set timeout: 60+ seconds)
-- **Hugo server startup**: 15 seconds (set timeout: 60+ seconds)  
+- **Hugo server startup**: 15 seconds (set timeout: 60+ seconds)
 - **Python alert export**: 5 seconds (set timeout: 30+ seconds)
 - **Bicep compilation**: 3-5 seconds per file (set timeout: 30+ seconds)
 - **YAML validation**: <5 seconds (set timeout: 30+ seconds)

@@ -1,6 +1,5 @@
 ---
 title: HPC Monitoring and Alerting
-geekdocCollapseSection: true
 weight: 30
 ---
 

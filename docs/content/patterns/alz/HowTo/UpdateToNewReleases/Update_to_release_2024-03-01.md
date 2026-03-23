@@ -1,13 +1,18 @@
 ---
 title: Updating to release 2024-03-01
-geekdocCollapseSection: true
 weight: 100
 ---
 
 ### In this page
 
+> [Pre update actions](#pre-update-actions) </br>
 > [Update](#update) </br>
 > [Post update actions](#post-update-actions) </br>
+
+## Pre update actions
+
+> [!info]
+> **_No pre-update actions_** are required when updating from release 2023-11-14.
 
 ## Update
 
@@ -38,7 +43,7 @@ To execute the script, follow these steps:
 
 6. Run the script with one of the following options:
 
-  {{% include "PowerShell-ExecutionPolicy.md" %}}
+  {{% include "PowerShell-ExecutionPolicy" %}}
 
    **Get full help on script usage help:**
 
