@@ -21,7 +21,7 @@ An AVD deployment with associated Insights configuration per the AVD Portal's AV
 
 ## Deploy via the Azure Portal UI
 
-<div style="display:flex; gap:50px; justify-content:center; align-items:center; flex-wrap:wrap;">
+<div style="display:flex; gap:50px; align-items:center; flex-wrap:wrap;">
   <a href="https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json" target="_blank" rel="noopener">
     <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure">
   </a>
