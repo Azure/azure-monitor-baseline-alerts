@@ -19,7 +19,9 @@ weight: 30
 
 The AMBA-ALZ Portal Accelerator is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator, navigate to <https://aka.ms/amba/alz/portal> or click the "Deploy to Azure" button below:
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal)
+<a href="https://aka.ms/amba/alz/portal" target="_blank" rel="noopener">
+  <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure">
+</a>
 
 Once on the portal page, follow the configuration instruction for each section as documented in this guidance.
 
@@ -29,7 +31,9 @@ Once on the portal page, follow the configuration instruction for each section a
 
 The AMBA-ALZ Portal Accelerator for Subscriptions is designed to simplify the process of setting up baseline alerts, helping you boost your observability maturity in your Azure environment with minimal effort or expertise. To begin using the AMBA-ALZ Portal Accelerator for Subscriptions, navigate to <https://aka.ms/amba/alz/portal4Subs> or click the "Deploy to Azure" button below:
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/amba/alz/portal4Subs)
+<a href="https://aka.ms/amba/alz/portal4Subs" target="_blank" rel="noopener">
+  <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure">
+</a>
 
 Once on the portal page, follow the configuration instruction for each section as documented in this guidance.
 

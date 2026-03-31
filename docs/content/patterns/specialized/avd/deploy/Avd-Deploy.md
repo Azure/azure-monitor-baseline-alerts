@@ -21,7 +21,15 @@ An AVD deployment with associated Insights configuration per the AVD Portal's AV
 
 ## Deploy via the Azure Portal UI
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json)&emsp;[![Deploy to Azure Gov](https://aka.ms/deploytoazuregovbutton)](https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json)
+<div style="display:flex; gap:50px; align-items:center; flex-wrap:wrap;">
+  <a href="https://portal.azure.com/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json" target="_blank" rel="noopener">
+    <img src="https://aka.ms/deploytoazurebutton" alt="Deploy to Azure">
+  </a>
+
+  <a href="https://portal.azure.us/#blade/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-monitor-baseline-alerts%2Fmain%2Fpatterns%2Favd%2FavdCustomUi.json" target="_blank" rel="noopener">
+  <img src="https://aka.ms/deploytoazuregovbutton" alt="Deploy to Azure Gov">
+  </a>
+</div>
 
 ## View / Enable Alerts after deployment
 
