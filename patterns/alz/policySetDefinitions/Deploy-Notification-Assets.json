@@ -53,6 +53,14 @@
           "description": "Specify whether to only include alerts generated from AMBA-ALZ deployed policies or all alerts in the APR scope."
         }
       },
+      "ALZalertDescriptionPrefix": {
+        "type": "string",
+        "defaultValue": "AMBA-ALZ:",
+        "metadata": {
+          "displayName": "AMBA-ALZ Alert Description Prefix",
+          "description": "Prefix for the alert descriptions. Used to identify alerts generated from specific pattern policies when includePatternAlertsOnly parameter is set to Yes."
+        }
+      },
       "ALZMonitorActionGroupEmail": {
         "type": "Array",
         "metadata": {
@@ -191,8 +199,11 @@
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
-          "includeAlzAlertsOnly": {
+          "includePatternAlertsOnly": {
             "value": "[[parameters('includeAlzAlertsOnly')]"
+          },
+          "alertDescriptionPrefix": {
+            "value": "[[parameters('ALZAlertDescriptionPrefix')]"
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
@@ -251,8 +262,11 @@
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
           },
-          "includeAlzAlertsOnly": {
+          "includePatternAlertsOnly": {
             "value": "[[parameters('includeAlzAlertsOnly')]"
+          },
+          "alertDescriptionPrefix": {
+            "value": "[[parameters('ALZAlertDescriptionPrefix')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
