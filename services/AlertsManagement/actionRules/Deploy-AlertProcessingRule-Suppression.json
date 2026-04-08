@@ -83,6 +83,14 @@
           "displayName": "Pattern-specific Alert Description Prefix",
           "description": "Prefix for the alert descriptions. Used to identify alerts generated from specific pattern policies when includePatternAlertsOnly parameter is set to Yes."
         }
+      },
+      "ALZNotificationAssetSuffix": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Notification Asset Name Suffix",
+          "description": "Suffix for Alert Processing Rules and Action Group names"
+        },
+        "defaultValue": "-001"
       }
     },
     "policyRule": {
@@ -112,7 +120,7 @@
             "allOf": [
               {
                 "field": "Microsoft.AlertsManagement/actionRules/description",
-                "equals": "AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription"
+                "equals": "[[concat('AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription', parameters('ALZNotificationAssetSuffix'))]"
               },
               {
                 "anyOf": [
@@ -169,7 +177,7 @@
                                   },
                                   {
                                     "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
-                                    "notIn": "[[array('AMBA-ALZ:')]"
+                                    "notIn": "[[array(patternAlertDescriptionPrefix)]]"
                                   }
                                 ]
                               }
@@ -210,6 +218,9 @@
                   },
                   "patternAlertDescriptionPrefix": {
                     "type": "string"
+                  },
+                  "ALZNotificationAssetSuffix": {
+                    "type": "string"
                   }
                 },
                 "variables": {},
@@ -243,6 +254,9 @@
                           },
                           "patternAlertDescriptionPrefix": {
                             "type": "string"
+                          },
+                          "ALZNotificationAssetSuffix": {
+                            "type": "string"
                           }
                         },
                         "variables": {},
@@ -251,7 +265,7 @@
                             "condition": "[[equals(parameters('includePatternAlertsOnly'), 'No')]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
-                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-S001')]",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-Suppress', parameters('ALZNotificationAssetSuffix'))]",
                             "location": "Global",
                             "dependsOn": [],
                             "tags": {
@@ -261,7 +275,7 @@
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
-                              "description": "AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription",
+                              "description": "[[concat('AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription', parameters('ALZNotificationAssetSuffix'))]",
                               "enabled": false,
                               "actions": [
                                 {
@@ -274,7 +288,7 @@
                             "condition": "[[equals(parameters('includePatternAlertsOnly'), 'Yes')]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
-                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-S001')]",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, '-Suppress', parameters('ALZNotificationAssetSuffix'))]",
                             "location": "Global",
                             "dependsOn": [],
                             "tags": {
@@ -284,12 +298,12 @@
                               "scopes": [
                                 "[[subscription().Id]"
                               ],
-                              "description": "AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription",
+                              "description": "[[concat('AMBA Notification Assets - Suppression Alert Processing Rule for maintenance period for Subscription', parameters('ALZNotificationAssetSuffix'))]]",
                               "conditions": [
                                 {
                                   "field": "Description",
                                   "operator": "Contains",
-                                  "values": "[[array('AMBA-ALZ:')]"
+                                  "values": "[[array(parameters('patternAlertDescriptionPrefix'))]"
                                 }
                               ],
                               "enabled": false,
@@ -311,6 +325,9 @@
                         },
                         "patternAlertDescriptionPrefix": {
                           "value": "[[parameters('patternAlertDescriptionPrefix')]"
+                        },
+                        "ALZNotificationAssetSuffix":{
+                          "value": "[[parameters('ALZNotificationAssetSuffix')]"
                         }
                       }
                     }
@@ -332,7 +349,10 @@
                 },
                 "patternAlertDescriptionPrefix": {
                   "value": "[[parameters('patternAlertDescriptionPrefix')]"
-                }
+                },
+                "ALZNotificationAssetSuffix":{
+                  "value": "[[parameters('ALZNotificationAssetSuffix')]"
+                  }
       }
             }
           }
