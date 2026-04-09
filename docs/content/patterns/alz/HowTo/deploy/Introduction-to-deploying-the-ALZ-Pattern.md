@@ -121,7 +121,7 @@ The following diagram illustrates the flow of policy initiatives and their assoc
 
 The other monitoring initiatives are assigned to specific platform landing zone management groups and workload landing zones. These flows are represented by blue dashed lines.
 
-![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
+![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.png)
 
 *Download a [Visio file](../../../media/AMBA-Diagrams.vsdx) of this architecture.*
 
