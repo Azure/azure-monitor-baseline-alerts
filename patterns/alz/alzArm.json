@@ -194,6 +194,17 @@
         "description": "Assign Web initiative"
       }
     },
+    "enableAMBAVMSS": {
+      "type": "string",
+      "defaultValue": "Yes",
+      "allowedValues": [
+        "Yes",
+        "No"
+      ],
+      "metadata": {
+        "description": "Assign VMSS initiative"
+      }
+    },
     "bringYourOwnUserAssignedManagedIdentity": {
       "type": "string",
       "defaultValue": "No",
@@ -411,6 +422,12 @@
         "vmAssignmentPlatformExcludedResources": {
           "value": []
         },
+        "vmssAssignmentLandingZonesExcludedResources": {
+          "value": []
+        },
+        "vmssAssignmentPlatformExcludedResources": {
+          "value": []
+        },
         "webAssignmentExcludedResources": {
           "value": []
         }
@@ -461,6 +478,10 @@
       "defaultValue": {}
     },
     "policyAssignmentParametersVM": {
+      "type": "object",
+      "defaultValue": {}
+    },
+    "policyAssignmentParametersVMSS": {
       "type": "object",
       "defaultValue": {}
     },
@@ -602,6 +623,7 @@
     "policyAssignmentParametersRecoveryServices": "[union(variables('policyAssignmentParametersMonitorDisable'), parameters('policyAssignmentParametersRecoveryServices'))]",
     "policyAssignmentParametersStorage": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersStorage'))]",
     "policyAssignmentParametersVM": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersVM'),variables('uamiParameters'))]",
+    "policyAssignmentParametersVMSS": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersVMSS'),variables('uamiParameters'))]",
     "policyAssignmentParametersWeb": "[union(variables('policyAssignmentParametersCommon'), parameters('policyAssignmentParametersWeb'), variables('uamiParameters'))]",
     // Declaring all required deployment uri's used for deployments of composite ARM templates for ESLZ
     "deploymentUris": {
@@ -632,6 +654,7 @@
       "AMBARecoveryServicesInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-RecoveryServicesAssignment.json')]",
       "AMBAStorageInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-StorageAssignment.json')]",
       "AMBAVMInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-VMAssignment.json')]",
+      "AMBAVMSSInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-VMSS-Assignment.json')]",
       "AMBAWebInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-WebAssignment.json')]"
     },
     // Declaring deterministic deployment names
@@ -667,6 +690,8 @@
       "AMBAStorageDeploymentName": "[take(concat('amba-Assignment-Storage', variables('deploymentSuffix')), 64)]",
       "AMBAVMDeploymentNameLandingZones": "[take(concat('amba-Assignment-VM-LandingZones', variables('deploymentSuffix')), 64)]",
       "AMBAVMDeploymentNamePlatform": "[take(concat('amba-Assignment-VM-Platform', variables('deploymentSuffix')), 64)]",
+      "AMBAVMSSDeploymentNameLandingZones": "[take(concat('amba-Assignment-VMSS-LandingZones', variables('deploymentSuffix')), 64)]",
+      "AMBAVMSSDeploymentNamePlatform": "[take(concat('amba-Assignment-VMSS-Platform', variables('deploymentSuffix')), 64)]",
       "AMBAWebDeploymentName": "[take(concat('amba-Assignment-Web', variables('deploymentSuffix')), 64)]",
       "pidCuaDeploymentName": "[take(concat('amba-pid-', variables('cuaid'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaConnectivityDeploymentName": "[take(concat('amba-pid-Connectivity-', variables('cuaidConnectivity'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
@@ -682,6 +707,7 @@
       "pidCuaRecoveryServicesDeploymentName": "[take(concat('amba-pid-RecoveryServices-', variables('cuaidRecoveryServices'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaStorageDeploymentName": "[take(concat('amba-pid-Storage-', variables('cuaidStorage'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaVMDeploymentName": "[take(concat('amba-pid-VM-', variables('cuaidVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
+      "pidCuaVMSSDeploymentName": "[take(concat('amba-pid-VMSS-', variables('cuaidVMSS'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaWebDeploymentName": "[take(concat('amba-pid-Web-', variables('cuaidWeb'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
     },
     // Declaring PIDs
@@ -699,6 +725,7 @@
     "cuaidRecoveryServices": "b45e8b7b-e0a2-4af4-b3af-8b2af4020dcc",
     "cuaidStorage": "c0eb5ea9-033b-4c1b-be71-b3088e7a2e2b",
     "cuaidVM": "3ace674d-9502-4f4a-98ba-a2277c01ccf8",
+    "cuaidVMSS": "7eafdbfd-b381-4834-bd26-0ef27af7404f",
     "cuaidWeb": "a80aedbd-3157-4335-94c7-7e7db459a647"
   },
   "resources": [
@@ -1595,6 +1622,86 @@
         }
       }
     },
+    // Assigning AMBA VMSS PolicySet to the Landing Zone management group if condition is true
+    {
+      "condition": "[equals(parameters('enableAMBAVMSS'), 'Yes')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('deploymentNames').AMBAVMSSDeploymentNameLandingZones]",
+      "scope": "[concat('Microsoft.Management/managementGroups/', parameters('LandingZoneManagementGroup'))]",
+      "location": "[deployment().location]",
+      "dependsOn": [
+        "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "contentVersion": "1.0.0.0",
+          "uri": "[variables('deploymentUris').AMBAVMSSInitiative]"
+        },
+        "parameters": {
+          "topLevelManagementGroupPrefix": {
+            "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+          },
+          "scope": {
+            "value": "[parameters('LandingZoneManagementGroup')]"
+          },
+          "uamiScope": {
+            "value": "[parameters('managementManagementGroup')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+          },
+          "policyAssignmentParameters": {
+            "value": "[variables('policyAssignmentParametersVMSS')]"
+          },
+          "policyAssignmentExclusions": {
+            "value": "[parameters('policyAssignmentExclusionList').vmssAssignmentLandingZonesExcludedResources.value]"
+          }
+        }
+      }
+    },
+    // Assigning AMBA VMSS PolicySet to the Platform management group if condition is true
+    {
+      "condition": "[equals(parameters('enableAMBAVMSS'), 'Yes')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('deploymentNames').AMBAVMSSDeploymentNamePlatform]",
+      "scope": "[concat('Microsoft.Management/managementGroups/', parameters('platformManagementGroup'))]",
+      "location": "[deployment().location]",
+      "dependsOn": [
+        "[variables('deploymentNames').AMBAUamiRoleAssignmentDeploymentName]",
+        "[variables('deploymentNames').policySetDefinitionsDeploymentName]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "contentVersion": "1.0.0.0",
+          "uri": "[variables('deploymentUris').AMBAVMSSInitiative]"
+        },
+        "parameters": {
+          "topLevelManagementGroupPrefix": {
+            "value": "[parameters('enterpriseScaleCompanyPrefix')]"
+          },
+          "scope": {
+            "value": "[parameters('platformManagementGroup')]"
+          },
+          "uamiScope": {
+            "value": "[parameters('managementManagementGroup')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+          },
+          "policyAssignmentParameters": {
+            "value": "[variables('policyAssignmentParametersVMSS')]"
+          },
+          "policyAssignmentExclusions": {
+            "value": "[parameters('policyAssignmentExclusionList').vmssAssignmentPlatformExcludedResources.value]"
+          }
+        }
+      }
+    },
     // Assigning AMBA Web PolicySet to the Landing Zone group if condition is true
     {
       "condition": "[equals(parameters('enableAMBAWeb'), 'Yes')]",
@@ -1833,6 +1940,22 @@
       "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAVM'), 'Yes'))]",
       "apiVersion": "2020-06-01",
       "name": "[variables('deploymentNames').pidCuaVMDeploymentName]",
+      "location": "[deployment().location]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      }
+    },
+    // Deploying VMSS PolicySet telemetry if not opted out
+    {
+      "condition": "[and(equals(parameters('telemetryOptOut'), 'No'), equals(parameters('enableAMBAVMSS'), 'Yes'))]",
+      "apiVersion": "2020-06-01",
+      "name": "[variables('deploymentNames').pidCuaVMSSDeploymentName]",
       "location": "[deployment().location]",
       "type": "Microsoft.Resources/deployments",
       "properties": {

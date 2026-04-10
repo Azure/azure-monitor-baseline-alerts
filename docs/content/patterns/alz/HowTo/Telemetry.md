@@ -80,4 +80,5 @@ The following are the unique IDs (also known as PIDs) used in the AMBA deploymen
 | Recovery Services Policy Initiative                                 | b45e8b7b-e0a2-4af4-b3af-8b2af4020dcc | Usage of Recovery Services Policy initiative                                    |
 | Storage Policy Initiative                                           | c0eb5ea9-033b-4c1b-be71-b3088e7a2e2b | Usage of Storage Policy initiative                                              |
 | VM Policy Initiative                                                | 3ace674d-9502-4f4a-98ba-a2277c01ccf8 | Usage of VM Policy initiative                                                   |
+| VMSS Policy Initiative                                              | 7eafdbfd-b381-4834-bd26-0ef27af7404f | Usage of VMSS Policy initiative                                                   |
 | Web Policy Initiative                                               | a80aedbd-3157-4335-94c7-7e7db459a647 | Usage of Web Policy initiative                                                  |

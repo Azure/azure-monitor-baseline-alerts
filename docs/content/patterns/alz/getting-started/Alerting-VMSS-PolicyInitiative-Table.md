@@ -1,0 +1,18 @@
+---
+title: Alerting-VMSS Policy Initiative table
+hidden: true
+---
+
+| Policy Display Name | Policy Internal Name | Policy Reference ID | Policy code (JSON) | Default policy effect |
+| ------------------- | -------------------- |-------------------- | ------------------ | --------------------- |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS HeartBeat Alert | Deploy_VMSS_HeartBeat_Alert | ALZ_VMSSHeartBeatRG | [Deploy-VMSS-HeartBeat-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-HeartBeat-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Network Read Alert | Deploy_VMSS_NetworkIn_Alert | ALZ_VMSSNetworkIn | [Deploy-VMSS-NetworkIn-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-NetworkIn-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Network Write Alert | Deploy_VMSS_NetworkOut_Alert | ALZ_VMSSNetworkOut | [Deploy-VMSS-NetworkOut-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-NetworkOut-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS OS Disk Read Latency Alert | Deploy_VMSS_OSDiskreadLatency_Alert | ALZ_VMSSOSDiskReadLatency | [Deploy-VMSS-OSDiskReadLatency-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskReadLatency-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS OS Disk Write Latency Alert | Deploy_VMSS_OSDiskwriteLatency_Alert | ALZ_VMSSOSDiskWriteLatency | [Deploy-VMSS-OSDiskWriteLatency-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskWriteLatency-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS OS Disk Space Alert | Deploy_VMSS_OSDiskSpace_Alert | ALZ_VMSSOSDiskSpace | [Deploy-VMSS-OSDiskSpace-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskSpace-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS CPU Alert | Deploy_VMSS_CPU_Alert | ALZ_VMSSPercentCPU | [Deploy-VMSS-PercentCPU-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-PercentCPU-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Memory Alert | Deploy_VMSS_Memory_Alert | ALZ_VMSSPercentMemory | [Deploy-VMSS-PercentMemory-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-PercentMemory-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Data Disk Space Alert | Deploy_VMSS_dataDiskSpace_Alert | ALZ_VMSSDataDiskSpace | [Deploy-VMSS-DataDiskSpace-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskSpace-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Data Disk Read Latency Alert | Deploy_VMSS_dataDiskReadLatency_Alert | ALZ_VMSSDataDiskReadLatency | [Deploy-VMSS-DataDiskReadLatency-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskReadLatency-Alert.json) | deployIfNotExists |
+| [Preview]: Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Azure VMSS Data Disk Write Latency Alert | Deploy_VMSS_dataDiskWriteLatency_Alert | ALZ_VMSSDataDiskWriteLatency | [Deploy-VMSS-DataDiskWriteLatency-Alert.json](../../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskWriteLatency-Alert.json) | deployIfNotExists |

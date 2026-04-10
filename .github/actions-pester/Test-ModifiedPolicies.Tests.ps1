@@ -168,7 +168,7 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyFile = Split-Path $_ -Leaf
         $PolicyMetadataName = $PolicyJson.name
         $PolicyFileNoExt = [System.IO.Path]::GetFileNameWithoutExtension($PolicyFile)
-        if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.ContEnterpriains("AzureUSGovernment")) {
+        if ($PolicyFileNoExt.Contains("AzureChinaCloud") -or $PolicyFileNoExt.Contains("AzureUSGovernment")) {
           $PolicyFileNoExt = $PolicyFileNoExt.Substring(0, $PolicyFileNoExt.IndexOf("."))
         }
         # Write-Warning "$($PolicyFileNoExt) - This is the policy metadata name: $($PolicyMetadataName)"
