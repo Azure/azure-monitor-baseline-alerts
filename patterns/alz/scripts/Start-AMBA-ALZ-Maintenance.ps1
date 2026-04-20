@@ -281,7 +281,7 @@ Function Get-ALZ-PolicyDefinitions {
   # get policy definitions to delete
   $query = "policyresources | where type =~ 'microsoft.authorization/policyDefinitions' | project name,metadata=parse_json(properties.metadata),type,id | where metadata._deployed_by_amba =~ 'true' | project id"
   $policyDefinitionIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Select-Object -ExpandProperty Id | Sort-Object | Get-Unique
-  Write-Host "- Found '$($policyDefinitionIds.Count)' policy definitions with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+  Write-Host "- Found '$($policyDefinitionIds.Count)' policy definition(s) with metadata '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $policyDefinitionIds
@@ -292,7 +292,7 @@ Function Get-ALZ-UserAssignedManagedIdentities {
   # get user assigned managed identities to delete
   $query = "Resources | where type =~ 'Microsoft.ManagedIdentity/userAssignedIdentities' and tags['_deployed_by_amba'] =~ 'True' | project id, name, principalId = properties.principalId, tenantId, subscriptionId, resourceGroup"
   $UamiIds = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property id | Get-Unique -AsString
-  Write-Host "- Found '$($UamiIds.Count)' user assigned managed identities with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
+  Write-Host "- Found '$($UamiIds.Count)' user assigned managed identity(ies) with tag '_deployed_by_amba=True' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $UamiIds
@@ -302,7 +302,7 @@ Function Get-ALZ-RoleAssignments {
     # get role assignments to delete
     $query = "authorizationresources | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | extend roleAssignmentId = id, roleDefinitionId = tostring(split(properties.roleDefinitionId,'/')[4]), objectId = properties.principalId, scope = properties.scope | project roleAssignmentId, roleDefinitionId, objectId, scope"
     $roleAssignments = Search-AzGraphRecursive -Query $query -ManagementGroupNames $managementGroups.mgName | Sort-Object -Property roleAssignmentId | Get-Unique -AsString
-    Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
+    Write-Host "- Found '$($roleAssignments.Count)' role assignment(s) with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $roleAssignments

@@ -102,8 +102,9 @@ The initiatives in this repository are designed to align with the management gro
 - Identity Initiative is assigned to the Identity management group.
 - Management Initiative is assigned to the Management management group.
 - Connectivity Initiative is assigned to the Connectivity management group.
+- Azure VMSS Initiative is assigned to both Platform and Landing Zones management groups.
 - Azure VM Initiative is assigned to both Platform and Landing Zones management groups.
-- Arc-Enabled Servers Initiative is assigned to both Platform and Landing Zones management groups.
+- Hybrid VM Initiative is assigned to both Platform and Landing Zones management groups.
 - Key Management Initiative is assigned to the Landing Zones management group.
 - Load Balancing Initiative is assigned to the Landing Zones management group.
 - Network Changes Initiative is assigned to the Landing Zones management group.
@@ -120,7 +121,7 @@ The following diagram illustrates the flow of policy initiatives and their assoc
 
 The other monitoring initiatives are assigned to specific platform landing zone management groups and workload landing zones. These flows are represented by blue dashed lines.
 
-![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.svg)
+![Azure Monitor Baseline Alerts policy initiative flows](../../../media/azure-monitor-baseline-alerts-policy-initiative-flow.png)
 
 *Download a [Visio file](../../../media/AMBA-Diagrams.vsdx) of this architecture.*
 
@@ -147,8 +148,9 @@ In scenarios where Identity, Management, and Connectivity are combined into a si
 - Identity Initiative is assigned to the Platform management group.
 - Management Initiative is assigned to the Platform management group.
 - Connectivity Initiative is assigned to the Platform management group.
+- Azure VMSS Initiative is assigned to both Platform and Geography management groups.
 - Azure VM Initiative is assigned to both Platform and Geography management groups.
-- Arc-Enabled Servers Initiative is assigned to both Platform and Geography management groups.
+- Hybrid VM Initiative is assigned to both Platform and Geography management groups.
 - Key Management Initiative is assigned to the Geography management group.
 - Load Balancing Initiative is assigned to the Geography management group.
 - Network Changes Initiative is assigned to the Geography management group.
@@ -185,7 +187,7 @@ If you have adopted the recommended management group design, you can proceed dir
 
 If you have implemented a single management group, it is recommended to move your production subscriptions into that management group. For guidance on adding subscriptions, refer to the [official documentation](https://learn.microsoft.com/en-us/azure/governance/management-groups/manage#add-an-existing-subscription-to-a-management-group-in-the-portal).
 
-> [!importnat]
+> [!important]
 > To avoid generating unnecessary alerts, it is advisable to place development, sandbox, and other non-production subscriptions in a separate management group or under the tenant root group.
 
 The following image illustrates an example of how the assignments appear when utilizing a single management group.
@@ -201,8 +203,9 @@ Cloud Solution Provider (CSP) or Azure Lighthouse access works at subscription l
 - Identity Initiative.
 - Management Initiative.
 - Connectivity Initiative.
+- Azure VMSS Initiative.
 - Azure VM Initiative.
-- Arc-Enabled Servers Initiative.
+- Hybrid VM Initiative.
 - Key Management Initiative.
 - Load Balancing Initiative.
 - Network Changes Initiative.

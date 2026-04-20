@@ -1,16 +1,19 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "topLevelManagementGroupPrefix": {
+    "topLevelSubscriptionId": {
       "type": "string",
       "metadata": {
-        "description": "Provide the ESLZ prefix to your intermediate root management group containing the policy definitions."
+        "description": "Provide the subscription containing the policy definitions."
       }
     },
     "enforcementMode": {
       "type": "string",
-      "allowedValues": [ "Default", "DoNotEnforce" ],
+      "allowedValues": [
+        "Default",
+        "DoNotEnforce"
+      ],
       "defaultValue": "Default"
     },
     "nonComplianceMessagePlaceholder": {
@@ -54,30 +57,30 @@
   },
   "variables": {
     "policyDefinitions": {
-      "deployAMBAHybridVM": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-HybridVM')]"
+      "deployAMBAVMSS": "[concat('/subscriptions/', parameters('topLevelSubscriptionId'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-VMSS')]"
     },
     "policyAssignmentNames": {
-      "ambaHybridVM": "Deploy-AMBA-HybridVM",
-      "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Azure Arc-enabled servers.",
-      "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Hybrid Virtual Machines"
+      "ambaVMSS": "Deploy-AMBA-VMSS",
+      "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor Azure Virtual Machines Scale Sets.",
+      "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for Azure Virtual Machines Scale Sets"
     },
     "nonComplianceMessage": {
       "message": "Alerting {enforcementMode} be deployed to Azure services.",
       "Default": "must",
       "DoNotEnforce": "should"
     },
-    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074", // Monitoring Policy Contributor
+    "rbacMonitoringPolicyContributor ": "47be4a87-7950-4631-9daf-b664a405f074",
     "rbacManagedIdentityOperator": "f1a07417-d97a-45cb-824c-7a7467783830",
     "roleAssignmentNames": {
-      "roleAssignmentNameContributor": "[guid(concat(parameters('topLevelManagementGroupPrefix'), variables('policyAssignmentNames').ambaHybridVM,parameters('scope')))]",
-      "roleAssignmentNameManagedIdentityOperator": "[guid(concat(parameters('toplevelManagementGroupPrefix'),variables('policyAssignmentNames').ambaHybridVM,'-1',parameters('scope')))]"
+      "roleAssignmentNameContributor": "[guid(concat(parameters('topLevelSubscriptionId'), variables('policyAssignmentNames').ambaVMSS,parameters('scope')))]",
+      "roleAssignmentNameManagedIdentityOperator": "[guid(concat(parameters('topLevelSubscriptionId'),variables('policyAssignmentNames').ambaVMSS,'-MI-',parameters('scope')))]"
     }
   },
   "resources": [
     {
       "type": "Microsoft.Authorization/policyAssignments",
       "apiVersion": "2020-09-01",
-      "name": "[variables('policyAssignmentNames').ambaHybridVM]",
+      "name": "[variables('policyAssignmentNames').ambaVMSS]",
       "location": "[deployment().location]",
       "identity": {
         "type": "SystemAssigned"
@@ -85,7 +88,7 @@
       "properties": {
         "description": "[variables('policyAssignmentNames').description]",
         "displayName": "[variables('policyAssignmentNames').displayName]",
-        "policyDefinitionId": "[variables('policyDefinitions').deployAMBAHybridVM]",
+        "policyDefinitionId": "[variables('policyDefinitions').deployAMBAVMSS]",
         "enforcementMode": "[parameters('enforcementMode')]",
         "nonComplianceMessages": [
           {
@@ -104,12 +107,12 @@
       "apiVersion": "2022-04-01",
       "name": "[variables('roleAssignmentNames').roleAssignmentNameContributor]",
       "dependsOn": [
-        "[variables('policyAssignmentNames').ambaHybridVM]"
+        "[variables('policyAssignmentNames').ambaVMSS]"
       ],
       "properties": {
         "principalType": "ServicePrincipal",
         "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacMonitoringPolicyContributor '))]",
-        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaHybridVM), '2019-09-01', 'Full' ).identity.principalId)]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaVMSS), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
     },
@@ -118,14 +121,13 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
       "name": "[variables('roleAssignmentNames').roleAssignmentNameManagedIdentityOperator]",
-      "scope": "[tenantResourceId('Microsoft.Management/managementGroups/', parameters('uamiScope'))]",
       "dependsOn": [
-        "[variables('policyAssignmentNames').ambaHybridVM]"
+        "[variables('policyAssignmentNames').ambaVMSS]"
       ],
       "properties": {
         "principalType": "ServicePrincipal",
         "roleDefinitionId": "[concat('/providers/Microsoft.Authorization/roleDefinitions/', variables('rbacManagedIdentityOperator'))]",
-        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaHybridVM), '2019-09-01', 'Full' ).identity.principalId)]",
+        "principalId": "[toLower(reference(concat('/providers/Microsoft.Authorization/policyAssignments/', variables('policyAssignmentNames').ambaVMSS), '2019-09-01', 'Full' ).identity.principalId)]",
         "description": "_deployed_by_amba"
       }
     }
