@@ -41,6 +41,26 @@
           "description": "Location of the resource group"
         }
       },
+      "includeAlzAlertsOnly":{
+        "type": "string",
+        "defaultValue": "No",
+        "allowedValues": [
+          "Yes",
+          "No"
+        ],
+        "metadata": {
+          "displayName": "Include AMBA-ALZ Alerts Only",
+          "description": "Specify whether to only include alerts generated from AMBA-ALZ deployed policies or all alerts in the APR scope."
+        }
+      },
+      "ALZAlertDescriptionPrefix": {
+        "type": "string",
+        "defaultValue": "AMBA-ALZ:",
+        "metadata": {
+          "displayName": "AMBA-ALZ Alert Description Prefix",
+          "description": "Prefix for the alert descriptions. Used to identify alerts generated from specific pattern policies when includePatternAlertsOnly parameter is set to Yes."
+        }
+      },
       "ALZMonitorActionGroupEmail": {
         "type": "Array",
         "metadata": {
@@ -132,7 +152,7 @@
           "displayName": "Notification Asset Name Suffix",
           "description": "Suffix for Alert Processing Rule and Action Group names"
         },
-        "defaultValue": "-001"
+        "defaultValue": "-ALZ-001"
       },
       "ALZAlertSeverity": {
         "type": "Array",
@@ -178,6 +198,12 @@
           },
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "includePatternAlertsOnly": {
+            "value": "[[parameters('includeAlzAlertsOnly')]"
+          },
+          "patternAlertDescriptionPrefix": {
+            "value": "[[parameters('ALZAlertDescriptionPrefix')]"
           },
           "ALZMonitorActionGroupEmail": {
             "value": "[[parameters('ALZMonitorActionGroupEmail')]"
@@ -235,6 +261,15 @@
           },
           "ALZMonitorResourceGroupLocation": {
             "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "includePatternAlertsOnly": {
+            "value": "[[parameters('includeAlzAlertsOnly')]"
+          },
+          "patternAlertDescriptionPrefix": {
+            "value": "[[parameters('ALZAlertDescriptionPrefix')]"
+          },
+          "ALZNotificationAssetSuffix": {
+            "value": "[[parameters('ALZNotificationAssetSuffix')]"
           },
           "MonitorDisableTagName": {
             "value": "[[parameters('ALZMonitorDisableTagName')]"
