@@ -79,6 +79,19 @@ var loadPolicyDefinitions = {
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-OSDiskWriteLatency-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentCPU-Alert.json')
     loadTextContent('../../../services/Compute/virtualMachines/Deploy-VM-PercentMemory-Alert.json')
+
+    // Used in VMSS Policy Set Definition
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskReadLatency-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskSpace-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-DataDiskWriteLatency-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-HeartBeat-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-NetworkIn-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-NetworkOut-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskReadLatency-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskSpace-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-OSDiskWriteLatency-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-PercentCPU-Alert.json')
+    loadTextContent('../../../services/Compute/virtualMachineScaleSets/Deploy-VMSS-PercentMemory-Alert.json')
   ]
   AzureCloud: []
   AzureChinaCloud: []
