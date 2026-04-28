@@ -58,7 +58,7 @@ Sample parameter file configuration for this scenario:
 This feature is currently used in log-search based alerts which are mostly included in the following policy initiatives:
 
 - Deploy Azure Monitor Baseline Alerts for Azure Virtual Machines
-- Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines
+- Deploy Azure Monitor Baseline Alerts for Arc-enabled server
 - Deploy Azure Monitor Baseline Alerts for Management
 - Deploy Azure Monitor Baseline Alerts for Web
 

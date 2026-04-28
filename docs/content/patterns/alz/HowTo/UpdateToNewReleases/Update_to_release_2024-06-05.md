@@ -19,7 +19,7 @@ weight: 98
 The parameter file structure has been updated to support an upcoming feature. Therefore, when updating from release [2024-06-05](../../../Overview/Whats-New#2024-06-05), you must align your existing parameter file structure with the new format introduced in this release.
 In particular, the new parameter file includes the following changes:
 
-1. Introduces new parameters for utilizing an existing User Assigned Managed Identity (UAMI) or creating a new one during the AMBA-ALZ deployment. These parameters are essential for the new hybrid virtual machine alert set. Ensure to review and configure the following parameters accurately:
+1. Introduces new parameters for utilizing an existing User Assigned Managed Identity (UAMI) or creating a new one during the AMBA-ALZ deployment. These parameters are essential for the new Arc-enabled server alert set. Ensure to review and configure the following parameters accurately:
 
    1. ***bringYourOwnUserAssignedManagedIdentity***: Set this parameter to **Yes** if you want to use an existing User Assigned Managed Identity (UAMI). Set it to **No** if you prefer the AMBA-ALZ deployment to create a new UAMI for you.
 
