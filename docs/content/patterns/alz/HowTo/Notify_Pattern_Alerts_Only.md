@@ -17,8 +17,8 @@ Following to a number of request from our customers, a filter mechanism to preve
 
 To leverage this new feature, the configuration of AMBA-ALZ pattern alerts and parameter file has changed as following:
 
-- All the alerts now contains a prefix string in their description. For AMBA-ALZ it is ***"AMBA-ALZ: "***
-- The APR (both the notification and the suppression) are now configured to include a filter on the alert description looking for the above mentioned prefix string
+- All the AMBA-ALZ alerts now contain a prefix string in their description. For AMBA-ALZ it is ***"AMBA-ALZ: "***
+- The APRs (both the notification and the suppression) are now configured to include a filter on the alert description looking for the above mentioned prefix string
 
 If you explore the configuration of alert rules created by AMBA-ALZ policies (or the policies themselves) you can see that the description field now starts with the prefix:
 
