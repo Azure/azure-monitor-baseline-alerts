@@ -5,8 +5,9 @@ weight: 90
 
 ### In this page
 
-> [Overview](../Bring-your-own-Managed-Identity#overview) </br>
-> [How this feature works](../Bring-your-own-Managed-Identity#how-this-feature-works) </br>
+> [Overview](#overview) </br>
+> [How this feature works](#how-this-feature-works) </br>
+> [Switching between BYO UAMI and new UAMI](#switching-between-byo-uami-and-new-uami) </br>
 
 ## Overview
 
@@ -67,9 +68,9 @@ This feature is currently used in log-search based alerts which are mostly inclu
 > [!note]
 > This feature could be expanded to other alerts in the future.
 
-### Switching between BYO UAMI and new UAMI
+## Switching between BYO UAMI and new UAMI
 
-The [conditional deployment behavior](../Bring-your-own-Managed-Identity#conditional-deployment-behavior) allows Brownfield customers to switch between a newly created UAMI and an existing one. To switch:
+The [conditional deployment behavior](#conditional-deployment-behavior) allows Brownfield customers to switch between a newly created UAMI and an existing one. To switch:
 
 - Update the parameter file values to match one of the discussed scenarios
 - Redeploy the AMBA-ALZ pattern
