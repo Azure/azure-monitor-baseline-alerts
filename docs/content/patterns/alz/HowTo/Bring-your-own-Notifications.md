@@ -8,6 +8,7 @@ weight: 95
 > [Overview](#overview) </br>
 > [How this feature works](#how-this-feature-works) </br>
 > [Conditional deployment behavior](#conditional-deployment-behavior) </br>
+> [Switching between BYON and Notification Assets](#switching-between-byon-and-notification-assets) </br>
 
 ## Overview
 

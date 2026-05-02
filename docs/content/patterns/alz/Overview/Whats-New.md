@@ -173,7 +173,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### Bug Fixes
 
-- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Hybrid VM and Azure VM options (MG Settings)
+- Resolved [[#530](https://github.com/Azure/azure-monitor-baseline-alerts/issues/530)]: [General workload issue]: deployment validation failed (Az Portal) when disabling both Arc-enabled server and Azure VM options (MG Settings)
 
 ### Documentation Updates
 
@@ -189,7 +189,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### New Features
 
-- Exclusion of logical volumes from the following alerts for both ***Azure*** and ***Hybrid*** Virtual Machines:
+- Exclusion of logical volumes from the following alerts for both ***Azure Virtual Machines*** and ***Arc-enabled server*** :
   - Operating System Disk Free space
   - Operating System DiskRead latency
   - Operating System DiskWrite latency
@@ -250,7 +250,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### New Features
 
-- Assignment of VM and Hybrid VM initiatives to Platform MG.
+- Assignment of Azure VM and Arc-enabled server initiatives to Platform MG.
 - Faster deployment thanks to both template and ARM engine improvements.
 
 ### Bug Fixes
@@ -261,7 +261,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 - Improved navigation for the ALZ pattern content by restructuring the menu.
 - Improved spelling and grammar for the ALZ pattern content.
-- Updated the ***Introduction to deploying the AMBA-ALZ Pattern*** page with the new Platform Management Group assignment for both **VM initiative** and **Hybrid VM initiative**.
+- Updated the ***Introduction to deploying the AMBA-ALZ Pattern*** page with the new Platform Management Group assignment for both **Azure VM initiative** and **Arc-enabled server initiative**.
 - Updated broken links.
 
 ### Tools
@@ -279,7 +279,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 
 ### Bug Fixes
 
-- Resolved [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensured the -WhatIf parameter is honored by all script commands and fixed the hybrid disconnected alert bug.
+- Resolved [[#323](https://github.com/Azure/azure-monitor-baseline-alerts/pull/323)]: Ensured the -WhatIf parameter is honored by all script commands and fixed the Arc-enabled server disconnected alert bug.
 - Resolved [[#342](https://github.com/Azure/azure-monitor-baseline-alerts/pull/342)]: Fixed GitHub issue link and Management Subscription ID.
 - Resolved [[#346](https://github.com/Azure/azure-monitor-baseline-alerts/pull/346)]: Updated useCommonSchema to useCommonAlertSchema in Deploy_ServiceHealth_ActionGroups and Deploy_Suppression_AlertProcessing_Rule Policy Definitions.
 - Resolved [[#357](https://github.com/Azure/azure-monitor-baseline-alerts/pull/357)]: Fixed the ExpressRoute QoS remediation issue.
@@ -336,7 +336,7 @@ To see what we have been and are working on, refer to the [AMBA Public Roadmap](
 - Resolved [[#261](https://github.com/Azure/azure-monitor-baseline-alerts/issues/261)]: Corrected display name VMLowOSDisk(Write/Read)LatencyAlert to VMHighOSDisk(Write/Read)LatencyAlert.
 - Resolved [[#260](https://github.com/Azure/azure-monitor-baseline-alerts/issues/260)]: Added threshold parameter for ALZ alerts ALZ_WSFMemoryPercentage, ALZ_WSFCPUPercentage.
 - Fixed casing in metadata and policies.
-- Fixed default values for multiple parameters in VM and Hybrid initiatives.
+- Fixed default values for multiple parameters in Azure VM and Arc-enabled server initiatives.
 
 ### Documentation Updates
 
