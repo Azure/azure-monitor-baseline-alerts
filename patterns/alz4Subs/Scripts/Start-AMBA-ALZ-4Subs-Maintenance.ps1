@@ -81,6 +81,8 @@
 # Declaring required PowerShell modules and minimal versions
 #Requires -Modules @{ ModuleName="Az.Accounts"; ModuleVersion="2.16.0" }
 #Requires -Modules @{ ModuleName="Az.Resources"; ModuleVersion="6.16.0" }
+#Requires -Modules @{ ModuleName="Az.ResourceGraph"; ModuleVersion="1.2.0" }
+#Requires -Modules @{ ModuleName="Az.ManagedServiceIdentity"; ModuleVersion="1.3.0" }
 
 [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
 param(
@@ -242,7 +244,7 @@ Function Get-ALZ-Deployments {
   # get deployments to delete
   $allDeployments = @()
   $deployments = Get-AzDeployment -WarningAction silentlyContinue | Where-Object { $_.DeploymentName.StartsWith("amba-alz-", "CurrentCultureIgnoreCase") }
-  $allDeployments += $deployments
+  $allDeployments.AddRange(@($deployments))
   Write-Host "- Found '$($allDeployments.Count)' deployments for AMBA-ALZ pattern with name starting with 'amba-' performed." -ForegroundColor Cyan
 
   # Returning items
@@ -331,7 +333,7 @@ Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
 {
     # delete role assignments
     Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($psItem.objectId)" -Scope "$($psItem.scope)" -RoleDefinitionId "$($psItem.roleDefinitionId)" -Confirm:$false } | Out-Null
+    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($_.objectId)" -Scope "$($_.scope)" -RoleDefinitionId "$($_.roleDefinitionId)" -Confirm:$false } | Out-Null
     Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
@@ -366,27 +368,6 @@ Function Delete-ALZ-Deployments($fDeploymentsToBeDeleted) {
 #endregion
 
 $ErrorActionPreference = 'Stop'
-
-If (-NOT(Get-Module -ListAvailable Az.Resources)) {
-  Write-Warning "This script requires the Az.Resources module."
-
-  $response = Read-Host "Would you like to install the 'Az.Resources' module now? (y/n)"
-  If ($response -match '[yY]') { Install-Module Az.Resources -Scope CurrentUser }
-}
-
-If (-NOT(Get-Module -ListAvailable Az.ResourceGraph)) {
-  Write-Warning "This script requires the Az.ResourceGraph module."
-
-  $response = Read-Host "Would you like to install the 'Az.ResourceGraph' module now? (y/n)"
-  If ($response -match '[yY]') { Install-Module Az.ResourceGraph -Scope CurrentUser }
-}
-
-If (-NOT(Get-Module -ListAvailable Az.ManagedServiceIdentity)) {
-  Write-Warning "This script requires the Az.ManagedServiceIdentity module."
-
-  $response = Read-Host "Would you like to install the 'Az.ManagedServiceIdentity' module now? (y/n)"
-  If ($response -match '[yY]') { Install-Module Az.ManagedServiceIdentity -Scope CurrentUser }
-}
 
 # get subscription context
 $selectedSub = Get-AzSubscription -SubscriptionId $targetSubscription -ErrorAction SilentlyContinue
@@ -459,7 +440,7 @@ Switch ($cleanItems) {
         If ($rgToBeDeleted.count -gt 0) {
 
           Write-Host "`n- Ensuring resource group(s) deployed by AMBA-ALZ are empty before deleting them ..."
-          Start-Sleep 20s
+          Start-Sleep -Seconds 20
 
           # Invoking function to ensure rgs are empty
           $emptyRgToBeDeleted = Check-ALZ-EmptyResourceGroups -fRgToBeChecked $rgToBeDeleted
@@ -577,7 +558,7 @@ Switch ($cleanItems) {
     $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
 
     If (($policyAssignmentsToBeDeleted.count -gt 0) -or ($roleAssignmentsToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
+      If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete policy assignments and role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete policy assignments
         If ($policyAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyAssignments -fPolicyAssignmentsToBeDeleted $policyAssignmentsToBeDeleted }
@@ -599,7 +580,7 @@ Switch ($cleanItems) {
     $policyDefinitionsToBeDeleted = Get-ALZ-PolicyDefinitions
 
     If (($policySetDefinitionsToBeDeleted.count -gt 0) -or ($policyDefinitionsToBeDeleted.count -gt 0)) {
-      If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
+      If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete policy policy initiatives and policy definitions deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
         # Invoking function to delete policy set definitions
         If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
@@ -618,7 +599,7 @@ Switch ($cleanItems) {
         $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
 
         If ($roleAssignmentsToBeDeleted.count -gt 0) {
-            If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete policy assignments, policy initiatives, policy definitions and policy role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
+            If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
 
                 # Invoking function to delete role assignments
                 If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
