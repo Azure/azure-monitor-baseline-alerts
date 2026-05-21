@@ -89,13 +89,13 @@ param(
   # the subscription in scope
   [Parameter(Mandatory = $True,
     ValueFromPipeline = $false)]
-    [string]$targetSubscription,
+  [string]$targetSubscription,
 
   # the items to be cleaned-up
   [Parameter(Mandatory = $True,
     ValueFromPipeline = $false)]
-    [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", "RoleAssignments", IgnoreCase = $true)]
-    [string]$cleanItems
+  [ValidateSet("Amba-Alz", "Deployments", "NotificationAssets", "OrphanedAlerts", "Alerts", "PolicyAssignments", "PolicyDefinitions", "RoleAssignments", IgnoreCase = $true)]
+  [string]$cleanItems
 )
 
 #region general functions
@@ -137,10 +137,12 @@ Function Get-ALZ-OrphanedAlerts {
   $query = "resources | where subscriptionId == '$targetSubscription' | where type in~ ('Microsoft.Insights/metricAlerts','Microsoft.Insights/activityLogAlerts', 'Microsoft.Insights/scheduledQueryRules') and tags['_deployed_by_amba'] =~ 'True' | project id, scope = tostring(properties.scopes)"
   $alertResources = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription
 
+  $tempArrayList = [System.Collections.ArrayList]::new()
+  $orphanedAlerts = [System.Collections.ArrayList]::Synchronized($tempArrayList)
+
   # get alerts without scoped resource existent
   If ($alertResources.count -gt 0) {
-    $tempArrayList = [System.Collections.ArrayList]::new()
-    $orphanedAlerts = [System.Collections.ArrayList]::Synchronized($tempArrayList)
+
 
     $alertResources | ForEach-Object -Parallel {
       $arr = $using:orphanedAlerts
@@ -231,10 +233,10 @@ Function Get-ALZ-UserAssignedManagedIdentities {
 }
 
 Function Get-ALZ-RoleAssignments {
-    # get role assignments to delete
-    $query = "authorizationresources | where subscriptionId == '$targetSubscription' | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | extend roleAssignmentId = id, roleDefinitionId = tostring(split(properties.roleDefinitionId,'/')[4]), objectId = properties.principalId, scope = properties.scope | project roleAssignmentId, roleDefinitionId, objectId, scope"
-    $roleAssignments = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription | Sort-Object -Property roleAssignmentId | Get-Unique -AsString
-    Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
+  # get role assignments to delete
+  $query = "authorizationresources | where subscriptionId == '$targetSubscription' | where type =~ 'microsoft.authorization/roleassignments' and properties.description == '_deployed_by_amba' | extend roleAssignmentId = id, roleDefinitionId = tostring(split(properties.roleDefinitionId,'/')[4]), objectId = properties.principalId, scope = properties.scope | project roleAssignmentId, roleDefinitionId, objectId, scope"
+  $roleAssignments = Search-AzGraphRecursive -Query $query -Subscription $targetSubscription | Sort-Object -Property roleAssignmentId | Get-Unique -AsString
+  Write-Host "- Found '$($roleAssignments.Count)' role assignments with description '_deployed_by_amba' to be deleted." -ForegroundColor Cyan
 
   # Returning items
   $roleAssignments
@@ -329,12 +331,11 @@ Function Delete-ALZ-PolicyDefinitions($fPolicyDefinitionsToBeDeleted) {
   Write-Host "---- Done deleting policy definitions ..." -ForegroundColor Cyan
 }
 
-Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted)
-{
-    # delete role assignments
-    Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
-    $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($_.objectId)" -Scope "$($_.scope)" -RoleDefinitionId "$($_.roleDefinitionId)" -Confirm:$false } | Out-Null
-    Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
+Function Delete-ALZ-RoleAssignments($fRoleAssignmentsToBeDeleted) {
+  # delete role assignments
+  Write-Host "`n-- Deleting role assignments ..." -ForegroundColor Yellow
+  $fRoleAssignmentsToBeDeleted | ForEach-Object -Parallel { Remove-AzRoleAssignment -ObjectId "$($_.objectId)" -Scope "$($_.scope)" -RoleDefinitionId "$($_.roleDefinitionId)" -Confirm:$false } | Out-Null
+  Write-Host "---- Done deleting role assignments ..." -ForegroundColor Cyan
 }
 
 Function Delete-ALZ-UserAssignedManagedIdentities($fUamiToBeDeleted) {
@@ -585,30 +586,30 @@ Switch ($cleanItems) {
         # Invoking function to delete policy set definitions
         If ($policySetDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicySetDefinitions -fPolicySetDefinitionsToBeDeleted $policySetDefinitionsToBeDeleted }
 
-                # Invoking function to delete policy definitions
-                If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
-            }
-        }
+        # Invoking function to delete policy definitions
+        If ($policyDefinitionsToBeDeleted.count -gt 0) { Delete-ALZ-PolicyDefinitions -fPolicyDefinitionsToBeDeleted $policyDefinitionsToBeDeleted }
+      }
+    }
 
     break;
 
+  }
+
+  "RoleAssignments" {
+    # Invoking function to retrieve role assignments
+    $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
+
+    If ($roleAssignmentsToBeDeleted.count -gt 0) {
+      If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
+
+        # Invoking function to delete role assignments
+        If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
+      }
     }
-
-    "RoleAssignments" {
-        # Invoking function to retrieve role assignments
-        $roleAssignmentsToBeDeleted = Get-ALZ-RoleAssignments
-
-        If ($roleAssignmentsToBeDeleted.count -gt 0) {
-            If ($PSCmdlet.ShouldProcess($targetSubscription, "Delete role assignments deployed by AMBA-ALZ on the target subscription with ID '$targetSubscription' ..." )) {
-
-                # Invoking function to delete role assignments
-                If ($roleAssignmentsToBeDeleted.count -gt 0) { Delete-ALZ-RoleAssignments -fRoleAssignmentsToBeDeleted $roleAssignmentsToBeDeleted }
-            }
-        }
 
     break;
 
-    }
+  }
 }
 
 Write-Host "`n=== Script execution completed. ===`n"

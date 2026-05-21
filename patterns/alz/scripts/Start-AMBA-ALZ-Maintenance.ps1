@@ -323,7 +323,7 @@ Function Get-ALZ-ShRoleAssignments {
 
 Function Get-ALZ-Deployments {
   # get deployments to delete
-  $allDeployments = @()
+  $allDeployments = [System.Collections.Generic.List[object]]::new()
   ForEach ($mg in $managementGroups) {
     $deployments = Get-AzManagementGroupDeployment -ManagementGroupId "$($mg.mgName)" -WarningAction silentlyContinue | Where-Object { $_.DeploymentName.StartsWith("amba-alz-", "CurrentCultureIgnoreCase") }
     $allDeployments.AddRange(@($deployments))
