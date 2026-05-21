@@ -115,7 +115,7 @@ Function Search-AzGraphRecursive {
   If ($managementGroupNames.count -gt 10) {
     $managementGroupBatches = @()
 
-    For ($i = 0; $i -le $managementGroupNames.count; $i = $i + 10) {
+    For ($i = 0; $i -lt $managementGroupNames.count; $i = $i + 10) {
       $batchGroups = $managementGroupNames[$i..($i + 9)]
       $managementGroupBatches += , @($batchGroups)
 
