@@ -93,14 +93,16 @@ Describe 'UnitTest-ModifiedPolicies' {
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
 
-        #Assembling custom version object for previous policy
-        $PreviousPolicyMetadataVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
-
-        #Assembling custom version object for current policy
-        $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
+        $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
+        $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
+        Write-Info "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
 
         if (($CurrentPolicyMetadataVersion -ne $null ) -and ($PreviousPolicyMetadataVersion -ne $null)) {
-          #Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($CurrentPolicyMetadataVersion). Previous metadata version is : $($PreviousPolicyMetadataVersion)"
+          #Assembling custom version object for previous policy
+          $PreviousPolicyMetadataVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
+
+          #Assembling custom version object for current policy
+          $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
 
           $CurrentPolicyMetadataVersion.Major | Should -Be $PreviousPolicyMetadataVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
 
