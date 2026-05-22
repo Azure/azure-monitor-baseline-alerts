@@ -51,13 +51,30 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PreviousPolicyDefinitionOutputFile = "./previous-$PolicyFile"
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
-        $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
-        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
-        $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
-        # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+
+        #Assembling custom version object for previous policy
+        $PreviousPolicyDefinitionsFileVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
+        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
+
+        #Assembling custom version object for current policy
+        $PolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
+        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!($PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) -and !($PolicyMetadataVersion.EndsWith("deprecated"))) {
-          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
+
+          # Converting to .Net version object for comparison
+          $PolicyMetadataVersionConverted = [version]::new(
+            $PolicyMetadataVersion.Major,
+            $PolicyMetadataVersion.Minor,
+            $PolicyMetadataVersion.Patch
+          )
+
+          $PreviousPolicyDefinitionsFileVersionConverted = [version]::new(
+            $PreviousPolicyDefinitionsFileVersion.Major,
+            $PreviousPolicyDefinitionsFileVersion.Minor,
+            $PreviousPolicyDefinitionsFileVersion.Patch
+          )
+
+          $PolicyMetadataVersionConverted | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersionConverted -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
         }
 
       }
