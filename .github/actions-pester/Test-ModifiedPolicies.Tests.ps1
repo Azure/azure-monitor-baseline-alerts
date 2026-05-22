@@ -57,12 +57,26 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PolicyJson = Get-Content -Path $_ -Raw | ConvertFrom-Json
         # Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!$PreviousPolicyDefinitionsFileVersion.Suffix.EndsWith("deprecated")) {
-          if ($PreviousPolicyDefinitionsFileVersion.Suffix.EndsWith("preview")){
-            # Removing suffix part for comparison
-            $PolicyMetadataVersion = $PolicyMetadataVersion | Select-Object -Property * -ExcludeProperty Suffix
-            $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFileVersion | Select-Object -Property * -ExcludeProperty Suffix
-          }
-          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
+
+          # Removing suffix part for comparison
+          $PolicyMetadataVersion = $PolicyMetadataVersion | Select-Object -Property * -ExcludeProperty Suffix
+          $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFileVersion | Select-Object -Property * -ExcludeProperty Suffix
+
+          # Converting to .Net version object for comparison
+          $PolicyMetadataVersionConverted = [version]::new(
+            $PolicyMetadataVersion.Major,
+            $PolicyMetadataVersion.Minor,
+            $PolicyMetadataVersion.Patch
+          )
+
+          $PreviousPolicyDefinitionsFileVersionConverted = [version]::new(
+            $PreviousPolicyDefinitionsFileVersion.Major,
+            $PreviousPolicyDefinitionsFileVersion.Minor,
+            $PreviousPolicyDefinitionsFileVersion.Patch
+          )
+
+
+          $PolicyMetadataVersionConverted | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersionConverted -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
         }
 
       }
