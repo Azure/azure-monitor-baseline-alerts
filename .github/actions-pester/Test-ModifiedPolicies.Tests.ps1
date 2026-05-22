@@ -52,14 +52,16 @@ Describe 'UnitTest-ModifiedPolicies' {
         Invoke-WebRequest -Uri $PreviousPolicyDefinitionRawUrl -OutFile $PreviousPolicyDefinitionOutputFile
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
 
-        #Assembling custom version object for previous policy
-        $PreviousPolicyDefinitionsFileVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
+        #Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
+        #Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
 
-        #Assembling custom version object for current policy
-        $PolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
         if (!($PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) -and !($PolicyMetadataVersion.EndsWith("deprecated"))) {
+
+          #Assembling custom version object for current policy
+          $PolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
+
+          #Assembling custom version object for previous policy
+          $PreviousPolicyDefinitionsFileVersion = Convert-PolicyVersion $PreviousPolicyDefinitionsFile.properties.metadata.version
 
           # Converting to .Net version object for comparison
           $PolicyMetadataVersionConverted = [version]::new(
