@@ -34,7 +34,7 @@ The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Seve
 
 ## AMBA-ALZ Pattern: Log-Search Alerts
 
-Refer to the following sections to quickly identify any Log-Search based alert, such as Azure Virtual Machine or Hybrid Virtual Machine alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
+Refer to the following sections to quickly identify any Log-Search based alert, such as Azure Virtual Machine or Arc-enabled server alerts, with an Azure resource. This will save you time troubleshooting and allow you to focus on communicating with your user base or incorporating these alerts into your business continuity actions (remediations).
 The values for Aggregation, Operator, Threshold, WindowSize, Frequency, and Severity are based on field experience and customer implementations.
 
 {{% include "Log-Search-Alerts-Table" %}}

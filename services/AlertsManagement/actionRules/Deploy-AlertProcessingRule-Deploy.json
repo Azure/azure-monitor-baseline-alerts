@@ -5,10 +5,10 @@
   "properties": {
     "policyType": "Custom",
     "mode": "All",
-    "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) - Notification Assets",
+    "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA) - Notification Assets",
     "description": "Policy to deploy Action Group and Alert Processing Rule for all AMBA alerts",
     "metadata": {
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
@@ -42,6 +42,26 @@
           "description": "Location of the Resource group the alert is placed in"
         },
         "defaultValue": "centralus"
+      },
+      "includePatternAlertsOnly":{
+        "type": "string",
+        "defaultValue": "No",
+        "allowedValues": [
+          "Yes",
+          "No"
+        ],
+        "metadata": {
+          "displayName": "Include pattern specific alerts only",
+          "description": "Specify whether to only include alerts generated from a specific pattern policies or all alerts in the APR scope. Pattern is identified by the patternAlertDescriptionPrefix parameter value."
+        }
+      },
+      "patternAlertDescriptionPrefix": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+          "displayName": "Pattern-specific Alert Description Prefix",
+          "description": "Prefix for the alert descriptions. Used to identify alerts generated from specific pattern policies when includePatternAlertsOnly parameter is set to Yes."
+        }
       },
       "ALZMonitorActionGroupEmail": {
         "type": "Array",
@@ -118,7 +138,7 @@
         "type": "String",
         "metadata": {
           "displayName": "Notification Asset Name Suffix",
-          "description": "Suffix for Alert Processing Rule and Action Group names"
+          "description": "Suffix for Alert Processing Rules and Action Group names"
         },
         "defaultValue": "-001"
       },
@@ -206,6 +226,78 @@
               {
                 "field": "Microsoft.AlertsManagement/actionRules/description",
                 "equals": "[[concat('AMBA Notification Assets - Alert Processing Rule for Subscription', parameters('ALZNotificationAssetSuffix'))]"
+              },
+              {
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[parameters('includePatternAlertsOnly')]",
+                        "equals": "Yes"
+                      },
+                      {
+                        "count": {
+                          "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                          "where": {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                                "equals": "Description"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                                "equals": "Contains"
+                              },
+                              {
+                                "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                                "in": "[[array(parameters('patternAlertDescriptionPrefix'))]"
+                              }
+                            ]
+                          }
+                        },
+                        "greater": 0
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "value": "[[parameters('includePatternAlertsOnly')]",
+                        "equals": "No"
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "count": {
+                              "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                              "where": {
+                                "anyOf": [
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].field",
+                                    "notEquals": "Description"
+                                  },
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].operator",
+                                    "notEquals": "Contains"
+                                  },
+                                  {
+                                    "field": "Microsoft.AlertsManagement/actionRules/conditions[*].values[*]",
+                                    "notIn": "[[array(parameters('patternAlertDescriptionPrefix'))]"
+                                  }
+                                ]
+                              }
+                            },
+                            "greater": 0
+                          },
+                          {
+                            "field": "Microsoft.AlertsManagement/actionRules/conditions[*]",
+                            "exists": "false"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
@@ -224,6 +316,12 @@
                     "type": "object"
                   },
                   "ALZMonitorResourceGroupLocation": {
+                    "type": "string"
+                  },
+                  "includePatternAlertsOnly": {
+                    "type": "string"
+                  },
+                  "patternAlertDescriptionPrefix": {
                     "type": "string"
                   },
                   "ALZMonitorActionGroupEmail": {
@@ -370,6 +468,12 @@
                           "ALZMonitorResourceGroupName": {
                             "type": "string"
                           },
+                          "includePatternAlertsOnly": {
+                            "type": "string"
+                          },
+                          "patternAlertDescriptionPrefix": {
+                            "type": "string"
+                          },
                           "ALZMonitorActionGroupEmail": {
                             "type": "Array"
                           },
@@ -430,7 +534,7 @@
                             }
                           },
                           {
-                            "condition": "[[empty(parameters('BYOAlertProcessingRule'))]",
+                            "condition": "[[and(empty(parameters('BYOAlertProcessingRule')), equals(parameters('includePatternAlertsOnly'), 'No'))]",
                             "type": "Microsoft.AlertsManagement/actionRules",
                             "apiVersion": "2021-08-08",
                             "name": "[[concat('apr-AMBA-',subscription().displayName, parameters('ALZNotificationAssetSuffix'))]",
@@ -461,12 +565,56 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "condition": "[[and(empty(parameters('BYOAlertProcessingRule')), equals(parameters('includePatternAlertsOnly'), 'Yes'))]",
+                            "type": "Microsoft.AlertsManagement/actionRules",
+                            "apiVersion": "2021-08-08",
+                            "name": "[[concat('apr-AMBA-',subscription().displayName, parameters('ALZNotificationAssetSuffix'))]",
+                            "location": "Global",
+                            "dependsOn": [
+                              "[[concat('ag-AMBA-', subscription().displayName, parameters('ALZNotificationAssetSuffix'))]"
+                            ],
+                            "tags": {
+                              "_deployed_by_amba": true
+                            },
+                            "properties": {
+                              "scopes": [
+                                "[[subscription().Id]"
+                              ],
+                              "description": "[[concat('AMBA Notification Assets - Alert Processing Rule for Subscription', parameters('ALZNotificationAssetSuffix'))]",
+                              "conditions": [
+                                {
+                                  "field": "severity",
+                                  "operator": "Equals",
+                                  "values": "[[parameters('ALZAlertSeverity')]"
+                                },
+                                {
+                                  "field": "Description",
+                                  "operator": "Contains",
+                                  "values": "[[array(parameters('patternAlertDescriptionPrefix'))]"
+                                }
+                              ],
+                              "enabled": true,
+                              "actions": [
+                                {
+                                  "actiongroupIds": "[[if(empty(parameters('BYOActionGroup')), array(concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/microsoft.insights/actionGroups/', 'ag-AMBA-', subscription().displayName, parameters('ALZNotificationAssetSuffix'))), variables('varAGIds'))]",
+                                  "actionType": "AddActionGroups"
+                                }
+                              ]
+                            }
                           }
                         ]
                       },
                       "parameters": {
                         "ALZMonitorResourceGroupName": {
                           "value": "[[parameters('ALZMonitorResourceGroupName')]"
+                        },
+                        "includePatternAlertsOnly": {
+                          "value": "[[parameters('includePatternAlertsOnly')]"
+                        },
+                        "patternAlertDescriptionPrefix": {
+                          "value": "[[parameters('patternAlertDescriptionPrefix')]"
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[[parameters('ALZMonitorActionGroupEmail')]"
@@ -518,6 +666,12 @@
                 },
                 "ALZMonitorResourceGroupLocation": {
                   "value": "[[parameters('ALZMonitorResourceGroupLocation')]"
+                },
+                "includePatternAlertsOnly": {
+                  "value": "[[parameters('includePatternAlertsOnly')]"
+                },
+                "patternAlertDescriptionPrefix": {
+                  "value": "[[parameters('patternAlertDescriptionPrefix')]"
                 },
                 "ALZMonitorActionGroupEmail": {
                   "value": "[[parameters('ALZMonitorActionGroupEmail')]"

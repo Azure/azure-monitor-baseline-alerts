@@ -10,7 +10,7 @@ weight: 80
 
 ## Overview
 
-The ***Logical Volumes Exclusion*** feature, introduce the capability of excluding logical volumes from being alerted. This feature, introduced in the [2025-02-05 release](../../Overview/Whats-New#2025-02-05), enables both Greenfield and Brownfield customers to customize the exclusion of specific logical volumes (that is: ***D:*** or ***/snap/snapd/21759*** logical volumes) during or after the deployment of AMBA-ALZ. This feature, supported on both Windows and Linux based virtual machines also on both Azure and Hybrid virtual machines, allows the use of specific tags containing the logical volume names as value, to ensure the passed entities are not included in the disk alerts. This feature can be use with the alerts created by the following policies:
+The ***Logical Volumes Exclusion*** feature, introduce the capability of excluding logical volumes from being alerted. This feature, introduced in the [2025-02-05 release](../../Overview/Whats-New#2025-02-05), enables both Greenfield and Brownfield customers to customize the exclusion of specific logical volumes (that is: ***D:*** or ***/snap/snapd/21759*** logical volumes) during or after the deployment of AMBA-ALZ. This feature, supported on both Windows and Linux based virtual machines also on Azure Virtual Machines, Azure Virtual Machine Scale Sets and Arc-enabled servers, allows the use of specific tags containing the logical volume names as value, to ensure the passed entities are not included in the disk alerts. This feature can be use with the alerts created by the following policies:
 
 - *Deploy Azure VM OS Disk Read Latency Alert*
 - *Deploy Azure VM OS Disk Space Alert*
@@ -24,12 +24,12 @@ The ***Logical Volumes Exclusion*** feature, introduce the capability of excludi
 - *Deploy Azure VMSS Data Disk Read Latency Alert*
 - *Deploy Azure VMSS Data Disk Space Alert*
 - *Deploy Azure VMSS Data Disk Write Latency Alert*
-- *Deploy Hybrid VM OS Disk Read Latency Alert*
-- *Deploy Hybrid VM OS Disk Space Alert*
-- *Deploy Hybrid VM OS Disk Write Latency Alert*
-- *Deploy Hybrid VM Data Disk Read Latency Alert*
-- *Deploy Hybrid VM Data Disk Space Alert*
-- *Deploy Hybrid VM Data Disk Write Latency Alert*
+- *Deploy Arc-enabled server VM OS Disk Read Latency Alert*
+- *Deploy Arc-enabled server VM OS Disk Space Alert*
+- *Deploy Arc-enabled server VM OS Disk Write Latency Alert*
+- *Deploy Arc-enabled server VM Data Disk Read Latency Alert*
+- *Deploy Arc-enabled server VM Data Disk Space Alert*
+- *Deploy Arc-enabled server VM Data Disk Write Latency Alert*
 
 ## How this feature works
 

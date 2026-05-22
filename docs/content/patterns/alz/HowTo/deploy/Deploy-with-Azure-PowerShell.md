@@ -80,20 +80,25 @@ $pseudoRootManagementGroup = "The pseudo root management group ID parenting the 
 {{% tab title="Cloud Solution Provider (CSP) or Azure Lighthouse" %}}
 
 1. Open a PowerShell prompt and navigate to the folder where the parameter file was downloaded.
-2. Log in to Azure with an account that has at least Owner access on the subscription where you will be creating the policies and initiatives.
+2. Type and execute the following commands:
 
-Execute the following commands:
+    ```powershell
+    $location = "Your Azure location of choice"
+    $targetSubscription="The subscription ID where to deploy AMBA-ALZ"
+    ```
 
-```powershell
-$location = "Your Azure location of choice"
-$targetSubscription="The subscription ID where to deploy AMBA-ALZ"
-```
+    > [!Important]
+    > The `targetSubscription` variable should match the value of the `topLevelSubscriptionId` parameter, as defined in the parameter files.
+    >
+    > The `location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a subscription and are not region-specific.
+    >
 
-> [!importnat]
-> The `targetSubscription` variable should match the value of the `topLevelSubscriptionId` parameter, as defined in the parameter files.
->
-> The `location` variable specifies the deployment region. It is not required to deploy to multiple regions since the definitions and assignments are scoped to a subscription and are not region-specific.
->
+3. Log in to Azure with an account that has at least Owner access on the subscription where you will be creating the policies and initiatives using the following command:
+
+    ```powershell
+    Connect-AzAccount -SubscriptionId "$targetSubscription$"
+    Set-AzContext -Subscription "$targetSubscription"
+    ```
 
 {{% /tab %}}
 

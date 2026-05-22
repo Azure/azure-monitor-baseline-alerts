@@ -86,6 +86,9 @@ The parameter file below is a shortened version for demonstration purposes. Full
         "Sandbox"
       ]
     },
+    "includeAlzAlertsOnly": {
+      "value": "Yes"
+    },
     .
     .
     .
