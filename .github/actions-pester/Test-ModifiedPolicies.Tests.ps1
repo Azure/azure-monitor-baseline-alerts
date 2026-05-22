@@ -53,10 +53,8 @@ Describe 'UnitTest-ModifiedPolicies' {
         $PreviousPolicyDefinitionsFile = Get-Content $PreviousPolicyDefinitionOutputFile -Raw | ConvertFrom-Json
 
         $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the main branch is : $($PreviousPolicyDefinitionsFileVersion)"
-
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        Write-Warning "$($PolicyFile) - The current metadata version for the policy in the PR branch is : $($PolicyMetadataVersion)"
+        Write-Info "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
 
         if (!($PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) -and !($PolicyMetadataVersion.EndsWith("deprecated"))) {
 
