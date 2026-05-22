@@ -54,7 +54,7 @@ Describe 'UnitTest-ModifiedPolicies' {
 
         $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        Write-Info "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
+        Write-Information "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
 
         if (!($PreviousPolicyDefinitionsFileVersion.EndsWith("deprecated")) -and !($PolicyMetadataVersion.EndsWith("deprecated"))) {
 
@@ -95,7 +95,7 @@ Describe 'UnitTest-ModifiedPolicies' {
 
         $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFile.properties.metadata.version
         $PolicyMetadataVersion = $PolicyJson.properties.metadata.version
-        Write-Info "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
+        Write-Information "$($PolicyFile) - Policy version for comparison is as follow: main branch == [$($PreviousPolicyDefinitionsFileVersion)] ; PR branch == [$($policyMetadataVersion)]"
 
         if (($CurrentPolicyMetadataVersion -ne $null ) -and ($PreviousPolicyMetadataVersion -ne $null)) {
           #Assembling custom version object for previous policy
@@ -104,13 +104,19 @@ Describe 'UnitTest-ModifiedPolicies' {
           #Assembling custom version object for current policy
           $CurrentPolicyMetadataVersion = Convert-PolicyVersion $PolicyJson.properties.metadata.version
 
+          # Checking if the major version remained the same as expected
           $CurrentPolicyMetadataVersion.Major | Should -Be $PreviousPolicyMetadataVersion.Major -Because "Incrementing the [Major] version of policy version is not supported. Ensure the [Major] version of [$PolicyFile] stay unchanged."
 
+          # Checking minor version changes
+          ## if minor version is incremented, we check for patch version to have been reset to 0
           if ($CurrentPolicyMetadataVersion.Minor -gt $PreviousPolicyMetadataVersion.Minor) {
             $CurrentPolicyMetadataVersion.Patch | Should -Be 0 -Because "Incrementing the [Minor] version of policy version requires the [Patch] version to be reset to 0. When incrementing the [Minor] version , ensure the [Patch] version of [$PolicyFile] is reset to 0."
           }
+          ## if minor version remained unchanged
           elseif ($CurrentPolicyMetadataVersion.Minor -eq $PreviousPolicyMetadataVersion.Minor) {
+            ## and the Patch version remained unchanged, then we check if the policy has been deprecated
             if($CurrentPolicyMetadataVersion.Patch -eq $PreviousPolicyMetadataVersion.Patch) {
+              #checking if policy is deprecated,
               $CurrentPolicyMetadataVersion.Suffix | Should -BeIn @('deprecated', 'Deprecated') -Because "When deprecating policies the version should remain unmodified for the [Major], [Minor] and [Patch] parts. Only the [Suffix]  part should be changed. Ensure the [Suffic] version of [$PolicyFile] is modified to be '-deprecated'."
             }
           }
