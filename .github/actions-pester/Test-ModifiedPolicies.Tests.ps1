@@ -61,10 +61,8 @@ Describe 'UnitTest-ModifiedPolicies' {
             # Removing suffix part for comparison
             $PolicyMetadataVersion = $PolicyMetadataVersion | Select-Object -Property * -ExcludeProperty Suffix
             $PreviousPolicyDefinitionsFileVersion = $PreviousPolicyDefinitionsFileVersion | Select-Object -Property * -ExcludeProperty Suffix
-
           }
-
-          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."         }
+          $PolicyMetadataVersion | Should -BeGreaterThan $PreviousPolicyDefinitionsFileVersion -Because "the version attribute value of file [$PolicyFile] needs to be incremented when modifying policies."
         }
 
       }
