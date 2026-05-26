@@ -73,7 +73,7 @@ param ANFVolumeResourceIds array = []
 param Tags object = {}
 
 var ActionGroupName = 'ag-avdmetrics-${Environment}-${Location}-${uniqueString(subscription().displayName)}'
-var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.1)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
+var AlertDescriptionHeader = 'Automated AVD Alert Deployment Solution (v2.2.2)\n' // DESCRIPTION HEADER AND VERSION <-----------------------------
 var AutomationAccountName = 'aa-avdmetrics-${Environment}-${Location}-${AlertNamePrefix}'
 var CloudEnvironment = environment().name
 var ResourceGroupCreate = ResourceGroupStatus == 'New' ? true : false
@@ -647,8 +647,8 @@ var LogAlertsHostPool = [
           | where EventID == 34
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -658,6 +658,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -670,6 +671,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -718,8 +726,8 @@ var LogAlertsHostPool = [
           | where EventID == 33
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -729,6 +737,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -741,6 +750,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -788,8 +804,8 @@ var LogAlertsHostPool = [
           | where EventID == 43
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -799,6 +815,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -811,6 +828,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -859,8 +883,8 @@ var LogAlertsHostPool = [
           | where EventID == 52 or EventID == 40
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -870,6 +894,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -882,6 +907,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -930,8 +962,8 @@ var LogAlertsHostPool = [
           | where EventID == 60
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -941,6 +973,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
               '''
           timeAggregation: 'Count'
           dimensions: [
@@ -953,6 +986,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -1001,8 +1041,8 @@ var LogAlertsHostPool = [
           | where EventID == 62 or EventID == 63
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -1012,6 +1052,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1024,6 +1065,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -1072,8 +1120,8 @@ var LogAlertsHostPool = [
           | where EventID == 51
           | parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" ResourceGroup "/providers/microsoft.compute/virtualmachines/" ComputerName
           | extend ComputerName=tolower(ComputerName)
-          | project ComputerName, RenderedDescription, subscription, ResourceGroup, TimeGenerated
-          | join kind = leftouter
+          | project ComputerName, RenderedDescription, UserName, subscription, ResourceGroup, TimeGenerated
+          | join kind = inner
               (
                 WVDAgentHealthStatus
                 | where _ResourceId contains "xHostPoolNamex"
@@ -1083,6 +1131,7 @@ var LogAlertsHostPool = [
                 | summarize arg_max(TimeGenerated,*) by ComputerName
                 | project VMresourceGroup, ComputerName, HostPool
               ) on ComputerName
+          | project TimeGenerated, ComputerName, HostPool, VMresourceGroup, UserName, RenderedDescription
           '''
           timeAggregation: 'Count'
           dimensions: [
@@ -1095,6 +1144,13 @@ var LogAlertsHostPool = [
             }
             {
               name: 'RenderedDescription'
+              operator: 'Include'
+              values: [
+                '*'
+              ]
+            }
+            {
+              name: 'UserName'
               operator: 'Include'
               values: [
                 '*'
@@ -1137,7 +1193,7 @@ var LogAlertsHostPool = [
     criteria: {
       allOf: [
         {
-          query: '// HealthChecks of SessionHost \n// Renders a summary of SessionHost health status. \nlet MapToDesc = (idx: long) {\n    case(idx == 0, "DomainJoin",\n    idx == 1, "DomainTrust",\n    idx == 2, "FSLogix",\n    idx == 3, "SxSStack",\n    idx == 4, "URLCheck",\n    idx == 5, "GenevaAgent",\n    idx == 6, "DomainReachable",\n    idx == 7, "WebRTCRedirector",\n    idx == 8, "SxSStackEncryption",\n    idx == 9, "IMDSReachable",\n    idx == 10, "MSIXPackageStaging",\n    "InvalidIndex")\n};\nWVDAgentHealthStatus\n| where TimeGenerated > ago(10m)\n| where Status != \'Available\'\n| where AllowNewSessions = True\n| extend CheckFailed = parse_json(SessionHostHealthCheckResult)\n| mv-expand CheckFailed\n| where CheckFailed.AdditionalFailureDetails.ErrorCode != 0\n| extend HealthCheckName = tolong(CheckFailed.HealthCheckName)\n| extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)\n| extend HealthCheckDesc = MapToDesc(HealthCheckName)\n| where HealthCheckDesc != \'InvalidIndex\'\n| where _ResourceId contains "xHostPoolNamex"\n| parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool\n| parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG " /providers/Microsoft.Compute/virtualMachines/" SessionHostName\n'
+          query: '// HealthChecks of SessionHost \n// Renders a summary of SessionHost health status. \nlet MapToDesc = (idx: long) {\n    case(idx == 0, "DomainJoin",\n    idx == 1, "DomainTrust",\n    idx == 2, "FSLogix",\n    idx == 3, "SxSStack",\n    idx == 4, "URLCheck",\n    idx == 5, "GenevaAgent",\n    idx == 6, "DomainReachable",\n    idx == 7, "WebRTCRedirector",\n    idx == 8, "SxSStackEncryption",\n    idx == 9, "IMDSReachable",\n    idx == 10, "MSIXPackageStaging",\n    "InvalidIndex")\n};\nWVDAgentHealthStatus\n| where TimeGenerated > ago(10m)\n| where Status != \'Available\'\n| where AllowNewSessions = True\n| extend CheckFailed = parse_json(SessionHostHealthCheckResult)\n| mv-expand CheckFailed\n| where CheckFailed.AdditionalFailureDetails.ErrorCode != 0\n| extend HealthCheckName = tolong(CheckFailed.HealthCheckName)\n| extend HealthCheckResult = tolong(CheckFailed.HealthCheckResult)\n| extend HealthCheckDesc = MapToDesc(HealthCheckName)\n| where HealthCheckDesc != \'InvalidIndex\'\n| where _ResourceId contains "xHostPoolNamex"\n| parse _ResourceId with "/subscriptions/" subscription "/resourcegroups/" HostPoolResourceGroup "/providers/microsoft.desktopvirtualization/hostpools/" HostPool\n| parse SessionHostResourceId with "/subscriptions/" HostSubscription "/resourceGroups/" SessionHostRG "/providers/Microsoft.Compute/virtualMachines/" SessionHostName\n'
           timeAggregation: 'Count'
           dimensions: [
             {
