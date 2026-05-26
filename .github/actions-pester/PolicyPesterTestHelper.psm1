@@ -148,10 +148,10 @@ function Convert-PolicyVersion
       $suffix = $matches['Suffix']
 
       $policyVersionObject = [PSCustomObject]@{
-        Major = $major
-        Minor = $minor
-        Patch = $patch
-        Suffix = $suffix
+        Major = [Int]$major
+        Minor = [Int]$minor
+        Patch = [Int]$patch
+        Suffix = [String]$suffix
       }
     }
     else {
