@@ -40,7 +40,7 @@ param alertSeverity int = 3
 param operator string = 'GreaterThan'
 
 @description('The threshold value at which the alert is activated.')
-param threshold int = 85
+param threshold int = 7089000000
 
 @description('How the data that is collected should be combined over time.')
 @allowed([
