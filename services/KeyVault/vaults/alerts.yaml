@@ -201,3 +201,126 @@
     threshold: 80.0
     enabled: true
   guid: 7b52bf07-3d86-4429-b5d4-829a6a5542df
+- name: SecretNearExpiry/SecretExpired
+  description: Secret is near expiry or expired
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  - rag
+  properties:
+    severity: 3
+    operator: GreaterThan
+    timeAggregation: Count
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    threshold: 0
+    dimensions:
+    - name: SecretName
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'AzureDiagnostics | where OperationName == "SecretNearExpiryEventGridNotification" or OperationName == "SecretExpiredEventGridNotification"'
+    autoMitigate: true
+    enabled: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  deployments:
+  - name: Deploy KeyVault Secret Expiry Alert
+    template: Deploy-KV-SecretExpiry-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
+  guid: 2f5f7b76-607c-4cc9-9121-5193974c37e6
+- name: CertificateNearExpiry/CertificateExpired
+  description: Certificate is near expiry or expired
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  - rag
+  properties:
+    severity: 3
+    operator: GreaterThan
+    timeAggregation: Count
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    threshold: 0
+    dimensions:
+    - name: CertificateName
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'AzureDiagnostics | where OperationName == "CertificateNearExpiryEventGridNotification" or OperationName == "CertificateExpiredEventGridNotification"'
+    autoMitigate: true
+    enabled: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  deployments:
+  - name: Deploy KeyVault Certificate Expiry Alert
+    template: Deploy-KV-CertificateExpiry-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
+  guid: 1ff8a670-3074-47e9-b616-56fb2b7efef8
+- name: KeyNearExpiry/KeyExpired
+  description: Key is near expiry or expired
+  type: Log
+  verified: false
+  visible: true
+  tags:
+  - alz
+  - rag
+  properties:
+    severity: 3
+    operator: GreaterThan
+    timeAggregation: Count
+    windowSize: PT1H
+    evaluationFrequency: PT1H
+    threshold: 0
+    dimensions:
+    - name: KeyName
+      operator: Include
+      values:
+      - '*'
+    failingPeriods:
+      numberOfEvaluationPeriods: 1
+      minFailingPeriodsToAlert: 1
+    query: 'AzureDiagnostics | where OperationName == "KeyNearExpiryEventGridNotification" or OperationName == "KeyExpiredEventGridNotification"'
+    autoMitigate: true
+    enabled: false
+  references:
+  - name: Monitoring KeyVault Reference
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault-reference
+  - name: Monitoring Microsoft.KeyVault/vaults
+    url: https://docs.microsoft.com/en-us/azure/key-vault/general/monitor-key-vault
+  deployments:
+  - name: Deploy KeyVault Key Expiry Alert
+    template: Deploy-KV-KeyExpiry-Alert.json
+    type: Policy
+    tags:
+    - alz
+    properties:
+      scope: Resource
+      multiResource: true
+  guid: a59eb867-93a7-45ce-b5f2-ec9284e2a272
