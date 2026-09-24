@@ -12,8 +12,8 @@ weight: 20
 > [What AMBA-ALZ delivers](../Health-Models-Adoption#what-amba-alz-delivers) </br>
 > [What a health model adds](../Health-Models-Adoption#what-a-health-model-adds) </br>
 > [AMBA alerts become signals](../Health-Models-Adoption#amba-alerts-become-signals) </br>
-> [Health models at Azure Landing Zone scale](../Health-Models-Adoption#health-models-at-azure-landing-zone-scale) </br>
 > [Health model adoption path](../Health-Models-Adoption#health-model-adoption-path) </br>
+> [Health models at Azure Landing Zone scale](../Health-Models-Adoption#health-models-at-azure-landing-zone-scale) </br>
 > [References](../Health-Models-Adoption#references) </br>
 
 ## Overview
@@ -83,30 +83,6 @@ Hybrid connectivity uses a **not-healthy limit** because it has a failover path.
 | Threshold override tag | No equivalent | Set thresholds directly on each health model signal. |
 | Action group | The same action group | Health model alerts use the action groups you already have. |
 
-## Health models at Azure Landing Zone scale
-
-Use [nested health models](https://learn.microsoft.com/azure/azure-monitor/health-models/concepts#nested-health-models) to separate tenant, domain, platform, and system flow ownership. A parent model at tenant scale holds one entity per landing zone domain. Each domain entity receives the root state of a separately deployed child model, not the child's internal entity graph.
-
-For the example below, create one parent model and one child model per ALZ domain.
-
-![Health models at tenant scale](../../media/health-models-at-tenant-scale.svg)
-
-Each parent domain entity runs a tag-filtered Resource Graph discovery rule that finds the matching child health model resource. The child's root state rolls up through that discovered entity. The parent does not contain or own the child's entities, so each domain team changes its own model independently.
-
-Add monitoring signals to each child model before using its state to assess domain health.
-
-Child models run their own discovery rules, a separate layer from the parent's tag discovery. Configure their scopes and [Reader access](https://learn.microsoft.com/azure/azure-monitor/health-models/create#permissions-required).
-
-![A referenced connectivity domain health model](../../media/connectivity-contoso-prod.svg)
-
-A refined child model carries the flows, resources, and signals for its domain. Its root state is what the parent domain entity receives.
-
-The same Azure resource can appear in multiple health models. Each model evaluates its own signals and maintains an independent state for that resource.
-
-![One resource, two models](../../media/one-resource-two-models.svg)
-
-The hub firewall is one resource. The connectivity model evaluates SNAT port use and tunnel state. The partner exchange model evaluates threat intelligence hits and denied flows.
-
 ## Health model adoption path
 
 Start from an empty or placeholder child model and build it out in three stages:
@@ -143,6 +119,26 @@ Combine manually modeled entities with discovery rules where resources change of
 ![Adoption step 3, refine](../../media/adoption-step-3-refine.svg)
 
 In this example, hybrid connectivity has primary and failover paths. The **not-healthy limit** degrades the flow when one path is unhealthy and marks it unhealthy when both paths are unhealthy. Configure alerts on the system flow or root when those states represent an operational issue.
+
+## Health models at Azure Landing Zone scale
+
+At Azure Landing Zone scale, [nested health models](https://learn.microsoft.com/azure/azure-monitor/health-models/concepts#nested-health-models) establish ownership boundaries between the tenant, landing zone domains, platforms, and system flows. A parent model at tenant scale can represent each landing zone domain as an entity. Each domain entity receives the root state of a separately deployed child model, while the child retains ownership of its internal entity graph.
+
+![Health models at tenant scale](../../media/health-models-at-tenant-scale.svg)
+
+The parent model can use a tag-filtered Resource Graph discovery rule to find the child health model that represents each domain. The discovered entity receives the child's root state, allowing domain health to roll up without copying the child's entities into the parent. This keeps each domain model independently maintained by its owning team.
+
+Discovery in a child model is a separate concern from the parent's discovery of child models. The child owns the signals, resource scopes, and [Reader access](https://learn.microsoft.com/azure/azure-monitor/health-models/create#permissions-required) needed to describe its domain.
+
+![A referenced connectivity domain health model](../../media/connectivity-domain.svg)
+
+A child model can describe the flows, resources, and signals that make up its domain. Its root state is the boundary exposed to the parent domain entity. This lets a domain refine its internal topology without changing the tenant-level model.
+
+The same Azure resource can support multiple operational concerns. Each concern can use different signals and maintain its own assessment of that resource.
+
+![One resource, multiple concerns](../../media/one-resource-multiple-concerns.svg)
+
+For example, the hub firewall can support both connectivity and partner exchange concerns. A connectivity assessment can evaluate SNAT port use and tunnel state, while a partner exchange assessment evaluates threat intelligence hits and denied flows. The resource is shared, but each assessment reflects a different operational role.
 
 ## References
 

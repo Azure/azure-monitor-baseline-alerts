@@ -99,34 +99,28 @@ flowchart BT
 
 ## Diagram 3: Health models at tenant scale
 
-```mermaid swimlane title="Health models at tenant scale" subtitle="Each child root state rolls up through its discovered parent-domain entity"
-%%| lanes: ["Parent model root", "Parent domain entities", "Tagged child-model discovery", "Deployment checks"]
+```mermaid swimlane title="Health models at tenant scale" subtitle="Illustrative nested models; names and health states are examples"
+%%| lanes: ["Parent model root", "Parent domain entities", "Child model root states"]
 flowchart BT
-    secPh["Dummy entity<br/>(deployment check only)<br/>healthy"] --> secHM["ahm-alz-security<br/>healthy"]
-    idPh["Dummy entity<br/>(deployment check only)<br/>healthy"] --> idHM["ahm-alz-identity<br/>healthy"]
-    connPh["Dummy entity<br/>(deployment check only)<br/>healthy"] --> connHM["ahm-alz-connectivity<br/>healthy"]
-    mgmtPh["Dummy entity<br/>(deployment check only)<br/>healthy"] --> mgmtHM["ahm-alz-management<br/>healthy"]
-    lzPh["Dummy entity<br/>(deployment check only)<br/>healthy"] --> lzHM["ahm-alz-landing-zones<br/>healthy"]
+    secHM["Security<br/>healthy"] --> security["Security<br/>healthy"]
+    idHM["Identity<br/>healthy"] --> identity["Identity<br/>healthy"]
+    connHM["Connectivity<br/>healthy"] --> conn["Connectivity<br/>healthy"]
+    mgmtHM["Management<br/>healthy"] --> mgmt["Management<br/>healthy"]
+    lzHM["Landing zones<br/>healthy"] --> lz["Landing zones<br/>healthy"]
 
-    secHM --> security["Security<br/>healthy"]
-    idHM --> identity["Identity<br/>healthy"]
-    connHM --> conn["Connectivity<br/>healthy"]
-    mgmtHM --> mgmt["Management<br/>healthy"]
-    lzHM --> lz["Landing zones<br/>healthy"]
-
-    security --> platform["ahm-alz-platform<br/>healthy"]
+    security --> platform["Platform<br/>healthy"]
     identity --> platform
     conn --> platform
     mgmt --> platform
     lz --> platform
 
     classDef green fill:#f2f8f2,stroke:#a0d8a0;
-    class secPh,idPh,connPh,mgmtPh,lzPh,secHM,idHM,connHM,mgmtHM,lzHM,security,identity,conn,mgmt,lz,platform green;
+    class secHM,idHM,connHM,mgmtHM,lzHM,security,identity,conn,mgmt,lz,platform green;
 ```
 
 ## Diagram 4: A referenced domain model
 
-```mermaid swimlane title="Connectivity-Contoso-Prod" subtitle="The referenced model carries the entities and the signals"
+```mermaid swimlane title="Connectivity domain" subtitle="The domain carries the entities and signals"
 %%| lanes: ["Model root", "Flows", "System flows", "Azure resources and their signals"]
 flowchart BT
     erSig["ExpressRoute BGP availability = 98.7% (unhealthy)<br/>Ingress bits = 1.4 Gbps (healthy)"] --> er["ExpressRoute circuit<br/>unhealthy"]
@@ -141,7 +135,7 @@ flowchart BT
     backup --> flow
     egress --> flow
 
-    flow --> root["Connectivity-Contoso-Prod<br/>degraded"]
+    flow --> root["Connectivity domain<br/>degraded"]
 
     classDef blue fill:#eff6fc,stroke:#0078D4;
     classDef green fill:#f2f8f2,stroke:#a0d8a0;
@@ -153,16 +147,16 @@ flowchart BT
     class er,primary red;
 ```
 
-## Diagram 5: One resource in two models
+## Diagram 5: One resource, multiple concerns
 
-```mermaid swimlane title="One resource, two models" subtitle="The same firewall with signals selected for each model"
-%%| lanes: ["Portfolio", "Targeted models", "Entities"]
+```mermaid swimlane title="One resource, multiple concerns" subtitle="The same firewall assessed for different operational concerns"
+%%| lanes: ["Portfolio", "Operational concerns", "Entity states"]
 flowchart BT
     connSig["SNAT port utilization = 42%<br/>Tunnel state = connected"] --> fwConn["Azure Firewall<br/>connectivity concern<br/>healthy"]
     excSig["Threat intel hits = 128 (degraded)<br/>Denied partner flows = 4.1k"] --> fwExc["Azure Firewall<br/>partner concern<br/>degraded"]
 
-    fwConn --> connModel["hm-conn-partner<br/>healthy"]
-    fwExc --> excModel["hm-partner-exchange<br/>degraded"]
+    fwConn --> connModel["Connectivity<br/>healthy"]
+    fwExc --> excModel["Partner exchange<br/>degraded"]
 
     connModel --> root["Group platform health<br/>objective 99.5%<br/>degraded"]
     excModel --> root
@@ -184,7 +178,7 @@ signal states remain visible.
 ```mermaid title="Adoption step 1, discovery"
 %%| renderer: mermaid
 flowchart TB
-    root["Contoso-Prod estate"] --> conn["Connectivity"]
+    root["Production estate"] --> conn["Connectivity"]
     root --> id["Identity"]
     root --> mgmt["Management"]
     root --> lz["Landing zones"]
@@ -251,7 +245,7 @@ flowchart BT
     failover --> hybrid
     inspect --> egress["Egress control<br/>healthy"]
 
-    hybrid --> root["Connectivity-Contoso-Prod<br/>objective 99.5%<br/>degraded"]
+    hybrid --> root["Connectivity domain<br/>objective 99.5%<br/>degraded"]
     egress --> root
 
     classDef blue fill:#eff6fc,stroke:#0078D4;
