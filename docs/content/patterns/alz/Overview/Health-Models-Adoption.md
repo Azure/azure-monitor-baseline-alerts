@@ -12,7 +12,7 @@ weight: 20
 > [What AMBA-ALZ delivers](../Health-Models-Adoption#what-amba-alz-delivers) </br>
 > [What a health model adds](../Health-Models-Adoption#what-a-health-model-adds) </br>
 > [AMBA alerts become signals](../Health-Models-Adoption#amba-alerts-become-signals) </br>
-> [Health models at Landing Zone scale](../Health-Models-Adoption#health-models-at-landing-zone-scale) </br>
+> [Health models at Azure Landing Zone scale](../Health-Models-Adoption#health-models-at-azure-landing-zone-scale) </br>
 > [Health model adoption path](../Health-Models-Adoption#health-model-adoption-path) </br>
 > [References](../Health-Models-Adoption#references) </br>
 
@@ -26,7 +26,7 @@ AMBA alert rules and health model signals can evaluate the same Azure Monitor da
 
 - **Health model signal:** Sets an entity's health state. Relationships roll that state up to the system flows and services that depend on the entity. You choose which entity state changes create alerts.
 
-This page compares the two and describes how to introduce a health model into a landing zone.
+This page compares the two and describes how to introduce a health model into an Azure Landing Zone structure.
 
 ## What AMBA-ALZ delivers
 
@@ -40,7 +40,7 @@ AMBA-ALZ deploys alert rules with Azure Policy, scoped to the Azure Landing Zone
 
 Assigning an initiative at a management group applies a consistent alert baseline to subscriptions in that scope.
 
-AMBA-ALZ does not model dependencies between alert rules. An ExpressRoute circuit, a firewall, and a gateway can support one connectivity service, but their alerts remain independent. An operator must assess their combined effect.
+AMBA-ALZ does not model dependencies between alert rules or resources. An ExpressRoute circuit, a firewall, and a gateway can support one connectivity service, but their alerts remain independent. An operator must assess their combined effect.
 
 ## What a health model adds
 
@@ -83,21 +83,19 @@ Hybrid connectivity uses a **not-healthy limit** because it has a failover path.
 | Threshold override tag | No equivalent | Set thresholds directly on each health model signal. |
 | Action group | The same action group | Health model alerts use the action groups you already have. |
 
-## Health models at Landing Zone scale
+## Health models at Azure Landing Zone scale
 
-Use nested health models to separate tenant, domain, platform, and system flow ownership. A parent model at tenant scale holds one entity per landing zone domain. Each domain entity receives the root state of a separately deployed child model, not the child's internal entity graph.
+Use [nested health models](https://learn.microsoft.com/azure/azure-monitor/health-models/concepts#nested-health-models) to separate tenant, domain, platform, and system flow ownership. A parent model at tenant scale holds one entity per landing zone domain. Each domain entity receives the root state of a separately deployed child model, not the child's internal entity graph.
 
-The [Azure Landing Zones Bicep accelerator](https://github.com/Azure/alz-bicep-accelerator) deploys this shape as a starter topology in [draft pull request 167](https://github.com/Azure/alz-bicep-accelerator/pull/167). It creates one parent model, `ahm-alz-platform`, and one child model per ALZ domain: `ahm-alz-security`, `ahm-alz-identity`, `ahm-alz-connectivity`, `ahm-alz-management`, and `ahm-alz-landing-zones`.
+For the example below, create one parent model and one child model per ALZ domain.
 
 ![Health models at tenant scale](../../media/health-models-at-tenant-scale.svg)
 
 Each parent domain entity runs a tag-filtered Resource Graph discovery rule that finds the matching child health model resource. The child's root state rolls up through that discovered entity. The parent does not contain or own the child's entities, so each domain team changes its own model independently.
 
-The current pull request gives every child model one healthy dummy entity to confirm the deployment succeeded. The diagram labels that entity as a deployment check because it does not measure domain health. Replace it with the platform and system flows the domain provides.
+Add monitoring signals to each child model before using its state to assess domain health.
 
-Child models run their own discovery rules, a separate layer from the parent's tag discovery. The four platform domains can discover configured Azure resource types and add recommended signals. The landing zones domain discovers other health models only after you configure management groups and deploy Reader access to them. Cross-subscription Reader is opt-in.
-
-Pull request 167 is a draft. Treat its resource names, scopes, and permissions as a starting point rather than a supported contract.
+Child models run their own discovery rules, a separate layer from the parent's tag discovery. Configure their scopes and [Reader access](https://learn.microsoft.com/azure/azure-monitor/health-models/create#permissions-required).
 
 ![A referenced connectivity domain health model](../../media/connectivity-contoso-prod.svg)
 
