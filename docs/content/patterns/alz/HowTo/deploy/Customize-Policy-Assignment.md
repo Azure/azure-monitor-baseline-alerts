@@ -21,7 +21,7 @@ To adjust alert thresholds for one or more metric alerts, specify the relevant p
 
 Two versions of the parameter file are available:
 
-1. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-06-03/patterns/alz/alzArm.param.json) aligned with the latest release.
+1. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-10-16/patterns/alz/alzArm.param.json) aligned with the latest release.
 2. [alzArm.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz/alzArm.param.json) aligned with the main branch.
 
 ### Applying Changes to the Parameter File
