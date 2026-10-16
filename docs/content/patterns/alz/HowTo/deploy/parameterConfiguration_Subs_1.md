@@ -8,7 +8,7 @@ To begin, download the appropriate parameter file for the version of AMBA-ALZ yo
   > [!note]
   > Forking or cloning the repository isn’t required for the deployment, unless you have customized the policies as described in [How to modify individual policies](../Introduction-to-deploying-the-ALZ-Pattern#how-to-modify-individual-policies)
 
-- [alzArm4Subs.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-06-03/patterns/alz4Subs/alzArm4Subs.param.json) for the latest release.
+- [alzArm4Subs.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/2026-10-16/patterns/alz4Subs/alzArm4Subs.param.json) for the latest release.
 - [alzArm4Subs.param.json](https://github.com/azure/azure-monitor-baseline-alerts/blob/main/patterns/alz4Subs/alzArm4Subs.param.json) for the main branch.
 
 Modify the values of the following parameters at the beginning of the parameter file as per the following instructions:
