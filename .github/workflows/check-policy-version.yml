@@ -13,7 +13,7 @@ on:
       - synchronize
       - ready_for_review
     paths:
-      - "services/**.json"
+      - "services/**/**.json"
       - "patterns/alz/policySetDefinitions/**.json"
   workflow_dispatch: {}
 
@@ -31,6 +31,12 @@ jobs:
           fetch-depth: 0
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
+
+      - name: Fetch official main
+        run: |
+          git remote add upstream https://github.com/Azure/azure-monitor-baseline-alerts.git
+          git fetch upstream main
+
       - name: Pester Test for Modified Policies
         shell: pwsh
         run: |
