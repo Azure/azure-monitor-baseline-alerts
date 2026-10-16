@@ -5,6 +5,7 @@ weight: 01
 
 ### In this page
 
+> [2026-10-16](#2026-10-16) </br>
 > [2026-06-03](#2026-06-03) </br>
 > [2026-03-06](#2026-03-06) </br>
 > [2025-10-01](#2025-10-01) </br>
@@ -27,6 +28,25 @@ For the latest updates, visit the [Releases](https://github.com/Azure/azure-moni
 To update your deployment with the latest release, refer to the [Update to new releases](../../HowTo/UpdateToNewReleases) guide.
 
 To see what we have been and are working on, refer to the [AMBA Public Roadmap](https://aka.ms/amba/roadmap/alz) filtered for the ALZ pattern.
+
+## 2026-10-16
+
+### New Features
+
+- No new features added in this release.
+
+### Bug Fixes
+
+- Fixed [[#938](https://github.com/Azure/azure-monitor-baseline-alerts/pull/938)]: Fix: PolicySetParameterAllowedValuesMismatch
+
+### Documentation Updates
+
+- Fixed bad link in [Policy Initiatives](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/getting-started/Policy-Initiatives/index.html) page.
+- Added section link for override tagging in the [Override alert thresholds](https://azure.github.io/azure-monitor-baseline-alerts/patterns/alz/HowTo/Threshold-Override/index.html) page.
+
+### Tools
+
+- No tools updates in this release.
 
 ## 2026-06-03
 
