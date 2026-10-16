@@ -12,7 +12,7 @@ weight: 85
 ## Pre update actions
 
 > [!info]
-> **_No pre-update actions_** are required when updating from release 2026-10-16.
+> **_No pre-update actions_** are required when updating from release 2026-06-03.
 
 ## Update
 
