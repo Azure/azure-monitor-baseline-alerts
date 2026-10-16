@@ -16,7 +16,7 @@ weight: 85
 
 ## Update
 
-Complete the activities documented in the [Steps to update to the latest release](../#steps-to-update-to-the-latest-release) page.
+Complete the activities documented in the [Steps to update to the latest release](./_index.md#steps-to-update-to-the-latest-release) page.
 
 ## Post update actions
 
