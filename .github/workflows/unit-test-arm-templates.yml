@@ -26,14 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
       - name: Get all changed ARM files
         id: changed-arm-files
-        uses: tj-actions/changed-files@v47
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47.0.0
         with:
           files: |
             services/**/**/templates/arm/**.json
@@ -46,7 +46,7 @@ jobs:
               echo "File changed: $file"
               done
       - name: Clone ARM-TTK repo
-        uses: GuillaumeFalourd/clone-github-repo-action@v3
+        uses: GuillaumeFalourd/clone-github-repo-action@db275f35208636fa4fc945c61288e63f115ff58b # v3
         with:
           owner: 'Azure'
           repository: 'arm-ttk'
