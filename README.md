@@ -4,7 +4,15 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/Azure/azure-monitor-baseline-alerts.svg)](http://isitmaintained.com/project/Azure/azure-monitor-baseline-alerts "Percentage of issues still open")
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Azure/azure-monitor-baseline-alerts/badge)](https://scorecard.dev/viewer/?uri=github.com/Azure/azure-monitor-baseline-alerts)
 
-> **_NOTE:_**  Please check out our the [AMBA GitHub Pages](https://azure.github.io/azure-monitor-baseline-alerts/welcome) site for more interactive access to the content in this repo.
+> [!IMPORTANT]
+>
+> **AMBA Project – Transition and Planned Archival**
+>
+> [Azure Monitor health models](https://learn.microsoft.com/en-us/azure/azure-monitor/health-models/overview) has emerged as the strategic direction and recommended approach for monitoring the health of Azure environments. In response, AMBA is aligning with this direction, shifting its focus from individual resource-level alerts towards modelling and monitoring the overall health of Azure resources and services.
+>
+> This represents a natural progression of the work pioneered by the AMBA project. The experience, insights and community feedback gathered through AMBA are helping to inform, refine and shape the Azure Monitor health models approach.
+>
+> **As these capabilities become fully established within Microsoft's official guidance, the AMBA project will ultimately be archived.** Its legacy will live on through the principles, learnings and contributions that have helped shape the future of Azure monitoring.
 
 Welcome to the **Azure Monitor Baseline Alerts (AMBA)** repo!  The purpose of this site is to provide best practice guidance around key alerts metrics and their thresholds.
 
@@ -12,6 +20,8 @@ This sites is broken down into two main sections:
 1. **Services:** This section provides guidance for individual Azure services.  For each service, there is a list of key alert metrics and the recommended thresholds.
 
 2. **Patterns / Scenarios:** This section provides guidance for common patterns / scenarios (like Azure Landing Zones), as well as policy definition and initiatives for deploying the alerts in your environment.
+
+> **_NOTE:_**  Please check out our the [AMBA GitHub Pages](https://azure.github.io/azure-monitor-baseline-alerts/welcome) site for more interactive access to the content in this repo.
 
 ## Why is configuring alerts important?
 When deploying Azure resources, it is crucial to configure alerts to ensure the health, performance, and security of your resources. By setting up alerts, you can proactively monitor your resources and take timely actions to address any issues that may arise.
