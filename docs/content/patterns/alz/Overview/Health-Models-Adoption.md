@@ -73,7 +73,7 @@ Hybrid connectivity uses a **not-healthy limit** because it has a failover path.
 | AMBA-ALZ construct | Health model equivalent | Notes |
 | --- | --- | --- |
 | Metric alert | Azure resource signal | Direct equivalent. Namespace, metric name and aggregation carry over. |
-| Log search alert | Log Analytics workspace signal | Equivalent in principle. The AMBA query logic often needs adaptation. |
+| Log search alert | Log Analytics workspace signal | Equivalent in principle. The AMBA query logic often needs adaptation. The model's managed identity needs the [Monitoring Reader](https://learn.microsoft.com/azure/azure-monitor/health-models/create#permissions-required) role on the workspace. |
 | Resource Health activity log alert | Azure Resource Health signal | Uses the resource's platform-reported availability as an entity signal. |
 | Service Health activity log alert | No equivalent | Service Health is a subscription-level activity log event, not an entity signal type. |
 | Monitored Azure resource | Azure resource entity | One resource can appear in multiple models, with an independent state in each model. |
