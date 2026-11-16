@@ -7,7 +7,7 @@ title: Azure Virtual Desktop
 This solution provides a baseline of alerts for AVD that are disabled by default and for ensuring administrators and staff get meaningful and timely alerts when there are problems related to an AVD deployment. The deployment has been tested in Azure Global and Azure US Government and will incorporate storage alerts for either or both Azure Files and/or Azure Netapp Files.  This solution initially was part of the Azure Virtual Desktop Solution Accelerator as a brownfield and moved to this location.
 
 **Current Version:**
-v2.2.1 (Dec 16, 2025)
+v2.2.2 (Feb 12, 2026)
 
 ## Alerts Table
 
