@@ -1,0 +1,45 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": {
+          "style": "title",
+          "content": "# AMBA Test Alerts Dashboard"
+        }
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "query": "AzureDiagnostics\n| where Category == 'Alert'\n| where TimeGenerated > ago(6h)\n| project TimeGenerated, Resource, AlertName_s, MonitorCondition_s, SeverityLevel_s, OperationName, _ResourceId\n| sort by TimeGenerated desc",
+        "size": 100,
+        "visualization": "table",
+        "title": "🚨 Fired Alerts (last 6 hours)",
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "query": "AzureDiagnostics\n| where Category == 'Alert'\n| summarize count() by bin(TimeGenerated, 30m), SeverityLevel_s\n| render timechart",
+        "size": 100,
+        "visualization": "timechart",
+        "title": "📈 Alert Volume by Severity",
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "query": "AzureDiagnostics\n| where Category == 'Alert'\n| summarize TotalAlerts=count(), UniqueResources=dcount(_ResourceId), UniqueAlerts=dcount(AlertName_s)\n| project TotalAlerts, UniqueResources, UniqueAlerts",
+        "size": 100,
+        "visualization": "tiles",
+        "title": "🧾 Summary Stats",
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      }
+    }
+  ],
+  "isLocked": false
+}
