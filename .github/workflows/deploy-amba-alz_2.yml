@@ -1,0 +1,131 @@
+name: Deploy AMBA ALZ on Pull Request
+
+on:
+    pull_request:
+        types:
+          - opened
+          - reopened
+          - synchronize
+          - ready_for_review
+
+    workflow_dispatch: {}
+
+jobs:
+
+  amba-destroy:
+    name: AMBA Destroy (Cleanup)
+    runs-on: windows-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+
+    env:
+      TOP_LEVEL_MG: 'amba-test'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
+        enable-AzPSSession: true
+
+    - name: Install Az Modules
+      shell: pwsh
+      run: |
+        Install-Module -Name Az -Force -Scope CurrentUser -AllowClobber
+        Import-Module Az
+
+    - name: Run AMBA Destroy
+      shell: pwsh
+      run: |
+        ./patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1 `
+          -pseudoRootManagementGroup "$env:TOP_LEVEL_MG" `
+          -cleanItems "Amba-Alz"
+
+  amba-deploy:
+    name: AMBA Deployment
+    runs-on: windows-latest
+
+    env:
+      LOCATION: 'eastus'
+      TOP_LEVEL_MG: 'amba-test'
+      IS_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
+      REPO_FULL_NAME: ${{ github.event.pull_request.head.repo.full_name }}
+      BRANCH_NAME: ${{ github.head_ref }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
+        enable-AzPSSession: true
+
+    - name: Install Az Modules
+      shell: pwsh
+      run: |
+        Install-Module -Name Az -Force -Scope CurrentUser -AllowClobber
+        Import-Module Az
+
+    - name: Inject managementSubscriptionId into parameter file
+      shell: pwsh
+      run: |
+        $paramPath = "./patterns/alz/alzArm.test.param.json"
+        $json = Get-Content $paramPath | ConvertFrom-Json
+        $json.parameters.managementSubscriptionId.value = "${{ secrets.MGMT_SUBSCRIPTION_ID }}"
+        $json | ConvertTo-Json -Depth 10 | Set-Content $paramPath
+
+    - name: Run AMBA Deployment (What-If for PRs, Full for Push)
+      shell: pwsh
+      run: |
+        $isPR = [System.Convert]::ToBoolean("${{ github.event_name == 'pull_request' }}")
+        if ($isPR) {
+          Write-Host "Running What-If deployment for PR..."
+          $env:IS_PULL_REQUEST = "true"
+        } else {
+          Write-Host "Running full deployment...."
+          $env:IS_PULL_REQUEST = "false"
+        }
+
+        ./pipeline-scripts/Deploy-AMBA.ps1 `
+          -Location $env:LOCATION `
+          -TOP_LEVEL_MG $env:TOP_LEVEL_MG `
+          -TemplateParameterFile './patterns/alz/alzArm.test.param.json'
+
+  amba-destroy2:
+    name: AMBA Destroy (Cleanup2)
+    runs-on: windows-latest
+    needs: amba-deploy
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+
+    env:
+      TOP_LEVEL_MG: 'amba-test'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.ACTIONS_AMBA_ALZ }}
+        enable-AzPSSession: true
+
+    - name: Install Az Modules
+      shell: pwsh
+      run: |
+        Install-Module -Name Az -Force -Scope CurrentUser -AllowClobber
+        Import-Module Az
+
+    - name: Run AMBA Destroy
+      shell: pwsh
+      run: |
+        ./patterns/alz/scripts/Start-AMBA-ALZ-Maintenance.ps1 `
+          -pseudoRootManagementGroup "$env:TOP_LEVEL_MG" `
+          -cleanItems "Amba-Alz"
+
+
+
